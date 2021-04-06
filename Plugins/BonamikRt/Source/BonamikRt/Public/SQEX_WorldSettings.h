@@ -16,6 +16,6 @@ class BONAMIKRT_API ASQEX_WorldSettings : public AWorldSettings
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SQEX_WorldSettings)
-		struct FSQEX_BonamikPresetWindSettings             m_BonamikPresetWindSettings;
+		struct FSQEX_BonamikPresetWindSettings m_BonamikPresetWindSettings;
 	
 };
