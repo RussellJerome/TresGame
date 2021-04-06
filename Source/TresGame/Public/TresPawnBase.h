@@ -15,9 +15,9 @@ public:
 	// Sets default values for this pawn's properties
 	ATresPawnBase();
 
-	/*
+	
 	class UTresRootComponent*                          MyRoot;                                                   // 0x0468(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, IsPlainOldData)
-	TArray<class UTresBodyCollComponent*>              m_BodyComponentsList;                                     // 0x0470(0x0010) (ExportObject, ZeroConstructor, Transient, DuplicateTransient)
+	TArray<UTresBodyCollComponent*>              m_BodyComponentsList;                                     // 0x0470(0x0010) (ExportObject, ZeroConstructor, Transient, DuplicateTransient)
 	struct FBasedMovementInfo                          BasedMovement;                                            // 0x0480(0x0030)
 	struct FName                                       MyLockOnSetBoneName;                                      // 0x04B0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData)
 	struct FName                                       MyLookAtTargetBoneName;                                   // 0x04B8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData)
@@ -29,7 +29,6 @@ public:
 	class ATresLevelEntity*                            m_LevelEntity;                                            // 0x0538(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, EditConst, IsPlainOldData)
 	TArray<class UTresInterpGroup*>                    m_InterpGroup;                                            // 0x0548(0x0010) (ZeroConstructor, Transient)
 	TArray<class UTresInterpGroupInst*>                m_InterpGroupInst;                                        // 0x0558(0x0010) (ZeroConstructor, Transient)
-	*/
 
 protected:
 	// Called when the game starts or when spawned
@@ -105,6 +104,7 @@ public:
 
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
 		UObject* GetLevelEntitySpawner() { return nullptr; };
+	
 	//class ATresLevelEntity* GetLevelEntity();
 	
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
