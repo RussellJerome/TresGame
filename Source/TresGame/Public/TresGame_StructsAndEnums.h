@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/EngineBaseTypes.h"
+#include "Components/SkinnedMeshComponent.h"
+#include"TresLevelEntitySequenceCondition.h"
 #include "TresGame_StructsAndEnums.generated.h"
 
 //---------------------------------------------------------------------------
@@ -35,34 +37,812 @@ enum ETresCollision
 	ETresCollision_MAX = 10
 };
 
+UENUM(BlueprintType)
+enum ETresBodyCollision
+{
+	ETresBodyCollision_SPHERE = 0,
+	CAPSULE = 1,
+	ETresBodyCollision_BOX = 2,
+	ETresBodyCollision_CONVEX = 3,
+	ETresBodyCollision_1_MAX = 4,
+	ETresBodyCollision_MAX = 5
+};
+
+UENUM(BlueprintType)
+enum ETresBodyCollReactionType
+{
+	TRES_BODY_RT_DEFAULT = 0,
+	TRES_BODY_RT_NO_REACTION = 1,
+	STRONG = 2,
+	TRES_BODY_RT_GUARD = 3,
+	WEAK_GUARD = 4,
+	GUARD_NOREACT = 5,
+	TRES_BODY_RT_INVINCIBLE = 6,
+	INVINCIBLE_NOREACT = 7,
+	TRES_BODY_RT_GHOST = 8,
+	GHOST_NOREACT = 9,
+	REFLECT1 = 10,
+	GHOST_INVINCIBLE = 11,
+	_TRES_BODY_RT_MAX = 12,
+	ETresBodyCollReactionType_MAX = 13
+};
+UENUM(BlueprintType)
+enum ETresBodyCollOverlapCameraFunction
+{
+	TRES_BODY_OVERLAPCAMERA_FADE = 0,
+	TRES_BODY_OVERLAPCAMERA_RESET = 1,
+	TRES_BODY_OVERLAPCAMERA_MAX = 2
+};
+
+UENUM(BlueprintType)
+enum ETresChrDataTableSetType
+{
+	CDTS_TYPE_PLAYER = 0,
+	CDTS_TYPE_ENEMY = 1,
+	CDTS_TYPE_GIMMICK = 2,
+	PLAYER_GIGAS = 3,
+	PLAYER_SHIP = 4,
+	ENEMY_SHIP = 5,
+	CDTS_TYPE_MAX = 6,
+	ETresChrDataTableSetType_MAX = 7
+};
+
+UENUM(BlueprintType)
+enum ETresCommandKind
+{
+	TRES_CMD_KIND_NONE = 0,
+	TRES_CMD_KIND_REFLECTGUARD = 1,
+	TRES_CMD_KIND_BLOWCOUNTER = 2,
+	TRES_CMD_KIND_REVENGESLASH = 3,
+	TRES_CMD_KIND_REVENGEIMPACT = 4,
+	TRES_CMD_KIND_REVENGEDIVE = 5,
+	TRES_CMD_KIND_BARRIERCRACKER = 6,
+	TRES_CMD_KIND_HOOKUPPER = 7,
+	TRES_CMD_KIND_BACKRAID = 8,
+	TRES_CMD_KIND_BACKRUSH = 9,
+	TRES_CMD_KIND_WARPSLASH = 10,
+	TRES_CMD_KIND_DIVEATTACK = 11,
+	TRES_CMD_KIND_REVENGESLASH2 = 12,
+	TRES_CMD_KIND_ANTIRAID = 13,
+	TRES_CMD_KIND_SHIELDBURST = 14,
+	TRES_CMD_KIND_BLADECOUNTER = 15,
+	TRES_CMD_KIND_SHIELDCOUNTER = 16,
+	TRES_CMD_KIND_SHIELDCOUNTER2 = 17,
+	TRES_CMD_KIND_SHIELDCOUNTER3 = 18,
+	TRES_CMD_KIND_SHIELDCOUNTER4 = 19,
+	TRES_CMD_KIND_IKAZUCHI = 20,
+	TRES_CMD_KIND_SNEEZE = 21,
+	TRES_CMD_KIND_FR_DONALD = 22,
+	TRES_CMD_KIND_FR_DONALD2 = 23,
+	TRES_CMD_KIND_FR_DONALD3 = 24,
+	TRES_CMD_KIND_FR_GOOFY = 25,
+	TRES_CMD_KIND_FR_GOOFY2 = 26,
+	TRES_CMD_KIND_ATTACK = 27,
+	TRES_CMD_KIND_MAGIC = 28,
+	TRES_CMD_KIND_FIRE = 29,
+	TRES_CMD_KIND_FIRA = 30,
+	TRES_CMD_KIND_FIRAGA = 31,
+	TRES_CMD_KIND_FIRAGAN = 32,
+	TRES_CMD_KIND_BLIZZARD = 33,
+	TRES_CMD_KIND_BLIZZARA = 34,
+	TRES_CMD_KIND_BLIZZAGA = 35,
+	TRES_CMD_KIND_BLIZZAGAN = 36,
+	TRES_CMD_KIND_THUNDER = 37,
+	TRES_CMD_KIND_THUNDARA = 38,
+	TRES_CMD_KIND_THUNDAGA = 39,
+	TRES_CMD_KIND_THUNDAGAN = 40,
+	TRES_CMD_KIND_WATER = 41,
+	TRES_CMD_KIND_WATARA = 42,
+	TRES_CMD_KIND_WATAGA = 43,
+	TRES_CMD_KIND_WATAGAN = 44,
+	TRES_CMD_KIND_AERO = 45,
+	TRES_CMD_KIND_AERORA = 46,
+	TRES_CMD_KIND_AEROGA = 47,
+	TRES_CMD_KIND_AEROGAN = 48,
+	TRES_CMD_KIND_CURE = 49,
+	TRES_CMD_KIND_CURA = 50,
+	TRES_CMD_KIND_CURAGA = 51,
+	TRES_CMD_KIND_HOLY = 52,
+	TRES_CMD_KIND_WATERFIRE = 53,
+	TRES_CMD_KIND_WATERBLIZZARD = 54,
+	TRES_CMD_KIND_WATERTHUNDER = 55,
+	TRES_CMD_KIND_WATERAERO = 56,
+	TRES_CMD_KIND_ITEM = 57,
+	TRES_CMD_KIND_POTION = 58,
+	TRES_CMD_KIND_HIPOTION = 59,
+	TRES_CMD_KIND_MEGAPOTION = 60,
+	TRES_CMD_KIND_ETHER = 61,
+	TRES_CMD_KIND_HIETHER = 62,
+	TRES_CMD_KIND_MEGAETHER = 63,
+	TRES_CMD_KIND_ELIXIR = 64,
+	TRES_CMD_KIND_LASTELIXIR = 65,
+	TRES_CMD_KIND_FOCUSSUPPLEMENT = 66,
+	TRES_CMD_KIND_HIFOCUSSUPPLEMENT = 67,
+	TRES_CMD_KIND_ALLCURE = 68,
+	TRES_CMD_KIND_DM = 69,
+	TRES_CMD_KIND_DM_WANDANYAN = 70,
+	TRES_CMD_KIND_DM_RALPH = 71,
+	TRES_CMD_KIND_DM_SIMBA = 72,
+	TRES_CMD_KIND_DM_STITCH = 73,
+	TRES_CMD_KIND_DM_ARIEL = 74,
+	TRES_CMD_KIND_DM_FINISH = 75,
+	TRES_CMD_KIND_SAVE = 76,
+	TRES_CMD_KIND_TALK = 77,
+	TRES_CMD_KIND_OPEN = 78,
+	TRES_CMD_KIND_CHECK = 79,
+	TRES_CMD_KIND_SHOP = 80,
+	TRES_CMD_KIND_RESCUE = 81,
+	TRES_CMD_KIND_VEHICLE = 82,
+	TRES_CMD_KIND_SHIP = 83,
+	TRES_CMD_KIND_PLANE = 84,
+	TRES_CMD_KIND_GETOFF = 85,
+	TRES_CMD_KIND_GIGAS_ELECTRO = 86,
+	TRES_CMD_KIND_RAIL = 87,
+	TRES_CMD_KIND_PLANEBOSS = 88,
+	TRES_CMD_KIND_SLIDESHOT = 89,
+	TRES_CMD_KIND_COVERSLIDE = 90,
+	TRES_CMD_KIND_TRICK = 91,
+	TRES_CMD_KIND_WATERPLAY = 92,
+	TRES_CMD_KIND_EXTENDHAND = 93,
+	TRES_CMD_KIND_ENEMYSHIP = 94,
+	TRES_CMD_KIND_SPECIALSHIP_RAGINGCANNON = 95,
+	TRES_CMD_KIND_SPECIALSHIP_WINDCHASER = 96,
+	TRES_CMD_KIND_SPECIALSHIP_TIDALWAVE = 97,
+	TRES_CMD_KIND_SPECIALSHIP_DASH = 98,
+	TRES_CMD_KIND_SWING = 99,
+	TRES_CMD_KIND_PUDDING = 100,
+	TRES_CMD_KIND_CHARGEBERSERK = 101,
+	TRES_CMD_KIND_POSTCARD = 102,
+	TRES_CMD_KIND_ANS_ENDURE = 103,
+	TRES_CMD_KIND_ANS_CHALLENGE = 104,
+	TRES_CMD_KIND_ANS_MIXING = 105,
+	TRES_CMD_KIND_ANS_BUMPING = 106,
+	TRES_CMD_KIND_ANS_BELIEVE = 107,
+	TRES_CMD_KIND_ANS_ACCEPT = 108,
+	TRES_CMD_KIND_FINISH_AN2 = 109,
+	TRES_CMD_KIND_S_FIRA = 110,
+	TRES_CMD_KIND_S_FIRAGA = 111,
+	TRES_CMD_KIND_S_FIRAGAN = 112,
+	TRES_CMD_KIND_S_BLIZZARA = 113,
+	TRES_CMD_KIND_S_BLIZZAGA = 114,
+	TRES_CMD_KIND_S_BLIZZAGAN = 115,
+	TRES_CMD_KIND_S_THUNDARA = 116,
+	TRES_CMD_KIND_S_THUNDAGA = 117,
+	TRES_CMD_KIND_S_THUNDAGAN = 118,
+	TRES_CMD_KIND_S_WATARA = 119,
+	TRES_CMD_KIND_S_WATAGA = 120,
+	TRES_CMD_KIND_S_WATAGAN = 121,
+	TRES_CMD_KIND_S_AERORA = 122,
+	TRES_CMD_KIND_S_AEROGA = 123,
+	TRES_CMD_KIND_S_AEROGAN = 124,
+	TRES_CMD_KIND_S_CURAGAN = 125,
+	TRES_CMD_KIND_S_DARKFIRAGA = 126,
+	TRES_CMD_KIND_CHANGE_KB = 127,
+	TRES_CMD_KIND_CHANGE_DW = 128,
+	TRES_CMD_KIND_CHANGE_HM = 129,
+	TRES_CMD_KIND_CHANGE_YO = 130,
+	TRES_CMD_KIND_CHANGE_BZ = 131,
+	TRES_CMD_KIND_CHANGE_DR = 132,
+	TRES_CMD_KIND_CHANGE_SK = 133,
+	TRES_CMD_KIND_CHANGE_GM = 134,
+	TRES_CMD_KIND_CHANGE_SW = 135,
+	TRES_CMD_KIND_CHANGE_WA = 136,
+	TRES_CMD_KIND_CHANGE_SH = 137,
+	TRES_CMD_KIND_CHANGE_CL = 138,
+	TRES_CMD_KIND_CHANGE_AN = 139,
+	TRES_CMD_KIND_CHANGE_HL = 140,
+	TRES_CMD_KIND_CHANGE_FL = 141,
+	TRES_CMD_KIND_CHANGE_DW2 = 142,
+	TRES_CMD_KIND_CHANGE_BZ2 = 143,
+	TRES_CMD_KIND_CHANGE_CL2 = 144,
+	TRES_CMD_KIND_CHANGE_SH2 = 145,
+	TRES_CMD_KIND_CHANGE_HM2 = 146,
+	TRES_CMD_KIND_CHANGE_DR2 = 147,
+	TRES_CMD_KIND_CHANGE_L1 = 148,
+	TRES_CMD_KIND_CHANGE_L2 = 149,
+	TRES_CMD_KIND_CHANGE_L3 = 150,
+	TRES_CMD_KIND_CHANGE_L4 = 151,
+	TRES_CMD_KIND_CHANGE_L5 = 152,
+	TRES_CMD_KIND_CHANGE_A1 = 153,
+	TRES_CMD_KIND_CHANGE_A2 = 154,
+	TRES_CMD_KIND_FINISH = 155,
+	TRES_CMD_KIND_FINISH_YO = 156,
+	TRES_CMD_KIND_FINISH_BZ = 157,
+	TRES_CMD_KIND_FINISH_DR = 158,
+	TRES_CMD_KIND_FINISH_SK = 159,
+	TRES_CMD_KIND_FINISH_GM = 160,
+	TRES_CMD_KIND_FINISH_SW = 161,
+	TRES_CMD_KIND_FINISH_WA = 162,
+	TRES_CMD_KIND_FINISH_SH = 163,
+	TRES_CMD_KIND_FINISH_CL = 164,
+	TRES_CMD_KIND_FINISH_AN = 165,
+	TRES_CMD_KIND_FINISH_FL = 166,
+	TRES_CMD_KIND_FINISH_AQ = 167,
+	TRES_CMD_KIND_FINISH_A2 = 168,
+	TRES_CMD_KIND_FINISH_RI = 169,
+	TRES_CMD_KIND_SHEX_THUNDER = 170,
+	TRES_CMD_KIND_LM_STUNIMPACT = 171,
+	TRES_CMD_KIND_LM_SONICRAVE = 172,
+	TRES_CMD_KIND_LM_LASTARCANUM = 173,
+	TRES_CMD_KIND_LM_UNIONDISCODE = 174,
+	TRES_CMD_KIND_LMEX_RAVE = 175,
+	TRES_CMD_KIND_LMEX_FINISH = 176,
+	TRES_CMD_KIND_LMEX_BREAK = 177,
+	TRES_CMD_KIND_LMEX_THEEND = 178,
+	TRES_CMD_KIND_RISKCHARGE = 179,
+	TRES_CMD_KIND_FINISH_UNIONX = 180,
+	TRES_CMD_KIND_FINISH_UX1 = 181,
+	TRES_CMD_KIND_FINISH_UX2 = 182,
+	TRES_CMD_KIND_FINISH_UX3 = 183,
+	TRES_CMD_KIND_FINISH_UX4 = 184,
+	TRES_CMD_KIND_FINISH_UX5 = 185,
+	TRES_CMD_KIND_AF_JETCOASTER_BM = 186,
+	TRES_CMD_KIND_AF_VIKINGSHIP = 187,
+	TRES_CMD_KIND_AF_TEACUP = 188,
+	TRES_CMD_KIND_AF_SHOOTINGRIDE = 189,
+	TRES_CMD_KIND_AF_MERRYGOROUND = 190,
+	TRES_CMD_KIND_AF_WATERRIDE = 191,
+	TRES_CMD_KIND_AF_FINISH = 192,
+	TRES_CMD_KIND_FR_SHIELDGUARDIAN = 193,
+	TRES_CMD_KIND_FR_MOUNTCURLING = 194,
+	TRES_CMD_KIND_FR_GOOFYSHOOT = 195,
+	TRES_CMD_KIND_FR_MICKEY = 196,
+	TRES_CMD_KIND_FR_MICKEYCHAIN = 197,
+	TRES_CMD_KIND_FR_SNOWCURLING = 198,
+	TRES_CMD_KIND_FR_MIKEBOWLING = 199,
+	TRES_CMD_KIND_FR_JACKSPIN = 200,
+	TRES_CMD_KIND_FR_SNOWCHASE = 201,
+	TRES_CMD_KIND_FR_POWERSTRIKE = 202,
+	TRES_CMD_KIND_FR_GIANTSOLDIER = 203,
+	TRES_CMD_KIND_FR_ROCKETLASER = 204,
+	TRES_CMD_KIND_FR_SPINNINGHOLD = 205,
+	TRES_CMD_KIND_FR_SNOWCOVERSWING = 206,
+	TRES_CMD_KIND_FR_CALLMETEOR = 207,
+	TRES_CMD_KIND_FR_FLAREFORCE = 208,
+	TRES_CMD_KIND_FR_BAYMAXRIDE = 209,
+	TRES_CMD_KIND_FR_ICEREVENGER = 210,
+	TRES_CMD_KIND_S_FINISH = 211,
+	TRES_CMD_KIND_FR_TRINITY = 212,
+	TRES_CMD_KIND_FR_SORA = 213,
+	TRES_CMD_KIND_FR_FINISH = 214,
+	TRES_CMD_KIND_BARRIERCRACKER2 = 215,
+	TRES_CMD_KIND_BARRIERCRACKER3 = 216,
+	TRES_CMD_KIND_BARRIERCRACKER4 = 217,
+	TRES_CMD_KIND_GUARDCOUNTER_RO = 218,
+	TRES_CMD_KIND_GUARDCOUNTER_KA = 219,
+	TRES_CMD_KIND_SLIDETURN = 220,
+	TRES_CMD_KIND_CHANGE_LF = 221,
+	TRES_CMD_KIND_CHANGE_DF = 222,
+	TRES_CMD_KIND_CHANGE_TF = 223,
+	TRES_CMD_KIND_CHANGE_TF2 = 224,
+	TRES_CMD_KIND_FINISH_TF = 225,
+	TRES_CMD_KIND_FINISH_TF2 = 226,
+	TRES_CMD_KIND_FINISH_RO = 227,
+	TRES_CMD_KIND_FINISH_KA = 228,
+	TRES_CMD_KIND_DISPEL = 229,
+	TRES_CMD_KIND_QUICKBATTLE = 230,
+	TRES_CMD_KIND_S_CROSSSHOOT = 231,
+	TRES_CMD_KIND_SWTCH_SORA = 232,
+	TRES_CMD_KIND_SWTCH_AQUA = 233,
+	TRES_CMD_KIND_SWTCH_RIKU = 234,
+	TRES_CMD_KIND_SWTCH_KAIRI = 235,
+	TRES_CMD_KIND_SWTCH_ROXAS = 236,
+	TRES_CMD_KIND_FR_POPPINGHOLY = 237,
+	TRES_CMD_KIND_FR_BLIZZAGABOARD = 238,
+	TRES_CMD_KIND_FR_THINKOFYOU = 239,
+	TRES_CMD_KIND_FR_ULTIMATEEND = 240,
+	TRES_CMD_KIND_FR_LINKOFHEARTS = 241,
+	TRES_CMD_KIND_FR_PROMISEWINGS = 242,
+	TRES_CMD_KIND_LMEX_SLASH = 243,
+	TRES_CMD_KIND_ANS_USUAL = 244,
+	TRES_CMD_KIND_ANS_EASY = 245,
+	TRES_CMD_KIND_ANS_CHALLENGING = 246,
+	TRES_CMD_KIND_CARDDRAW = 247,
+	TRES_CMD_KIND_RESERVE248 = 248,
+	TRES_CMD_KIND_RESERVE249 = 249,
+	TRES_CMD_KIND_RESERVE250 = 250,
+	TRES_CMD_KIND_RESERVE251 = 251,
+	TRES_CMD_KIND_RESERVE252 = 252,
+	TRES_CMD_KIND_SHOOTFLOW = 253,
+	TRES_CMD_KIND_END = 254,
+	TRES_CMD_KIND_MAX = 255
+};
+
+
+UENUM(BlueprintType)
+enum ETresPhysDamageForceLevel
+{
+	TPDF_LV = 0,
+	TPDF_LV01 = 1,
+	TPDF_LV02 = 2,
+	TPDF_LV03 = 3,
+	_TPDF_LV_MAX = 4,
+	ETresPhysDamageForceLevel_MAX = 5
+};
+
+UENUM(BlueprintType)
+enum ETresLevelEntityAppearMode
+{
+	ETresLevelEntityAppearMode_Immediate = 0,
+	ETresLevelEntityAppearMode_Perform1 = 1,
+	ETresLevelEntityAppearMode_Perform2 = 2,
+	ETresLevelEntityAppearMode_Perform3 = 3,
+	ETresLevelEntityAppearMode_Perform4 = 4,
+	ETresLevelEntityAppearMode_Special1 = 5,
+	ETresLevelEntityAppearMode_Special2 = 6,
+	ETresLevelEntityAppearMode_Special3 = 7,
+	ETresLevelEntityAppearMode_IdleWait = 8,
+	ETresLevelEntityAppearMode_MAX = 9
+};
+
+UENUM(BlueprintType)
+enum ETresPlayerUniqueID
+{
+	SORA_KH3 = 0,
+	SORA_KH3CA = 1,
+	SORA_KH3MI = 2,
+	SORA_KH3TS = 3,
+	SORA_KH3BX = 4,
+	SORA_KH3EW = 5,
+	SORA_KH2 = 6,
+	SORA_KH1 = 7,
+	RIKU_KH3 = 8,
+	RIKU_KH29 = 9,
+	AQUA_KH3 = 10,
+	SORA_KH3TUTO = 11,
+	SORA_KH3TS_GAME = 12,
+	SORA_KH3PO = 13,
+	UNKNOWN = 14,
+	SORA_KH3DL = 15,
+	KAIRI_KH3 = 16,
+	ROXAS_KH3 = 17,
+	MICKEY_KH3MiRx = 18,
+	SORA_KH3SoKc = 19,
+	_MAX = 20,
+	ETresPlayerUniqueID_MAX = 21
+};
+
+UENUM(BlueprintType)
+enum ETresChrUniqueID
+{
+	TRES_CHR_UID_UNKNOWN = 0,
+	TRES_CHR_UID_SORA = 1,
+	TRES_CHR_UID_RIKU = 2,
+	TRES_CHR_UID_KAIRI = 3,
+	TRES_CHR_UID_TERRA = 4,
+	TRES_CHR_UID_VENTUS = 5,
+	TRES_CHR_UID_AQUA = 6,
+	TRES_CHR_UID_ROXAS = 7,
+	TRES_CHR_UID_LEA = 8,
+	TRES_CHR_UID_XION = 9,
+	TRES_CHR_UID_MICKEY = 10,
+	TRES_CHR_UID_DONALD = 11,
+	TRES_CHR_UID_GOOFY = 12,
+	TRES_CHR_UID_JACK_SPARROW = 13,
+	TRES_CHR_UID_WOODY = 14,
+	TRES_CHR_UID_BUZZ = 15,
+	TRES_CHR_UID_HERCULES = 16,
+	TRES_CHR_UID_RAPUNZEL = 17,
+	TRES_CHR_UID_FLYNN = 18,
+	TRES_CHR_UID_SULLEY = 19,
+	TRES_CHR_UID_MIKE = 20,
+	TRES_CHR_UID_BOO = 21,
+	TRES_CHR_UID_MARSHMALLOW = 22,
+	TRES_CHR_UID_BAYMAX = 23,
+	TRES_CHR_UID_VEHICLE_GIGAS_POWER = 24,
+	TRES_CHR_UID_VEHICLE_GIGAS_POWER_GAME = 25,
+	TRES_CHR_UID_VEHICLE_GIGAS_POWER_ACE = 26,
+	TRES_CHR_UID_VEHICLE_GIGAS_SPEED = 27,
+	TRES_CHR_UID_VEHICLE_GIGAS_SPEED_GAME = 28,
+	TRES_CHR_UID_VEHICLE_GIGAS_SPEED_ACE = 29,
+	TRES_CHR_UID_VEHICLE_GIGAS_LONG = 30,
+	TRES_CHR_UID_VEHICLE_GIGAS_LONG_GAME = 31,
+	TRES_CHR_UID_VEHICLE_GIGAS_LONG_ACE = 32,
+	TRES_CHR_UID_VEHICLE_SPECIAL_SHIP = 33,
+	TRES_CHR_UID_VEHICLE_BLACK_PEARL = 34,
+	TRES_CHR_UID_VEHICLE_SMALLAIRPLANE = 35,
+	TRES_CHR_UID_FRD_RIKU = 36,
+	TRES_CHR_UID_FRD_AQUA = 37,
+	TRES_CHR_UID_ENEMY = 38,
+	TRES_CHR_UID_FRD_SORA = 39,
+	TRES_CHR_UID_MAX = 40
+};
+
+UENUM(BlueprintType)
+enum ETresEnemyUniqueID
+{
+	TRES_ENEMY_UID_UNKNOWN = 0,
+	TRES_ENEMY_UID_EX001 = 1,
+	TRES_ENEMY_UID_EX003 = 2,
+	TRES_ENEMY_UID_EX004 = 3,
+	TRES_ENEMY_UID_EX005 = 4,
+	TRES_ENEMY_UID_EX016 = 5,
+	TRES_ENEMY_UID_EX081 = 6,
+	TRES_ENEMY_UID_DW401 = 7,
+	TRES_ENEMY_UID_DW401_s0 = 8,
+	TRES_ENEMY_UID_DW401_s1 = 9,
+	TRES_ENEMY_UID_DW402 = 10,
+	TRES_ENEMY_UID_DW402_s1 = 11,
+	TRES_ENEMY_UID_DW405 = 12,
+	TRES_ENEMY_UID_DW407 = 13,
+	TRES_ENEMY_UID_EX002 = 14,
+	TRES_ENEMY_UID_EX006 = 15,
+	TRES_ENEMY_UID_EX007 = 16,
+	TRES_ENEMY_UID_EX009 = 17,
+	TRES_ENEMY_UID_EX010 = 18,
+	TRES_ENEMY_UID_EX011 = 19,
+	TRES_ENEMY_UID_EX012 = 20,
+	TRES_ENEMY_UID_EX013 = 21,
+	TRES_ENEMY_UID_EX014 = 22,
+	TRES_ENEMY_UID_EX015 = 23,
+	TRES_ENEMY_UID_EX017 = 24,
+	TRES_ENEMY_UID_EX036 = 25,
+	TRES_ENEMY_UID_EX037 = 26,
+	TRES_ENEMY_UID_EX038 = 27,
+	TRES_ENEMY_UID_EX018 = 28,
+	TRES_ENEMY_UID_EX032 = 29,
+	TRES_ENEMY_UID_EX033 = 30,
+	TRES_ENEMY_UID_EX020 = 31,
+	TRES_ENEMY_UID_EX021 = 32,
+	TRES_ENEMY_UID_EX026 = 33,
+	TRES_ENEMY_UID_EX027 = 34,
+	TRES_ENEMY_UID_EX028 = 35,
+	TRES_ENEMY_UID_EX035 = 36,
+	TRES_ENEMY_UID_EX039 = 37,
+	TRES_ENEMY_UID_EX041 = 38,
+	TRES_ENEMY_UID_EX042 = 39,
+	TRES_ENEMY_UID_EX043 = 40,
+	TRES_ENEMY_UID_EX044 = 41,
+	TRES_ENEMY_UID_EX045 = 42,
+	TRES_ENEMY_UID_EX046 = 43,
+	TRES_ENEMY_UID_EX047 = 44,
+	TRES_ENEMY_UID_EX048 = 45,
+	TRES_ENEMY_UID_EX049 = 46,
+	TRES_ENEMY_UID_EX050 = 47,
+	TRES_ENEMY_UID_EX051 = 48,
+	TRES_ENEMY_UID_EX052 = 49,
+	TRES_ENEMY_UID_EX053 = 50,
+	TRES_ENEMY_UID_EX054 = 51,
+	TRES_ENEMY_UID_EX055 = 52,
+	TRES_ENEMY_UID_EX056 = 53,
+	TRES_ENEMY_UID_EX059 = 54,
+	TRES_ENEMY_UID_EX061 = 55,
+	TRES_ENEMY_UID_EX065 = 56,
+	TRES_ENEMY_UID_EX066 = 57,
+	TRES_ENEMY_UID_EX067 = 58,
+	TRES_ENEMY_UID_EX068 = 59,
+	TRES_ENEMY_UID_EX073 = 60,
+	TRES_ENEMY_UID_EX082 = 61,
+	TRES_ENEMY_UID_EX085 = 62,
+	TRES_ENEMY_UID_EX086 = 63,
+	TRES_ENEMY_UID_EX086_s0 = 64,
+	TRES_ENEMY_UID_EX086_s1 = 65,
+	TRES_ENEMY_UID_EX087 = 66,
+	TRES_ENEMY_UID_EX093 = 67,
+	TRES_ENEMY_UID_EX094 = 68,
+	TRES_ENEMY_UID_EX095 = 69,
+	TRES_ENEMY_UID_EX101 = 70,
+	TRES_ENEMY_UID_EX105 = 71,
+	TRES_ENEMY_UID_EX106 = 72,
+	TRES_ENEMY_UID_EX107 = 73,
+	TRES_ENEMY_UID_EX110 = 74,
+	TRES_ENEMY_UID_EX113 = 75,
+	TRES_ENEMY_UID_EX114 = 76,
+	TRES_ENEMY_UID_EX201 = 77,
+	TRES_ENEMY_UID_EX202 = 78,
+	TRES_ENEMY_UID_EX203 = 79,
+	TRES_ENEMY_UID_EX205 = 80,
+	TRES_ENEMY_UID_EX301 = 81,
+	TRES_ENEMY_UID_EX302 = 82,
+	TRES_ENEMY_UID_EX316 = 83,
+	TRES_ENEMY_UID_EX304 = 84,
+	TRES_ENEMY_UID_EX305 = 85,
+	TRES_ENEMY_UID_EX306 = 86,
+	TRES_ENEMY_UID_EX307 = 87,
+	TRES_ENEMY_UID_EX308 = 88,
+	TRES_ENEMY_UID_EX309 = 89,
+	TRES_ENEMY_UID_EX310 = 90,
+	TRES_ENEMY_UID_EX311 = 91,
+	TRES_ENEMY_UID_EX313 = 92,
+	TRES_ENEMY_UID_EX322 = 93,
+	TRES_ENEMY_UID_EX325 = 94,
+	TRES_ENEMY_UID_EX326 = 95,
+	TRES_ENEMY_UID_EX701 = 96,
+	TRES_ENEMY_UID_EX702 = 97,
+	TRES_ENEMY_UID_EX703 = 98,
+	TRES_ENEMY_UID_EX711 = 99,
+	TRES_ENEMY_UID_EX721 = 100,
+	TRES_ENEMY_UID_EX731 = 101,
+	TRES_ENEMY_UID_EX732 = 102,
+	TRES_ENEMY_UID_EX734 = 103,
+	TRES_ENEMY_UID_EX761 = 104,
+	TRES_ENEMY_UID_EX047_s0 = 105,
+	TRES_ENEMY_UID_EX771 = 106,
+	TRES_ENEMY_UID_EX77101 = 107,
+	TRES_ENEMY_UID_EX77102 = 108,
+	TRES_ENEMY_UID_EX047_s1 = 109,
+	TRES_ENEMY_UID_EX801 = 110,
+	TRES_ENEMY_UID_EX806 = 111,
+	TRES_ENEMY_UID_EX816 = 112,
+	TRES_ENEMY_UID_EX830 = 113,
+	TRES_ENEMY_UID_EX831 = 114,
+	TRES_ENEMY_UID_EX832 = 115,
+	TRES_ENEMY_UID_EX833 = 116,
+	TRES_ENEMY_UID_EX834 = 117,
+	TRES_ENEMY_UID_EX840 = 118,
+	TRES_ENEMY_UID_EX841 = 119,
+	TRES_ENEMY_UID_EX842 = 120,
+	TRES_ENEMY_UID_EX843 = 121,
+	TRES_ENEMY_UID_EX844 = 122,
+	TRES_ENEMY_UID_EX845 = 123,
+	TRES_ENEMY_UID_BX059 = 124,
+	TRES_ENEMY_UID_BX901 = 125,
+	TRES_ENEMY_UID_EX047_s2 = 126,
+	TRES_ENEMY_UID_BX903 = 127,
+	TRES_ENEMY_UID_CA901 = 128,
+	TRES_ENEMY_UID_FZ903 = 129,
+	TRES_ENEMY_UID_HE001 = 130,
+	TRES_ENEMY_UID_HE902 = 131,
+	TRES_ENEMY_UID_HE903 = 132,
+	TRES_ENEMY_UID_HE904 = 133,
+	TRES_ENEMY_UID_CA401 = 134,
+	TRES_ENEMY_UID_CA402 = 135,
+	TRES_ENEMY_UID_CA403 = 136,
+	TRES_ENEMY_UID_CA404 = 137,
+	TRES_ENEMY_UID_CA405 = 138,
+	TRES_ENEMY_UID_EX071 = 139,
+	TRES_ENEMY_UID_EX072 = 140,
+	TRES_ENEMY_UID_EX407 = 141,
+	TRES_ENEMY_UID_EX064 = 142,
+	TRES_ENEMY_UID_EX047_s3 = 143,
+	TRES_ENEMY_UID_EX047_s4 = 144,
+	TRES_ENEMY_UID_EX409 = 145,
+	TRES_ENEMY_UID_EX751 = 146,
+	TRES_ENEMY_UID_EX781 = 147,
+	TRES_ENEMY_UID_MAX = 148
+};
+
+UENUM(BlueprintType)
+enum ETresEncountVolumeSnapTarget
+{
+	Snap_Nothing = 0,
+	Snap_Ground = 1,
+	Snap_Ocean = 2,
+	Snap_MAX = 3
+};
+
+
+UENUM(BlueprintType)
+enum ETresEncountVolumeVehicleMode
+{
+	DoNotCare = 0,
+	NoVehicle = 1,
+	OnlyVehicle = 2,
+	ETresEncountVolumeVehicleMode_MAX = 3
+};
+
+UENUM(BlueprintType)
+enum ETresEncountDisableVolumeType
+{
+	Type_Box = 0,
+	Type_Circle = 1,
+	Type_MAX = 2
+};
+
 USTRUCT(BlueprintType)
 struct FTresCollShapeAssetUnit
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FName                                       m_GrpName;
+	FName m_GrpName;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	TEnumAsByte<ETresCollision>                        ShapeType;                                                // 0x0008(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+	TEnumAsByte<ETresCollision> ShapeType;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FVector                                     Size;                                                     // 0x000C(0x000C) (Edit, IsPlainOldData)
+	FVector Size;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FVector                                     RelativeLocation;                                         // 0x0018(0x000C) (Edit, IsPlainOldData)
+	FVector RelativeLocation;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FRotator                                    RelativeRocation;                                         // 0x0024(0x000C) (Edit, IsPlainOldData)
+	FRotator RelativeRocation;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FVector                                     Scale;                                                    // 0x0030(0x000C) (Edit, IsPlainOldData)
+	FVector Scale;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	class UStaticMesh*                                 Mesh;                                                     // 0x0040(0x0008) (Edit, ZeroConstructor, IsPlainOldData)
+	class UStaticMesh* Mesh;
 };
 
 struct FTresRootComponentPostPhysicsTickFunction : public FTickFunction
 {
 	//appears empty
+};
+
+USTRUCT(BlueprintType)
+struct FTresOverlapInfo
+{
+	GENERATED_BODY()
+public:
+	//appears empty
+};
+
+USTRUCT(BlueprintType)
+struct FTresBodyTakeDamageEffect
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBodyTakeDamageEffect")
+	class UParticleSystem* m_DamageEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntityAppearInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	TEnumAsByte<ETresLevelEntityAppearMode> m_AppearMode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	float m_AppearWaitMin;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	float m_AppearWaitMax;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	bool m_Visible;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	int m_CoopNo;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	FVector m_Location;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	FRotator m_Rotation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntityUserData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
+	UObject* m_UserObject;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
+	float m_UserParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEncountSpawnRequest
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	class UClass* m_Class;
+
+	//TODO
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	class ATresEncountVolume* m_EncountVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	TArray<FName> m_Groups;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	TWeakObjectPtr<AActor> m_Template;
+};
+/*
+USTRUCT(BlueprintType)
+struct FTresInterpGroupInstUpdateSettings
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
+	class USkeletalMeshComponent* m_SkeletalMeshComponent;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
+	//TEnumAsByte<EMeshComponentUpdateFlag> m_UpdateFlag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
+	bool m_UpdateRateOptimizations;
+};
+*/
+USTRUCT(BlueprintType)
+struct FTresVoiceGroupUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroupUnit")
+	int m_GroupNo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroupUnit")
+	class USoundBase* m_pVoice;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVoiceGroup
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	FName m_GroupName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	bool m_bPlayOnGroupNotFound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	class USoundBase* m_pDefaultVoice;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	TArray<struct FTresVoiceGroupUnit> m_Table;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEncountVolumeEntry
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	TArray<FName> m_GroupNames;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	FVector m_StartOffset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	FVector m_EndOffset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	bool m_WorldOffsetZ;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	int m_TryCount;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	float m_EscapeDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	int m_LotteryWeight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	bool m_bSkipNextTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	class UClass* m_Troops;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
+	FName m_InternalGroupName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntitySequenceConditionalAction
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	class UTresLevelEntitySequenceCondition* m_Condition;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	class UTresLevelEntitySequenceAction* m_Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	bool m_Abandonable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	class UTresLevelEntitySequenceCondition* m_AbandonCondition;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttractionFlowDrawingEntry
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowDrawingEntry")
+	TEnumAsByte<ETresCommandKind> m_Command;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowDrawingEntry")
+	float m_Weight;
 };
