@@ -14,444 +14,444 @@
 UENUM(BlueprintType)
 enum ETresGrass
 {
-	RADIAL = 0,
-	CLOCKWISE = 1,
-	CCLOCKWISE = 2,
-	ETresGrass_1_MAX = 3,
-	ETresGrass_MAX = 4
+	ETresGrass_RADIAL = 0 UMETA(DisplayName = "Radial"),
+	ETresGrass_CLOCKWISE = 1 UMETA(DisplayName = "Clockwise"),
+	ETresGrass_CCLOCKWISE = 2 UMETA(DisplayName = "Counter Clockwise"),
+	ETresGrass_ETresGrass_1_MAX = 3 UMETA(DisplayName = "MAX"),
+	ETresGrass_ETresGrass_MAX = 4 UMETA(DisplayName = "Tres Grass MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresCollision
 {
-	SPHERE = 0,
-	CAPSULE1 = 1,
-	CAPSULE2 = 2,
-	CAPSULE_RING = 3,
-	BOX = 4,
-	BOX_RING = 5,
-	CONVEX = 6,
-	LASER1 = 7,
-	DCONVEX = 8,
-	ETresCollision_1_MAX = 9,
-	ETresCollision_MAX = 10
+	ETresCollision_SPHERE = 0 UMETA(DisplayName = "Sphere"),
+	ETresCollision_CAPSULE1 = 1 UMETA(DisplayName = "Capsule 1"),
+	ETresCollision_CAPSULE2 = 2 UMETA(DisplayName = "Capsule 2"),
+	ETresCollision_CAPSULE_RING = 3 UMETA(DisplayName = "Capsule Ring"),
+	ETresCollision_BOX = 4 UMETA(DisplayName = "Box"),
+	ETresCollision_BOX_RING = 5 UMETA(DisplayName = "Box Ring"),
+	ETresCollision_CONVEX = 6 UMETA(DisplayName = "Convex"),
+	ETresCollision_LASER1 = 7 UMETA(DisplayName = "Laser1"),
+	ETresCollision_DCONVEX = 8 UMETA(DisplayName = "D Convex"),
+	ETresCollision_1_MAX = 9 UMETA(DisplayName = "MAX"),
+	ETresCollision_MAX = 10 UMETA(DisplayName = "Tres Collision MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresBodyCollision
 {
-	ETresBodyCollision_SPHERE = 0,
-	CAPSULE = 1,
-	ETresBodyCollision_BOX = 2,
-	ETresBodyCollision_CONVEX = 3,
-	ETresBodyCollision_1_MAX = 4,
-	ETresBodyCollision_MAX = 5
+	ETresBodyCollision_SPHERE = 0 UMETA(DisplayName = "Sphere"),
+	ETresBodyCollision_CAPSULE = 1 UMETA(DisplayName = "Capsule"),
+	ETresBodyCollision_BOX = 2 UMETA(DisplayName = "Box"),
+	ETresBodyCollision_CONVEX = 3 UMETA(DisplayName = "Convex"),
+	ETresBodyCollision_1_MAX = 4 UMETA(DisplayName = "MAX"),
+	ETresBodyCollision_MAX = 5 UMETA(DisplayName = "Tres Box Collision MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresBodyCollReactionType
 {
-	TRES_BODY_RT_DEFAULT = 0,
-	TRES_BODY_RT_NO_REACTION = 1,
-	STRONG = 2,
-	TRES_BODY_RT_GUARD = 3,
-	WEAK_GUARD = 4,
-	GUARD_NOREACT = 5,
-	TRES_BODY_RT_INVINCIBLE = 6,
-	INVINCIBLE_NOREACT = 7,
-	TRES_BODY_RT_GHOST = 8,
-	GHOST_NOREACT = 9,
-	REFLECT1 = 10,
-	GHOST_INVINCIBLE = 11,
-	_TRES_BODY_RT_MAX = 12,
-	ETresBodyCollReactionType_MAX = 13
+	TRES_BODY_RT_DEFAULT = 0 UMETA(DisplayName = "Default"),
+	TRES_BODY_RT_NO_REACTION = 1 UMETA(DisplayName = "No Reaction"),
+	TRES_BODY_RT_STRONG = 2 UMETA(DisplayName = "Strong"),
+	TRES_BODY_RT_GUARD = 3 UMETA(DisplayName = "Guard"),
+	TRES_BODY_RT_WEAK_GUARD = 4 UMETA(DisplayName = "Weak Guard"),
+	TRES_BODY_RT_GUARD_NOREACT = 5 UMETA(DisplayName = "Guard No React"),
+	TRES_BODY_RT_INVINCIBLE = 6 UMETA(DisplayName = "Invincible"),
+	TRES_BODY_RT_INVINCIBLE_NOREACT = 7 UMETA(DisplayName = "Invincible No React"),
+	TRES_BODY_RT_GHOST = 8 UMETA(DisplayName = "Ghost"),
+	TRES_BODY_RT_GHOST_NOREACT = 9 UMETA(DisplayName = "Ghost No React"),
+	TRES_BODY_RT_REFLECT1 = 10 UMETA(DisplayName = "Reflect 1"),
+	TRES_BODY_RT_GHOST_INVINCIBLE = 11 UMETA(DisplayName = "Ghost Invincible"),
+	_TRES_BODY_RT_MAX = 12 UMETA(DisplayName = "MAX"),
+	ETresBodyCollReactionType_MAX = 13 UMETA(DisplayName = "Tres Body RT Max")
 };
 UENUM(BlueprintType)
 enum ETresBodyCollOverlapCameraFunction
 {
-	TRES_BODY_OVERLAPCAMERA_FADE = 0,
-	TRES_BODY_OVERLAPCAMERA_RESET = 1,
-	TRES_BODY_OVERLAPCAMERA_MAX = 2
+	TRES_BODY_OVERLAPCAMERA_FADE = 0 UMETA(DisplayName = "Fade"),
+	TRES_BODY_OVERLAPCAMERA_RESET = 1 UMETA(DisplayName = "Reset"),
+	TRES_BODY_OVERLAPCAMERA_MAX = 2 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresChrDataTableSetType
 {
-	CDTS_TYPE_PLAYER = 0,
-	CDTS_TYPE_ENEMY = 1,
-	CDTS_TYPE_GIMMICK = 2,
-	PLAYER_GIGAS = 3,
-	PLAYER_SHIP = 4,
-	ENEMY_SHIP = 5,
-	CDTS_TYPE_MAX = 6,
-	ETresChrDataTableSetType_MAX = 7
+	CDTS_TYPE_PLAYER = 0 UMETA(DisplayName = "Player"),
+	CDTS_TYPE_ENEMY = 1 UMETA(DisplayName = "Enemy"),
+	CDTS_TYPE_GIMMICK = 2 UMETA(DisplayName = "Gimmick"),
+	CDTS_TYPE_PLAYER_GIGAS = 3 UMETA(DisplayName = "Player Gigas"),
+	CDTS_TYPE_PLAYER_SHIP = 4 UMETA(DisplayName = "Player Ship"),
+	CDTS_TYPE_ENEMY_SHIP = 5 UMETA(DisplayName = "Enemy Ship"),
+	CDTS_TYPE_MAX = 6 UMETA(DisplayName = "MAX"),
+	ETresChrDataTableSetType_MAX = 7 UMETA(DisplayName = "Tres Chr Data Table Set Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresCommandKind
 {
-	TRES_CMD_KIND_NONE = 0,
-	TRES_CMD_KIND_REFLECTGUARD = 1,
-	TRES_CMD_KIND_BLOWCOUNTER = 2,
-	TRES_CMD_KIND_REVENGESLASH = 3,
-	TRES_CMD_KIND_REVENGEIMPACT = 4,
-	TRES_CMD_KIND_REVENGEDIVE = 5,
-	TRES_CMD_KIND_BARRIERCRACKER = 6,
-	TRES_CMD_KIND_HOOKUPPER = 7,
-	TRES_CMD_KIND_BACKRAID = 8,
-	TRES_CMD_KIND_BACKRUSH = 9,
-	TRES_CMD_KIND_WARPSLASH = 10,
-	TRES_CMD_KIND_DIVEATTACK = 11,
-	TRES_CMD_KIND_REVENGESLASH2 = 12,
-	TRES_CMD_KIND_ANTIRAID = 13,
-	TRES_CMD_KIND_SHIELDBURST = 14,
-	TRES_CMD_KIND_BLADECOUNTER = 15,
-	TRES_CMD_KIND_SHIELDCOUNTER = 16,
-	TRES_CMD_KIND_SHIELDCOUNTER2 = 17,
-	TRES_CMD_KIND_SHIELDCOUNTER3 = 18,
-	TRES_CMD_KIND_SHIELDCOUNTER4 = 19,
-	TRES_CMD_KIND_IKAZUCHI = 20,
-	TRES_CMD_KIND_SNEEZE = 21,
-	TRES_CMD_KIND_FR_DONALD = 22,
-	TRES_CMD_KIND_FR_DONALD2 = 23,
-	TRES_CMD_KIND_FR_DONALD3 = 24,
-	TRES_CMD_KIND_FR_GOOFY = 25,
-	TRES_CMD_KIND_FR_GOOFY2 = 26,
-	TRES_CMD_KIND_ATTACK = 27,
-	TRES_CMD_KIND_MAGIC = 28,
-	TRES_CMD_KIND_FIRE = 29,
-	TRES_CMD_KIND_FIRA = 30,
-	TRES_CMD_KIND_FIRAGA = 31,
-	TRES_CMD_KIND_FIRAGAN = 32,
-	TRES_CMD_KIND_BLIZZARD = 33,
-	TRES_CMD_KIND_BLIZZARA = 34,
-	TRES_CMD_KIND_BLIZZAGA = 35,
-	TRES_CMD_KIND_BLIZZAGAN = 36,
-	TRES_CMD_KIND_THUNDER = 37,
-	TRES_CMD_KIND_THUNDARA = 38,
-	TRES_CMD_KIND_THUNDAGA = 39,
-	TRES_CMD_KIND_THUNDAGAN = 40,
-	TRES_CMD_KIND_WATER = 41,
-	TRES_CMD_KIND_WATARA = 42,
-	TRES_CMD_KIND_WATAGA = 43,
-	TRES_CMD_KIND_WATAGAN = 44,
-	TRES_CMD_KIND_AERO = 45,
-	TRES_CMD_KIND_AERORA = 46,
-	TRES_CMD_KIND_AEROGA = 47,
-	TRES_CMD_KIND_AEROGAN = 48,
-	TRES_CMD_KIND_CURE = 49,
-	TRES_CMD_KIND_CURA = 50,
-	TRES_CMD_KIND_CURAGA = 51,
-	TRES_CMD_KIND_HOLY = 52,
-	TRES_CMD_KIND_WATERFIRE = 53,
-	TRES_CMD_KIND_WATERBLIZZARD = 54,
-	TRES_CMD_KIND_WATERTHUNDER = 55,
-	TRES_CMD_KIND_WATERAERO = 56,
-	TRES_CMD_KIND_ITEM = 57,
-	TRES_CMD_KIND_POTION = 58,
-	TRES_CMD_KIND_HIPOTION = 59,
-	TRES_CMD_KIND_MEGAPOTION = 60,
-	TRES_CMD_KIND_ETHER = 61,
-	TRES_CMD_KIND_HIETHER = 62,
-	TRES_CMD_KIND_MEGAETHER = 63,
-	TRES_CMD_KIND_ELIXIR = 64,
-	TRES_CMD_KIND_LASTELIXIR = 65,
-	TRES_CMD_KIND_FOCUSSUPPLEMENT = 66,
-	TRES_CMD_KIND_HIFOCUSSUPPLEMENT = 67,
-	TRES_CMD_KIND_ALLCURE = 68,
-	TRES_CMD_KIND_DM = 69,
-	TRES_CMD_KIND_DM_WANDANYAN = 70,
-	TRES_CMD_KIND_DM_RALPH = 71,
-	TRES_CMD_KIND_DM_SIMBA = 72,
-	TRES_CMD_KIND_DM_STITCH = 73,
-	TRES_CMD_KIND_DM_ARIEL = 74,
-	TRES_CMD_KIND_DM_FINISH = 75,
-	TRES_CMD_KIND_SAVE = 76,
-	TRES_CMD_KIND_TALK = 77,
-	TRES_CMD_KIND_OPEN = 78,
-	TRES_CMD_KIND_CHECK = 79,
-	TRES_CMD_KIND_SHOP = 80,
-	TRES_CMD_KIND_RESCUE = 81,
-	TRES_CMD_KIND_VEHICLE = 82,
-	TRES_CMD_KIND_SHIP = 83,
-	TRES_CMD_KIND_PLANE = 84,
-	TRES_CMD_KIND_GETOFF = 85,
-	TRES_CMD_KIND_GIGAS_ELECTRO = 86,
-	TRES_CMD_KIND_RAIL = 87,
-	TRES_CMD_KIND_PLANEBOSS = 88,
-	TRES_CMD_KIND_SLIDESHOT = 89,
-	TRES_CMD_KIND_COVERSLIDE = 90,
-	TRES_CMD_KIND_TRICK = 91,
-	TRES_CMD_KIND_WATERPLAY = 92,
-	TRES_CMD_KIND_EXTENDHAND = 93,
-	TRES_CMD_KIND_ENEMYSHIP = 94,
-	TRES_CMD_KIND_SPECIALSHIP_RAGINGCANNON = 95,
-	TRES_CMD_KIND_SPECIALSHIP_WINDCHASER = 96,
-	TRES_CMD_KIND_SPECIALSHIP_TIDALWAVE = 97,
-	TRES_CMD_KIND_SPECIALSHIP_DASH = 98,
-	TRES_CMD_KIND_SWING = 99,
-	TRES_CMD_KIND_PUDDING = 100,
-	TRES_CMD_KIND_CHARGEBERSERK = 101,
-	TRES_CMD_KIND_POSTCARD = 102,
-	TRES_CMD_KIND_ANS_ENDURE = 103,
-	TRES_CMD_KIND_ANS_CHALLENGE = 104,
-	TRES_CMD_KIND_ANS_MIXING = 105,
-	TRES_CMD_KIND_ANS_BUMPING = 106,
-	TRES_CMD_KIND_ANS_BELIEVE = 107,
-	TRES_CMD_KIND_ANS_ACCEPT = 108,
-	TRES_CMD_KIND_FINISH_AN2 = 109,
-	TRES_CMD_KIND_S_FIRA = 110,
-	TRES_CMD_KIND_S_FIRAGA = 111,
-	TRES_CMD_KIND_S_FIRAGAN = 112,
-	TRES_CMD_KIND_S_BLIZZARA = 113,
-	TRES_CMD_KIND_S_BLIZZAGA = 114,
-	TRES_CMD_KIND_S_BLIZZAGAN = 115,
-	TRES_CMD_KIND_S_THUNDARA = 116,
-	TRES_CMD_KIND_S_THUNDAGA = 117,
-	TRES_CMD_KIND_S_THUNDAGAN = 118,
-	TRES_CMD_KIND_S_WATARA = 119,
-	TRES_CMD_KIND_S_WATAGA = 120,
-	TRES_CMD_KIND_S_WATAGAN = 121,
-	TRES_CMD_KIND_S_AERORA = 122,
-	TRES_CMD_KIND_S_AEROGA = 123,
-	TRES_CMD_KIND_S_AEROGAN = 124,
-	TRES_CMD_KIND_S_CURAGAN = 125,
-	TRES_CMD_KIND_S_DARKFIRAGA = 126,
-	TRES_CMD_KIND_CHANGE_KB = 127,
-	TRES_CMD_KIND_CHANGE_DW = 128,
-	TRES_CMD_KIND_CHANGE_HM = 129,
-	TRES_CMD_KIND_CHANGE_YO = 130,
-	TRES_CMD_KIND_CHANGE_BZ = 131,
-	TRES_CMD_KIND_CHANGE_DR = 132,
-	TRES_CMD_KIND_CHANGE_SK = 133,
-	TRES_CMD_KIND_CHANGE_GM = 134,
-	TRES_CMD_KIND_CHANGE_SW = 135,
-	TRES_CMD_KIND_CHANGE_WA = 136,
-	TRES_CMD_KIND_CHANGE_SH = 137,
-	TRES_CMD_KIND_CHANGE_CL = 138,
-	TRES_CMD_KIND_CHANGE_AN = 139,
-	TRES_CMD_KIND_CHANGE_HL = 140,
-	TRES_CMD_KIND_CHANGE_FL = 141,
-	TRES_CMD_KIND_CHANGE_DW2 = 142,
-	TRES_CMD_KIND_CHANGE_BZ2 = 143,
-	TRES_CMD_KIND_CHANGE_CL2 = 144,
-	TRES_CMD_KIND_CHANGE_SH2 = 145,
-	TRES_CMD_KIND_CHANGE_HM2 = 146,
-	TRES_CMD_KIND_CHANGE_DR2 = 147,
-	TRES_CMD_KIND_CHANGE_L1 = 148,
-	TRES_CMD_KIND_CHANGE_L2 = 149,
-	TRES_CMD_KIND_CHANGE_L3 = 150,
-	TRES_CMD_KIND_CHANGE_L4 = 151,
-	TRES_CMD_KIND_CHANGE_L5 = 152,
-	TRES_CMD_KIND_CHANGE_A1 = 153,
-	TRES_CMD_KIND_CHANGE_A2 = 154,
-	TRES_CMD_KIND_FINISH = 155,
-	TRES_CMD_KIND_FINISH_YO = 156,
-	TRES_CMD_KIND_FINISH_BZ = 157,
-	TRES_CMD_KIND_FINISH_DR = 158,
-	TRES_CMD_KIND_FINISH_SK = 159,
-	TRES_CMD_KIND_FINISH_GM = 160,
-	TRES_CMD_KIND_FINISH_SW = 161,
-	TRES_CMD_KIND_FINISH_WA = 162,
-	TRES_CMD_KIND_FINISH_SH = 163,
-	TRES_CMD_KIND_FINISH_CL = 164,
-	TRES_CMD_KIND_FINISH_AN = 165,
-	TRES_CMD_KIND_FINISH_FL = 166,
-	TRES_CMD_KIND_FINISH_AQ = 167,
-	TRES_CMD_KIND_FINISH_A2 = 168,
-	TRES_CMD_KIND_FINISH_RI = 169,
-	TRES_CMD_KIND_SHEX_THUNDER = 170,
-	TRES_CMD_KIND_LM_STUNIMPACT = 171,
-	TRES_CMD_KIND_LM_SONICRAVE = 172,
-	TRES_CMD_KIND_LM_LASTARCANUM = 173,
-	TRES_CMD_KIND_LM_UNIONDISCODE = 174,
-	TRES_CMD_KIND_LMEX_RAVE = 175,
-	TRES_CMD_KIND_LMEX_FINISH = 176,
-	TRES_CMD_KIND_LMEX_BREAK = 177,
-	TRES_CMD_KIND_LMEX_THEEND = 178,
-	TRES_CMD_KIND_RISKCHARGE = 179,
-	TRES_CMD_KIND_FINISH_UNIONX = 180,
-	TRES_CMD_KIND_FINISH_UX1 = 181,
-	TRES_CMD_KIND_FINISH_UX2 = 182,
-	TRES_CMD_KIND_FINISH_UX3 = 183,
-	TRES_CMD_KIND_FINISH_UX4 = 184,
-	TRES_CMD_KIND_FINISH_UX5 = 185,
-	TRES_CMD_KIND_AF_JETCOASTER_BM = 186,
-	TRES_CMD_KIND_AF_VIKINGSHIP = 187,
-	TRES_CMD_KIND_AF_TEACUP = 188,
-	TRES_CMD_KIND_AF_SHOOTINGRIDE = 189,
-	TRES_CMD_KIND_AF_MERRYGOROUND = 190,
-	TRES_CMD_KIND_AF_WATERRIDE = 191,
-	TRES_CMD_KIND_AF_FINISH = 192,
-	TRES_CMD_KIND_FR_SHIELDGUARDIAN = 193,
-	TRES_CMD_KIND_FR_MOUNTCURLING = 194,
-	TRES_CMD_KIND_FR_GOOFYSHOOT = 195,
-	TRES_CMD_KIND_FR_MICKEY = 196,
-	TRES_CMD_KIND_FR_MICKEYCHAIN = 197,
-	TRES_CMD_KIND_FR_SNOWCURLING = 198,
-	TRES_CMD_KIND_FR_MIKEBOWLING = 199,
-	TRES_CMD_KIND_FR_JACKSPIN = 200,
-	TRES_CMD_KIND_FR_SNOWCHASE = 201,
-	TRES_CMD_KIND_FR_POWERSTRIKE = 202,
-	TRES_CMD_KIND_FR_GIANTSOLDIER = 203,
-	TRES_CMD_KIND_FR_ROCKETLASER = 204,
-	TRES_CMD_KIND_FR_SPINNINGHOLD = 205,
-	TRES_CMD_KIND_FR_SNOWCOVERSWING = 206,
-	TRES_CMD_KIND_FR_CALLMETEOR = 207,
-	TRES_CMD_KIND_FR_FLAREFORCE = 208,
-	TRES_CMD_KIND_FR_BAYMAXRIDE = 209,
-	TRES_CMD_KIND_FR_ICEREVENGER = 210,
-	TRES_CMD_KIND_S_FINISH = 211,
-	TRES_CMD_KIND_FR_TRINITY = 212,
-	TRES_CMD_KIND_FR_SORA = 213,
-	TRES_CMD_KIND_FR_FINISH = 214,
-	TRES_CMD_KIND_BARRIERCRACKER2 = 215,
-	TRES_CMD_KIND_BARRIERCRACKER3 = 216,
-	TRES_CMD_KIND_BARRIERCRACKER4 = 217,
-	TRES_CMD_KIND_GUARDCOUNTER_RO = 218,
-	TRES_CMD_KIND_GUARDCOUNTER_KA = 219,
-	TRES_CMD_KIND_SLIDETURN = 220,
-	TRES_CMD_KIND_CHANGE_LF = 221,
-	TRES_CMD_KIND_CHANGE_DF = 222,
-	TRES_CMD_KIND_CHANGE_TF = 223,
-	TRES_CMD_KIND_CHANGE_TF2 = 224,
-	TRES_CMD_KIND_FINISH_TF = 225,
-	TRES_CMD_KIND_FINISH_TF2 = 226,
-	TRES_CMD_KIND_FINISH_RO = 227,
-	TRES_CMD_KIND_FINISH_KA = 228,
-	TRES_CMD_KIND_DISPEL = 229,
-	TRES_CMD_KIND_QUICKBATTLE = 230,
-	TRES_CMD_KIND_S_CROSSSHOOT = 231,
-	TRES_CMD_KIND_SWTCH_SORA = 232,
-	TRES_CMD_KIND_SWTCH_AQUA = 233,
-	TRES_CMD_KIND_SWTCH_RIKU = 234,
-	TRES_CMD_KIND_SWTCH_KAIRI = 235,
-	TRES_CMD_KIND_SWTCH_ROXAS = 236,
-	TRES_CMD_KIND_FR_POPPINGHOLY = 237,
-	TRES_CMD_KIND_FR_BLIZZAGABOARD = 238,
-	TRES_CMD_KIND_FR_THINKOFYOU = 239,
-	TRES_CMD_KIND_FR_ULTIMATEEND = 240,
-	TRES_CMD_KIND_FR_LINKOFHEARTS = 241,
-	TRES_CMD_KIND_FR_PROMISEWINGS = 242,
-	TRES_CMD_KIND_LMEX_SLASH = 243,
-	TRES_CMD_KIND_ANS_USUAL = 244,
-	TRES_CMD_KIND_ANS_EASY = 245,
-	TRES_CMD_KIND_ANS_CHALLENGING = 246,
-	TRES_CMD_KIND_CARDDRAW = 247,
-	TRES_CMD_KIND_RESERVE248 = 248,
-	TRES_CMD_KIND_RESERVE249 = 249,
-	TRES_CMD_KIND_RESERVE250 = 250,
-	TRES_CMD_KIND_RESERVE251 = 251,
-	TRES_CMD_KIND_RESERVE252 = 252,
-	TRES_CMD_KIND_SHOOTFLOW = 253,
-	TRES_CMD_KIND_END = 254,
-	TRES_CMD_KIND_MAX = 255
+	TRES_CMD_KIND_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_CMD_KIND_REFLECTGUARD = 1 UMETA(DisplayName = "Reflect Guard"),
+	TRES_CMD_KIND_BLOWCOUNTER = 2 UMETA(DisplayName = "Blow Counter"),
+	TRES_CMD_KIND_REVENGESLASH = 3 UMETA(DisplayName = "Revenge Slash"),
+	TRES_CMD_KIND_REVENGEIMPACT = 4 UMETA(DisplayName = "Revenge Impact"),
+	TRES_CMD_KIND_REVENGEDIVE = 5 UMETA(DisplayName = "Revenge Dive"),
+	TRES_CMD_KIND_BARRIERCRACKER = 6 UMETA(DisplayName = "Barrier Cracker"),
+	TRES_CMD_KIND_HOOKUPPER = 7 UMETA(DisplayName = "Hook Upper"),
+	TRES_CMD_KIND_BACKRAID = 8 UMETA(DisplayName = "Back Raid"),
+	TRES_CMD_KIND_BACKRUSH = 9 UMETA(DisplayName = "Back Rush"),
+	TRES_CMD_KIND_WARPSLASH = 10 UMETA(DisplayName = "Warp Slash"),
+	TRES_CMD_KIND_DIVEATTACK = 11 UMETA(DisplayName = "Dive Attack"),
+	TRES_CMD_KIND_REVENGESLASH2 = 12 UMETA(DisplayName = "Revenge Slash 2"),
+	TRES_CMD_KIND_ANTIRAID = 13 UMETA(DisplayName = "Anti Raid"),
+	TRES_CMD_KIND_SHIELDBURST = 14 UMETA(DisplayName = "Shield Burst"),
+	TRES_CMD_KIND_BLADECOUNTER = 15 UMETA(DisplayName = "Blade Counter"),
+	TRES_CMD_KIND_SHIELDCOUNTER = 16 UMETA(DisplayName = "Shield Counter"),
+	TRES_CMD_KIND_SHIELDCOUNTER2 = 17 UMETA(DisplayName = "Shield Counter 2"),
+	TRES_CMD_KIND_SHIELDCOUNTER3 = 18 UMETA(DisplayName = "Shield Counter 3"),
+	TRES_CMD_KIND_SHIELDCOUNTER4 = 19 UMETA(DisplayName = "Shield Counter 4"),
+	TRES_CMD_KIND_IKAZUCHI = 20 UMETA(DisplayName = "Ikazuchi"),
+	TRES_CMD_KIND_SNEEZE = 21 UMETA(DisplayName = "Sneeze"),
+	TRES_CMD_KIND_FR_DONALD = 22 UMETA(DisplayName = "FR Donald"),
+	TRES_CMD_KIND_FR_DONALD2 = 23 UMETA(DisplayName = "FR Donald 2"),
+	TRES_CMD_KIND_FR_DONALD3 = 24 UMETA(DisplayName = "FR Donald 3"),
+	TRES_CMD_KIND_FR_GOOFY = 25 UMETA(DisplayName = "FR Goofy"),
+	TRES_CMD_KIND_FR_GOOFY2 = 26 UMETA(DisplayName = "FR Goofy 2"),
+	TRES_CMD_KIND_ATTACK = 27 UMETA(DisplayName = "Attack"),
+	TRES_CMD_KIND_MAGIC = 28 UMETA(DisplayName = "Magic"),
+	TRES_CMD_KIND_FIRE = 29 UMETA(DisplayName = "Fire"),
+	TRES_CMD_KIND_FIRA = 30 UMETA(DisplayName = "Fira"),
+	TRES_CMD_KIND_FIRAGA = 31 UMETA(DisplayName = "Firaga"),
+	TRES_CMD_KIND_FIRAGAN = 32 UMETA(DisplayName = "Firagan"),
+	TRES_CMD_KIND_BLIZZARD = 33 UMETA(DisplayName = "Blizzard"),
+	TRES_CMD_KIND_BLIZZARA = 34 UMETA(DisplayName = "Blizzara"),
+	TRES_CMD_KIND_BLIZZAGA = 35 UMETA(DisplayName = "Blizzaga"),
+	TRES_CMD_KIND_BLIZZAGAN = 36 UMETA(DisplayName = "Blizzagan"),
+	TRES_CMD_KIND_THUNDER = 37 UMETA(DisplayName = "Thunder"),
+	TRES_CMD_KIND_THUNDARA = 38 UMETA(DisplayName = "Thundara"),
+	TRES_CMD_KIND_THUNDAGA = 39 UMETA(DisplayName = "Thundaga"),
+	TRES_CMD_KIND_THUNDAGAN = 40 UMETA(DisplayName = "Thundagan"),
+	TRES_CMD_KIND_WATER = 41 UMETA(DisplayName = "Water"),
+	TRES_CMD_KIND_WATARA = 42 UMETA(DisplayName = "Watara"),
+	TRES_CMD_KIND_WATAGA = 43 UMETA(DisplayName = "Wataga"),
+	TRES_CMD_KIND_WATAGAN = 44 UMETA(DisplayName = "Watagan"),
+	TRES_CMD_KIND_AERO = 45 UMETA(DisplayName = "Aero"),
+	TRES_CMD_KIND_AERORA = 46 UMETA(DisplayName = "Aerora"),
+	TRES_CMD_KIND_AEROGA = 47 UMETA(DisplayName = "Aeroga"),
+	TRES_CMD_KIND_AEROGAN = 48 UMETA(DisplayName = "Aerogan"),
+	TRES_CMD_KIND_CURE = 49 UMETA(DisplayName = "Cure"),
+	TRES_CMD_KIND_CURA = 50 UMETA(DisplayName = "Cura"),
+	TRES_CMD_KIND_CURAGA = 51 UMETA(DisplayName = "Curaga"),
+	TRES_CMD_KIND_HOLY = 52 UMETA(DisplayName = "Holy"),
+	TRES_CMD_KIND_WATERFIRE = 53 UMETA(DisplayName = "Water Fire"),
+	TRES_CMD_KIND_WATERBLIZZARD = 54 UMETA(DisplayName = "Water Blizzard"),
+	TRES_CMD_KIND_WATERTHUNDER = 55 UMETA(DisplayName = "Water Thunder"),
+	TRES_CMD_KIND_WATERAERO = 56 UMETA(DisplayName = "Water Aero"),
+	TRES_CMD_KIND_ITEM = 57 UMETA(DisplayName = "Item"),
+	TRES_CMD_KIND_POTION = 58 UMETA(DisplayName = "Potion"),
+	TRES_CMD_KIND_HIPOTION = 59 UMETA(DisplayName = "Hi Potion"),
+	TRES_CMD_KIND_MEGAPOTION = 60 UMETA(DisplayName = "Mega Potion"),
+	TRES_CMD_KIND_ETHER = 61 UMETA(DisplayName = "Ether"),
+	TRES_CMD_KIND_HIETHER = 62 UMETA(DisplayName = "Hi Ether"),
+	TRES_CMD_KIND_MEGAETHER = 63 UMETA(DisplayName = "Mega Ether"),
+	TRES_CMD_KIND_ELIXIR = 64 UMETA(DisplayName = "Elixir"),
+	TRES_CMD_KIND_LASTELIXIR = 65 UMETA(DisplayName = "Last Elixir"),
+	TRES_CMD_KIND_FOCUSSUPPLEMENT = 66 UMETA(DisplayName = "Focus Supplement"),
+	TRES_CMD_KIND_HIFOCUSSUPPLEMENT = 67 UMETA(DisplayName = "Hi Focus Supplement"),
+	TRES_CMD_KIND_ALLCURE = 68 UMETA(DisplayName = "All Cure"),
+	TRES_CMD_KIND_DM = 69 UMETA(DisplayName = "DM"),
+	TRES_CMD_KIND_DM_WANDANYAN = 70 UMETA(DisplayName = "DM Wandanyan"),
+	TRES_CMD_KIND_DM_RALPH = 71 UMETA(DisplayName = "DM Ralph"),
+	TRES_CMD_KIND_DM_SIMBA = 72 UMETA(DisplayName = "DM Simba"),
+	TRES_CMD_KIND_DM_STITCH = 73 UMETA(DisplayName = "DM Stitch"),
+	TRES_CMD_KIND_DM_ARIEL = 74 UMETA(DisplayName = "DM Ariel"),
+	TRES_CMD_KIND_DM_FINISH = 75 UMETA(DisplayName = "DM Finish"),
+	TRES_CMD_KIND_SAVE = 76 UMETA(DisplayName = "Save"),
+	TRES_CMD_KIND_TALK = 77 UMETA(DisplayName = "Talk"),
+	TRES_CMD_KIND_OPEN = 78 UMETA(DisplayName = "Open"),
+	TRES_CMD_KIND_CHECK = 79 UMETA(DisplayName = "Check"),
+	TRES_CMD_KIND_SHOP = 80 UMETA(DisplayName = "Shop"),
+	TRES_CMD_KIND_RESCUE = 81 UMETA(DisplayName = "Rescue"),
+	TRES_CMD_KIND_VEHICLE = 82 UMETA(DisplayName = "Vehicle"),
+	TRES_CMD_KIND_SHIP = 83 UMETA(DisplayName = "Ship"),
+	TRES_CMD_KIND_PLANE = 84 UMETA(DisplayName = "Plane"),
+	TRES_CMD_KIND_GETOFF = 85 UMETA(DisplayName = "Get Off"),
+	TRES_CMD_KIND_GIGAS_ELECTRO = 86 UMETA(DisplayName = "Gigas Electro"),
+	TRES_CMD_KIND_RAIL = 87 UMETA(DisplayName = "Rail"),
+	TRES_CMD_KIND_PLANEBOSS = 88 UMETA(DisplayName = "Plane Boss"),
+	TRES_CMD_KIND_SLIDESHOT = 89 UMETA(DisplayName = "Slide Shot"),
+	TRES_CMD_KIND_COVERSLIDE = 90 UMETA(DisplayName = "Cover Slide"),
+	TRES_CMD_KIND_TRICK = 91 UMETA(DisplayName = "Trick"),
+	TRES_CMD_KIND_WATERPLAY = 92 UMETA(DisplayName = "Water Play"),
+	TRES_CMD_KIND_EXTENDHAND = 93 UMETA(DisplayName = "Extend Hand"),
+	TRES_CMD_KIND_ENEMYSHIP = 94 UMETA(DisplayName = "Enemy Ship"),
+	TRES_CMD_KIND_SPECIALSHIP_RAGINGCANNON = 95 UMETA(DisplayName = "Special Ship Raging Cannon"),
+	TRES_CMD_KIND_SPECIALSHIP_WINDCHASER = 96 UMETA(DisplayName = "Special Ship Wind Chaser"),
+	TRES_CMD_KIND_SPECIALSHIP_TIDALWAVE = 97 UMETA(DisplayName = "Special Ship Tidal Wave"),
+	TRES_CMD_KIND_SPECIALSHIP_DASH = 98 UMETA(DisplayName = "Special Ship Dash"),
+	TRES_CMD_KIND_SWING = 99 UMETA(DisplayName = "Swing"),
+	TRES_CMD_KIND_PUDDING = 100 UMETA(DisplayName = "Pudding"),
+	TRES_CMD_KIND_CHARGEBERSERK = 101 UMETA(DisplayName = "Charge Berserk"),
+	TRES_CMD_KIND_POSTCARD = 102 UMETA(DisplayName = "Postcard"),
+	TRES_CMD_KIND_ANS_ENDURE = 103 UMETA(DisplayName = "ANS Endure"),
+	TRES_CMD_KIND_ANS_CHALLENGE = 104 UMETA(DisplayName = "ANS Challenge"),
+	TRES_CMD_KIND_ANS_MIXING = 105 UMETA(DisplayName = "ANS Mixing"),
+	TRES_CMD_KIND_ANS_BUMPING = 106 UMETA(DisplayName = "ANS Bumping"),
+	TRES_CMD_KIND_ANS_BELIEVE = 107 UMETA(DisplayName = "ANS Believe"),
+	TRES_CMD_KIND_ANS_ACCEPT = 108 UMETA(DisplayName = "ANS Accept"),
+	TRES_CMD_KIND_FINISH_AN2 = 109 UMETA(DisplayName = "Finish AN2"),
+	TRES_CMD_KIND_S_FIRA = 110 UMETA(DisplayName = "S Fira"),
+	TRES_CMD_KIND_S_FIRAGA = 111 UMETA(DisplayName = "S Firaga"),
+	TRES_CMD_KIND_S_FIRAGAN = 112 UMETA(DisplayName = "S Firagan"),
+	TRES_CMD_KIND_S_BLIZZARA = 113 UMETA(DisplayName = "S Blizzara"),
+	TRES_CMD_KIND_S_BLIZZAGA = 114 UMETA(DisplayName = "S Blizzaga"),
+	TRES_CMD_KIND_S_BLIZZAGAN = 115 UMETA(DisplayName = "S Blizzagan"),
+	TRES_CMD_KIND_S_THUNDARA = 116 UMETA(DisplayName = "S Thundara"),
+	TRES_CMD_KIND_S_THUNDAGA = 117 UMETA(DisplayName = "S Thundaga"),
+	TRES_CMD_KIND_S_THUNDAGAN = 118 UMETA(DisplayName = "S Thundagan"),
+	TRES_CMD_KIND_S_WATARA = 119 UMETA(DisplayName = "S Watara"),
+	TRES_CMD_KIND_S_WATAGA = 120 UMETA(DisplayName = "S Wataga"),
+	TRES_CMD_KIND_S_WATAGAN = 121 UMETA(DisplayName = "S Watagan"),
+	TRES_CMD_KIND_S_AERORA = 122 UMETA(DisplayName = "S Aerora"),
+	TRES_CMD_KIND_S_AEROGA = 123 UMETA(DisplayName = "S Aeroga"),
+	TRES_CMD_KIND_S_AEROGAN = 124 UMETA(DisplayName = "S Aerogan"),
+	TRES_CMD_KIND_S_CURAGAN = 125 UMETA(DisplayName = "S Curagan"),
+	TRES_CMD_KIND_S_DARKFIRAGA = 126 UMETA(DisplayName = "S Dark Firaga"),
+	TRES_CMD_KIND_CHANGE_KB = 127 UMETA(DisplayName = "Change KB"),
+	TRES_CMD_KIND_CHANGE_DW = 128 UMETA(DisplayName = "Change DW"),
+	TRES_CMD_KIND_CHANGE_HM = 129 UMETA(DisplayName = "Change HM"),
+	TRES_CMD_KIND_CHANGE_YO = 130 UMETA(DisplayName = "Change YO"),
+	TRES_CMD_KIND_CHANGE_BZ = 131 UMETA(DisplayName = "Change BZ"),
+	TRES_CMD_KIND_CHANGE_DR = 132 UMETA(DisplayName = "Change DR"),
+	TRES_CMD_KIND_CHANGE_SK = 133 UMETA(DisplayName = "Change SK"),
+	TRES_CMD_KIND_CHANGE_GM = 134 UMETA(DisplayName = "Change GM"),
+	TRES_CMD_KIND_CHANGE_SW = 135 UMETA(DisplayName = "Change SW"),
+	TRES_CMD_KIND_CHANGE_WA = 136 UMETA(DisplayName = "Change WA"),
+	TRES_CMD_KIND_CHANGE_SH = 137 UMETA(DisplayName = "Change SH"),
+	TRES_CMD_KIND_CHANGE_CL = 138 UMETA(DisplayName = "Change CL"),
+	TRES_CMD_KIND_CHANGE_AN = 139 UMETA(DisplayName = "Change AN"),
+	TRES_CMD_KIND_CHANGE_HL = 140 UMETA(DisplayName = "Change HL"),
+	TRES_CMD_KIND_CHANGE_FL = 141 UMETA(DisplayName = "Change FL"),
+	TRES_CMD_KIND_CHANGE_DW2 = 142 UMETA(DisplayName = "Change DW 2"),
+	TRES_CMD_KIND_CHANGE_BZ2 = 143 UMETA(DisplayName = "Change BZ 2"),
+	TRES_CMD_KIND_CHANGE_CL2 = 144 UMETA(DisplayName = "Change CL 2"),
+	TRES_CMD_KIND_CHANGE_SH2 = 145 UMETA(DisplayName = "Change SH 2"),
+	TRES_CMD_KIND_CHANGE_HM2 = 146 UMETA(DisplayName = "Change HM 2"),
+	TRES_CMD_KIND_CHANGE_DR2 = 147 UMETA(DisplayName = "Change DR 2"),
+	TRES_CMD_KIND_CHANGE_L1 = 148 UMETA(DisplayName = "Change L1"),
+	TRES_CMD_KIND_CHANGE_L2 = 149 UMETA(DisplayName = "Change L2"),
+	TRES_CMD_KIND_CHANGE_L3 = 150 UMETA(DisplayName = "Change L3"),
+	TRES_CMD_KIND_CHANGE_L4 = 151 UMETA(DisplayName = "Change L4"),
+	TRES_CMD_KIND_CHANGE_L5 = 152 UMETA(DisplayName = "Change L5"),
+	TRES_CMD_KIND_CHANGE_A1 = 153 UMETA(DisplayName = "Change A1"),
+	TRES_CMD_KIND_CHANGE_A2 = 154 UMETA(DisplayName = "Change A2"),
+	TRES_CMD_KIND_FINISH = 155 UMETA(DisplayName = "Finish"),
+	TRES_CMD_KIND_FINISH_YO = 156 UMETA(DisplayName = "Finish YO"),
+	TRES_CMD_KIND_FINISH_BZ = 157 UMETA(DisplayName = "Finish BZ"),
+	TRES_CMD_KIND_FINISH_DR = 158 UMETA(DisplayName = "Finish DR"),
+	TRES_CMD_KIND_FINISH_SK = 159 UMETA(DisplayName = "Finish SK"),
+	TRES_CMD_KIND_FINISH_GM = 160 UMETA(DisplayName = "Finish GM"),
+	TRES_CMD_KIND_FINISH_SW = 161 UMETA(DisplayName = "Finish SW"),
+	TRES_CMD_KIND_FINISH_WA = 162 UMETA(DisplayName = "Finish WA"),
+	TRES_CMD_KIND_FINISH_SH = 163 UMETA(DisplayName = "Finish SH"),
+	TRES_CMD_KIND_FINISH_CL = 164 UMETA(DisplayName = "Finish CL"),
+	TRES_CMD_KIND_FINISH_AN = 165 UMETA(DisplayName = "Finish AN"),
+	TRES_CMD_KIND_FINISH_FL = 166 UMETA(DisplayName = "Finish FL"),
+	TRES_CMD_KIND_FINISH_AQ = 167 UMETA(DisplayName = "Finish AQ"),
+	TRES_CMD_KIND_FINISH_A2 = 168 UMETA(DisplayName = "Finish A2"),
+	TRES_CMD_KIND_FINISH_RI = 169 UMETA(DisplayName = "Finish RI"),
+	TRES_CMD_KIND_SHEX_THUNDER = 170 UMETA(DisplayName = "Shex Thunder"),
+	TRES_CMD_KIND_LM_STUNIMPACT = 171 UMETA(DisplayName = "LM Stun Impact"),
+	TRES_CMD_KIND_LM_SONICRAVE = 172 UMETA(DisplayName = "LM Sonic Rave"),
+	TRES_CMD_KIND_LM_LASTARCANUM = 173 UMETA(DisplayName = "LM Last Arcanum"),
+	TRES_CMD_KIND_LM_UNIONDISCODE = 174 UMETA(DisplayName = "LM Union D is Code"),
+	TRES_CMD_KIND_LMEX_RAVE = 175 UMETA(DisplayName = "LMEX Rave"),
+	TRES_CMD_KIND_LMEX_FINISH = 176 UMETA(DisplayName = "LMEX Finish"),
+	TRES_CMD_KIND_LMEX_BREAK = 177 UMETA(DisplayName = "LMEX Break"),
+	TRES_CMD_KIND_LMEX_THEEND = 178 UMETA(DisplayName = "LMEX The End"),
+	TRES_CMD_KIND_RISKCHARGE = 179 UMETA(DisplayName = "Risk Charge"),
+	TRES_CMD_KIND_FINISH_UNIONX = 180 UMETA(DisplayName = "Finish Union X"),
+	TRES_CMD_KIND_FINISH_UX1 = 181 UMETA(DisplayName = "Finish UX 1"),
+	TRES_CMD_KIND_FINISH_UX2 = 182 UMETA(DisplayName = "Finish UX 2"),
+	TRES_CMD_KIND_FINISH_UX3 = 183 UMETA(DisplayName = "Finish UX 3"),
+	TRES_CMD_KIND_FINISH_UX4 = 184 UMETA(DisplayName = "Finish UX 4"),
+	TRES_CMD_KIND_FINISH_UX5 = 185 UMETA(DisplayName = "Finish UX 5"),
+	TRES_CMD_KIND_AF_JETCOASTER_BM = 186 UMETA(DisplayName = "AF Jetcoaster BM"),
+	TRES_CMD_KIND_AF_VIKINGSHIP = 187 UMETA(DisplayName = "AF Viking Ship"),
+	TRES_CMD_KIND_AF_TEACUP = 188 UMETA(DisplayName = "AF Teacup"),
+	TRES_CMD_KIND_AF_SHOOTINGRIDE = 189 UMETA(DisplayName = "AF Shooting Ride"),
+	TRES_CMD_KIND_AF_MERRYGOROUND = 190 UMETA(DisplayName = "AF Merry Go Round"),
+	TRES_CMD_KIND_AF_WATERRIDE = 191 UMETA(DisplayName = "AF Water Ride"),
+	TRES_CMD_KIND_AF_FINISH = 192 UMETA(DisplayName = "AF Finish"),
+	TRES_CMD_KIND_FR_SHIELDGUARDIAN = 193 UMETA(DisplayName = "FR Shield Guardian"),
+	TRES_CMD_KIND_FR_MOUNTCURLING = 194 UMETA(DisplayName = "FR Mount Curling"),
+	TRES_CMD_KIND_FR_GOOFYSHOOT = 195 UMETA(DisplayName = "FR Goofy Shoot"),
+	TRES_CMD_KIND_FR_MICKEY = 196 UMETA(DisplayName = "FR Mickey"),
+	TRES_CMD_KIND_FR_MICKEYCHAIN = 197 UMETA(DisplayName = "FR Mickey Chain"),
+	TRES_CMD_KIND_FR_SNOWCURLING = 198 UMETA(DisplayName = "FR Snow Curling"),
+	TRES_CMD_KIND_FR_MIKEBOWLING = 199 UMETA(DisplayName = "FR Mike Bowling"),
+	TRES_CMD_KIND_FR_JACKSPIN = 200 UMETA(DisplayName = "FR Jack Spin"),
+	TRES_CMD_KIND_FR_SNOWCHASE = 201 UMETA(DisplayName = "FR Snow Chase"),
+	TRES_CMD_KIND_FR_POWERSTRIKE = 202 UMETA(DisplayName = "FR Power Strike"),
+	TRES_CMD_KIND_FR_GIANTSOLDIER = 203 UMETA(DisplayName = "FR Giant Soldier"),
+	TRES_CMD_KIND_FR_ROCKETLASER = 204 UMETA(DisplayName = "FR Rocket Laser"),
+	TRES_CMD_KIND_FR_SPINNINGHOLD = 205 UMETA(DisplayName = "FR Spinning Hold"),
+	TRES_CMD_KIND_FR_SNOWCOVERSWING = 206 UMETA(DisplayName = "FR Snow Cover Swing"),
+	TRES_CMD_KIND_FR_CALLMETEOR = 207 UMETA(DisplayName = "FR Call Me Teor"),
+	TRES_CMD_KIND_FR_FLAREFORCE = 208 UMETA(DisplayName = "FR Flare Force"),
+	TRES_CMD_KIND_FR_BAYMAXRIDE = 209 UMETA(DisplayName = "FR Baymax Ride"),
+	TRES_CMD_KIND_FR_ICEREVENGER = 210 UMETA(DisplayName = "FR Ice Revenger"),
+	TRES_CMD_KIND_S_FINISH = 211 UMETA(DisplayName = "S Finish"),
+	TRES_CMD_KIND_FR_TRINITY = 212 UMETA(DisplayName = "FR Trinity"),
+	TRES_CMD_KIND_FR_SORA = 213 UMETA(DisplayName = "FR Sora"),
+	TRES_CMD_KIND_FR_FINISH = 214 UMETA(DisplayName = "FR Finish"),
+	TRES_CMD_KIND_BARRIERCRACKER2 = 215 UMETA(DisplayName = "Barrier Cracker 2"),
+	TRES_CMD_KIND_BARRIERCRACKER3 = 216 UMETA(DisplayName = "Barrier Cracker 3"),
+	TRES_CMD_KIND_BARRIERCRACKER4 = 217 UMETA(DisplayName = "Barrier Cracker 4"),
+	TRES_CMD_KIND_GUARDCOUNTER_RO = 218 UMETA(DisplayName = "Guard Counter RO"),
+	TRES_CMD_KIND_GUARDCOUNTER_KA = 219 UMETA(DisplayName = "Guard Counter KA"),
+	TRES_CMD_KIND_SLIDETURN = 220 UMETA(DisplayName = "Slide Turn"),
+	TRES_CMD_KIND_CHANGE_LF = 221 UMETA(DisplayName = "Change LF"),
+	TRES_CMD_KIND_CHANGE_DF = 222 UMETA(DisplayName = "Change DF"),
+	TRES_CMD_KIND_CHANGE_TF = 223 UMETA(DisplayName = "Change TF"),
+	TRES_CMD_KIND_CHANGE_TF2 = 224 UMETA(DisplayName = "Change TF 2"),
+	TRES_CMD_KIND_FINISH_TF = 225 UMETA(DisplayName = "Finish TF"),
+	TRES_CMD_KIND_FINISH_TF2 = 226 UMETA(DisplayName = "Finish TF 2"),
+	TRES_CMD_KIND_FINISH_RO = 227 UMETA(DisplayName = "Finish RO"),
+	TRES_CMD_KIND_FINISH_KA = 228 UMETA(DisplayName = "Finish KA"),
+	TRES_CMD_KIND_DISPEL = 229 UMETA(DisplayName = "Dispel"),
+	TRES_CMD_KIND_QUICKBATTLE = 230 UMETA(DisplayName = "Quick Battle"),
+	TRES_CMD_KIND_S_CROSSSHOOT = 231 UMETA(DisplayName = "S Cross Shoot"),
+	TRES_CMD_KIND_SWTCH_SORA = 232 UMETA(DisplayName = "Switch Sora"),
+	TRES_CMD_KIND_SWTCH_AQUA = 233 UMETA(DisplayName = "Switch Aqua"),
+	TRES_CMD_KIND_SWTCH_RIKU = 234 UMETA(DisplayName = "Switch Riku"),
+	TRES_CMD_KIND_SWTCH_KAIRI = 235 UMETA(DisplayName = "Switch Kairi"),
+	TRES_CMD_KIND_SWTCH_ROXAS = 236 UMETA(DisplayName = "Switch Roxas"),
+	TRES_CMD_KIND_FR_POPPINGHOLY = 237 UMETA(DisplayName = "FR Popping Holy"),
+	TRES_CMD_KIND_FR_BLIZZAGABOARD = 238 UMETA(DisplayName = "FR Blizzaga Board"),
+	TRES_CMD_KIND_FR_THINKOFYOU = 239 UMETA(DisplayName = "FR Think of You"),
+	TRES_CMD_KIND_FR_ULTIMATEEND = 240 UMETA(DisplayName = "FR Ultimate End"),
+	TRES_CMD_KIND_FR_LINKOFHEARTS = 241 UMETA(DisplayName = "FR Link of Hearts"),
+	TRES_CMD_KIND_FR_PROMISEWINGS = 242 UMETA(DisplayName = "FR Promise Wings"),
+	TRES_CMD_KIND_LMEX_SLASH = 243 UMETA(DisplayName = "LMEX Slash"),
+	TRES_CMD_KIND_ANS_USUAL = 244 UMETA(DisplayName = "AND Easy"),
+	TRES_CMD_KIND_ANS_EASY = 245 UMETA(DisplayName = "ANS Easy"),
+	TRES_CMD_KIND_ANS_CHALLENGING = 246 UMETA(DisplayName = "ANS Challenging"),
+	TRES_CMD_KIND_CARDDRAW = 247 UMETA(DisplayName = "Card Draw"),
+	TRES_CMD_KIND_RESERVE248 = 248 UMETA(DisplayName = "Reserve 248"),
+	TRES_CMD_KIND_RESERVE249 = 249 UMETA(DisplayName = "Reserve 249"),
+	TRES_CMD_KIND_RESERVE250 = 250 UMETA(DisplayName = "Reserve 250"),
+	TRES_CMD_KIND_RESERVE251 = 251 UMETA(DisplayName = "Reserve 251"),
+	TRES_CMD_KIND_RESERVE252 = 252 UMETA(DisplayName = "Reserve 252"),
+	TRES_CMD_KIND_SHOOTFLOW = 253 UMETA(DisplayName = "Shoot Flow"),
+	TRES_CMD_KIND_END = 254 UMETA(DisplayName = "End"),
+	TRES_CMD_KIND_MAX = 255 UMETA(DisplayName = "MAX")
 };
 
 
 UENUM(BlueprintType)
 enum ETresPhysDamageForceLevel
 {
-	TPDF_LV = 0,
-	TPDF_LV01 = 1,
-	TPDF_LV02 = 2,
-	TPDF_LV03 = 3,
-	_TPDF_LV_MAX = 4,
-	ETresPhysDamageForceLevel_MAX = 5
+	TPDF_LV = 0 UMETA(DisplayName = "LV"),
+	TPDF_LV01 = 1 UMETA(DisplayName = "LV 01"),
+	TPDF_LV02 = 2 UMETA(DisplayName = "LV 02"),
+	TPDF_LV03 = 3 UMETA(DisplayName = "LV 03"),
+	_TPDF_LV_MAX = 4 UMETA(DisplayName = "MAX"),
+	ETresPhysDamageForceLevel_MAX = 5 UMETA(DisplayName = "Tres Phys Damage Force Level MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresLevelEntityAppearMode
 {
-	ETresLevelEntityAppearMode_Immediate = 0,
-	ETresLevelEntityAppearMode_Perform1 = 1,
-	ETresLevelEntityAppearMode_Perform2 = 2,
-	ETresLevelEntityAppearMode_Perform3 = 3,
-	ETresLevelEntityAppearMode_Perform4 = 4,
-	ETresLevelEntityAppearMode_Special1 = 5,
-	ETresLevelEntityAppearMode_Special2 = 6,
-	ETresLevelEntityAppearMode_Special3 = 7,
-	ETresLevelEntityAppearMode_IdleWait = 8,
-	ETresLevelEntityAppearMode_MAX = 9
+	ETresLevelEntityAppearMode_Immediate = 0 UMETA(DisplayName = "Immediate"),
+	ETresLevelEntityAppearMode_Perform1 = 1 UMETA(DisplayName = "Perform 1"),
+	ETresLevelEntityAppearMode_Perform2 = 2 UMETA(DisplayName = "Perform 2"),
+	ETresLevelEntityAppearMode_Perform3 = 3 UMETA(DisplayName = "Perform 3"),
+	ETresLevelEntityAppearMode_Perform4 = 4 UMETA(DisplayName = "Perform 4"),
+	ETresLevelEntityAppearMode_Special1 = 5 UMETA(DisplayName = "Special 1"),
+	ETresLevelEntityAppearMode_Special2 = 6 UMETA(DisplayName = "Special 2"),
+	ETresLevelEntityAppearMode_Special3 = 7 UMETA(DisplayName = "Special 3"),
+	ETresLevelEntityAppearMode_IdleWait = 8 UMETA(DisplayName = "Idle Wait"),
+	ETresLevelEntityAppearMode_MAX = 9 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresPlayerUniqueID
 {
-	SORA_KH3 = 0,
-	SORA_KH3CA = 1,
-	SORA_KH3MI = 2,
-	SORA_KH3TS = 3,
-	SORA_KH3BX = 4,
-	SORA_KH3EW = 5,
-	SORA_KH2 = 6,
-	SORA_KH1 = 7,
-	RIKU_KH3 = 8,
-	RIKU_KH29 = 9,
-	AQUA_KH3 = 10,
-	SORA_KH3TUTO = 11,
-	SORA_KH3TS_GAME = 12,
-	SORA_KH3PO = 13,
-	UNKNOWN = 14,
-	SORA_KH3DL = 15,
-	KAIRI_KH3 = 16,
-	ROXAS_KH3 = 17,
-	MICKEY_KH3MiRx = 18,
-	SORA_KH3SoKc = 19,
-	_MAX = 20,
-	ETresPlayerUniqueID_MAX = 21
+	ETresPlayerUniqueID_SORA_KH3 = 0 UMETA(DisplayName = "Sora KH3"),
+	ETresPlayerUniqueID_SORA_KH3CA = 1 UMETA(DisplayName = "Sora KH3: Caribbean"),
+	ETresPlayerUniqueID_SORA_KH3MI = 2 UMETA(DisplayName = "Sora KH3: Monsters Inc"),
+	ETresPlayerUniqueID_SORA_KH3TS = 3 UMETA(DisplayName = "Sora KH3: Toy Story"),
+	ETresPlayerUniqueID_SORA_KH3BX = 4 UMETA(DisplayName = "Sora KH3: Baymax"),
+	ETresPlayerUniqueID_SORA_KH3EW = 5 UMETA(DisplayName = "Sora KH3: Final World"),
+	ETresPlayerUniqueID_SORA_KH2 = 6 UMETA(DisplayName = "Sora KH2"),
+	ETresPlayerUniqueID_SORA_KH1 = 7 UMETA(DisplayName = "Sora KH1"),
+	ETresPlayerUniqueID_RIKU_KH3 = 8 UMETA(DisplayName = "Riku KH3"),
+	ETresPlayerUniqueID_RIKU_KH29 = 9 UMETA(DisplayName = "Riku 2.9"),
+	ETresPlayerUniqueID_AQUA_KH3 = 10 UMETA(DisplayName = "Aqua KH3"),
+	ETresPlayerUniqueID_SORA_KH3TUTO = 11 UMETA(DisplayName = "Sora KH3: Tutorial"),
+	ETresPlayerUniqueID_SORA_KH3TS_GAME = 12 UMETA(DisplayName = "Sora KH3: Toy Story Game"),
+	ETresPlayerUniqueID_SORA_KH3PO = 13 UMETA(DisplayName = "Sora KH3: Pooh"),
+	ETresPlayerUniqueID_UNKNOWN = 14 UMETA(DisplayName = "Unknown"),
+	ETresPlayerUniqueID_SORA_KH3DL = 15 UMETA(DisplayName = "Sora KH3: Remind"),
+	ETresPlayerUniqueID_KAIRI_KH3 = 16 UMETA(DisplayName = "Kairi KH3"),
+	ETresPlayerUniqueID_ROXAS_KH3 = 17 UMETA(DisplayName = "Roxas KH3"),
+	ETresPlayerUniqueID_MICKEY_KH3MiRx = 18 UMETA(DisplayName = "Mickey KH3: Remind"),
+	ETresPlayerUniqueID_SORA_KH3SoKc = 19 UMETA(DisplayName = "Sora KH3: SoKc"),
+	ETresPlayerUniqueID_1_MAX = 20 UMETA(DisplayName = "MAX"),
+	ETresPlayerUniqueID_MAX = 21 UMETA(DisplayName = "Tres Player Unique ID MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresChrUniqueID
 {
-	TRES_CHR_UID_UNKNOWN = 0,
-	TRES_CHR_UID_SORA = 1,
-	TRES_CHR_UID_RIKU = 2,
-	TRES_CHR_UID_KAIRI = 3,
-	TRES_CHR_UID_TERRA = 4,
-	TRES_CHR_UID_VENTUS = 5,
-	TRES_CHR_UID_AQUA = 6,
-	TRES_CHR_UID_ROXAS = 7,
-	TRES_CHR_UID_LEA = 8,
-	TRES_CHR_UID_XION = 9,
-	TRES_CHR_UID_MICKEY = 10,
-	TRES_CHR_UID_DONALD = 11,
-	TRES_CHR_UID_GOOFY = 12,
-	TRES_CHR_UID_JACK_SPARROW = 13,
-	TRES_CHR_UID_WOODY = 14,
-	TRES_CHR_UID_BUZZ = 15,
-	TRES_CHR_UID_HERCULES = 16,
-	TRES_CHR_UID_RAPUNZEL = 17,
-	TRES_CHR_UID_FLYNN = 18,
-	TRES_CHR_UID_SULLEY = 19,
-	TRES_CHR_UID_MIKE = 20,
-	TRES_CHR_UID_BOO = 21,
-	TRES_CHR_UID_MARSHMALLOW = 22,
-	TRES_CHR_UID_BAYMAX = 23,
-	TRES_CHR_UID_VEHICLE_GIGAS_POWER = 24,
-	TRES_CHR_UID_VEHICLE_GIGAS_POWER_GAME = 25,
-	TRES_CHR_UID_VEHICLE_GIGAS_POWER_ACE = 26,
-	TRES_CHR_UID_VEHICLE_GIGAS_SPEED = 27,
-	TRES_CHR_UID_VEHICLE_GIGAS_SPEED_GAME = 28,
-	TRES_CHR_UID_VEHICLE_GIGAS_SPEED_ACE = 29,
-	TRES_CHR_UID_VEHICLE_GIGAS_LONG = 30,
-	TRES_CHR_UID_VEHICLE_GIGAS_LONG_GAME = 31,
-	TRES_CHR_UID_VEHICLE_GIGAS_LONG_ACE = 32,
-	TRES_CHR_UID_VEHICLE_SPECIAL_SHIP = 33,
-	TRES_CHR_UID_VEHICLE_BLACK_PEARL = 34,
-	TRES_CHR_UID_VEHICLE_SMALLAIRPLANE = 35,
-	TRES_CHR_UID_FRD_RIKU = 36,
-	TRES_CHR_UID_FRD_AQUA = 37,
-	TRES_CHR_UID_ENEMY = 38,
-	TRES_CHR_UID_FRD_SORA = 39,
-	TRES_CHR_UID_MAX = 40
+	TRES_CHR_UID_UNKNOWN = 0 UMETA(DisplayName = "Unknown"),
+	TRES_CHR_UID_SORA = 1 UMETA(DisplayName = "Sora"),
+	TRES_CHR_UID_RIKU = 2 UMETA(DisplayName = "Riku"),
+	TRES_CHR_UID_KAIRI = 3 UMETA(DisplayName = "Kairi"),
+	TRES_CHR_UID_TERRA = 4 UMETA(DisplayName = "Terra"),
+	TRES_CHR_UID_VENTUS = 5 UMETA(DisplayName = "Ventus"),
+	TRES_CHR_UID_AQUA = 6 UMETA(DisplayName = "Aqua"),
+	TRES_CHR_UID_ROXAS = 7 UMETA(DisplayName = "Roxas"),
+	TRES_CHR_UID_LEA = 8 UMETA(DisplayName = "Lea"),
+	TRES_CHR_UID_XION = 9 UMETA(DisplayName = "Xion"),
+	TRES_CHR_UID_MICKEY = 10 UMETA(DisplayName = "Mickey"),
+	TRES_CHR_UID_DONALD = 11 UMETA(DisplayName = "Donald"),
+	TRES_CHR_UID_GOOFY = 12 UMETA(DisplayName = "Goofy"),
+	TRES_CHR_UID_JACK_SPARROW = 13 UMETA(DisplayName = "Jack Sparrow"),
+	TRES_CHR_UID_WOODY = 14 UMETA(DisplayName = "Woody"),
+	TRES_CHR_UID_BUZZ = 15 UMETA(DisplayName = "Buzz"),
+	TRES_CHR_UID_HERCULES = 16 UMETA(DisplayName = "Hercules"),
+	TRES_CHR_UID_RAPUNZEL = 17 UMETA(DisplayName = "Rapunzel"),
+	TRES_CHR_UID_FLYNN = 18 UMETA(DisplayName = "Flynn"),
+	TRES_CHR_UID_SULLEY = 19 UMETA(DisplayName = "Sulley"),
+	TRES_CHR_UID_MIKE = 20 UMETA(DisplayName = "Mike"),
+	TRES_CHR_UID_BOO = 21 UMETA(DisplayName = "Boo"),
+	TRES_CHR_UID_MARSHMALLOW = 22 UMETA(DisplayName = "Marshmallow"),
+	TRES_CHR_UID_BAYMAX = 23 UMETA(DisplayName = "Baymax"),
+	TRES_CHR_UID_VEHICLE_GIGAS_POWER = 24 UMETA(DisplayName = "Vehicle Gigas Power"),
+	TRES_CHR_UID_VEHICLE_GIGAS_POWER_GAME = 25 UMETA(DisplayName = "Vehicle Gigas Power Game"),
+	TRES_CHR_UID_VEHICLE_GIGAS_POWER_ACE = 26 UMETA(DisplayName = "Vehicle Gigas Power Ace"),
+	TRES_CHR_UID_VEHICLE_GIGAS_SPEED = 27 UMETA(DisplayName = "Vehicle Gigas Speed"),
+	TRES_CHR_UID_VEHICLE_GIGAS_SPEED_GAME = 28 UMETA(DisplayName = "Vehicle Gigas Speed Game"),
+	TRES_CHR_UID_VEHICLE_GIGAS_SPEED_ACE = 29 UMETA(DisplayName = "Vehicle Gigas Speed Ace"),
+	TRES_CHR_UID_VEHICLE_GIGAS_LONG = 30 UMETA(DisplayName = "Vehicle Gigas Long"),
+	TRES_CHR_UID_VEHICLE_GIGAS_LONG_GAME = 31 UMETA(DisplayName = "Vehicle Gigas Long Game"),
+	TRES_CHR_UID_VEHICLE_GIGAS_LONG_ACE = 32 UMETA(DisplayName = "Vehicle Gigas Long Ace"),
+	TRES_CHR_UID_VEHICLE_SPECIAL_SHIP = 33 UMETA(DisplayName = "Vehicle Special Ship"),
+	TRES_CHR_UID_VEHICLE_BLACK_PEARL = 34 UMETA(DisplayName = "Vehicle Black Pearl"),
+	TRES_CHR_UID_VEHICLE_SMALLAIRPLANE = 35 UMETA(DisplayName = "Vehicle Small Airplane"),
+	TRES_CHR_UID_FRD_RIKU = 36 UMETA(DisplayName = "FRD Riku"),
+	TRES_CHR_UID_FRD_AQUA = 37 UMETA(DisplayName = "FRD Aqua"),
+	TRES_CHR_UID_ENEMY = 38 UMETA(DisplayName = "Enemy"),
+	TRES_CHR_UID_FRD_SORA = 39 UMETA(DisplayName = "FRD Sora"),
+	TRES_CHR_UID_MAX = 40 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyUniqueID
 {
-	TRES_ENEMY_UID_UNKNOWN = 0,
+	TRES_ENEMY_UID_UNKNOWN = 0 UMETA(DisplayName = "Unknown"),
 	TRES_ENEMY_UID_EX001 = 1,
 	TRES_ENEMY_UID_EX003 = 2,
 	TRES_ENEMY_UID_EX004 = 3,
@@ -599,34 +599,34 @@ enum ETresEnemyUniqueID
 	TRES_ENEMY_UID_EX409 = 145,
 	TRES_ENEMY_UID_EX751 = 146,
 	TRES_ENEMY_UID_EX781 = 147,
-	TRES_ENEMY_UID_MAX = 148
+	TRES_ENEMY_UID_MAX = 148 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresEncountVolumeSnapTarget
 {
-	Snap_Nothing = 0,
-	Snap_Ground = 1,
-	Snap_Ocean = 2,
-	Snap_MAX = 3
+	Snap_Nothing = 0 UMETA(DisplayName = "Nothing"),
+	Snap_Ground = 1 UMETA(DisplayName = "Ground"),
+	Snap_Ocean = 2 UMETA(DisplayName = "Ocean"),
+	Snap_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 
 UENUM(BlueprintType)
 enum ETresEncountVolumeVehicleMode
 {
-	DoNotCare = 0,
-	NoVehicle = 1,
-	OnlyVehicle = 2,
-	ETresEncountVolumeVehicleMode_MAX = 3
+	DoNotCare = 0 UMETA(DisplayName = "Do Not Care"),
+	NoVehicle = 1 UMETA(DisplayName = "No Vehicle"),
+	OnlyVehicle = 2 UMETA(DisplayName = "Only Vehicle"),
+	ETresEncountVolumeVehicleMode_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresEncountDisableVolumeType
 {
-	Type_Box = 0,
-	Type_Circle = 1,
-	ETresEncountDisableVolumeType_Type_MAX = 2
+	Type_Box = 0 UMETA(DisplayName = "Box"),
+	Type_Circle = 1 UMETA(DisplayName = "Circle"),
+	ETresEncountDisableVolumeType_Type_MAX = 2 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
@@ -654,7 +654,7 @@ enum ETresUIHudCommandExKind
 	ShootFlow_DarkVolley = 19,
 	ShootFlow_BurstR = 20,
 	ETresUIHudCommandExKind_1_MAX = 21,
-	ETresUIHudCommandExKind_MAX = 22
+	ETresUIHudCommandExKind_MAX = 22 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
@@ -785,11 +785,11 @@ enum ETresGameHelp
 	Help102 = 122,
 	Help103 = 123,
 	Help104 = 124,
-	Help_00650 = 125,
-	Help105 = 126,
-	Help106 = 127,
-	Help107 = 128,
-	Help108 = 129,
+	ETresGameHelp_Help_00650 = 125 UMETA(DisplayName = "Help 00650"),
+	ETresGameHelp_Help105 = 126 UMETA(DisplayName = "Help 105"),
+	ETresGameHelp_Help106 = 127 UMETA(DisplayName = "Help 106"),
+	ETresGameHelp_Help107 = 128 UMETA(DisplayName = "Help 107"),
+	ETresGameHelp_Help108 = 129 UMETA(DisplayName = "Help 108"),
 	Help109 = 130,
 	Help110 = 131,
 	Help111 = 132,
@@ -801,13 +801,13 @@ enum ETresGameHelp
 	Help117 = 138,
 	Help118 = 139,
 	Help119 = 140,
-	Help120 = 141,
-	Help121 = 142,
-	Help122 = 143,
-	Help123 = 144,
-	ETresGameHelp_1_Max = 145,
-	Invalid = 146,
-	ETresGameHelp_MAX = 147
+	ETresGameHelp_Help120 = 141,
+	ETresGameHelp_Help121 = 142,
+	ETresGameHelp_Help122 = 143,
+	ETresGameHelp_Help123 = 144,
+	ETresGameHelp_1_Max = 145 UMETA(DisplayName = "MAX"),
+	ETresGameHelp_Invalid = 146 UMETA(DisplayName = "Invalid"),
+	ETresGameHelp_MAX = 147 UMETA(DisplayName = "Tres Game Help MAX")
 };
 
 UENUM(BlueprintType)
@@ -816,58 +816,58 @@ enum ETresUISnowSlideCountDownType
 	ETresUISnowSlideCountDownType_Three = 0,
 	ETresUISnowSlideCountDownType_Two = 1,
 	ETresUISnowSlideCountDownType_One = 2,
-	Start = 3,
-	Finish = 4,
-	ETresUISnowSlideCountDownType_1_Max = 5,
-	ETresUISnowSlideCountDownType_MAX = 6
+	ETresUISnowSlideCountDownType_Start = 3,
+	ETresUISnowSlideCountDownType_Finish = 4,
+	ETresUISnowSlideCountDownType_1_Max = 5 UMETA(DisplayName = "MAX"),
+	ETresUISnowSlideCountDownType_MAX = 6 UMETA(DisplayName = "Tres UI Snow Slide Count Down Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresUITimerColor
 {
-	Common = 0,
-	Red1 = 1,
-	Red2 = 2,
-	ETresUITimerColor_MAX = 3
+	ETresUITimerColor_Common = 0 UMETA(DisplayName = "Common"),
+	ETresUITimerColor_Red1 = 1 UMETA(DisplayName = "Red 1"),
+	ETresUITimerColor_Red2 = 2 UMETA(DisplayName = "Red 2"),
+	ETresUITimerColor_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresUIMissionGageIconType
 {
-	ComicalBattle1 = 0,
-	ComicalBattle2 = 1,
-	ComicalBattle3 = 2,
-	ETresUIMissionGageIconType_1_Max = 3,
-	ETresUIMissionGageIconType_MAX = 4
+	ETresUIMissionGageIconType_ComicalBattle1 = 0 UMETA(DisplayName = "Comical Battle 1"),
+	ETresUIMissionGageIconType_ComicalBattle2 = 1 UMETA(DisplayName = "Comical Battle 2"),
+	ETresUIMissionGageIconType_ComicalBattle3 = 2 UMETA(DisplayName = "Comical Battle 3"),
+	ETresUIMissionGageIconType_1_Max = 3 UMETA(DisplayName = "MAX"),
+	ETresUIMissionGageIconType_MAX = 4 UMETA(DisplayName = "Tres UI Mission Gage Icon Type MAX")
 };
 
 
 UENUM(BlueprintType)
 enum ETresUILoadingScreenType
 {
-	ETresUILoadingScreenType_NORMAL = 0,
-	EXTRA = 1,
-	ETresUILoadingScreenType_1_Max = 2,
-	ETresUILoadingScreenType_MAX = 3
+	ETresUILoadingScreenType_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	ETresUILoadingScreenType_EXTRA = 1 UMETA(DisplayName = "Extra"),
+	ETresUILoadingScreenType_1_Max = 2 UMETA(DisplayName = "MAX"),
+	ETresUILoadingScreenType_MAX = 3 UMETA(DisplayName = "Tres UI Loading Screen Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresUIMissionGageColorType
 {
-	Yellow = 0,
-	Red = 1,
-	Green = 2,
-	ETresUIMissionGageColorType_1_Max = 3,
-	ETresUIMissionGageColorType_MAX = 4
+	ETresUIMissionGageColorType_Yellow = 0 UMETA(DisplayName = "Yellow"),
+	ETresUIMissionGageColorType_Red = 1 UMETA(DisplayName = "Red"),
+	ETresUIMissionGageColorType_Green = 2 UMETA(DisplayName = "Green"),
+	ETresUIMissionGageColorType_1_Max = 3 UMETA(DisplayName = "MAX"),
+	ETresUIMissionGageColorType_MAX = 4 UMETA(DisplayName = "Tres UI Mission Gage Color Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresUIHudSpecialShipMarker
 {
-	ETresUIHudSpecialShipMarker_Player = 0,
-	Enemy = 1,
-	ETresUIHudSpecialShipMarker_1_MAX = 2,
-	ETresUIHudSpecialShipMarker_MAX = 3
+	ETresUIHudSpecialShipMarker_Player = 0 UMETA(DisplayName = "Player"),
+	ETresUIHudSpecialShipMarker_Enemy = 1 UMETA(DisplayName = "Enemy"),
+	ETresUIHudSpecialShipMarker_1_MAX = 2 UMETA(DisplayName = "MAX"),
+	ETresUIHudSpecialShipMarker_MAX = 3 UMETA(DisplayName = "Tres UI HUD Special Ship Marker MAX")
 };
 
 UENUM(BlueprintType)
@@ -886,7 +886,7 @@ UENUM(BlueprintType)
 enum ETresUIHudBlackPearlMarker
 {
 	ETresUIHudBlackPearlMarker_Player = 0,
-	BlackPearl = 1,
+	ETresUIHudBlackPearlMarker_BlackPearl = 1,
 	ETresUIHudBlackPearlMarker_1_MAX = 2,
 	ETresUIHudBlackPearlMarker_MAX = 3
 };
@@ -895,8 +895,8 @@ UENUM(BlueprintType)
 enum ETresUIHudBlackPearlAlert
 {
 	ETresUIHudBlackPearlAlert_Normal = 0,
-	Blink1 = 1,
-	Blink2 = 2,
+	ETresUIHudBlackPearlAlert_Blink1 = 1,
+	ETresUIHudBlackPearlAlert_Blink2 = 2,
 	ETresUIHudBlackPearlAlert_1_MAX = 3,
 	ETresUIHudBlackPearlAlert_MAX = 4
 };
@@ -904,10 +904,10 @@ enum ETresUIHudBlackPearlAlert
 UENUM(BlueprintType)
 enum ETresUIHudBaymaxHero
 {
-	Lemon = 0,
-	Tomago = 1,
-	Wasabi = 2,
-	Fred = 3,
+	ETresUIHudBaymaxHero_Lemon = 0,
+	ETresUIHudBaymaxHero_Tomago = 1,
+	ETresUIHudBaymaxHero_Wasabi = 2,
+	ETresUIHudBaymaxHero_Fred = 3,
 	ETresUIHudBaymaxHero_1_MAX = 4,
 	ETresUIHudBaymaxHero_MAX = 5
 };
@@ -915,7 +915,7 @@ enum ETresUIHudBaymaxHero
 UENUM(BlueprintType)
 enum ETresUIHudBaymaxCountDown
 {
-	Ready = 0,
+	ETresUIHudBaymaxCountDown_Ready = 0,
 	ETresUIHudBaymaxCountDown_Three = 1,
 	ETresUIHudBaymaxCountDown_Two = 2,
 	ETresUIHudBaymaxCountDown_One = 3,
@@ -930,8 +930,8 @@ UENUM(BlueprintType)
 enum ETresUICinematicCockpitID
 {
 	ETresUICinematicCockpitID_None = 0,
-	HudOlaf = 1,
-	HudLeft = 2,
+	ETresUICinematicCockpitID_HudOlaf = 1,
+	ETresUICinematicCockpitID_HudLeft = 2,
 	ETresUICinematicCockpitID_MAX = 3
 };
 
@@ -1017,19 +1017,19 @@ enum ETresUIPadButtonType
 UENUM(BlueprintType)
 enum ETresUISubtitleUsage
 {
-	Cutscene = 0,
-	FieldVoice = 1,
-	Talk = 2,
+	ETresUISubtitleUsage_Cutscene = 0,
+	ETresUISubtitleUsage_FieldVoice = 1,
+	ETresUISubtitleUsage_Talk = 2,
 	ETresUISubtitleUsage_MAX = 3
 };
 
 UENUM(BlueprintType)
 enum ETresUISnowSlideRank
 {
-	A = 0,
-	B = 1,
-	C = 2,
-	D = 3,
+	ETresUISnowSlideRank_A = 0,
+	ETresUISnowSlideRank_B = 1,
+	ETresUISnowSlideRank_C = 2,
+	ETresUISnowSlideRank_D = 3,
 	ETresUISnowSlideRank_1_Max = 4,
 	ETresUISnowSlideRank_MAX = 5
 };
@@ -1056,8 +1056,8 @@ enum ETresUIMessageTitleType
 UENUM(BlueprintType)
 enum ETresUILoadingScreenBGColor
 {
-	BLACK = 0,
-	WHITE = 1,
+	ETresUILoadingScreenBGColor_BLACK = 0,
+	ETresUILoadingScreenBGColor_WHITE = 1,
 	ETresUILoadingScreenBGColor_1_Max = 2,
 	ETresUILoadingScreenBGColor_MAX = 3
 };
@@ -1066,14 +1066,14 @@ UENUM(BlueprintType)
 enum ETresUIHudCommonKind
 {
 	ETresUIHudCommonKind_None = 0,
-	Score = 1,
-	Score_Chain = 2,
-	Score5 = 3,
-	Score5_Chain = 4,
-	Score6 = 5,
-	Score6_Chain = 6,
-	Height = 7,
-	HitCount = 8,
+	ETresUIHudCommonKind_Score = 1,
+	ETresUIHudCommonKind_Score_Chain = 2,
+	ETresUIHudCommonKind_Score5 = 3,
+	ETresUIHudCommonKind_Score5_Chain = 4,
+	ETresUIHudCommonKind_Score6 = 5,
+	ETresUIHudCommonKind_Score6_Chain = 6,
+	ETresUIHudCommonKind_Height = 7,
+	ETresUIHudCommonKind_HitCount = 8,
 	ETresUIHudCommonKind_1_MAX = 9,
 	ETresUIHudCommonKind_MAX = 10
 };
@@ -1081,18 +1081,18 @@ enum ETresUIHudCommonKind
 UENUM(BlueprintType)
 enum ETresUIHudCommonIcon
 {
-	Attraction = 0,
-	Ralph = 1,
-	Ariel = 2,
-	RaDance = 3,
-	SnowSlide = 4,
-	Pudding_Cherry = 5,
-	Pudding_Strawberry = 6,
-	Pudding_Orange = 7,
-	Pudding_Banana = 8,
-	Pudding_Grape = 9,
-	Pudding_Melon = 10,
-	Pudding_Watermelon = 11,
+	ETresUIHudCommonIcon_Attraction = 0,
+	ETresUIHudCommonIcon_Ralph = 1,
+	ETresUIHudCommonIcon_Ariel = 2,
+	ETresUIHudCommonIcon_RaDance = 3,
+	ETresUIHudCommonIcon_SnowSlide = 4,
+	ETresUIHudCommonIcon_Pudding_Cherry = 5,
+	ETresUIHudCommonIcon_Pudding_Strawberry = 6,
+	ETresUIHudCommonIcon_Pudding_Orange = 7,
+	ETresUIHudCommonIcon_Pudding_Banana = 8,
+	ETresUIHudCommonIcon_Pudding_Grape = 9,
+	ETresUIHudCommonIcon_Pudding_Melon = 10,
+	ETresUIHudCommonIcon_Pudding_Watermelon = 11,
 	ETresUIHudCommonIcon_1_MAX = 12,
 	ETresUIHudCommonIcon_MAX = 13
 };
@@ -1100,10 +1100,10 @@ enum ETresUIHudCommonIcon
 UENUM(BlueprintType)
 enum ETresUIHudBaymaxResult
 {
-	RankA = 0,
-	RankB = 1,
-	RankC = 2,
-	RankD = 3,
+	ETresUIHudBaymaxResult_RankA = 0,
+	ETresUIHudBaymaxResult_RankB = 1,
+	ETresUIHudBaymaxResult_RankC = 2,
+	ETresUIHudBaymaxResult_RankD = 3,
 	ETresUIHudBaymaxResult_1_MAX = 4,
 	ETresUIHudBaymaxResult_MAX = 5
 };
@@ -1112,10 +1112,10 @@ UENUM(BlueprintType)
 enum ETresUIHudBaymaxKind
 {
 	ETresUIHudBaymaxKind_None = 0,
-	FlashTracer = 1,
-	FlashTracer_MiniGame = 2,
-	HeroRescue = 3,
-	DarkCube = 4,
+	ETresUIHudBaymaxKind_FlashTracer = 1,
+	ETresUIHudBaymaxKind_FlashTracer_MiniGame = 2,
+	ETresUIHudBaymaxKind_HeroRescue = 3,
+	ETresUIHudBaymaxKind_DarkCube = 4,
 	ETresUIHudBaymaxKind_1_MAX = 5,
 	ETresUIHudBaymaxKind_MAX = 6
 };
@@ -1123,30 +1123,30 @@ enum ETresUIHudBaymaxKind
 UENUM(BlueprintType)
 enum ETresUIGradeTextValue
 {
-	TOOFAST = 0,
-	GOOD = 1,
-	EXCELLENT = 2,
-	TOOSLOW = 3,
-	SUCCESSFUL = 4,
+	ETresUIGradeTextValue_TOOFAST = 0,
+	ETresUIGradeTextValue_GOOD = 1,
+	ETresUIGradeTextValue_EXCELLENT = 2,
+	ETresUIGradeTextValue_TOOSLOW = 3,
+	ETresUIGradeTextValue_SUCCESSFUL = 4,
 	ETresUIGradeTextValue_1_Max = 5,
-	ETresUIGradeTextValue_1_None = 6,
+	ETresUIGradeTextValue_None = 6,
 	ETresUIGradeTextValue_MAX = 7
 };
 
 UENUM(BlueprintType)
 enum ETresUIGameDataInstallMessageType
 {
-	Block = 0,
-	Wait = 1,
+	ETresUIGameDataInstallMessageType_Block = 0,
+	ETresUIGameDataInstallMessageType_Wait = 1,
 	ETresUIGameDataInstallMessageType_MAX = 2
 };
 
 UENUM(BlueprintType)
 enum ETresUIOlafPartsType
 {
-	Head = 0,
-	Body = 1,
-	Leg = 2,
+	ETresUIOlafPartsType_Head = 0,
+	ETresUIOlafPartsType_Body = 1,
+	ETresUIOlafPartsType_Leg = 2,
 	ETresUIOlafPartsType_1_Max = 3,
 	ETresUIOlafPartsType_MAX = 4
 };
@@ -1154,9 +1154,9 @@ enum ETresUIOlafPartsType
 UENUM(BlueprintType)
 enum ETresUIGigasGameGimmickType
 {
-	SparkTrap = 0,
-	HeatBlast = 1,
-	CrystalSmash = 2,
+	ETresUIGigasGameGimmickType_SparkTrap = 0,
+	ETresUIGigasGameGimmickType_HeatBlast = 1,
+	ETresUIGigasGameGimmickType_CrystalSmash = 2,
 	ETresUIGigasGameGimmickType_MAX = 3
 };
 
@@ -1427,17 +1427,17 @@ enum ETresAbilityKind
 UENUM(BlueprintType)
 enum ETresSavePointDispType
 {
-	ETresSavePointDispType_NORMAL = 0,
-	ETresSavePointDispType_DISABLE = 1,
-	ETresSavePointDispType_DESTROY = 2,
-	ETresSavePointDispType_1_MAX = 3,
-	ETresSavePointDispType_MAX = 4
+	ETresSavePointDispType_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	ETresSavePointDispType_DISABLE = 1 UMETA(DisplayName = "Disable"),
+	ETresSavePointDispType_DESTROY = 2 UMETA(DisplayName = "Destroy"),
+	ETresSavePointDispType_1_MAX = 3 UMETA(DisplayName = "MAX"),
+	ETresSavePointDispType_MAX = 4 UMETA(DisplayName = "Tres Save Point Disp Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresObjTypeProcChannel
 {
-	CH_COMMON = 0,
+	CH_COMMON = 0 UMETA(DisplayName = "Common"),
 	CH_PLAYER = 1,
 	CH_EVENT = 2,
 	CH_MENU = 3,
@@ -1453,44 +1453,44 @@ enum ETresObjTypeProcChannel
 	CH_DEBUG2 = 13,
 	CH_DEBUG3 = 14,
 	CH_PROFILING = 15,
-	CH_MAX = 16,
-	ETresObjTypeProcChannel_MAX = 17
+	CH_MAX = 16 UMETA(DisplayName = "MAX"),
+	ETresObjTypeProcChannel_MAX = 17 UMETA(DisplayName = "Tres Obj Type Proc Channel MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyXIIIPhaseType
 {
-	PHASE1 = 0,
-	PHASE2 = 1,
-	PHASE3 = 2,
-	PHASE4 = 3,
-	PHASE_EX1 = 4,
-	ETresEnemyXIIIPhaseType_1_MAX = 5,
-	ETresEnemyXIIIPhaseType_MAX = 6
+	ETresEnemyXIIIPhaseType_PHASE1 = 0 UMETA(DisplayName = "Phase 1"),
+	ETresEnemyXIIIPhaseType_PHASE2 = 1 UMETA(DisplayName = "Phase 2"),
+	ETresEnemyXIIIPhaseType_PHASE3 = 2 UMETA(DisplayName = "Phase 3"),
+	ETresEnemyXIIIPhaseType_PHASE4 = 3 UMETA(DisplayName = "Phase 4"),
+	ETresEnemyXIIIPhaseType_PHASE_EX1 = 4 UMETA(DisplayName = "Phase EX1"),
+	ETresEnemyXIIIPhaseType_1_MAX = 5 UMETA(DisplayName = "MAX"),
+	ETresEnemyXIIIPhaseType_MAX = 6 UMETA(DisplayName = "Tres Enemy XIII Phase Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ERemyAccessMethod
 {
-	ERemyAccessMethod_None = 0,
-	FromEntrance = 1,
-	FromSaveMenu = 2,
-	FromWorldMap = 3,
-	RemyAccessMethod_MAX = 4
+	ERemyAccessMethod_None = 0 UMETA(DisplayName = "None"),
+	ERemyAccessMethod_FromEntrance = 1 UMETA(DisplayName = "From Entrance"),
+	ERemyAccessMethod_FromSaveMenu = 2 UMETA(DisplayName = "From Save Menu"),
+	ERemyAccessMethod_FromWorldMap = 3 UMETA(DisplayName = "From World Map"),
+	RemyAccessMethod_MAX = 4 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresGumiShipDirectNotifyType
 {
-	DNT_FINISHED_BATTLE_MISSION = 0,
-	DNT_ENCOUNT_BATTLE_START_CAMERA_SIGNAL = 1,
-	DNT_MAX = 2
+	DNT_FINISHED_BATTLE_MISSION = 0 UMETA(DisplayName = "Finished Battle Mission"),
+	DNT_ENCOUNT_BATTLE_START_CAMERA_SIGNAL = 1 UMETA(DisplayName = "Encount Battle Start Camera Signal"),
+	DNT_MAX = 2 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresWorldAreaCode
 {
-	TRES_WAID_AREA_00 = 0,
+	TRES_WAID_AREA_00 = 0 UMETA(DisplayName = "Area 00"),
 	TRES_WAID_AREA_01 = 1,
 	TRES_WAID_AREA_02 = 2,
 	TRES_WAID_AREA_03 = 3,
@@ -1500,20 +1500,20 @@ enum ETresWorldAreaCode
 	TRES_WAID_AREA_07 = 7,
 	TRES_WAID_AREA_08 = 8,
 	TRES_WAID_AREA_09 = 9,
-	TRES_WAID_AREA = 10,
+	TRES_WAID_AREA = 10 UMETA(DisplayName = "Area"),
 	TRES_WAID_AREA01 = 11,
 	TRES_WAID_AREA02 = 12,
 	TRES_WAID_AREA03 = 13,
 	TRES_WAID_AREA04 = 14,
-	TRES_WAID_AREA05 = 15,
-	TRES_WAID_AREA_MAX = 16
+	TRES_WAID_AREA05 = 15 UMETA(DisplayName = "Area 05"),
+	TRES_WAID_AREA_MAX = 16 UMETA(DisplayName = "MAX")
 };
 
 
 UENUM(BlueprintType)
 enum ETresWorldCode
 {
-	TRES_WCID_EX = 0,
+	TRES_WCID_EX = 0 UMETA(DisplayName = "EX"),
 	TRES_WCID_BT = 1,
 	TRES_WCID_DB = 2,
 	TRES_WCID_DW = 3,
@@ -1544,23 +1544,23 @@ enum ETresWorldCode
 	TRES_WCID_WM = 28,
 	TRES_WCID_SP = 29,
 	TRES_WCID_00 = 30,
-	TRES_WCID_ZZ = 31,
-	TRES_WCID_MAX = 32
+	TRES_WCID_ZZ = 31 UMETA(DisplayName = "ZZ"),
+	TRES_WCID_MAX = 32 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresBoneSpacesType
 {
-	TBST_WorldSpace = 0,
-	TBST_LocalSpace = 1,
-	TBST_ComponentSpace = 2,
-	TBST_MAX = 3
+	TBST_WorldSpace = 0 UMETA(DisplayName = "World Space"),
+	TBST_LocalSpace = 1 UMETA(DisplayName = "Local Space"),
+	TBST_ComponentSpace = 2 UMETA(DisplayName = "Component Space"),
+	TBST_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum EPRIZE_KIND
 {
-	PRIZE_KIND_HpPrizeS = 0,
+	PRIZE_KIND_HpPrizeS = 0 UMETA(DisplayName = "HP Prize S"),
 	PRIZE_KIND_HpPrizeL = 1,
 	PRIZE_KIND_MpPrizeS = 2,
 	PRIZE_KIND_MpPrizeL = 3,
@@ -1577,188 +1577,188 @@ enum EPRIZE_KIND
 	PRIZE_KIND_MatePrizeBox = 14,
 	PRIZE_KIND_FstfPrizeBox = 15,
 	PRIZE_KIND_RarePrizeBox = 16,
-	PRIZE_KIND_MAX = 17
+	PRIZE_KIND_MAX = 17 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresDlcChallengeRecordID
 {
-	REC0101 = 0,
-	REC0201 = 1,
-	REC0202 = 2,
-	REC0301 = 3,
-	REC0401 = 4,
-	REC0501 = 5,
-	REC0601 = 6,
-	REC0701 = 7,
-	REC0801 = 8,
-	REC0901 = 9,
-	REC1001 = 10,
-	REC1101 = 11,
-	REC1201 = 12,
-	REC1301 = 13,
-	REC1401 = 14,
-	REC1402 = 15,
-	REC1501 = 16,
-	REC1502 = 17,
-	REC1601 = 18,
-	REC1602 = 19,
-	REC1603 = 20,
-	REC1701 = 21,
-	REC1801 = 22,
-	REC1802 = 23,
-	REC1803 = 24,
-	REC1901 = 25,
-	REC1902 = 26,
-	REC2001 = 27,
-	REC2002 = 28,
-	REC2101 = 29,
-	REC2201 = 30,
-	REC2301 = 31,
-	REC2401 = 32,
-	REC2501 = 33,
-	REC2601 = 34,
-	REC2701 = 35,
-	REC2801 = 36,
-	REC2901 = 37,
-	REC3001 = 38,
-	REC3101 = 39,
-	REC3201 = 40,
-	REC3301 = 41,
-	REC3401 = 42,
-	ScoreCheckMax = 43,
-	ETresDlcChallengeRecordID_1_Max = 44,
-	ETresDlcChallengeRecordID_MAX = 45
+	ETresDlcChallengeRecordID_REC0101 = 0 UMETA(DisplayName = "REC 0201"),
+	ETresDlcChallengeRecordID_REC0201 = 1,
+	ETresDlcChallengeRecordID_REC0202 = 2,
+	ETresDlcChallengeRecordID_REC0301 = 3,
+	ETresDlcChallengeRecordID_REC0401 = 4,
+	ETresDlcChallengeRecordID_REC0501 = 5,
+	ETresDlcChallengeRecordID_REC0601 = 6,
+	ETresDlcChallengeRecordID_REC0701 = 7,
+	ETresDlcChallengeRecordID_REC0801 = 8,
+	ETresDlcChallengeRecordID_REC0901 = 9,
+	ETresDlcChallengeRecordID_REC1001 = 10,
+	ETresDlcChallengeRecordID_REC1101 = 11,
+	ETresDlcChallengeRecordID_REC1201 = 12,
+	ETresDlcChallengeRecordID_REC1301 = 13,
+	ETresDlcChallengeRecordID_REC1401 = 14,
+	ETresDlcChallengeRecordID_REC1402 = 15,
+	ETresDlcChallengeRecordID_REC1501 = 16,
+	ETresDlcChallengeRecordID_REC1502 = 17,
+	ETresDlcChallengeRecordID_REC1601 = 18,
+	ETresDlcChallengeRecordID_REC1602 = 19,
+	ETresDlcChallengeRecordID_REC1603 = 20,
+	ETresDlcChallengeRecordID_REC1701 = 21,
+	ETresDlcChallengeRecordID_REC1801 = 22,
+	ETresDlcChallengeRecordID_REC1802 = 23,
+	ETresDlcChallengeRecordID_REC1803 = 24,
+	ETresDlcChallengeRecordID_REC1901 = 25,
+	ETresDlcChallengeRecordID_REC1902 = 26,
+	ETresDlcChallengeRecordID_REC2001 = 27,
+	ETresDlcChallengeRecordID_REC2002 = 28,
+	ETresDlcChallengeRecordID_REC2101 = 29,
+	ETresDlcChallengeRecordID_REC2201 = 30,
+	ETresDlcChallengeRecordID_REC2301 = 31,
+	ETresDlcChallengeRecordID_REC2401 = 32,
+	ETresDlcChallengeRecordID_REC2501 = 33,
+	ETresDlcChallengeRecordID_REC2601 = 34,
+	ETresDlcChallengeRecordID_REC2701 = 35,
+	ETresDlcChallengeRecordID_REC2801 = 36,
+	ETresDlcChallengeRecordID_REC2901 = 37,
+	ETresDlcChallengeRecordID_REC3001 = 38,
+	ETresDlcChallengeRecordID_REC3101 = 39,
+	ETresDlcChallengeRecordID_REC3201 = 40,
+	ETresDlcChallengeRecordID_REC3301 = 41,
+	ETresDlcChallengeRecordID_REC3401 = 42,
+	ETresDlcChallengeRecordID_ScoreCheckMax = 43,
+	ETresDlcChallengeRecordID_1_Max = 44 UMETA(DisplayName = "MAX"),
+	ETresDlcChallengeRecordID_MAX = 45 UMETA(DisplayName = "Tres DLC Challenge Record ID MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresGameOverKind
 {
-	GAMEOVER_KIND_NORMAL = 0,
-	GAMEOVER_KIND_MISSION_FAILED = 1,
-	GAMEOVER_KIND_GUMISHIP = 2,
-	GAMEOVER_KIND_MAX = 3
+	GAMEOVER_KIND_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	GAMEOVER_KIND_MISSION_FAILED = 1 UMETA(DisplayName = "Mission Failed"),
+	GAMEOVER_KIND_GUMISHIP = 2 UMETA(DisplayName = "Gumiship"),
+	GAMEOVER_KIND_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresDlcCheatAchievementID
 {
-	RiskeyChallenge = 0,
-	GlideChallenge = 1,
-	GumiSGeistChallenge = 2,
-	AerialChallenge = 3,
-	GigasChallenge = 4,
-	BowlingChallenge = 5,
-	FreezeChallenge = 6,
-	RageChallenge = 7,
-	LinkChallenge = 8,
-	_AllClearCheck = 9,
-	ETresDlcCheatAchievementID_1_Max = 10,
-	ETresDlcCheatAchievementID_MAX = 11
+	ETresDlcCheatAchievementID_RiskeyChallenge = 0 UMETA(DisplayName = "Riskey Challenge"),
+	ETresDlcCheatAchievementID_GlideChallenge = 1,
+	ETresDlcCheatAchievementID_GumiSGeistChallenge = 2,
+	ETresDlcCheatAchievementID_AerialChallenge = 3,
+	ETresDlcCheatAchievementID_GigasChallenge = 4,
+	ETresDlcCheatAchievementID_BowlingChallenge = 5,
+	ETresDlcCheatAchievementID_FreezeChallenge = 6,
+	ETresDlcCheatAchievementID_RageChallenge = 7,
+	ETresDlcCheatAchievementID_LinkChallenge = 8,
+	ETresDlcCheatAchievementID_AllClearCheck = 9,
+	ETresDlcCheatAchievementID_1_Max = 10 UMETA(DisplayName = "MAX"),
+	ETresDlcCheatAchievementID_MAX = 11 UMETA(DisplayName = "Tres DLC Cheat Achievement ID MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresPlayerGrowthType
 {
-	POWER = 0,
-	MAGIC = 1,
-	DEFENSE = 2,
-	ETresPlayerGrowthType_1_MAX = 3,
-	ETresPlayerGrowthType_MAX = 4
+	ETresPlayerGrowthType_POWER = 0 UMETA(DisplayName = "Power"),
+	ETresPlayerGrowthType_MAGIC = 1 UMETA(DisplayName = "Magic"),
+	ETresPlayerGrowthType_DEFENSE = 2 UMETA(DisplayName = "Defense"),
+	ETresPlayerGrowthType_1_MAX = 3 UMETA(DisplayName = "MAX"),
+	ETresPlayerGrowthType_MAX = 4 UMETA(DisplayName = "Tres Player Growth Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresPlayerAbilityGrowthType
 {
-	TYPE_A = 0,
-	TYPE_B = 1,
-	TYPE_C = 2,
-	ETresPlayerAbilityGrowthType_1_MAX = 3,
-	ETresPlayerAbilityGrowthType_MAX = 4
+	ETresPlayerAbilityGrowthType_TYPE_A = 0 UMETA(DisplayName = "Type A"),
+	ETresPlayerAbilityGrowthType_TYPE_B = 1 UMETA(DisplayName = "Type B"),
+	ETresPlayerAbilityGrowthType_TYPE_C = 2 UMETA(DisplayName = "Type C"),
+	ETresPlayerAbilityGrowthType_1_MAX = 3 UMETA(DisplayName = "MAX"),
+	ETresPlayerAbilityGrowthType_MAX = 4 UMETA(DisplayName = "Tres Player Ability Growth Type MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresGameOverMenuType
 {
-	ETresGameOverMenuType_NORMAL = 0,
-	ETresGameOverMenuType_BOSSBATTLE = 1,
-	ETresGameOverMenuType_MISSION_FAILED = 2,
-	ETresGameOverMenuType_MAX = 3
+	ETresGameOverMenuType_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	ETresGameOverMenuType_BOSSBATTLE = 1 UMETA(DisplayName = "Boss Battle"),
+	ETresGameOverMenuType_MISSION_FAILED = 2 UMETA(DisplayName = "Mission Failed"),
+	ETresGameOverMenuType_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresForceFeedbackKind
 {
-	TFFK_SMALL = 0,
-	TFFK_MIDDLE = 1,
-	ETresForceFeedbackKind_LARGE = 2,
-	TFFK_MAX = 3,
-	ETresForceFeedbackKind_MAX = 4
+	ETresForceFeedbackKind_TFFK_SMALL = 0 UMETA(DisplayName = "Small"),
+	ETresForceFeedbackKind_TFFK_MIDDLE = 1 UMETA(DisplayName = "Middle"),
+	ETresForceFeedbackKind_LARGE = 2 UMETA(DisplayName = "Large"),
+	ETresForceFeedbackKind_TFFK_MAX = 3 UMETA(DisplayName = "MAX"),
+	ETresForceFeedbackKind_MAX = 4 UMETA(DisplayName = "Tres Force Feedback Kind MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresMiRxHolySealType
 {
-	HOLY_SEAL_TYPE_NONE = 0,
-	HOLY_SEAL_TYPE_SINGLE = 1,
-	HOLY_SEAL_TYPE_FULL_FIRE = 2,
-	HOLY_SEAL_TYPE_MAX = 3
+	ETresMiRxHolySealType_HOLY_SEAL_TYPE_NONE = 0 UMETA(DisplayName = "None"),
+	ETresMiRxHolySealType_HOLY_SEAL_TYPE_SINGLE = 1 UMETA(DisplayName = "Single"),
+	ETresMiRxHolySealType_HOLY_SEAL_TYPE_FULL_FIRE = 2 UMETA(DisplayName = "Full Fire"),
+	ETresMiRxHolySealType_HOLY_SEAL_TYPE_MAX = 3 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresGameMiniGameType
 {
-	ETresGameMiniGameType_NORMAL = 0,
-	TS_GIGAS_BATTLE = 1,
-	TS_GIGAS_GAME = 2,
-	RA_FESTIVAL_DANCE = 3,
-	FZ_SNOWCURLING = 4,
-	BX_FLASHTRACER = 5,
-	BX_DARKBAYMAX_RAIL = 6,
-	BX_DARKBAYMAX_NEAR = 7,
-	CA_BP_TUTORIAL = 8,
-	CA_BOARD_ENEMYSHIP = 9,
-	CA_LUXORD_COMPE = 10,
-	CA_FD_MAELSTROM = 11,
-	HE_PUDDING = 12,
-	TS_PUDDING = 13,
-	RA_PUDDING = 14,
-	MI_PUDDING = 15,
-	FZ_PUDDING = 16,
-	BX_PUDDING = 17,
-	CA_PUDDING = 18,
-	ETresGameMiniGameType_MAX = 19
+	ETresGameMiniGameType_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	ETresGameMiniGameType_TS_GIGAS_BATTLE = 1 UMETA(DisplayName = "TS Gigas Battle"),
+	ETresGameMiniGameType_TS_GIGAS_GAME = 2,
+	ETresGameMiniGameType_RA_FESTIVAL_DANCE = 3,
+	ETresGameMiniGameType_FZ_SNOWCURLING = 4,
+	ETresGameMiniGameType_BX_FLASHTRACER = 5,
+	ETresGameMiniGameType_BX_DARKBAYMAX_RAIL = 6,
+	ETresGameMiniGameType_BX_DARKBAYMAX_NEAR = 7,
+	ETresGameMiniGameType_CA_BP_TUTORIAL = 8,
+	ETresGameMiniGameType_CA_BOARD_ENEMYSHIP = 9,
+	ETresGameMiniGameType_CA_LUXORD_COMPE = 10,
+	ETresGameMiniGameType_CA_FD_MAELSTROM = 11,
+	ETresGameMiniGameType_HE_PUDDING = 12,
+	ETresGameMiniGameType_TS_PUDDING = 13,
+	ETresGameMiniGameType_RA_PUDDING = 14,
+	ETresGameMiniGameType_MI_PUDDING = 15,
+	ETresGameMiniGameType_FZ_PUDDING = 16,
+	ETresGameMiniGameType_BX_PUDDING = 17,
+	ETresGameMiniGameType_CA_PUDDING = 18,
+	ETresGameMiniGameType_MAX = 19 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefKeyItem
 {
-	ETresItemDefKeyItem_NOTHING = 0,
-	ETresItemDefKeyItem_ITEM01 = 1,
-	ETresItemDefKeyItem_ITEM02 = 2,
-	ETresItemDefKeyItem_ITEM03 = 3,
-	ETresItemDefKeyItem_ITEM04 = 4,
-	ETresItemDefKeyItem_ITEM05 = 5,
-	ETresItemDefKeyItem_ITEM06 = 6,
-	ETresItemDefKeyItem_ITEM07 = 7,
-	ETresItemDefKeyItem_ITEM08 = 8,
-	ETresItemDefKeyItem_ITEM09 = 9,
-	ETresItemDefKeyItem_ITEM10 = 10,
-	ETresItemDefKeyItem_ITEM11 = 11,
-	ETresItemDefKeyItem_ITEM12 = 12,
-	ETresItemDefKeyItem_ITEM13 = 13,
-	ETresItemDefKeyItem_1_MAX = 14,
-	ETresItemDefKeyItem_MAX = 15
+	ETresItemDefKeyItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ETresItemDefKeyItem_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
+	ETresItemDefKeyItem_ITEM02 = 2 UMETA(DisplayName = "Item 02"),
+	ETresItemDefKeyItem_ITEM03 = 3 UMETA(DisplayName = "Item 03"),
+	ETresItemDefKeyItem_ITEM04 = 4 UMETA(DisplayName = "Item 04"),
+	ETresItemDefKeyItem_ITEM05 = 5 UMETA(DisplayName = "Item 05"),
+	ETresItemDefKeyItem_ITEM06 = 6 UMETA(DisplayName = "Item 06"),
+	ETresItemDefKeyItem_ITEM07 = 7 UMETA(DisplayName = "Item 07"),
+	ETresItemDefKeyItem_ITEM08 = 8 UMETA(DisplayName = "Item 08"),
+	ETresItemDefKeyItem_ITEM09 = 9 UMETA(DisplayName = "Item 09"),
+	ETresItemDefKeyItem_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
+	ETresItemDefKeyItem_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
+	ETresItemDefKeyItem_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
+	ETresItemDefKeyItem_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
+	ETresItemDefKeyItem_1_MAX = 14 UMETA(DisplayName = "MAX"),
+	ETresItemDefKeyItem_MAX = 15 UMETA(DisplayName = "Tres Item Def Key Item MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefWeapon
 {
-	WEP_NOEQUIP = 0,
-	WEP_KEYBLADE00 = 1,
-	WEP_KEYBLADE02 = 2,
-	WEP_KEYBLADE01 = 3,
-	WEP_KEYBLADE03 = 4,
+	WEP_NOEQUIP = 0 UMETA(DisplayName = "No Equip"),
+	WEP_KEYBLADE00 = 1 UMETA(DisplayName = "Keyblade 00"),
+	WEP_KEYBLADE02 = 2 UMETA(DisplayName = "Keyblade 02"),
+	WEP_KEYBLADE01 = 3 UMETA(DisplayName = "Keyblade 01"),
+	WEP_KEYBLADE03 = 4 UMETA(DisplayName = "Keyblade 03"),
 	WEP_KEYBLADE04 = 5,
 	WEP_KEYBLADE09 = 6,
 	WEP_KEYBLADE06 = 7,
@@ -1842,16 +1842,16 @@ enum ETresItemDefWeapon
 	WEP_TERRA00 = 85,
 	WEP_VENTUS00 = 86,
 	WEP_ROXAS00 = 87,
-	WEP_XION00 = 88,
-	WEP_FRD_SORA00 = 89,
-	_WEP_MAX = 90,
-	ETresItemDefWeapon_MAX = 91
+	WEP_XION00 = 88 UMETA(DisplayName = "Xion 00"),
+	WEP_FRD_SORA00 = 89 UMETA(DisplayName = "FRD Sora 00"),
+	_WEP_MAX = 90 UMETA(DisplayName = "MAX"),
+	ETresItemDefWeapon_MAX = 91 UMETA(DisplayName = "Tres Item Def Weapon MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefReport
 {
-	ETresForceFeedbackKind_NOTHING = 0,
+	ETresForceFeedbackKind_NOTHING = 0 UMETA(DisplayName = "Nothing"),
 	ETresForceFeedbackKind_ITEM01 = 1,
 	ETresForceFeedbackKind_ITEM02 = 2,
 	ETresForceFeedbackKind_ITEM03 = 3,
@@ -1873,7 +1873,7 @@ enum ETresItemDefReport
 UENUM(BlueprintType)
 enum ETresItemDefProtector
 {
-	ETresItemDefProtector_NOTHING = 0,
+	ETresItemDefProtector_NOTHING = 0 UMETA(DisplayName = "Nothing"),
 	ETresItemDefProtector_ITEM01 = 1,
 	ETresItemDefProtector_ITEM02 = 2,
 	ETresItemDefProtector_ITEM03 = 3,
@@ -1926,17 +1926,17 @@ enum ETresItemDefProtector
 	ETresItemDefProtector_ITEM50 = 50,
 	ETresItemDefProtector_ITEM51 = 51,
 	ETresItemDefProtector_ITEM52 = 52,
-	ETresItemDefProtector_1_MAX = 53,
-	ETresItemDefProtector_MAX = 54
+	ETresItemDefProtector_1_MAX = 53 UMETA(DisplayName = "MAX"),
+	ETresItemDefProtector_MAX = 54 UMETA(DisplayName = "Tres Item Def Protector")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefNavimap
 {
-	NM_WCID_DW01 = 0,
-	NM_WCID_DW02 = 1,
-	NM_WCID_DW03 = 2,
-	NM_WCID_DW04 = 3,
+	NM_WCID_DW01 = 0 UMETA(DisplayName = "DW 01"),
+	NM_WCID_DW02 = 1 UMETA(DisplayName = "DW 02"),
+	NM_WCID_DW03 = 2 UMETA(DisplayName = "DW 03"),
+	NM_WCID_DW04 = 3 UMETA(DisplayName = "DW 04"),
 	NM_WCID_MI01 = 4,
 	NM_WCID_MI02 = 5,
 	NM_WCID_MI03 = 6,
@@ -1985,18 +1985,18 @@ enum ETresItemDefNavimap
 	NM_WCID_BT02 = 49,
 	NM_WCID_BT03 = 50,
 	NM_WCID_BT04 = 51,
-	NM_WCID_CA05 = 52,
-	ETresItemDefNavimap_1_MAX = 53,
-	ETresItemDefNavimap_MAX = 54
+	NM_WCID_CA05 = 52 UMETA(DisplayName = "CA 05"),
+	ETresItemDefNavimap_1_MAX = 53 UMETA(DisplayName = "MAX"),
+	ETresItemDefNavimap_MAX = 54 UMETA(DisplayName = "Tres Item Def Navimap MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefMognetItem
 {
-	ETresItemDefMognetItem_NOTHING = 0,
-	ETresItemDefMognetItem_ITEM01 = 1,
-	ETresItemDefMognetItem_1_MAX = 2,
-	ETresItemDefMognetItem_MAX = 3
+	ETresItemDefMognetItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ETresItemDefMognetItem_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
+	ETresItemDefMognetItem_1_MAX = 2 UMETA(DisplayName = "MAX"),
+	ETresItemDefMognetItem_MAX = 3 UMETA(DisplayName = "Tres Item Def Mognet Item MAX")
 };
 
 UENUM(BlueprintType)
@@ -2922,120 +2922,120 @@ enum ETresItemDefFoodstuff
 	ETresItemDefFoodstuff_ITEM57 = 57,
 	ETresItemDefFoodstuff_ITEM58 = 58,
 	ETresItemDefFoodstuff_ITEM59 = 59,
-	ETresItemDefFoodstuff_1_MAX = 60,
-	ETresItemDefFoodstuff_MAX = 61
+	ETresItemDefFoodstuff_1_MAX = 60 UMETA(DisplayName = "MAX"),
+	ETresItemDefFoodstuff_MAX = 61 UMETA(DisplayName = "Tres Item Def Food Stuff MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefFood
 {
-	ETresItemDefFood_NOTHING = 0,
-	SOUP01 = 1,
-	SOUP02 = 2,
-	SOUP03 = 3,
-	SOUP04 = 4,
-	SOUP05 = 5,
-	APPETIZER01 = 6,
-	APPETIZER02 = 7,
-	APPETIZER03 = 8,
-	APPETIZER04 = 9,
-	APPETIZER05 = 10,
-	FISHDISH01 = 11,
-	FISHDISH02 = 12,
-	FISHDISH03 = 13,
-	FISHDISH04 = 14,
-	FISHDISH05 = 15,
-	FISHDISH06 = 16,
-	MEETDISH01 = 17,
-	MEETDISH02 = 18,
-	MEETDISH03 = 19,
-	MEETDISH04 = 20,
-	MEETDISH05 = 21,
-	DESSERT01 = 22,
-	DESSERT02 = 23,
-	DESSERT03 = 24,
-	DESSERT04 = 25,
-	DESSERT05 = 26,
-	DESSERT06 = 27,
-	DESSERT07 = 28,
-	SOUP01P = 29,
-	SOUP02P = 30,
-	SOUP03P = 31,
-	SOUP04P = 32,
-	SOUP05P = 33,
-	APPETIZER01P = 34,
-	APPETIZER02P = 35,
-	APPETIZER03P = 36,
-	APPETIZER04P = 37,
-	APPETIZER05P = 38,
-	FISHDISH01P = 39,
-	FISHDISH02P = 40,
-	FISHDISH03P = 41,
-	FISHDISH04P = 42,
-	FISHDISH05P = 43,
-	FISHDISH06P = 44,
-	MEETDISH01P = 45,
-	MEETDISH02P = 46,
-	MEETDISH03P = 47,
-	MEETDISH04P = 48,
-	MEETDISH05P = 49,
-	DESSERT01P = 50,
-	DESSERT02P = 51,
-	DESSERT03P = 52,
-	DESSERT04P = 53,
-	DESSERT05P = 54,
-	DESSERT06P = 55,
-	DESSERT07P = 56,
-	ETresItemDefFood_1_MAX = 57,
-	ETresItemDefFood_MAX = 58
+	ETresItemDefFood_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ETresItemDefFood_SOUP01 = 1 UMETA(DisplayName = "Soup 01"),
+	ETresItemDefFood_SOUP02 = 2 UMETA(DisplayName = "Soup 02"),
+	ETresItemDefFood_SOUP03 = 3 UMETA(DisplayName = "Soup 03"),
+	ETresItemDefFood_SOUP04 = 4 UMETA(DisplayName = "Soup 04"),
+	ETresItemDefFood_SOUP05 = 5 UMETA(DisplayName = "Soup 05"),
+	ETresItemDefFood_APPETIZER01 = 6 UMETA(DisplayName = "Appetizer 01"),
+	ETresItemDefFood_APPETIZER02 = 7 UMETA(DisplayName = "Appetizer 02"),
+	ETresItemDefFood_APPETIZER03 = 8 UMETA(DisplayName = "Appetizer 03"),
+	ETresItemDefFood_APPETIZER04 = 9 UMETA(DisplayName = "Appetizer 04"),
+	ETresItemDefFood_APPETIZER05 = 10 UMETA(DisplayName = "Appetizer 05"),
+	ETresItemDefFood_FISHDISH01 = 11,
+	ETresItemDefFood_FISHDISH02 = 12,
+	ETresItemDefFood_FISHDISH03 = 13,
+	ETresItemDefFood_FISHDISH04 = 14,
+	ETresItemDefFood_FISHDISH05 = 15,
+	ETresItemDefFood_FISHDISH06 = 16,
+	ETresItemDefFood_MEETDISH01 = 17,
+	ETresItemDefFood_MEETDISH02 = 18,
+	ETresItemDefFood_MEETDISH03 = 19,
+	ETresItemDefFood_MEETDISH04 = 20,
+	ETresItemDefFood_MEETDISH05 = 21,
+	ETresItemDefFood_DESSERT01 = 22,
+	ETresItemDefFood_DESSERT02 = 23,
+	ETresItemDefFood_DESSERT03 = 24,
+	ETresItemDefFood_DESSERT04 = 25,
+	ETresItemDefFood_DESSERT05 = 26,
+	ETresItemDefFood_DESSERT06 = 27,
+	ETresItemDefFood_DESSERT07 = 28,
+	ETresItemDefFood_SOUP01P = 29,
+	ETresItemDefFood_SOUP02P = 30,
+	ETresItemDefFood_SOUP03P = 31,
+	ETresItemDefFood_SOUP04P = 32,
+	ETresItemDefFood_SOUP05P = 33,
+	ETresItemDefFood_APPETIZER01P = 34,
+	ETresItemDefFood_APPETIZER02P = 35,
+	ETresItemDefFood_APPETIZER03P = 36,
+	ETresItemDefFood_APPETIZER04P = 37,
+	ETresItemDefFood_APPETIZER05P = 38,
+	ETresItemDefFood_FISHDISH01P = 39,
+	ETresItemDefFood_FISHDISH02P = 40,
+	ETresItemDefFood_FISHDISH03P = 41,
+	ETresItemDefFood_FISHDISH04P = 42,
+	ETresItemDefFood_FISHDISH05P = 43,
+	ETresItemDefFood_FISHDISH06P = 44,
+	ETresItemDefFood_MEETDISH01P = 45,
+	ETresItemDefFood_MEETDISH02P = 46,
+	ETresItemDefFood_MEETDISH03P = 47,
+	ETresItemDefFood_MEETDISH04P = 48,
+	ETresItemDefFood_MEETDISH05P = 49,
+	ETresItemDefFood_DESSERT01P = 50,
+	ETresItemDefFood_DESSERT02P = 51,
+	ETresItemDefFood_DESSERT03P = 52,
+	ETresItemDefFood_DESSERT04P = 53,
+	ETresItemDefFood_DESSERT05P = 54,
+	ETresItemDefFood_DESSERT06P = 55,
+	ETresItemDefFood_DESSERT07P = 56,
+	ETresItemDefFood_1_MAX = 57 UMETA(DisplayName = "MAX"),
+	ETresItemDefFood_MAX = 58 UMETA(DisplayName = "Tres Item Def Food MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefCampItem
 {
-	ETresItemDefCampItem_NOTHING = 0,
-	TENT = 1,
-	POWERUP = 2,
-	MAGICUP = 3,
-	GUARDUP = 4,
-	APUP = 5,
-	ETresItemDefCampItem_1_MAX = 6,
-	ETresItemDefCampItem_MAX = 7
+	ETresItemDefCampItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ETresItemDefCampItem_TENT = 1 UMETA(DisplayName = "Tent"),
+	ETresItemDefCampItem_POWERUP = 2 UMETA(DisplayName = "Power Up"),
+	ETresItemDefCampItem_MAGICUP = 3 UMETA(DisplayName = "Magic Up"),
+	ETresItemDefCampItem_GUARDUP = 4 UMETA(DisplayName = "Guard Up"),
+	ETresItemDefCampItem_APUP = 5 UMETA(DisplayName = "AP Up"),
+	ETresItemDefCampItem_1_MAX = 6 UMETA(DisplayName = "MAX"),
+	ETresItemDefCampItem_MAX = 7 UMETA(DisplayName = "Tres Item Def Camp Item MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefBattleItem
 {
-	ETresItemDefBattleItem_NOTHING = 0,
-	BI_POTION = 1,
-	BI_HIGHPOTION = 2,
-	BI_MEGAPOTION = 3,
-	BI_ETHER = 4,
-	BI_MEGAETHER = 5,
-	BI_ELIXIR = 6,
-	BI_LASTELIXIR = 7,
-	BI_FOCUSSUPPLY = 8,
-	BI_HIGHFOCUSSUPPLY = 9,
-	BI_ALLCURE = 10,
-	BI_HIGHETHER = 11,
-	ETresItemDefBattleItem_1_MAX = 12,
-	ETresItemDefBattleItem_MAX = 13
+	BI_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	BI_POTION = 1 UMETA(DisplayName = "Potion"),
+	BI_HIGHPOTION = 2 UMETA(DisplayName = "High Potion"),
+	BI_MEGAPOTION = 3 UMETA(DisplayName = "Mega Potion"),
+	BI_ETHER = 4 UMETA(DisplayName = "Ether"),
+	BI_MEGAETHER = 5 UMETA(DisplayName = "Mega Ether"),
+	BI_ELIXIR = 6 UMETA(DisplayName = "Elixir"),
+	BI_LASTELIXIR = 7 UMETA(DisplayName = "Last Elixir"),
+	BI_FOCUSSUPPLY = 8 UMETA(DisplayName = "Focus Supply"),
+	BI_HIGHFOCUSSUPPLY = 9 UMETA(DisplayName = "High Focus Supply"),
+	BI_ALLCURE = 10 UMETA(DisplayName = "All Cure"),
+	BI_HIGHETHER = 11 UMETA(DisplayName = "High Ether"),
+	ETresItemDefBattleItem_1_MAX = 12 UMETA(DisplayName = "MAX"),
+	ETresItemDefBattleItem_MAX = 13 UMETA(DisplayName = "Tres Item Def Battle Item MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresItemDefAccessory
 {
-	ETresItemDefAccessory_NOTHING = 0,
-	ETresItemDefAccessory_ITEM01 = 1,
-	ETresItemDefAccessory_ITEM02 = 2,
-	ETresItemDefAccessory_ITEM03 = 3,
-	ETresItemDefAccessory_ITEM04 = 4,
-	ETresItemDefAccessory_ITEM05 = 5,
-	ETresItemDefAccessory_ITEM06 = 6,
-	ETresItemDefAccessory_ITEM07 = 7,
-	ETresItemDefAccessory_ITEM08 = 8,
-	ETresItemDefAccessory_ITEM09 = 9,
-	ETresItemDefAccessory_ITEM10 = 10,
+	ETresItemDefAccessory_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ETresItemDefAccessory_ITEM01 = 1 UMETA(DisplayName = "1"),
+	ETresItemDefAccessory_ITEM02 = 2 UMETA(DisplayName = "2"),
+	ETresItemDefAccessory_ITEM03 = 3 UMETA(DisplayName = "3"),
+	ETresItemDefAccessory_ITEM04 = 4 UMETA(DisplayName = "4"),
+	ETresItemDefAccessory_ITEM05 = 5 UMETA(DisplayName = "5"),
+	ETresItemDefAccessory_ITEM06 = 6 UMETA(DisplayName = "6"),
+	ETresItemDefAccessory_ITEM07 = 7 UMETA(DisplayName = "7"),
+	ETresItemDefAccessory_ITEM08 = 8 UMETA(DisplayName = "8"),
+	ETresItemDefAccessory_ITEM09 = 9 UMETA(DisplayName = "9"),
+	ETresItemDefAccessory_ITEM10 = 10 UMETA(DisplayName = "10"),
 	ETresItemDefAccessory_ITEM11 = 11,
 	ETresItemDefAccessory_ITEM12 = 12,
 	ETresItemDefAccessory_ITEM13 = 13,
@@ -3105,63 +3105,63 @@ enum ETresItemDefAccessory
 	ETresItemDefAccessory_ITEM77 = 77,
 	ETresItemDefAccessory_ITEM78 = 78,
 	ETresItemDefAccessory_ITEM79 = 79,
-	ETresItemDefAccessory_ITEM80 = 80,
-	ETresItemDefAccessory_ITEM81 = 81,
-	ETresItemDefAccessory_ITEM82 = 82,
-	ETresItemDefAccessory_ITEM83 = 83,
-	ETresItemDefAccessory_ITEM84 = 84,
-	ETresItemDefAccessory_ITEM85 = 85,
-	ETresItemDefAccessory_ITEM86 = 86,
-	ETresItemDefAccessory_ITEM87 = 87,
-	ETresItemDefAccessory_ITEM88 = 88,
-	ETresItemDefAccessory_ITEM89 = 89,
-	ETresItemDefAccessory_ITEM90 = 90,
-	ETresItemDefAccessory_ITEM91 = 91,
-	ETresItemDefAccessory_ITEM92 = 92,
-	ETresItemDefAccessory_ITEM93 = 93,
-	ETresItemDefAccessory_ITEM94 = 94,
-	ETresItemDefAccessory_ITEM95 = 95,
-	ETresItemDefAccessory_ITEM96 = 96,
-	ETresItemDefAccessory_ITEM97 = 97,
-	ETresItemDefAccessory_ITEM98 = 98,
-	ETresItemDefAccessory_ITEM99 = 99,
-	ETresItemDefAccessory_ITEM100 = 100,
-	ETresItemDefAccessory_ITEM101 = 101,
-	ETresItemDefAccessory_ITEM102 = 102,
-	ETresItemDefAccessory_ITEM103 = 103,
-	ETresItemDefAccessory_ITEM104 = 104,
-	ETresItemDefAccessory_ITEM105 = 105,
-	ETresItemDefAccessory_ITEM106 = 106,
-	ETresItemDefAccessory_ITEM107 = 107,
-	ETresItemDefAccessory_ITEM108 = 108,
-	ETresItemDefAccessory_ITEM109 = 109,
-	ETresItemDefAccessory_ITEM110 = 110,
-	ETresItemDefAccessory_ITEM111 = 111,
-	ETresItemDefAccessory_ITEM112 = 112,
-	ETresItemDefAccessory_1_MAX = 113,
-	ETresItemDefAccessory_MAX = 114
+	ETresItemDefAccessory_ITEM80 = 80 UMETA(DisplayName = "Item 80"),
+	ETresItemDefAccessory_ITEM81 = 81 UMETA(DisplayName = "Item 81"),
+	ETresItemDefAccessory_ITEM82 = 82 UMETA(DisplayName = "Item 82"),
+	ETresItemDefAccessory_ITEM83 = 83 UMETA(DisplayName = "Item 83"),
+	ETresItemDefAccessory_ITEM84 = 84 UMETA(DisplayName = "Item 84"),
+	ETresItemDefAccessory_ITEM85 = 85 UMETA(DisplayName = "Item 85"),
+	ETresItemDefAccessory_ITEM86 = 86 UMETA(DisplayName = "Item 86"),
+	ETresItemDefAccessory_ITEM87 = 87 UMETA(DisplayName = "Item 87"),
+	ETresItemDefAccessory_ITEM88 = 88 UMETA(DisplayName = "Item 88"),
+	ETresItemDefAccessory_ITEM89 = 89 UMETA(DisplayName = "Item 89"),
+	ETresItemDefAccessory_ITEM90 = 90 UMETA(DisplayName = "Item 90"),
+	ETresItemDefAccessory_ITEM91 = 91 UMETA(DisplayName = "Item 91"),
+	ETresItemDefAccessory_ITEM92 = 92 UMETA(DisplayName = "Item 92"),
+	ETresItemDefAccessory_ITEM93 = 93 UMETA(DisplayName = "Item 93"),
+	ETresItemDefAccessory_ITEM94 = 94 UMETA(DisplayName = "Item 94"),
+	ETresItemDefAccessory_ITEM95 = 95 UMETA(DisplayName = "Item 95"),
+	ETresItemDefAccessory_ITEM96 = 96 UMETA(DisplayName = "Item 96"),
+	ETresItemDefAccessory_ITEM97 = 97 UMETA(DisplayName = "Item 97"),
+	ETresItemDefAccessory_ITEM98 = 98 UMETA(DisplayName = "Item 98"),
+	ETresItemDefAccessory_ITEM99 = 99 UMETA(DisplayName = "Item 99"),
+	ETresItemDefAccessory_ITEM100 = 100 UMETA(DisplayName = "Item 100"),
+	ETresItemDefAccessory_ITEM101 = 101 UMETA(DisplayName = "Item 101"),
+	ETresItemDefAccessory_ITEM102 = 102 UMETA(DisplayName = "Item 102"),
+	ETresItemDefAccessory_ITEM103 = 103 UMETA(DisplayName = "Item 103"),
+	ETresItemDefAccessory_ITEM104 = 104 UMETA(DisplayName = "Item 104"),
+	ETresItemDefAccessory_ITEM105 = 105 UMETA(DisplayName = "Item 105"),
+	ETresItemDefAccessory_ITEM106 = 106 UMETA(DisplayName = "Item 106"),
+	ETresItemDefAccessory_ITEM107 = 107 UMETA(DisplayName = "Item 107"),
+	ETresItemDefAccessory_ITEM108 = 108 UMETA(DisplayName = "Item 108"),
+	ETresItemDefAccessory_ITEM109 = 109 UMETA(DisplayName = "Item 109"),
+	ETresItemDefAccessory_ITEM110 = 110 UMETA(DisplayName = "Item 110"),
+	ETresItemDefAccessory_ITEM111 = 111 UMETA(DisplayName = "Item 111"),
+	ETresItemDefAccessory_ITEM112 = 112 UMETA(DisplayName = "Item 112"),
+	ETresItemDefAccessory_1_MAX = 113 UMETA(DisplayName = "MAX"),
+	ETresItemDefAccessory_MAX = 114 UMETA(DisplayName = "Tres Item Def Accessory MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresdirectionType
 {
-	TRES_DIR_FRONT = 0,
-	TRES_DIR_BACK = 1,
-	TRES_DIR_RIGHT = 2,
-	TRES_DIR_LEFT = 3,
-	TRES_DIR_UP = 4,
-	TRES_DIR_DOWN = 5,
-	TRES_DIR_MAX = 6
+	TRES_DIR_FRONT = 0 UMETA(DisplayName = "Front"),
+	TRES_DIR_BACK = 1 UMETA(DisplayName = "Back"),
+	TRES_DIR_RIGHT = 2 UMETA(DisplayName = "Right"),
+	TRES_DIR_LEFT = 3 UMETA(DisplayName = "Left"),
+	TRES_DIR_UP = 4 UMETA(DisplayName = "Up"),
+	TRES_DIR_DOWN = 5 UMETA(DisplayName = "Down"),
+	TRES_DIR_MAX = 6 UMETA(DisplayName = "MAX")
 };
 
 UENUM(BlueprintType)
 enum ETresGameLevelID
 {
-	TRES_GAME_LVID_BEGINNER = 0,
-	TRES_GAME_LVID_STANDARD = 1,
-	TRES_GAME_LVID_PROUD = 2,
-	TRES_GAME_LVID_CRITICAL = 3,
-	TRES_GAME_LVID_MAX = 4
+	TRES_GAME_LVID_BEGINNER = 0 UMETA(DisplayName = "Beginner"),
+	TRES_GAME_LVID_STANDARD = 1 UMETA(DisplayName = "Standard"),
+	TRES_GAME_LVID_PROUD = 2 UMETA(DisplayName = "Proud"),
+	TRES_GAME_LVID_CRITICAL = 3 UMETA(DisplayName = "Critical"),
+	TRES_GAME_LVID_MAX = 4 UMETA(DisplayName = "MAX")
 };
 
 USTRUCT(BlueprintType)

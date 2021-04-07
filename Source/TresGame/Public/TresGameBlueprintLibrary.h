@@ -1819,7 +1819,7 @@ public:
 	static void BP_TresGetItem(class UObject* WorldContextObject, const FName& InItemKeyName, int InNum, bool bShowInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static TEnumAsByte<ETresMiRxHolySealType> BP_TresGetHolySealTypeForLevel(class UObject* WorldContextObject) { return ETresMiRxHolySealType::HOLY_SEAL_TYPE_FULL_FIRE; };
+	static TEnumAsByte<ETresMiRxHolySealType> BP_TresGetHolySealTypeForLevel(class UObject* WorldContextObject) { return ETresMiRxHolySealType::ETresMiRxHolySealType_HOLY_SEAL_TYPE_FULL_FIRE; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static int BP_TresGetGumiShopLevel(class UObject* WorldContextObject) { return 0; };
