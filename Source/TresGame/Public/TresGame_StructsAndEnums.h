@@ -3540,6 +3540,43 @@ enum ETresSoundAliasLabel
 	ETresSoundAliasLabel_MAX = 13
 };
 
+UENUM(BlueprintType)
+enum ETresEffectAreaCode
+{
+	TRES_EFFECT_AREA_00 = 0,
+	TRES_EFFECT_AREA_01 = 1,
+	TRES_EFFECT_AREA_02 = 2,
+	TRES_EFFECT_AREA_03 = 3,
+	TRES_EFFECT_AREA_04 = 4,
+	TRES_EFFECT_AREA_05 = 5,
+	TRES_EFFECT_AREA_06 = 6,
+	TRES_EFFECT_AREA_07 = 7,
+	TRES_EFFECT_AREA_08 = 8,
+	TRES_EFFECT_AREA_09 = 9,
+	TRES_EFFECT_AREA = 10,
+	TRES_EFFECT_AREA01 = 11,
+	TRES_EFFECT_AREA02 = 12,
+	TRES_EFFECT_AREA03 = 13,
+	TRES_EFFECT_AREA04 = 14,
+	TRES_EFFECT_AREA05 = 15,
+	TRES_EFFECT_AREA06 = 16,
+	TRES_EFFECT_AREA07 = 17,
+	TRES_EFFECT_AREA08 = 18,
+	TRES_EFFECT_AREA09 = 19,
+	TRES_EFFECT_AREA10 = 20,
+	TRES_EFFECT_AREA11 = 21,
+	TRES_EFFECT_AREA12 = 22,
+	TRES_EFFECT_AREA13 = 23,
+	TRES_EFFECT_AREA14 = 24,
+	TRES_EFFECT_AREA15 = 25,
+	TRES_EFFECT_AREA16 = 26,
+	TRES_EFFECT_AREA17 = 27,
+	TRES_EFFECT_AREA18 = 28,
+	TRES_EFFECT_AREA19 = 29,
+	TRES_EFFECT_AREA20 = 30,
+	TRES_EFFECT_AREA_MAX = 31
+};
+
 USTRUCT(BlueprintType)
 struct FTresCollShapeAssetUnit
 {
@@ -4108,4 +4145,34 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
 	float m_AttackInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhysMatEffectAssetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	bool m_bEnableInnerWater;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	float m_NmlSpeedParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_NmlEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	float m_HighSpeedParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_HighEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_StillEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_EnterEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_LeaveEffect;
 };
