@@ -6,6 +6,8 @@
 #include "Engine/EngineBaseTypes.h"
 #include "Components/SkinnedMeshComponent.h"
 #include"TresLevelEntitySequenceCondition.h"
+#include "BoneContainer.h"
+#include "Engine/CollisionProfile.h"
 #include "TresGame_StructsAndEnums.generated.h"
 
 //---------------------------------------------------------------------------
@@ -3164,6 +3166,380 @@ enum ETresGameLevelID
 	TRES_GAME_LVID_MAX = 4 UMETA(DisplayName = "MAX")
 };
 
+UENUM(BlueprintType)
+enum ETresTeam
+{
+	ETresTeam_Player = 0 UMETA(DisplayName = "Player"),
+	ETresTeam_FriendNpc = 1 UMETA(DisplayName = "Friend NPC"),
+	ETresTeam_Enemy = 2 UMETA(DisplayName = "Enemy"),
+	ETresTeam_Heartless = 3 UMETA(DisplayName = "Heartless"),
+	ETresTeam_Nobody = 4 UMETA(DisplayName = "Nobody"),
+	ETresTeam_Unverse = 5 UMETA(DisplayName = "Unverse"),
+	ETresTeam_Neutral = 6 UMETA(DisplayName = "Neutral"),
+	ETresTeam_CityNpc = 7 UMETA(DisplayName = "City NPC"),
+	ETresTeam_Unknown = 8 UMETA(DisplayName = "Unknown"),
+	ETresTeam_MAX = 9 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresPlayerJumpModes
+{
+	ETresPlayerJumpModes_TPJ_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	ETresPlayerJumpModes_TPJ_HIGH = 1,
+	ETresPlayerJumpModes_TPJ_SUPER = 2,
+	ETresPlayerJumpModes_TPJ_DOUBLE_FLIGHT = 3,
+	ETresPlayerJumpModes_TPJ_SUPER_FLIGHT = 4,
+	TPJ_MAX = 5 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresStateID
+{
+	TSID_STATE_EMPTY = 0 UMETA(DisplayName = "Empty"),
+	TSID_STATE_IDLE = 1,
+	TSID_STATE_RUN = 2,
+	TSID_STATE_JUMP = 3,
+	TSID_STATE_GLIDE = 4,
+	TSID_STATE_FLOATING = 5,
+	TSID_STATE_DANGLE = 6,
+	TSID_STATE_CLIMBING = 7,
+	TSID_STATE_WALLRUN = 8,
+	TSID_STATE_HOPPING = 9,
+	TSID_STATE_SLOPESLIDE = 10,
+	TSID_STATE_SWAYING = 11,
+	TSID_STATE_ATTACK = 12,
+	TSID_STATE_ATTACK_AQ = 13,
+	TSID_STATE_ATTACK_RI = 14,
+	TSID_STATE_GUARD = 15,
+	TSID_STATE_DODGEROLL = 16,
+	TSID_STATE_RISKDODGE = 17,
+	TSID_STATE_FIREMAGIC = 18,
+	TSID_STATE_DAMAGE = 19,
+	TSID_STATE_AIR_SLIDE = 20,
+	TSID_STATE_SUPER_SLIDE = 21,
+	TSID_STATE_RAIL_SLIDE = 22,
+	TSID_STATE_WALL_KICK = 23,
+	TSID_STATE_POLE_TURN = 24,
+	TSID_STATE_ENEMY_FLOW = 25,
+	TSID_STATE_AF_ROLLER_COASTER = 26,
+	TSID_STATE_AF_VIKING_SHIP = 27,
+	TSID_STATE_DM_SIMBA = 28,
+	TSID_STATE_FRIENDATTACK = 29,
+	TSID_STATE_FR_SHIELD_GUARDIAN = 30,
+	TSID_STATE_STYLECHANGE = 31,
+	TSID_STATE_WEAPONCHANGE = 32,
+	TSID_STATE_STYLEFINISH = 33,
+	TSID_STATE_STYLEFINISH_DR = 34,
+	TSID_STATE_STYLEFINISH_SK = 35,
+	TSID_STATE_STYLEFINISH_GM = 36,
+	TSID_STATE_STYLEFINISH_WA = 37,
+	TSID_STATE_STYLEFINISH_SH = 38,
+	TSID_STATE_STYLEFINISH_FL = 39,
+	TSID_STATE_SHOOTERMODE = 40,
+	TSID_STATE_SHOOTFLOW = 41,
+	TSID_STATE_ATHLETICFLOW = 42,
+	TSID_STATE_NAVLINK_JUMP = 43,
+	TSID_STATE_TURN = 44,
+	TSID_STATE_ATTACK1 = 45,
+	TSID_STATE_ATTACK2 = 46,
+	TSID_STATE_ATTACK3 = 47,
+	TSID_STATE_ATTACK4 = 48,
+	TSID_STATE_ATTACK5 = 49,
+	TSID_STATE_ATTACK6 = 50,
+	TSID_STATE_ATTACK7 = 51,
+	TSID_STATE_ATTACK8 = 52,
+	TSID_STATE_ATTACK9 = 53,
+	TSID_STATE_STAGGER = 54,
+	TSID_STATE_RUN1 = 55,
+	TSID_STATE_RUN2 = 56,
+	TSID_STATE_RUN3 = 57,
+	TSID_STATE_APPEAR = 58,
+	TSID_STATE_DIE = 59,
+	TSID_STATE_VANISH_DIE = 60,
+	TSID_STATE_CATCH = 61,
+	TSID_STATE_BIND = 62,
+	TSID_STATE_EMOTION = 63,
+	TSID_STATE_DISAPPEAR = 64,
+	TSID_STATE_FLY = 65,
+	TSID_STATE_REFLECT = 66,
+	TSID_STATE_CINEMATIC = 67,
+	TSID_STATE_ACTION = 68,
+	TSID_STATE_UP_DOWN = 69,
+	TSID_STATE_FLY1 = 70,
+	TSID_STATE_FLY2 = 71,
+	TSID_STATE_PLAY_MOTION = 72,
+	TSID_STATE_AF_TEACUP = 73,
+	TSID_STATE_OPEN_TREASURE_BOX = 74,
+	TSID_STATE_COMBO_DW = 75,
+	TSID_STATE_COMBO_HM = 76,
+	TSID_STATE_COMBO_YO = 77,
+	TSID_STATE_COMBO_BZ = 78,
+	TSID_STATE_COMBO_DR = 79,
+	TSID_STATE_COMBO_SK = 80,
+	TSID_STATE_COMBO_GM = 81,
+	TSID_STATE_COMBO_SW = 82,
+	TSID_STATE_COMBO_WA = 83,
+	TSID_STATE_COMBO_SH = 84,
+	TSID_STATE_COMBO_CL = 85,
+	TSID_STATE_COMBO_AN = 86,
+	TSID_STATE_COMBO_HL = 87,
+	TSID_STATE_COMBO_FL = 88,
+	TSID_STATE_COMBO_SWIM = 89,
+	TSID_STATE_COMBO_LIMIT = 90,
+	TSID_STATE_COMMON_ATTACK = 91,
+	TSID_STATE_FR_MOUNTCURLING = 92,
+	TSID_STATE_COMMON_MOVE = 93,
+	TSID_STATE_COMMON_ACTION = 94,
+	TSID_STATE_AF_SHOOTINGRIDE = 95,
+	TSID_STATE_GIGAS = 96,
+	TSID_STATE_GIMMICK_ATTACH = 97,
+	TSID_STATE_AI_MOVE = 98,
+	TSID_STATE_AI_ACTION = 99,
+	TSID_STATE_AI_ATTACK = 100,
+	TSID_STATE_FR_GOOFYSHOOT = 101,
+	TSID_STATE_SWIM = 102,
+	TSID_STATE_SPECIAL_SHIP = 103,
+	TSID_STATE_TALK = 104,
+	TSID_STATE_SAVE_MENU = 105,
+	TSID_STATE_SHOP_MENU = 106,
+	TSID_STATE_NAVLINK_HOPPING = 107,
+	TSID_STATE_CHECK = 108,
+	TSID_STATE_RESCUE = 109,
+	TSID_STATE_AF_MERRYGOROUND = 110,
+	TSID_STATE_USE_ITEM = 111,
+	TSID_STATE_FR_MICKEYCHAIN = 112,
+	TSID_STATE_FR_MICKEYAQUA = 113,
+	TSID_STATE_FR_SNOWCURLING = 114,
+	TSID_STATE_FR_SNOWCHASE = 115,
+	TSID_STATE_FR_ICERAILSLIDE = 116,
+	TSID_STATE_DM_WANDANYAN = 117,
+	TSID_STATE_GAMEOVER = 118,
+	TSID_STATE_SMALLAIRPLANE = 119,
+	TSID_STATE_AF_WATERRIDE = 120,
+	TSID_STATE_FR_MIKEBOWLING = 121,
+	TSID_STATE_BADSTAT_STUN = 122,
+	TSID_STATE_BADSTAT_FREEZE = 123,
+	TSID_STATE_BADSTAT_BURN = 124,
+	TSID_STATE_WARP = 125,
+	TSID_STATE_DM_RALPH = 126,
+	TSID_STATE_DM_ARIEL = 127,
+	TSID_STATE_DM_STITCH = 128,
+	TSID_STATE_FR_JACKSPIN = 129,
+	TSID_STATE_FR_POWERSTRIKE = 130,
+	TSID_STATE_FR_GIANTSOLDIER = 131,
+	TSID_STATE_FR_ROCKETLASER = 132,
+	TSID_STATE_FR_SPINNINGHOLD = 133,
+	TSID_STATE_FR_SNOWCOVERSWING = 134,
+	TSID_STATE_FR_CALLMETEOR = 135,
+	TSID_STATE_FR_FLAREFORCE = 136,
+	TSID_STATE_FR_BAYMAXRIDE = 137,
+	TSID_STATE_RAILSLIDE_MI = 138,
+	TSID_STATE_AI_SLOPESLIDE = 139,
+	TSID_STATE_HIDDEN = 140,
+	TSID_STATE_BTL_COMICAL = 141,
+	TSID_STATE_COVER = 142,
+	TSID_STATE_AI_SWIM = 143,
+	TSID_STATE_HOLD_CAMERA = 144,
+	TSID_STATE_FESTIVAL_DANCE = 145,
+	TSID_STATE_IDLE_WAIT = 146,
+	TSID_STATE_SITUATION_ACTION = 147,
+	TSID_STATE_PLANEBOSS = 148,
+	TSID_STATE_TALK_MOTION = 149,
+	TSID_STATE_ONE_ACTION = 150,
+	TSID_STATE_BADSTAT_SNEEZE = 151,
+	TSID_STATE_FR_MICKEYRIKU = 152,
+	TSID_STATE_WATER_PLAY = 153,
+	TSID_STATE_FR_DONALDSORA = 154,
+	TSID_STATE_FR_GOOFYSORA = 155,
+	TSID_STATE_ATTACK_RO = 156,
+	TSID_STATE_ATTACK_KA = 157,
+	TSID_STATE_ATTACK_MI = 158,
+	TSID_STATE_COMBO_LF = 159,
+	TSID_STATE_COMBO_DF = 160,
+	TSID_STATE_COMBO_TF = 161,
+	TSID_STATE_SLIDE_TURN_RO = 162,
+	TSID_STATE_FR_POPPINGHOLY = 163,
+	TSID_STATE_FR_BLIZZAGABOARD = 164,
+	TSID_STATE_FR_THINKOFYOU = 165,
+	TSID_STATE_FR_ULTIMATEEND = 166,
+	TSID_STATE_FR_PROMISEWINGS = 167,
+	TSID_STATE_QUICKBATTLE = 168,
+	TSID_STATE_REMIND_LGRX = 169,
+	TSID_STATE_REMIND_MIRX_DOWN_MI = 170,
+	TSID_STATE_REMIND_MIRX_ATTACK_MI = 171,
+	TSID_STATE_REMIND_MIRX_TIRED_MI = 172,
+	TSID_STATE_REMIND_SOKC_MAIN = 173,
+	TSID_STATE_MAX = 174 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresWeaponType
+{
+	TRES_WEAPON_TYPE_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_WEAPON_TYPE_01 = 1,
+	TRES_WEAPON_TYPE_03 = 2,
+	TRES_WEAPON_TYPE_02 = 3,
+	TRES_WEAPON_TYPE_04 = 4,
+	TRES_WEAPON_TYPE_05 = 5,
+	TRES_WEAPON_TYPE = 6,
+	TRES_WEAPON_TYPE_07 = 7,
+	TRES_WEAPON_TYPE_08 = 8,
+	TRES_WEAPON_TYPE_09 = 9,
+	TRES_WEAPON_TYPE_06 = 10,
+	TRES_WEAPON_TYPE01 = 11,
+	TRES_WEAPON_TYPE02 = 12,
+	TRES_WEAPON_TYPE03 = 13,
+	TRES_WEAPON_TYPE04 = 14,
+	TRES_WEAPON_TYPE05 = 15,
+	TRES_WEAPON_TYPE06 = 16,
+	TRES_WEAPON_TYPE07 = 17,
+	TRES_WEAPON_TYPE08 = 18,
+	TRES_WEAPON_TYPE09 = 19,
+	TRES_WEAPON_TYPE_MAX = 20 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresDamageKind
+{
+	TRES_DMG_KIND_NONE = 0,
+	TRES_DMG_KIND_SMALL = 1,
+	TRES_DMG_KIND_BLOW = 2,
+	TRES_DMG_KIND_SIDESPIN = 3,
+	TRES_DMG_KIND_VERTICALROLL = 4,
+	TRES_DMG_KIND_BILLIARD = 5,
+	TRES_DMG_KIND_FLOAT = 6,
+	TRES_DMG_KIND_TOSS = 7,
+	TRES_DMG_KIND_LAUNCH = 8,
+	TRES_DMG_KIND_BEAT = 9,
+	TRES_DMG_KIND_PARABOLA = 10,
+	TRES_DMG_KIND_PARABOLA_NO_RECOVERY = 11,
+	TRES_DMG_KIND_WITHOUT = 12,
+	TRES_DMG_KIND_RECOVER = 13,
+	TRES_DMG_KIND_KILL = 14,
+	TRES_DMG_KIND_STOP = 15,
+	TRES_DMG_KIND_MAGNET = 16,
+	TRES_DMG_KIND_CATCH = 17,
+	TRES_DMG_KIND_BIND = 18,
+	TRES_DMG_KIND_SUCTION = 19,
+	TRES_DMG_KIND_EAT = 20,
+	TRES_DMG_KIND_SHIELD_BLOW = 21,
+	TRES_DMG_KIND_SHIELD_TOSS = 22,
+	TRES_DMG_KIND_FREE_FLOW = 23,
+	TRES_DMG_KIND_SHOOTING_RIDE = 24,
+	TRES_DMG_KIND_MERRYGOROUND = 25,
+	TRES_DMG_KIND_ZEROGRAVITY = 26,
+	TRES_DMG_KIND_SWALLOW = 27,
+	TRES_DMG_KIND_UNIQUE = 28,
+	TRES_DMG_KIND_SWIRL_UP = 29,
+	TRES_DMG_KIND_POLE_SPIN = 30,
+	TRES_DMG_KIND_POLE_SWING = 31,
+	TRES_DMG_KIND_RALPH_BIND = 32,
+	TRES_DMG_KIND_VIKINGSHIP_FRONT = 33,
+	TRES_DMG_KIND_VIKINGSHIP_BACK = 34,
+	TRES_DMG_KIND_DRILL_BIND = 35,
+	TRES_DMG_KIND_YO_BIND = 36,
+	TRES_DMG_KIND_EX071_BIND = 37,
+	TRES_DMG_KIND_GOOFY_TORNADO = 38,
+	TRES_DMG_KIND_ENERGYBURST_ATTRACT = 39,
+	TRES_DMG_KIND_EX301_BIND = 40,
+	TRES_DMG_KIND_PUDDING_EAT = 41,
+	TRES_DMG_KIND_MAX = 42 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresCharWearForm
+{
+	TRES_WEAR_FORM_NORMAL = 0,
+	TRES_WEAR_FORM_01 = 1,
+	TRES_WEAR_FORM_02 = 2,
+	TRES_WEAR_FORM_03 = 3,
+	TRES_WEAR_FORM_04 = 4,
+	TRES_WEAR_FORM_05 = 5,
+	TRES_WEAR_FORM_06 = 6,
+	TRES_WEAR_FORM_07 = 7,
+	TRES_WEAR_FORM_08 = 8,
+	TRES_WEAR_FORM_09 = 9,
+	TRES_WEAR_FORM_0A = 10,
+	TRES_WEAR_FORM_MAX = 11 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresIkCollision
+{
+	ETresIkCollision_SPHERE = 0,
+	ETresIkCollision_CAPSULE = 1,
+	ETresIkCollision_BOX = 2,
+	ETresIkCollision_1_MAX = 3,
+	ETresIkCollision_MAX = 4 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresSkeletalFootStampDir
+{
+	ETresSkeletalFootStampDir_Normal = 0,
+	ETresSkeletalFootStampDir_LR_Reverse = 1,
+	ETresSkeletalFootStampDir_FB_Reverse = 2,
+	ETresSkeletalFootStampDir_LRFB_Reverse = 3,
+	ETresSkeletalFootStampDir_MAX = 4 UMETA(DisplayName = "MAX")
+};
+
+UENUM(BlueprintType)
+enum ETresAtkCollLocationAttachType
+{
+	ETresAtkCollLocationAttachType_NORMAL = 0,
+	ETresAtkCollLocationAttachType_OWNER_ATTACHED_MESH = 1,
+	ETresAtkCollLocationAttachType_WORLD = 2,
+	ETresAtkCollLocationAttachType_MAX = 3
+};
+
+UENUM(BlueprintType)
+enum ETresAtkCollMapHitType
+{
+	ETresAtkCollMapHitType_NOHIT = 0,
+	ETresAtkCollMapHitType_PHYSOBJ_NOHIT = 1,
+	ETresAtkCollMapHitType_HITMAP = 2,
+	ETresAtkCollMapHitType_IGNORE_GROUND = 3,
+	ETresAtkCollMapHitType_1_MAX = 4,
+	ETresAtkCollMapHitType_MAX = 5
+};
+
+UENUM(BlueprintType)
+enum ETresAtkCollRotAttachType
+{
+	ETresAtkCollRotAttachType_TRES_ACRA_NORMAL = 0,
+	ETresAtkCollRotAttachType_TRES_ACRA_LOCAL = 1,
+	TRES_ACRA_MAX = 2
+};
+
+UENUM(BlueprintType)
+enum ETresSoundAliasLabel_Projectile
+{
+	ETresSoundAliasLabel_Projectile_NOTHING = 0,
+	ETresSoundAliasLabel_Projectile_HIT1 = 1,
+	ETresSoundAliasLabel_Projectile_HIT2 = 2,
+	ETresSoundAliasLabel_Projectile_1_MAX = 3,
+	ETresSoundAliasLabel_Projectile_MAX = 4
+};
+
+UENUM(BlueprintType)
+enum ETresSoundAliasLabel
+{
+	ETresSoundAliasLabel_SEAL_NOTHING = 0,
+	ETresSoundAliasLabel_SEAL_HIT1 = 1,
+	ETresSoundAliasLabel_SEAL_HIT2 = 2,
+	ETresSoundAliasLabel_SEAL_HIT3 = 3,
+	ETresSoundAliasLabel_SEAL_HIT4 = 4,
+	ETresSoundAliasLabel_SEAL_HIT5 = 5,
+	ETresSoundAliasLabel_SEAL_HIT6 = 6,
+	ETresSoundAliasLabel_SEAL_HIT7 = 7,
+	ETresSoundAliasLabel_SEAL_SWING1 = 8,
+	ETresSoundAliasLabel_SEAL_SWING2 = 9,
+	ETresSoundAliasLabel_SEAL_SWING3 = 10,
+	ETresSoundAliasLabel_SEAL_SWING4 = 11,
+	ETresSoundAliasLabel_SEAL_MAX = 12,
+	ETresSoundAliasLabel_MAX = 13
+};
+
 USTRUCT(BlueprintType)
 struct FTresCollShapeAssetUnit
 {
@@ -3410,4 +3786,326 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
 	FString LocalizedText;
+};
+
+struct FTresMovementComponentPostPhysicsTickFunction : public FTickFunction
+{
+	//Looks Empty
+};
+
+USTRUCT(BlueprintType)
+struct FTresRailSlideWork
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRailSlideWork")
+	class AActor* m_LeadActor;
+	//class ASQEX_SplineActor* m_RailSlideActor;
+	//class USQEX_SplineComponent* m_RailSlideComponent;
+	//class ASQEX_SplineActor* m_LastRailSlideActor;
+	//class USQEX_SplineComponent* m_LastRailSlideComponent;
+	//class ASQEX_SplineActor* m_PauseCheckActor;
+	//class USQEX_SplineComponent* m_PauseCheckComponent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSkeletalFootStepUnit
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference m_Bone;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FName m_BoneName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	int m_BoneIndex;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	TEnumAsByte<ETresIkCollision> m_ShapeType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FVector m_OffsetLocation;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FRotator m_OffsetRotation;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FVector m_Size;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FVector m_CheckDist;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	float m_TouchedCheckDist;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FVector m_EffectScale;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	class UTresFootStepSet* m_FootStepSet;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	FVector m_FootStepSize;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	TEnumAsByte<ETresSkeletalFootStampDir> m_FootStampDir;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
+	float m_StampCheckDist;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkCollShapeAssetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FName m_GrpName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FName m_DefaultAttackDataIDName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	TEnumAsByte<ETresCollision> m_ShapeType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	class UStaticMesh* m_Mesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	struct FCollisionProfileName m_CollisionProfileName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	TEnumAsByte<ETresAtkCollLocationAttachType> m_AttachType1; 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FName m_SocketName1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bSocketName1UseParentSkeleton;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_RelativeLocation1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bAbsoluteOffset1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableLocation1Attach;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	TEnumAsByte<ETresAtkCollLocationAttachType> m_AttachType2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FName m_SocketName2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bSocketName2UseParentSkeleton;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_RelativeLocation2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bAbsoluteOffset2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableLocation2Attach;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_Size;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_IncSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_IncMaxSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	class UCurveVector* m_SizeVectorCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bSizeVectorCurveLoop;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FRotator m_RelativeRocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	TEnumAsByte<ETresAtkCollRotAttachType> m_RotAttachType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_Scale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_IncScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FVector m_IncMaxScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	class UCurveVector* m_ScaleVectorCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bScaleVectorCurveLoop;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableSweep;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bEnablePawnRootCollision;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bIsPhysAttackCollision;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	TEnumAsByte<ETresAtkCollMapHitType> m_MapHitType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bEnableMapHit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableGround;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableTakeDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableTeamCheck;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bZeroDamageIfSameTeam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bDisableCharHit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	bool m_bIgnoreParentScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	FName m_EffectGrpName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	class USoundBase* m_HitSEAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
+	TEnumAsByte<ETresSoundAliasLabel> m_HitSEID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDecalData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	class UMaterial* m_DecalMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_DecalSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_LifeSpan;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_FadeinTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_FadeoutTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkCollHitEffUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class UParticleSystem* m_PawnHitEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class USoundBase* m_PawnHitSEAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class UParticleSystem* m_PawnHitEffectPerAttr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class USoundBase* m_PawnHitSEAssetPerAttr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class UParticleSystem* m_DirectHitEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	bool m_bChangeMapHit;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class UParticleSystem* m_MapHitEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	bool m_bChangeSEMapHit;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	class USoundBase* m_MapHitSEAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	bool m_bEnableDecal;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
+	struct FTresDecalData m_DecalData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkColHitEffect
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	FName m_GrpName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class UParticleSystem* m_PawnHitEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class USoundBase* m_PawnHitSEAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class UParticleSystem* m_PawnHitEffectPerAttr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class USoundBase* m_PawnHitSEAssetPerAttr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class UParticleSystem* m_DirectHitEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	bool m_bChangeMapHit;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class UParticleSystem* m_MapHitEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	bool m_bChangeSEMapHit;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	class USoundBase* m_MapHitSEAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	bool m_bEnableDecal;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	struct FTresDecalData m_DecalData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
+	TArray<struct FTresAtkCollHitEffUnit> m_HitEffSet;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkCollAutoActivate
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
+	FName m_GrpName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
+	FName m_AttackDataIDName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
+	float m_AttackInterval;
 };

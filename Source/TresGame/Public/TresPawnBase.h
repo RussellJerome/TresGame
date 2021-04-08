@@ -14,8 +14,6 @@ class TRESGAME_API ATresPawnBase : public APawn
 	GENERATED_BODY()
 
 public:
-	ATresPawnBase();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
 	class UTresRootComponent* MyRoot;
 
