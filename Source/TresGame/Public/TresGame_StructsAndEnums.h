@@ -8,6 +8,7 @@
 #include"TresLevelEntitySequenceCondition.h"
 #include "BoneContainer.h"
 #include "Engine/CollisionProfile.h"
+#include "GameplayTagContainer.h"
 #include "TresGame_StructsAndEnums.generated.h"
 
 //---------------------------------------------------------------------------
@@ -4219,4 +4220,16 @@ struct FTresMapSetDataArray
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
 	TArray<FTresMapSetData>                     DataArray;                                                // 0x0000(0x0010) (Edit, ZeroConstructor)
+};
+
+USTRUCT(BlueprintType)
+struct FTresBehaviorTreeInjectionData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBehaviorTreeInjectionData")
+	struct FGameplayTag                                InjectionTag;                                             // 0x0000(0x0008) (Edit, BlueprintVisible)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBehaviorTreeInjectionData")
+	class UBehaviorTree* BehaviorTree;                                             // 0x0008(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
 };

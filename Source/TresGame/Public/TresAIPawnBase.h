@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresCharPawnBase.h"
+#include "TresGame_StructsAndEnums.h"
 #include "TresAIPawnBase.generated.h"
 
 /**
@@ -14,11 +15,11 @@ class TRESGAME_API ATresAIPawnBase : public ATresCharPawnBase
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
-	//class UBehaviorTree* MyAIBehavior;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
+	class UBehaviorTree* MyAIBehavior;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
-	//TArray<struct FTresBehaviorTreeInjectionData> m_DynamicAIBehavior;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
+	TArray<struct FTresBehaviorTreeInjectionData> m_DynamicAIBehavior;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	TArray<class UClass*> m_ActionDefinitions;
@@ -47,8 +48,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	float m_RageRandomDeviation;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
-	//struct FGameplayTag m_AttackGroup;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
+	struct FGameplayTag m_AttackGroup;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	bool bDebugDisplay;
@@ -86,8 +87,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	float m_FixedTurnMaxRotationSpeed;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
-	//TWeakObjectPtr<class UTresNpcSmartphoneCameraComponent> m_SmartphoneCameraComponentRef;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
+	TWeakObjectPtr<class UTresNpcSmartphoneCameraComponent> m_SmartphoneCameraComponentRef;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	//class UMercunaNavigationComponent* m_Navigation3DComponent;
@@ -101,8 +102,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
 	void SetRage(float inValue) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
-	//void SetAttackGroup(const struct FGameplayTag& inValue) {};
+	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
+	void SetAttackGroup(const struct FGameplayTag& inValue) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
 	//void OnMove3DCompleted(const struct FAIRequestID& RequestID, TEnumAsByte<EMercunaMoveResult> Result) {};
@@ -188,8 +189,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
 	float GetBattleTime() { return 0.0f; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
-	//struct FGameplayTag GetAttackGroup() { return FGameplayTag::FGameplayTag(); };
+	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
+	struct FGameplayTag GetAttackGroup() { return FGameplayTag::FGameplayTag(); };
 
 	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
 	float GetAttackCooldownRemaining() { return 0.0f; };
