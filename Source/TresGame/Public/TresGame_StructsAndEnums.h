@@ -3577,6 +3577,14 @@ enum ETresEffectAreaCode
 	TRES_EFFECT_AREA_MAX = 31
 };
 
+UENUM(BlueprintType)
+enum ETresMapSetObjType
+{
+	LevelPath = 0,
+	StreamingVolume = 1,
+	ETresMapSetObjType_MAX = 2
+};
+
 USTRUCT(BlueprintType)
 struct FTresCollShapeAssetUnit
 {
@@ -4175,4 +4183,40 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
 	class UParticleSystem* m_LeaveEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapSetObjData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
+	FName Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
+	TEnumAsByte<ETresMapSetObjType> Type;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapSetData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
+	bool                                               Load;                                                     // 0x0000(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
+	bool                                               Visible;                                                  // 0x0001(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
+	bool                                               Ignore;                                                   // 0x0002(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapSetDataArray
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
+	TArray<FTresMapSetData>                     DataArray;                                                // 0x0000(0x0010) (Edit, ZeroConstructor)
 };

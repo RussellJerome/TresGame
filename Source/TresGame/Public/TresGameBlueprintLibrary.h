@@ -1054,8 +1054,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresAsyncLoadInitialAssets() {};
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-//	static void TresApplyMapSet(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, class UTresMapSet* MapSet, const FName& cmdName, bool isOneFrameExecute) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresApplyMapSet(class UObject* WorldContextObject, const struct FLatentActionInfo LatentInfo, class UTresMapSet* MapSet, const FName& cmdName, bool isOneFrameExecute) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresApplyAreaNameAndNavMap(const FName& dataTableKey, bool enableAreaName, bool showAreaNameUI, bool enableNavMap, float switchNavMapTime) {};
