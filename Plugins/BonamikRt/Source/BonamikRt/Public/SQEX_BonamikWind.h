@@ -15,7 +15,6 @@ class BONAMIKRT_API USQEX_BonamikWind : public UObject
 {
 	GENERATED_BODY()
 public:
-
 	UFUNCTION(BlueprintCallable, Category = "SQEX_BonamikWind")
 	static void EnableByOwnerType(bool bEnable, TEnumAsByte<ESQEX_Bonamik_WindOwnerType> OwnerType) {};
 };

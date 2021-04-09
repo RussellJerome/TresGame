@@ -13,10 +13,7 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BONAMIKRT_API USQEX_Bonamik_Component : public USceneComponent
 {
 	GENERATED_BODY()
-
 public:	
-	USQEX_Bonamik_Component();
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_Bonamik_Component")
 	bool bHasSkeletalMeshSkippedTransforms;
 	
@@ -43,12 +40,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_Bonamik_Component")
 	float PrevScreenSize;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category="SQEX_Bonamik_Component")
 	void SQEX_SetEmissiveWindScale(TArray<FString> Groups, float Scale, bool bApplyToChildren) {};
@@ -184,5 +175,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="SQEX_Bonamik_Component")
 	void SQEX_Bonamik_AddReference(class USQEX_Bonamik_Component* OtherComponent, const FString& ReferenceGroupName) {};
-	
 };

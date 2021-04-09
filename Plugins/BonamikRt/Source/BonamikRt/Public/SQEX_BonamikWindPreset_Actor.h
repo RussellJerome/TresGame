@@ -11,17 +11,7 @@ UCLASS()
 class BONAMIKRT_API ASQEX_BonamikWindPreset_Actor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	ASQEX_BonamikWindPreset_Actor();
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_BonamikWindPreset_Actor")
 	USQEX_BonamikWindCollectionAsset* m_BonamikWindCollectionAsset;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-
 };

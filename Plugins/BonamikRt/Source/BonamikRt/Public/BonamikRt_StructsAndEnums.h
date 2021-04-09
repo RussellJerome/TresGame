@@ -169,6 +169,10 @@ enum ESQEX_Bonamik_WindType
 	ESQEX_Bonamik_WindType_MAX = 4 UMETA(DisplayName = "MAX")
 };
 
+//---------------------------------------------------------------------------
+//Structs
+//---------------------------------------------------------------------------
+
 USTRUCT(BlueprintType)
 struct FSQEX_BonamikPresetWindSettings
 {

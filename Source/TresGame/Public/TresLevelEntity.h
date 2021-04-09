@@ -99,9 +99,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
 	class AActor* m_EntityActor;
 
-	//TODO
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
-	//class ATresAIPawnBase* m_VanishingActor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
+	class ATresAIPawnBase* m_VanishingActor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
 	TArray<class UTresLevelEntityGroup*> m_Groups;

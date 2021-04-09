@@ -19,7 +19,6 @@ class USQEX_BonamikComponentInterface : public UInterface
 class BONAMIKRT_API ISQEX_BonamikComponentInterface
 {
 	GENERATED_BODY()
-
 public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "SQEX_BonamikComponentInterface")
 	void SQEX_Bonamik_TurnOn(const TArray<FString>& Groups, float BlendTime);
@@ -38,6 +37,4 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "SQEX_BonamikComponentInterface")
 	float SQEX_Bonamik_GetWeight();
-	
-	
 };

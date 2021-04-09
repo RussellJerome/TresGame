@@ -124,7 +124,7 @@ public:
 	UObject* GetLevelEntitySpawner() { return nullptr; };
 	
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-		class ATresLevelEntity* GetLevelEntity() { return nullptr; };
+	class ATresLevelEntity* GetLevelEntity() { return nullptr; };
 	
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
 	FRotator GetDirectionToLocation(const FVector& InLocation) { return FRotator::FRotator(); };
@@ -136,9 +136,9 @@ public:
 	UObject* GetBattleOwner() { return nullptr; };
 	
 	//TODO
-	//void CollisionChangePawnHitResponse(bool bIsEnable, const struct FName& InGrpName);
+	//void CollisionChangePawnHitResponse(bool bIsEnable, const FName& InGrpName);
 	//void CollisionChangeMapHitResponse(bool bIsEnable);
-	//void CollisionChangeAttackHitResponse(bool bIsEnable, const struct FName& InGrpName);
+	//void CollisionChangeAttackHitResponse(bool bIsEnable, const FName& InGrpName);
 	
 	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
 	void ClientCheatWalk() {};

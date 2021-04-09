@@ -15,7 +15,6 @@ class BONAMIKRT_API ASQEX_BonamikCustomWind_Actor : public ASQEX_BonamikWind_Act
 {
 	GENERATED_BODY()
 public:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_BonamikCustomWind_Actor")
 	FCustomWindSettings m_WindSetting;
 };

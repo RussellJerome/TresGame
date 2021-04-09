@@ -5,13 +5,16 @@
 	"Description": "",
 	"Modules": [
 		{
+			"Name": "BonamikRt",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
 			"Name": "TresGame",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine",
-				"CoreUObject",
-				"BonamikRt"
+				"AIModule"
 			]
 		}
 	]

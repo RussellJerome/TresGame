@@ -15,7 +15,6 @@ class BONAMIKRT_API USQEX_BonamikGlobalConfig : public UDeveloperSettings
 {
 	GENERATED_BODY()
 public:
-
 	UPROPERTY(config, EditAnywhere, Category = "SQEX_BonamikGlobalConfig")
 	bool bEnableTickComponent;
 	

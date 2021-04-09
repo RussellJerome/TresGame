@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "ModuleManager.h"
 
-class FBonamikRtModule : public IModuleInterface
+class FScaleformUIModule : public IModuleInterface
 {
 public:
 	virtual void StartupModule() override;

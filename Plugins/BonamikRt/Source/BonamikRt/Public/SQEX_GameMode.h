@@ -13,8 +13,4 @@ UCLASS()
 class BONAMIKRT_API ASQEX_GameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

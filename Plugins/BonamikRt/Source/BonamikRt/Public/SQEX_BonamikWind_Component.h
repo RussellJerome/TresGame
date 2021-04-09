@@ -13,10 +13,7 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BONAMIKRT_API USQEX_BonamikWind_Component : public USceneComponent
 {
 	GENERATED_BODY()
-
 public:	
-	USQEX_BonamikWind_Component();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_BonamikWind_Component")
 	TEnumAsByte<ESQEX_Bonamik_WindAreaType> m_BonamikWindAreaType;
 	
@@ -47,12 +44,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_BonamikWind_Component")
 	USQEX_BonamikWind* m_BonamikWind;
 
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	UFUNCTION(BlueprintCallable, Category = "SQEX_BonamikWind_Component")
 	void SetWindScale(float Value) {};
 
@@ -61,5 +52,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "SQEX_BonamikWind_Component")
 	void Enable(bool Value) {};
-	
 };
