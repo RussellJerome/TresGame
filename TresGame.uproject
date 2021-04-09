@@ -14,7 +14,8 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"AIModule"
+				"AIModule",
+				"CoreUObject"
 			]
 		}
 	]

@@ -8,7 +8,7 @@ public class TresGame : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTags", "BonamikRt" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTags", "BonamikRt", "ScaleformUI" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

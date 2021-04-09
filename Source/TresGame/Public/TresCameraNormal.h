@@ -105,7 +105,7 @@ public:
 	void SetAimRotation(const FRotator& Rot, bool bWorld, float Time) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraNormal")
-	class ATresCameraNormal* STATIC_BP_SpawnTresCameraNormal(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
+	static class ATresCameraNormal* BP_SpawnTresCameraNormal(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraNormal")
 	void BP_SetTargetMaxSpeed(float TargetMaxSpeed) {};

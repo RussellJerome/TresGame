@@ -69,7 +69,7 @@ public:
 	//void StartTresCamera(bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
-	//struct FViewTargetTransitionParamsEx STATIC_SetTresCameraTransitionParams(float BlendTime, TEnumAsByte<EViewTargetBlendFunction> BlendFunc, float BlendExp, bool bLockOutgoing, TEnumAsByte<EViewTargetBlendInterp> BlendInterp, TEnumAsByte<EViewTargetBlendInterpYaw> BlendInterpYaw, bool bBlendPostProcess) { return FViewTargetTransitionParamsEx::FViewTargetTransitionParamsEx(); };
+	//static struct FViewTargetTransitionParamsEx SetTresCameraTransitionParams(float BlendTime, TEnumAsByte<EViewTargetBlendFunction> BlendFunc, float BlendExp, bool bLockOutgoing, TEnumAsByte<EViewTargetBlendInterp> BlendInterp, TEnumAsByte<EViewTargetBlendInterpYaw> BlendInterpYaw, bool bBlendPostProcess) { return FViewTargetTransitionParamsEx::FViewTargetTransitionParamsEx(); };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
 	void SetPriority(int Priority) {};
@@ -162,7 +162,7 @@ public:
 	float BP_GetCurrentDistance() { return 0.0f; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
-	int STATIC_BP_GetActionPriority() { return 0; };
+	static int BP_GetActionPriority() { return 0; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
 	void BP_EnableMotionBlur(bool bEnable) {};

@@ -208,7 +208,7 @@ public:
 	void ReceiveGFxCommand(const FString& Command, const FString& Arguments) {};
 
 	UFUNCTION(BlueprintCallable, Category = "GFxMoviePlayer")
-	class UGFxMoviePlayer* STATIC_OpenMovie(class USwfMovie* SwfMovie, class UObject* ExternalScriptInterface, class UTextureRenderTarget2D* RenderToTexture, class UGFxMoviePlayer* MoviePlayer, bool DisplayWithHudOff, bool StartPaused) { return nullptr; };
+	static class UGFxMoviePlayer* OpenMovie(class USwfMovie* SwfMovie, class UObject* ExternalScriptInterface, class UTextureRenderTarget2D* RenderToTexture, class UGFxMoviePlayer* MoviePlayer, bool DisplayWithHudOff, bool StartPaused) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "GFxMoviePlayer")
 	void OnTick(float DeltaTime) {};

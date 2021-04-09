@@ -27,7 +27,7 @@ public:
 	FRotator GetBaseRotation() { return FRotator::FRotator(); };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
-	class ATresCameraRotTarget* STATIC_BP_SpawnTresCameraRotTarget(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
+	static class ATresCameraRotTarget* BP_SpawnTresCameraRotTarget(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
 	//void BP_SetControllerStick(TEnumAsByte<ETresCameraStick> LRStick) {};

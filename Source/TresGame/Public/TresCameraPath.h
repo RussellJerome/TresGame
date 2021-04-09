@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API ATresCameraPath : public ATresCameraTarget
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };
