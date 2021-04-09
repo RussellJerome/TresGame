@@ -104,7 +104,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCameraNormal")
 	void SetAimRotation(const FRotator& Rot, bool bWorld, float Time) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresCameraNormal")
+	UFUNCTION(BlueprintCallable, Category = "TresCameraNormal", meta = (WorldContext = "WorldContextObject"))
 	static class ATresCameraNormal* BP_SpawnTresCameraNormal(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraNormal")

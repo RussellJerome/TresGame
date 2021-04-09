@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresCameraRotTarget")
 	FRotator GetBaseRotation() { return FRotator::FRotator(); };
 
-	UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
+	UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget", meta = (WorldContext = "WorldContextObject"))
 	static class ATresCameraRotTarget* BP_SpawnTresCameraRotTarget(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
