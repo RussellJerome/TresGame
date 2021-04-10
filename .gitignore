@@ -67,7 +67,8 @@ Build/*/**
 Saved/*
 
 # Content files (No Peeking) :)
-Content/*
+# Mate we need the content folder for blueprints, if you want to ignore a folder have it be your mods folder or somthin XD
+#Content/*
 
 # Compiled source files for the engine to use
 Intermediate/*
