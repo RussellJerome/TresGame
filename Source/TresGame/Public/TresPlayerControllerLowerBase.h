@@ -26,14 +26,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
 	void ToggleTresCameraDebug() {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void OnDebugPauseFrameSkip() {};
+	UFUNCTION(BlueprintNativeEvent, Category = "TresPlayerControllerLowerBase")
+	void OnDebugPauseFrameSkip();
+	void OnDebugPauseFrameSkip_Implementation() {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void OnDebugPauseEnableGamePad() {};
+	UFUNCTION(BlueprintNativeEvent, Category = "TresPlayerControllerLowerBase")
+	void OnDebugPauseEnableGamePad();
+	void OnDebugPauseEnableGamePad_Implementation() {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	void OnDebugPauseEnable() {};
+	UFUNCTION(BlueprintNativeEvent, Category = "TresPlayerControllerLowerBase")
+	void OnDebugPauseEnable();
+	void OnDebugPauseEnable_Implementation() {};
 
 	UFUNCTION(BlueprintPure, Category = "TresPlayerControllerLowerBase")
 	class ATresCameraManager* GetTresCameraManager() { return nullptr; };

@@ -3586,6 +3586,146 @@ enum ETresMapSetObjType
 	ETresMapSetObjType_MAX = 2
 };
 
+UENUM(BlueprintType)
+enum ETresDlcChallengeCode
+{
+	LevelOne = 0,
+	GuardZero = 1,
+	APLimit = 2,
+	HPCurse = 3,
+	MPCurse = 4,
+	BanCure = 5,
+	BanBattleItem = 6,
+	BanFormChange = 7,
+	BanShootflow = 8,
+	BanAttractionFlow = 9,
+	BanFriendLink = 10,
+	BanDisneyMagic = 11,
+	BanMogMedal = 12,
+	_CodeMax = 13,
+	_Max = 14,
+	ETresDlcChallengeCode_MAX = 15
+};
+
+UENUM(BlueprintType)
+enum ETresShootFlowKind
+{
+	TRES_SF_KIND_NONE = 0,
+	TRES_SF_KIND_SHOOTFLOW1 = 1,
+	TRES_SF_KIND_SHOOTFLOW2 = 2,
+	TRES_SF_KIND_SHOOTFLOW3 = 3,
+	TRES_SF_KIND_SHOOTFLOW4 = 4,
+	TRES_SF_KIND_SHOOTFLOW5 = 5,
+	TRES_SF_KIND_SHOOTFLOW6 = 6,
+	TRES_SF_KIND_SHOOTFLOW7 = 7,
+	TRES_SF_KIND_SHOOTFLOW8 = 8,
+	TRES_SF_KIND_SHOOTFLOW9 = 9,
+	TRES_SF_KIND_SHOOTFLOW10 = 10,
+	TRES_SF_KIND_SHOOTFLOW11 = 11,
+	TRES_SF_KIND_SHOOTFLOW12 = 12,
+	TRES_SF_KIND_SHOOTFLOW13 = 13,
+	TRES_SF_KIND_SHOOTFLOW14 = 14,
+	TRES_SF_KIND_SHOOTFLOW15 = 15,
+	TRES_SF_KIND_SHOOTFLOW16 = 16,
+	TRES_SF_KIND_SHOOTFLOW17 = 17,
+	TRES_SF_KIND_SHOOTFLOW18 = 18,
+	TRES_SF_KIND_SHOOTFLOW19 = 19,
+	TRES_SF_KIND_SHOOTFLOW20 = 20,
+	TRES_SF_KIND_SHOOTFLOW21 = 21,
+	TRES_SF_KIND_SHOOTFLOW22 = 22,
+	TRES_SF_KIND_SHOOTFLOW23 = 23,
+	TRES_SF_KIND_SHOOTFLOW24 = 24,
+	TRES_SF_KIND_SHOOTFLOW25 = 25,
+	TRES_SF_KIND_SHOOTFLOW26 = 26,
+	TRES_SF_KIND_SHOOTFLOW27 = 27,
+	TRES_SF_KIND_SHOOTFLOW28 = 28,
+	TRES_SF_KIND_SHOOTFLOW29 = 29,
+	TRES_SF_KIND_SHOOTFLOW30 = 30,
+	TRES_SF_KIND_SHOOTFLOW31 = 31,
+	TRES_SF_KIND_SHOOTFLOW32 = 32,
+	TRES_SF_KIND_SHOOTFLOW33 = 33,
+	TRES_SF_KIND_SHOOTFLOW34 = 34,
+	TRES_SF_KIND_SHOOTFLOW35 = 35,
+	TRES_SF_KIND_FOCUSASPIR = 36,
+	TRES_SF_KIND_ATHLETICFLOW = 37,
+	TRES_SF_KIND_RAINBOWSHOWER = 38,
+	TRES_SF_KIND_SHINING = 39,
+	TRES_SF_KIND_SHOOTFLOW40 = 40,
+	TRES_SF_KIND_SHOOTFLOW41 = 41,
+	TRES_SF_KIND_SHOOTFLOW42 = 42,
+	TRES_SF_KIND_DARKFIRAGA = 43,
+	TRES_SF_KIND_SHOOTFLOW44 = 44,
+	TRES_SF_KIND_END = 45,
+	TRES_SF_KIND_MAX = 46
+};
+
+UENUM(BlueprintType)
+enum ETresLockonPriority
+{
+	LOW = 0,
+	HIGH = 1,
+	ETresLockonPriority_MAX = 2
+};
+
+UENUM(BlueprintType)
+enum ETresProjectileRespawnType
+{
+	TPR_TYPE_HIT_ALWAYS = 0,
+	TPR_TYPE_HIT_ANY = 1,
+	TPR_TYPE_HIT_PAWN = 2,
+	TPR_TYPE_HIT_MAP = 3,
+	TPR_TYPE_NO_HIT = 4,
+	TPR_TYPE_MAX = 5
+};
+
+UENUM(BlueprintType)
+enum ETresProjectileRespawnRotType
+{
+	TPRR_NORMAL = 0,
+	TPRR_YAW_ONLY = 1,
+	TPRR_CLEAR = 2,
+	TPRR_MAX = 3
+};
+
+UENUM(BlueprintType)
+enum ETresProjectileInnerWaterVolumeProc
+{
+	ETresProjectileInnerWaterVolumeProc_NOTHING = 0,
+	ETresProjectileInnerWaterVolumeProc_SHUTDOWN = 1,
+	ETresProjectileInnerWaterVolumeProc_MAPHITEXPLODE = 2,
+	ETresProjectileInnerWaterVolumeProc_SHUTDOWN_DOWN = 3,
+	ETresProjectileInnerWaterVolumeProc_MAPHITEXPLODE_DOWN = 4,
+	ETresProjectileInnerWaterVolumeProc_MAX = 5
+};
+
+UENUM(BlueprintType)
+enum ETresProjectileHomingType
+{
+	ETresProjectileHomingType_NORMAL = 0,
+	ETresProjectileHomingType_IGNORE_Z = 1,
+	ETresProjectileHomingType_PITCH_YAW = 2,
+	ETresProjectileHomingType_1_MAX = 3,
+	ETresProjectileHomingType_MAX = 4
+};
+
+UENUM(BlueprintType)
+enum ETresReactionResultType
+{
+	TRES_REACT_RESULT_NONE = 0,
+	TRES_REACT_RESULT_NOREACTION = 1,
+	TRES_REACT_RESULT_DAMAGE = 2,
+	TRES_REACT_RESULT_REFLECT = 3,
+	TRES_REACT_RESULT_GUARD_REFLECT = 4,
+	TRES_REACT_RESULT_GUARD = 5,
+	ARMOR_BREAK = 6,
+	STRONG_BODY_DAMAGE1 = 7,
+	STRONG_BODY_DAMAGE2 = 8,
+	STRONG_BODY_DAMAGE3 = 9,
+	STRONG_BODY_DAMAGE4 = 10,
+	ETresReactionResultType_1_MAX = 11,
+	ETresReactionResultType_MAX = 12
+};
+
 USTRUCT(BlueprintType)
 struct FTresCollShapeAssetUnit
 {
@@ -4232,4 +4372,98 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBehaviorTreeInjectionData")
 	class UBehaviorTree* BehaviorTree;                                             // 0x0008(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
+};
+
+USTRUCT(BlueprintType)
+struct FTresProjectileSpawnData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	class UClass* m_GenerateClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	TEnumAsByte<ETresProjectileRespawnType> m_CheckType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	TEnumAsByte<ETresProjectileRespawnRotType> m_RotInheritType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	float m_CheckRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bOnGroundOnly;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bBlockByWaterSurface;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bTakeOverAtkTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bTakeOverAtkCollHitList;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bTakeOverAtkCollFinishFlag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bIgnoreSendShutdownMsgToOwner;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bTakeOverEffectColorParam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	bool m_bTakeOverEffectAlphaParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEffectUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEffectUnit")
+	class UParticleSystem* MyParticleSystem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEffectUnit")
+	class USoundBase* MySoundCue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEffectUnit")
+	struct FTresDecalData MyTresDecal;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVectorAnim
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	struct FVector m_SrcValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	struct FVector m_UpdatedValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	struct FVector m_LimitMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	struct FVector m_LimitMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	class UCurveVector* m_pCurveVectorAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	bool m_bLoopCurveAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	bool m_bLimitMinValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	bool m_bLimitMaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresScaleVectorAnim : public FTresVectorAnim
+{
+	GENERATED_BODY()
+public:
 };
