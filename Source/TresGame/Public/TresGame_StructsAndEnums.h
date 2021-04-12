@@ -9,6 +9,7 @@
 #include "BoneContainer.h"
 #include "Engine/CollisionProfile.h"
 #include "GameplayTagContainer.h"
+#include "Engine/DataTable.h"
 #include "TresGame_StructsAndEnums.generated.h"
 
 //---------------------------------------------------------------------------
@@ -4344,13 +4345,13 @@ struct FTresMapSetData
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
-	bool                                               Load;                                                     // 0x0000(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+	bool Load;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
-	bool                                               Visible;                                                  // 0x0001(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+	bool Visible;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
-	bool                                               Ignore;                                                   // 0x0002(0x0001) (Edit, ZeroConstructor, IsPlainOldData)
+	bool Ignore;
 };
 
 USTRUCT(BlueprintType)
@@ -4359,7 +4360,7 @@ struct FTresMapSetDataArray
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
-	TArray<FTresMapSetData>                     DataArray;                                                // 0x0000(0x0010) (Edit, ZeroConstructor)
+	TArray<FTresMapSetData> DataArray;
 };
 
 USTRUCT(BlueprintType)
@@ -4368,10 +4369,10 @@ struct FTresBehaviorTreeInjectionData
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBehaviorTreeInjectionData")
-	struct FGameplayTag                                InjectionTag;                                             // 0x0000(0x0008) (Edit, BlueprintVisible)
+	struct FGameplayTag InjectionTag;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBehaviorTreeInjectionData")
-	class UBehaviorTree* BehaviorTree;                                             // 0x0008(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
+	class UBehaviorTree* BehaviorTree;
 };
 
 USTRUCT(BlueprintType)
@@ -4466,4 +4467,34 @@ struct FTresScaleVectorAnim : public FTresVectorAnim
 {
 	GENERATED_BODY()
 public:
+};
+
+USTRUCT(BlueprintType)
+struct FTresAreaNameDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
+	FString AreaNameKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
+	FString SubAreaNameKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
+	FName MapNameKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
+	FName NavMapNameKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapNameDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapNameDataTable")
+	TAssetPtr<UTexture> IconAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapNameDataTable")
+	FString NameKey;
 };
