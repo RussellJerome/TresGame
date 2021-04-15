@@ -39,8 +39,8 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//	class UTresBodyCollComponent* MyBodyColl;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresEquipmentComponent* MyEquipment;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresEquipmentComponent* MyEquipment;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//	class UTresStateQueueComponent* MyStateComp;
