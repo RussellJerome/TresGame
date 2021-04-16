@@ -52,13 +52,6 @@ public:
 	//TODO
 //	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
 //	TArray<class UTresInterpGroupInst*> m_InterpGroupInst;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
 	bool WarpToTaggedPlayerStart(const FName& InTag, bool bResetCamera, bool bStateClear) { return false; };

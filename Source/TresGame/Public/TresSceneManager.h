@@ -11,17 +11,9 @@ class TRESGAME_API ATresSceneManager : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	ATresSceneManager();
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresSceneManager)
 	class UMaterialParameterCollection* m_MPCSysCommon;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
 
 	/*void TrgSceneCapture(bool InIsEnableInvGamma, bool inIsSmartPhoneCameraCapture, bool inIsCampBackground);
 	void SetVFXBlurDefault(float InTransitionTime, ETresObjTypeProcChannel InChannel, TEnumAsByte<ETresScreenEffectPriority> InPriority, bool IsEject);

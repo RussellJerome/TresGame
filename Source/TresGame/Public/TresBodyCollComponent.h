@@ -14,8 +14,6 @@ class TRESGAME_API UTresBodyCollComponent : public USceneComponent
 	GENERATED_BODY()
 
 public:
-	UTresBodyCollComponent();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollComponent")
 	TArray<class UPrimitiveComponent*> m_IBodyPrims;
 	
@@ -42,12 +40,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollComponent")
 	TArray<struct FTresOverlapInfo> m_OverlapList;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCosmetic, Category = "TresBodyCollComponent")
 	void OnBodyEndOverlap(class UTresBodyCollPrimitive* MyPrim, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);

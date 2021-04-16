@@ -24,9 +24,6 @@ public:
 		//MyMesh = ObjectInitializer.CreateDefaultSubobject<UTresSkeletalMeshComponent>(this, TEXT("MyMesh"));
 	};
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	class UTresCharMovementComponent* MyMovement;*/
-
 	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	class UTresCharMovementComponent* MyMovement;
 
@@ -171,8 +168,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	bool m_bCameraLookPosToMesh;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class UTresUIDataAssetStatus* m_pUIDataStatus;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresUIDataAssetStatus* m_pUIDataStatus;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	bool MySkelCtrl_IkDisableFlag;

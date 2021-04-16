@@ -12,9 +12,7 @@ class TRESGAME_API ATresLevelEntity : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	ATresLevelEntity();
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
 	bool m_ForceLazyLoad;
 
@@ -134,12 +132,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelEntity")
 	bool m_AutoDestroy;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelEntity")
 	void LinkActorPosition() {};

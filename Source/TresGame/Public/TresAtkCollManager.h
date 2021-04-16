@@ -11,9 +11,7 @@ class TRESGAME_API ATresAtkCollManager : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	ATresAtkCollManager();
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
 	TArray<class UTresAtkCollComponent*> m_AtkCompList;
 
@@ -43,13 +41,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
 	TArray<class AActor*> m_JoinForceTargetList;
-
-protected:
-	virtual void BeginPlay() override;
-
-public:
-	virtual void Tick(float DeltaTime) override;
-
-	
-	
 };
