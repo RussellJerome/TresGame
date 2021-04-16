@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresPlayerStart.h"
+#include "TresGame_StructsAndEnums.h"
 #include "TresSavePointActor.generated.h"
 
 /**
@@ -14,14 +15,14 @@ class TRESGAME_API ATresSavePointActor : public ATresPlayerStart
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	//class UTresReactorComponent* MyReactor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
+	class UTresReactorComponent* MyReactor;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
 	//class UTresSavePointRecoverComponent* MyRecover;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	//class UTresMapMarkerComponent* MyMapMarker;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
+	class UTresMapMarkerComponent* MyMapMarker;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
 	bool m_bAutoActivate;
@@ -77,9 +78,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
 	void ReceiveGimmickActivate(bool bEnable) {};
 
-	/*UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
+	UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
 	void OnChangeSavePointDispType(ETresSavePointDispType InDispType);
-	void OnChangeSavePointDispType_Implementation(ETresSavePointDispType InDispType) {};*/
+	void OnChangeSavePointDispType_Implementation(ETresSavePointDispType InDispType) {};
 
 	UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
 	void OnChangePlayerArtsMode(bool bIsArtsMode);

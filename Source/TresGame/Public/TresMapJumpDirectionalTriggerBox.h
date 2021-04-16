@@ -32,8 +32,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
 	float m_OverrideMarkerSize;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
-	//class UTresMapMarkerComponent* MapMarkerComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
+	class UTresMapMarkerComponent* MapMarkerComponent;
 
 	UFUNCTION(BlueprintCallable, Category = "TresMapJumpDirectionalTriggerBox")
 	void SetActiveMapMarker(bool Active) {};

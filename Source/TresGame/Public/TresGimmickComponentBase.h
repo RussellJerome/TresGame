@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/PrimitiveComponent.h"
+#include "TresGame_StructsAndEnums.h"
 #include "TresGimmickComponentBase.generated.h"
 
 /**

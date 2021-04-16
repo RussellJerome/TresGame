@@ -14,8 +14,8 @@ class TRESGAME_API ATresPlayerPawnBase : public ATresAIPawnBase
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresFriendComponent* MyFrdMgr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
+	class UTresFriendComponent* MyFrdMgr;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	//class UTresPlayerStateEventComponent* MyStateEvent;
@@ -458,8 +458,8 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	//class ATresCameraDiving* m_pSwimDivingCamera;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//TEnumAsByte<ETresPlayerFlyModes> MyFlyMotion;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
+	TEnumAsByte<ETresPlayerFlyModes> MyFlyMotion;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	TEnumAsByte<ETresPlayerJumpModes> MyJumpMotion;
@@ -825,8 +825,8 @@ public:
 	//UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
 	//class UTresPlayerStateEvent* GetPlayerStateEvent(int Idx) { return nullptr; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
-	//class UTresFriendComponent* GetFriendManager() { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresPlayerPawnBase")
+	class UTresFriendComponent* GetFriendManager() { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
 	void DebugWarpCheck(bool bEnable) {};
