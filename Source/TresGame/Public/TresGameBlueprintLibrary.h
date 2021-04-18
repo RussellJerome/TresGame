@@ -190,14 +190,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_SetHudBaymaxLocationMarker(class AActor* Marker, float Distance) {};
 	
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_SetHudBaymaxHeroMarker(class ATresCharPawnBase* CharPawn, ETresUIHudBaymaxHero HeroKind, float Gauge, float Distance, const struct FVector& Location) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_SetHudBaymaxHeroMarker(class ATresCharPawnBase* CharPawn, TEnumAsByte<ETresUIHudBaymaxHero> HeroKind, float Gauge, float Distance, const FVector& Location) {};
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_SetHudBaymaxFinish(bool Visible) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_SetHudBaymaxEnemyMarker(class ATresCharPawnBase* CharPawn, float Distance) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_SetHudBaymaxEnemyMarker(class ATresCharPawnBase* CharPawn, float Distance) {};
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_SetHudBaymaxCountDown(ETresUIHudBaymaxCountDown CountKind) {};
@@ -341,7 +341,7 @@ public:
 	static void TresUI_OpenHudBaymaxLiveFeed(int Kind) {};
 	
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_OpenHudBaymax(ETresUIHudBaymaxKind HudKind, float RecordTime, int RecordScore, class UTresTimerTask* Task) {};
+	//static void TresUI_OpenHudBaymax(TEnumAsByte<ETresUIHudBaymaxKind> HudKind, float RecordTime, int RecordScore, class UTresTimerTask* Task) {};
 	
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void TresUI_OpenHologramStartMenu(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const FName& ReturnMapName, const FName& ReturnPlayerStartTag) {};
@@ -394,8 +394,8 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void TresUI_MapInNoticeMessage(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, bool EnableBGMask) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_LoadMissionGageIcon(TAssetPtr<class USwfMovie> IconAsset) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_LoadMissionGageIcon(TAssetPtr<class USwfMovie> IconAsset) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool TresUI_IsPlayingVideo() { return false; };
@@ -574,11 +574,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_AddHudBaymaxLocationMarker(class AActor* Marker, const struct FVector& Location) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_AddHudBaymaxHeroMarker(class ATresCharPawnBase* CharPawn, ETresUIHudBaymaxHero HeroKind, float GaugeMax, const struct FVector& InitialLocation) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_AddHudBaymaxHeroMarker(class ATresCharPawnBase* CharPawn, TEnumAsByte<ETresUIHudBaymaxHero> HeroKind, float GaugeMax, const FVector& InitialLocation) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_AddHudBaymaxEnemyMarker(class ATresCharPawnBase* CharPawn) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_AddHudBaymaxEnemyMarker(class ATresCharPawnBase* CharPawn) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_AddHudBaymaxDataPoint(int Point) {};
@@ -586,11 +586,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_AddGigasGameGimmickBonus(ETresUIGigasGameGimmickType Type, const struct FVector& Location, int Bonus) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_AddGigasGameCommonPoint(class ATresEnemyPawnBase* DeadEnemy, int Score) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_AddGigasGameCommonPoint(class ATresEnemyPawnBase* DeadEnemy, int Score) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_AddGigasGameAcePoint(class ATresEnemyPawnBase* DeadEnemy, int Score) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_AddGigasGameAcePoint(class ATresEnemyPawnBase* DeadEnemy, int Score) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_AddActionCommandMode(TEnumAsByte<ETresCommandKind> CommandKind, ETresUIHudCommandExKind CommandKindEx) {};
@@ -733,8 +733,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresSetMatineeForMovie(class AMatineeActor* MatineeActor, bool IsMovie) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresSetIKinemaEnable(TArray<class ATresCharPawnBase*> TresCharPawns, bool Enable, bool Force) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresSetIKinemaEnable(TArray<class ATresCharPawnBase*> TresCharPawns, bool Enable, bool Force) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresSetForceMipLevelsToBeResidentForTaggedActor(class UObject* WorldContextObject, const FName& TagName, bool OverrideForceMiplevelsToBeResident, bool bForceMiplevelsToBeResidentValue, float Duration, int CinematicTextureGroups) {};
@@ -847,8 +847,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static FString TresGetVoiceLanguage() { return FString::FString(); };
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-//	static void TresGetVictoryBonus(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, ETresVictoryBonusKind InBonus, ETresAbilityKind InAbility) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void TresGetVictoryBonus(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, TEnumAsByte<ETresVictoryBonusKind> InBonus, ETresAbilityKind InAbility) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresGetOceanSimulationWorldMinY(class UObject* WorldContextObject, float& WorldMinY) {};
@@ -874,8 +874,8 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static class ATresLgRxManager* TresGetLgRxManager(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class UTresFriendComponent* TresGetFriendManager(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class UTresFriendComponent* TresGetFriendManager(class UObject* WorldContextObject) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static FString TresGetCurrentLocale() { return FString::FString(); };
@@ -982,17 +982,17 @@ public:
 //	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 //	static void TresCreateMatrixInstancedStaticMesh(class UInstancedStaticMeshComponent* cp, const struct FTresVectorInt& CreateNum, const struct FTransform& Transform, const struct FVector& Offset) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresCopyLightParam(class ULightComponent* src, class ULightComponent* Dest);
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresCopyLightParam(class ULightComponent* src, class ULightComponent* Dest) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool TresCompareComponentMobility(class USceneComponent* Component, TEnumAsByte<EComponentMobility::Type> Type) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresCinematicStartPawnChatMode(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, bool InDisableWeapon) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void TresCinematicStartPawnChatMode(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, bool InDisableWeapon) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresCinematicSetPawnIndividualCinematicMode(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, bool InAIStop, bool InChangeCinematicState) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void TresCinematicSetPawnIndividualCinematicMode(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, bool InAIStop, bool InChangeCinematicState) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresCinematicPlayerStateClearEx(class UObject* WorldContextObject, bool bForceStateClear, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion) {};
@@ -1099,8 +1099,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void SetWorldResidentsEnable(bool EnableWorldResidents) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void SetTresCameraNormalDefault(class UObject* WorldContextObject, class ATresCameraNormal* TresCameraNormal) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void SetTresCameraNormalDefault(class UObject* WorldContextObject, class ATresCameraNormal* TresCameraNormal) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void SetShadowSettingPS4Default() {};
@@ -1262,8 +1262,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static bool RemoteEvent(class UObject* WorldContextObject, const FName& EventName) { return false; };
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-//	static void RegisterEnemyGaugeTarget(class UObject* WorldContextObject, class ATresCharPawnBase* InEnemy, bool bMulti) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void RegisterEnemyGaugeTarget(class UObject* WorldContextObject, class ATresCharPawnBase* InEnemy, bool bMulti) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void RegistComponentTickFunction(class UActorComponent* Component, bool regist) {};
@@ -1334,11 +1334,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool IsInViewportActor(class AActor* Actor) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static bool IsInFrustumVolumeLocation(class APlayerCameraManager* PlayerCameraManager, const struct FVector& WorldLocation, float SphereRadius) { return false; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static bool IsInFrustumVolumeLocation(class APlayerCameraManager* PlayerCameraManager, const FVector& WorldLocation, float SphereRadius) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static bool IsInFrustumVolumeActor(class APlayerCameraManager* PlayerCameraManager, class AActor* Actor, float SphereRadius) { return false; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static bool IsInFrustumVolumeActor(class APlayerCameraManager* PlayerCameraManager, class AActor* Actor, float SphereRadius) { return false; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool IsGameCleared() { return false; };
@@ -1370,14 +1370,14 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	//static class UTresTexturePump* GetTresTexturePump(const FString& DataName) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresPlayerPawnBase* GetTresPlayerPawnBase(class UObject* WorldContextObject, int PlayerIndex) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresPlayerPawnBase* GetTresPlayerPawnBase(class UObject* WorldContextObject, int PlayerIndex) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresPlayerControllerBase* GetTresPlayerControllerBase(class UObject* WorldContextObject, int PlayerIndex) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresPlayerControllerBase* GetTresPlayerControllerBase(class UObject* WorldContextObject, int PlayerIndex) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresLevelScriptActor* GetTresLevelScriptActor(class UObject* WorldContextObject, const FName& PackageName) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresLevelScriptActor* GetTresLevelScriptActor(class UObject* WorldContextObject, const FName& PackageName) { return nullptr; };
 
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static class ATresGumiShipWorldSymbolActor* GetTresGumiShipBossBattleLockTargetWorldSymbolActor(class UObject* WorldContextObject) { return nullptr; };
@@ -1388,11 +1388,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static int GetStaticMeshComponents(class AActor* Target, TArray<class UStaticMeshComponent*>& OutComponents) { return 0; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresPlayerPawnBase* GetLocalTresPlayerPawnBase(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresPlayerPawnBase* GetLocalTresPlayerPawnBase(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresPlayerControllerLowerBase* GetLocalTresPlayerControllerLowerBase(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresPlayerControllerLowerBase* GetLocalTresPlayerControllerLowerBase(class UObject* WorldContextObject) { return nullptr; };
 
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static class ATresPlayerControllerBase* GetLocalTresPlayerControllerBase(class UObject* WorldContextObject) { return nullptr; };
@@ -1400,8 +1400,8 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static class ATresGumiShipPlayerPawnBase* GetLocalTresGumiShipPlayerPawnBase(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresCameraManager* GetLocalTresCameraManager(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresCameraManager* GetLocalTresCameraManager(class UObject* WorldContextObject) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class APlayerController* GetLocalPlayerController(class UObject* WorldContextObject) { return nullptr; };
@@ -1551,8 +1551,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void DebugTresDeleteFriend(bool isAll, int inIdx) {};
 
-	/*UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static class ATresEnemyPawnBase* DebugSimpleEnemySet(class UObject* WorldContextObject, const FName& EnemyID, float OffsetX, float OffsetY, float OffsetZ) { return nullptr; };*/
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresEnemyPawnBase* DebugSimpleEnemySet(class UObject* WorldContextObject, const FName& EnemyID, float OffsetX, float OffsetY, float OffsetZ) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void DebugConsoleCommand(const FString& Command) {};
@@ -1609,9 +1609,8 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void BPTresStartFadeIn(class UObject* WorldContextObject, const struct FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed) {};
 
-	//TODO
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void BPTresSetupChatMode(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn1, class ATresCharPawnBase* InPawn2) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void BPTresSetupChatMode(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn1, class ATresCharPawnBase* InPawn2) {};
 
 	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
@@ -1630,15 +1629,14 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static float BPTresGetFadeAmount(class UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer) { return 0.0f; };
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-//	static void BPTresDoAttractionFlowMarkerDraw(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void BPTresDoAttractionFlowMarkerDraw(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void BPTresCinematicPlayerTrinityDie(class UObject* WorldContextObject) {};
 
-	//TODO
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void BPTresCinematicChrTurnTo(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, const struct FVector& InLocation, bool InDisableWeapon) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void BPTresCinematicChrTurnTo(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn, const FVector& InLocation, bool InDisableWeapon) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static bool BPTresCheckSpecialShipLevel(class UObject* WorldContextObject) { return false; };
@@ -1976,9 +1974,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void BP_AddMunny(int munny) {};
 
-	//TODO
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void AllPrizeCollection(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void AllPrizeCollection(class UObject* WorldContextObject, class ATresCharPawnBase* InPawn) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void AllEndLensEffect(class UObject* WorldContextObject) {};

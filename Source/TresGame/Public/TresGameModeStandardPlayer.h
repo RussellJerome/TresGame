@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "TresChrBaseParam.generated.h"
+#include "TresGameMode.h"
+#include "TresGameModeStandardPlayer.generated.h"
 
 /**
  * 
  */
-UCLASS(Blueprintable)
-class TRESGAME_API UTresChrBaseParam : public UObject
+UCLASS()
+class TRESGAME_API ATresGameModeStandardPlayer : public ATresGameMode
 {
 	GENERATED_BODY()
 };

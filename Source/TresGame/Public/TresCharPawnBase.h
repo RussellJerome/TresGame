@@ -153,8 +153,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	bool m_bEquipmentAutoSpawn;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class UTresPoleComponent* m_LastHitPoleComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresPoleComponent* m_LastHitPoleComponent;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//class UTresHopComponent* m_LastHitHopComponent;
@@ -195,8 +195,8 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//struct FScriptMulticastDelegate OnTresTakeDamage;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresLockonTargetComponent* m_FlowTarget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresLockonTargetComponent* m_FlowTarget;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//	class UTresAttractionFlowMarkerComponent* m_AttractionFlowMarker;

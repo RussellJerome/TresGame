@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "TresChrBaseParam.generated.h"
+#include "TresVolume.h"
+#include "TresWinniePuzzleWallVolume.generated.h"
 
 /**
  * 
  */
-UCLASS(Blueprintable)
-class TRESGAME_API UTresChrBaseParam : public UObject
+UCLASS()
+class TRESGAME_API ATresWinniePuzzleWallVolume : public ATresVolume
 {
 	GENERATED_BODY()
 };

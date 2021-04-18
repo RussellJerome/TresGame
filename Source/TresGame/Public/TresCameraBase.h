@@ -26,8 +26,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraBase")
 	class ATresCameraManager* m_SpawnCameraManager;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraBase")
-	//class UTresLockonTargetComponent* m_LockonTargetCmp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraBase")
+	class UTresLockonTargetComponent* m_LockonTargetCmp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraBase")
 	class UClass* m_CameraLocClass;

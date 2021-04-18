@@ -59,14 +59,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
 	class UTresLockonTargetComponent* m_pAthleticFlowStartPointDispComponent;
-	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
 	class AActor* m_pAttackCameraTarget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerControllerBase")
 	TArray<class ATresProjectileBase*> m_AvaterProjList;
-
 
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerBase")
 	void SimulateKeypress(const FKey& Key, TEnumAsByte<EInputEvent> EventType, float AmountDepressed, bool bGamepad) {};

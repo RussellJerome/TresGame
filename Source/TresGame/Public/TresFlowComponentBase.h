@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TresVolume.h"
-#include "TresEncountSubEQSVolume.generated.h"
+#include "TresLockonTargetComponent.h"
+#include "TresFlowComponentBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TRESGAME_API ATresEncountSubEQSVolume : public ATresVolume
+class TRESGAME_API UTresFlowComponentBase : public UTresLockonTargetComponent
 {
 	GENERATED_BODY()
 };

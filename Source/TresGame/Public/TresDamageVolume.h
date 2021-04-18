@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TresVolume.h"
-#include "TresEncountSubEQSVolume.generated.h"
+#include "GameFramework/PainCausingVolume.h"
+#include "TresDamageVolume.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TRESGAME_API ATresEncountSubEQSVolume : public ATresVolume
+class TRESGAME_API ATresDamageVolume : public APainCausingVolume
 {
 	GENERATED_BODY()
 };

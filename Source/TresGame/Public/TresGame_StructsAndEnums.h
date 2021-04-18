@@ -13492,3 +13492,24 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapNameDataTable")
 	FString NameKey;
 };
+
+USTRUCT(BlueprintType)
+struct FTresTreasureDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
+	FName m_TreasureName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
+	TEnumAsByte<ETresWorldAreaCode> m_WorldAreaCode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
+	bool m_bUnused;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
+	int m_UIPriority;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
+	FString m_Comment;
+};

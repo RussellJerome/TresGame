@@ -38,11 +38,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
 	class ATresCameraBase* m_LockonCamera;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//class UTresLockonTargetComponent* m_LockonTarget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
+	class UTresLockonTargetComponent* m_LockonTarget;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
-	//class UTresLockonTargetComponent* m_DummyLockonTargetComp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
+	class UTresLockonTargetComponent* m_DummyLockonTargetComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraManager")
 	class UTresCameraConfig* m_CameraConfig;

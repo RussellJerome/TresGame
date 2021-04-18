@@ -16,7 +16,8 @@
 			"AdditionalDependencies": [
 				"AIModule",
 				"CoreUObject",
-				"Engine"
+				"Engine",
+				"BonamikRt"
 			]
 		}
 	]

@@ -15,7 +15,8 @@ class TRESGAME_API UTresProjectileMovementComponent : public UProjectileMovement
 {
 	GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate                    OnTickMove;
+	//struct FScriptMulticastDelegate OnTickMove;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
 	float m_Accel;
 

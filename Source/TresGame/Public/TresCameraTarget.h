@@ -75,8 +75,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
 	void BP_SetTargetLocalOffset(const struct FVector& TargetLocalOffset, float Time) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
-	//void BP_SetTargetComponent(class UTresLockonTargetComponent* pTargetComp) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
+	void BP_SetTargetComponent(class UTresLockonTargetComponent* pTargetComp) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
 	void BP_RemoveCollisionIgnoredActor(class AActor* Actor) {};
