@@ -13,13 +13,13 @@ class MERCUNA_API AMercunaNavOctree : public AActor
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
-	float CellSize;
+	float CellSize = 32.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
-	int MinPawnRadius;
+	int MinPawnRadius = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
-	int MaxPawnRadius;
+	int MaxPawnRadius = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
 	TEnumAsByte<EMerOctreeDebugDrawMode> DebugDrawMode;
@@ -45,11 +45,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "MercunaNavOctree")
 	void IsNavigable(const FVector& Position, float NavigationRadius, bool& Result) {};
 
-	//UFUNCTION(BlueprintPure, Category = "MercunaNavOctree")
-	//class UMercunaPath* FindPathToLocation(const FVector& Start, const FVector& End, float NavigationRadius, bool AllowPartial, float MaxPathLength) { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "MercunaNavOctree")
+	class UMercunaPath* FindPathToLocation(const FVector& Start, const FVector& End, float NavigationRadius, bool AllowPartial, float MaxPathLength) { return nullptr; };
 
-	//UFUNCTION(BlueprintPure, Category = "MercunaNavOctree")
-	//class UMercunaPath* FindPathToActor(const FVector& Start, class AActor* GoalActor, float NavigationRadius, bool AllowPartial, float MaxPathLength) { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "MercunaNavOctree")
+	class UMercunaPath* FindPathToActor(const FVector& Start, class AActor* GoalActor, float NavigationRadius, bool AllowPartial, float MaxPathLength) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "MercunaNavOctree")
 	void ClampToNavigable(const FVector& Position, float NavigationRadius, float SearchRadius, FVector& ClampedPosition, bool& Result) {};

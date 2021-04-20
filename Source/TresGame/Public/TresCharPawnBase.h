@@ -20,6 +20,10 @@ class TRESGAME_API ATresCharPawnBase : public ATresPawnBase
 public:
 	ATresCharPawnBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	{
+/*#if WITH_EDITORONLY_DATA
+		MyMovement = CreateDefaultSubobject<UTresCharMovementComponent>(TEXT("CharMoveComp"));
+		MyMesh = CreateDefaultSubobject<UTresSkeletalMeshComponent>(TEXT("MyMesh"));
+#endif*/
 		//MyMovement = CreateDefaultSubobject<UTresCharMovementComponent>(TEXT("CharMoveComp"));
 		//MyMesh = ObjectInitializer.CreateDefaultSubobject<UTresSkeletalMeshComponent>(this, TEXT("MyMesh"));
 	};

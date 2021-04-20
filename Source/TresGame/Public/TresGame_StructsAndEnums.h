@@ -13513,3 +13513,39 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
 	FString m_Comment;
 };
+
+USTRUCT(BlueprintType)
+struct FTresAbilityDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	FName m_KeyName;
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	TEnumAsByte<ETresAbilityCategory> m_Category;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	TEnumAsByte<ETresAbilityEquipType> m_EquipType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	unsigned char m_UseAP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	unsigned char m_UseMP;*/
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	uint8 m_MaxEquip;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	FString m_Comment;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	int m_UIPriority;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	FString m_NameTextID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
+	FString m_HelpTextID;
+};

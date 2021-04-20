@@ -45,8 +45,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavTestingActor")
 	class USphereComponent* SphereComponent;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavTestingActor")
-	//class UMercunaPath* Path;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavTestingActor")
+	class UMercunaPath* Path;
 
 	UFUNCTION(BlueprintCallable, Category = "MercunaNavTestingActor")
 	void OnPathUpdate(TEnumAsByte<EMercunaPathEvent> PathEvent) {};

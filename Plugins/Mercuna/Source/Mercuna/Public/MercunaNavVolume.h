@@ -14,6 +14,6 @@ class MERCUNA_API AMercunaNavVolume : public AVolume
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavVolume")
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavVolume")
 	class AMercunaNavOctree* NavOctree;
 };

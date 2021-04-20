@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class TRESGAME_API UTresReactorComponent : public UTresGimmickComponentBase
 {
 	GENERATED_BODY()
