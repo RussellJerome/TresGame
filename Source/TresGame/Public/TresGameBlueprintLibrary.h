@@ -277,8 +277,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenSubtitle(const struct FTresLocText& Text, ETresUISubtitleUsage SubtitleUsage) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static bool TresUI_OpenRightTimerCountUpSnowCurling(class UTresTimerTask* pTask, float fStartTime) { return false; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static bool TresUI_OpenRightTimerCountUpSnowCurling(class UTresTimerTask* pTask, float fStartTime) { return false; };
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool TresUI_OpenRetryMenu() { return false; };
@@ -313,8 +313,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenInformation(const struct FTresLocText& InformationText, bool AutoClose, float OptionalDisplayTime) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_OpenHudWorkshop(class UTresUIDataAssetWorkshop* UIDataAssetWorkshop) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_OpenHudWorkshop(class UTresUIDataAssetWorkshop* UIDataAssetWorkshop) {};
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenHudPudding() {};
@@ -340,8 +340,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenHudBaymaxLiveFeed(int Kind) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_OpenHudBaymax(TEnumAsByte<ETresUIHudBaymaxKind> HudKind, float RecordTime, int RecordScore, class UTresTimerTask* Task) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_OpenHudBaymax(TEnumAsByte<ETresUIHudBaymaxKind> HudKind, float RecordTime, int RecordScore, class UTresTimerTask* Task) {};
 	
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void TresUI_OpenHologramStartMenu(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const FName& ReturnMapName, const FName& ReturnPlayerStartTag) {};
@@ -349,8 +349,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenGradeText(ETresUIGradeTextValue Value) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_OpenGigasGame(class UTresTimerTask* Task) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_OpenGigasGame(class UTresTimerTask* Task) {};
 	
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void TresUI_OpenGameHelpWithMessage(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, ETresGameHelp HelpId, bool WithPause, bool bTutorial, const FString& MessageTextID, bool* OutExecMessage) {};
@@ -361,11 +361,11 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	//static int TresUI_OpenGameDataInstallMessage(ETresUIGameDataInstallMessageType InstallMessageType, class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) { return 0; };
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_OpenCountUpTimer(class UTresTimerTask* Task, bool IsLeft) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_OpenCountUpTimer(class UTresTimerTask* Task, bool IsLeft) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void TresUI_OpenCountDownTimer(class UTresTimerTask* Task, float StartTime, float WarningTime, float AlertTime, bool IsLeft) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresUI_OpenCountDownTimer(class UTresTimerTask* Task, float StartTime, float WarningTime, float AlertTime, bool IsLeft) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static int TresUI_OpenConfirm(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const struct FTresLocText& MessageText, TArray<struct FTresLocText> ButtonTexts, const struct FTresUIWindowSetting& WindowSetting, int DefaultSelectedIndex, int* OutSelected) { return 0; };
@@ -616,8 +616,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresStartTextureResident(class UObject* WorldContextObject, const FName& ResidentTag, bool LoadTexture, bool Reset) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresStartTalkEvent(class UObject* WorldContextObject, class UTresFieldVoice* Asset, const FName& AnimName) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void TresStartTalkEvent(class UObject* WorldContextObject, class UTresFieldVoice* Asset, const FName& AnimName) {};
 
 //	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 //	static void TresStartPumpingTextureStream(class UTresTexturePump* InTexturePump) {};
@@ -871,8 +871,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresGetOceanSimulationAmplitude(class UObject* WorldContextObject, float& Amplitude) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresLgRxManager* TresGetLgRxManager(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresLgRxManager* TresGetLgRxManager(class UObject* WorldContextObject) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class UTresFriendComponent* TresGetFriendManager(class UObject* WorldContextObject) { return nullptr; };
@@ -979,8 +979,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresDebugPrintError(const FString& str, bool bPrintToScreen, bool bPrintToLog, float Duration) {};
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-//	static void TresCreateMatrixInstancedStaticMesh(class UInstancedStaticMeshComponent* cp, const struct FTresVectorInt& CreateNum, const struct FTransform& Transform, const struct FVector& Offset) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void TresCreateMatrixInstancedStaticMesh(class UInstancedStaticMeshComponent* cp, const struct FTresVectorInt& CreateNum, const FTransform& Transform, const FVector& Offset) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresCopyLightParam(class ULightComponent* src, class ULightComponent* Dest) {};
@@ -1069,8 +1069,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void StopAllCameraShake(class UObject* WorldContextObject) {};
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void StopActorVoice(class AActor* Speaker, class UTresActorVoice* ActorVoice) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void StopActorVoice(class AActor* Speaker, class UTresActorVoice* ActorVoice) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void StartWhiteOut(class UObject* WorldContextObject, float InFadeTime, bool InFadeAudio) {};
@@ -1211,8 +1211,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void SetAAModeDefault() {};
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-//	static class ATresNote* SearchTresNote(const FName& ID) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static class ATresNote* SearchTresNote(const FName& ID) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void ReturnToTitleGameClear() {};
@@ -1283,8 +1283,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void PlayEnemyRetryVoice(class UObject* WorldContextObject) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void PlayActorVoice(class AActor* Speaker, class UTresActorVoice* ActorVoice) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void PlayActorVoice(class AActor* Speaker, class UTresActorVoice* ActorVoice) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void NotifyDirectInfomationForGumi(class UObject* WorldContextObject, ETresGumiShipDirectNotifyType eType) {};
@@ -1367,6 +1367,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static TEnumAsByte<ETresWorldAreaCode> GetWorldAreaCode(class UObject* WorldContextObject) { return ETresWorldAreaCode::TRES_WAID_AREA; };
 
+	//ENGINE MODIFICATION
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	//static class UTresTexturePump* GetTresTexturePump(const FString& DataName) { return nullptr; };
 
@@ -1382,8 +1383,8 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static class ATresGumiShipWorldSymbolActor* GetTresGumiShipBossBattleLockTargetWorldSymbolActor(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresGameState* GetTresGameState(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresGameState* GetTresGameState(class UObject* WorldContextObject) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static int GetStaticMeshComponents(class AActor* Target, TArray<class UStaticMeshComponent*>& OutComponents) { return 0; };
@@ -1394,8 +1395,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class ATresPlayerControllerLowerBase* GetLocalTresPlayerControllerLowerBase(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresPlayerControllerBase* GetLocalTresPlayerControllerBase(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresPlayerControllerBase* GetLocalTresPlayerControllerBase(class UObject* WorldContextObject) { return nullptr; };
 
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static class ATresGumiShipPlayerPawnBase* GetLocalTresGumiShipPlayerPawnBase(class UObject* WorldContextObject) { return nullptr; };
@@ -1409,8 +1410,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static FString GetLastPlayerStartTag() { return FString::FString(); };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static void GetGameModeTask(class UClass* Class, class UTresTaskBase*& Out) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	static void GetGameModeTask(class UClass* Class, class UTresTaskBase*& Out) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool GetGameFlagBoolean(const FName& FlagName) { return false; };
@@ -1557,11 +1558,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void DebugConsoleCommand(const FString& Command) {};
 
-	/*UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static class UTresTimerTask* CreateTresTaskTimerGameMode(class UObject* WorldContextObject) { return nullptr; };*/
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class UTresTimerTask* CreateTresTaskTimerGameMode(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void CreateTresTaskGameMode(class UObject* WorldContextObject, class UClass* Class, bool isSingleton, class UTresTaskBase*& Out) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void CreateTresTaskGameMode(class UObject* WorldContextObject, class UClass* Class, bool isSingleton, class UTresTaskBase*& Out) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void CreatePrize(class UObject* WorldContextObject, const struct FVector& InLocation, TEnumAsByte<EPRIZE_KIND> InKind) {};

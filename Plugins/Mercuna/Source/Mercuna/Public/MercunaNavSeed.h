@@ -11,9 +11,9 @@ class MERCUNA_API AMercunaNavSeed : public AActor
 {
 	GENERATED_BODY()
 public:
-	AMercunaNavSeed()
+	/*AMercunaNavSeed()
 	{
 		PrimaryActorTick.bCanEverTick = true;
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	};
+	};*/
 };

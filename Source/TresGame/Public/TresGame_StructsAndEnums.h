@@ -13464,6 +13464,165 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FTresTimerTaskData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTimerTaskData")
+	float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTimerTaskData")
+	FName RemoteEventName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFieldVoiceTextData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceTextData")
+	FString m_NameSpaceAndKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceTextData")
+	float m_Delay;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceTextData")
+	float m_Duration;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFieldVoiceAnimData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceAnimData")
+	FString AnimName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceAnimData")
+	class UAnimationAsset* AnimAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceAnimData")
+	bool isLoop;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceAnimData")
+	bool isForcePlay;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceAnimData")
+	FString SkipAnimName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceAnimData")
+	class UAnimationAsset* SkipAnimAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVectorInt
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorInt")
+	int X;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorInt")
+	int Y;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorInt")
+	int Z;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLgRxReactionMarkerData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxReactionMarkerData")
+	FName m_SocketName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxReactionMarkerData")
+	FVector m_Offset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLgRxReactionData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxReactionData")
+	FVector m_Location;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxReactionData")
+	FRotator m_Rotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxReactionData")
+	TArray<struct FTresLgRxReactionMarkerData> m_MarkerData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLgRxRushData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxRushData")
+	int m_Rate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxRushData")
+	int m_NumMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxRushData")
+	int m_NumMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxRushData")
+	float m_TimeMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxRushData")
+	float m_TimeMax;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLgRxPhaseData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxPhaseData")
+	int m_Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxPhaseData")
+	float m_AttackRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxPhaseData")
+	int m_AttackCountMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxPhaseData")
+	int m_AttackCountMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxPhaseData")
+	int m_HeavyAttackRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLgRxPhaseData")
+	TArray<struct FTresLgRxRushData> m_RushData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFriendWarpPointData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	class AActor* m_WarpPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	bool m_bUsedRangeXY;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	float m_WarpPointRangeXY;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	bool m_bUsedRangeZ;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	float m_WarpPointRangeZ;
+};
+
+USTRUCT(BlueprintType)
 struct FTresAreaNameDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
@@ -13548,4 +13707,88 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
 	FString m_HelpTextID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemWeaponEnhanceIconDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceIconDataTable")
+	TEnumAsByte<ETresItemDefWeapon> m_WeaponID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceIconDataTable")
+	TAssetPtr<class UTexture> PickerIconAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceIconDataTable")
+	TAssetPtr<class UTexture> KeybladeIconAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemSynthesisDataTableBase : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	FName m_Material0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	int m_MatNum0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	FName m_Material1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	int m_MatNum1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	FName m_Material2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	int m_MatNum2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	FName m_Material3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	int m_MatNum3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	FName m_Material4;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	int m_MatNum4;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	FName m_Material5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
+	int m_MatNum5;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemWeaponEnhanceDataTable : public FTresItemSynthesisDataTableBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	int m_FlagIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	TEnumAsByte<ETresItemDefWeapon> m_WeaponID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	bool m_bInitAchieved;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	int m_WeaponLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	int m_AttackPlus;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	int m_MagicPlus;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
+	TEnumAsByte<ETresAbilityKind> m_AppendAbility;
 };
