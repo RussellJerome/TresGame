@@ -15,7 +15,7 @@ enum EMercunaPathEvent
 	EMercunaPathEvent_Ready = 0 UMETA(DisplayName = "Ready"),
 	EMercunaPathEvent_Updated = 1 UMETA(DisplayName = "Updated"),
 	EMercunaPathEvent_Invalid = 2 UMETA(DisplayName = "Invalid"),
-	EMercunaPathEvent_MAX = 3 UMETA(DisplayName = "MAX")
+	EMercunaPathEvent_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -26,7 +26,7 @@ enum EMercunaMoveResult
 	EMercunaMoveResult_Cancelled = 2 UMETA(DisplayName = "Cancelled"),
 	EMercunaMoveResult_Blocked = 3 UMETA(DisplayName = "Blocked"),
 	EMercunaMoveResult_Invalid = 4 UMETA(DisplayName = "Invalid"),
-	EMercunaMoveResult_MAX = 5 UMETA(DisplayName = "MAX")
+	EMercunaMoveResult_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -37,9 +37,9 @@ enum EMerOctreeDebugDrawMode
 	EMerOctreeDebugDrawMode_NAVIGABLE = 2 UMETA(DisplayName = "Navigable"),
 	EMerOctreeDebugDrawMode_BOTH = 3 UMETA(DisplayName = "Both"),
 	EMerOctreeDebugDrawMode_REGION = 4 UMETA(DisplayName = "Region"),
-	EMerOctreeDebugDrawMode_REACHABLE = 5 UMETA(DisplayName = "MAX"),
-	EMerOctreeDebugDrawMode_PATHFIND = 6 UMETA(DisplayName = "MAX"),
-	EMerOctreeDebugDrawMode_MAX = 7 UMETA(DisplayName = "MAX")
+	EMerOctreeDebugDrawMode_REACHABLE = 5 UMETA(DisplayName = "Reachable"),
+	EMerOctreeDebugDrawMode_PATHFIND = 6 UMETA(DisplayName = "Path Find"),
+	EMerOctreeDebugDrawMode_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -47,7 +47,7 @@ enum EMercunaPointDistribution
 {
 	EMercunaPointDistribution_Uniform = 0 UMETA(DisplayName = "Uniform"),
 	EMercunaPointDistribution_Random = 1 UMETA(DisplayName = "Random"),
-	EMercunaPointDistribution_MAX = 2 UMETA(DisplayName = "MAX")
+	EMercunaPointDistribution_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -56,7 +56,7 @@ enum EMercunaMoveGoal
 	EMercunaMoveGoal_Actor = 0 UMETA(DisplayName = "Actor"),
 	EMercunaMoveGoal_Vector = 1 UMETA(DisplayName = "Vector"),
 	EMercunaMoveGoal_None = 2 UMETA(DisplayName = "None"),
-	EMercunaMoveGoal_MAX = 3 UMETA(DisplayName = "MAX")
+	EMercunaMoveGoal_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -64,7 +64,7 @@ enum EMerObstacleType
 {
 	EMerObstacleType_AUTO = 0 UMETA(DisplayName = "Auto"),
 	EMerObstacleType_SPHERE = 1 UMETA(DisplayName = "Sphere"),
-	EMerObstacleType_MAX = 2 UMETA(DisplayName = "MAX")
+	EMerObstacleType_MAX = 2 UMETA(Hidden)
 };
 
 USTRUCT(BlueprintType)

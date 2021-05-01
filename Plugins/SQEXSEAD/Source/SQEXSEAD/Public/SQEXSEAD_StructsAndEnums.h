@@ -15,7 +15,7 @@ enum ESQEXSEADChangeAutoSeEnableNotifyEndBehavior
 	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_RevertState = 0,
 	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_SetInvertedState = 1,
 	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_NoAction = 2,
-	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_MAX = 3
+	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -24,7 +24,7 @@ enum ESQEXSEADANPlayAutoSeSourceType
 	ESQEXSEADANPlayAutoSeSourceType_MotionSoundType = 0,
 	ESQEXSEADANPlayAutoSeSourceType_AuxSurfaceTable = 1,
 	ESQEXSEADANPlayAutoSeSourceType_SurfaceTableAsset = 2,
-	ESQEXSEADANPlayAutoSeSourceType_MAX = 3
+	ESQEXSEADANPlayAutoSeSourceType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -40,8 +40,8 @@ enum ESQEXSEADAutoSeComponentAssetTableNonSurface
 	ESQEXSEADAutoSeComponentAssetTableNonSurface_SwingRub = 7,
 	ESQEXSEADAutoSeComponentAssetTableNonSurface_CrouchDown = 8,
 	ESQEXSEADAutoSeComponentAssetTableNonSurface_StandUp = 9,
-	ESQEXSEADAutoSeComponentAssetTableNonSurface_1_MAX = 10,
-	ESQEXSEADAutoSeComponentAssetTableNonSurface_MAX = 11
+	ESQEXSEADAutoSeComponentAssetTableNonSurface_1_MAX = 10 UMETA(Hidden),
+	ESQEXSEADAutoSeComponentAssetTableNonSurface_MAX = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -53,8 +53,8 @@ enum ESQEXSEADAutoSeComponentAssetTablePerSurface
 	ESQEXSEADAutoSeComponentAssetTablePerSurface_LandNormal = 3,
 	ESQEXSEADAutoSeComponentAssetTablePerSurface_LandHard = 4,
 	ESQEXSEADAutoSeComponentAssetTablePerSurface_FootShuffle = 5,
-	ESQEXSEADAutoSeComponentAssetTablePerSurface_1_MAX = 6,
-	ESQEXSEADAutoSeComponentAssetTablePerSurface_MAX = 7
+	ESQEXSEADAutoSeComponentAssetTablePerSurface_1_MAX = 6 UMETA(Hidden),
+	ESQEXSEADAutoSeComponentAssetTablePerSurface_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -66,7 +66,7 @@ enum ESQEXSEADAutoSeResult
 	ESQEXSEADAutoSeResult_Error_InvalidBoneName = 3,
 	ESQEXSEADAutoSeResult_Error_NotAllSocketsValid = 4,
 	ESQEXSEADAutoSeResult_Error_FailedToCreateProc = 5,
-	ESQEXSEADAutoSeResult_MAX = 6
+	ESQEXSEADAutoSeResult_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -78,7 +78,7 @@ enum ESQEXSEADAutoSePartsType
 	ESQEXSEADAutoSePartsType_Wing_Default = 3,
 	ESQEXSEADAutoSePartsType_Swing_Default = 4,
 	ESQEXSEADAutoSePartsType_Body_Default = 5,
-	ESQEXSEADAutoSePartsType_MAX = 6
+	ESQEXSEADAutoSePartsType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -101,7 +101,7 @@ enum ESQEXSEADAutoSeMotionSoundType
 	ESQEXSEADAutoSeMotionSoundType_SwingRub = 14,
 	ESQEXSEADAutoSeMotionSoundType_CrouchDown = 15,
 	ESQEXSEADAutoSeMotionSoundType_StandUp = 16,
-	ESQEXSEADAutoSeMotionSoundType_MAX = 17
+	ESQEXSEADAutoSeMotionSoundType_MAX = 17 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -111,7 +111,7 @@ enum ESQEXSEAD_BGMLoadState
 	ESQEXSEAD_BGMLoadState_NotLoaded = 1,
 	ESQEXSEAD_BGMLoadState_Loading = 2,
 	ESQEXSEAD_BGMLoadState_Valid = 3,
-	ESQEXSEAD_BGMLoadState_MAX = 4
+	ESQEXSEAD_BGMLoadState_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -119,7 +119,7 @@ enum ESQEXSEAD_BGMStopBehaviour
 {
 	ESQEXSEAD_BGMStopBehaviour_Stop = 0,
 	ESQEXSEAD_BGMStopBehaviour_Reset = 1,
-	ESQEXSEAD_BGMStopBehaviour_MAX = 2
+	ESQEXSEAD_BGMStopBehaviour_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -129,7 +129,7 @@ enum ESQEXSEAD_BGMStoreBehaviour
 	ESQEXSEAD_BGMStoreBehaviour_AutoPlay = 1,
 	ESQEXSEAD_BGMStoreBehaviour_Suspend = 2,
 	ESQEXSEAD_BGMStoreBehaviour_AutoResume = 3,
-	ESQEXSEAD_BGMStoreBehaviour_MAX = 4
+	ESQEXSEAD_BGMStoreBehaviour_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -143,7 +143,7 @@ enum ESQEXSEAD_BGMState
 	ESQEXSEAD_BGMState_Stop = 5,
 	ESQEXSEAD_BGMState_Suspended = 6,
 	ESQEXSEAD_BGMState_AutoResume = 7,
-	ESQEXSEAD_BGMState_MAX = 8
+	ESQEXSEAD_BGMState_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -156,8 +156,8 @@ enum ESQEXSEADCategoryVolumeLayers
 	ESQEXSEADCategoryVolumeLayers_Event = 4,
 	ESQEXSEADCategoryVolumeLayers_Slow = 5,
 	ESQEXSEADCategoryVolumeLayers_Matinee = 6,
-	ESQEXSEADCategoryVolumeLayers_1_MAX = 7,
-	ESQEXSEADCategoryVolumeLayers_MAX = 8
+	ESQEXSEADCategoryVolumeLayers_1_MAX = 7 UMETA(Hidden),
+	ESQEXSEADCategoryVolumeLayers_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -172,7 +172,7 @@ enum ESQEXSEADBGMControlTypes
 	ESQEXSEADBGMControlTypes_SETMODE = 6,
 	ESQEXSEADBGMControlTypes_SETPATHPLAY = 7,
 	ESQEXSEADBGMControlTypes_READY = 8,
-	ESQEXSEADBGMControlTypes_MAX = 9
+	ESQEXSEADBGMControlTypes_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -185,7 +185,7 @@ enum ESQEXSEADLayoutType
 	ESQEXSEADLayoutType_Quadrilateral = 4,
 	ESQEXSEADLayoutType_TriangleStrip = 5,
 	ESQEXSEADLayoutType_TriangleFan = 6,
-	ESQEXSEADLayoutType_MAX = 7
+	ESQEXSEADLayoutType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -193,7 +193,7 @@ enum ESQEXSEADLayoutObstructionType
 {
 	ESQEXSEADLayoutObstructionType_Board = 0,
 	ESQEXSEADLayoutObstructionType_Box = 1,
-	ESQEXSEADLayoutObstructionType_MAX = 2
+	ESQEXSEADLayoutObstructionType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -204,7 +204,7 @@ enum ESQEXSEADSoundOutputPort
 	ESQEXSEADSoundOutputPort_RESTRICTED = 2,
 	ESQEXSEADSoundOutputPort_PAD1 = 3,
 	ESQEXSEADSoundOutputPort_MAIN_PAD1 = 4,
-	ESQEXSEADSoundOutputPort_MAX = 5
+	ESQEXSEADSoundOutputPort_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -213,7 +213,7 @@ enum ESQEXSEADAudioStartTimings
 	ESQEXSEADAudioStartTimings_None = 0,
 	ESQEXSEADAudioStartTimings_OnBeginPlay = 1,
 	ESQEXSEADAudioStartTimings_OnZeroOneValueVariable = 2,
-	ESQEXSEADAudioStartTimings_MAX = 3
+	ESQEXSEADAudioStartTimings_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -223,7 +223,7 @@ enum ESQEXSEADZeroOneProperties
 	ESQEXSEADZeroOneProperties_Velocity = 1,
 	ESQEXSEADZeroOneProperties_RotationalVelocity = 2,
 	ESQEXSEADZeroOneProperties_VelocityFromLocation = 3,
-	ESQEXSEADZeroOneProperties_MAX = 4
+	ESQEXSEADZeroOneProperties_MAX = 4 UMETA(Hidden)
 };
 
 struct FSabMabHeaderChunk

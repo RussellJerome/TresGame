@@ -12,88 +12,88 @@
 UENUM(BlueprintType)
 enum EGFxHitTestType
 {
-	HitTest_Bounds = 0,
-	HitTest_Shapes = 1,
-	HitTest_ButtonEvents = 2,
-	HitTest_ShapesNoInvisible = 3,
-	HitTest_MAX = 4
+	HitTest_Bounds = 0 UMETA(DisplayName = "Bounds"),
+	HitTest_Shapes = 1 UMETA(DisplayName = "Shapes"),
+	HitTest_ButtonEvents = 2 UMETA(DisplayName = "Button Events"),
+	HitTest_ShapesNoInvisible = 3 UMETA(DisplayName = "Shapes No Invisible"),
+	HitTest_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EGFxGCFlags
 {
-	Quick = 0,
-	Medium = 1,
-	Full = 2,
-	EGFxGCFlags_MAX = 3
+	Quick = 0 UMETA(DisplayName = "Quick"),
+	Medium = 1 UMETA(DisplayName = "Medium"),
+	Full = 2 UMETA(DisplayName = "Full"),
+	EGFxGCFlags_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EGFxTimingMode
 {
-	Game = 0,
-	Real = 1,
-	EGFxTimingMode_MAX = 2
+	Game = 0 UMETA(DisplayName = "Game"),
+	Real = 1 UMETA(DisplayName = "Real"),
+	EGFxTimingMode_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EGFxRenderTextureMode
 {
-	Opaque = 0,
-	Alpha = 1,
-	AlphaComposite = 2,
-	EGFxRenderTextureMode_MAX = 3
+	Opaque = 0 UMETA(DisplayName = "Opaque"),
+	Alpha = 1 UMETA(DisplayName = "Alpha"),
+	AlphaComposite = 2 UMETA(DisplayName = "Alpha Composite"),
+	EGFxRenderTextureMode_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EGFxScaleMode
 {
-	NoScale = 0,
-	ShowAll = 1,
-	ExactFit = 2,
-	NoBorder = 3,
-	EGFxScaleMode_MAX = 4
+	NoScale = 0 UMETA(DisplayName = "No Scale"),
+	ShowAll = 1 UMETA(DisplayName = "Show All"),
+	ExactFit = 2 UMETA(DisplayName = "Exact Fit"),
+	NoBorder = 3 UMETA(DisplayName = "No Border"),
+	EGFxScaleMode_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EGFxAlign
 {
-	Center = 0,
-	TopCenter = 1,
-	BottomCenter = 2,
-	CenterLeft = 3,
-	CenterRight = 4,
-	TopLeft = 5,
-	TopRight = 6,
-	BottomLeft = 7,
-	BottomRight = 8,
-	EGFxAlign_MAX = 9
+	Center = 0 UMETA(DisplayName = "Center"),
+	TopCenter = 1 UMETA(DisplayName = "Top Center"),
+	BottomCenter = 2 UMETA(DisplayName = "Bottom Center"),
+	CenterLeft = 3 UMETA(DisplayName = "Center Left"),
+	CenterRight = 4 UMETA(DisplayName = "Center Right"),
+	TopLeft = 5 UMETA(DisplayName = "Top Left"),
+	TopRight = 6 UMETA(DisplayName = "Top Right"),
+	BottomLeft = 7 UMETA(DisplayName = "Bottom Left"),
+	BottomRight = 8 UMETA(DisplayName = "Bottom Right"),
+	EGFxAlign_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EASType
 {
-	Undefined = 0,
-	Null = 1,
-	Boolean = 2,
-	Int = 3,
-	Number = 4,
-	String = 5,
-	StringW = 6,
-	Object = 7,
-	DisplayObject = 8,
-	EASType_MAX = 9
+	Undefined = 0 UMETA(DisplayName = "Undefined"),
+	Null = 1 UMETA(DisplayName = "Null"),
+	Boolean = 2 UMETA(DisplayName = "Boolean"),
+	Int = 3 UMETA(DisplayName = "Int"),
+	Number = 4 UMETA(DisplayName = "Number"),
+	String = 5 UMETA(DisplayName = "String"),
+	StringW = 6 UMETA(DisplayName = "StringW"),
+	Object = 7 UMETA(DisplayName = "Object"),
+	DisplayObject = 8 UMETA(DisplayName = "Display Object"),
+	EASType_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EFlashTextureRescale
 {
-	FlashTextureScale_High = 0,
-	FlashTextureScale_Low = 1,
-	FlashTextureScale_NextLow = 2,
-	FlashTextureScale_Mult4 = 3,
-	FlashTextureScale_None = 4,
-	FlashTextureScale_MAX = 5
+	FlashTextureScale_High = 0 UMETA(DisplayName = "High"),
+	FlashTextureScale_Low = 1 UMETA(DisplayName = "Low"),
+	FlashTextureScale_NextLow = 2 UMETA(DisplayName = "Next Low"),
+	FlashTextureScale_Mult4 = 3 UMETA(DisplayName = "Mult 4"),
+	FlashTextureScale_None = 4 UMETA(DisplayName = "None"),
+	FlashTextureScale_MAX = 5 UMETA(Hidden)
 };
 
 //---------------------------------------------------------------------------

@@ -1,12 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SQEXSEADMusicFactory.h"
+#include "SQEXSEADFactory.h"
 #include "AudioDeviceManager.h"
 #include "Sound/SoundNodeWavePlayer.h"
 
-USQEXSEADMusicFactory::USQEXSEADMusicFactory(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+USQEXSEADFactory::USQEXSEADFactory(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	Formats.Add(TEXT("mab;MAB Data"));
+	Formats.Add(TEXT("sab;SAB Data"));
 	bCreateNew = false;
 	bEditAfterNew = true;
 	bEditorImport = true;
@@ -15,7 +16,7 @@ USQEXSEADMusicFactory::USQEXSEADMusicFactory(const FObjectInitializer& ObjectIni
 
 static bool bSoundFactorySuppressImportOverwriteDialog = false;
 
-UObject* USQEXSEADMusicFactory::FactoryCreateBinary(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const uint8*& Buffer, const uint8* BufferEnd, FFeedbackContext* Warn, bool& bOutOperationCanceled)
+UObject* USQEXSEADFactory::FactoryCreateBinary(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const uint8*& Buffer, const uint8* BufferEnd, FFeedbackContext* Warn, bool& bOutOperationCanceled)
 {
 	TArray<UAudioComponent*> ComponentsToRestart;
 	FAudioDeviceManager* AudioDeviceManager = GEngine->GetAudioDeviceManager();
@@ -82,10 +83,7 @@ UObject* USQEXSEADMusicFactory::FactoryCreateBinary(UClass* Class, UObject* InPa
 		//MABAsset->Duration = *FileInfo.pSabMabDataSize * 8.0f / DurationDiv;
 		MABAsset->Duration = (FileInfo.SampleDataSize * 8.0f / DurationDiv) * 10000;
 	}
-	else
-	{
-		MABAsset->Duration = 0.0f;
-	}
+	else { MABAsset->Duration = 0.0f; }
 
 	MABAsset->bLooping = FileInfo.bIsLooping;
 
