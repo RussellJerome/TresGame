@@ -23,7 +23,7 @@ Join the OpenKH [discord server](https://discord.openkh.dev) to learn more about
 
 # Updating the Project
 
-* When a new version is available you delete the .vs folder & .sln file from your previous version and follow the "Running the Project" steps.
+* When a new version is available you delete the .vs folder, .sln file, & source folder from your previous version and follow the "Running the Project" steps.
 * If you wish to create a whole new folder for the new version, follow the "Running the Project" steps, then transfer your content folder over.
 
 # Disclaimer
