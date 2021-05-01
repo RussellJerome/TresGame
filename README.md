@@ -17,14 +17,14 @@ Join the OpenKH [discord server](https://discord.openkh.dev) to learn more about
 
 # Running the Project
 
-*When downloading the project, make sure you rick-click on the .uproject file and click "Generate Visual Studio Project Files"
-*After that, open the .sln file that has just been generated, right-click on the "TresGame" solution on the left panel and click "Build"
-*Once that is done, you can now open the .uproject with no issues
+* When downloading the project, make sure you rick-click on the .uproject file and click "Generate Visual Studio Project Files"
+* After that, open the .sln file that has just been generated, right-click on the "TresGame" solution on the left panel and click "Build"
+* Once that is done, you can now open the .uproject with no issues
 
 # Updating the Project
 
-*When a new version is available you delete the .vs folder & .sln file from your previous version and follow the "Running the Project" steps.
-*If you wish to create a whole new folder for the new version, follow the "Running the Project" steps, then transfer your content folder over.
+* When a new version is available you delete the .vs folder & .sln file from your previous version and follow the "Running the Project" steps.
+* If you wish to create a whole new folder for the new version, follow the "Running the Project" steps, then transfer your content folder over.
 
 # Disclaimer
 
