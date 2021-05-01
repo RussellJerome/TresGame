@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresMapJumpDirectionalTriggerBox.h"
+#include "TresGame.h"
 #include "TresMapJumpDirectionalTriggerBoxSelectUI.generated.h"
 
 /**
@@ -14,9 +15,9 @@ class TRESGAME_API ATresMapJumpDirectionalTriggerBoxSelectUI : public ATresMapJu
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBoxSelectUI")
-	//struct FTresLocText ChoiceTitle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBoxSelectUI")
+	struct FTresLocText ChoiceTitle;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBoxSelectUI")
-	//TArray<struct FTresLocText> Choices;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBoxSelectUI")
+	TArray<struct FTresLocText> Choices;
 };

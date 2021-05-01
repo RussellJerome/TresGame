@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresPlayerStart.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresSavePointActor.generated.h"
 
 /**

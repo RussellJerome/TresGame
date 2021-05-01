@@ -16,9 +16,6 @@ class SQEXSEAD_API USQEXSEADSound : public USoundWave
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY()
-	TArray<uint8> Data;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEXSEADSound")
 	bool bUseKohrogiAttenuation;
 

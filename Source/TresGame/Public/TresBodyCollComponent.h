@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresBodyCollComponent.generated.h"
 
 

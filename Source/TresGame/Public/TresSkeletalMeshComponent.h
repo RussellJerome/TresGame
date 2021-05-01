@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresSkeletalMeshComponent.generated.h"
 
 /**

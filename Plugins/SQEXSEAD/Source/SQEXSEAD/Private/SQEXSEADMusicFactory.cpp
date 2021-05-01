@@ -49,18 +49,38 @@ UObject* USQEXSEADMusicFactory::FactoryCreateBinary(UClass* Class, UObject* InPa
 	}
 
 	USQEXSEADMusic* MABAsset = NewObject<USQEXSEADMusic>(InParent, Name, Flags);
+
+	//SQEX Bypass
+	MABAsset->bProcedural = true;
+	//MABAsset->bCanProcessAsync = true;
+	//MABAsset->bStreaming = true;
+	MABAsset->DecompressionType = DTYPE_Procedural; //DTYPE_Procedural
+	//MABAsset->HasCompressedData = false;
+	//
+
 	MABAsset->AssetImportData->Update(CurrentFilename);
-	MABAsset->InvalidateCompressedData();
+	//MABAsset->InvalidateCompressedData();
+
+	/*FByteBulkData* BulkData = &MABAsset->CompressedFormatData.GetFormat(FName("None"));
+	BulkData->Lock(LOCK_READ_WRITE);
+	FMemory::Memmove(BulkData->Realloc(RawData.Num()), RawData.GetData(), RawData.Num());
+	BulkData->Unlock();*/
 
 	MABAsset->RawData.Lock(LOCK_READ_WRITE);
 	void* LockedData = MABAsset->RawData.Realloc(BufferEnd - Buffer);
 	FMemory::Memcpy(LockedData, Buffer, BufferEnd - Buffer);
 	MABAsset->RawData.Unlock();
 
+	/*MABAsset->RawPCMDataSize = FileInfo.SampleDataSize;
+	MABAsset->RawPCMData = static_cast<uint8*>(FMemory::Malloc(BufferEnd - Buffer));
+	FMemory::Memcpy(MABAsset->RawPCMData, Buffer, BufferEnd - Buffer);*/
+
+
 	int32 DurationDiv = *FileInfo.pChannels * *FileInfo.pBitsPerSample * *FileInfo.pSamplesPerSec;
 	if (DurationDiv)
 	{
-		MABAsset->Duration = *FileInfo.pSabMabDataSize * 8.0f / DurationDiv;
+		//MABAsset->Duration = *FileInfo.pSabMabDataSize * 8.0f / DurationDiv;
+		MABAsset->Duration = (FileInfo.SampleDataSize * 8.0f / DurationDiv) * 10000;
 	}
 	else
 	{

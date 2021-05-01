@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresLoadAsset.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresPhysMatEffectAsset.generated.h"
 
 /**

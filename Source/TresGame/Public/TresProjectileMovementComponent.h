@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresProjectileMovementComponent.generated.h"
 
 /**

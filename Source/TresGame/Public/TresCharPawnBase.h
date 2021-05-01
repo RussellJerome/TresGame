@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "TresPawnBase.h"
 #include "AlphaBlend.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresCharMovementComponent.h"
 #include "TresSkeletalMeshComponent.h"
 #include "TresCharPawnBase.generated.h"

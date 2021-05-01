@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresFieldVoice.generated.h"
 
 /**

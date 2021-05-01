@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/LevelScriptActor.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresLevelScriptActor.generated.h"
 
 /**

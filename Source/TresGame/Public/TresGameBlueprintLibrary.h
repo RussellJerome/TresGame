@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "Engine/EngineTypes.h"
 #include "Camera/CameraTypes.h"
 #include "Kismet/KismetSystemLibrary.h"

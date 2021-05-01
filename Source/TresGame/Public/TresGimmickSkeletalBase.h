@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresGimmickActor.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresGimmickSkeletalBase.generated.h"
 
 /**

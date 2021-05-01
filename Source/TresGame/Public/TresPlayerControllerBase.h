@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresPlayerControllerLowerBase.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresPlayerControllerBase.generated.h"
 
 /**

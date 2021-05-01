@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API ATresChangeIKTypeVolume : public ATresVolume
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

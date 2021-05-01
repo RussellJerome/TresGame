@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresGameInstance.generated.h"
 
 /**

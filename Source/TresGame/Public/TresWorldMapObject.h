@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresWorldMapObject.generated.h"
 
 UCLASS()

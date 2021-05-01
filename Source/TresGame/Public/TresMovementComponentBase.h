@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PawnMovementComponent.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresMovementComponentBase.generated.h"
 
 /**

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "SQEX_WorldSettings.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresWorldSettings.generated.h"
 
 /**

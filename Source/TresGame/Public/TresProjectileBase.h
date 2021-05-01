@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresPawnBase.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresProjectileBase.generated.h"
 
 /**

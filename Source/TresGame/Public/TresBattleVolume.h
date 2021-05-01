@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresLevelEntityControlVolume.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresBattleVolume.generated.h"
 
 /**

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresCameraBase.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresCameraTarget.generated.h"
 
 /**

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresVolume.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresWarpFriendNpcVolume.generated.h"
 
 /**

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresBluePrintObjectBase.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresBluePrintFieldVoiceBase.generated.h"
 
 /**

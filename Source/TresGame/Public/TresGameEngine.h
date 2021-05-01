@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresGameEngine : public UGameEngine
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

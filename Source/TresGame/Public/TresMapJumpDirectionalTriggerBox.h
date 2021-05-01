@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresDirectionalTriggerBoxTickBase.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresMapJumpDirectionalTriggerBox.generated.h"
 
 /**

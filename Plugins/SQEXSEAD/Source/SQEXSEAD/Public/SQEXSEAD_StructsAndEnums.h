@@ -284,6 +284,60 @@ struct FSabMabHCAHeader
 	uint16 AppendedSamples;
 };
 
+
+
+struct FHCACompChunk
+{
+	uint16 HCAComp_FrameSize;
+	uint8 HCAComp_MinResolution;
+	uint8 HCAComp_MaxResolution;
+	uint8 HCAComp_TrackCount;
+	uint8 HCAComp_ChannelConfig;
+	uint8 HCAComp_TotalBandCount;
+	uint8 HCAComp_BaseBandCount;
+	uint8 HCAComp_StereoBandCount;
+	uint8 HCAComp_BandsPerHfrGroup;
+	uint8 HCAComp_Reserved1;
+	uint8 HCAComp_Reserved2;
+};
+
+
+
+struct FHCAFormat
+{
+	//FMT
+	uint8 ChannelCount;
+	int SampleRate;
+	uint32 FrameCount;
+	uint16 InsertedSamples;
+	uint16 AppendedSamples;
+	int SampleCount;
+
+	//Comp
+	uint16 FrameSize;
+	uint8 MinResolution;
+	uint8 MaxResolution;
+	uint8 TrackCount;
+	uint8 ChannelConfig;
+	uint8 TotalBandCount;
+	uint8 BaseBandCount;
+	uint8 StereoBandCount;
+	uint8 BandsPerHfrGroup;
+
+	//Ciph
+	uint16 EncryptionType;
+
+	//Loop
+	bool bLooping = true;
+	uint32 LoopStartFrame;
+	uint32 LoopEndFrame;
+	uint16 PreLoopSamples;
+	uint16 PostLoopSamples;
+	int LoopSampleCount;
+};
+
+
+
 #define UE_MAKEFOURCC(ch0, ch1, ch2, ch3)\
 	((uint32)(uint8)(ch0) | ((uint32)(uint8)(ch1) << 8) |\
 	((uint32)(uint8)(ch2) << 16) | ((uint32)(uint8)(ch3) << 24 ))
@@ -322,9 +376,49 @@ public:
 
 	uint8 ChannelAmount;
 
+	uint16 HeaderSize;
+
 	bool bIsLooping;
 
 	const uint8*  SabMabDataEnd;
+
+	FHCAFormat* HCAFormat;
+
+	uint8 BytesToUint8(const uint8* Data, int index)
+	{
+		uint8 value = 0;
+		value |= Data[index];
+		return value;
+	}
+	uint16 BytesToUint16(const uint8* Data, int index)
+	{
+		uint32 value = 0;
+		value |= Data[index + 1] << 8;
+		value |= Data[index];
+		return value;
+	}
+	uint32 BytesToUint32(const uint8* Data, int index)
+	{
+		uint32 value = 0;
+		value |= Data[index + 3] << 24;
+		value |= Data[index + 2] << 16;
+		value |= Data[index + 1] << 8;
+		value |= Data[index];
+		return value;
+	}
+
+	FString Uint32ToString(uint32 Input)
+	{
+		FString Value;
+
+		return Value;
+	}
+
+	size_t bytes_to_samples(size_t bytes, int channels, int bits_per_sample)
+	{
+		if (channels <= 0 || bits_per_sample <= 0) return 0;
+		return ((int64_t)bytes * 8) / channels / bits_per_sample;
+	}
 
 	bool ReadSabMabInfo(const uint8* SabMabData, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
 	{
@@ -361,9 +455,72 @@ public:
 					FSabMabSongHeaderPosition* SongHeaderPosition = (FSabMabSongHeaderPosition*)&SabMabData[HeaderSection->OffsetInInnerFile + MabMaterialChunk->SectionSize + i * 4]; //Should be 704
 					FSabMabSongHeader* MabSongHeader = (FSabMabSongHeader*)&SabMabData[HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 4];
 					FSabMabHCAHeader* MabHCAHeader = (FSabMabHCAHeader*)&SabMabData[HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 48];
+					
+					//THIS IS ALL EXPERIMENTAL
+						int HCAHeaderPosition = HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 48;
+						int HCAInitialOffset = HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 52;
+						int HCAAudioType = HCAHeaderPosition + 4;
+
+						while (HCAInitialOffset < MabHCAHeader->HCAHeaderSize)
+						{
+							uint32 AudioType = BytesToUint32(SabMabData, HCAInitialOffset);	//Outputs - fmt\0
+							HCAInitialOffset = MabHCAHeader->HCAHeaderSize;
+							switch (AudioType)
+							{
+								case UE_mmioFOURCC('c', 'i', 'p', 'h'):
+									HCAFormat->EncryptionType = BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAInitialOffset += 4;
+									continue;
+								case UE_mmioFOURCC('c', 'o', 'm', 'p'):
+									HCAFormat->FrameSize = BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAFormat->MinResolution = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->MaxResolution = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->TrackCount = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->ChannelConfig = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->TotalBandCount = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->BaseBandCount = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->BandsPerHfrGroup = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAInitialOffset += 18;
+									continue;
+								case UE_mmioFOURCC('f', 'm', 't', '\0'):
+									HCAFormat->ChannelCount = BytesToUint8(SabMabData, HCAInitialOffset);
+									HCAFormat->SampleRate = (int)BytesToUint8(SabMabData, HCAInitialOffset) << 16 | (int)BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAFormat->FrameCount = BytesToUint32(SabMabData, HCAInitialOffset);
+									HCAFormat->InsertedSamples = BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAFormat->AppendedSamples = BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAFormat->SampleCount = HCAFormat->FrameCount * 1024 - HCAFormat->InsertedSamples - HCAFormat->AppendedSamples;
+									HCAInitialOffset += 20;
+									continue;
+								case UE_mmioFOURCC('l', 'o', 'o', 'p'):
+									HCAFormat->LoopStartFrame = BytesToUint32(SabMabData, HCAInitialOffset);
+									HCAFormat->LoopEndFrame = BytesToUint32(SabMabData, HCAInitialOffset);
+									HCAFormat->PreLoopSamples = BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAFormat->PostLoopSamples = BytesToUint16(SabMabData, HCAInitialOffset);
+									HCAFormat->LoopSampleCount;
+									HCAInitialOffset += 24;
+									continue;
+								case UE_mmioFOURCC('p', 'a', 'd', '\0'):
+									HCAInitialOffset = MabHCAHeader->HCAHeaderSize;
+									continue;
+								default:
+									*ErrorMessage = TEXT("CHUNK NOT SUPPORTED $s"), (int)MabHCAHeader->AudioType;
+							}
+						}
+					
 					bIsLooping = MabSongHeader->LoopEnd > 0;
+
+					//Chcobo is 1536kbps
+					//Length is 02:46 (in ue4 it is 166.629974)
+					//Filesize in ue4 is 2,576kb
+
 					pBitsPerSample = (uint16*)&MabSongHeader->LoopStart; //Probably not this
-					pSabMabDataSize = &MabSongHeader->StreamSize; //Probably not this
+					//pBitsPerSample = (uint16*)16;
+					//pSabMabDataSize = &MabSongHeader->StreamSize; //Probably not this
+
+					HeaderSize = MabHCAHeader->HCAHeaderSize;
+
+					SampleDataSize = bytes_to_samples(MabSongHeader->StreamSize, MabSongHeader->ChannelCount, 16);
+
 					pSamplesPerSec = &MabSongHeader->SampleRate;
 				}
 			}

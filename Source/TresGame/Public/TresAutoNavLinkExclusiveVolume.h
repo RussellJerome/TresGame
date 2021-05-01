@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Volume.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresAutoNavLinkExclusiveVolume.generated.h"
 
 /**

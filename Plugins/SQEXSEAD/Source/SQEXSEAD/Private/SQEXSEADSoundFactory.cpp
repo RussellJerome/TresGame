@@ -19,7 +19,7 @@ UObject* USQEXSEADSoundFactory::FactoryCreateBinary(UClass* Class, UObject* InPa
 	if (FFileHelper::LoadFileToArray(data, *CurrentFilename))
 	{
 		SABAsset = NewObject<USQEXSEADSound>(InParent, Class, Name, Flags);
-		SABAsset->Data = data;
+		//SABAsset->Data = data;
 	}
 
 	return SABAsset;

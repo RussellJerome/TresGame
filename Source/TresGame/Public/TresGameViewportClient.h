@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameViewportClient.h"
-#include "TresGame_StructsAndEnums.h"
+#include "TresGame.h"
 #include "TresGameViewportClient.generated.h"
 
 /**
