@@ -1005,6 +1005,7 @@ public:
 								default:
 									//*ErrorMessage = TEXT("CHUNK NOT SUPPORTED %s"), (int)MabHCAHeader->AudioType;
 									//*ErrorMessage = TEXT("CHUNK NOT SUPPORTED %s"), Uint32ToString(MabHCAHeader->AudioType);
+									continue;
 							}
 						}
 					
