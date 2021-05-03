@@ -10,11 +10,11 @@
 //---------------------------------------------------------------------------
 
 UENUM(BlueprintType)
-enum ESQEXSEADChangeAutoSeEnableNotifyEndBehavior
+enum class ESQEXSEADChangeAutoSeEnableNotifyEndBehavior : uint8
 {
-	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_RevertState = 0,
-	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_SetInvertedState = 1,
-	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_NoAction = 2,
+	RevertState = 0,
+	SetInvertedState = 1,
+	NoAction = 2,
 	ESQEXSEADChangeAutoSeEnableNotifyEndBehavior_MAX = 3 UMETA(Hidden)
 };
 
@@ -115,35 +115,35 @@ enum ESQEXSEAD_BGMLoadState
 };
 
 UENUM(BlueprintType)
-enum ESQEXSEAD_BGMStopBehaviour
+enum class ESQEXSEAD_BGMStopBehaviour : uint8
 {
-	ESQEXSEAD_BGMStopBehaviour_Stop = 0,
-	ESQEXSEAD_BGMStopBehaviour_Reset = 1,
-	ESQEXSEAD_BGMStopBehaviour_MAX = 2 UMETA(Hidden)
+	Stop = 0,
+	Reset = 1,
+	ESQEXSEAD_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESQEXSEAD_BGMStoreBehaviour
+enum class ESQEXSEAD_BGMStoreBehaviour : uint8
 {
-	ESQEXSEAD_BGMStoreBehaviour_Stop = 0,
-	ESQEXSEAD_BGMStoreBehaviour_AutoPlay = 1,
-	ESQEXSEAD_BGMStoreBehaviour_Suspend = 2,
-	ESQEXSEAD_BGMStoreBehaviour_AutoResume = 3,
-	ESQEXSEAD_BGMStoreBehaviour_MAX = 4 UMETA(Hidden)
+	Stop = 0,
+	AutoPlay = 1,
+	Suspend = 2,
+	AutoResume = 3,
+	ESQEXSEAD_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESQEXSEAD_BGMState
+enum class ESQEXSEAD_BGMState : uint8
 {
-	ESQEXSEAD_BGMState_Invalid = 0,
-	ESQEXSEAD_BGMState_Ready = 1,
-	ESQEXSEAD_BGMState_AutoPlay = 2,
-	ESQEXSEAD_BGMState_Playing = 3,
-	ESQEXSEAD_BGMState_Finished = 4,
-	ESQEXSEAD_BGMState_Stop = 5,
-	ESQEXSEAD_BGMState_Suspended = 6,
-	ESQEXSEAD_BGMState_AutoResume = 7,
-	ESQEXSEAD_BGMState_MAX = 8 UMETA(Hidden)
+	Invalid = 0,
+	Ready = 1,
+	AutoPlay = 2,
+	Playing = 3,
+	Finished = 4,
+	Stop = 5,
+	Suspended = 6,
+	AutoResume = 7,
+	ESQEXSEAD_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -225,6 +225,502 @@ enum ESQEXSEADZeroOneProperties
 	ESQEXSEADZeroOneProperties_VelocityFromLocation = 3,
 	ESQEXSEADZeroOneProperties_MAX = 4 UMETA(Hidden)
 };
+
+//---------------------------------------------------------------------------
+//Script Structs
+//---------------------------------------------------------------------------
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADBGMControlTrackKey
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADBGMControlTrackKey")
+	float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADBGMControlTrackKey")
+	TEnumAsByte<ESQEXSEADBGMControlTypes> ControlType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADBGMControlTrackKey")
+	FName SlotName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADBGMControlTrackKey")
+	int SectionIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADBGMControlTrackKey")
+	int ModeIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAnimNotifyPlayAutoSeParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	TEnumAsByte<ESQEXSEADANPlayAutoSeSourceType> SourceType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	TEnumAsByte<ESQEXSEADAutoSeMotionSoundType> MotionSoundType;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	//class USQEXSEADSurfaceAssetReferenceTable* SurfaceAssetPathTable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	FName SurfaceAssetTableRecordName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	TEnumAsByte<ESQEXSEADAutoSePartsType> AutoSePartsType;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	//unsigned char AutoSePartsIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	bool bCheckIsGrounded;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	bool bAttachToParts;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	float SoundVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	float SoundPitchMultiplier;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAnimNotifyPlayAutoSeParams")
+	bool bFollowOwnerVisible;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeAssetLoaderAssets
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAssetLoaderAssets")
+	TArray<class USoundBase*> Assets;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentAssetTablePerSurface
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	struct FStringAssetReference SoundAssetPaths[0x6];
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentAssetTableNonSurface
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	struct FStringAssetReference SoundAssetPaths[0xA];
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADSurfaceAssetReferenceRecord
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADSurfaceAssetReferenceRecord")
+	FName Name;
+
+	UPROPERTY()
+	struct FStringAssetReference AssetRefs[0x3F];
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADSurfaceAssetReferenceTableData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADSurfaceAssetReferenceTableData")
+	TArray<struct FSQEXSEADSurfaceAssetReferenceRecord> Records;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentFootInitParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentFootInitParams")
+	FName FemurName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentFootInitParams")
+	FName TibiaName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentFootInitParams")
+	FName FootName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentFootInitParams")
+	FName HeelName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentFootInitParams")
+	FName ToeName;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentArmInitParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentArmInitParams")
+	FName ShoulderName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentArmInitParams")
+	FName ElbowName;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentWingInitParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentWingInitParams")
+	FName WingRootName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentWingInitParams")
+	FName WingEdgeName;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentSwingInitParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentSwingInitParams")
+	TArray<FName> ChainNodeNames;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentBodyInitParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentBodyInitParams")
+	FName BaseName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentBodyInitParams")
+	FName WaistName;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeComponentInitParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentInitParams")
+	TArray<struct FSQEXSEADAutoSeComponentFootInitParams> Feet;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentInitParams")
+	TArray<struct FSQEXSEADAutoSeComponentArmInitParams> Arms;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentInitParams")
+	TArray<struct FSQEXSEADAutoSeComponentWingInitParams> Wings;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentInitParams")
+	TArray<struct FSQEXSEADAutoSeComponentSwingInitParams> Swings;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentInitParams")
+	struct FSQEXSEADAutoSeComponentBodyInitParams Body;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeComponentInitParams")
+	float AutoCalcHeelRatio;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeAnalyzerSetting
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAnalyzerSetting")
+	bool bOverrideAssumeFootMotionlessMoveLenInWorld;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAnalyzerSetting")
+	float AssumeFootMotionlessMoveLenInWorld;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAnalyzerSetting")
+	bool bOverrideAssumeBodyRunngingVelocity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAnalyzerSetting")
+	float AssumeBodyRunngingVelocity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAnalyzerSetting")
+	bool bOverrideAutoCalcFootGroundedThresholdRatio;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeAnalyzerSetting")
+	float AutoCalcFootGroundedThresholdRatio;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeDetectorSettingFootStep
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingFootStep")
+	bool bOverrideFootShuffleAssumeBodyStopVelocityThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingFootStep")
+	float FootShuffleAssumeBodyStopVelocityThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingFootStep")
+	bool bOverrideFootShuffleDetectFootAccelThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingFootStep")
+	float FootShuffleDetectFootAccelThreshold;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeDetectorSettingRustle
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	bool bOverrideElbowRustleVolumeRangesWalk;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleRelativeVelocityForNmlVolumeRangeWalkMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleRelativeVelocityForNmlVolumeRangeWalkMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleVolumeRangeWalkMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleVolumeRangeWalkMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	bool bOverrideElbowRustleVolumeRangesRun;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleRelativeVelocityForNmlVolumeRangeRunMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleRelativeVelocityForNmlVolumeRangeRunMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleVolumeRangeRunMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingRustle")
+	float ElbowRustleVolumeRangeRunMax;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeDetectorSettingSwing
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingSwing")
+	bool bOverrideKnockDetectVelocityThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingSwing")
+	float KnockDetectVelocityThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingSwing")
+	bool bOverrideRubDetectVelocityThreshold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeDetectorSettingSwing")
+	float RubDetectVelocityThreshold;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEAD_BGMOptions
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	int Priority;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	ESQEXSEAD_BGMStoreBehaviour StoreBehaviour;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	ESQEXSEAD_BGMStopBehaviour StopBehaviour;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	float PlayFadeInTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	float ResumeFadeInTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	float SuspendFadeOutTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	float StopFadeOutTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	float StaySuspendTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	bool bUnreferenceAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMOptions")
+	bool bRestoreAfterFinish;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEAD_BGMSlotSetting
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMSlotSetting")
+	FName SlotName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEAD_BGMSlotSetting")
+	struct FSQEXSEAD_BGMOptions SlotOption;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEAD_Timing
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADAutoSeControlTrackKey
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bUseGlobalEnable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bGlobalEnable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bUseEnable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bEnable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bUseVolumeScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	float VolumeScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bUseDisableAnimNotifyPlayAutoSE;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bDisableAnimNotifyPlayAutoSE;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bUseEnableForceOverridePhysicalSurface;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bEnableForceOverridePhysicalSurface;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	TEnumAsByte<EPhysicalSurface> PhysicalSurfaceForForceOverride;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	bool bUseAssumeFootMotionlessMoveLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADAutoSeControlTrackKey")
+	float AssumeFootMotionlessMoveLength;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADEventTrackKey
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADEventTrackKey")
+	float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADEventTrackKey")
+	FName EventName;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADLayoutInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutInfo")
+	TEnumAsByte<ESQEXSEADLayoutType> LayoutType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutInfo")
+	float InnerRadius;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutInfo")
+	float OuterRadius;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutInfo")
+	float OcclusionLPF;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutInfo")
+	float OcclusionVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutInfo")
+	TArray<FVector> LayoutPointLocations;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADLayoutObstructionInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutObstructionInfo")
+	TEnumAsByte<ESQEXSEADLayoutObstructionType> ObstructionType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutObstructionInfo")
+	TArray<FVector> ObstructionPointLocations;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADLayoutObstructionInfo")
+	TArray<class AStaticMeshActor*> LinkedMeshActorList;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADSoundReference
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADSoundReference")
+	class USoundBase* Sound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADSoundReference")
+	bool bFollow;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEXSEADSoundReference")
+	FName AttachPointName;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADVolumeInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADSoundAttachedInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEAD_BGMLocalOptions
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FSQEXSEADSystemPerformanceInfo
+{
+	GENERATED_BODY()
+};
+
+
+
+
+
+//CUSTOM MAB/SAB STUFF
 
 struct FSabMabHeaderChunk
 {
@@ -409,9 +905,13 @@ public:
 
 	FString Uint32ToString(uint32 Input)
 	{
-		FString Value;
-
-		return Value;
+		/*uint8* InputArray = 0;
+		InputArray[0] = Input >> 24;
+		InputArray[1] = Input >> 16;
+		InputArray[2] = Input >> 8;
+		InputArray[3] = Input;*/
+		//return BytesToString(InputArray, 4);
+		return "";
 	}
 
 	size_t bytes_to_samples(size_t bytes, int channels, int bits_per_sample)
@@ -503,7 +1003,8 @@ public:
 									HCAInitialOffset = MabHCAHeader->HCAHeaderSize;
 									continue;
 								default:
-									*ErrorMessage = TEXT("CHUNK NOT SUPPORTED $s"), (int)MabHCAHeader->AudioType;
+									//*ErrorMessage = TEXT("CHUNK NOT SUPPORTED %s"), (int)MabHCAHeader->AudioType;
+									//*ErrorMessage = TEXT("CHUNK NOT SUPPORTED %s"), Uint32ToString(MabHCAHeader->AudioType);
 							}
 						}
 					
@@ -526,103 +1027,12 @@ public:
 			}
 		}
 
+		//SAMPLE COUNT
+		//structure.Hca.SampleCount = structure.Hca.FrameCount * 1024 - structure.Hca.InsertedSamples - structure.Hca.AppendedSamples;
 
-
-
-
-
-
-		//Track Descriptor is pointless as the game doesn't read it
-
-		/*if (pIsSab)
-		{
-			FSabMabHeaderSection* MabSndHeaderSection = (FSabMabHeaderSection*)&SabMabData[32];
-			FSabMabHeaderSection* MabSeqHeaderSection = (FSabMabHeaderSection*)&SabMabData[48];
-			FSabMabHeaderSection* MabTrkHeaderSection = (FSabMabHeaderSection*)&SabMabData[64];
-			FSabMabHeaderSection* MabMtrlHeaderSection = (FSabMabHeaderSection*)&SabMabData[80];
-		}
-		else
-		{*/
-			//These values in the [] are never always guaranteed
-			/*FSabMabHeaderSection* MabMuscHeaderSection = (FSabMabHeaderSection*)&SabMabData[32];
-			FSabMabHeaderSection* MabInstHeaderSection = (FSabMabHeaderSection*)&SabMabData[48];
-			FSabMabHeaderSection* MabMtrlHeaderSection = (FSabMabHeaderSection*)&SabMabData[64];
-
-			if ((MabMuscHeaderSection->SectionName != (UE_mmioFOURCC('m', 'u', 's', 'c'))) && (MabMuscHeaderSection->SectionName != (UE_mmioFOURCC('c', 's', 'u', 'm'))))
-			{
-				if (ErrorMessage) { *ErrorMessage = TEXT("UH OH, somehow the musc data isn't here O.o"); }
-				return false;
-			}
-			//MabMtrlHeaderSection->OffsetInInnerFile = 688
-			// MabMaterialChunk->SectionSize = 16
-			FSabMabMaterialChunk* MabMaterialChunk = (FSabMabMaterialChunk*)&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + 2];
-
-			for (int i = 0; i < MabMaterialChunk->NumEntries; i++)
-			{
-
-				const uint32* SongHeaderPosition = (uint32*)&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + MabMaterialChunk->SectionSize + (i * 4)];
-				FSabMabSongHeader* MabSongHeader = (FSabMabSongHeader*)&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition];
-				bIsLooping = MabSongHeader->LoopEnd > 0;
-
-				int32 HeaderPosition = MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition; //This may be how it is done
-
-				//THIS STUFF MAY OR MAY NOT WORK
-					/*int32 ExtraDataOffset = HeaderPosition + 32;
-					int32 StreamPosition = ExtraDataOffset + MabSongHeader->ExtraDataSize;
-					int32 MTRLHeaderSize = StreamPosition - HeaderPosition;
-					const uint8* hcaHeaderSizeByteBig = (uint8*)&SabMabData[ExtraDataOffset + 16 + 6];
-					const uint8* hcaHeaderSizeByteSmall = (uint8*)&SabMabData[ExtraDataOffset + 16 + 7];
-					const uint16* hcaHeaderSize = (uint16*)((*hcaHeaderSizeByteBig << 8) + *hcaHeaderSizeByteSmall);
-					int32 NoHcaHeaderExtraDataSize = MabSongHeader->ExtraDataSize - *hcaHeaderSize;
-					int32 HcaStreamStartPosition = ExtraDataOffset + 32;
-					int32 HcaStreamSize = *hcaHeaderSize + MabSongHeader->StreamSize;
-					int32 NoHcaHeaderSize = HcaStreamStartPosition - HeaderPosition;
-					int32 TrackEndPosition = HcaStreamStartPosition + HcaStreamSize;*/
-					//
-
-					//Time To Read the HCA Audio
-				//FSabMabHCAHeader* MabHCAHeader = (FSabMabHCAHeader*)&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition + 48];
-
-				//pSamplesPerSec = &MabSongHeader->SampleRate;
-
-				//pChannels = (uint16*)&ChannelAmount;
-				//ChannelAmount += MabSongHeader->ChannelCount;
-				//pBitsPerSample = (uint16*)16;
-
-
-				//FString SomeByteString = BytesToString(&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition + 48], 4);
-				//FString ValueTest = BytesToHex(&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition + 52], 2);
-
-				//MabHCAHeader->AudioType == fmt\0
-
-
-				//READ FMT CHUNK
-				/*structure.Hca.ChannelCount = (int)reader.ReadByte();
-				structure.Hca.SampleRate = (int)reader.ReadByte() << 16 | (int)reader.ReadUInt16();
-				structure.Hca.FrameCount = reader.ReadInt32();
-				structure.Hca.InsertedSamples = (int)reader.ReadInt16();
-				structure.Hca.AppendedSamples = (int)reader.ReadInt16();
-				structure.Hca.SampleCount = structure.Hca.FrameCount * 1024 - structure.Hca.InsertedSamples - structure.Hca.AppendedSamples;*/
-
-
-				//SAMPLE COUNT
-				//structure.Hca.SampleCount = structure.Hca.FrameCount * 1024 - structure.Hca.InsertedSamples - structure.Hca.AppendedSamples;
-
-
-
-				/*FString SomeByteString = BytesToString(&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition + 48], 4);
-				FString ValueTest = BytesToHex(&SabMabData[MabMtrlHeaderSection->OffsetInInnerFile + *SongHeaderPosition + 52], 2);
-				if (ErrorMessage) { *ErrorMessage = TCHAR_TO_UTF8(*ValueTest); }
-				return false;*/
-
-				//bytes(st, 'utf-16')
-			//}
-
-			pFileFormat = &SabMabHeader->ID;
-			pVersionMain = &SabMabHeader->VersionMain;
-			pVersionSub = &SabMabHeader->VersionSub;
-		//}
-
+		pFileFormat = &SabMabHeader->ID;
+		pVersionMain = &SabMabHeader->VersionMain;
+		pVersionSub = &SabMabHeader->VersionSub;
 		return true;
 	}
 };

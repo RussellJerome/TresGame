@@ -67,6 +67,10 @@ enum EMerObstacleType
 	EMerObstacleType_MAX = 2 UMETA(Hidden)
 };
 
+//---------------------------------------------------------------------------
+//Script Structs
+//---------------------------------------------------------------------------
+
 USTRUCT(BlueprintType)
 struct FMercunaNavigationConfiguration
 {
