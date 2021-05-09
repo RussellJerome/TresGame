@@ -13873,3 +13873,457 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
 	ETresAbilityKind m_AppendAbility;
 };
+
+USTRUCT(BlueprintType)
+struct FTresChrLevelUpDataTable : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 m_Exp; //Total EXP Needed for level
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttackPower; //Attack Stat
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_MagicPower; //Magic Stat
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DefensePower; //Defense Stat
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AbilityPoint; //Ability Points
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityKind1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityKind2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityKind3;
+
+};
+
+
+USTRUCT(BlueprintType)
+struct FTresChrBaseParamDataTable : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 m_MaxHitPoint; //Max HP
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_MaxHPRate; //Unknown HP Float
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 m_MaxMagicPoint; //Max MP
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 m_MaxFocusPoint; //Max Focus Points
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttackPower; //Attack
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_MagicPower; //Magic
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DefensePower; //Defense
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AbilityPoint; //AP
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_ExpRate; //Rate at which you get EXP?
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresBodyPushPowerLevel> m_BodyPushPower; //Idk
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresChrBiologicalType> m_BioType; //Character Type
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_AttractionRate; //Rate at which attractions build?
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_MaxBodyStrongValue; //No Clue
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_MaxArmorHP; //Armor HP? Idk
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DamageMin; //Minimum Damage? Not sure
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DamageMax; //Max Damage? Unsure again
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_NeedReactionSameTeamZeroDmgAtk; //No clue
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeLimit; //Related to Revenge Values
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_MaxRevengeCount; //Revenge Value stuff again
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoolDownTime; //Revenge Cool Down
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientPhysical; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientFire; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientBlizzard; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientThunder; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientWater; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientAero; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientDark; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengeCoefficientNoType; //Revenge stuff
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistPhysical; //Physical Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistFire; //Fire Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistBlizzard; //Blizzard Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistThunder; //Thunder Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistWater; //Water Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistAero; //Aero Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistDark; //Dark Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_AttrResistNoType; //No Type Resist
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_ResistRapidFire; //Rapid Fire Resist?
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_ResistComboParam; //Combo Param Resist?
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointPhysical; //Weak to Physical
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointFire; //Weak to Fire
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointBlizzard; //Weak to Blizzard
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointThunder; //Weak to Thunder
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointWater; //Weak to Water
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointAero; //Weak to Aero
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointDark; //Weak to Dark
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttrWeekPointNoType; //Weak to No Type
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectFreeFlow; //Immune to Free Flow
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectDeath; //Immune to Death
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectCatch; //Immune to Catch
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectDrillBind; //Immune to Drill Bind
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectYoBind; //Immune to Yo Bind
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectRalphBind; //Immune to Ralph Bind
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectEnergyBurst; //Immune to Energy Burst
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectFreeze; //Immune to Freeze
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectStop; //Immune to Stop
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectMagnet; //Immune to Magnet
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectStun; //Immune to Stun
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectSneeze; //Immune to Sneeze
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectHoney; //Immune to Honey
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectCloud; //Immune to Cloud
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectDischarge; //Immune to Discharge
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectBurn; //Immune to Burn
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bResistEffectPoleSpinTurn; //Immune to Pole Spin Turn
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDropItemID> m_DropPrize1; //Prize Drop Upon Being Defeated
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_NumDropPrize1; //Number of Prize Dropped
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDropItemID> m_DropPrize2; //Prize Drop Upon Being Defeated
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_NumDropPrize2; //Number of Prize Dropped
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDropItemID> m_DropItemID; //Item Drop Upon Being Defeated
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DropItemRate; //Rate at which item drops
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDropItemID> m_DropItemID2; //Item Drop Upon Being Defeated
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DropItemRate2; //Rate at which item drops
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDropItemID> m_DropItemID3; //Item Drop Upon Being Defeated
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_DropItemRate3; //Rate at which item drops
+};
+
+
+USTRUCT(BlueprintType)
+struct FTresAttackDataTable : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_Power; //Power of the attack
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDamageKind> m_DamageKind; //Damage Kind?
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresDamageAttribute> m_DamageAttribute; //Attribute of the Attack
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_DamagePowerScale; //Idk
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_DamageParabolaAngle; //No idea
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_DamageMoveLength; //Don't know
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_DamageBrakeParam; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAtkHitKnockbackType> m_KnockbackType; //Knockback Type
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_DamageExecRate; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_DamageEffectTime; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresBadStatusType> m_BadStatusKind; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_BadStatusGenRate; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_BadStatusEffectTime; //No Clue
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_BadStatusEffectParam; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAtkTeamCheckType> m_TeamCheckType; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_ReactionPowerValue; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsScrumAttack; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_ArmorAttackPower; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_FormPoint; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsMagicAttack; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsIvalidGuard; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsRapidFire; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsKillerAttack; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsAttractionDamage; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsCounterAttack; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_bIsEnableWeakGuardAttack; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		uint8 m_ReflectLevel; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAtkCollReflectReaction> m_ReflectReaction; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_RevengePoint; //Amount of Revenge Value added from the Attack
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresPhysDamageForceLevel> m_PhysForceLv; //
+};
+
+USTRUCT(BlueprintType)
+struct FTresVictoryBonusDataTable : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FName m_FlagName; // Name Property. 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString m_comment; //Comment for bonus. String Property (FString)
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVBonusAbilityType> m_InitAbilityEquipOnCriticalMode; //Determines if already equipped on Critical Mode
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusSora1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilitySora1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusSora2; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilitySora2; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusDONALD1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityDONALD1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusGOOFY1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityGOOFY1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusHERCULES1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityHERCULES1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusWOODY1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityWOODY1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusBUZZ1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityBUZZ1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusRAPUNZEL1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityRAPUNZEL1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusFLYNN1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityFLYNN1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusSULLEY1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilitySULLEY1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusMIKE1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityMIKE1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusMARSHMALLOW1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityMARSHMALLOW1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusBAYMAX1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityBAYMAX1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresVictoryBonusKind> m_BonusJACK_SPARROW1; //
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<ETresAbilityKind> m_AbilityJACK_SPARROW1; //
+
+};
