@@ -832,6 +832,322 @@ struct FHCAFormat
 	int LoopSampleCount;
 };
 
+//NEW STRUCTS
+
+static uint8 BytesToUint8(const uint8* Data, int index)
+{
+	uint8 value = 0;
+	value |= Data[index];
+	return value;
+}
+static uint16 BytesToUint16(const uint8* Data, int index)
+{
+	uint32 value = 0;
+	value |= Data[index + 1] << 8;
+	value |= Data[index];
+	return value;
+}
+static uint32 BytesToUint32(const uint8* Data, int index)
+{
+	uint32 value = 0;
+	value |= Data[index + 3] << 24;
+	value |= Data[index + 2] << 16;
+	value |= Data[index + 1] << 8;
+	value |= Data[index];
+	return value;
+}
+static FString Uint8ToString(uint8 Input)
+{
+	uint8 Byte1 = Input;
+	FString CombinedString = BytesToString(&Byte1, 1);
+	CombinedString[0] = CombinedString[0] - 1;
+	return CombinedString;
+}
+static FString Uint16ToString(uint16 Input)
+{
+	uint8 Byte1 = Input;
+	uint8 Byte2 = Input >> 8;
+	FString CombinedString = BytesToString(&Byte1, 1) += BytesToString(&Byte2, 1);
+	CombinedString[0] = CombinedString[0] - 1;
+	CombinedString[1] = CombinedString[1] - 1;
+	return CombinedString;
+}
+static FString Uint32ToString(uint32 Input)
+{
+	uint8 Byte1 = Input;
+	uint8 Byte2 = Input >> 8;
+	uint8 Byte3 = Input >> 16;
+	uint8 Byte4 = Input >> 24;
+	FString CombinedString = BytesToString(&Byte1, 1) += BytesToString(&Byte2, 1) += BytesToString(&Byte3, 1) += BytesToString(&Byte4, 1);
+	for (int i = 0; i < CombinedString.Len(); i++) { CombinedString[i] = CombinedString[i] - 1; }
+	return CombinedString;
+}
+static FString ListOfBytesToString(const uint8* Input, int Count)
+{
+	FString NewString = BytesToString(Input, Count);
+	for (int i = 0; i < NewString.Len(); i++) { NewString[i] = NewString[i] - 1; }
+	return NewString;
+}
+
+
+
+struct FMaterialUser
+{
+	FString User;
+	int MaterialIndex;
+};
+struct FMaterialEntry
+{
+	int EntryIndex;
+	int StreamPosition;
+	int MaterialHeaderSize;
+	int HeaderPosition;
+	uint16 MtrlNumber;
+	int ExtraDataOffset;
+	int PositionOfOffsetFromMtrlSectionOffset;
+	uint32 StreamSize;
+	int HcaHeaderSize;
+	int HcaStreamStartPosition;
+	int HcaStreamSize;
+	int NoHcaHeaderSize;
+	int TrackEndPosition;
+	int NoHcaHeaderExtraDataSize;
+	uint32 LocalSectionOffset;
+	uint32 LoopStart;
+	uint32 LoopEnd;
+	uint32 ExtraDataSize;
+	uint32 SampleRate;
+	uint8 ChannelCount;
+	uint8 Codec;
+	uint16 ExtraDataId;
+	bool IsLooping = LoopEnd > 0;
+};
+
+struct FMusicLayer
+{
+	int Index;
+	int Offset;
+	uint8 Version;
+	uint8 Flags;
+	uint16 Size;
+	uint16 MaterialIndex;
+	uint16 LoopCount;
+	uint32 UnknownAt8;
+	uint32 EndPointSample;
+};
+
+struct FMusicSlice
+{
+	int Index;
+	uint8 Version;
+	uint16 Size;
+	int SubTableOffset;
+	int Offset;
+	FString Name;
+	uint16 CustomPointsCount;
+	uint32 EntryPointsSample;
+	uint32 ExitPointsSample;
+	uint32 LoopStart;
+	uint32 LoopEnd;
+	uint32 MeterCount;
+	int NameOffset;
+	int NameSize;
+
+	TArray<FMusicLayer> Layers;
+};
+struct FMusicMode
+{
+	int Offset;
+	uint8 Version;
+	uint16 Size;
+	int NameOffset;
+	uint8 NameSize;
+	FString Name;
+};
+
+struct FMusicEntry
+{
+	int Index;
+	uint8 Version;
+	uint8 Flags;
+	int Offset;
+	uint16 Size;
+	uint8 SliceCount;
+	uint8 ModeCount;
+	int TableOffset;
+	uint8 NameSize;
+	int NameOffset;
+	FString Name;
+	TArray<FMusicSlice> Slices;
+	TArray<FMusicMode> Modes;
+
+	FMusicEntry(const uint8* SabMabData, int MusicSectionOffset, int EntryIndex, int InitialOffset)
+	{
+		Index = EntryIndex;
+		Offset = MusicSectionOffset + BytesToUint32(SabMabData, MusicSectionOffset + 16 + EntryIndex * 4);
+		Version = BytesToUint8(SabMabData, Offset);
+		Flags = BytesToUint8(SabMabData, Offset + 1);
+		Size = BytesToUint16(SabMabData, Offset + 2);
+		SliceCount = BytesToUint8(SabMabData, Offset + 4);
+		ModeCount = BytesToUint8(SabMabData, Offset + 5);
+		NameSize = BytesToUint8(SabMabData, Offset + 72);
+		if (Version <= 8)
+		{
+			NameOffset = Offset + 16;
+			Size = 15;
+		}
+		else { NameOffset = Offset + Size; }
+		Name = ListOfBytesToString(&SabMabData[NameOffset], NameSize);
+		TableOffset = (NameOffset + NameSize + 15) - ((NameOffset + NameSize + 15) - (InitialOffset - 16)) % 16;
+		for (int SliceIndex = 0; SliceIndex < SliceCount; SliceIndex++)
+		{
+			FMusicSlice Slice;
+			Slice.Index = SliceIndex;
+			Slice.Offset = Offset + BytesToUint32(SabMabData, TableOffset + SliceIndex * 4);
+			Slice.Version = BytesToUint8(SabMabData, Slice.Offset);
+			Slice.Size = BytesToUint16(SabMabData, Slice.Offset + 2);
+			int LayerCount = 0;
+			if (Slice.Version <= 7)
+			{
+				// 4: meter count 
+				LayerCount = BytesToUint8(SabMabData, Slice.Offset + 5);
+				Slice.CustomPointsCount = BytesToUint16(SabMabData, Slice.Offset + 6);
+				Slice.EntryPointsSample = BytesToUint32(SabMabData, Slice.Offset + 8);
+				Slice.ExitPointsSample = BytesToUint32(SabMabData, Slice.Offset + 12);
+				Slice.LoopStart = BytesToUint32(SabMabData, Slice.Offset + 16);
+				Slice.LoopEnd = BytesToUint32(SabMabData, Slice.Offset + 20);
+				// 24+: meter transition timing info (offsets, points, curves, etc)
+				Slice.NameOffset = 48;
+				Slice.NameSize = 15;
+				Slice.SubTableOffset = Slice.Offset + Slice.Size;
+			}
+			else
+			{
+				Slice.NameSize = BytesToUint8(SabMabData, Slice.Offset + 4);
+				LayerCount = BytesToUint8(SabMabData, Slice.Offset + 5);
+				Slice.CustomPointsCount = BytesToUint16(SabMabData, Slice.Offset + 6);
+				Slice.EntryPointsSample = BytesToUint32(SabMabData, Slice.Offset + 8);
+				Slice.ExitPointsSample = BytesToUint32(SabMabData, Slice.Offset + 12);
+				Slice.LoopStart = BytesToUint32(SabMabData, Slice.Offset + 16);
+				Slice.LoopEnd = BytesToUint32(SabMabData, Slice.Offset + 20);
+				Slice.MeterCount = BytesToUint32(SabMabData, Slice.Offset + 24);
+				// 0x18: meter count
+				// 0x1c+: meter transition timing info (offsets, points, curves, etc)
+				Slice.NameOffset = Slice.Offset + Slice.Size;
+				Slice.SubTableOffset = (Slice.NameOffset + Slice.NameSize + 15) - ((Slice.NameOffset + Slice.NameSize + 15) - (InitialOffset - 16)) % 16;
+			}
+			Slice.Name = ListOfBytesToString(&SabMabData[Slice.NameOffset], Slice.NameSize);
+			for (int LayerIndex = 0; LayerIndex < LayerCount; LayerIndex++)
+			{
+				FMusicLayer MusicSectionlayer;
+				MusicSectionlayer.Index = LayerIndex;
+				MusicSectionlayer.Offset = Slice.Offset + BytesToUint32(SabMabData, Slice.SubTableOffset + LayerIndex * 4);
+				MusicSectionlayer.Version = BytesToUint8(SabMabData, MusicSectionlayer.Offset);
+				MusicSectionlayer.Flags = BytesToUint8(SabMabData, MusicSectionlayer.Offset + 1);
+				MusicSectionlayer.Size = BytesToUint16(SabMabData, MusicSectionlayer.Offset + 2);
+				MusicSectionlayer.MaterialIndex = BytesToUint16(SabMabData, MusicSectionlayer.Offset + 4);
+				MusicSectionlayer.LoopCount = BytesToUint16(SabMabData, MusicSectionlayer.Offset + 6);
+				MusicSectionlayer.UnknownAt8 = BytesToUint32(SabMabData, MusicSectionlayer.Offset + 8);
+				MusicSectionlayer.EndPointSample = BytesToUint32(SabMabData, MusicSectionlayer.Offset + 12);
+				Slice.Layers.Add(MusicSectionlayer);
+			}
+			Slices.Add(Slice);
+		}
+		for (int ModeIndex = 0; ModeIndex < ModeCount; ModeIndex++)
+		{
+			FMusicMode Section;
+			Section.Offset = Offset + BytesToUint32(SabMabData, TableOffset + SliceCount * 4 + ModeIndex * 4);
+			Section.Version = BytesToUint8(SabMabData, Section.Offset);
+			Section.Size = BytesToUint16(SabMabData, Section.Offset + 2);
+			Section.NameSize = BytesToUint8(SabMabData, Section.Offset + 6);
+			if (Section.Version <= 2)
+			{
+				Section.NameOffset = Section.Offset + 32;
+				Section.NameSize = 15;
+			}
+			else { Section.NameOffset = Section.Offset + Section.Size; }
+			Section.Name = ListOfBytesToString(&SabMabData[Section.NameOffset], Section.NameSize);
+			Modes.Add(Section);
+		}
+	}
+};
+
+struct FMusicInstrumentMaterial
+{
+	uint8 Version;
+	uint8 UnknownAt1;
+	uint16 MaterialSize;
+	uint16 MaterialIndex;
+	uint16 Id;
+	float Volume;
+	uint32 SyncPoint;
+	uint32 SampleRate;
+};
+
+struct FMusicInstrument
+{
+	int Offset;
+	uint8 Version;
+	uint8 UnknownAt1;
+	uint16 Size;
+	uint8 Type;
+	uint8 Category;
+	uint8 Priority;
+	uint16 UnknownAt8;
+	uint8 Flags;
+	uint8 DistanceAttenuationCurve;
+	float InteriorFactor;
+	float AudibleRange;
+	float InnerRange;
+	float PlayLength;
+	int NameSize;
+	int NameOffset;
+	FString Name;
+	TArray<FMusicInstrumentMaterial> Materials;
+
+	FMusicInstrument(const uint8* SabMabData, int InstrumentSectionOffset, int EntryIndex)
+	{
+		Offset = InstrumentSectionOffset + BytesToUint32(SabMabData, InstrumentSectionOffset + 16 + EntryIndex * 4);
+		Version = BytesToUint8(SabMabData, Offset);
+		UnknownAt1 = BytesToUint8(SabMabData, Offset + 1);
+		Size = BytesToUint16(SabMabData, Offset + 2);
+		Type = BytesToUint8(SabMabData, Offset + 4);
+		uint8 MaterialCount = BytesToUint8(SabMabData, Offset + 5);
+		Category = BytesToUint8(SabMabData, Offset + 6);
+		Priority = BytesToUint8(SabMabData, Offset + 7);
+		UnknownAt8 = BytesToUint16(SabMabData, Offset + 8);
+		Flags = BytesToUint8(SabMabData, Offset + 10);
+		DistanceAttenuationCurve = BytesToUint8(SabMabData, Offset + 11);
+
+		InteriorFactor = *reinterpret_cast<float*>(SabMabData[Offset + 12]);
+		AudibleRange = *reinterpret_cast<float*>(SabMabData[Offset + 16]);
+		InnerRange = *reinterpret_cast<float*>(SabMabData[Offset + 20]);
+		PlayLength = *reinterpret_cast<float*>(SabMabData[Offset + 24]);
+
+		NameOffset = Offset + 48;
+		NameSize = 15;
+
+		Name = ListOfBytesToString(&SabMabData[NameOffset], NameSize);
+
+		int MaterialOffset = NameOffset + NameSize + 1;
+		for (int MaterialIndex = 0; MaterialIndex < MaterialCount; MaterialIndex++)
+		{
+			FMusicInstrumentMaterial Material;
+			Material.Version = BytesToUint8(SabMabData, MaterialOffset);
+			Material.UnknownAt1 = BytesToUint8(SabMabData, MaterialOffset + 1);
+			Material.MaterialSize = BytesToUint16(SabMabData, MaterialOffset + 2);
+			Material.MaterialIndex = BytesToUint16(SabMabData, MaterialOffset + 4);
+			Material.Id = BytesToUint16(SabMabData, MaterialOffset + 6);
+			Material.Volume = *reinterpret_cast<float*>(SabMabData[MaterialOffset + 8]);
+			Material.SyncPoint = BytesToUint32(SabMabData, MaterialOffset + 12);
+			Material.SampleRate = BytesToUint32(SabMabData, MaterialOffset + 16);
+			MaterialOffset += Material.MaterialSize;
+			//Materials.Add(Material); //This was not in the original but this may be what it needs
+		}
+	}
+};
+
+//
 
 
 #define UE_MAKEFOURCC(ch0, ch1, ch2, ch3)\
@@ -851,68 +1167,11 @@ struct FHCAFormat
 struct FSabMabInfo
 {
 public:
-	bool pIsSab;
-	const uint32* pFileFormat;
-	const uint8* pVersionMain;
-	const uint8* pVersionSub;
-
-
-	const uint32* pSamplesPerSec;
-	const uint32* pAvgBytesPerSec;
-	const uint16* pBlockAlign;
-	const uint16* pBitsPerSample;
-	const uint16* pChannels;
-	const uint16* pFormatTag;
-
-	const uint32* pSabMabDataSize;
-	const uint32* pMasterSize;
-	const uint8*  SampleDataStart;
-	const uint8*  SampleDataEnd;
-	uint32  SampleDataSize;
-
-	uint8 ChannelAmount;
-
-	uint16 HeaderSize;
-
-	bool bIsLooping;
-
-	const uint8*  SabMabDataEnd;
-
-	FHCAFormat* HCAFormat;
-
-	uint8 BytesToUint8(const uint8* Data, int index)
-	{
-		uint8 value = 0;
-		value |= Data[index];
-		return value;
-	}
-	uint16 BytesToUint16(const uint8* Data, int index)
-	{
-		uint32 value = 0;
-		value |= Data[index + 1] << 8;
-		value |= Data[index];
-		return value;
-	}
-	uint32 BytesToUint32(const uint8* Data, int index)
-	{
-		uint32 value = 0;
-		value |= Data[index + 3] << 24;
-		value |= Data[index + 2] << 16;
-		value |= Data[index + 1] << 8;
-		value |= Data[index];
-		return value;
-	}
-
-	FString Uint32ToString(uint32 Input)
-	{
-		/*uint8* InputArray = 0;
-		InputArray[0] = Input >> 24;
-		InputArray[1] = Input >> 16;
-		InputArray[2] = Input >> 8;
-		InputArray[3] = Input;*/
-		//return BytesToString(InputArray, 4);
-		return "";
-	}
+	TArray<FSabMabHeaderSection> HeaderSections;
+	TArray<FMaterialEntry> Entries;
+	TArray<FMaterialUser> Users;
+	TArray<FMusicEntry> MusicEntries;
+	TArray<FMusicInstrument> Instruments;
 
 	size_t bytes_to_samples(size_t bytes, int channels, int bits_per_sample)
 	{
@@ -922,118 +1181,182 @@ public:
 
 	bool ReadSabMabInfo(const uint8* SabMabData, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
 	{
-		FSabMabHeaderChunk* SabMabHeader = (FSabMabHeaderChunk*)SabMabData;
-		SabMabDataEnd = SabMabData + SabMabDataSize;
+		//Version 3 Reader
+		int InitialOffset = 0;
+		//Mab/Sab Header
+			uint32 FileID = BytesToUint32(SabMabData, InitialOffset);	//This should display MABF or SABF
+			InitialOffset += 4;
+			uint8 VersionMain = BytesToUint8(SabMabData, InitialOffset); //Displays the Main version of the Mab/Sab (Usually Displays 2)
+			InitialOffset += 1;
+			uint8 VerionSub = BytesToUint8(SabMabData, InitialOffset); //Displays the Sub version of the Mab/Sab. Can display 0, 1, or 2 (Mab/Sab have version 2.0, 2.1, 2.2)
+			InitialOffset += 1;
+			uint16 HeaderUnknownAt6 = BytesToUint16(SabMabData, InitialOffset); // ??? Need Documenting
+			InitialOffset += 2;
+			uint8 SectionsCount = BytesToUint8(SabMabData, InitialOffset); // Amount of Sections to loop through
+			InitialOffset += 1;
+			uint8 DescriptorLength = BytesToUint8(SabMabData, InitialOffset); // Length of Descriptor
+			InitialOffset += 1;
+			uint16 HeaderUnknownAtA = BytesToUint16(SabMabData, InitialOffset); // ??? Need Documenting
+			InitialOffset += 2;
+			uint32 FileSize = BytesToUint32(SabMabData, InitialOffset); // Size of the Mab/Sab file
+			InitialOffset += 4;
+		//
+		int bytesNeededToPad = 16 - DescriptorLength % 16;
+		int HeaderSize = 16 + DescriptorLength + bytesNeededToPad;
 
-		if (SabMabDataSize == 0) { return false; }
-
-		//Commented out because it keepts setting Sab to true
-		/*if ((SabMabHeader->ID != (UE_mmioFOURCC('m', 'a', 'b', 'f'))) && (SabMabHeader->ID != (UE_mmioFOURCC('f', 'b', 'a', 'm'))))
+		//Determine if it is a Mab or Sab file
+		bool bIsSab = false;
+		if (Uint32ToString(FileID) != "mabf")
 		{
-			if ((SabMabHeader->ID != (UE_mmioFOURCC('s', 'a', 'b', 'f'))) && (SabMabHeader->ID != (UE_mmioFOURCC('f', 'b', 'a', 's'))))
-			{
-				if (ErrorMessage) { *ErrorMessage = TEXT("Invalid Sab/Mab file."); }
-				return false;
-			}
+			if (Uint32ToString(FileID) == "sabf") { bIsSab = true; }
 			else
 			{
-				pIsSab = true;
+				if (ErrorMessage) { *ErrorMessage = "FILE UNKNOWN: Invalid Sab/Mab file"; }
+				return false;
 			}
-		}*/
+		}
+		//
 
-		int HeaderSize = 16 + SabMabHeader->DescriptorLength + (16 - SabMabHeader->DescriptorLength) % 16;	//32 is the header size
-
-		for (int i = 0; i < SabMabHeader->SectionsCount; i++)
+		//Handle Section Reading
+		int SectionPosition = (InitialOffset - 16) + HeaderSize; //We subtract 16 because the header is 16 bytes - we have to ignore the additions
+		for (int i = 0; i < SectionsCount; i++)
 		{
-			FSabMabHeaderSection* HeaderSection = (FSabMabHeaderSection*)&SabMabData[HeaderSize + 16 * i];
-			if (HeaderSection->SectionName == UE_mmioFOURCC('m', 't', 'r', 'l'))
+			FSabMabHeaderSection HeaderSection;
+			//Sab/Mab Header Section
+				HeaderSection.SectionName = BytesToUint32(SabMabData, SectionPosition);
+				SectionPosition += 4;
+				HeaderSection.UnknownAt4 = BytesToUint16(SabMabData, SectionPosition);
+				SectionPosition += 2;
+				HeaderSection.UnknownAt6 = BytesToUint16(SabMabData, SectionPosition);
+				SectionPosition += 2;
+				HeaderSection.OffsetInInnerFile = BytesToUint32(SabMabData, SectionPosition);
+				SectionPosition += 4;
+				HeaderSection.UnknownAtC = BytesToUint32(SabMabData, SectionPosition);
+				SectionPosition += 4;
+			//
+			HeaderSections.Add(HeaderSection); //It now displays all sections correctly
+		}
+
+		//Handle Material Reading
+		for (int i = 0; i < HeaderSections.Num(); i++)
+		{
+			if (Uint32ToString(HeaderSections[i].SectionName) == "mtrl")
 			{
-				FSabMabMaterialChunk* MabMaterialChunk = (FSabMabMaterialChunk*)&SabMabData[HeaderSection->OffsetInInnerFile + 2];
-				pChannels = &MabMaterialChunk->NumEntries;
-				for (int i = 0; i < MabMaterialChunk->NumEntries; i++)
+				int InnerFilePositionOfFirstTracks = 0;
+				FSabMabHeaderSection SectionDeclaration = HeaderSections[i];
+				int MaterialSectionOffset = (InitialOffset - 16) + SectionDeclaration.OffsetInInnerFile;
+				uint16 EntryAddressesSize = BytesToUint16(SabMabData, MaterialSectionOffset + 2);
+				uint16 EntryCount = BytesToUint16(SabMabData, MaterialSectionOffset + 4);
+				for (int songEntryIndex = 0; songEntryIndex < EntryCount; songEntryIndex++)
 				{
-					FSabMabSongHeaderPosition* SongHeaderPosition = (FSabMabSongHeaderPosition*)&SabMabData[HeaderSection->OffsetInInnerFile + MabMaterialChunk->SectionSize + i * 4]; //Should be 704
-					FSabMabSongHeader* MabSongHeader = (FSabMabSongHeader*)&SabMabData[HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 4];
-					FSabMabHCAHeader* MabHCAHeader = (FSabMabHCAHeader*)&SabMabData[HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 48];
-					
-					//THIS IS ALL EXPERIMENTAL
-						int HCAHeaderPosition = HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 48;
-						int HCAInitialOffset = HeaderSection->OffsetInInnerFile + SongHeaderPosition->SongPosition + 52;
-						int HCAAudioType = HCAHeaderPosition + 4;
+					int positionOfOffsetFromMaterialSectionOffset = MaterialSectionOffset + 16 + songEntryIndex * 4;
+					uint32 localEntryOffset = BytesToUint32(SabMabData, positionOfOffsetFromMaterialSectionOffset);
+					if (songEntryIndex == 0) { InnerFilePositionOfFirstTracks = SectionDeclaration.OffsetInInnerFile + localEntryOffset; }
+					int EntryOffset = MaterialSectionOffset + localEntryOffset;
+					int8 Codec = BytesToUint8(SabMabData, EntryOffset + 5);
+					if (Codec == 0) { continue; }
+					FMaterialEntry Entry;
+					Entry.EntryIndex = songEntryIndex;
+					Entry.PositionOfOffsetFromMtrlSectionOffset = positionOfOffsetFromMaterialSectionOffset;
+					Entry.LocalSectionOffset = BytesToUint32(SabMabData, Entry.PositionOfOffsetFromMtrlSectionOffset);
+					Entry.HeaderPosition = MaterialSectionOffset + Entry.LocalSectionOffset;
+					Entry.ChannelCount = BytesToUint8(SabMabData, Entry.HeaderPosition + 4);
+					Entry.Codec = BytesToUint8(SabMabData, Entry.HeaderPosition + 5);
+					Entry.MtrlNumber = BytesToUint16(SabMabData, Entry.HeaderPosition + 6);
+					Entry.SampleRate = BytesToUint32(SabMabData, Entry.HeaderPosition + 8);
+					Entry.LoopStart = BytesToUint32(SabMabData, Entry.HeaderPosition + 12);
+					Entry.LoopEnd = BytesToUint32(SabMabData, Entry.HeaderPosition + 16);
+					Entry.ExtraDataSize = BytesToUint32(SabMabData, Entry.HeaderPosition + 20);
+					Entry.StreamSize = BytesToUint32(SabMabData, Entry.HeaderPosition + 24);
+					Entry.ExtraDataId = BytesToUint16(SabMabData, Entry.HeaderPosition + 28);
+					Entry.ExtraDataOffset = Entry.HeaderPosition + 32;
+					Entry.StreamPosition = Entry.ExtraDataOffset + Entry.ExtraDataSize;
+					Entry.MaterialHeaderSize = Entry.StreamPosition - Entry.HeaderPosition;
 
-						while (HCAInitialOffset < MabHCAHeader->HCAHeaderSize)
-						{
-							uint32 AudioType = BytesToUint32(SabMabData, HCAInitialOffset);	//Outputs - fmt\0
-							HCAInitialOffset = MabHCAHeader->HCAHeaderSize;
-							switch (AudioType)
-							{
-								case UE_mmioFOURCC('c', 'i', 'p', 'h'):
-									HCAFormat->EncryptionType = BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAInitialOffset += 4;
-									continue;
-								case UE_mmioFOURCC('c', 'o', 'm', 'p'):
-									HCAFormat->FrameSize = BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAFormat->MinResolution = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->MaxResolution = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->TrackCount = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->ChannelConfig = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->TotalBandCount = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->BaseBandCount = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->BandsPerHfrGroup = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAInitialOffset += 18;
-									continue;
-								case UE_mmioFOURCC('f', 'm', 't', '\0'):
-									HCAFormat->ChannelCount = BytesToUint8(SabMabData, HCAInitialOffset);
-									HCAFormat->SampleRate = (int)BytesToUint8(SabMabData, HCAInitialOffset) << 16 | (int)BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAFormat->FrameCount = BytesToUint32(SabMabData, HCAInitialOffset);
-									HCAFormat->InsertedSamples = BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAFormat->AppendedSamples = BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAFormat->SampleCount = HCAFormat->FrameCount * 1024 - HCAFormat->InsertedSamples - HCAFormat->AppendedSamples;
-									HCAInitialOffset += 20;
-									continue;
-								case UE_mmioFOURCC('l', 'o', 'o', 'p'):
-									HCAFormat->LoopStartFrame = BytesToUint32(SabMabData, HCAInitialOffset);
-									HCAFormat->LoopEndFrame = BytesToUint32(SabMabData, HCAInitialOffset);
-									HCAFormat->PreLoopSamples = BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAFormat->PostLoopSamples = BytesToUint16(SabMabData, HCAInitialOffset);
-									HCAFormat->LoopSampleCount;
-									HCAInitialOffset += 24;
-									continue;
-								case UE_mmioFOURCC('p', 'a', 'd', '\0'):
-									HCAInitialOffset = MabHCAHeader->HCAHeaderSize;
-									continue;
-								default:
-									//*ErrorMessage = TEXT("CHUNK NOT SUPPORTED %s"), (int)MabHCAHeader->AudioType;
-									//*ErrorMessage = TEXT("CHUNK NOT SUPPORTED %s"), Uint32ToString(MabHCAHeader->AudioType);
-									continue;
-							}
-						}
-					
-					bIsLooping = MabSongHeader->LoopEnd > 0;
+					//why is this in big endian wtf?
+					int hcaHeaderSizeByteBig = BytesToUint8(SabMabData, Entry.ExtraDataOffset + 16 + 6);
+					int hcaHeaderSizeByteSmall = BytesToUint8(SabMabData, Entry.ExtraDataOffset + 16 + 7);
+					Entry.HcaHeaderSize = (uint16)((hcaHeaderSizeByteBig << 8) + hcaHeaderSizeByteSmall);
 
-					//Chcobo is 1536kbps
-					//Length is 02:46 (in ue4 it is 166.629974)
-					//Filesize in ue4 is 2,576kb
+					Entry.NoHcaHeaderExtraDataSize = Entry.ExtraDataSize - Entry.HcaHeaderSize;
+					Entry.HcaStreamStartPosition = Entry.ExtraDataOffset + 16;
+					Entry.HcaStreamSize = Entry.HcaHeaderSize + Entry.StreamSize;
+					Entry.NoHcaHeaderSize = Entry.HcaStreamStartPosition - Entry.HeaderPosition;
+					Entry.TrackEndPosition = Entry.HcaStreamStartPosition + Entry.HcaStreamSize;
+					Entries.Add(Entry);
+				}
+			}
+			else { continue; }
+		}
 
-					pBitsPerSample = (uint16*)&MabSongHeader->LoopStart; //Probably not this
-					//pBitsPerSample = (uint16*)16;
-					//pSabMabDataSize = &MabSongHeader->StreamSize; //Probably not this
+		//Handle Section Parsing
+		if (bIsSab)
+		{
 
-					HeaderSize = MabHCAHeader->HCAHeaderSize;
+		}
+		else
+		{
+			//Handle Mab Parsing
+			int MusicSectionOffset = 0;
+			int InstrumentSectionOffset = 0;
+			for (int i = 0; i < HeaderSections.Num(); i++)
+			{
+				if (Uint32ToString(HeaderSections[i].SectionName) == "musc")
+				{
+					MusicSectionOffset = (InitialOffset - 16) + HeaderSections[i].OffsetInInnerFile;
+				}
+				else if (Uint32ToString(HeaderSections[i].SectionName) == "inst")
+				{
+					InstrumentSectionOffset = (InitialOffset - 16) + HeaderSections[i].OffsetInInnerFile;
+				}
+			}
 
-					SampleDataSize = bytes_to_samples(MabSongHeader->StreamSize, MabSongHeader->ChannelCount, 16);
+			uint16 TrackEntryCount = BytesToUint16(SabMabData, MusicSectionOffset + 4);
+			for (int EntryIndex = 0; EntryIndex < TrackEntryCount; EntryIndex++)
+			{
+				FMusicEntry Entry = FMusicEntry::FMusicEntry(SabMabData, MusicSectionOffset, EntryIndex, InitialOffset);
+				MusicEntries.Add(Entry);
+			}
 
-					pSamplesPerSec = &MabSongHeader->SampleRate;
+			uint16 instrumentEntryCount = BytesToUint16(SabMabData, InstrumentSectionOffset + 4);
+			for (int InstrumentIndex = 0; InstrumentIndex < instrumentEntryCount; InstrumentIndex++)
+			{
+				FMusicInstrument Instrument = FMusicInstrument::FMusicInstrument(SabMabData, InstrumentSectionOffset, InstrumentIndex);
+				Instruments.Add(Instrument);
+			}
+
+			for(FMusicEntry Entry : MusicEntries)
+			{
+				for (FMusicSlice Slice : Entry.Slices)
+				{
+					for (FMusicLayer Layer : Slice.Layers)
+					{
+						FMaterialUser User;
+						//MaterialSection.AddUser(new MusicLayerMaterialUser(slice, layer), layer.MaterialIndex);
+						User.User = "CANNOT READ NAMES YET";
+						User.MaterialIndex = Layer.MaterialIndex;
+						Users.Add(User);
+					}
+				}
+			}
+			for (FMusicInstrument Instrument : Instruments)
+			{
+				for (FMusicInstrumentMaterial Material : Instrument.Materials)
+				{
+					FMaterialUser User;
+					//MaterialSection.AddUser(instrument, material.MaterialIndex);
+					User.User = "CANNOT READ NAMES YET";
+					User.MaterialIndex = Material.MaterialIndex;
+					Users.Add(User);
 				}
 			}
 		}
 
-		//SAMPLE COUNT
-		//structure.Hca.SampleCount = structure.Hca.FrameCount * 1024 - structure.Hca.InsertedSamples - structure.Hca.AppendedSamples;
+		int endOfInnerFile = (InitialOffset - 16) + FileSize;
+		/*BytesBeforeFile = fileBytes.SubArray(0, (InitialOffset - 16));
+		BytesAfterFile = fileBytes.SubArray(endOfInnerFile, fileBytes.Length - endOfInnerFile);
+		InnerFileBytes = fileBytes.SubArray((InitialOffset - 16), FileSize);*/
 
-		pFileFormat = &SabMabHeader->ID;
-		pVersionMain = &SabMabHeader->VersionMain;
-		pVersionSub = &SabMabHeader->VersionSub;
 		return true;
 	}
 };

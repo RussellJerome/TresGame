@@ -300,7 +300,7 @@ enum ETresCommandKind
 };
 
 UENUM(BlueprintType)
-enum ETresPhysDamageForceLevel
+enum class ETresPhysDamageForceLevel : uint8
 {
 	TPDF_LV = 0 UMETA(DisplayName = "LV"),
 	TPDF_LV01 = 1 UMETA(DisplayName = "LV 01"),
@@ -311,7 +311,7 @@ enum ETresPhysDamageForceLevel
 };
 
 UENUM(BlueprintType)
-enum ETresBadStatusType
+enum class ETresBadStatusType : uint8
 {
 	TRES_BADSTAT_NONE = 0,
 	TRES_BADSTAT_DEATH = 1,
@@ -337,7 +337,7 @@ enum ETresBadStatusType
 };
 
 UENUM(BlueprintType)
-enum ETresAtkHitKnockbackType
+enum class ETresAtkHitKnockbackType : uint8
 {
 	TRES_AHKBT_NORMAL = 0,
 	TRES_AHKBT_VELOCITY = 1,
@@ -350,7 +350,7 @@ enum ETresAtkHitKnockbackType
 };
 
 UENUM(BlueprintType)
-enum ETresDamageAttribute
+enum class ETresDamageAttribute : uint8
 {
 	TRES_DMG_ATTR_PHYSICAL = 0,
 	TRES_DMG_ATTR_FIRE = 1,
@@ -693,7 +693,7 @@ enum ETresPlayerUniqueID
 UENUM(BlueprintType)
 enum class ETresAbilityKind : uint8
 {
-	TRES_ABI_KIND_NONE = 0 UMETA(DisplayName = "None"),
+	NONE = 0 UMETA(DisplayName = "None"),
 	AIR_RECOVERY = 1 UMETA(DisplayName = "Air Recovery"),
 	BLOW_COUNTER = 2 UMETA(DisplayName = "Blow Counter"),
 	REFLECT_GUARD = 3 UMETA(DisplayName = "Reflect Guard"),
@@ -872,7 +872,7 @@ enum class ETresAbilityKind : uint8
 	ROXAS_CROSSBRADE = 176 UMETA(DisplayName = "Roxas Cross Brade"),
 	XION_CURAGA = 177 UMETA(DisplayName = "Xion Curaga"),
 	XION_LASERRAIN = 178 UMETA(DisplayName = "Xion Laser Rain"),
-	LEA_FIRAGARAID = 179 UMETA(DisplayName = "Lea Firaga Raid"),
+	__LEA_FIRAGARAID = 179 UMETA(DisplayName = "Lea Firaga Raid"),
 	LEA_FIRAGASLICER = 180 UMETA(DisplayName = "Lea Firaga Slicer"),
 	KAIRI_CURE = 181 UMETA(DisplayName = "Kairi Cure"),
 	SORA_FIRAGA = 182 UMETA(DisplayName = "Sora Firaga"),
@@ -882,7 +882,7 @@ enum class ETresAbilityKind : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresCharWearForm
+enum class ETresCharWearForm : uint8
 {
 	TRES_WEAR_FORM_NORMAL = 0,
 	TRES_WEAR_FORM_01 = 1,
@@ -2378,9 +2378,9 @@ enum ETresAbilityEquipType
 };
 
 UENUM(BlueprintType)
-enum ETresTextAbilityKind
+enum class ETresTextAbilityKind : uint8
 {
-	TEXT_NONE = 0,
+	NONE = 0,
 	TEXT_SHOOTFLOW_KB00_00 = 1,
 	TEXT_SHOOTFLOW_KB09_00 = 2,
 	TEXT_SHOOTFLOW_KB07_00 = 3,
@@ -2511,7 +2511,7 @@ enum ETresTextAbilityKind
 	TEXT_ACTION_FM0207 = 128,
 	TEXT_ACTION_FM0208 = 129,
 	TEXT_ACTION_FM0209 = 130,
-	TEXT_MAX = 131 UMETA(Hidden),
+	_MAX = 131 UMETA(Hidden),
 	ETresTextAbilityKind_MAX = 132 UMETA(Hidden)
 };
 
@@ -4458,28 +4458,28 @@ enum ETresCameraTargetWallCheckType
 };
 
 UENUM(BlueprintType)
-enum ETresAtkTeamCheckType
+enum class ETresAtkTeamCheckType : uint8
 {
-	ETresAtkTeamCheckType_NORMAL = 0,
-	ETresAtkTeamCheckType_NO_CHECK = 1,
-	ETresAtkTeamCheckType_SAME_ZERO = 2,
-	ETresAtkTeamCheckType_1_MAX = 3,
+	NORMAL = 0,
+	NO_CHECK = 1,
+	SAME_ZERO = 2,
+	_MAX = 3 UMETA(Hidden),
 	ETresAtkTeamCheckType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresChrBiologicalType
+enum class ETresChrBiologicalType : uint8
 {
-	ETresChrBiologicalType_Human = 0,
-	ETresChrBiologicalType_Heartless = 1,
-	ETresChrBiologicalType_Nobody = 2,
-	ETresChrBiologicalType_Unverse = 3,
-	ETresChrBiologicalType_Unknown = 4,
+	Human = 0,
+	Heartless = 1,
+	Nobody = 2,
+	Unverse = 3,
+	Unknown = 4,
 	ETresChrBiologicalType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBodyPushPowerLevel
+enum class ETresBodyPushPowerLevel : uint8
 {
 	PPL = 0,
 	PPL01 = 1,
@@ -7388,9 +7388,9 @@ enum ETresFoodstuffDropperID
 };
 
 UENUM(BlueprintType)
-enum ETresDropItemID
+enum class ETresDropItemID : uint8
 {
-	ETresDropItemID_None = 0,
+	None = 0,
 	PRIZE_HpS = 1,
 	PRIZE_HpL = 2,
 	PRIZE_MpS = 3,
@@ -7534,8 +7534,8 @@ enum ETresDropItemID
 	ITEM_Foodstuff59 = 141,
 	PRIZE_LightS = 142,
 	PRIZE_LightL = 143,
-	_DROP_ITEM_ID_MAX = 144,
-	ETresDropItemID_MAX = 145
+	_DROP_ITEM_ID_MAX = 144  UMETA(Hidden),
+	ETresDropItemID_MAX = 145  UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -8654,182 +8654,182 @@ enum ETresItemDefFood
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefAccessory
+enum class ETresItemDefAccessory : uint8
 {
-	ETresItemDefAccessory_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefAccessory_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefAccessory_ITEM02 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefAccessory_ITEM03 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefAccessory_ITEM04 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefAccessory_ITEM05 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefAccessory_ITEM06 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefAccessory_ITEM07 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefAccessory_ITEM08 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefAccessory_ITEM09 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefAccessory_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
-	ETresItemDefAccessory_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
-	ETresItemDefAccessory_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
-	ETresItemDefAccessory_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
-	ETresItemDefAccessory_ITEM14 = 14 UMETA(DisplayName = "Item 14"),
-	ETresItemDefAccessory_ITEM15 = 15 UMETA(DisplayName = "Item 15"),
-	ETresItemDefAccessory_ITEM16 = 16 UMETA(DisplayName = "Item 16"),
-	ETresItemDefAccessory_ITEM17 = 17 UMETA(DisplayName = "Item 17"),
-	ETresItemDefAccessory_ITEM18 = 18 UMETA(DisplayName = "Item 18"),
-	ETresItemDefAccessory_ITEM19 = 19 UMETA(DisplayName = "Item 19"),
-	ETresItemDefAccessory_ITEM20 = 20 UMETA(DisplayName = "Item 20"),
-	ETresItemDefAccessory_ITEM21 = 21 UMETA(DisplayName = "Item 21"),
-	ETresItemDefAccessory_ITEM22 = 22 UMETA(DisplayName = "Item 22"),
-	ETresItemDefAccessory_ITEM23 = 23 UMETA(DisplayName = "Item 23"),
-	ETresItemDefAccessory_ITEM24 = 24 UMETA(DisplayName = "Item 24"),
-	ETresItemDefAccessory_ITEM25 = 25 UMETA(DisplayName = "Item 25"),
-	ETresItemDefAccessory_ITEM26 = 26 UMETA(DisplayName = "Item 26"),
-	ETresItemDefAccessory_ITEM27 = 27 UMETA(DisplayName = "Item 27"),
-	ETresItemDefAccessory_ITEM28 = 28 UMETA(DisplayName = "Item 28"),
-	ETresItemDefAccessory_ITEM29 = 29 UMETA(DisplayName = "Item 29"),
-	ETresItemDefAccessory_ITEM30 = 30 UMETA(DisplayName = "Item 30"),
-	ETresItemDefAccessory_ITEM31 = 31 UMETA(DisplayName = "Item 31"),
-	ETresItemDefAccessory_ITEM32 = 32 UMETA(DisplayName = "Item 32"),
-	ETresItemDefAccessory_ITEM33 = 33 UMETA(DisplayName = "Item 33"),
-	ETresItemDefAccessory_ITEM34 = 34 UMETA(DisplayName = "Item 34"),
-	ETresItemDefAccessory_ITEM35 = 35 UMETA(DisplayName = "Item 35"),
-	ETresItemDefAccessory_ITEM36 = 36 UMETA(DisplayName = "Item 36"),
-	ETresItemDefAccessory_ITEM37 = 37 UMETA(DisplayName = "Item 37"),
-	ETresItemDefAccessory_ITEM38 = 38 UMETA(DisplayName = "Item 38"),
-	ETresItemDefAccessory_ITEM39 = 39 UMETA(DisplayName = "Item 39"),
-	ETresItemDefAccessory_ITEM40 = 40 UMETA(DisplayName = "Item 40"),
-	ETresItemDefAccessory_ITEM41 = 41 UMETA(DisplayName = "Item 41"),
-	ETresItemDefAccessory_ITEM42 = 42 UMETA(DisplayName = "Item 42"),
-	ETresItemDefAccessory_ITEM43 = 43 UMETA(DisplayName = "Item 43"),
-	ETresItemDefAccessory_ITEM44 = 44 UMETA(DisplayName = "Item 44"),
-	ETresItemDefAccessory_ITEM45 = 45 UMETA(DisplayName = "Item 45"),
-	ETresItemDefAccessory_ITEM46 = 46 UMETA(DisplayName = "Item 46"),
-	ETresItemDefAccessory_ITEM47 = 47 UMETA(DisplayName = "Item 47"),
-	ETresItemDefAccessory_ITEM48 = 48 UMETA(DisplayName = "Item 48"),
-	ETresItemDefAccessory_ITEM49 = 49 UMETA(DisplayName = "Item 49"),
-	ETresItemDefAccessory_ITEM50 = 50 UMETA(DisplayName = "Item 50"),
-	ETresItemDefAccessory_ITEM51 = 51 UMETA(DisplayName = "Item 51"),
-	ETresItemDefAccessory_ITEM52 = 52 UMETA(DisplayName = "Item 52"),
-	ETresItemDefAccessory_ITEM53 = 53 UMETA(DisplayName = "Item 53"),
-	ETresItemDefAccessory_ITEM54 = 54 UMETA(DisplayName = "Item 54"),
-	ETresItemDefAccessory_ITEM55 = 55 UMETA(DisplayName = "Item 55"),
-	ETresItemDefAccessory_ITEM56 = 56 UMETA(DisplayName = "Item 56"),
-	ETresItemDefAccessory_ITEM57 = 57 UMETA(DisplayName = "Item 57"),
-	ETresItemDefAccessory_ITEM58 = 58 UMETA(DisplayName = "Item 58"),
-	ETresItemDefAccessory_ITEM59 = 59 UMETA(DisplayName = "Item 59"),
-	ETresItemDefAccessory_ITEM60 = 60 UMETA(DisplayName = "Item 60"),
-	ETresItemDefAccessory_ITEM61 = 61 UMETA(DisplayName = "Item 61"),
-	ETresItemDefAccessory_ITEM62 = 62 UMETA(DisplayName = "Item 62"),
-	ETresItemDefAccessory_ITEM63 = 63 UMETA(DisplayName = "Item 63"),
-	ETresItemDefAccessory_ITEM64 = 64 UMETA(DisplayName = "Item 64"),
-	ETresItemDefAccessory_ITEM65 = 65 UMETA(DisplayName = "Item 65"),
-	ETresItemDefAccessory_ITEM66 = 66 UMETA(DisplayName = "Item 66"),
-	ETresItemDefAccessory_ITEM67 = 67 UMETA(DisplayName = "Item 67"),
-	ETresItemDefAccessory_ITEM68 = 68 UMETA(DisplayName = "Item 68"),
-	ETresItemDefAccessory_ITEM69 = 69 UMETA(DisplayName = "Item 69"),
-	ETresItemDefAccessory_ITEM70 = 70 UMETA(DisplayName = "Item 70"),
-	ETresItemDefAccessory_ITEM71 = 71 UMETA(DisplayName = "Item 71"),
-	ETresItemDefAccessory_ITEM72 = 72 UMETA(DisplayName = "Item 72"),
-	ETresItemDefAccessory_ITEM73 = 73 UMETA(DisplayName = "Item 73"),
-	ETresItemDefAccessory_ITEM74 = 74 UMETA(DisplayName = "Item 74"),
-	ETresItemDefAccessory_ITEM75 = 75 UMETA(DisplayName = "Item 75"),
-	ETresItemDefAccessory_ITEM76 = 76 UMETA(DisplayName = "Item 76"),
-	ETresItemDefAccessory_ITEM77 = 77 UMETA(DisplayName = "Item 77"),
-	ETresItemDefAccessory_ITEM78 = 78 UMETA(DisplayName = "Item 78"),
-	ETresItemDefAccessory_ITEM79 = 79 UMETA(DisplayName = "Item 79"),
-	ETresItemDefAccessory_ITEM80 = 80 UMETA(DisplayName = "Item 80"),
-	ETresItemDefAccessory_ITEM81 = 81 UMETA(DisplayName = "Item 81"),
-	ETresItemDefAccessory_ITEM82 = 82 UMETA(DisplayName = "Item 82"),
-	ETresItemDefAccessory_ITEM83 = 83 UMETA(DisplayName = "Item 83"),
-	ETresItemDefAccessory_ITEM84 = 84 UMETA(DisplayName = "Item 84"),
-	ETresItemDefAccessory_ITEM85 = 85 UMETA(DisplayName = "Item 85"),
-	ETresItemDefAccessory_ITEM86 = 86 UMETA(DisplayName = "Item 86"),
-	ETresItemDefAccessory_ITEM87 = 87 UMETA(DisplayName = "Item 87"),
-	ETresItemDefAccessory_ITEM88 = 88 UMETA(DisplayName = "Item 88"),
-	ETresItemDefAccessory_ITEM89 = 89 UMETA(DisplayName = "Item 89"),
-	ETresItemDefAccessory_ITEM90 = 90 UMETA(DisplayName = "Item 90"),
-	ETresItemDefAccessory_ITEM91 = 91 UMETA(DisplayName = "Item 91"),
-	ETresItemDefAccessory_ITEM92 = 92 UMETA(DisplayName = "Item 92"),
-	ETresItemDefAccessory_ITEM93 = 93 UMETA(DisplayName = "Item 93"),
-	ETresItemDefAccessory_ITEM94 = 94 UMETA(DisplayName = "Item 94"),
-	ETresItemDefAccessory_ITEM95 = 95 UMETA(DisplayName = "Item 95"),
-	ETresItemDefAccessory_ITEM96 = 96 UMETA(DisplayName = "Item 96"),
-	ETresItemDefAccessory_ITEM97 = 97 UMETA(DisplayName = "Item 97"),
-	ETresItemDefAccessory_ITEM98 = 98 UMETA(DisplayName = "Item 98"),
-	ETresItemDefAccessory_ITEM99 = 99 UMETA(DisplayName = "Item 99"),
-	ETresItemDefAccessory_ITEM100 = 100 UMETA(DisplayName = "Item 100"),
-	ETresItemDefAccessory_ITEM101 = 101 UMETA(DisplayName = "Item 101"),
-	ETresItemDefAccessory_ITEM102 = 102 UMETA(DisplayName = "Item 102"),
-	ETresItemDefAccessory_ITEM103 = 103 UMETA(DisplayName = "Item 103"),
-	ETresItemDefAccessory_ITEM104 = 104 UMETA(DisplayName = "Item 104"),
-	ETresItemDefAccessory_ITEM105 = 105 UMETA(DisplayName = "Item 105"),
-	ETresItemDefAccessory_ITEM106 = 106 UMETA(DisplayName = "Item 106"),
-	ETresItemDefAccessory_ITEM107 = 107 UMETA(DisplayName = "Item 107"),
-	ETresItemDefAccessory_ITEM108 = 108 UMETA(DisplayName = "Item 108"),
-	ETresItemDefAccessory_ITEM109 = 109 UMETA(DisplayName = "Item 109"),
-	ETresItemDefAccessory_ITEM110 = 110 UMETA(DisplayName = "Item 110"),
-	ETresItemDefAccessory_ITEM111 = 111 UMETA(DisplayName = "Item 111"),
-	ETresItemDefAccessory_ITEM112 = 112 UMETA(DisplayName = "Item 112"),
-	ETresItemDefAccessory_1_MAX = 113 UMETA(Hidden),
+	NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ITEM01 = 1 UMETA(DisplayName = "Item 01"),
+	ITEM02 = 2 UMETA(DisplayName = "Item 02"),
+	ITEM03 = 3 UMETA(DisplayName = "Item 03"),
+	ITEM04 = 4 UMETA(DisplayName = "Item 04"),
+	ITEM05 = 5 UMETA(DisplayName = "Item 05"),
+	ITEM06 = 6 UMETA(DisplayName = "Item 06"),
+	ITEM07 = 7 UMETA(DisplayName = "Item 07"),
+	ITEM08 = 8 UMETA(DisplayName = "Item 08"),
+	ITEM09 = 9 UMETA(DisplayName = "Item 09"),
+	ITEM10 = 10 UMETA(DisplayName = "Item 10"),
+	ITEM11 = 11 UMETA(DisplayName = "Item 11"),
+	ITEM12 = 12 UMETA(DisplayName = "Item 12"),
+	ITEM13 = 13 UMETA(DisplayName = "Item 13"),
+	ITEM14 = 14 UMETA(DisplayName = "Item 14"),
+	ITEM15 = 15 UMETA(DisplayName = "Item 15"),
+	ITEM16 = 16 UMETA(DisplayName = "Item 16"),
+	ITEM17 = 17 UMETA(DisplayName = "Item 17"),
+	ITEM18 = 18 UMETA(DisplayName = "Item 18"),
+	ITEM19 = 19 UMETA(DisplayName = "Item 19"),
+	ITEM20 = 20 UMETA(DisplayName = "Item 20"),
+	ITEM21 = 21 UMETA(DisplayName = "Item 21"),
+	ITEM22 = 22 UMETA(DisplayName = "Item 22"),
+	ITEM23 = 23 UMETA(DisplayName = "Item 23"),
+	ITEM24 = 24 UMETA(DisplayName = "Item 24"),
+	ITEM25 = 25 UMETA(DisplayName = "Item 25"),
+	ITEM26 = 26 UMETA(DisplayName = "Item 26"),
+	ITEM27 = 27 UMETA(DisplayName = "Item 27"),
+	ITEM28 = 28 UMETA(DisplayName = "Item 28"),
+	ITEM29 = 29 UMETA(DisplayName = "Item 29"),
+	ITEM30 = 30 UMETA(DisplayName = "Item 30"),
+	ITEM31 = 31 UMETA(DisplayName = "Item 31"),
+	ITEM32 = 32 UMETA(DisplayName = "Item 32"),
+	ITEM33 = 33 UMETA(DisplayName = "Item 33"),
+	ITEM34 = 34 UMETA(DisplayName = "Item 34"),
+	ITEM35 = 35 UMETA(DisplayName = "Item 35"),
+	ITEM36 = 36 UMETA(DisplayName = "Item 36"),
+	ITEM37 = 37 UMETA(DisplayName = "Item 37"),
+	ITEM38 = 38 UMETA(DisplayName = "Item 38"),
+	ITEM39 = 39 UMETA(DisplayName = "Item 39"),
+	ITEM40 = 40 UMETA(DisplayName = "Item 40"),
+	ITEM41 = 41 UMETA(DisplayName = "Item 41"),
+	ITEM42 = 42 UMETA(DisplayName = "Item 42"),
+	ITEM43 = 43 UMETA(DisplayName = "Item 43"),
+	ITEM44 = 44 UMETA(DisplayName = "Item 44"),
+	ITEM45 = 45 UMETA(DisplayName = "Item 45"),
+	ITEM46 = 46 UMETA(DisplayName = "Item 46"),
+	ITEM47 = 47 UMETA(DisplayName = "Item 47"),
+	ITEM48 = 48 UMETA(DisplayName = "Item 48"),
+	ITEM49 = 49 UMETA(DisplayName = "Item 49"),
+	ITEM50 = 50 UMETA(DisplayName = "Item 50"),
+	ITEM51 = 51 UMETA(DisplayName = "Item 51"),
+	ITEM52 = 52 UMETA(DisplayName = "Item 52"),
+	ITEM53 = 53 UMETA(DisplayName = "Item 53"),
+	ITEM54 = 54 UMETA(DisplayName = "Item 54"),
+	ITEM55 = 55 UMETA(DisplayName = "Item 55"),
+	ITEM56 = 56 UMETA(DisplayName = "Item 56"),
+	ITEM57 = 57 UMETA(DisplayName = "Item 57"),
+	ITEM58 = 58 UMETA(DisplayName = "Item 58"),
+	ITEM59 = 59 UMETA(DisplayName = "Item 59"),
+	ITEM60 = 60 UMETA(DisplayName = "Item 60"),
+	ITEM61 = 61 UMETA(DisplayName = "Item 61"),
+	ITEM62 = 62 UMETA(DisplayName = "Item 62"),
+	ITEM63 = 63 UMETA(DisplayName = "Item 63"),
+	ITEM64 = 64 UMETA(DisplayName = "Item 64"),
+	ITEM65 = 65 UMETA(DisplayName = "Item 65"),
+	ITEM66 = 66 UMETA(DisplayName = "Item 66"),
+	ITEM67 = 67 UMETA(DisplayName = "Item 67"),
+	ITEM68 = 68 UMETA(DisplayName = "Item 68"),
+	ITEM69 = 69 UMETA(DisplayName = "Item 69"),
+	ITEM70 = 70 UMETA(DisplayName = "Item 70"),
+	ITEM71 = 71 UMETA(DisplayName = "Item 71"),
+	ITEM72 = 72 UMETA(DisplayName = "Item 72"),
+	ITEM73 = 73 UMETA(DisplayName = "Item 73"),
+	ITEM74 = 74 UMETA(DisplayName = "Item 74"),
+	ITEM75 = 75 UMETA(DisplayName = "Item 75"),
+	ITEM76 = 76 UMETA(DisplayName = "Item 76"),
+	ITEM77 = 77 UMETA(DisplayName = "Item 77"),
+	ITEM78 = 78 UMETA(DisplayName = "Item 78"),
+	ITEM79 = 79 UMETA(DisplayName = "Item 79"),
+	ITEM80 = 80 UMETA(DisplayName = "Item 80"),
+	ITEM81 = 81 UMETA(DisplayName = "Item 81"),
+	ITEM82 = 82 UMETA(DisplayName = "Item 82"),
+	ITEM83 = 83 UMETA(DisplayName = "Item 83"),
+	ITEM84 = 84 UMETA(DisplayName = "Item 84"),
+	ITEM85 = 85 UMETA(DisplayName = "Item 85"),
+	ITEM86 = 86 UMETA(DisplayName = "Item 86"),
+	ITEM87 = 87 UMETA(DisplayName = "Item 87"),
+	ITEM88 = 88 UMETA(DisplayName = "Item 88"),
+	ITEM89 = 89 UMETA(DisplayName = "Item 89"),
+	ITEM90 = 90 UMETA(DisplayName = "Item 90"),
+	ITEM91 = 91 UMETA(DisplayName = "Item 91"),
+	ITEM92 = 92 UMETA(DisplayName = "Item 92"),
+	ITEM93 = 93 UMETA(DisplayName = "Item 93"),
+	ITEM94 = 94 UMETA(DisplayName = "Item 94"),
+	ITEM95 = 95 UMETA(DisplayName = "Item 95"),
+	ITEM96 = 96 UMETA(DisplayName = "Item 96"),
+	ITEM97 = 97 UMETA(DisplayName = "Item 97"),
+	ITEM98 = 98 UMETA(DisplayName = "Item 98"),
+	ITEM99 = 99 UMETA(DisplayName = "Item 99"),
+	ITEM100 = 100 UMETA(DisplayName = "Item 100"),
+	ITEM101 = 101 UMETA(DisplayName = "Item 101"),
+	ITEM102 = 102 UMETA(DisplayName = "Item 102"),
+	ITEM103 = 103 UMETA(DisplayName = "Item 103"),
+	ITEM104 = 104 UMETA(DisplayName = "Item 104"),
+	ITEM105 = 105 UMETA(DisplayName = "Item 105"),
+	ITEM106 = 106 UMETA(DisplayName = "Item 106"),
+	ITEM107 = 107 UMETA(DisplayName = "Item 107"),
+	ITEM108 = 108 UMETA(DisplayName = "Item 108"),
+	ITEM109 = 109 UMETA(DisplayName = "Item 109"),
+	ITEM110 = 110 UMETA(DisplayName = "Item 110"),
+	ITEM111 = 111 UMETA(DisplayName = "Item 111"),
+	ITEM112 = 112 UMETA(DisplayName = "Item 112"),
+	_MAX = 113 UMETA(Hidden),
 	ETresItemDefAccessory_MAX = 114 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefProtector
+enum class ETresItemDefProtector : uint8
 {
-	ETresItemDefProtector_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefProtector_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefProtector_ITEM02 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefProtector_ITEM03 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefProtector_ITEM04 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefProtector_ITEM05 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefProtector_ITEM06 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefProtector_ITEM07 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefProtector_ITEM08 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefProtector_ITEM09 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefProtector_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
-	ETresItemDefProtector_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
-	ETresItemDefProtector_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
-	ETresItemDefProtector_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
-	ETresItemDefProtector_ITEM14 = 14 UMETA(DisplayName = "Item 14"),
-	ETresItemDefProtector_ITEM15 = 15 UMETA(DisplayName = "Item 15"),
-	ETresItemDefProtector_ITEM16 = 16 UMETA(DisplayName = "Item 16"),
-	ETresItemDefProtector_ITEM17 = 17 UMETA(DisplayName = "Item 17"),
-	ETresItemDefProtector_ITEM18 = 18 UMETA(DisplayName = "Item 18"),
-	ETresItemDefProtector_ITEM19 = 19 UMETA(DisplayName = "Item 19"),
-	ETresItemDefProtector_ITEM20 = 20 UMETA(DisplayName = "Item 20"),
-	ETresItemDefProtector_ITEM21 = 21 UMETA(DisplayName = "Item 21"),
-	ETresItemDefProtector_ITEM22 = 22 UMETA(DisplayName = "Item 22"),
-	ETresItemDefProtector_ITEM23 = 23 UMETA(DisplayName = "Item 23"),
-	ETresItemDefProtector_ITEM24 = 24 UMETA(DisplayName = "Item 24"),
-	ETresItemDefProtector_ITEM25 = 25 UMETA(DisplayName = "Item 25"),
-	ETresItemDefProtector_ITEM26 = 26 UMETA(DisplayName = "Item 26"),
-	ETresItemDefProtector_ITEM27 = 27 UMETA(DisplayName = "Item 27"),
-	ETresItemDefProtector_ITEM28 = 28 UMETA(DisplayName = "Item 28"),
-	ETresItemDefProtector_ITEM29 = 29 UMETA(DisplayName = "Item 29"),
-	ETresItemDefProtector_ITEM30 = 30 UMETA(DisplayName = "Item 30"),
-	ETresItemDefProtector_ITEM31 = 31 UMETA(DisplayName = "Item 31"),
-	ETresItemDefProtector_ITEM32 = 32 UMETA(DisplayName = "Item 32"),
-	ETresItemDefProtector_ITEM33 = 33 UMETA(DisplayName = "Item 33"),
-	ETresItemDefProtector_ITEM34 = 34 UMETA(DisplayName = "Item 34"),
-	ETresItemDefProtector_ITEM35 = 35 UMETA(DisplayName = "Item 35"),
-	ETresItemDefProtector_ITEM36 = 36 UMETA(DisplayName = "Item 36"),
-	ETresItemDefProtector_ITEM37 = 37 UMETA(DisplayName = "Item 37"),
-	ETresItemDefProtector_ITEM38 = 38 UMETA(DisplayName = "Item 38"),
-	ETresItemDefProtector_ITEM39 = 39 UMETA(DisplayName = "Item 39"),
-	ETresItemDefProtector_ITEM40 = 40 UMETA(DisplayName = "Item 40"),
-	ETresItemDefProtector_ITEM41 = 41 UMETA(DisplayName = "Item 41"),
-	ETresItemDefProtector_ITEM42 = 42 UMETA(DisplayName = "Item 42"),
-	ETresItemDefProtector_ITEM43 = 43 UMETA(DisplayName = "Item 43"),
-	ETresItemDefProtector_ITEM44 = 44 UMETA(DisplayName = "Item 44"),
-	ETresItemDefProtector_ITEM45 = 45 UMETA(DisplayName = "Item 45"),
-	ETresItemDefProtector_ITEM46 = 46 UMETA(DisplayName = "Item 46"),
-	ETresItemDefProtector_ITEM47 = 47 UMETA(DisplayName = "Item 47"),
-	ETresItemDefProtector_ITEM48 = 48 UMETA(DisplayName = "Item 48"),
-	ETresItemDefProtector_ITEM49 = 49 UMETA(DisplayName = "Item 49"),
-	ETresItemDefProtector_ITEM50 = 50 UMETA(DisplayName = "Item 50"),
-	ETresItemDefProtector_ITEM51 = 51 UMETA(DisplayName = "Item 51"),
-	ETresItemDefProtector_ITEM52 = 52 UMETA(DisplayName = "Item 52"),
-	ETresItemDefProtector_1_MAX = 53 UMETA(Hidden),
+	NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	ITEM01 = 1 UMETA(DisplayName = "Item 01"),
+	ITEM02 = 2 UMETA(DisplayName = "Item 02"),
+	ITEM03 = 3 UMETA(DisplayName = "Item 03"),
+	ITEM04 = 4 UMETA(DisplayName = "Item 04"),
+	ITEM05 = 5 UMETA(DisplayName = "Item 05"),
+	ITEM06 = 6 UMETA(DisplayName = "Item 06"),
+	ITEM07 = 7 UMETA(DisplayName = "Item 07"),
+	ITEM08 = 8 UMETA(DisplayName = "Item 08"),
+	ITEM09 = 9 UMETA(DisplayName = "Item 09"),
+	ITEM10 = 10 UMETA(DisplayName = "Item 10"),
+	ITEM11 = 11 UMETA(DisplayName = "Item 11"),
+	ITEM12 = 12 UMETA(DisplayName = "Item 12"),
+	ITEM13 = 13 UMETA(DisplayName = "Item 13"),
+	ITEM14 = 14 UMETA(DisplayName = "Item 14"),
+	ITEM15 = 15 UMETA(DisplayName = "Item 15"),
+	ITEM16 = 16 UMETA(DisplayName = "Item 16"),
+	ITEM17 = 17 UMETA(DisplayName = "Item 17"),
+	ITEM18 = 18 UMETA(DisplayName = "Item 18"),
+	ITEM19 = 19 UMETA(DisplayName = "Item 19"),
+	ITEM20 = 20 UMETA(DisplayName = "Item 20"),
+	ITEM21 = 21 UMETA(DisplayName = "Item 21"),
+	ITEM22 = 22 UMETA(DisplayName = "Item 22"),
+	ITEM23 = 23 UMETA(DisplayName = "Item 23"),
+	ITEM24 = 24 UMETA(DisplayName = "Item 24"),
+	ITEM25 = 25 UMETA(DisplayName = "Item 25"),
+	ITEM26 = 26 UMETA(DisplayName = "Item 26"),
+	ITEM27 = 27 UMETA(DisplayName = "Item 27"),
+	ITEM28 = 28 UMETA(DisplayName = "Item 28"),
+	ITEM29 = 29 UMETA(DisplayName = "Item 29"),
+	ITEM30 = 30 UMETA(DisplayName = "Item 30"),
+	ITEM31 = 31 UMETA(DisplayName = "Item 31"),
+	ITEM32 = 32 UMETA(DisplayName = "Item 32"),
+	ITEM33 = 33 UMETA(DisplayName = "Item 33"),
+	ITEM34 = 34 UMETA(DisplayName = "Item 34"),
+	ITEM35 = 35 UMETA(DisplayName = "Item 35"),
+	ITEM36 = 36 UMETA(DisplayName = "Item 36"),
+	ITEM37 = 37 UMETA(DisplayName = "Item 37"),
+	ITEM38 = 38 UMETA(DisplayName = "Item 38"),
+	ITEM39 = 39 UMETA(DisplayName = "Item 39"),
+	ITEM40 = 40 UMETA(DisplayName = "Item 40"),
+	ITEM41 = 41 UMETA(DisplayName = "Item 41"),
+	ITEM42 = 42 UMETA(DisplayName = "Item 42"),
+	ITEM43 = 43 UMETA(DisplayName = "Item 43"),
+	ITEM44 = 44 UMETA(DisplayName = "Item 44"),
+	ITEM45 = 45 UMETA(DisplayName = "Item 45"),
+	ITEM46 = 46 UMETA(DisplayName = "Item 46"),
+	ITEM47 = 47 UMETA(DisplayName = "Item 47"),
+	ITEM48 = 48 UMETA(DisplayName = "Item 48"),
+	ITEM49 = 49 UMETA(DisplayName = "Item 49"),
+	ITEM50 = 50 UMETA(DisplayName = "Item 50"),
+	ITEM51 = 51 UMETA(DisplayName = "Item 51"),
+	ITEM52 = 52 UMETA(DisplayName = "Item 52"),
+	_MAX = 53 UMETA(Hidden),
 	ETresItemDefProtector_MAX = 54 UMETA(Hidden)
 };
 
@@ -8847,9 +8847,9 @@ enum ETresItemDefCampItem
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefBattleItem
+enum class ETresItemDefBattleItem : uint8
 {
-	BI_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	NOTHING = 0 UMETA(DisplayName = "Nothing"),
 	BI_POTION = 1 UMETA(DisplayName = "Potion"),
 	BI_HIGHPOTION = 2 UMETA(DisplayName = "Hi-Potion"),
 	BI_MEGAPOTION = 3 UMETA(DisplayName = "Mega-Potion"),
@@ -8861,7 +8861,7 @@ enum ETresItemDefBattleItem
 	BI_HIGHFOCUSSUPPLY = 9 UMETA(DisplayName = "Hi-Refocuser"),
 	BI_ALLCURE = 10 UMETA(DisplayName = "Panacea"),
 	BI_HIGHETHER = 11 UMETA(DisplayName = "Hi-Ether"),
-	ETresItemDefBattleItem_1_MAX = 12 UMETA(Hidden),
+	_MAX = 12 UMETA(Hidden),
 	ETresItemDefBattleItem_MAX = 13 UMETA(Hidden)
 };
 
@@ -10896,22 +10896,22 @@ enum ETresObjTypeProcChannel
 UENUM(BlueprintType)
 enum ETresBadStatCloudWeatherType
 {
-	TRES_BS_WEATHER_TYPE_NONE = 0,
-	TRES_BS_WEATHER_TYPE_CLOUD = 1,
-	TRES_BS_WEATHER_TYPE_LIGHT_RAIN = 2,
-	TRES_BS_WEATHER_TYPE_HEAVY_RAIN = 3,
-	TRES_BS_WEATHER_TYPE_MAX = 4
+	TRES_BS_WEATHER_TYPE_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_BS_WEATHER_TYPE_CLOUD = 1 UMETA(DisplayName = "Cloud"),
+	TRES_BS_WEATHER_TYPE_LIGHT_RAIN = 2 UMETA(DisplayName = "Light Rain"),
+	TRES_BS_WEATHER_TYPE_HEAVY_RAIN = 3 UMETA(DisplayName = "Heavy Rain"),
+	TRES_BS_WEATHER_TYPE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAtkCollReflectReaction
+enum class ETresAtkCollReflectReaction : uint8
 {
-	TRES_ATK_RR_DEFAULT = 0,
-	TRES_ATK_RR_STAGGER = 1,
-	TRES_ATK_RS_GUARD = 2,
-	TRES_ATK_RR_NOREACTION = 3,
-	_TRES_ATK_RR_MAX = 4,
-	ETresAtkCollReflectReaction_MAX = 5
+	TRES_ATK_RR_DEFAULT = 0 UMETA(DisplayName = "Default"),
+	TRES_ATK_RR_STAGGER = 1 UMETA(DisplayName = "Stagger"),
+	TRES_ATK_RS_GUARD = 2 UMETA(DisplayName = "Guard"),
+	TRES_ATK_RR_NOREACTION = 3 UMETA(DisplayName = "No Reaction"),
+	_TRES_ATK_RR_MAX = 4 UMETA(Hidden),
+	ETresAtkCollReflectReaction_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -10920,8 +10920,8 @@ enum ETresIkCollision
 	ETresIkCollision_SPHERE = 0,
 	ETresIkCollision_CAPSULE = 1,
 	ETresIkCollision_BOX = 2,
-	ETresIkCollision_1_MAX = 3,
-	ETresIkCollision_MAX = 4
+	ETresIkCollision_1_MAX = 3 UMETA(Hidden),
+	ETresIkCollision_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -12099,51 +12099,51 @@ enum ETresUIMapMarkerType
 };
 
 UENUM(BlueprintType)
-enum ETresVBonusAbilityType
+enum class ETresVBonusAbilityType : uint8
 {
-	ETresVBonusAbilityType_NONE = 0 UMETA(DisplayName = "None"),
-	ETresVBonusAbilityType_EQUIP = 1 UMETA(DisplayName = "Equip"),
-	ETresVBonusAbilityType_HAVE = 2 UMETA(DisplayName = "Have"),
-	ETresVBonusAbilityType_1_MAX = 3 UMETA(Hidden),
+	NONE = 0 UMETA(DisplayName = "None"),
+	EQUIP = 1 UMETA(DisplayName = "Equip"),
+	HAVE = 2 UMETA(DisplayName = "Have"),
+	_MAX = 3 UMETA(Hidden),
 	ETresVBonusAbilityType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresVictoryBonusKind
+enum class ETresVictoryBonusKind : uint8
 {
-	ETresVictoryBonusKind_NONE = 0 UMETA(DisplayName = "None"),
-	ETresVictoryBonusKind_HP_UP3 = 1 UMETA(DisplayName = "HP Up 3"),
-	ETresVictoryBonusKind_HP_UP5 = 2 UMETA(DisplayName = "HP Up 5"),
-	ETresVictoryBonusKind_HP_UP10 = 3 UMETA(DisplayName = "HP Up 10"),
-	ETresVictoryBonusKind_HP_UP15 = 4 UMETA(DisplayName = "HP Up 15"),
-	ETresVictoryBonusKind_HP_UP30 = 5 UMETA(DisplayName = "HP Up 30"),
-	ETresVictoryBonusKind__RESERVE6 = 6 UMETA(DisplayName = "Reserve 6"),
-	ETresVictoryBonusKind__RESERVE7 = 7 UMETA(DisplayName = "Reserve 7"),
-	ETresVictoryBonusKind_MP_UP3 = 8 UMETA(DisplayName = "MP Up 3"),
-	ETresVictoryBonusKind_MP_UP5 = 9 UMETA(DisplayName = "MP Up 5"),
-	ETresVictoryBonusKind_MP_UP10 = 10 UMETA(DisplayName = "MP Up 10"),
-	ETresVictoryBonusKind_MP_UP20 = 11 UMETA(DisplayName = "MP Up 20"),
-	ETresVictoryBonusKind__RESERVE12 = 12 UMETA(DisplayName = "Reserve 12"),
-	ETresVictoryBonusKind__RESERVE13 = 13 UMETA(DisplayName = "Reserve 13"),
-	ETresVictoryBonusKind__RESERVE14 = 14 UMETA(DisplayName = "Reserve 14"),
-	ETresVictoryBonusKind__RESERVE15 = 15 UMETA(DisplayName = "Reserve 15"),
-	ETresVictoryBonusKind_DEF_SLOT_UP1 = 16 UMETA(DisplayName = "Def Slot Up 1"),
-	ETresVictoryBonusKind_ACC_SLOT_UP1 = 17 UMETA(DisplayName = "Acc Slot Up 1"),
-	ETresVictoryBonusKind_ITEM_SLOT_UP1 = 18 UMETA(DisplayName = "Item Slot Up 1"),
-	ETresVictoryBonusKind__RESERVE19 = 19 UMETA(DisplayName = "Reserve 19"),
-	ETresVictoryBonusKind__RESERVE20 = 20 UMETA(DisplayName = "Reserve 20"),
-	ETresVictoryBonusKind__RESERVE21 = 21 UMETA(DisplayName = "Reserve 21"),
-	ETresVictoryBonusKind__RESERVE22 = 22 UMETA(DisplayName = "Reserve 22"),
-	ETresVictoryBonusKind__RESERVE23 = 23 UMETA(DisplayName = "Reserve 23"),
-	ETresVictoryBonusKind_MELEM_FIRE = 24 UMETA(DisplayName = "Melem Fire"),
-	ETresVictoryBonusKind_MELEM_BLIZZARD = 25 UMETA(DisplayName = "Melem Blizzard"),
-	ETresVictoryBonusKind_MELEM_THUNDER = 26 UMETA(DisplayName = "Melem Thunder"),
-	ETresVictoryBonusKind_MELEM_WATER = 27 UMETA(DisplayName = "Melem Water"),
-	ETresVictoryBonusKind_MELEM_AERO = 28 UMETA(DisplayName = "Melem Aero"),
-	ETresVictoryBonusKind_MELEM_CURE = 29 UMETA(DisplayName = "Melem Cure"),
-	ETresVictoryBonusKind__RESERVE30 = 30 UMETA(DisplayName = "Reserve 30"),
-	ETresVictoryBonusKind__RESERVE31 = 31 UMETA(DisplayName = "Reserve 31"),
-	ETresVictoryBonusKind_TYPE_MAX = 32 UMETA(Hidden),
+	NONE = 0 UMETA(DisplayName = "None"),
+	HP_UP3 = 1 UMETA(DisplayName = "HP Up 3"),
+	HP_UP5 = 2 UMETA(DisplayName = "HP Up 5"),
+	HP_UP10 = 3 UMETA(DisplayName = "HP Up 10"),
+	HP_UP15 = 4 UMETA(DisplayName = "HP Up 15"),
+	HP_UP30 = 5 UMETA(DisplayName = "HP Up 30"),
+	_RESERVE6 = 6 UMETA(DisplayName = "Reserve 6"),
+	_RESERVE7 = 7 UMETA(DisplayName = "Reserve 7"),
+	MP_UP3 = 8 UMETA(DisplayName = "MP Up 3"),
+	MP_UP5 = 9 UMETA(DisplayName = "MP Up 5"),
+	MP_UP10 = 10 UMETA(DisplayName = "MP Up 10"),
+	MP_UP20 = 11 UMETA(DisplayName = "MP Up 20"),
+	_RESERVE12 = 12 UMETA(DisplayName = "Reserve 12"),
+	_RESERVE13 = 13 UMETA(DisplayName = "Reserve 13"),
+	_RESERVE14 = 14 UMETA(DisplayName = "Reserve 14"),
+	_RESERVE15 = 15 UMETA(DisplayName = "Reserve 15"),
+	DEF_SLOT_UP1 = 16 UMETA(DisplayName = "Def Slot Up 1"),
+	ACC_SLOT_UP1 = 17 UMETA(DisplayName = "Acc Slot Up 1"),
+	ITEM_SLOT_UP1 = 18 UMETA(DisplayName = "Item Slot Up 1"),
+	_RESERVE19 = 19 UMETA(DisplayName = "Reserve 19"),
+	_RESERVE20 = 20 UMETA(DisplayName = "Reserve 20"),
+	_RESERVE21 = 21 UMETA(DisplayName = "Reserve 21"),
+	_RESERVE22 = 22 UMETA(DisplayName = "Reserve 22"),
+	_RESERVE23 = 23 UMETA(DisplayName = "Reserve 23"),
+	MELEM_FIRE = 24 UMETA(DisplayName = "Melem Fire"),
+	MELEM_BLIZZARD = 25 UMETA(DisplayName = "Melem Blizzard"),
+	MELEM_THUNDER = 26 UMETA(DisplayName = "Melem Thunder"),
+	MELEM_WATER = 27 UMETA(DisplayName = "Melem Water"),
+	MELEM_AERO = 28 UMETA(DisplayName = "Melem Aero"),
+	MELEM_CURE = 29 UMETA(DisplayName = "Melem Cure"),
+	_RESERVE30 = 30 UMETA(DisplayName = "Reserve 30"),
+	_RESERVE31 = 31 UMETA(DisplayName = "Reserve 31"),
+	TYPE_MAX = 32 UMETA(Hidden),
 	ETresVictoryBonusKind_MAX = 33 UMETA(Hidden)
 };
 
@@ -13704,6 +13704,18 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FTresFormAbilitySetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFormAbilitySetUnit")
+	TArray<ETresAbilityKind> m_Ability;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFormAbilitySetUnit")
+	TArray<ETresTextAbilityKind> m_TextAbility;
+};
+
+USTRUCT(BlueprintType)
 struct FTresAreaNameDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
@@ -13875,455 +13887,505 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTresChrLevelUpDataTable : public FTableRowBase
+struct FTresChrInitEquip
 {
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 m_Exp; //Total EXP Needed for level
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttackPower; //Attack Stat
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_MagicPower; //Magic Stat
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DefensePower; //Defense Stat
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AbilityPoint; //Ability Points
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityKind1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityKind2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityKind3;
-
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefWeapon> m_Weapons;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	bool m_bWeaponFixed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	uint8 m_InitProtectorSlot = 1;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefProtector> m_Protectors;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	uint8 m_InitAccessorySlot = 1;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefAccessory> m_Accessorys;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	uint8 m_InitItemSlot = 3;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefBattleItem> m_Items;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_EquipAbility;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_HaveAbility;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_CriticalEquipAbility;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_CriticalHaveAbility;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	class UDataTable* m_BaseParamData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	int m_CriticalUseAPUpNum;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	class UDataTable* m_LevelData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	class UTresFormAbilitySet* m_FormAbilityAsset;
 };
 
+USTRUCT(BlueprintType)
+struct FTresChrLevelUpDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	int m_Exp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	int m_AttackPower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	int m_MagicPower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	int m_DefensePower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	int m_AbilityPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	ETresAbilityKind m_AbilityKind1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	ETresAbilityKind m_AbilityKind2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
+	ETresAbilityKind m_AbilityKind3;
+};
 
 USTRUCT(BlueprintType)
 struct FTresChrBaseParamDataTable : public FTableRowBase
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MaxHitPoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 m_MaxHitPoint; //Max HP
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_MaxHPRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_MaxHPRate; //Unknown HP Float
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MaxMagicPoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 m_MaxMagicPoint; //Max MP
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MaxFocusPoint;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttackPower;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 m_MaxFocusPoint; //Max Focus Points
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MagicPower;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttackPower; //Attack
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_DefensePower;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_MagicPower; //Magic
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AbilityPoint;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_ExpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DefensePower; //Defense
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresBodyPushPowerLevel m_BodyPushPower;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresChrBiologicalType m_BioType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AbilityPoint; //AP
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_AttractionRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_ExpRate; //Rate at which you get EXP?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MaxBodyStrongValue;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresBodyPushPowerLevel> m_BodyPushPower; //Idk
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MaxArmorHP;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_DamageMin;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresChrBiologicalType> m_BioType; //Character Type
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_DamageMax;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_AttractionRate; //Rate at which attractions build?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_NeedReactionSameTeamZeroDmgAtk;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_MaxBodyStrongValue; //No Clue
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeLimit;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_MaxArmorHP; //Armor HP? Idk
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_MaxRevengeCount;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DamageMin; //Minimum Damage? Not sure
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoolDownTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DamageMax; //Max Damage? Unsure again
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientPhysical;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_NeedReactionSameTeamZeroDmgAtk; //No clue
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientFire;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeLimit; //Related to Revenge Values
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientBlizzard;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_MaxRevengeCount; //Revenge Value stuff again
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientThunder;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientWater;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoolDownTime; //Revenge Cool Down
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientAero;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientPhysical; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientDark;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientFire; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	float m_RevengeCoefficientNoType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientBlizzard; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistPhysical;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientThunder; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistFire;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientWater; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistBlizzard;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientAero; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistThunder;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientDark; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistWater;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengeCoefficientNoType; //Revenge stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistAero;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistPhysical; //Physical Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistDark;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistFire; //Fire Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrResistNoType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistBlizzard; //Blizzard Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_ResistRapidFire;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistThunder; //Thunder Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_ResistComboParam;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistWater; //Water Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointPhysical;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistAero; //Aero Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointFire;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistDark; //Dark Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointBlizzard;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_AttrResistNoType; //No Type Resist
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointThunder;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_ResistRapidFire; //Rapid Fire Resist?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointWater;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_ResistComboParam; //Combo Param Resist?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointAero;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointPhysical; //Weak to Physical
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointDark;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointFire; //Weak to Fire
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_AttrWeekPointNoType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointBlizzard; //Weak to Blizzard
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectFreeFlow;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointThunder; //Weak to Thunder
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectDeath;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointWater; //Weak to Water
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectCatch;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointAero; //Weak to Aero
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectDrillBind;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointDark; //Weak to Dark
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectYoBind;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_AttrWeekPointNoType; //Weak to No Type
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectRalphBind;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectFreeFlow; //Immune to Free Flow
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectEnergyBurst;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectDeath; //Immune to Death
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectFreeze;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectCatch; //Immune to Catch
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectStop;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectDrillBind; //Immune to Drill Bind
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectMagnet;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectYoBind; //Immune to Yo Bind
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectStun;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectRalphBind; //Immune to Ralph Bind
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectSneeze;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectEnergyBurst; //Immune to Energy Burst
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectHoney;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectFreeze; //Immune to Freeze
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectCloud;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectStop; //Immune to Stop
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectDischarge;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectMagnet; //Immune to Magnet
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectBurn;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectStun; //Immune to Stun
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	bool m_bResistEffectPoleSpinTurn;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectSneeze; //Immune to Sneeze
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresDropItemID m_DropPrize1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectHoney; //Immune to Honey
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_NumDropPrize1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectCloud; //Immune to Cloud
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresDropItemID m_DropPrize2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectDischarge; //Immune to Discharge
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_NumDropPrize2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectBurn; //Immune to Burn
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresDropItemID m_DropItemID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bResistEffectPoleSpinTurn; //Immune to Pole Spin Turn
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_DropItemRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDropItemID> m_DropPrize1; //Prize Drop Upon Being Defeated
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresDropItemID m_DropItemID2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_NumDropPrize1; //Number of Prize Dropped
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_DropItemRate2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDropItemID> m_DropPrize2; //Prize Drop Upon Being Defeated
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	ETresDropItemID m_DropItemID3;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_NumDropPrize2; //Number of Prize Dropped
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDropItemID> m_DropItemID; //Item Drop Upon Being Defeated
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DropItemRate; //Rate at which item drops
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDropItemID> m_DropItemID2; //Item Drop Upon Being Defeated
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DropItemRate2; //Rate at which item drops
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDropItemID> m_DropItemID3; //Item Drop Upon Being Defeated
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_DropItemRate3; //Rate at which item drops
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_DropItemRate3;
 };
-
 
 USTRUCT(BlueprintType)
 struct FTresAttackDataTable : public FTableRowBase
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_Power;
 
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_Power; //Power of the attack
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	TEnumAsByte<ETresDamageKind> m_DamageKind;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDamageKind> m_DamageKind; //Damage Kind?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	ETresDamageAttribute m_DamageAttribute;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresDamageAttribute> m_DamageAttribute; //Attribute of the Attack
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_DamagePowerScale;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_DamagePowerScale; //Idk
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_DamageParabolaAngle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_DamageParabolaAngle; //No idea
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_DamageMoveLength;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_DamageMoveLength; //Don't know
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_DamageBrakeParam;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_DamageBrakeParam; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	ETresAtkHitKnockbackType m_KnockbackType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAtkHitKnockbackType> m_KnockbackType; //Knockback Type
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_DamageExecRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_DamageExecRate; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_DamageEffectTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_DamageEffectTime; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	ETresBadStatusType m_BadStatusKind;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresBadStatusType> m_BadStatusKind; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_BadStatusGenRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_BadStatusGenRate; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_BadStatusEffectTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_BadStatusEffectTime; //No Clue
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_BadStatusEffectParam;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_BadStatusEffectParam; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	ETresAtkTeamCheckType m_TeamCheckType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAtkTeamCheckType> m_TeamCheckType; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	int m_ReactionPowerValue;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_ReactionPowerValue; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsScrumAttack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsScrumAttack; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	int m_ArmorAttackPower;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_ArmorAttackPower; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	int m_FormPoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_FormPoint; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsMagicAttack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsMagicAttack; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsIvalidGuard;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsIvalidGuard; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsRapidFire;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsRapidFire; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsKillerAttack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsKillerAttack; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsAttractionDamage;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsAttractionDamage; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsCounterAttack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsCounterAttack; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	bool m_bIsEnableWeakGuardAttack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_bIsEnableWeakGuardAttack; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	int m_ReflectLevel;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		uint8 m_ReflectLevel; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	ETresAtkCollReflectReaction m_ReflectReaction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAtkCollReflectReaction> m_ReflectReaction; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	float m_RevengePoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_RevengePoint; //Amount of Revenge Value added from the Attack
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresPhysDamageForceLevel> m_PhysForceLv; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
+	ETresPhysDamageForceLevel m_PhysForceLv;
 };
 
 USTRUCT(BlueprintType)
 struct FTresVictoryBonusDataTable : public FTableRowBase
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	FName m_FlagName;
 
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FName m_FlagName; // Name Property. 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	FString m_comment;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString m_comment; //Comment for bonus. String Property (FString)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVBonusAbilityType m_InitAbilityEquipOnCriticalMode;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVBonusAbilityType> m_InitAbilityEquipOnCriticalMode; //Determines if already equipped on Critical Mode
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusSora1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusSora1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilitySora1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilitySora1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusSora2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusSora2; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilitySora2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilitySora2; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusDONALD1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusDONALD1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityDONALD1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityDONALD1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusGOOFY1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusGOOFY1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityGOOFY1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityGOOFY1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusHERCULES1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusHERCULES1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityHERCULES1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityHERCULES1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusWOODY1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusWOODY1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityWOODY1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityWOODY1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusBUZZ1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusBUZZ1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityBUZZ1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityBUZZ1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusRAPUNZEL1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusRAPUNZEL1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityRAPUNZEL1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityRAPUNZEL1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusFLYNN1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusFLYNN1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityFLYNN1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityFLYNN1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusSULLEY1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusSULLEY1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilitySULLEY1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilitySULLEY1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusMIKE1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusMIKE1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityMIKE1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityMIKE1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusMARSHMALLOW1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusMARSHMALLOW1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityMARSHMALLOW1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityMARSHMALLOW1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusBAYMAX1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusBAYMAX1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityBAYMAX1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityBAYMAX1; //
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresVictoryBonusKind m_BonusJACK_SPARROW1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresVictoryBonusKind> m_BonusJACK_SPARROW1; //
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<ETresAbilityKind> m_AbilityJACK_SPARROW1; //
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
+	ETresAbilityKind m_AbilityJACK_SPARROW1;
 };

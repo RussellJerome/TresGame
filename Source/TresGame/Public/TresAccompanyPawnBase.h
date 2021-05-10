@@ -23,7 +23,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
 	class UParticleSystemComponent* MyPenetrationParticleEffect;
 
-	//class UTresVoiceGroupSet* m_VoiceData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
+	class UTresVoiceGroupSet* m_VoiceData;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
 	class ATresPlayerControllerBase* m_PlayerController;
@@ -35,8 +36,8 @@ public:
 	//struct FScriptMulticastDelegate OnAccompanyPawnDisappear;
 	//struct FScriptMulticastDelegate OnAccompanyPawnDoFinish;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
-	//TMap<TEnumAsByte<ETresChrUniqueID>, class UTresAnimSet*> m_AppendAnimSetMap;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
+	TMap<TEnumAsByte<ETresChrUniqueID>, class UTresAnimSet*> m_AppendAnimSetMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
 	class USoundBase* m_BGMAsset;
