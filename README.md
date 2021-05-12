@@ -17,7 +17,7 @@ Join the OpenKH [discord server](https://discord.openkh.dev) to learn more about
 
 # Running the Project
 
-* When downloading the project, make sure you rick-click on the .uproject file and click "Generate Visual Studio Project Files"
+* When downloading the project, make sure you right-click on the .uproject file and click "Generate Visual Studio Project Files"
 * After that, open the .sln file that has just been generated, right-click on the "TresGame" solution on the left panel and click "Build"
 * Once that is done, you can now open the .uproject with no issues
 
