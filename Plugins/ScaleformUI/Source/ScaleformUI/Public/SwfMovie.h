@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(hidecategories = Object, EditInlineNew)
 class SCALEFORMUI_API USwfMovie : public UObject
 {
 	GENERATED_BODY()
@@ -21,13 +21,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
 	bool bOptimizeForMobiles;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
-	bool bSetSRGBOnImportedTextures;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie", meta = (ToolTip = "Mark textures as sRGB when importing."))
+	bool bSetSRGBOnImportedTextures = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
-	bool bPackTextures;
+	bool bPackTextures = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie", meta = (EditCondition = "bPackTextures", ClampMin = "256", Multiple = "32"))
 	int PackTextureSize;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
@@ -48,13 +48,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
 	TArray<FString> FontMappings;
 
+	/** Date/Time-stamp of the file from the last import */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
 	FString SourceFileTimestamp;
 
+	/** Time stamp set upon import (or re-import) of this Swf movie.  Used to force GFx to ignore already-loaded content and use the re-imported data within a single editor session. */
 	uint64_t ImportTimeStamp;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
-	//TArray<unsigned char> RawData;
+	UPROPERTY()
+	TArray<uint8> RawData;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
 	TArray<FString> ReferencedAssetNames;
