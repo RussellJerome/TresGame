@@ -9420,7 +9420,7 @@ enum EPRIZE_KIND
 {
 	PRIZE_KIND_HpPrizeS = 0 UMETA(DisplayName = "HP Prize S"),
 	PRIZE_KIND_HpPrizeL = 1 UMETA(DisplayName = "HP Prize L"),
-	PRIZE_KIND_MpPrizeS = 2 UMETA(DisplayName = "HP Prize S"),
+	PRIZE_KIND_MpPrizeS = 2 UMETA(DisplayName = "MP Prize S"),
 	PRIZE_KIND_MpPrizeL = 3 UMETA(DisplayName = "MP Prize L"),
 	PRIZE_KIND_MunnyPrizeS = 4 UMETA(DisplayName = "Munny Prize S"),
 	PRIZE_KIND_MunnyPrizeM = 5 UMETA(DisplayName = "Munny Prize M"),

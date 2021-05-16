@@ -454,8 +454,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
 	float GetVelocityZ() { return 0.0f; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
-	//class UTresCharMovementComponent* GetTresCharMovementComponent() { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
+	class UTresCharMovementComponent* GetTresCharMovementComponent() { return nullptr; };
 
 	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
 	TEnumAsByte<ETresStateID> GetStateID() { return ETresStateID::TSID_STATE_ACTION; };

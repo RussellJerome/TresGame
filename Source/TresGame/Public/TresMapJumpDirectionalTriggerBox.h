@@ -22,7 +22,7 @@ public:
 	FName m_TargetTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
-	TEnumAsByte<ETresMapJumpFadeKind> m_FadeType;
+	TEnumAsByte<ETresMapJumpFadeKind> m_FadeType = ETresMapJumpFadeKind::MAPJUMP_FADE_KIND_WIPEOUT;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
 	bool m_BlueprintMapJump;
@@ -30,7 +30,7 @@ public:
 	//struct FScriptMulticastDelegate OnMapJump;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
-	float m_OverrideMarkerSize;
+	float m_OverrideMarkerSize = 1950.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
 	class UTresMapMarkerComponent* MapMarkerComponent;

@@ -21,7 +21,7 @@ public:
 	bool m_AutoDispMapName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_Enabled;
+	bool m_Enabled = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
 	bool m_IsAutoSave;
@@ -33,5 +33,5 @@ public:
 	bool m_IsEnableNavMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	float m_SwitchNavMapTime;
+	float m_SwitchNavMapTime = 1.5f;
 };

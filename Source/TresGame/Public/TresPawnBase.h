@@ -170,11 +170,11 @@ public:
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
 	FVector BP_GetMovedVelocity() { return FVector::FVector(); };
 	
-	//TODO
-	//class ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(ETresChrUniqueID uid);
-	
-	//TODO
-	//class ATresNpcPawnBase* BP_GetFriendPawnByIndex(int Index);
+	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
+	class ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(ETresChrUniqueID uid) { return nullptr; };
+
+	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
+	class ATresNpcPawnBase* BP_GetFriendPawnByIndex(int Index) { return nullptr; };
 	
 	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//ESQEX_AI_ThinkType BP_GetFriendAIThinkType();
