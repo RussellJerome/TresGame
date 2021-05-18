@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresCameraDistanceTarget.h"
+#include "TresGame.h"
 #include "TresCameraRotTarget.generated.h"
 
 /**
@@ -29,8 +30,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget", meta = (WorldContext = "WorldContextObject"))
 	static class ATresCameraRotTarget* BP_SpawnTresCameraRotTarget(class UObject* WorldContextObject, class UClass* CameraClass, const FName& CameraName) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
-	//void BP_SetControllerStick(TEnumAsByte<ETresCameraStick> LRStick) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
+	void BP_SetControllerStick(TEnumAsByte<ETresCameraStick> LRStick) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraRotTarget")
 	void BP_SetAutoRotationParam(const FRotator& AutoRotation, bool bLerpAutoRotationYaw) {};

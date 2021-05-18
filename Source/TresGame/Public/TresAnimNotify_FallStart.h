@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TresCameraNormal.h"
-#include "TresCameraAirplane.generated.h"
+#include "Animation/AnimNotifies/AnimNotify.h"
+#include "TresAnimNotify_FallStart.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TRESGAME_API ATresCameraAirplane : public ATresCameraNormal
+class TRESGAME_API UTresAnimNotify_FallStart : public UAnimNotify
 {
 	GENERATED_BODY()
 };

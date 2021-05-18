@@ -48,11 +48,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
 	TArray<FString> FontMappings;
 
-	/** Date/Time-stamp of the file from the last import */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SwfMovie")
 	FString SourceFileTimestamp;
 
-	/** Time stamp set upon import (or re-import) of this Swf movie.  Used to force GFx to ignore already-loaded content and use the re-imported data within a single editor session. */
 	uint64_t ImportTimeStamp;
 
 	UPROPERTY()

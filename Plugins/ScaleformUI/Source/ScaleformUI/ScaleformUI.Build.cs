@@ -28,6 +28,9 @@ public class ScaleformUI : ModuleRules
 			new string[]
 			{
 				"Core",
+                "Slate",
+                "AssetTools",
+                "UnrealEd",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

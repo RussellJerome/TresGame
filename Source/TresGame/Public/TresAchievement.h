@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TresCameraNormal.h"
-#include "TresCameraAirplane.generated.h"
+#include "UObject/NoExportTypes.h"
+#include "TresAchievement.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TRESGAME_API ATresCameraAirplane : public ATresCameraNormal
+class TRESGAME_API UTresAchievement : public UObject
 {
 	GENERATED_BODY()
 };

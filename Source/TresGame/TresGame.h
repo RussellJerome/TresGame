@@ -2526,7 +2526,7 @@ enum ETresAbilityCategory
 };
 
 UENUM(BlueprintType)
-enum ETresAchievement
+enum class ETresAchievement : uint8
 {
 	ACH_00 = 0,
 	ACH_01 = 1,
@@ -2580,7 +2580,7 @@ enum ETresAchievement
 	ACH39 = 49,
 	ACH40 = 50,
 	ACH41 = 51,
-	ETresAchievement_1_Max = 52 UMETA(Hidden),
+	Max = 52 UMETA(Hidden),
 	ETresAchievement_MAX = 53 UMETA(Hidden)
 };
 

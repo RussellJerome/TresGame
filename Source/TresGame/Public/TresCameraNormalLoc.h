@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "TresCameraNormal.h"
-#include "TresCameraAirplane.generated.h"
+#include "TresCameraNormalLoc.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TRESGAME_API ATresCameraAirplane : public ATresCameraNormal
+class TRESGAME_API ATresCameraNormalLoc : public ATresCameraNormal
 {
 	GENERATED_BODY()
 };
