@@ -17,8 +17,8 @@ class SQEXSEAD_API USQEXSEADSound : public USoundWave
 	GENERATED_BODY()
 public:
 	//UNKNOWN IF THIS WORKS
-	UPROPERTY()
-	TArray<uint8> AudioDataArray;
+	//UPROPERTY()
+	//TArray<uint8> RawData;
 	//
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEXSEADSound")

@@ -847,6 +847,13 @@ static uint16 BytesToUint16(const uint8* Data, int index)
 	value |= Data[index];
 	return value;
 }
+static uint16 BytesToUint16BigEndian(const uint8* Data, int index)
+{
+	uint32 value = 0;
+	value |= Data[index + 1];
+	value |= Data[index] << 8;
+	return value;
+}
 static uint32 BytesToUint32(const uint8* Data, int index)
 {
 	uint32 value = 0;
@@ -854,6 +861,15 @@ static uint32 BytesToUint32(const uint8* Data, int index)
 	value |= Data[index + 2] << 16;
 	value |= Data[index + 1] << 8;
 	value |= Data[index];
+	return value;
+}
+static uint32 BytesToUint32BigEndian(const uint8* Data, int index)
+{
+	uint32 value = 0;
+	value |= Data[index + 3];
+	value |= Data[index + 2] << 8;
+	value |= Data[index + 1] << 16;
+	value |= Data[index] << 24;
 	return value;
 }
 static FString Uint8ToString(uint8 Input)
@@ -888,8 +904,15 @@ static FString ListOfBytesToString(const uint8* Input, int Count)
 	for (int i = 0; i < NewString.Len(); i++) { NewString[i] = NewString[i] - 1; }
 	return NewString;
 }
-
-
+static TArray<uint8> SubArray(TArray<uint8> Input, int Offset, int Length)
+{
+	TArray<uint8> ArrayOfBytes;
+	for (int i = Length; i > Offset; i--)
+	{
+		ArrayOfBytes.Add(Input[i]);
+	}
+	return ArrayOfBytes;
+}
 
 struct FMaterialUser
 {
@@ -921,6 +944,23 @@ struct FMaterialEntry
 	uint8 Codec;
 	uint16 ExtraDataId;
 	bool IsLooping = LoopEnd > 0;
+
+	uint8 HCAFMTChannelCount;
+	int HCAFMTSampleRate;
+	uint32 HCAFMTFrameCount;
+	uint16 HCAFMTInsertedSamples;
+	uint16 HCAFMTAppendedSamples;
+	int HCAFMTSampleCount;
+
+	uint16 HCAFMTFrameSize;
+	uint8 HCAFMTMinResolution;
+	uint8 HCAFMTMaxResolution;
+	uint8 HCAFMTTrackCount;
+	uint8 HCAFMTChannelConfig;
+	uint8 HCAFMTTotalBandCount;
+	uint8 HCAFMTBaseBandCount;
+	uint8 HCAFMTStereoBandCount;
+	uint8 HCAFMTBandsPerHfrGroup;
 };
 
 struct FMusicLayer
@@ -1146,7 +1186,6 @@ struct FMusicInstrument
 		}
 	}
 };
-
 //
 
 
@@ -1172,6 +1211,7 @@ public:
 	TArray<FMaterialUser> Users;
 	TArray<FMusicEntry> MusicEntries;
 	TArray<FMusicInstrument> Instruments;
+	TArray<uint8> AudioData;
 
 	size_t bytes_to_samples(size_t bytes, int channels, int bits_per_sample)
 	{
@@ -1179,8 +1219,9 @@ public:
 		return ((int64_t)bytes * 8) / channels / bits_per_sample;
 	}
 
-	bool ReadSabMabInfo(const uint8* SabMabData, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
+	bool ReadSabMabInfo(TArray<uint8> SabMabDataArray, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
 	{
+		const uint8* SabMabData = SabMabDataArray.GetData();
 		//Version 3 Reader
 		int InitialOffset = 0;
 		//Mab/Sab Header
@@ -1283,6 +1324,67 @@ public:
 					Entry.HcaStreamSize = Entry.HcaHeaderSize + Entry.StreamSize;
 					Entry.NoHcaHeaderSize = Entry.HcaStreamStartPosition - Entry.HeaderPosition;
 					Entry.TrackEndPosition = Entry.HcaStreamStartPosition + Entry.HcaStreamSize;
+
+
+
+
+					int InitalHCAOffset = 0;
+					//Fix SubArray
+					TArray<uint8> hcaFileBytes = SabMabDataArray;
+					FString Signature = ListOfBytesToString(&hcaFileBytes.GetData()[Entry.HcaStreamStartPosition], Entry.HcaStreamStartPosition + 4);
+					uint16 Version = BytesToUint16(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 4);
+					uint16 HeaderSize = BytesToUint16(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 6);
+
+					if (Signature != "HCA\0")
+					{
+						if (ErrorMessage) { *ErrorMessage = "Not a valid HCA file"; }
+					}
+					int StartPosition = Entry.HcaStreamStartPosition + 8;
+					while (StartPosition < HeaderSize)
+					{
+						for (int i = Entry.HcaStreamStartPosition + 8; i < Entry.HcaStreamStartPosition + 12; i++) { hcaFileBytes[i] &= 0x7f; }
+						FString CaseType = ListOfBytesToString(&hcaFileBytes.GetData()[Entry.HcaStreamStartPosition + 8], Entry.HcaStreamStartPosition + 12);
+						if (CaseType == "fmt\0")
+						{
+							Entry.HCAFMTChannelCount = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 12);
+							Entry.HCAFMTSampleRate = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 13) << 16 | BytesToUint16BigEndian(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 14);
+							Entry.HCAFMTFrameCount = BytesToUint32BigEndian(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 16);
+							if (ErrorMessage) { *ErrorMessage = FString::FromInt(Entry.HCAFMTSampleRate); }
+							Entry.HCAFMTInsertedSamples = BytesToUint16BigEndian(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 20);
+							Entry.HCAFMTAppendedSamples = BytesToUint16BigEndian(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 22);
+							Entry.HCAFMTSampleCount = Entry.HCAFMTFrameCount * 1024 - Entry.HCAFMTInsertedSamples - Entry.HCAFMTAppendedSamples;
+							StartPosition += 14;
+						}
+						else if (CaseType == "comp")
+						{
+							Entry.HCAFMTFrameSize = BytesToUint16BigEndian(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 24);
+							Entry.HCAFMTMinResolution = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 25);
+							Entry.HCAFMTMaxResolution = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 26);
+							Entry.HCAFMTTrackCount = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 27);
+							Entry.HCAFMTChannelConfig = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 28);
+							Entry.HCAFMTTotalBandCount = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 29);
+							Entry.HCAFMTBaseBandCount = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 30);
+							Entry.HCAFMTStereoBandCount = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 31);
+							Entry.HCAFMTBandsPerHfrGroup = BytesToUint8(hcaFileBytes.GetData(), Entry.HcaStreamStartPosition + 32);
+						}
+						else if (CaseType == "pad\0")
+						{
+							StartPosition = HeaderSize;
+						}
+					}
+
+					//Handle Raw Audio
+					//for (int i = 0; i < Entry.HCAFMTFrameCount; i++)
+					for (int i = 0; i < (int)Entry.HCAFMTFrameCount; i++)
+					{
+						TArray<uint8> data;
+						for (int z = (Entry.HcaStreamStartPosition + 33); z < Entry.HCAFMTFrameSize; z++)
+						{
+							AudioData.Add(hcaFileBytes[z]);
+						}
+					}
+					//
+
 					Entries.Add(Entry);
 				}
 			}

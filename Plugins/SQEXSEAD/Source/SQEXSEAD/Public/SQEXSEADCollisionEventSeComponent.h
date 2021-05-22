@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+//#include "DestructibleComponent.h"
 #include "SQEXSEADCollisionEventSeComponent.generated.h"
 
 
@@ -36,8 +37,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEXSEADCollisionEventSeComponent")
 	class UMeshComponent* MyMeshComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEXSEADCollisionEventSeComponent")
-	class UDestructibleComponent* MyDestructibleComponent;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEXSEADCollisionEventSeComponent")
+	//class UDestructibleComponent* MyDestructibleComponent;
 
 	/*void OnFracture(const struct FVector& HitPoint, const struct FVector& HitDirection);
 	void OnEndOverlap(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);
