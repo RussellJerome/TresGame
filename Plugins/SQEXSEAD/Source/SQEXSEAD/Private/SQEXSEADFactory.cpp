@@ -16,7 +16,6 @@ USQEXSEADFactory::USQEXSEADFactory(const FObjectInitializer& ObjectInitializer) 
 static bool bSoundFactorySuppressImportOverwriteDialog = false;
 UObject* USQEXSEADFactory::FactoryCreateBinary(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const uint8*& Buffer, const uint8* BufferEnd, FFeedbackContext* Warn, bool& bOutOperationCanceled)
 {
-	USQEXSEADMusic* MABAsset = NewObject<USQEXSEADMusic>(InParent, Name, Flags);
 	TArray<UAudioComponent*> ComponentsToRestart;
 	FAudioDeviceManager* AudioDeviceManager = GEngine->GetAudioDeviceManager();
 	bSoundFactorySuppressImportOverwriteDialog = false;
@@ -26,18 +25,47 @@ UObject* USQEXSEADFactory::FactoryCreateBinary(UClass* Class, UObject* InParent,
 	FMemory::Memcpy(RawData.GetData(), Buffer, RawData.Num());
 	FString ErrorMessage;
 	FSabMabInfo FileInfo;
-	if (FileInfo.ReadSabMabInfo(RawData, RawData.Num(), &ErrorMessage))
+	if (FileInfo.ReadSabMabInfo(Buffer, BufferEnd, RawData, RawData.Num(), &ErrorMessage))
 	{
 		int BitDepth = 16;
-		int BytesPerSample = 2;
-		int DataChunkSize = FileInfo.Entries[0].HCAFMTChannelCount * FileInfo.Entries[0].HCAFMTSampleCount * BytesPerSample;
-		int32 DurationDiv = FileInfo.Entries[0].HCAFMTChannelCount * BitDepth * FileInfo.Entries[0].SampleRate;
-		MABAsset->Duration = DataChunkSize * 8.0f / DurationDiv;
 		if (BitDepth != 16)
 		{
 			Warn->Logf(ELogVerbosity::Error, TEXT("Currently, only 16 bit files are supported (%s)."), *Name.ToString());
 			FEditorDelegates::OnAssetPostImport.Broadcast(this, nullptr);
 			return nullptr;
+		}
+
+		if (FileInfo.bIsSab)
+		{
+			USQEXSEADSound* SABAsset = NewObject<USQEXSEADSound>(InParent, Name, Flags);
+
+			SABAsset->InvalidateCompressedData();
+			SABAsset->AssetImportData->Update(GetCurrentFilename());
+
+			int BytesPerSample = 2;
+			int DataChunkSize = FileInfo.Entries[0].HCAFMTChannelCount * FileInfo.Entries[0].HCAFMTSampleCount * BytesPerSample;
+			int32 DurationDiv = FileInfo.Entries[0].HCAFMTChannelCount * BitDepth * FileInfo.Entries[0].SampleRate;
+			SABAsset->Duration = DataChunkSize * 8.0f / DurationDiv;
+
+			SABAsset->Volume = 25;
+			FEditorDelegates::OnAssetPostImport.Broadcast(this, SABAsset);
+			return SABAsset;
+		}
+		else
+		{
+			USQEXSEADMusic* MABAsset = NewObject<USQEXSEADMusic>(InParent, Name, Flags);
+
+			MABAsset->InvalidateCompressedData();
+			MABAsset->AssetImportData->Update(GetCurrentFilename());
+
+			int BytesPerSample = 2;
+			int DataChunkSize = FileInfo.Entries[0].HCAFMTChannelCount * FileInfo.Entries[0].HCAFMTSampleCount * BytesPerSample;
+			int32 DurationDiv = FileInfo.Entries[0].HCAFMTChannelCount * BitDepth * FileInfo.Entries[0].SampleRate;
+			MABAsset->Duration = DataChunkSize * 8.0f / DurationDiv;
+
+			MABAsset->Volume = 25;
+			FEditorDelegates::OnAssetPostImport.Broadcast(this, MABAsset);
+			return MABAsset;
 		}
 	}
 	else
@@ -46,8 +74,5 @@ UObject* USQEXSEADFactory::FactoryCreateBinary(UClass* Class, UObject* InParent,
 		FEditorDelegates::OnAssetPostImport.Broadcast(this, nullptr);
 		return nullptr;
 	}
-	MABAsset->Volume = 1;
-	FEditorDelegates::OnAssetPostImport.Broadcast(this, MABAsset);
 	for (int32 ComponentIndex = 0; ComponentIndex < ComponentsToRestart.Num(); ++ComponentIndex) { ComponentsToRestart[ComponentIndex]->Play(); }
-	return MABAsset;
 }
