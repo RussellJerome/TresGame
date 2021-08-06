@@ -18,39 +18,91 @@ class TRESGAME_API UTresGameBlueprintLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
-	/*
-	static void WaitForFriendRunningBehaviorTree(class UObject* WorldContext, const struct FLatentActionInfo& LatentInfo, ETresChrUniqueID NpcChrID);
-	static void WaitBPTresStartWipeOut(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	static void WaitBPTresStartWipeIn(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	static void WaitBPTresStartWhiteOut(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
-	static void WaitBPTresStartWhiteIn(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
-	static void WaitBPTresStartGameOverWhiteOut(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	static void WaitBPTresStartFadeOut(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const struct FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
-	static void WaitBPTresStartFadeIn(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const struct FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
-	static void WaitBPTresStartCinematicModeEx(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bDisableCameraMove, ETresCinematicPlayerStateType PlayerState, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion, bool bShowPlayerAuraEffect, bool bDisableIKinema, bool bPauseAI, bool bRecordLevelEntity);
-	static void WaitBPTresStartCinematicMode(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, ETresCinematicPlayerStateType InPlayerState, bool bStyleChangeClear, bool bContinueMotion, bool bDisableCameraMove, bool bPauseAI, bool bDisableIKinema, bool bRecordLevelEntity, bool bShowPlayerAuraEffect);
-	static void WaitBPTresSetupChatMode(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawn1, class ATresCharPawnBase* InPawn2);
-	static void WaitBPTresIsReadyCinematicMode(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo);
-	static void WaitBPTresGetVictoryBonus(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo, const FName& InFlagName);
-	static void WaitBPTresGetMultiItem2(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo, TArray<FName> InItemKeyNames, TArray<int> InItemNums);
-	static void WaitBPTresGetMultiItem(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo, const FName& InItemKeyName1, int InItemNum1, const FName& InItemKeyName2, int InItemNum2, const FName& InItemKeyName3, int InItemNum3, const FName& InItemKeyName4, int InItemNum4, const FName& InItemKeyName5, int InItemNum5);
-	static void WaitBPTresGetKeyitem(class UObject* WorldContextObject, const struct FLatentActionInfo& InLatentInfo, const FName& InItemKeyName);
-	static void WaitBPTresComNpcEndMotion(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawnComNpc, class ATresCharPawnBase* InPawnTarget);
-	static void WaitBPTresCinematicPlayerIdling(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, bool InNormalIdle, float InTimeOut);
-	static void WaitBPTresCinematicChrTurnTo(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawn, const struct FVector& InLocation, bool InDisableWeapon);
-	static void WaitBPTresCinematicChrLand(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawn, float InTime);
-	static void WaitBPTresCancelFade(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
-	static void WaitBPTresCameraNormalChange(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, float InTimeOut);
-	static void WaitBPTresCameraInterpChange(class UObject* WorldContextObject, class AActor* Camera, const struct FLatentActionInfo& LatentInfo);
-	static void WaitBPTresBattleModeEnd(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, float InTimeOut);
-	static void TresWaitLevelStreaming(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, bool WaitMakeVisible, int WaitCount);
-	static void TresWaitCycle(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, int WaitNum);
-	static void TresWaitCompleteDynamicNavMesh(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	static void TresUI_WaitForVideoPrepare(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, int SlotNo);
-	static void TresUI_WaitForVideoFinish(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	static void TresUI_WaitForVideoComponentPrepare(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	static void TresUI_WaitForBattleReport(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo);
-	*/
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContext", LatentInfo = "LatentInfo"))
+	static void WaitForFriendRunningBehaviorTree(class UObject* WorldContext, const FLatentActionInfo& LatentInfo, ETresChrUniqueID NpcChrID) {}
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresStartWipeOut(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresStartWipeIn(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
+
+	//static void WaitBPTresStartWhiteOut(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
+	//static void WaitBPTresStartWhiteIn(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresStartGameOverWhiteOut(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {};
+	
+	//static void WaitBPTresStartFadeOut(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, const FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
+	//static void WaitBPTresStartFadeIn(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, const FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresStartCinematicModeEx(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bDisableCameraMove, ETresCinematicPlayerStateType PlayerState, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion, bool bShowPlayerAuraEffect, bool bDisableIKinema, bool bPauseAI, bool bRecordLevelEntity) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresStartCinematicMode(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, ETresCinematicPlayerStateType InPlayerState, bool bStyleChangeClear, bool bContinueMotion, bool bDisableCameraMove, bool bPauseAI, bool bDisableIKinema, bool bRecordLevelEntity, bool bShowPlayerAuraEffect) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresSetupChatMode(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawn1, class ATresCharPawnBase* InPawn2) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresIsReadyCinematicMode(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresGetVictoryBonus(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo, const FName& InFlagName) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresGetMultiItem2(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo, TArray<FName> InItemKeyNames, TArray<int> InItemNums) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresGetMultiItem(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo, const FName& InItemKeyName1, int InItemNum1, const FName& InItemKeyName2, int InItemNum2, const FName& InItemKeyName3, int InItemNum3, const FName& InItemKeyName4, int InItemNum4, const FName& InItemKeyName5, int InItemNum5) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresGetKeyitem(class UObject* WorldContextObject, const FLatentActionInfo& InLatentInfo, const FName& InItemKeyName) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresComNpcEndMotion(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawnComNpc, class ATresCharPawnBase* InPawnTarget) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresCinematicPlayerIdling(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, bool InNormalIdle, float InTimeOut) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresCinematicChrTurnTo(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawn, const FVector& InLocation, bool InDisableWeapon) {};
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresCinematicChrLand(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, class ATresCharPawnBase* InPawn, float InTime) {};
+	
+	//static void WaitBPTresCancelFade(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresCameraNormalChange(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, float InTimeOut) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresCameraInterpChange(class UObject* WorldContextObject, class AActor* Camera, const FLatentActionInfo& LatentInfo) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void WaitBPTresBattleModeEnd(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, float InTimeOut) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresWaitLevelStreaming(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, bool WaitMakeVisible, int WaitCount) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresWaitCycle(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, int WaitNum) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresWaitCompleteDynamicNavMesh(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_WaitForVideoPrepare(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, int SlotNo) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_WaitForVideoFinish(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_WaitForVideoComponentPrepare(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_WaitForBattleReport(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {};
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_StopVideo() {};
@@ -268,8 +320,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenUINormalLoadScreen(const struct FColor& BgColor) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenThankYouForPlaying(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, float IgnoreInputTime, float DisplayTime) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenThankYouForPlaying(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, float IgnoreInputTime, float DisplayTime) {}
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static int TresUI_OpenTextWindow(float Left, float Top, float Right, float Bottom, const FString& Text, bool CloseOnLevelChange, float LifeTime) { return 0; };
@@ -283,15 +335,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool TresUI_OpenRetryMenu() { return false; };
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static bool TresUI_OpenResultSnowCurling(class UObject* WorldContextObject, const struct FLatentActionInfo& latentInfo_, float Time, int Score, int timeBonus, int damageBonus, int Total, int treasureCnt, bool bTimeUpdated, bool bScoreUpdated, bool bTreasureComplete, ETresUISnowSlideRank Rank) { return false; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static bool TresUI_OpenResultSnowCurling(class UObject* WorldContextObject, const FLatentActionInfo& latentInfo_, float Time, int Score, int timeBonus, int damageBonus, int Total, int treasureCnt, bool bTimeUpdated, bool bScoreUpdated, bool bTreasureComplete, ETresUISnowSlideRank Rank) { return false; };
 	
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static int TresUI_OpenPlayerSelectLR(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const struct FTresLocText& TextNameL, const struct FTresLocText& TextNameR, float fIgnoreInputTime, bool AutoClose, int* OutSelected) { return 0; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static int TresUI_OpenPlayerSelectLR(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, const struct FTresLocText& TextNameL, const struct FTresLocText& TextNameR, float fIgnoreInputTime, bool AutoClose, int& OutSelected) { return 0; };
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenOptionWindow(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, float Left, float Top, float Right, float Bottom, const FString& Message, const FString& Option1, const FString& Option2, const FString& Option3, const FString& Option4, const FString& Option5, const FString& Option6, const FString& Option7, const FString& Option8, const FString& Option9, const FString& Option10, int* Selected) {};
-	
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenOptionWindow(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, float Left, float Top, float Right, float Bottom, const FString& Message, const FString& Option1, const FString& Option2, const FString& Option3, const FString& Option4, const FString& Option5, const FString& Option6, const FString& Option7, const FString& Option8, const FString& Option9, const FString& Option10, int& Selected) {}
+
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenOlafGage() {};
 	
@@ -301,8 +353,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenMissionCounter(int InitializeCount, const FName& DataTableKeyName, bool IsOverMaxCount) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static int TresUI_OpenMessage(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const struct FTresLocText& MessageText, const struct FTresUIWindowSetting& WindowSetting) { return 0; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static int TresUI_OpenMessage(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const struct FTresLocText& MessageText, const struct FTresUIWindowSetting& WindowSetting) { return 0; };
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenLoadingScreen(ETresUILoadingScreenBGColor BgColor) {};
@@ -343,8 +395,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenHudBaymax(TEnumAsByte<ETresUIHudBaymaxKind> HudKind, float RecordTime, int RecordScore, class UTresTimerTask* Task) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenHologramStartMenu(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const FName& ReturnMapName, const FName& ReturnPlayerStartTag) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenHologramStartMenu(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, const FName& ReturnMapName, const FName& ReturnPlayerStartTag) {};
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenGradeText(ETresUIGradeTextValue Value) {};
@@ -352,14 +404,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenGigasGame(class UTresTimerTask* Task) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenGameHelpWithMessage(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, ETresGameHelp HelpId, bool WithPause, bool bTutorial, const FString& MessageTextID, bool* OutExecMessage) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenGameHelpWithMessage(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, ETresGameHelp HelpId, bool WithPause, bool bTutorial, const FString& MessageTextID, bool& OutExecMessage) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenGameHelp(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, ETresGameHelp HelpId, bool WithPause) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenGameHelp(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, ETresGameHelp HelpId, bool WithPause) {};
 	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-	//static int TresUI_OpenGameDataInstallMessage(ETresUIGameDataInstallMessageType InstallMessageType, class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) { return 0; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static int TresUI_OpenGameDataInstallMessage(ETresUIGameDataInstallMessageType InstallMessageType, class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) { return 0; };
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenCountUpTimer(class UTresTimerTask* Task, bool IsLeft) {};
@@ -367,23 +419,23 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenCountDownTimer(class UTresTimerTask* Task, float StartTime, float WarningTime, float AlertTime, bool IsLeft) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static int TresUI_OpenConfirm(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const struct FTresLocText& MessageText, TArray<struct FTresLocText> ButtonTexts, const struct FTresUIWindowSetting& WindowSetting, int DefaultSelectedIndex, int* OutSelected) { return 0; };
+//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+//	static int TresUI_OpenConfirm(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const struct FTresLocText& MessageText, TArray<struct FTresLocText> ButtonTexts, const struct FTresUIWindowSetting& WindowSetting, int DefaultSelectedIndex, int* OutSelected) { return 0; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenCodeMenu(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, bool bNoResetApFree) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenCodeMenu(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, bool bNoResetApFree) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static int TresUI_OpenChoice(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const struct FTresLocText& Text, TArray<struct FTresLocText> Choices, const struct FTresUIWindowSetting& WindowSetting, int DefaultSelectedIndex, bool AutoClose, bool DecideSilent, ETresUIDialogColor DialogColor, int* OutSelected) { return 0; };
-	
+//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+//	static int TresUI_OpenChoice(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, const struct FTresLocText& Text, TArray<struct FTresLocText> Choices, const struct FTresUIWindowSetting& WindowSetting, int DefaultSelectedIndex, bool AutoClose, bool DecideSilent, ETresUIDialogColor DialogColor, int* OutSelected) { return 0; }
+
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenCenterInformation(const struct FTresLocText& InformationText) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_OpenCampMenuNeedCloseConfirm(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
-	
-	/*UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void TresUI_OpenCampMenu(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};*/
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenCampMenuNeedCloseConfirm(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_OpenCampMenu(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_OpenBattleReport() {};
@@ -391,8 +443,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_NotifyHudSpecialShipGoalMeterAlert(bool bAlert) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresUI_MapInNoticeMessage(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, bool EnableBGMask) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_MapInNoticeMessage(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, bool EnableBGMask) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_LoadMissionGageIcon(TAssetPtr<class USwfMovie> IconAsset) {};
@@ -472,8 +524,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_CountDownOlafGage() {};
 
-	/*UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void TresUI_CloseWindow(int WindowHandle, class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};*/
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUI_CloseWindow(int WindowHandle, class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresUI_CloseUINormalLoadScreen() {};
@@ -619,8 +671,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresStartTalkEvent(class UObject* WorldContextObject, class UTresFieldVoice* Asset, const FName& AnimName) {};
 
-//	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
-//	static void TresStartPumpingTextureStream(class UTresTexturePump* InTexturePump) {};
+	//TO-DO ENGINE MODIFICATION
+	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
+	//static void TresStartPumpingTextureStream(class UTresTexturePump* InTexturePump) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresStartCinematicModeEx(class UObject* WorldContextObject, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bDisableCameraMove, ETresCinematicPlayerStateType PlayerState, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion, bool bShowPlayerAuraEffect, bool bDisableIKinema, bool bPauseAI, bool bRecordLevelEntity) {};
@@ -631,11 +684,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresStartBossDefeatEffect(class UObject* WorldContextObject) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresSpawnActorFromClassPath(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const FString& ActorClassPath, const struct FVector& Location, const struct FRotator& Rotation, ESpawnActorCollisionHandlingMethod CollisionHandlingOverride, class AActor* Owner, bool AsyncLoad, class AActor** SpawnedActor) {};
-	
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresShowMapName(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresSpawnActorFromClassPath(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, const FString& ActorClassPath, const FVector& Location, const FRotator& Rotation, ESpawnActorCollisionHandlingMethod CollisionHandlingOverride, class AActor* Owner, bool AsyncLoad, class AActor*& SpawnedActor) {}
+
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresShowMapName(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresSetVisibleGimmickAction(class UObject* WorldContextObject, bool bVisible) {};
@@ -796,11 +849,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresMapJump(const FName& MapName, const FName& TargetTag, TEnumAsByte<ETresMapJumpFadeKind> InFadeKind) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresLoadVisibleLevelList(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresLoadVisibleLevelList(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresLevelListVisibility(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, TArray<FName> Names, bool Visible) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresLevelListVisibility(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, TArray<FName> Names, bool Visible) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresLevelFlashGimmickActors(class UObject* WorldContextObject) {};
@@ -886,8 +939,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static FString TresGetCurrentLanguage() { return FString::FString(); };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresNpcPawn_c_npc* TresGetComNpc(class UObject* WorldContextObject, const FName& InName) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresNpcPawn_c_npc* TresGetComNpc(class UObject* WorldContextObject, const FName& InName) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresGetActorsInLevel(class UObject* WorldContextObject, class UClass* ActorClass, TArray<class AActor*>& OutActors) {};
@@ -895,8 +948,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresGetActorsAll(class UObject* WorldContextObject, class UClass* ActorClass, TArray<class AActor*>& OutActors) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void TresFlushLOD(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresFlushLOD(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void TresFlushILC(class UObject* WorldContextObject) {};
@@ -962,7 +1015,7 @@ public:
 	static void TresDestroyEnemySpawnedVehiclePawnGigas() {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void TresDelay(class UObject* WorldContextObject, float Duration, const struct FLatentActionInfo& LatentInfo) {};
+	static void TresDelay(class UObject* WorldContextObject, float Duration, const FLatentActionInfo& LatentInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresDefaultCacheSampleTransitionSpeed() {};
@@ -1055,7 +1108,7 @@ public:
 	static void TresAsyncLoadInitialAssets() {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
-	static void TresApplyMapSet(class UObject* WorldContextObject, const struct FLatentActionInfo LatentInfo, class UTresMapSet* MapSet, const FName& cmdName, bool isOneFrameExecute) {};
+	static void TresApplyMapSet(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, class UTresMapSet* MapSet, const FName& cmdName, bool isOneFrameExecute) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void TresApplyAreaNameAndNavMap(const FName& dataTableKey, bool enableAreaName, bool showAreaNameUI, bool enableNavMap, float switchNavMapTime) {};
@@ -1130,6 +1183,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void SetMaterialParameterValueVector(class UMaterialInstanceDynamic* MaterialInstanceDynamic, TEnumAsByte<ETresKHSMaterialParameterIDVectorType> ParamType, const struct FLinearColor& Val) {};
 	
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void SetMaterialParameterValueScalar(class UMaterialInstanceDynamic* MaterialInstanceDynamic, TEnumAsByte<ETresKHSMaterialParameterIDScalarType> ParamType, float Val) {};*/
 	
@@ -1185,6 +1239,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void SetActorVisibleByObjTypeImmediate(class UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, ESQEX_ObjectType InObjType, bool bVisible) {};
 	
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void SetActorVisibleByObjType(class UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, ESQEX_ObjectType InObjType, bool bVisible) {};*/
 	
@@ -1250,8 +1305,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool RemyIsFirstPlay() { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void RemyGetFinalMilestoneRewardAndShowMsg(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void RemyGetFinalMilestoneRewardAndShowMsg(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static bool RemyCanCooking() { return false; };
@@ -1380,8 +1435,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class ATresLevelScriptActor* GetTresLevelScriptActor(class UObject* WorldContextObject, const FName& PackageName) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresGumiShipWorldSymbolActor* GetTresGumiShipBossBattleLockTargetWorldSymbolActor(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresGumiShipWorldSymbolActor* GetTresGumiShipBossBattleLockTargetWorldSymbolActor(class UObject* WorldContextObject) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class ATresGameState* GetTresGameState(class UObject* WorldContextObject) { return nullptr; };
@@ -1398,8 +1453,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class ATresPlayerControllerBase* GetLocalTresPlayerControllerBase(class UObject* WorldContextObject) { return nullptr; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static class ATresGumiShipPlayerPawnBase* GetLocalTresGumiShipPlayerPawnBase(class UObject* WorldContextObject) { return nullptr; };
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	static class ATresGumiShipPlayerPawnBase* GetLocalTresGumiShipPlayerPawnBase(class UObject* WorldContextObject) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static class ATresCameraManager* GetLocalTresCameraManager(class UObject* WorldContextObject) { return nullptr; };
@@ -1480,15 +1535,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void EndXIIIRetryVoice(class UObject* WorldContextObject) {};
 
-	//TODO
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	//static void EndValidBPTresCameraArray(TArray<class ATresCameraBase*> EndCameraArray, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
 
-	//TODO
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	//static void EndValidBPTresCamera(class ATresCameraBase* EndCamera, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
 
-	//TODO
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void EndLensEffectInstance(class UObject* WorldContextObject, class AEmitterCameraLensEffectBase* Emitter, bool bLoopEnd, float FadeTime) {};
 
@@ -1507,20 +1562,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static void EndAllSameBPTresLatent(class UObject* WorldContextObject) {};
 	
-	/*
-	* TODO ENGINE
-	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void EndAllSameBPTresCameraOfName(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams, const FName& CameraName) {};
+	//TODO ENGINE IMPLEMENTATION REQUIRED
+	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	//static void EndAllSameBPTresCameraOfName(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams, const FName& CameraName) {};
+	
+	//TODO ENGINE IMPLEMENTATION REQUIRED
+	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	//static void EndAllSameBPTresCamera(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void EndAllSameBPTresCamera(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
+	//TODO ENGINE IMPLEMENTATION REQUIRED
+	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	//static void EndAllBPTresCameraOfName(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams, const FName& CameraName) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void EndAllBPTresCameraOfName(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams, const FName& CameraName) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void EndAllBPTresCamera(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
-	*/
+	//TODO ENGINE IMPLEMENTATION REQUIRED
+	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
+	//static void EndAllBPTresCamera(class UObject* WorldContextObject, bool bTakeover, const struct FViewTargetTransitionParamsEx& TransitionParams) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary")
 	static void EnablePrecomputedVisibility(bool InEnable) {};
@@ -1601,12 +1657,15 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void BPTresStartWhiteOut(class UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed) {};
 
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void BPTresStartWhiteIn(class UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed) {};
 
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void BPTresStartFadeOut(class UObject* WorldContextObject, const struct FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed) {};
 
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static void BPTresStartFadeIn(class UObject* WorldContextObject, const struct FLinearColor& InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed) {};
 
@@ -1627,6 +1686,7 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static bool BPTresIsFadeChange(class UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer) { return false; };
 
+	//TODO ENGINE IMPLEMENTATION REQUIRED
 	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	//static float BPTresGetFadeAmount(class UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer) { return 0.0f; };
 
@@ -1647,10 +1707,10 @@ public:
 	//static void BPTresCancelFade(class UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void BPTresActorMoveToLocation(class UObject* WorldContextObject, class AActor* MoveActor, const struct FVector& Destination, float Time, bool bSnapFloor, bool bRotationYaw, const struct FLatentActionInfo& LatentInfo) {};
+	static void BPTresActorMoveToLocation(class UObject* WorldContextObject, class AActor* MoveActor, const struct FVector& Destination, float Time, bool bSnapFloor, bool bRotationYaw, const FLatentActionInfo& LatentInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	static void BPTresActorMoveToActor(class UObject* WorldContextObject, class AActor* MoveActor, class AActor* DestinationActor, float Time, bool bSnapFloor, bool bRotationYaw, const struct FLatentActionInfo& LatentInfo) {};
+	static void BPTresActorMoveToActor(class UObject* WorldContextObject, class AActor* MoveActor, class AActor* DestinationActor, float Time, bool bSnapFloor, bool bRotationYaw, const FLatentActionInfo& LatentInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static bool BP_TresUpdateDlcChallengeAchievementRecord(class UObject* WorldContextObject, ETresDlcChallengeRecordID InRecordID) { return false; };
@@ -1913,9 +1973,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static FName BP_TresConvertBattleItemIDtoKeyName(class UObject* WorldContextObject, ETresItemDefBattleItem InBattleItemID) { return FName::FName(); };
 
-	//TODO
-	//UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
-	//static void BP_TresCheckPhotoHologramUnlock(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContext", LatentInfo = "LatentInfo"))
+	static void BP_TresCheckPhotoHologramUnlock(class UObject* WorldContext, const FLatentActionInfo& LatentInfo) {}
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (WorldContext = "WorldContextObject"))
 	static bool BP_TresCheckDlcCheatAchievement(class UObject* WorldContextObject, ETresDlcCheatAchievementID InCheatAchievementID) { return false; };
