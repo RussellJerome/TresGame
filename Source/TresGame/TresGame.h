@@ -13068,6 +13068,21 @@ public:
 	FString LocalizedText;
 };
 
+USTRUCT(BlueprintType)
+struct FTresUIWindowSetting
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
+	TEnumAsByte<ETresUIWindowWaitType> WaitType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
+	TEnumAsByte<ETresUIWindowPositionType> PositionType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
+	FVector2D Position;
+};
+
 struct FTresMovementComponentPostPhysicsTickFunction : public FTickFunction
 {
 	//Looks Empty
