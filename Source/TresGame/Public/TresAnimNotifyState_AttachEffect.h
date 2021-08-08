@@ -3,15 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Animation/AnimNotifies/AnimNotify.h"
+#include "Animation/AnimNotifies/AnimNotifyState.h"
 #include "TresGame.h"
-#include "TresAnimNotify_AttachEffect.generated.h"
+#include "TresAnimNotifyState_AttachEffect.generated.h"
 
 /**
- * 
+ *
  */
+
 UCLASS()
-class TRESGAME_API UTresAnimNotify_AttachEffect : public UAnimNotify
+class TRESGAME_API UTresAnimNotifyState_AttachEffect : public UAnimNotifyState
 {
 	GENERATED_BODY()
 public:
