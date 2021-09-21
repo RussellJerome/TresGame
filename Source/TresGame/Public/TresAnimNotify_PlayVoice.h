@@ -19,5 +19,8 @@ class TRESGAME_API UTresAnimNotify_PlayVoice : public UAnimNotify
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
 	TArray<FTresRandomVoice> m_RandomVoiceAssets;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
+	FName m_VoiceGroupName;
 };
 
