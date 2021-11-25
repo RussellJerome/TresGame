@@ -12850,7 +12850,7 @@ public:
 
 struct FTresRootComponentPostPhysicsTickFunction : public FTickFunction
 {
-	//appears empty
+	//APPEARS EMPTY
 };
 
 USTRUCT(BlueprintType)
@@ -12858,7 +12858,7 @@ struct FTresOverlapInfo
 {
 	GENERATED_BODY()
 public:
-	//appears empty
+	//APPEARS EMPTY
 };
 
 USTRUCT(BlueprintType)
@@ -12868,6 +12868,62 @@ struct FTresBodyTakeDamageEffect
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBodyTakeDamageEffect")
 	class UParticleSystem* m_DamageEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSubCommandData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand4;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand6;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand7;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand8;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand9;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShortcutCommandPageData
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresCommandKind> Commands[0x4];
+};
+
+USTRUCT(BlueprintType)
+struct FTresShortcutCommandData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
+	struct FTresShortcutCommandPageData Page1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
+	struct FTresShortcutCommandPageData Page2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
+	struct FTresShortcutCommandPageData Page3;
 };
 
 USTRUCT(BlueprintType)
@@ -12907,6 +12963,39 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
 	float m_UserParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitCmd
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitCmd")
+	TEnumAsByte<ETresCommandKind> m_cmdKind;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitCmdInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitCmdInfo")
+	TArray<struct FTresCockpitCmd> m_cockpitCmdAry;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitShortcutCmdInfo
+{
+	GENERATED_BODY()
+public:
+	struct FTresCockpitCmd m_cockpitCmdList[0x4];
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitFriendInfo
+{
+	GENERATED_BODY()
+	//APPEARS EMPTY
 };
 
 USTRUCT(BlueprintType)
