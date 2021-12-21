@@ -5,7 +5,17 @@
 	"Description": "",
 	"Modules": [
 		{
+			"Name": "KineDriverRt",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
 			"Name": "BonamikRt",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "KBDRt",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		},

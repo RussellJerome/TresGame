@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresCharMovementComponent.h"
+//#include "Mercuna3DMovement_StructsAndEnums.h"
 #include "TresAICharMovementComponent.generated.h"
 
 /**
@@ -14,5 +15,6 @@ class TRESGAME_API UTresAICharMovementComponent : public UTresCharMovementCompon
 {
 	GENERATED_BODY()
 public:
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICharMovementComponent")
 	//struct FMercuna3DMovementProperties MovementProperties;
 };

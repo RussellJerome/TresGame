@@ -1,23 +1,21 @@
 {
-	"FileVersion": 3,
+	"FileVersion" : 1,
+	
+	"FriendlyName": "BonamikRt",
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "BonamikRt",
-	"Description": "",
-	"Category": "Other",
-	"CreatedBy": "",
-	"CreatedByURL": "",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"SupportURL": "",
-	"CanContainContent": false,
-	"IsBetaVersion": false,
-	"Installed": false,
+	"CreatedBy" : "SQUARE-ENIX",
+	"CreatedByURL" : "http://www.square-enix.com/",
+	"Description" : "",
+	"Category" : "Other",
+	"EnabledByDefault" : true,
+	
 	"Modules": [
 		{
 			"Name": "BonamikRt",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
-	]
+	],
+	"CanContainContent" : false
 }
