@@ -6,25 +6,9 @@ Starter project for pak modding in Kingdom Hearts III
 
 Join the OpenKH [discord server](https://discord.openkh.dev) to learn more about modding.
 
-# Docs
+# Installation
 
-* Coming Soon
-
-# Required Tools
-
-* Unreal Engine 4.17 (Any version should work - IE: 4.17.1, 4.17.2)
-* Visual Studio 2017
-
-# Running the Project
-
-* When downloading the project, make sure you right-click on the .uproject file and click "Generate Visual Studio Project Files"
-* After that, open the .sln file that has just been generated, right-click on the "TresGame" solution on the left panel and click "Build"
-* Once that is done, you can now open the .uproject with no issues
-
-# Updating the Project
-
-* When a new version is available you delete everything from your previous version except the content folder and follow the "Running the Project" steps.
-* If you wish to create a whole new folder for the new version, follow the "Running the Project" steps, then transfer your content folder over.
+For setting up the project, documentation, or anything in between, please check the [Wiki](https://github.com/RussellJerome/TresGame/wiki)
 
 # Disclaimer
 
