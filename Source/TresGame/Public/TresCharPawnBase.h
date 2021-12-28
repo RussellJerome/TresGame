@@ -211,17 +211,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	TEnumAsByte<ETresTeam> MyTeam;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEX_ParticleAttachDataAsset* m_CmnAuraEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEX_ParticleAttachDataAsset* m_CmnAuraEffect;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEX_ParticleAttachDataAsset* m_CmnMagicCastEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEX_ParticleAttachDataAsset* m_CmnMagicCastEffect;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEX_ParticleAttachDataAsset* m_CmnBadStatesEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEX_ParticleAttachDataAsset* m_CmnBadStatesEffect;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEX_ParticleAttachDataAsset* m_CmnAppearEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEX_ParticleAttachDataAsset* m_CmnAppearEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	bool m_bEnableRegistFootStepEffectGen;

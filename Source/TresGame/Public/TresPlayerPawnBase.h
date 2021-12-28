@@ -776,8 +776,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	class UParticleSystem* m_pCoverShotDestroyEffect;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class USQEX_ParticleAttachDataAsset* m_AntiFormEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
+	class USQEX_ParticleAttachDataAsset* m_AntiFormEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	float MyDarkScreenRate;

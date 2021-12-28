@@ -22,6 +22,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileSkeletalMeshBase")
 	int m_AttachEffectGroupID;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileSkeletalMeshBase")
-	//class USQEX_ParticleAttachDataAsset* m_AttachData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileSkeletalMeshBase")
+	class USQEX_ParticleAttachDataAsset* m_AttachData;
 };

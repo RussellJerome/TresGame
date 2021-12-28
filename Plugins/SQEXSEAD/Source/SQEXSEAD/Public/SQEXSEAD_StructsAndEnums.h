@@ -954,6 +954,8 @@ public:
 
 	bool ReadSabMabInfo(const uint8*& Buffer, const uint8* BufferEnd, TArray<uint8> SabMabDataArray, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
 	{
+		if (SabMabDataArray.GetData() <= 0)
+			return false;
 		const uint8* SabMabData = SabMabDataArray.GetData();
 		int StartBufferOffset = 0; //Automatically Changes
 		FString FileID = Uint32ToString(BytesToUint32(SabMabData, StartBufferOffset, false));

@@ -111,8 +111,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
 	void BP_SetEffectAttach(int InGroup) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresStateBase")
-	//void BP_SetEffect(const FName& InAttachName, class USQEX_ParticleAttachDataAsset* InAttachData, int InGroupID) {};
+	UFUNCTION(BlueprintCallable, Category = "TresStateBase")
+	void BP_SetEffect(const FName& InAttachName, class USQEX_ParticleAttachDataAsset* InAttachData, int InGroupID) {};
 
 	UFUNCTION(BlueprintPure, Category = "TresStateBase")
 	bool BP_IsAnimEnd(const FName& InSlotName) { return false; };

@@ -8,12 +8,17 @@ public class SQEXSEAD : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
+		if (Target.Type == TargetType.Editor) // Is UBT building for Editor ?
+		{
+			PrivateDependencyModuleNames.Add("SQEXSEADEd");
+		}
+		
 		PublicIncludePaths.AddRange(
 			new string[] {
 				"SQEXSEAD/Public"
 				// ... add public include paths required here ...
 			}
-			);
+		);
 				
 		
 		PrivateIncludePaths.AddRange(
@@ -21,7 +26,7 @@ public class SQEXSEAD : ModuleRules
 				"SQEXSEAD/Private",
 				// ... add other private include paths required here ...
 			}
-			);
+		);
 			
 		
 		PublicDependencyModuleNames.AddRange(
@@ -31,7 +36,7 @@ public class SQEXSEAD : ModuleRules
                 //"ApexDestruction",
 				// ... add other public dependencies that you statically link with here ...
 			}
-			);
+		);
 			
 		
 		PrivateDependencyModuleNames.AddRange(
@@ -44,7 +49,7 @@ public class SQEXSEAD : ModuleRules
                 "UnrealEd",
 				// ... add private dependencies that you statically link with here ...	
 			}
-			);
+		);
 		
 		
 		DynamicallyLoadedModuleNames.AddRange(
@@ -52,6 +57,6 @@ public class SQEXSEAD : ModuleRules
 			{
 				// ... add any modules that your module loads dynamically here ...
 			}
-			);
+		);
 	}
 }

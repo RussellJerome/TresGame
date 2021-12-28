@@ -10,7 +10,7 @@ public class SQEXSEADEd : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"SQEXSEADEd/Public"
+				"SQEXSEADEd/Public",
 				// ... add public include paths required here ...
 			}
 			);
@@ -42,6 +42,7 @@ public class SQEXSEADEd : ModuleRules
 				"Slate",
 				"SlateCore",
                 "UnrealEd",
+				"SQEXSEAD",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
