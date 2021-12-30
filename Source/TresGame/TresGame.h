@@ -14614,7 +14614,7 @@ public:
 	FName SocketName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
-	TArray<class UParticleSystem*> AttachDatas;
+	TArray<class USQEX_ParticleAttachDataAsset*> AttachDatas;
 };
 
 USTRUCT(BlueprintType)
