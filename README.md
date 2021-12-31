@@ -1,6 +1,6 @@
-# Kingdom Hearts III Modding Project
+# Kingdom Hearts 0.2 Modding
 
-Starter project for pak modding in Kingdom Hearts III
+Starter project for pak modding in Kingdom Hearts 0.2
 
 # Discord Server
 
