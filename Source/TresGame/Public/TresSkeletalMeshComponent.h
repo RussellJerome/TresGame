@@ -25,7 +25,7 @@ public:
 	bool m_BodyCollIgnoreNameNoneGroup;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSkeletalMeshComponent")
-	TEnumAsByte<ETresBodyCollReactionType> m_BodyCollReactionType;
+	ETresBodyCollReactionType m_BodyCollReactionType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSkeletalMeshComponent")
 	bool m_bNeedSnowRenderDepthPrimitive;

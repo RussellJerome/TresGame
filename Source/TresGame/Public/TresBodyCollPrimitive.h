@@ -31,7 +31,7 @@ public:
 	FVector MyShapeSize;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	TEnumAsByte<ETresBodyCollReactionType> m_BodyReactionType;
+	ETresBodyCollReactionType m_BodyReactionType;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
 	bool m_bFixedBodyReactionType;
@@ -64,7 +64,7 @@ public:
 	class UBodySetup* m_pSrcBodySetup;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	TEnumAsByte<ETresBodyCollReactionType> m_DefaultBodyReactionType;
+	ETresBodyCollReactionType m_DefaultBodyReactionType;
 
 	//struct FScriptMulticastDelegate OnTresBodyBeginOverlap;
 	//struct FScriptMulticastDelegate OnTresBodyEndOverlap;

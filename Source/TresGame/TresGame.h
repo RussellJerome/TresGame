@@ -1202,7 +1202,7 @@ enum ETresStateID
 };
 
 UENUM(BlueprintType)
-enum ETresBodyCollReactionType
+enum class ETresBodyCollReactionType : uint8
 {
 	TRES_BODY_RT_DEFAULT = 0 UMETA(DisplayName = "Default"),
 	TRES_BODY_RT_NO_REACTION = 1 UMETA(DisplayName = "No Reaction"),
@@ -3124,7 +3124,7 @@ enum ETresFloorTestMode
 };
 
 UENUM(BlueprintType)
-enum ETresFaceAnimType
+enum class ETresFaceAnimType : uint8
 {
 	ETresFaceAnimType_NORMAL_AUTO = 0,
 	ETresFaceAnimType_NORMAL_AUTO_IDLE_BATTLE = 1,
@@ -3285,13 +3285,13 @@ enum ETRES_ATTACH_OBJECT_NAME
 };
 
 UENUM(BlueprintType)
-enum ETresSoundAliasUnitID
+enum class ETresSoundAliasUnitID : uint8
 {
-	SEAU_NOTHING = 0,
-	SEAU_RH_WEAPON = 1,
-	SEAU_LH_WEAPON = 2,
-	SEAU_RL_WEAPON = 3,
-	SEAU_LL_WEAPON = 4,
+	SEAU_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	SEAU_RH_WEAPON = 1 UMETA(DisplayName = "RH Weapon"),
+	SEAU_LH_WEAPON = 2 UMETA(DisplayName = "LH Weapon"),
+	SEAU_RL_WEAPON = 3 UMETA(DisplayName = "RL Weapon"),
+	SEAU_LL_WEAPON = 4 UMETA(DisplayName = "LL Weapon"),
 	_SEAU_MAX = 5 UMETA(Hidden),
 	ETresSoundAliasUnitID_MAX = 6 UMETA(Hidden)
 };
@@ -3299,8 +3299,8 @@ enum ETresSoundAliasUnitID
 UENUM(BlueprintType)
 enum EFSQEX_EFFCT_CURVE_DATA_AXIS
 {
-	FSQEX_EFFCT_CURVE_DATA_AXIS_SCALE = 0,
-	FSQEX_EFFCT_CURVE_DATA_AXIS_XYZ = 1,
+	FSQEX_EFFCT_CURVE_DATA_AXIS_SCALE = 0 UMETA(DisplayName = "Scale"),
+	FSQEX_EFFCT_CURVE_DATA_AXIS_XYZ = 1 UMETA(DisplayName = "XYZ"),
 	FSQEX_EFFCT_CURVE_DATA_AXIS_MAX = 2 UMETA(Hidden)
 };
 
@@ -10121,6 +10121,17 @@ enum ETresSoundAliasLabel_Projectile
 };
 
 UENUM(BlueprintType)
+enum ETresRiskDodgeType
+{
+	TRDT_NONE = 0 UMETA(DisplayName = "None"),
+	TRDT_UNDERSLIDE = 1 UMETA(DisplayName = "UnderSlide"),
+	TRDT_OVERSLIDE = 2 UMETA(DisplayName = "OverSlide"),
+	TRDT_SLIDETURN = 3 UMETA(DisplayName = "SlideTurn"),
+	TRDT_WARP = 4 UMETA(DisplayName = "Warp"),
+	TRDT_MAX = 5 UMETA(Hidden)
+};
+
+UENUM(BlueprintType)
 enum class ETresSoundAliasLabel_WeaponSwing : uint8
 {
 	NOTHING UMETA(DisplayName = "Nothing"),
@@ -10233,18 +10244,18 @@ enum ETresSoundAliasUnit
 UENUM(BlueprintType)
 enum ETresSoundAliasLabel
 {
-	SEAL_NOTHING = 0,
-	SEAL_HIT1 = 1,
-	SEAL_HIT2 = 2,
-	SEAL_HIT3 = 3,
-	SEAL_HIT4 = 4,
-	SEAL_HIT5 = 5,
-	SEAL_HIT6 = 6,
-	SEAL_HIT7 = 7,
-	SEAL_SWING1 = 8,
-	SEAL_SWING2 = 9,
-	SEAL_SWING3 = 10,
-	SEAL_SWING4 = 11,
+	SEAL_NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	SEAL_HIT1 = 1 UMETA(DisplayName = "HIT1"),
+	SEAL_HIT2 = 2 UMETA(DisplayName = "HIT2"),
+	SEAL_HIT3 = 3 UMETA(DisplayName = "HIT3"),
+	SEAL_HIT4 = 4 UMETA(DisplayName = "HIT4"),
+	SEAL_HIT5 = 5 UMETA(DisplayName = "HIT5"),
+	SEAL_HIT6 = 6 UMETA(DisplayName = "HIT6"),
+	SEAL_HIT7 = 7 UMETA(DisplayName = "HIT7"),
+	SEAL_SWING1 = 8 UMETA(DisplayName = "SWING1"),
+	SEAL_SWING2 = 9 UMETA(DisplayName = "SWING2"),
+	SEAL_SWING3 = 10 UMETA(DisplayName = "SWING3"),
+	SEAL_SWING4 = 11 UMETA(DisplayName = "SWING4"),
 	_SEAL_MAX = 12 UMETA(Hidden),
 	ETresSoundAliasLabel_MAX = 13 UMETA(Hidden)
 };
@@ -10252,33 +10263,33 @@ enum ETresSoundAliasLabel
 UENUM(BlueprintType)
 enum ETresCategoryVolumeLayers
 {
-	ETresCategoryVolumeLayers_GAME = 0,
-	ETresCategoryVolumeLayers_MATINEE = 1,
+	ETresCategoryVolumeLayers_GAME = 0 UMETA(DisplayName = "Game"),
+	ETresCategoryVolumeLayers_MATINEE = 1 UMETA(DisplayName = "Matinee"),
 	ETresCategoryVolumeLayers_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresWorldStaticBGMTypes
 {
-	ETresWorldStaticBGMTypes_FIELD = 0,
-	ETresWorldStaticBGMTypes_BATTLE = 1,
-	ETresWorldStaticBGMTypes_BOSS_BATTLE = 2,
-	ETresWorldStaticBGMTypes_EVENT_01 = 3,
-	ETresWorldStaticBGMTypes_MAX = 4
+	ETresWorldStaticBGMTypes_FIELD = 0 UMETA(DisplayName = "Field"),
+	ETresWorldStaticBGMTypes_BATTLE = 1 UMETA(DisplayName = "Battle"),
+	ETresWorldStaticBGMTypes_BOSS_BATTLE = 2 UMETA(DisplayName = "Boss Battle"),
+	ETresWorldStaticBGMTypes_EVENT_01 = 3 UMETA(DisplayName = "Event 01"),
+	ETresWorldStaticBGMTypes_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresSoundModes
 {
-	ETresSoundModes_BLACKOUT = 0,
-	ETresSoundModes_PAUSE = 1,
-	ETresSoundModes_SLOW = 2,
-	ETresSoundModes_PLAYER_DEAD = 3,
-	ETresSoundModes_BOSS_DEAD = 4,
-	ETresSoundModes_THANKYOU_FOR_PLAYING = 5,
-	ETresSoundModes_EVENT_SKIP_FADING = 6,
-	ETresSoundModes_MOVIE = 7,
-	ETresSoundModes_MAX = 8
+	ETresSoundModes_BLACKOUT = 0 UMETA(DisplayName = "Blackout"),
+	ETresSoundModes_PAUSE = 1 UMETA(DisplayName = "Pause"),
+	ETresSoundModes_SLOW = 2 UMETA(DisplayName = "Slow"),
+	ETresSoundModes_PLAYER_DEAD = 3 UMETA(DisplayName = "Player Dead"),
+	ETresSoundModes_BOSS_DEAD = 4 UMETA(DisplayName = "Boss Dead"),
+	ETresSoundModes_THANKYOU_FOR_PLAYING = 5 UMETA(DisplayName = "Thank you for playing"),
+	ETresSoundModes_EVENT_SKIP_FADING = 6 UMETA(DisplayName = "Event Skip Fading"),
+	ETresSoundModes_MOVIE = 7 UMETA(DisplayName = "Movie"),
+	ETresSoundModes_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -11185,17 +11196,6 @@ enum ETresdirectionType
 	TRES_DIR_UP = 4 UMETA(DisplayName = "Up"),
 	TRES_DIR_DOWN = 5 UMETA(DisplayName = "Down"),
 	TRES_DIR_MAX = 6 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum ETresRiskDodgeType
-{
-	TRDT_NONE = 0,
-	TRDT_UNDERSLIDE = 1,
-	TRDT_OVERSLIDE = 2,
-	TRDT_SLIDETURN = 3,
-	TRDT_WARP = 4,
-	TRDT_MAX = 5
 };
 
 UENUM(BlueprintType)
@@ -12800,6 +12800,25 @@ enum ESQEX_ATTACH_EFFECT_END_TYPE
 {
 	ESQEX_ATTACH_EFFECT_END_TYPE_LOOPEND = 0 UMETA(DisplayName = "Loop End"),
 	ESQEX_ATTACH_EFFECT_END_TYPE_FADEOUT = 1 UMETA(DisplayName = "Fade Out")
+};
+
+UENUM(BlueprintType)
+enum class ESQEX_ChangeFaceAnimBlendParamFunction : uint8
+{
+	Linear = 0,
+	EaseIn = 1,
+	EaseOut = 2,
+	EaseInOut = 3,
+	_MAX = 4 UMETA(Hidden),
+	ESQEX_MAX = 5 UMETA(Hidden)
+};
+
+UENUM(BlueprintType)
+enum class ESqEX_BonePoseToMaterialSetParamType : uint8
+{
+	SQEX_BPMPT_SCALAR = 0 UMETA(DisplayName = "Scalar"),
+	SQEX_BPMPT_VECTOR = 1 UMETA(DisplayName = "Vector"),
+	SQEX_BPMPT_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -14601,19 +14620,19 @@ struct FSQEX_AttachEffectNotifyDataToDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
 	bool bUseCommonAttachData;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
 	int GroupID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
 	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
 	FName SocketName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
 	TArray<class USQEX_ParticleAttachDataAsset*> AttachDatas;
 };
 
@@ -14622,10 +14641,10 @@ struct FSQEX_AttachObjectData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachObjectData")
 	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachObjectData")
 	FName ObjectSearchSocketName;
 };
 
@@ -14634,37 +14653,37 @@ struct FSQEX_AttachEffectData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	int GroupID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	bool bCheckEndGroupID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	int EndGroupID = -2;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	class UParticleSystem* AttachEffect;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	FName CustomAttachName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	bool UseAttachObjectData;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	FSQEX_AttachObjectData AttachObjectData;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	bool bUseAreaEffect;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	TEnumAsByte<ETresAreaCustonEffectsType> AreaEffectType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	bool bNoCleanupTarget;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
 	FGuid DataGuid;
 };
 
@@ -14673,91 +14692,91 @@ struct FSQEX_StructParticleAttachData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FString Description;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	TEnumAsByte<ESQEX_ATTACH_THEMES> AttachThemes;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bUseCommonEffect;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	TArray<FSQEX_AttachEffectData> EffectDataList;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	int PlayNumber;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	TEnumAsByte<ESQEX_CHANGE_ANIMATION_TYPE> WhenChangeAnimationType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	TEnumAsByte<ESQEX_ATTACH_EFFECT_END_TYPE> AttachEffectEndType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	float FadeIn;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	float FadeOut;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	float StartDelayTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	float EndDelayTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool ToAttach = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool DetachAtEnd;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bAbsoluteLocation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bAbsoluteRotation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bAbsoluteScale;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bUseCameraPositon;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	float FieldOfView = 80;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bAllowMultipleInstances;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FName SocketName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FName EndSocketName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FVector LocationOffset;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FRotator RotationOffset;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FVector ScaleOffset = FVector(1, 1, 1);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FVector ParticleColor = FVector(1, 1, 1);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	float ParticleAlpha = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bOnCastShadow;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	bool bTakeoverAttachObjectVisible;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
 	FGuid DataGuid;
 };
 
@@ -14766,13 +14785,13 @@ struct FSQEX_AttachEffectNotifyDataToMetaAttachData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToMetaAttachData")
 	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToMetaAttachData")
 	FName SocketName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_AttachEffect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToMetaAttachData")
 	TArray<FSQEX_StructParticleAttachData> MetaAttachData;
 };
 
@@ -14782,9 +14801,182 @@ struct FTresRandomVoice
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoice")
 	class USoundBase* Voice;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoice")
 	int RandomWeights = 100;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRandomVoiceForTable
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoiceForTable")
+	class USoundBase* m_pVoice;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoiceForTable")
+	int m_dRandomWeights;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoiceForTable")
+	FName m_MouthMotionName;
+};
+
+USTRUCT(BlueprintType)
+struct FRandomTableParameter
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRandomTableParameter")
+	FName m_GroupName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRandomTableParameter")
+	TArray<struct FTresRandomVoiceForTable> m_RandomVoiceAssets;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUInt8_Range
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUInt8_Range")
+	uint8 m_uMinValue;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUInt8_Range")
+	uint8 m_uMaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFloat32_RangeDegree
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFloat32_RangeDegree")
+	float m_fMinAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFloat32_RangeDegree")
+	float m_fMaxAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPoppingHolyProjectileOverrideParameters
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
+	float m_fRisingThresholdHeight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
+	float m_fGravityScaleWhenFalling;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
+	FVector m_vBrakingVelocityScaleWhenFallingStarted;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
+	float m_fAcceleration;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
+	float m_fInitialSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
+	float m_fMaxSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPoppingHolyBulletShootParameter
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	struct FTresUInt8_Range m_HolyBulletShootNum;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	struct FTresFloat32_RangeDegree m_HolyBulletSpreadRangeAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	float m_fHolyBulletShootYawAngleRandomOffset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	bool m_bIsIgnoreKeyBladePitch;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	struct FTresFloat32_RangeDegree m_HolyBulletShootRandomPitchRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	bool m_bIsOverrideHolyProjectileParameter;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
+	TArray<struct FTresPoppingHolyProjectileOverrideParameters> m_HolyProjectileOverrideParameterList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresChangeMeshMaterialParamData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	FName m_MaterialParamName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	TArray<FName> m_MaterialInstanceList;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	ESqEX_BonePoseToMaterialSetParamType m_MaterialParamSetType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	float m_StartScalarParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	float m_EndScalarParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	FVector m_StartVectorParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
+	FVector m_EndVectorParam;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEX_EffectCurveData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	TEnumAsByte<EFSQEX_EFFCT_CURVE_DATA_AXIS> ParamAxis;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName ParameterName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	class UCurveFloat* CurveData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseCurveAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName XCurveName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseParameterX;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName YCurveName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseParameterY;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName ZCurveName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseParameterZ;
 };

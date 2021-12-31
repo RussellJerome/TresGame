@@ -95,7 +95,7 @@ public:
 	int m_FocusPoint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	TEnumAsByte<ETresBodyCollReactionType> m_DefaultBodyCollReactionType;
+	ETresBodyCollReactionType m_DefaultBodyCollReactionType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	bool m_bEnableAttractionFlowHitPoint;
@@ -521,7 +521,7 @@ public:
 	float GetBuoyancy() { return 0.0f; };
 
 	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
-	TEnumAsByte<ETresBodyCollReactionType> GetBodyCollReactionType(const FName& InGroup) { return ETresBodyCollReactionType::TRES_BODY_RT_DEFAULT; };
+	ETresBodyCollReactionType GetBodyCollReactionType(const FName& InGroup) { return ETresBodyCollReactionType::TRES_BODY_RT_DEFAULT; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	void DisableAutoUpdateVelocity(bool bInDisable) {};
