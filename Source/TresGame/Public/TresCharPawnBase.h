@@ -10,6 +10,11 @@
 #include "TresSkeletalMeshComponent.h"
 #include "TresCharPawnBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresDtorState, TEnumAsByte<ETresStateID>, StateID);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresCtorState, TEnumAsByte<ETresStateID>, StateID);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresAnimNotifyStartBpEvent, const FName&, AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID>, EventID, int, Param);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresAnimNotifyEndBpEvent, const FName&, AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID>, EventID, int, Param);
+
 /**
  *
  */
@@ -243,9 +248,21 @@ public:
 	struct FScriptMulticastDelegate OnDtorState;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	struct FScriptMulticastDelegate OnAnimNotifyStartBpEvent;
+	struct FScriptMulticastDelegate OnAnimNotifyStartBpEvent;*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
+	FTresCtorState OnCtorState;
+
+	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
+	FTresDtorState OnDtorState;
+
+	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
+	FTresAnimNotifyStartBpEvent OnAnimNotifyStartBpEvent;
+
+	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
+	FTresAnimNotifyEndBpEvent OnAnimNotifyEndBpEvent;
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	struct FScriptMulticastDelegate OnAnimNotifyEndBpEvent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
