@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresLoadAsset : public UDataAsset
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

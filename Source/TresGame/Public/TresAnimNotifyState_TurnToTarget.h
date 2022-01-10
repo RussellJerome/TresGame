@@ -13,8 +13,10 @@ UCLASS()
 class TRESGAME_API UTresAnimNotifyState_TurnToTarget : public UAnimNotifyState
 {
 	GENERATED_BODY()
-	
-	
-	
-	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_TurnToTarget")
+	int m_Index;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_TurnToTarget")
+	float m_TurnSpeed;
 };

@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresMoviePlayer : public UGFxMoviePlayer
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

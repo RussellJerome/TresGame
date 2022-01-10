@@ -13,8 +13,13 @@ UCLASS()
 class TRESGAME_API UTresAnimNotifyState_TimingRate : public UAnimNotifyState
 {
 	GENERATED_BODY()
-	
-	
-	
-	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_TimingRate")
+	float m_StartRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_TimingRate")
+	float m_EndRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_TimingRate")
+	int m_Param;
 };

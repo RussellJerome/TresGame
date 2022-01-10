@@ -8,6 +8,8 @@
 #include "TresGame.h"
 #include "TresCharMovementComponent.h"
 #include "TresSkeletalMeshComponent.h"
+#include "SQEX_KBD_Component.h"
+#include "SQEX_DynamicBindAssetUserData.h"
 #include "TresCharPawnBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresDtorState, TEnumAsByte<ETresStateID>, StateID);
@@ -240,16 +242,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	float m_RippleLocationShiftScale;
 
-	/*
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	struct FScriptMulticastDelegate OnCtorState;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	struct FScriptMulticastDelegate OnDtorState;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	struct FScriptMulticastDelegate OnAnimNotifyStartBpEvent;*/
-
 	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
 	FTresCtorState OnCtorState;
 
@@ -262,10 +254,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
 	FTresAnimNotifyEndBpEvent OnAnimNotifyEndBpEvent;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	struct FScriptMulticastDelegate OnAnimNotifyEndBpEvent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	/*
 	struct FScriptMulticastDelegate OnReactorDoCommand;
 	*/
 
@@ -277,20 +266,6 @@ public:
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//class USQEXSEADAutoSeComponentCallbackDefault* MyAutoSeCallback;
-
-	/* IK these are not blueprintcallable, but I put it here for the UFUNCTION
-	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	void TresDtorState__DelegateSignature(TEnumAsByte<ETresStateID> StateID);
-
-	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	void TresCtorState__DelegateSignature(TEnumAsByte<ETresStateID> StateID);
-
-	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	void TresAnimNotifyStartBpEvent__DelegateSignature(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param);
-
-	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	void TresAnimNotifyEndBpEvent__DelegateSignature(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param);
-	*/
 
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	void SetStopAI(bool bStop) {};
@@ -379,22 +354,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	void RequestDirectMove(const FVector& refVelocity, bool bForceMaxSpeed) {};
 
-	//Implementable
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void ReceiveTresTakeDamage(float DamagePoint, class AController* InstigatedBy, const struct FHitResult& HitInfo, const struct FTresDamageInfo& DamageInfo, const struct FVector& ShotFromDirection, class AActor* DamageCauser);
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void ReceiveTresTakeDamage(float DamagePoint, class AController* InstigatedBy, const struct FHitResult& HitInfo, const struct FTresDamageInfo& DamageInfo, const struct FVector& ShotFromDirection, class AActor* DamageCauser) {};
 
-	//Implementable
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void ReceiveDtorState(TEnumAsByte<ETresStateID> StateID);
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void ReceiveDtorState(TEnumAsByte<ETresStateID> StateID) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void ReceiveCtorState(TEnumAsByte<ETresStateID> StateID);
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void ReceiveCtorState(TEnumAsByte<ETresStateID> StateID) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void ReceiveAnimNotifyStartBpEvent(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param);
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void ReceiveAnimNotifyStartBpEvent(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void ReceiveAnimNotifyEndBpEvent(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param);
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void ReceiveAnimNotifyEndBpEvent(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	//void OnLaunchedCharPawn(float Height);
@@ -498,8 +471,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
 	int GetMagicPoint() { return 0; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
-	//class USQEX_KBD_Component* GetKBDComponent() { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
+	class USQEX_KBD_Component* GetKBDComponent() { return nullptr; };
 
 	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
 	float GetHitPointRate() { return 0.0f; };
@@ -678,6 +651,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	bool BP_AbilityAdd(ETresAbilityKind InAbilityKind, bool bEquip) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void ApplyKBD(class USQEX_DynamicBindAssetUserData* KBDAssetUserData, const FName& ElementName, bool bIsReset, bool bIsResetPose, int PreRoll, bool KeepReferences) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void ApplyKBD(class USQEX_DynamicBindAssetUserData* KBDAssetUserData, const FName& ElementName, bool bIsReset, bool bIsResetPose, int PreRoll, bool KeepReferences) {};
 };

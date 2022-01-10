@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresLevelEntityActorData : public UObject
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

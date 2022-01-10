@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresUICommandInfoCockpit : public UTresUICommandInfoBase
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

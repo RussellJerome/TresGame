@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API ATresBattleStartVolumeForNonBattle : public ATresBattleStartVolume
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

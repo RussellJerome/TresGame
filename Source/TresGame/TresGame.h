@@ -14945,6 +14945,118 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FTresDamageInfo
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	FName m_AttackDataIDName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	TEnumAsByte<ETresCommandKind> m_CommandKind;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	TEnumAsByte<ETresShootFlowKind> m_ShootFlowKind;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	TEnumAsByte<ETresDamageKind> m_DamageKind;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresDamageAttribute m_DamageAttribute;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_AttackSrcPower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamagePowerScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageParabolaAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageMoveLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageBrakeParam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageEffectTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresAtkHitKnockbackType m_KnockbackType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	FVector m_KnockbackDir;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresBadStatusType m_BadStatusKind;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_BadStatusEffectTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_BadStatusEffectParam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	int m_ReactionPower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	int m_ArmorAttackPower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	int m_FormPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsMagicAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsFinishAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsKillerAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsIgnoreGuard;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsRapidFireAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsCriticalHit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsArmorDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsAerialAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsAttractionDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsCounterAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsJustGuardAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableWeakGuardAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableFullMpBurst;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableMagicDraw;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableNoReactBodyCorrection;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresPhysDamageForceLevel m_PhysForceLv;
+};
+
+USTRUCT(BlueprintType)
 struct FSQEX_EffectCurveData
 {
 	GENERATED_BODY()

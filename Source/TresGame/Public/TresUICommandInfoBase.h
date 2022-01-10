@@ -16,6 +16,7 @@ class TRESGAME_API UTresUICommandInfoBase : public UObject
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUICommandInfoBase")
 	class AActor* m_Actor;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUICommandInfoBase")
 	class UPrimitiveComponent* m_Component;
 };

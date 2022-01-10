@@ -13,8 +13,13 @@ UCLASS()
 class TRESGAME_API UTresAnimNotifyState_LookAt : public UAnimNotifyState
 {
 	GENERATED_BODY()
-	
-	
-	
-	
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_LookAt")
+	float m_StartInterpolationTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_LookAt")
+	float m_EndInterpolationTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_LookAt")
+	bool m_ReverseTrg;
 };

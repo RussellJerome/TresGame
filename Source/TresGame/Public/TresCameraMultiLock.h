@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API ATresCameraMultiLock : public ATresCameraNormal
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

@@ -17,5 +17,4 @@ class TRESGAME_API UTresVoiceGroupSet : public UDataAsset
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresVoiceGroupSet")
 	TArray<FTresVoiceGroup> m_VoiceGroups;
-	
 };

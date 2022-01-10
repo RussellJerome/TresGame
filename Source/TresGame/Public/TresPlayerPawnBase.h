@@ -6,10 +6,10 @@
 #include "TresAIPawnBase.h"
 #include "TresPlayerPawnBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerSpecificAction, TEnumAsByte<ETresPlayerSpecificActionID>, ActionID, int, SubID);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActorSpecificAction, TEnumAsByte<ETresCommandKind>, CommandKind);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerBeginCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayerEndCommandAction, TEnumAsByte<ETresActorSpecificActionID>, ActionID, class AActor*, SendActor, int, SubID);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTresPlayerSpecificAction, TEnumAsByte<ETresPlayerSpecificActionID>, ActionID, int, SubID);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresPlayerEndCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresPlayerBeginCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresActorSpecificAction, TEnumAsByte<ETresActorSpecificActionID>, ActionID, class AActor*, SendActor, int, SubID);
 
 /**
  * 
@@ -718,21 +718,16 @@ public:
 	int MyFriendComboFinishAddRateRangeNear;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnPlayerSpecificAction PlayerSpecificAction;
+	FTresPlayerSpecificAction OnPlayerSpecificAction;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnActorSpecificAction ActorSpecificAction;
+	FTresActorSpecificAction OnActorSpecificAction;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnPlayerBeginCommandAction PlayerBeginCommandAction;
+	FTresPlayerBeginCommandAction OnPlayerBeginCommandAction;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnPlayerEndCommandAction PlayerEndCommandAction;
-
-	/*struct FScriptMulticastDelegate OnPlayerSpecificAction;
-	struct FScriptMulticastDelegate OnActorSpecificAction;
-	struct FScriptMulticastDelegate OnPlayerBeginCommandAction;
-	struct FScriptMulticastDelegate OnPlayerEndCommandAction;*/
+	FTresPlayerEndCommandAction OnPlayerEndCommandAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	class UParticleSystem* m_pFireEffect;
@@ -806,19 +801,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	class UParticleSystemComponent* m_pDeathSentenceCountEffect;
 
-	//void TresPlayerSpecificAction__DelegateSignature(TEnumAsByte<ETresPlayerSpecificActionID> ActionID, int SubID) {};
-	//void TresPlayerEndCommandAction__DelegateSignature(TEnumAsByte<ETresCommandKind> CommandKind) {};
-	//void TresPlayerBeginCommandAction__DelegateSignature(TEnumAsByte<ETresCommandKind> CommandKind) {};
-	//void TresActorSpecificAction__DelegateSignature(TEnumAsByte<ETresActorSpecificActionID> ActionID, class AActor* SendActor, int SubID) {};
-
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
 	void RequestEndCommandKind(TEnumAsByte<ETresCommandKind> inCommand, int InParam0) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
 	bool RemotePlayerStateEvent(const FName& EventName, class AActor* inActor) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	//void ReceivePlayerSpecificAction(TEnumAsByte<ETresPlayerSpecificActionID> ActionID, int SubID) {};
+	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
+	void ReceivePlayerSpecificAction(TEnumAsByte<ETresPlayerSpecificActionID> ActionID, int SubID) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
 	void ReceivePlayerEndCommandAction(TEnumAsByte<ETresCommandKind> CommandKind) {};

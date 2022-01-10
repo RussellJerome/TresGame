@@ -15,5 +15,5 @@ class TRESGAME_API UTresPhysMatEffectAsset : public UTresLoadAsset
 {
 	GENERATED_BODY()
 public:
-	struct FTresPhysMatEffectAssetUnit                 m_Effects;
+	struct FTresPhysMatEffectAssetUnit m_Effects;
 };

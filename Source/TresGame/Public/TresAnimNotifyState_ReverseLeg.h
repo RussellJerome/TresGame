@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresAnimNotifyState_ReverseLeg : public UAnimNotifyState
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

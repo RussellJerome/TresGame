@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API ATresCameraShootFlow : public ATresCameraNormal
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

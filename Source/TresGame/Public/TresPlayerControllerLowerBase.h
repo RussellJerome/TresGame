@@ -71,6 +71,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
 	void DebugCameraShutOutFade(bool bEnable) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
-	//void DebugCameraCollCheck(unsigned char EnableNo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresPlayerControllerLowerBase")
+	void DebugCameraCollCheck(bool EnableNo) {};
 };

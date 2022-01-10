@@ -13,8 +13,4 @@ UCLASS()
 class TRESGAME_API UTresAnimNotifyState_Traction : public UAnimNotifyState
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };

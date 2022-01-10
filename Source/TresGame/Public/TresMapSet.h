@@ -16,11 +16,11 @@ class TRESGAME_API UTresMapSet : public UObject
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapSet")
-	TArray<FName>                               m_CmdArray;                                               // 0x0040(0x0010) (Edit, ZeroConstructor)
+	TArray<FName> m_CmdArray;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapSet")
-	TArray<FTresMapSetObjData>                  m_ObjArray;                                               // 0x0050(0x0010) (Edit, ZeroConstructor)
+	TArray<FTresMapSetObjData> m_ObjArray;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapSet")
-	TArray<FTresMapSetDataArray>                m_Data;
+	TArray<FTresMapSetDataArray> m_Data;
 };
