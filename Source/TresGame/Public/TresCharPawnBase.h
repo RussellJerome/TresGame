@@ -8,6 +8,7 @@
 #include "TresGame.h"
 #include "TresCharMovementComponent.h"
 #include "TresSkeletalMeshComponent.h"
+#include "TresStateQueueComponent.h"
 #include "SQEX_KBD_Component.h"
 #include "SQEX_DynamicBindAssetUserData.h"
 #include "TresCharPawnBase.generated.h"
@@ -25,16 +26,6 @@ class TRESGAME_API ATresCharPawnBase : public ATresPawnBase
 {
 	GENERATED_BODY()
 public:
-	ATresCharPawnBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-	{
-/*#if WITH_EDITORONLY_DATA
-		MyMovement = CreateDefaultSubobject<UTresCharMovementComponent>(TEXT("CharMoveComp"));
-		MyMesh = CreateDefaultSubobject<UTresSkeletalMeshComponent>(TEXT("MyMesh"));
-#endif*/
-		//MyMovement = CreateDefaultSubobject<UTresCharMovementComponent>(TEXT("CharMoveComp"));
-		//MyMesh = ObjectInitializer.CreateDefaultSubobject<UTresSkeletalMeshComponent>(this, TEXT("MyMesh"));
-	};
-
 	UPROPERTY(Category=Character, VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	class UTresCharMovementComponent* MyMovement;
 
@@ -50,8 +41,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	class UTresEquipmentComponent* MyEquipment;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresStateQueueComponent* MyStateComp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresStateQueueComponent* MyStateComp;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	//	class UTresEffectAttachComponent* MyEffectAtt;
@@ -173,8 +164,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	float m_NoActionCounter;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class UParticleSystem* m_LastWaterOuterEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UParticleSystem* m_LastWaterOuterEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	bool m_bCameraLookPosToMesh;
@@ -370,13 +361,13 @@ public:
 	void ReceiveAnimNotifyEndBpEvent(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnLaunchedCharPawn(float Height);
+	//void OnLaunchedCharPawn(float Height) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnLaunched(const struct FVector& LaunchVelocity, bool bXYOverride, bool bZOverride);
+	//void OnLaunched(const struct FVector& LaunchVelocity, bool bXYOverride, bool bZOverride) {};
 
 	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnJumped();
+	//void OnJumped() {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	bool LaunchCharPawn(float Height, bool bForce, TEnumAsByte<ETresPlayerJumpModes> InJumpMode) { return false; };

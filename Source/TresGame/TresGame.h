@@ -13182,18 +13182,32 @@ struct FTresUIWindowSetting
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
-		TEnumAsByte<ETresUIWindowWaitType> WaitType;
+	TEnumAsByte<ETresUIWindowWaitType> WaitType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
-		TEnumAsByte<ETresUIWindowPositionType> PositionType;
+	TEnumAsByte<ETresUIWindowPositionType> PositionType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
-		FVector2D Position;
+	FVector2D Position;
 };
 
 struct FTresMovementComponentPostPhysicsTickFunction : public FTickFunction
 {
-	//Looks Empty
+};
+
+USTRUCT(BlueprintType)
+struct FTresStateAsset
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
+	class UClass* MyStateClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
+	FName MyStateName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
+	TEnumAsByte<ETresStateID> MyStateID;
 };
 
 USTRUCT(BlueprintType)

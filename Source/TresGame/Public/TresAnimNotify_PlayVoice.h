@@ -15,7 +15,6 @@ UCLASS()
 class TRESGAME_API UTresAnimNotify_PlayVoice : public UAnimNotify
 {
 	GENERATED_BODY()
-
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayVoice")
 	TArray<FTresRandomVoice> m_RandomVoiceAssets;
