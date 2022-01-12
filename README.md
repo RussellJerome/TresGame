@@ -1,10 +1,12 @@
 # Kingdom Hearts III Modding Project
 
-Starter project for pak modding in Kingdom Hearts III
+An unreal project for modding Kingdom Hearts III
 
 # Discord Server
 
 Join the OpenKH [discord server](https://discord.openkh.dev) to learn more about modding.
+
+If you do not want to compile the code, YuriLewd typically compiles the latest version uproject and uploads it to the #resources channel of OpenKH
 
 # Installation
 
