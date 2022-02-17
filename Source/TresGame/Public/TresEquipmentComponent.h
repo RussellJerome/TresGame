@@ -7,7 +7,7 @@
 #include "TresEquipmentComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS()
 class TRESGAME_API UTresEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -34,10 +34,10 @@ public:
 	class UTresWearformSet* m_WearformSet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEquipmentComponent")
-	class UTresFormAbilitySet* m_FormAbilityAsset;
+	class UTresFormAbilitySet* m_FormAbilityAsset;*/
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEquipmentComponent")
-	class UTresPlayerMagicSet* m_MagicSet;*/
+	class UTresPlayerMagicSet* m_MagicSet;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEquipmentComponent")
 	//class UTresProjectileSet* m_ProjectileSet;
