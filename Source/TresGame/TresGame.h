@@ -3081,13 +3081,13 @@ enum ETresAIActionAbortTimingID
 };
 
 UENUM(BlueprintType)
-enum ETresAIAttrResistKind
+enum class ETresAIAttrResistKind : uint8
 {
-	ETresAIAttrResistKind_Normal = 0,
-	ETresAIAttrResistKind_Low = 1,
-	ETresAIAttrResistKind_High = 2,
-	ETresAIAttrResistKind_Invalid = 3,
-	ETresAIAttrResistKind_MAX = 4 UMETA(Hidden)
+	Normal = 0,
+	Low = 1,
+	High = 2,
+	Invalid = 3,
+	_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4154,14 +4154,15 @@ enum ETresControlledRandomPeriod
 };
 
 UENUM(BlueprintType)
-enum ETresArithmeticComparisonSource
+enum class ETresArithmeticComparisonSource : uint8
 {
-	ETresArithmeticComparisonSource_Blackboard = 0,
-	ETresArithmeticComparisonSource_ActorProperty = 1,
-	ETresArithmeticComparisonSource_ActorFunction = 2,
-	ETresArithmeticComparisonSource_LiteralValue = 3,
+	Blackboard = 0,
+	ActorProperty = 1,
+	ActorFunction = 2,
+	LiteralValue = 3,
 	ETresArithmeticComparisonSource_MAX = 4
 };
+
 
 UENUM(BlueprintType)
 enum ETresCanCoopJoinRole
@@ -4286,12 +4287,12 @@ enum ETresRangeCheckValueSource
 };
 
 UENUM(BlueprintType)
-enum ETresRangeCheckValueSetting
+enum class ETresRangeCheckValueSetting : uint8
 {
-	ETresRangeCheckValueSetting_Minimum = 0,
-	ETresRangeCheckValueSetting_Maximum = 1,
-	ETresRangeCheckValueSetting_Range = 2,
-	ETresRangeCheckValueSetting_MAX = 3
+	Minimum = 0,
+	Maximum = 1,
+	Range = 2,
+	_MAX = 3
 };
 
 UENUM(BlueprintType)
@@ -4334,6 +4335,8 @@ enum ETresArithmeticModifierSource
 	LiteralValue = 3,
 	ETresArithmeticModifierSource_MAX = 4
 };
+
+
 
 UENUM(BlueprintType)
 enum ETresValueModifierMethod
@@ -13606,6 +13609,39 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FTresPlayerMagicAssetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		TEnumAsByte<ETresCommandKind> m_Command;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		bool m_bIsCastType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		bool m_bIsTurnType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		bool m_bIsDirectPos;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		int m_EffectGroup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		int m_VoiceGroup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		int m_VoiceGroupFinish;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		class UClass* m_AssetData00;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+		class UClass* m_AssetData01;
+};
+
+USTRUCT(BlueprintType)
 struct FTresProjectileSpawnData
 {
 	GENERATED_BODY()
@@ -13875,6 +13911,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSpawnPointElement")
 	FVector m_Position;
 };
+
+
 
 USTRUCT(BlueprintType)
 struct FTresSpawnPointSet
