@@ -17,6 +17,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickBattleWall")
 	bool m_EnableChangeCinematicEvent;
 
-	/*void OnChangeCinematicModeProc(bool bIsCinematicMode);
-	void BPEV_OnChangeCinematicMode(bool bIsCinematicMode);*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickBattleWall")
+	void OnChangeCinematicModeProc(bool bIsCinematicMode);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickBattleWall")
+	void BPEV_OnChangeCinematicMode(bool bIsCinematicMode);
 };

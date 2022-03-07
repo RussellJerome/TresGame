@@ -11,9 +11,17 @@ class MERCUNA_API AMercunaNavSeed : public AActor
 {
 	GENERATED_BODY()
 public:
-	/*AMercunaNavSeed()
+	virtual void OnConstruction(const FTransform& Transform) override
 	{
-		PrimaryActorTick.bCanEverTick = true;
-		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	};*/
+		Super::OnConstruction(Transform);
+
+		if (!IsValid(RootComponent))
+		{
+			auto NewRootComponent = NewObject<USceneComponent>(this, "RootComponent");
+			NewRootComponent->CreationMethod = EComponentCreationMethod::Native;
+			NewRootComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+			NewRootComponent->RegisterComponent();
+			RootComponent = NewRootComponent;
+		}
+	};
 };

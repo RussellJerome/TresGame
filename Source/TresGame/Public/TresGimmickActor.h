@@ -34,7 +34,7 @@ public:
 	class UTresChrBaseParam* m_BaseParam;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickActor")
-	TEnumAsByte<ETresEnemyUniqueID> m_FakeEnemyUniqueID;
+	ETresEnemyUniqueID m_FakeEnemyUniqueID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickActor")
 	int m_TeamNo;
@@ -168,11 +168,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
 	void RequestDestroyGimmickForPlan(bool PlayAnimation) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
-	//void ReceiveTresTakeDamage(float DamagePoint, class AController* InstigatedBy, const struct FHitResult& HitInfo, const struct FTresDamageInfo& DamageInfo, const FVector& ShotFromDirection, class AActor* DamageCauser) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
+	void ReceiveTresTakeDamage(float DamagePoint, class AController* InstigatedBy, const struct FHitResult& HitInfo, const struct FTresDamageInfo& DamageInfo, const FVector& ShotFromDirection, class AActor* DamageCauser) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
-	//void ReceiveGimmickKilledCharSignature(class ATresGimmickActor* AttackCauser, class ATresPawnBase* KilledPawn, const struct FTresDamageInfo& DamageInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
+	void ReceiveGimmickKilledCharSignature(class ATresGimmickActor* AttackCauser, class ATresPawnBase* KilledPawn, const struct FTresDamageInfo& DamageInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
 	void ReceiveGimmickEndActorRide(class AActor* RideActor, class UPrimitiveComponent* Component, const FName& BoneName) {};
@@ -189,7 +189,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
 	void ReceiveGimmickActivate(bool bEnable) {};
 
-	//void OnChangeGimmickPauseCallBack(bool bPause) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void OnChangeGimmickPauseCallBack(bool bPause);
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
 	void NotifyChangeGimmickActionImpl(bool bShow) {};
@@ -200,18 +201,41 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresGimmickActor")
 	class UMeshComponent* GetMeshComponentForPlan() { return nullptr; };
 
-	/*void BPEV_OnStopGimmickForPlan(bool PlayAnimation) {};
-	void BPEV_OnStartGimmickForPlan(bool PlayAnimation) {};
-	void BPEV_OnShowGimmickForPlan() {};
-	void BPEV_OnResetGimmickForPlan() {};
-	void BPEV_OnHideGimmickForPlan() {};
-	void BPEV_OnGimmickInstanceInitialize(ETresGimmickInstanceManagerInstanceState State, ETresGimmickInstanceManagerInstanceState OldState) {};
-	void BPEV_OnFlashGimmickForPlan() {};
-	void BPEV_OnEndPauseSpecialForPlan() {};
-	void BPEV_OnEnableCollisionGimmickForPlan() {};
-	void BPEV_OnDisableCollisionGimmickForPlan() {};
-	void BPEV_OnDestroyedGimmickForPlan(bool PlayAnimation) {};
-	void BPEV_OnBeginPauseSpecialForPlan() {};*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnStopGimmickForPlan(bool PlayAnimation);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnStartGimmickForPlan(bool PlayAnimation);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnShowGimmickForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnResetGimmickForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnHideGimmickForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnGimmickInstanceInitialize(ETresGimmickInstanceManagerInstanceState State, ETresGimmickInstanceManagerInstanceState OldState);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnFlashGimmickForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnEndPauseSpecialForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnEnableCollisionGimmickForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnDisableCollisionGimmickForPlan();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnDestroyedGimmickForPlan(bool PlayAnimation);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickActor")
+	void BPEV_OnBeginPauseSpecialForPlan();
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickActor")
 	void BPEV_ChangePowerSavingMode(bool isSaving, class UObject* who) {};

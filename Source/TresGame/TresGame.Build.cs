@@ -8,16 +8,7 @@ public class TresGame : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTags", "BonamikRt", "ScaleformUI", "Mercuna3DMovement", "KBDRt" });
-
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
-		// Uncomment if you are using Slate UI
-		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
-		
-		// Uncomment if you are using online features
-		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
-
-		// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTags", "BonamikRt", "ScaleformUI", "Mercuna3DMovement", "Mercuna", "SQEXSEAD", "KBDRt", "AnimGraphRuntime", "GameplayTasks" });
+		PrivateDependencyModuleNames.AddRange(new string[] { });
 	}
 }

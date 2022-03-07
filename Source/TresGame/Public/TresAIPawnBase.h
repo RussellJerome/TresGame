@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "TresCharPawnBase.h"
 #include "TresGame.h"
+#include "Mercuna_StructsAndEnums.h"
 #include "TresAIPawnBase.generated.h"
 
 /**
@@ -90,14 +91,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	TWeakObjectPtr<class UTresNpcSmartphoneCameraComponent> m_SmartphoneCameraComponentRef;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
-	//class UMercunaNavigationComponent* m_Navigation3DComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
+	class UMercunaNavigationComponent* m_Navigation3DComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
 	bool m_bManualEditingObstacleComponent;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
-	//class UMercunaObstacleComponent* ObstacleComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIPawnBase")
+	class UMercunaObstacleComponent* ObstacleComponent;
 
 	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
 	void SetRage(float inValue) {};
@@ -105,14 +106,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
 	void SetAttackGroup(const struct FGameplayTag& inValue) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
-	//void OnMove3DCompleted(const struct FAIRequestID& RequestID, TEnumAsByte<EMercunaMoveResult> Result) {};
+	void OnMove3DCompleted(const struct FAIRequestID& RequestID, TEnumAsByte<EMercunaMoveResult> Result) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
-	void OnDtorStateEvent(TEnumAsByte<ETresStateID> inStateID) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresAIPawnBase")
+	void OnDtorStateEvent(const TEnumAsByte<ETresStateID>& inStateID);
 
-	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
-	void OnCtorStateEvent(TEnumAsByte<ETresStateID> inStateID) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresAIPawnBase")
+	void OnCtorStateEvent(const TEnumAsByte<ETresStateID>& inStateID);
 
 	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
 	bool IsSwimWaterSurface() { return false; };
@@ -150,8 +150,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
 	float GetTimeMotionless() { return 0.0f; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
-	//class UTresLocomotionDefinitionBase* GetStateToLocomotionDefinition() { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
+	class UTresLocomotionDefinitionBase* GetStateToLocomotionDefinition() { return nullptr; };
 
 	UFUNCTION(BlueprintPure, Category = "TresAIPawnBase")
 	float GetSpeedFromVelocity() { return 0.0f; };
@@ -210,7 +210,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
 	bool DebugAIJump(float JumpPower) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresAIPawnBase")
-	//void BP_OnRunBehaviorTree() {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresAIPawnBase")
+	void BP_OnRunBehaviorTree();
 	
 };

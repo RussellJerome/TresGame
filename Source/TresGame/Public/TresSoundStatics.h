@@ -15,7 +15,8 @@ class TRESGAME_API UTresSoundStatics : public UObject
 {
 	GENERATED_BODY()
 public:
-	//static void TresWaitForEndOfFieldVoice(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo);
+	UFUNCTION(BlueprintCallable, Category = "TresGameBlueprintLibrary", meta = (Latent, WorldContext = "WorldContext", LatentInfo = "LatentInfo"))
+	static void TresWaitForEndOfFieldVoice(class UObject* WorldContextObject, FLatentActionInfo LatentInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresSoundStatics", meta = (WorldContext = "WorldContextObject"))
 	static class UAudioComponent* TresSpawnSound2D_BP(class UObject* WorldContextObject, class USoundBase* Sound, float VolumeMultiplier, float PitchMultiplier, float StartTime, class USoundConcurrency* ConcurrencySettings, bool bPersistAcrossLevelTransition, bool bAutoDestroy) { return nullptr; };

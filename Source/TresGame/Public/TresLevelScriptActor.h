@@ -22,7 +22,7 @@ public:
 	int VisibleCompleteFrame;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLevelScriptActor")
-	TEnumAsByte<ETresLevelVisibility> m_LevelVisibleType;
+	ETresLevelVisibility m_LevelVisibleType;
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelScriptActor")
 	void VanishLevelEntities(const FName& TargetGroup, TEnumAsByte<ETresLevelEntityDisappearMode> DisappearMode, bool SaveProperties) {};
@@ -34,7 +34,7 @@ public:
 	void TresSetPauseMenuType(TEnumAsByte<ETresPauseMenuType> Type) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelScriptActor")
-	void StartTutorial(class UObject* WorldContextObject, const FLatentActionInfo& LatentInfo, class UTresMapSet* MapSet, const FName& TutorialName) {};
+	void StartTutorial(class UObject* WorldContextObject, FLatentActionInfo LatentInfo, class UTresMapSet* MapSet, const FName& TutorialName) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelScriptActor")
 	void SpawnLevelEntities(const FName& TargetGroup, int AppearInfoNo, bool IncrementAppearInfoNo, int UserDataNo, bool IncrementUserDataNo, class UObject* Spawner, bool DelaySpawning, bool SkipDrawAttractionFlowMarker) {};

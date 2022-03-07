@@ -31,7 +31,7 @@ public:
 	TArray<struct FTresFieldVoiceTextData> m_TextDatas;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFieldVoice")
-	TEnumAsByte<ETresChrUniqueID> m_Talker;
+	ETresChrUniqueID m_Talker;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFieldVoice")
 	FName m_TalkerName;

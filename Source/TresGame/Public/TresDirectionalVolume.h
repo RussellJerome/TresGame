@@ -6,6 +6,9 @@
 #include "TresVolume.h"
 #include "TresDirectionalVolume.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(m_OnEnterVolume);
+
 /**
  * 
  */
@@ -14,7 +17,8 @@ class TRESGAME_API ATresDirectionalVolume : public ATresVolume
 {
 	GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate m_OnEnterVolume;
+	//UPROPERTY(BlueprintAssignable, Category = "TresDirectionalVolume")
+	//FTresEnterVolume m_OnEnterVolume;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalVolume")
 	bool m_PlayerOnly;

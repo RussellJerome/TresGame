@@ -7,15 +7,18 @@
 #include "TresGame.h"
 #include "TresProjectileMovementComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMoveTick, float, InDeltaTime);
+
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class TRESGAME_API UTresProjectileMovementComponent : public UProjectileMovementComponent
 {
 	GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate OnTickMove;
+	UPROPERTY(BlueprintAssignable, Category = "TresProjectileMovementComponent")
+	FOnMoveTick OnTickMove;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
 	float m_Accel;
@@ -60,7 +63,7 @@ public:
 	bool m_bIgnoreHomingZ;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
-	TEnumAsByte<ETresProjectileHomingType> m_HomingType;
+	ETresProjectileHomingType m_HomingType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
 	float m_HomingMaxAngle;
@@ -124,6 +127,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileMovementComponent")
 	struct FTresScaleVectorAnim m_ScaleAnim;
-
-	//void OnMoveTickDelegate__DelegateSignature(float InDeltaTime);
 };

@@ -34,14 +34,14 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
 	//class UTresGumiShipWeaponSequence* m_pWeaponSequence;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
-	//class UTresEffectAttachComponent* m_pEffectAttach;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
+	class UTresEffectAttachComponent* m_pEffectAttach;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
-	//TArray<class UTresInterpGroup*> m_InterpGroup;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
+	TArray<class UTresInterpGroup*> m_InterpGroup;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
-	//TArray<class UTresInterpGroupInst*> m_InterpGroupInst;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipCharaPawnBase")
+	TArray<class UTresInterpGroupInst*> m_InterpGroupInst;
 
 	/*void TresGumiShipDefeated__DelegateSignature(class AActor* pTarget);
 	void TresGumiShipDead__DelegateSignature();
@@ -87,7 +87,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipCharaPawnBase")
 	int GetHP() { return 0; };
 
-
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipCharaPawnBase")
 	bool BP_IsAnimEnd(const FName& SlotName) { return false; };
 
@@ -99,7 +98,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipCharaPawnBase")
 	float BP_AnimPlay(const FName& AnimName, bool bIsLoop) { return 0.0f; };
-
 
 	/*void _ReceiveTakeReaction(ETresGumiShipReactionType eReactionType, const struct FVector& rvImpactNormal);
 	void _ReceiveTakeDamage(class AActor* pDamageCauser, class UPrimitiveComponent* pHitComponent, float fDamagePoint);

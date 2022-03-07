@@ -14,7 +14,7 @@ class TRESGAME_API UTresMapMarkerComponent : public UActorComponent
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapMarkerComponent")
-	TEnumAsByte<ETresUIMapMarkerType> m_MapMarkerType;
+	ETresUIMapMarkerType m_MapMarkerType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapMarkerComponent")
 	TArray<FName> m_MaskMapNames;

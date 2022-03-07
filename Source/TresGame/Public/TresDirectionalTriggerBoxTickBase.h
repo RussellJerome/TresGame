@@ -17,8 +17,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalTriggerBoxTickBase")
 	float m_PermitAngle;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalTriggerBoxTickBase")
-	//class UTresDebugArrowComponent* DebugArrowComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalTriggerBoxTickBase")
+	class UTresDebugArrowComponent* DebugArrowComponent;
 	
 	UFUNCTION(BlueprintCallable, Category = "TresDirectionalTriggerBoxTickBase")
 	void SetEnableExecute(bool Enable) {};

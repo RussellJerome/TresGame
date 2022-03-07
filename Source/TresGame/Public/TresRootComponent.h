@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class TRESGAME_API UTresRootComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()
@@ -69,6 +69,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresRootComponent")
 	FCollisionResponseContainer m_DefaultCollisionResponse;
 	
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresRootComponent")
-	struct FTresRootComponentPostPhysicsTickFunction   m_PostPhysTickFunction;
+	struct FTresRootComponentPostPhysicsTickFunction m_PostPhysTickFunction;
 };

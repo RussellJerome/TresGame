@@ -17,13 +17,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameModeBase")
 	class UTresGameInstance* m_pTresGameInstance;
 
-	//class UTresTaskExecutor* m_pTaskExecuter;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameModeBase")
+	class UTresTaskExecutor* m_pTaskExecuter;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameModeBase")
 	TArray<UObject*> m_pTempObjectArray;
 
-	/*class UTresFieldVoiceManager* m_pFieldVoiceManager;
-	struct FTresGameModeBaseLastCleanupTickFunction m_LastCleanupTickFunction;*/
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameModeBase")
+	//class UTresFieldVoiceManager* m_pFieldVoiceManager;
+	
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGameModeBase")
+	//struct FTresGameModeBaseLastCleanupTickFunction m_LastCleanupTickFunction;
 
 	UFUNCTION(BlueprintCallable, Category = "TresGameModeBase")
 	static void TresRequestDestroyActor(AActor* Actor) {};

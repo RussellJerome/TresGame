@@ -6,6 +6,10 @@
 #include "TresGumiShipCharaPawnBase.h"
 #include "TresGumiShipEnemyPawnBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyDisappearSignature, class ATresGumiShipEnemyPawnBase*, pDisappearEnemy);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyDeadSignature, class ATresGumiShipEnemyPawnBase*, pDeadEnemy);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyAppearSignature, class ATresGumiShipEnemyPawnBase*, pAppearEnemy);
+
 /**
  * 
  */
@@ -14,9 +18,14 @@ class TRESGAME_API ATresGumiShipEnemyPawnBase : public ATresGumiShipCharaPawnBas
 {
 	GENERATED_BODY()
 public:
-	/*struct FScriptMulticastDelegate OnEnemyDead;
-	struct FScriptMulticastDelegate OnEnemyAppearComplete;
-	struct FScriptMulticastDelegate OnEnemyDisappearComplete;*/
+	UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	FEnemyDeadSignature OnEnemyDead;
+	
+	UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	FEnemyAppearSignature OnEnemyAppearComplete;
+	
+	UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	FEnemyDisappearSignature OnEnemyDisappearComplete;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
 	FName m_EnemyNameID;
@@ -24,8 +33,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
 	float m_fEnemyBoundsRadius;
 
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
 	//class UTresGumiShipBattleDataTableSet* m_pBattleDataTableSet;
-	//class USQEX_ParticleAttachDataAsset* m_pEffectAttachDataAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
+	class USQEX_ParticleAttachDataAsset* m_pEffectAttachDataAsset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipEnemyPawnBase")
 	int m_nDeadEffectAttachGroupID;
@@ -105,7 +117,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
 	void HideEnemyPawn(bool HiddenEnable, bool PropagateToAttachedParts) {};
 
-	//ETresGumiShipEnemyStateResult GetStateResult();
+	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
+	ETresGumiShipEnemyStateResult GetStateResult() { return ETresGumiShipEnemyStateResult::RESULT_ABORT; };
 
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	FName GetStateName(ETresGumiShipEnemyStateID StateID) { return FName::FName(); };
@@ -125,10 +138,11 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	float GetMaxRotateSpeed() { return 0.0f; };
 
-	//ETresGumiShipEnemyStateID GetLastStateID();
+	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
+	ETresGumiShipEnemyStateID GetLastStateID() { return ETresGumiShipEnemyStateID::BLANK_STATE; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
-	//class ATresGumiShipPlayerPawnBase* GetGumiShipPlayerPawn() { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
+	class ATresGumiShipPlayerPawnBase* GetGumiShipPlayerPawn() { return nullptr; };
 
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	int GetEnemyUnitID() { return 0; };
@@ -139,12 +153,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	FName GetEnemyNameID() { return FName::FName(); };
 
-	//ETresGumiShipEnemyLookAtType GetEnemyLookAtType();
+	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
+	ETresGumiShipEnemyLookAtType GetEnemyLookAtType() { return ETresGumiShipEnemyLookAtType::KEEP_SPLINE_MOVE_DIRECTION;};
 
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	FVector GetEnemyLookAtOffset() { return FVector::FVector(); };
 
-	//ETresGumiShipEnemyID GetEnemyID();
+	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
+	ETresGumiShipEnemyID GetEnemyID() { return ETresGumiShipEnemyID::ENEMY_ID_NONE;};
 
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	FGuid GetEnemyGUID() { return FGuid::FGuid(); };
@@ -161,7 +177,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	FName GetCurrentStateName() { return FName::FName(); };
 
-	//ETresGumiShipEnemyStateID GetCurrentStateID();
+	UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
+	ETresGumiShipEnemyStateID GetCurrentStateID() { return ETresGumiShipEnemyStateID::ACTION1_STATE;};
 
 	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	//class ATresGumiShipEnemyBattleStarter* GetCurrentEnemyBattleStarter() { return nullptr; };
@@ -177,10 +194,6 @@ public:
 
 	//UFUNCTION(BlueprintPure, Category = "TresGumiShipEnemyPawnBase")
 	//class UTresGumiShipEnemyGroupManager* GetAssignedEnemyGroupManager() { return nullptr; };
-
-	//void EnemyDisappearSignature__DelegateSignature(class ATresGumiShipEnemyPawnBase* pDisappearEnemy);
-	//void EnemyDeadSignature__DelegateSignature(class ATresGumiShipEnemyPawnBase* pDeadEnemy);
-	//void EnemyAppearSignature__DelegateSignature(class ATresGumiShipEnemyPawnBase* pAppearEnemy);
 
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipEnemyPawnBase")
 	void _StartAttackCoolDownTimer(const FName& AttackName) {};

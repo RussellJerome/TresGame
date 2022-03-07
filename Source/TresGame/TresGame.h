@@ -5,36 +5,43 @@
 #include "CoreMinimal.h"
 #include "Engine/EngineBaseTypes.h"
 #include "Components/SkinnedMeshComponent.h"
-#include"TresLevelEntitySequenceCondition.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
+#include "EnvironmentQuery/EnvQueryTypes.h"
+//#include "TresLevelEntitySequenceCondition.h"
+#include "BoneControllers/AnimNode_SkeletalControlBase.h"
+#include "BoneControllers/AnimNode_ModifyBone.h"
 #include "BoneContainer.h"
+#include "Animation/AnimSingleNodeInstanceProxy.h"
 #include "Engine/CollisionProfile.h"
+#include "BonamikRt_StructsAndEnums.h"
 #include "GameplayTagContainer.h"
 #include "Engine/DataAsset.h"
 #include "Engine/DataTable.h"
 #include "UObject/AssetPtr.h"
 #include "Engine/Texture2D.h"
+#include "EngineData.h"
 #include "TresGame.generated.h"
 
 //---------------------------------------------------------------------------
 //Enums
 //---------------------------------------------------------------------------
 UENUM(BlueprintType)
-enum ETresProjectileHomingType
+enum class ETresProjectileHomingType : uint8
 {
-	ETresProjectileHomingType_NORMAL = 0,
-	ETresProjectileHomingType_IGNORE_Z = 1,
-	ETresProjectileHomingType_PITCH_YAW = 2,
-	ETresProjectileHomingType_1_MAX = 3,
-	ETresProjectileHomingType_MAX = 4
+	NORMAL = 0 UMETA(DisplayName = "Normal"),
+	IGNORE_Z = 1 UMETA(DisplayName = "Ignore Z"),
+	PITCH_YAW = 2 UMETA(DisplayName = "Pitch Yaw"),
+	_MAX = 3 UMETA(Hidden),
+	ETresProjectileHomingType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSavePointDispType
+enum class ETresSavePointDispType : uint8
 {
-	ETresSavePointDispType_NORMAL = 0 UMETA(DisplayName = "Normal"),
-	ETresSavePointDispType_DISABLE = 1 UMETA(DisplayName = "Disable"),
-	ETresSavePointDispType_DESTROY = 2 UMETA(DisplayName = "Destroy"),
-	ETresSavePointDispType_1_MAX = 3 UMETA(Hidden),
+	NORMAL = 0 UMETA(DisplayName = "Normal"),
+	DISABLE = 1 UMETA(DisplayName = "Disable"),
+	DESTROY = 2 UMETA(DisplayName = "Destroy"),
+	_MAX = 3 UMETA(Hidden),
 	ETresSavePointDispType_MAX = 4 UMETA(Hidden)
 };
 
@@ -313,38 +320,38 @@ enum class ETresPhysDamageForceLevel : uint8
 UENUM(BlueprintType)
 enum class ETresBadStatusType : uint8
 {
-	TRES_BADSTAT_NONE = 0,
-	TRES_BADSTAT_DEATH = 1,
-	TRES_BADSTAT_CATCH = 2,
-	TRES_BADSTAT_DRILL_BIND = 3,
-	TRES_BADSTAT_YO_BIND = 4,
-	TRES_BADSTAT_RALPH_BIND = 5,
-	TRES_BADSTAT_ENERGYBURST = 6,
-	TRES_BADSTAT_FREEZE = 7,
-	TRES_BADSTAT_STOP = 8,
-	TRES_BADSTAT_MAGNET = 9,
-	TRES_BADSTAT_DRAIN = 10,
-	TRES_BADSTAT_ASPIR = 11,
-	TRES_BADSTAT_STUN = 12,
-	TRES_BADSTAT_SNEEZE = 13,
-	TRES_BADSTAT_HONEY = 14,
-	TRES_BADSTAT_CLOUD = 15,
-	TRES_BADSTAT_DISCHARGE = 16,
-	TRES_BADSTAT_BURN = 17,
-	TRES_BADSTAT_HP_BREAK = 18,
-	TRES_BADSTAT_TIME_BREAK = 19,
+	TRES_BADSTAT_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_BADSTAT_DEATH = 1 UMETA(DisplayName = "Death"),
+	TRES_BADSTAT_CATCH = 2 UMETA(DisplayName = "Catch"),
+	TRES_BADSTAT_DRILL_BIND = 3 UMETA(DisplayName = "Drill Bind"),
+	TRES_BADSTAT_YO_BIND = 4 UMETA(DisplayName = "Yo Bind"),
+	TRES_BADSTAT_RALPH_BIND = 5 UMETA(DisplayName = "Ralph Bind"),
+	TRES_BADSTAT_ENERGYBURST = 6 UMETA(DisplayName = "Energy Burst"),
+	TRES_BADSTAT_FREEZE = 7 UMETA(DisplayName = "Freeze"),
+	TRES_BADSTAT_STOP = 8 UMETA(DisplayName = "Stop"),
+	TRES_BADSTAT_MAGNET = 9 UMETA(DisplayName = "Magnet"),
+	TRES_BADSTAT_DRAIN = 10 UMETA(DisplayName = "Drain"),
+	TRES_BADSTAT_ASPIR = 11 UMETA(DisplayName = "Aspir"),
+	TRES_BADSTAT_STUN = 12 UMETA(DisplayName = "Stun"),
+	TRES_BADSTAT_SNEEZE = 13 UMETA(DisplayName = "Sneeze"),
+	TRES_BADSTAT_HONEY = 14 UMETA(DisplayName = "Honey"),
+	TRES_BADSTAT_CLOUD = 15 UMETA(DisplayName = "Cloud"),
+	TRES_BADSTAT_DISCHARGE = 16 UMETA(DisplayName = "Discharge"),
+	TRES_BADSTAT_BURN = 17 UMETA(DisplayName = "Burn"),
+	TRES_BADSTAT_HP_BREAK = 18 UMETA(DisplayName = "HP Break"),
+	TRES_BADSTAT_TIME_BREAK = 19 UMETA(DisplayName = "Time Break"),
 	TRES_BADSTAT_MAX = 20 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum class ETresAtkHitKnockbackType : uint8
 {
-	TRES_AHKBT_NORMAL = 0,
-	TRES_AHKBT_VELOCITY = 1,
-	TRES_AHKBT_ATK_COLLISION = 2,
-	TRES_AHKBT_INSTIGATOR_PAWN = 3,
-	TRES_AHKBT_IMPACT_LOCATION = 4,
-	SPECIFIC = 5,
+	TRES_AHKBT_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	TRES_AHKBT_VELOCITY = 1 UMETA(DisplayName = "Velocity"),
+	TRES_AHKBT_ATK_COLLISION = 2 UMETA(DisplayName = "Atk Collision"),
+	TRES_AHKBT_INSTIGATOR_PAWN = 3 UMETA(DisplayName = "Instigator Pawn"),
+	TRES_AHKBT_IMPACT_LOCATION = 4 UMETA(DisplayName = "Impact Location"),
+	SPECIFIC = 5 UMETA(DisplayName = "Specific"),
 	_TRES_AHKBT_MAX = 6 UMETA(Hidden),
 	ETresAtkHitKnockbackType_MAX = 7 UMETA(Hidden)
 };
@@ -352,69 +359,69 @@ enum class ETresAtkHitKnockbackType : uint8
 UENUM(BlueprintType)
 enum class ETresDamageAttribute : uint8
 {
-	TRES_DMG_ATTR_PHYSICAL = 0,
-	TRES_DMG_ATTR_FIRE = 1,
-	TRES_DMG_ATTR_BLIZZARD = 2,
-	TRES_DMG_ATTR_THUNDER = 3,
-	TRES_DMG_ATTR_WATER = 4,
-	TRES_DMG_ATTR_AERO = 5,
-	TRES_DMG_ATTR_DARK = 6,
-	TRES_DMG_ATTR_NOTYPE = 7,
+	TRES_DMG_ATTR_PHYSICAL = 0 UMETA(DisplayName = "Physical"),
+	TRES_DMG_ATTR_FIRE = 1 UMETA(DisplayName = "Fire"),
+	TRES_DMG_ATTR_BLIZZARD = 2 UMETA(DisplayName = "Blizzard"),
+	TRES_DMG_ATTR_THUNDER = 3 UMETA(DisplayName = "Thunder"),
+	TRES_DMG_ATTR_WATER = 4 UMETA(DisplayName = "Water"),
+	TRES_DMG_ATTR_AERO = 5 UMETA(DisplayName = "Aero"),
+	TRES_DMG_ATTR_DARK = 6 UMETA(DisplayName = "Dark"),
+	TRES_DMG_ATTR_NOTYPE = 7 UMETA(DisplayName = "No Type"),
 	TRES_DMG_ATTR_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresDamageKind
 {
-	TRES_DMG_KIND_NONE = 0,
-	TRES_DMG_KIND_SMALL = 1,
-	TRES_DMG_KIND_BLOW = 2,
-	TRES_DMG_KIND_SIDESPIN = 3,
-	TRES_DMG_KIND_VERTICALROLL = 4,
-	TRES_DMG_KIND_BILLIARD = 5,
-	TRES_DMG_KIND_FLOAT = 6,
-	TRES_DMG_KIND_TOSS = 7,
-	TRES_DMG_KIND_LAUNCH = 8,
-	TRES_DMG_KIND_BEAT = 9,
-	TRES_DMG_KIND_PARABOLA = 10,
-	TRES_DMG_KIND_PARABOLA_NO_RECOVERY = 11,
-	TRES_DMG_KIND_WITHOUT = 12,
-	TRES_DMG_KIND_RECOVER = 13,
-	TRES_DMG_KIND_KILL = 14,
-	TRES_DMG_KIND_STOP = 15,
-	TRES_DMG_KIND_MAGNET = 16,
-	TRES_DMG_KIND_CATCH = 17,
-	TRES_DMG_KIND_BIND = 18,
-	TRES_DMG_KIND_SUCTION = 19,
-	TRES_DMG_KIND_EAT = 20,
-	TRES_DMG_KIND_SHIELD_BLOW = 21,
-	TRES_DMG_KIND_SHIELD_TOSS = 22,
-	TRES_DMG_KIND_FREE_FLOW = 23,
-	TRES_DMG_KIND_SHOOTING_RIDE = 24,
-	TRES_DMG_KIND_MERRYGOROUND = 25,
-	TRES_DMG_KIND_ZEROGRAVITY = 26,
-	TRES_DMG_KIND_SWALLOW = 27,
-	TRES_DMG_KIND_UNIQUE = 28,
-	TRES_DMG_KIND_SWIRL_UP = 29,
-	TRES_DMG_KIND_POLE_SPIN = 30,
-	TRES_DMG_KIND_POLE_SWING = 31,
-	TRES_DMG_KIND_RALPH_BIND = 32,
-	TRES_DMG_KIND_VIKINGSHIP_FRONT = 33,
-	TRES_DMG_KIND_VIKINGSHIP_BACK = 34,
-	TRES_DMG_KIND_DRILL_BIND = 35,
-	TRES_DMG_KIND_YO_BIND = 36,
-	TRES_DMG_KIND_EX071_BIND = 37,
-	TRES_DMG_KIND_GOOFY_TORNADO = 38,
-	TRES_DMG_KIND_ENERGYBURST_ATTRACT = 39,
-	TRES_DMG_KIND_EX301_BIND = 40,
-	TRES_DMG_KIND_PUDDING_EAT = 41,
+	TRES_DMG_KIND_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_DMG_KIND_SMALL = 1 UMETA(DisplayName = "Dark"),
+	TRES_DMG_KIND_BLOW = 2 UMETA(DisplayName = "Blow"),
+	TRES_DMG_KIND_SIDESPIN = 3 UMETA(DisplayName = "Side Spin"),
+	TRES_DMG_KIND_VERTICALROLL = 4 UMETA(DisplayName = "Vertical Roll"),
+	TRES_DMG_KIND_BILLIARD = 5 UMETA(DisplayName = "Billiard"),
+	TRES_DMG_KIND_FLOAT = 6 UMETA(DisplayName = "Float"),
+	TRES_DMG_KIND_TOSS = 7 UMETA(DisplayName = "Toss"),
+	TRES_DMG_KIND_LAUNCH = 8 UMETA(DisplayName = "Launch"),
+	TRES_DMG_KIND_BEAT = 9 UMETA(DisplayName = "Beat"),
+	TRES_DMG_KIND_PARABOLA = 10 UMETA(DisplayName = "Parabola"),
+	TRES_DMG_KIND_PARABOLA_NO_RECOVERY = 11 UMETA(DisplayName = "Parabola No Recovery"),
+	TRES_DMG_KIND_WITHOUT = 12 UMETA(DisplayName = "Without"),
+	TRES_DMG_KIND_RECOVER = 13 UMETA(DisplayName = "Recover"),
+	TRES_DMG_KIND_KILL = 14 UMETA(DisplayName = "Kill"),
+	TRES_DMG_KIND_STOP = 15 UMETA(DisplayName = "Stop"),
+	TRES_DMG_KIND_MAGNET = 16 UMETA(DisplayName = "Magnet"),
+	TRES_DMG_KIND_CATCH = 17 UMETA(DisplayName = "Catch"),
+	TRES_DMG_KIND_BIND = 18 UMETA(DisplayName = "Bind"),
+	TRES_DMG_KIND_SUCTION = 19 UMETA(DisplayName = "Suction"),
+	TRES_DMG_KIND_EAT = 20 UMETA(DisplayName = "Eat"),
+	TRES_DMG_KIND_SHIELD_BLOW = 21 UMETA(DisplayName = "Shield Blow"),
+	TRES_DMG_KIND_SHIELD_TOSS = 22 UMETA(DisplayName = "Shield Toss"),
+	TRES_DMG_KIND_FREE_FLOW = 23 UMETA(DisplayName = "Free Flow"),
+	TRES_DMG_KIND_SHOOTING_RIDE = 24 UMETA(DisplayName = "Shooting Ride"),
+	TRES_DMG_KIND_MERRYGOROUND = 25 UMETA(DisplayName = "Merry Go Round"),
+	TRES_DMG_KIND_ZEROGRAVITY = 26 UMETA(DisplayName = "Zero Gravity"),
+	TRES_DMG_KIND_SWALLOW = 27 UMETA(DisplayName = "Swallow"),
+	TRES_DMG_KIND_UNIQUE = 28 UMETA(DisplayName = "Unique"),
+	TRES_DMG_KIND_SWIRL_UP = 29 UMETA(DisplayName = "Swirl Up"),
+	TRES_DMG_KIND_POLE_SPIN = 30 UMETA(DisplayName = "Pole Spin"),
+	TRES_DMG_KIND_POLE_SWING = 31 UMETA(DisplayName = "Pole Spin"),
+	TRES_DMG_KIND_RALPH_BIND = 32 UMETA(DisplayName = "Ralph Bind"),
+	TRES_DMG_KIND_VIKINGSHIP_FRONT = 33 UMETA(DisplayName = "Viking Ship Front"),
+	TRES_DMG_KIND_VIKINGSHIP_BACK = 34 UMETA(DisplayName = "Viking Ship Back"),
+	TRES_DMG_KIND_DRILL_BIND = 35 UMETA(DisplayName = "Drill Bind"),
+	TRES_DMG_KIND_YO_BIND = 36 UMETA(DisplayName = "Yo Bind"),
+	TRES_DMG_KIND_EX071_BIND = 37 UMETA(DisplayName = "Kracken Tentacle Bind (EX071)"),
+	TRES_DMG_KIND_GOOFY_TORNADO = 38 UMETA(DisplayName = "Goofy Tornado"),
+	TRES_DMG_KIND_ENERGYBURST_ATTRACT = 39 UMETA(DisplayName = "Energy Burst Attract"),
+	TRES_DMG_KIND_EX301_BIND = 40 UMETA(DisplayName = "Xehanort Bind (EX301)"),
+	TRES_DMG_KIND_PUDDING_EAT = 41 UMETA(DisplayName = "Pudding Eat"),
 	TRES_DMG_KIND_MAX = 42 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresShootFlowKind
 {
-	TRES_SF_KIND_NONE = 0,
+	TRES_SF_KIND_NONE = 0 UMETA(DisplayName = "None"),
 	TRES_SF_KIND_SHOOTFLOW1 = 1,
 	TRES_SF_KIND_SHOOTFLOW2 = 2,
 	TRES_SF_KIND_SHOOTFLOW3 = 3,
@@ -450,21 +457,21 @@ enum ETresShootFlowKind
 	TRES_SF_KIND_SHOOTFLOW33 = 33,
 	TRES_SF_KIND_SHOOTFLOW34 = 34,
 	TRES_SF_KIND_SHOOTFLOW35 = 35,
-	TRES_SF_KIND_FOCUSASPIR = 36,
-	TRES_SF_KIND_ATHLETICFLOW = 37,
-	TRES_SF_KIND_RAINBOWSHOWER = 38,
-	TRES_SF_KIND_SHINING = 39,
+	TRES_SF_KIND_FOCUSASPIR = 36 UMETA(DisplayName = "Focus Aspir"),
+	TRES_SF_KIND_ATHLETICFLOW = 37 UMETA(DisplayName = "Athletic Flow"),
+	TRES_SF_KIND_RAINBOWSHOWER = 38 UMETA(DisplayName = "Rainbow Shower"),
+	TRES_SF_KIND_SHINING = 39 UMETA(DisplayName = "Shining"),
 	TRES_SF_KIND_SHOOTFLOW40 = 40,
 	TRES_SF_KIND_SHOOTFLOW41 = 41,
 	TRES_SF_KIND_SHOOTFLOW42 = 42,
-	TRES_SF_KIND_DARKFIRAGA = 43,
+	TRES_SF_KIND_DARKFIRAGA = 43 UMETA(DisplayName = "Dark Firaga"),
 	TRES_SF_KIND_SHOOTFLOW44 = 44,
-	TRES_SF_KIND_END = 45,
+	TRES_SF_KIND_END = 45 UMETA(DisplayName = "End"),
 	TRES_SF_KIND_MAX = 46 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresChrUniqueID
+enum class ETresChrUniqueID : uint8
 {
 	TRES_CHR_UID_UNKNOWN = 0 UMETA(DisplayName = "Unknown"),
 	TRES_CHR_UID_SORA = 1 UMETA(DisplayName = "Sora"),
@@ -510,190 +517,190 @@ enum ETresChrUniqueID
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyUniqueID
+enum class ETresEnemyUniqueID : uint8
 {
 	TRES_ENEMY_UID_UNKNOWN = 0 UMETA(DisplayName = "Unknown"),
-	TRES_ENEMY_UID_EX001 = 1 UMETA(DisplayName = "Shadow, EX 001"),
-	TRES_ENEMY_UID_EX003 = 2 UMETA(DisplayName = "Flame Core, EX 003"),
-	TRES_ENEMY_UID_EX004 = 3 UMETA(DisplayName = "Water Core, EX 004"),
-	TRES_ENEMY_UID_EX005 = 4 UMETA(DisplayName = "Earth Core, EX 005"),
-	TRES_ENEMY_UID_EX016 = 5 UMETA(DisplayName = "Neoshadow, EX 016"),
-	TRES_ENEMY_UID_EX081 = 6 UMETA(DisplayName = "Fluttering, EX 081"),
-	TRES_ENEMY_UID_DW401 = 7 UMETA(DisplayName = "Demon Tide, DW 401"),
-	TRES_ENEMY_UID_DW401_s0 = 8 UMETA(DisplayName = "Demon Tide, DW 401 S0"),
-	TRES_ENEMY_UID_DW401_s1 = 9 UMETA(DisplayName = "Demon Tide, DW 401 S1"),
-	TRES_ENEMY_UID_DW402 = 10 UMETA(DisplayName = "Demon Tower, DW 402"),
-	TRES_ENEMY_UID_DW402_s1 = 11 UMETA(DisplayName = "Demon Tower, DW 402 S1"),
-	TRES_ENEMY_UID_DW405 = 12 UMETA(DisplayName = "DW 405"),
-	TRES_ENEMY_UID_DW407 = 13 UMETA(DisplayName = "Darkside, DW 407"),
-	TRES_ENEMY_UID_EX002 = 14 UMETA(DisplayName = "Large Body, EX 002"),
-	TRES_ENEMY_UID_EX006 = 15 UMETA(DisplayName = "Satyr, EX 006"),
-	TRES_ENEMY_UID_EX007 = 16 UMETA(DisplayName = "Bizarre Archer, EX 007"),
-	TRES_ENEMY_UID_EX009 = 17 UMETA(DisplayName = "Soldier, EX 009"),
-	TRES_ENEMY_UID_EX010 = 18 UMETA(DisplayName = "Air Soldier, EX 010"),
-	TRES_ENEMY_UID_EX011 = 19 UMETA(DisplayName = "Chaos Carriage, EX 011"),
-	TRES_ENEMY_UID_EX012 = 20 UMETA(DisplayName = "Chief Puff/Puffball Stack, EX 012"),
-	TRES_ENEMY_UID_EX013 = 21 UMETA(DisplayName = "Chief Puff, EX 013"),
-	TRES_ENEMY_UID_EX014 = 22 UMETA(DisplayName = "Puffball, EX 014"),
-	TRES_ENEMY_UID_EX015 = 23 UMETA(DisplayName = "Toy Trooper, EX 015"),
-	TRES_ENEMY_UID_EX017 = 24 UMETA(DisplayName = "Vermilion Samba, EX 017"),
-	TRES_ENEMY_UID_EX036 = 25 UMETA(DisplayName = "Marine Rumba, EX 036"),
-	TRES_ENEMY_UID_EX037 = 26 UMETA(DisplayName = "Gold Beat, EX 037"),
-	TRES_ENEMY_UID_EX038 = 27 UMETA(DisplayName = "Malachite Bolero, EX 038"),
-	TRES_ENEMY_UID_EX018 = 28 UMETA(DisplayName = "Gigas, EX 018"),
-	TRES_ENEMY_UID_EX032 = 29 UMETA(DisplayName = "Gigas, EX 032"),
-	TRES_ENEMY_UID_EX033 = 30 UMETA(DisplayName = "Gigas, EX 033"),
-	TRES_ENEMY_UID_EX020 = 31 UMETA(DisplayName = "Marionette, EX 020"),
-	TRES_ENEMY_UID_EX021 = 32 UMETA(DisplayName = "Raging Vulture, EX 021"),
-	TRES_ENEMY_UID_EX026 = 33 UMETA(DisplayName = "Vaporfly, EX 026"),
-	TRES_ENEMY_UID_EX027 = 34 UMETA(DisplayName = "Lightning Angler, EX 027"),
-	TRES_ENEMY_UID_EX028 = 35 UMETA(DisplayName = "Sea Sprite, EX 028"),
-	TRES_ENEMY_UID_EX035 = 36 UMETA(DisplayName = "Powerwild, EX 035"),
-	TRES_ENEMY_UID_EX039 = 37 UMETA(DisplayName = "Parasol Beauty, EX 039"),
-	TRES_ENEMY_UID_EX041 = 38 UMETA(DisplayName = "Sandworm, EX 041"),
-	TRES_ENEMY_UID_EX042 = 39 UMETA(DisplayName = "Anchor Raider, EX 042"),
-	TRES_ENEMY_UID_EX043 = 40 UMETA(DisplayName = "Dark Inferno, EX 043"),
-	TRES_ENEMY_UID_EX044 = 41 UMETA(DisplayName = "Pole Cannon, EX 044"),
-	TRES_ENEMY_UID_EX045 = 42 UMETA(DisplayName = "Winterhorn, EX 045"),
-	TRES_ENEMY_UID_EX046 = 43 UMETA(DisplayName = "Frost Serpent, EX 046"),
-	TRES_ENEMY_UID_EX047 = 44 UMETA(DisplayName = "Lich, EX 047"),
-	TRES_ENEMY_UID_EX048 = 45 UMETA(DisplayName = "Tireblade ,EX 048"),
-	TRES_ENEMY_UID_EX049 = 46 UMETA(DisplayName = "Cherry Flan, EX 049"),
-	TRES_ENEMY_UID_EX050 = 47 UMETA(DisplayName = "Strawberry Flan, EX 050"),
-	TRES_ENEMY_UID_EX051 = 48 UMETA(DisplayName = "Orange Flan, EX 051"),
-	TRES_ENEMY_UID_EX052 = 49 UMETA(DisplayName = "Banana Flan, EX 052"),
-	TRES_ENEMY_UID_EX053 = 50 UMETA(DisplayName = "Grape Flan, EX 053"),
-	TRES_ENEMY_UID_EX054 = 51 UMETA(DisplayName = "Catastrochorus, EX 054"),
-	TRES_ENEMY_UID_EX055 = 52 UMETA(DisplayName = "Honeydew Flan, EX 055"),
-	TRES_ENEMY_UID_EX056 = 53 UMETA(DisplayName = "Watermelon Flan, EX 056"),
-	TRES_ENEMY_UID_EX059 = 54 UMETA(DisplayName = "Rock Troll, EX 059"),
-	TRES_ENEMY_UID_EX061 = 55 UMETA(DisplayName = "Popcat, EX 061"),
-	TRES_ENEMY_UID_EX065 = 56 UMETA(DisplayName = "Vitality Popcat, EX 065"),
-	TRES_ENEMY_UID_EX066 = 57 UMETA(DisplayName = "Magic Popcat, EX 066"),
-	TRES_ENEMY_UID_EX067 = 58 UMETA(DisplayName = "Focus Popcat, EX 067"),
-	TRES_ENEMY_UID_EX068 = 59 UMETA(DisplayName = "Munny Popcat, EX 068"),
-	TRES_ENEMY_UID_EX073 = 60 UMETA(DisplayName = "Pogo Shovel, EX 073"),
-	TRES_ENEMY_UID_EX082 = 61 UMETA(DisplayName = "Frost Serpent (Grounded), EX 082"),
-	TRES_ENEMY_UID_EX085 = 62 UMETA(DisplayName = "Gigas (BoL), EX 085"),
-	TRES_ENEMY_UID_EX086 = 63 UMETA(DisplayName = "Gigas (BoL), EX 086"),
-	TRES_ENEMY_UID_EX086_s0 = 64 UMETA(DisplayName = "Gigas (BoL), EX 086 S0"),
-	TRES_ENEMY_UID_EX086_s1 = 65 UMETA(DisplayName = "Gigas (BoL), EX 086 S1"),
-	TRES_ENEMY_UID_EX087 = 66 UMETA(DisplayName = "Gigas (BoL), EX 087"),
-	TRES_ENEMY_UID_EX093 = 67 UMETA(DisplayName = "Mechanitaur, EX 093"),
-	TRES_ENEMY_UID_EX094 = 68 UMETA(DisplayName = "High Soldier, EX 094"),
-	TRES_ENEMY_UID_EX095 = 69 UMETA(DisplayName = "Helmed Body, EX 095"),
-	TRES_ENEMY_UID_EX101 = 70 UMETA(DisplayName = "Dusk, EX 101"),
-	TRES_ENEMY_UID_EX105 = 71 UMETA(DisplayName = "Sorcerer, EX 105"),
-	TRES_ENEMY_UID_EX106 = 72 UMETA(DisplayName = "Sniper, EX 106"),
-	TRES_ENEMY_UID_EX107 = 73 UMETA(DisplayName = "Berserker, EX 107"),
-	TRES_ENEMY_UID_EX110 = 74 UMETA(DisplayName = "Gambler, EX 110"),
-	TRES_ENEMY_UID_EX113 = 75 UMETA(DisplayName = "Reaper, EX 113"),
-	TRES_ENEMY_UID_EX114 = 76 UMETA(DisplayName = "Ninja, EX 114"),
-	TRES_ENEMY_UID_EX201 = 77 UMETA(DisplayName = "Flood, EX 201"),
-	TRES_ENEMY_UID_EX202 = 78 UMETA(DisplayName = "Flowersnake, EX 202"),
-	TRES_ENEMY_UID_EX203 = 79 UMETA(DisplayName = "Spiked Turtletoad, EX 203"),
-	TRES_ENEMY_UID_EX205 = 80 UMETA(DisplayName = "Turtletoad, EX 205"),
-	TRES_ENEMY_UID_EX301 = 81 UMETA(DisplayName = "Xehanort, EX 301"),
-	TRES_ENEMY_UID_EX302 = 82 UMETA(DisplayName = "Young Xehanort, EX 302"),
-	TRES_ENEMY_UID_EX316 = 83 UMETA(DisplayName = "Ansem, EX 316"),
-	TRES_ENEMY_UID_EX304 = 84 UMETA(DisplayName = "Xemnas, EX 304"),
-	TRES_ENEMY_UID_EX305 = 85 UMETA(DisplayName = "Xigbar, EX 305"),
-	TRES_ENEMY_UID_EX306 = 86 UMETA(DisplayName = "Saix, EX 306"),
-	TRES_ENEMY_UID_EX307 = 87 UMETA(DisplayName = "Luxord, EX 307"),
-	TRES_ENEMY_UID_EX308 = 88 UMETA(DisplayName = "Marluxia, EX 308"),
-	TRES_ENEMY_UID_EX309 = 89 UMETA(DisplayName = "Larxene, EX 309"),
-	TRES_ENEMY_UID_EX310 = 90 UMETA(DisplayName = "Xion (Hooded), EX 310"),
-	TRES_ENEMY_UID_EX311 = 91 UMETA(DisplayName = "Vanitas, EX 311"),
-	TRES_ENEMY_UID_EX313 = 92 UMETA(DisplayName = "Riku Replica, EX 313"),
-	TRES_ENEMY_UID_EX322 = 93 UMETA(DisplayName = "Anti-Aqua, EX 322"),
-	TRES_ENEMY_UID_EX325 = 94 UMETA(DisplayName = "Terra-Xehanort, EX 325"),
-	TRES_ENEMY_UID_EX326 = 95 UMETA(DisplayName = "Xehanort's Guardian, EX 326"),
-	TRES_ENEMY_UID_EX701 = 96 UMETA(DisplayName = "Lump of Horror, EX 701"),
-	TRES_ENEMY_UID_EX702 = 97 UMETA(DisplayName = "Lump of Horror (Form 2), EX 702"),
-	TRES_ENEMY_UID_EX703 = 98 UMETA(DisplayName = "Lump of Horror (Hand), EX 703"),
-	TRES_ENEMY_UID_EX711 = 99 UMETA(DisplayName = "King of Toys, EX 711"),
-	TRES_ENEMY_UID_EX721 = 100 UMETA(DisplayName = "Grim Guardianess, EX 721"),
-	TRES_ENEMY_UID_EX731 = 101 UMETA(DisplayName = "Skoll, EX 731"),
-	TRES_ENEMY_UID_EX732 = 102 UMETA(DisplayName = "Wolf Head (Skoll), EX 732"),
-	TRES_ENEMY_UID_EX734 = 103 UMETA(DisplayName = "EX 734"),
-	TRES_ENEMY_UID_EX761 = 104 UMETA(DisplayName = "Xehanort Replica, EX 761"),
-	TRES_ENEMY_UID_EX047_s0 = 105 UMETA(DisplayName = "Lich, EX 047 S0"),
-	TRES_ENEMY_UID_EX771 = 106 UMETA(DisplayName = "Xehanort (Keyblade Armor), EX 771"),
-	TRES_ENEMY_UID_EX77101 = 107 UMETA(DisplayName = "Xehanort (Keyblade Armor), EX 771 01"),
-	TRES_ENEMY_UID_EX77102 = 108 UMETA(DisplayName = "Xehanort (Keyblade Armor), EX 771 02"),
-	TRES_ENEMY_UID_EX047_s1 = 109 UMETA(DisplayName = "Lich, EX 047 S1"),
-	TRES_ENEMY_UID_EX801 = 110 UMETA(DisplayName = "Supreme Smasher, EX 801"),
-	TRES_ENEMY_UID_EX806 = 111 UMETA(DisplayName = "Beasts & Bugs, EX 806"),
-	TRES_ENEMY_UID_EX816 = 112 UMETA(DisplayName = "Angelic Amber, EX 816"),
-	TRES_ENEMY_UID_EX830 = 113 UMETA(DisplayName = "Patchwork Animal (Bear), EX 830"),
-	TRES_ENEMY_UID_EX831 = 114 UMETA(DisplayName = "Patchwork Animal (Lion), EX 831"),
-	TRES_ENEMY_UID_EX832 = 115 UMETA(DisplayName = "Air Droid, EX 832"),
-	TRES_ENEMY_UID_EX833 = 116 UMETA(DisplayName = "Air Droid, EX 833"),
-	TRES_ENEMY_UID_EX834 = 117 UMETA(DisplayName = "Air Droid, EX 834"),
-	TRES_ENEMY_UID_EX840 = 118 UMETA(DisplayName = "Bouncy Pet (Pig), EX 840"),
-	TRES_ENEMY_UID_EX841 = 119 UMETA(DisplayName = "Bouncy Pet (Dog), EX 841"),
-	TRES_ENEMY_UID_EX842 = 120 UMETA(DisplayName = "Bouncy Pet (Cat), EX 842"),
-	TRES_ENEMY_UID_EX843 = 121 UMETA(DisplayName = "Bouncy Pet (Elephant), EX 843"),
-	TRES_ENEMY_UID_EX844 = 122 UMETA(DisplayName = "Bouncy Pet (Cow), EX 844"),
-	TRES_ENEMY_UID_EX845 = 123 UMETA(DisplayName = "Bouncy Pet (Frog), EX 845"),
-	TRES_ENEMY_UID_BX059 = 124 UMETA(DisplayName = "Metal Troll, BX 059"),
-	TRES_ENEMY_UID_BX901 = 125 UMETA(DisplayName = "Dark Baymax, BX 901"),
-	TRES_ENEMY_UID_EX047_s2 = 126 UMETA(DisplayName = "Lich, EX 047 S2"),
-	TRES_ENEMY_UID_BX903 = 127 UMETA(DisplayName = "Darkubes (Disc), BX 903"),
-	TRES_ENEMY_UID_CA901 = 128 UMETA(DisplayName = "Davy Jones, CA 901"),
-	TRES_ENEMY_UID_FZ903 = 129 UMETA(DisplayName = "Marshmallow, FZ 903"),
-	TRES_ENEMY_UID_HE001 = 130 UMETA(DisplayName = "Rock Titan, HE 001"),
-	TRES_ENEMY_UID_HE902 = 131 UMETA(DisplayName = "Ice Titan, HE 902"),
-	TRES_ENEMY_UID_HE903 = 132 UMETA(DisplayName = "Tornado Titan, HE 903"),
-	TRES_ENEMY_UID_HE904 = 133 UMETA(DisplayName = "Lava Titan, HE 904"),
-	TRES_ENEMY_UID_CA401 = 134 UMETA(DisplayName = "Ship Sails, CA 401"),
-	TRES_ENEMY_UID_CA402 = 135 UMETA(DisplayName = "Ship Sails, CA 402"),
-	TRES_ENEMY_UID_CA403 = 136 UMETA(DisplayName = "Ship Sails, CA 403"),
-	TRES_ENEMY_UID_CA404 = 137 UMETA(DisplayName = "Ship Sails, CA 404"),
-	TRES_ENEMY_UID_CA405 = 138 UMETA(DisplayName = "Ship Sails, CA 405"),
-	TRES_ENEMY_UID_EX071 = 139 UMETA(DisplayName = "Kraken Tentacle, EX 071"),
-	TRES_ENEMY_UID_EX072 = 140 UMETA(DisplayName = "Spear Lizard, EX 072"),
-	TRES_ENEMY_UID_EX407 = 141 UMETA(DisplayName = "Darkside, EX 407"),
-	TRES_ENEMY_UID_EX064 = 142 UMETA(DisplayName = "Kraken Tentacle, EX 064"),
-	TRES_ENEMY_UID_EX047_s3 = 143 UMETA(DisplayName = "Lich, EX 047 S3"),
-	TRES_ENEMY_UID_EX047_s4 = 144 UMETA(DisplayName = "Lich, EX 047 S4"),
-	TRES_ENEMY_UID_EX409 = 145 UMETA(DisplayName = "Darkside (ReMind), EX 409"),
-	TRES_ENEMY_UID_EX751 = 146 UMETA(DisplayName = "Dark Inferno X, EX 751"),
-	TRES_ENEMY_UID_EX781 = 147 UMETA(DisplayName = "Yozora, EX 781"),
+	TRES_ENEMY_UID_EX001 = 1 UMETA(DisplayName = "Shadow (EX001)"),
+	TRES_ENEMY_UID_EX003 = 2 UMETA(DisplayName = "Flame Core (EX003)"),
+	TRES_ENEMY_UID_EX004 = 3 UMETA(DisplayName = "Water Core (EX004)"),
+	TRES_ENEMY_UID_EX005 = 4 UMETA(DisplayName = "Earth Core (EX005)"),
+	TRES_ENEMY_UID_EX016 = 5 UMETA(DisplayName = "Neoshadow (EX016)"),
+	TRES_ENEMY_UID_EX081 = 6 UMETA(DisplayName = "Fluttering (EX081)"),
+	TRES_ENEMY_UID_DW401 = 7 UMETA(DisplayName = "Demon Tide (DW401)"),
+	TRES_ENEMY_UID_DW401_s0 = 8 UMETA(DisplayName = "Demon Tide (DW401S0)"),
+	TRES_ENEMY_UID_DW401_s1 = 9 UMETA(DisplayName = "Demon Tide (DW401S1)"),
+	TRES_ENEMY_UID_DW402 = 10 UMETA(DisplayName = "Demon Tower (DW402)"),
+	TRES_ENEMY_UID_DW402_s1 = 11 UMETA(DisplayName = "Demon Tower (DW402S1)"),
+	TRES_ENEMY_UID_DW405 = 12,
+	TRES_ENEMY_UID_DW407 = 13 UMETA(DisplayName = "Darkside (DW407)"),
+	TRES_ENEMY_UID_EX002 = 14 UMETA(DisplayName = "Large Body (EX002)"),
+	TRES_ENEMY_UID_EX006 = 15 UMETA(DisplayName = "Satyr (EX006)"),
+	TRES_ENEMY_UID_EX007 = 16 UMETA(DisplayName = "Bizarre Archer (EX007)"),
+	TRES_ENEMY_UID_EX009 = 17 UMETA(DisplayName = "Soldier (EX009)"),
+	TRES_ENEMY_UID_EX010 = 18 UMETA(DisplayName = "Air Soldier (EX010)"),
+	TRES_ENEMY_UID_EX011 = 19 UMETA(DisplayName = "Chaos Carriage (EX011)"),
+	TRES_ENEMY_UID_EX012 = 20 UMETA(DisplayName = "Chief Puff/Puffball Stack (EX012)"),
+	TRES_ENEMY_UID_EX013 = 21 UMETA(DisplayName = "Chief Puff (EX013)"),
+	TRES_ENEMY_UID_EX014 = 22 UMETA(DisplayName = "Puffball (EX014)"),
+	TRES_ENEMY_UID_EX015 = 23 UMETA(DisplayName = "Toy Trooper (EX015)"),
+	TRES_ENEMY_UID_EX017 = 24 UMETA(DisplayName = "Vermilion (Samba EX017)"),
+	TRES_ENEMY_UID_EX036 = 25 UMETA(DisplayName = "Marine Rumba (EX036)"),
+	TRES_ENEMY_UID_EX037 = 26 UMETA(DisplayName = "Gold Beat (EX037)"),
+	TRES_ENEMY_UID_EX038 = 27 UMETA(DisplayName = "Malachite Bolero (EX038)"),
+	TRES_ENEMY_UID_EX018 = 28 UMETA(DisplayName = "Gigas (EX018)"),
+	TRES_ENEMY_UID_EX032 = 29 UMETA(DisplayName = "Gigas (EX032)"),
+	TRES_ENEMY_UID_EX033 = 30 UMETA(DisplayName = "Gigas (EX033)"),
+	TRES_ENEMY_UID_EX020 = 31 UMETA(DisplayName = "Marionette (EX020)"),
+	TRES_ENEMY_UID_EX021 = 32 UMETA(DisplayName = "Raging Vulture (EX021)"),
+	TRES_ENEMY_UID_EX026 = 33 UMETA(DisplayName = "Vaporfly (EX026)"),
+	TRES_ENEMY_UID_EX027 = 34 UMETA(DisplayName = "Lightning Angler (EX027)"),
+	TRES_ENEMY_UID_EX028 = 35 UMETA(DisplayName = "Sea Sprite (EX028)"),
+	TRES_ENEMY_UID_EX035 = 36 UMETA(DisplayName = "Powerwild (EX035)"),
+	TRES_ENEMY_UID_EX039 = 37 UMETA(DisplayName = "Parasol Beauty (EX039)"),
+	TRES_ENEMY_UID_EX041 = 38 UMETA(DisplayName = "Sandworm (EX041)"),
+	TRES_ENEMY_UID_EX042 = 39 UMETA(DisplayName = "Anchor Raider (EX042)"),
+	TRES_ENEMY_UID_EX043 = 40 UMETA(DisplayName = "Dark Inferno (EX043)"),
+	TRES_ENEMY_UID_EX044 = 41 UMETA(DisplayName = "Pole Cannon (EX044)"),
+	TRES_ENEMY_UID_EX045 = 42 UMETA(DisplayName = "Winterhorn (EX045)"),
+	TRES_ENEMY_UID_EX046 = 43 UMETA(DisplayName = "Frost Serpent (EX046)"),
+	TRES_ENEMY_UID_EX047 = 44 UMETA(DisplayName = "Lich (EX047)"),
+	TRES_ENEMY_UID_EX048 = 45 UMETA(DisplayName = "Tireblade (EX048)"),
+	TRES_ENEMY_UID_EX049 = 46 UMETA(DisplayName = "Cherry Flan (EX049)"),
+	TRES_ENEMY_UID_EX050 = 47 UMETA(DisplayName = "Strawberry Flan (EX050)"),
+	TRES_ENEMY_UID_EX051 = 48 UMETA(DisplayName = "Orange Flan (EX051)"),
+	TRES_ENEMY_UID_EX052 = 49 UMETA(DisplayName = "Banana Flan (EX052)"),
+	TRES_ENEMY_UID_EX053 = 50 UMETA(DisplayName = "Grape Flan (EX053)"),
+	TRES_ENEMY_UID_EX054 = 51 UMETA(DisplayName = "Catastrochorus (EX054)"),
+	TRES_ENEMY_UID_EX055 = 52 UMETA(DisplayName = "Honeydew Flan (EX055)"),
+	TRES_ENEMY_UID_EX056 = 53 UMETA(DisplayName = "Watermelon Flan (EX056)"),
+	TRES_ENEMY_UID_EX059 = 54 UMETA(DisplayName = "Rock Troll (EX059)"),
+	TRES_ENEMY_UID_EX061 = 55 UMETA(DisplayName = "Popcat (EX061)"),
+	TRES_ENEMY_UID_EX065 = 56 UMETA(DisplayName = "Vitality Popcat (EX065)"),
+	TRES_ENEMY_UID_EX066 = 57 UMETA(DisplayName = "Magic Popcat (EX066)"),
+	TRES_ENEMY_UID_EX067 = 58 UMETA(DisplayName = "Focus Popcat (EX067)"),
+	TRES_ENEMY_UID_EX068 = 59 UMETA(DisplayName = "Munny Popcat (EX068)"),
+	TRES_ENEMY_UID_EX073 = 60 UMETA(DisplayName = "Pogo Shovel (EX073)"),
+	TRES_ENEMY_UID_EX082 = 61 UMETA(DisplayName = "Frost Serpent (Grounded) (EX082)"),
+	TRES_ENEMY_UID_EX085 = 62 UMETA(DisplayName = "Gigas (BoL) (EX085)"),
+	TRES_ENEMY_UID_EX086 = 63 UMETA(DisplayName = "Gigas (BoL) (EX086)"),
+	TRES_ENEMY_UID_EX086_s0 = 64 UMETA(DisplayName = "Gigas (BoL) (EX086S0)"),
+	TRES_ENEMY_UID_EX086_s1 = 65 UMETA(DisplayName = "Gigas (BoL) (EX086S1)"),
+	TRES_ENEMY_UID_EX087 = 66 UMETA(DisplayName = "Gigas (BoL) (EX087)"),
+	TRES_ENEMY_UID_EX093 = 67 UMETA(DisplayName = "Mechanitaur (EX093)"),
+	TRES_ENEMY_UID_EX094 = 68 UMETA(DisplayName = "High Soldier (EX094)"),
+	TRES_ENEMY_UID_EX095 = 69 UMETA(DisplayName = "Helmed Body (EX095)"),
+	TRES_ENEMY_UID_EX101 = 70 UMETA(DisplayName = "Dusk (EX101)"),
+	TRES_ENEMY_UID_EX105 = 71 UMETA(DisplayName = "Sorcerer (EX105)"),
+	TRES_ENEMY_UID_EX106 = 72 UMETA(DisplayName = "Sniper (EX106)"),
+	TRES_ENEMY_UID_EX107 = 73 UMETA(DisplayName = "Berserker (EX107)"),
+	TRES_ENEMY_UID_EX110 = 74 UMETA(DisplayName = "Gambler (EX110)"),
+	TRES_ENEMY_UID_EX113 = 75 UMETA(DisplayName = "Reaper (EX113)"),
+	TRES_ENEMY_UID_EX114 = 76 UMETA(DisplayName = "Ninja (EX114)"),
+	TRES_ENEMY_UID_EX201 = 77 UMETA(DisplayName = "Flood (EX201)"),
+	TRES_ENEMY_UID_EX202 = 78 UMETA(DisplayName = "Flowersnake (EX202)"),
+	TRES_ENEMY_UID_EX203 = 79 UMETA(DisplayName = "Spiked Turtletoad (EX203)"),
+	TRES_ENEMY_UID_EX205 = 80 UMETA(DisplayName = "Turtletoad (EX205)"),
+	TRES_ENEMY_UID_EX301 = 81 UMETA(DisplayName = "Xehanort (EX301)"),
+	TRES_ENEMY_UID_EX302 = 82 UMETA(DisplayName = "Young Xehanort (EX302)"),
+	TRES_ENEMY_UID_EX316 = 83 UMETA(DisplayName = "Ansem (EX316)"),
+	TRES_ENEMY_UID_EX304 = 84 UMETA(DisplayName = "Xemnas (EX304)"),
+	TRES_ENEMY_UID_EX305 = 85 UMETA(DisplayName = "Xigbar (EX305)"),
+	TRES_ENEMY_UID_EX306 = 86 UMETA(DisplayName = "Saix (EX306)"),
+	TRES_ENEMY_UID_EX307 = 87 UMETA(DisplayName = "Luxord (EX307)"),
+	TRES_ENEMY_UID_EX308 = 88 UMETA(DisplayName = "Marluxia (EX308)"),
+	TRES_ENEMY_UID_EX309 = 89 UMETA(DisplayName = "Larxene (EX309)"),
+	TRES_ENEMY_UID_EX310 = 90 UMETA(DisplayName = "Xion (Hooded) (EX310)"),
+	TRES_ENEMY_UID_EX311 = 91 UMETA(DisplayName = "Vanitas (EX311)"),
+	TRES_ENEMY_UID_EX313 = 92 UMETA(DisplayName = "Riku Replica (EX313)"),
+	TRES_ENEMY_UID_EX322 = 93 UMETA(DisplayName = "Anti-Aqua (EX322)"),
+	TRES_ENEMY_UID_EX325 = 94 UMETA(DisplayName = "Terra-Xehanort (EX325)"),
+	TRES_ENEMY_UID_EX326 = 95 UMETA(DisplayName = "Xehanort's Guardian (EX326)"),
+	TRES_ENEMY_UID_EX701 = 96 UMETA(DisplayName = "Lump of Horror (EX701)"),
+	TRES_ENEMY_UID_EX702 = 97 UMETA(DisplayName = "Lump of Horror (Form 2) (EX702)"),
+	TRES_ENEMY_UID_EX703 = 98 UMETA(DisplayName = "Lump of Horror (Hand) (EX703)"),
+	TRES_ENEMY_UID_EX711 = 99 UMETA(DisplayName = "King of Toys (EX711)"),
+	TRES_ENEMY_UID_EX721 = 100 UMETA(DisplayName = "Grim Guardianess (EX721)"),
+	TRES_ENEMY_UID_EX731 = 101 UMETA(DisplayName = "Skoll (EX731)"),
+	TRES_ENEMY_UID_EX732 = 102 UMETA(DisplayName = "Wolf Head (Skoll) (EX732)"),
+	TRES_ENEMY_UID_EX734 = 103,
+	TRES_ENEMY_UID_EX761 = 104 UMETA(DisplayName = "Xehanort Replica (EX761)"),
+	TRES_ENEMY_UID_EX047_s0 = 105 UMETA(DisplayName = "Lich (EX047S0)"),
+	TRES_ENEMY_UID_EX771 = 106 UMETA(DisplayName = "Xehanort (Keyblade Armor) (EX771)"),
+	TRES_ENEMY_UID_EX77101 = 107 UMETA(DisplayName = "Xehanort (Keyblade Armor) (EX77101)"),
+	TRES_ENEMY_UID_EX77102 = 108 UMETA(DisplayName = "Xehanort (Keyblade Armor) (EX77102)"),
+	TRES_ENEMY_UID_EX047_s1 = 109 UMETA(DisplayName = "Lich (EX047S1)"),
+	TRES_ENEMY_UID_EX801 = 110 UMETA(DisplayName = "Supreme Smasher (EX801)"),
+	TRES_ENEMY_UID_EX806 = 111 UMETA(DisplayName = "Beasts & Bugs (EX806)"),
+	TRES_ENEMY_UID_EX816 = 112 UMETA(DisplayName = "Angelic Amber (EX816)"),
+	TRES_ENEMY_UID_EX830 = 113 UMETA(DisplayName = "Patchwork Animal (Bear) (EX830)"),
+	TRES_ENEMY_UID_EX831 = 114 UMETA(DisplayName = "Patchwork Animal (Lion) (EX831)"),
+	TRES_ENEMY_UID_EX832 = 115 UMETA(DisplayName = "Air Droid (EX832)"),
+	TRES_ENEMY_UID_EX833 = 116 UMETA(DisplayName = "Air Droid (EX833)"),
+	TRES_ENEMY_UID_EX834 = 117 UMETA(DisplayName = "Air Droid (EX834)"),
+	TRES_ENEMY_UID_EX840 = 118 UMETA(DisplayName = "Bouncy Pet (Pig) (EX840)"),
+	TRES_ENEMY_UID_EX841 = 119 UMETA(DisplayName = "Bouncy Pet (Dog) (EX841)"),
+	TRES_ENEMY_UID_EX842 = 120 UMETA(DisplayName = "Bouncy Pet (Cat) (EX842)"),
+	TRES_ENEMY_UID_EX843 = 121 UMETA(DisplayName = "Bouncy Pet (Elephant) (EX843)"),
+	TRES_ENEMY_UID_EX844 = 122 UMETA(DisplayName = "Bouncy Pet (Cow) (EX844)"),
+	TRES_ENEMY_UID_EX845 = 123 UMETA(DisplayName = "Bouncy Pet (Frog) (EX845)"),
+	TRES_ENEMY_UID_BX059 = 124 UMETA(DisplayName = "Metal Troll (BX059)"),
+	TRES_ENEMY_UID_BX901 = 125 UMETA(DisplayName = "Dark Baymax (BX901)"),
+	TRES_ENEMY_UID_EX047_s2 = 126 UMETA(DisplayName = "Lich (EX047S2)"),
+	TRES_ENEMY_UID_BX903 = 127 UMETA(DisplayName = "Darkubes (Disc) (BX903)"),
+	TRES_ENEMY_UID_CA901 = 128 UMETA(DisplayName = "Davy Jones (CA901)"),
+	TRES_ENEMY_UID_FZ903 = 129 UMETA(DisplayName = "Marshmallow (FZ903)"),
+	TRES_ENEMY_UID_HE001 = 130 UMETA(DisplayName = "Rock Titan (HE001)"),
+	TRES_ENEMY_UID_HE902 = 131 UMETA(DisplayName = "Ice Titan (HE902)"),
+	TRES_ENEMY_UID_HE903 = 132 UMETA(DisplayName = "Tornado Titan (HE903)"),
+	TRES_ENEMY_UID_HE904 = 133 UMETA(DisplayName = "Lava Titan (HE904)"),
+	TRES_ENEMY_UID_CA401 = 134 UMETA(DisplayName = "Ship Sails (CA401)"),
+	TRES_ENEMY_UID_CA402 = 135 UMETA(DisplayName = "Ship Sails (CA402)"),
+	TRES_ENEMY_UID_CA403 = 136 UMETA(DisplayName = "Ship Sails (CA403)"),
+	TRES_ENEMY_UID_CA404 = 137 UMETA(DisplayName = "Ship Sails (CA404)"),
+	TRES_ENEMY_UID_CA405 = 138 UMETA(DisplayName = "Ship Sails (CA405)"),
+	TRES_ENEMY_UID_EX071 = 139 UMETA(DisplayName = "Kraken Tentacle (EX071)"),
+	TRES_ENEMY_UID_EX072 = 140 UMETA(DisplayName = "Spear Lizard (EX072)"),
+	TRES_ENEMY_UID_EX407 = 141 UMETA(DisplayName = "Darkside (EX407)"),
+	TRES_ENEMY_UID_EX064 = 142 UMETA(DisplayName = "Kraken Tentacle (EX064)"),
+	TRES_ENEMY_UID_EX047_s3 = 143 UMETA(DisplayName = "Lich (EX047S3)"),
+	TRES_ENEMY_UID_EX047_s4 = 144 UMETA(DisplayName = "Lich (EX047S4)"),
+	TRES_ENEMY_UID_EX409 = 145 UMETA(DisplayName = "Darkside (ReMind) (EX409)"),
+	TRES_ENEMY_UID_EX751 = 146 UMETA(DisplayName = "Dark Inferno X (EX751)"),
+	TRES_ENEMY_UID_EX781 = 147 UMETA(DisplayName = "Yozora (EX781)"),
 	TRES_ENEMY_UID_MAX = 148 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPlayerUniqueID
+enum class ETresPlayerUniqueID : uint8
 {
-	ETresPlayerUniqueID_SORA_KH3 = 0 UMETA(DisplayName = "Sora KH3"),
-	ETresPlayerUniqueID_SORA_KH3CA = 1 UMETA(DisplayName = "Sora KH3: Caribbean"),
-	ETresPlayerUniqueID_SORA_KH3MI = 2 UMETA(DisplayName = "Sora KH3: Monsters Inc"),
-	ETresPlayerUniqueID_SORA_KH3TS = 3 UMETA(DisplayName = "Sora KH3: Toy Story"),
-	ETresPlayerUniqueID_SORA_KH3BX = 4 UMETA(DisplayName = "Sora KH3: Baymax"),
-	ETresPlayerUniqueID_SORA_KH3EW = 5 UMETA(DisplayName = "Sora KH3: Final World"),
-	ETresPlayerUniqueID_SORA_KH2 = 6 UMETA(DisplayName = "Sora KH2"),
-	ETresPlayerUniqueID_SORA_KH1 = 7 UMETA(DisplayName = "Sora KH1"),
-	ETresPlayerUniqueID_RIKU_KH3 = 8 UMETA(DisplayName = "Riku KH3"),
-	ETresPlayerUniqueID_RIKU_KH29 = 9 UMETA(DisplayName = "Riku 2.9"),
-	ETresPlayerUniqueID_AQUA_KH3 = 10 UMETA(DisplayName = "Aqua KH3"),
-	ETresPlayerUniqueID_SORA_KH3TUTO = 11 UMETA(DisplayName = "Sora KH3: Tutorial"),
-	ETresPlayerUniqueID_SORA_KH3TS_GAME = 12 UMETA(DisplayName = "Sora KH3: Toy Story Game"),
-	ETresPlayerUniqueID_SORA_KH3PO = 13 UMETA(DisplayName = "Sora KH3: Pooh"),
-	ETresPlayerUniqueID_UNKNOWN = 14 UMETA(DisplayName = "Unknown"),
-	ETresPlayerUniqueID_SORA_KH3DL = 15 UMETA(DisplayName = "Sora KH3: Remind"),
-	ETresPlayerUniqueID_KAIRI_KH3 = 16 UMETA(DisplayName = "Kairi KH3"),
-	ETresPlayerUniqueID_ROXAS_KH3 = 17 UMETA(DisplayName = "Roxas KH3"),
-	ETresPlayerUniqueID_MICKEY_KH3MiRx = 18 UMETA(DisplayName = "Mickey KH3: Remind"),
-	ETresPlayerUniqueID_SORA_KH3SoKc = 19 UMETA(DisplayName = "Sora KH3: SoKc"),
-	ETresPlayerUniqueID_1_MAX = 20 UMETA(Hidden),
+	SORA_KH3 = 0 UMETA(DisplayName = "Sora KH3"),
+	SORA_KH3CA = 1 UMETA(DisplayName = "Sora KH3: Caribbean"),
+	SORA_KH3MI = 2 UMETA(DisplayName = "Sora KH3: Monsters Inc"),
+	SORA_KH3TS = 3 UMETA(DisplayName = "Sora KH3: Toy Story"),
+	SORA_KH3BX = 4 UMETA(DisplayName = "Sora KH3: Baymax"),
+	SORA_KH3EW = 5 UMETA(DisplayName = "Sora KH3: Final World"),
+	SORA_KH2 = 6 UMETA(DisplayName = "Sora KH2"),
+	SORA_KH1 = 7 UMETA(DisplayName = "Sora KH1"),
+	RIKU_KH3 = 8 UMETA(DisplayName = "Riku KH3"),
+	RIKU_KH29 = 9 UMETA(DisplayName = "Riku KH2.9"),
+	AQUA_KH3 = 10 UMETA(DisplayName = "Aqua KH3"),
+	SORA_KH3TUTO = 11 UMETA(DisplayName = "Sora KH3: Tutorial"),
+	SORA_KH3TS_GAME = 12 UMETA(DisplayName = "Sora KH3: Toy Story Game"),
+	SORA_KH3PO = 13 UMETA(DisplayName = "Sora KH3: Pooh"),
+	UNKNOWN = 14 UMETA(DisplayName = "Unknown"),
+	SORA_KH3DL = 15 UMETA(DisplayName = "Sora KH3: Remind"),
+	KAIRI_KH3 = 16 UMETA(DisplayName = "Kairi KH3"),
+	ROXAS_KH3 = 17 UMETA(DisplayName = "Roxas KH3"),
+	MICKEY_KH3MiRx = 18 UMETA(DisplayName = "Mickey KH3: Remind"),
+	SORA_KH3SoKc = 19 UMETA(DisplayName = "Sora KH3: SoKc"),
+	_MAX = 20 UMETA(Hidden),
 	ETresPlayerUniqueID_MAX = 21 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum class ETresAbilityKind : uint8
 {
-	NONE = 0 UMETA(DisplayName = "None"),
+NONE = 0 UMETA(DisplayName = "None"),
 	AIR_RECOVERY = 1 UMETA(DisplayName = "Aerial Recovery"),
 	BLOW_COUNTER = 2 UMETA(DisplayName = "Payback Strike"),
 	REFLECT_GUARD = 3 UMETA(DisplayName = "Block"),
@@ -884,7 +891,7 @@ enum class ETresAbilityKind : uint8
 UENUM(BlueprintType)
 enum class ETresCharWearForm : uint8
 {
-	TRES_WEAR_FORM_NORMAL = 0,
+	TRES_WEAR_FORM_NORMAL = 0 UMETA(DisplayName = "Normal"),
 	TRES_WEAR_FORM_01 = 1,
 	TRES_WEAR_FORM_02 = 2,
 	TRES_WEAR_FORM_03 = 3,
@@ -918,72 +925,72 @@ enum class ETresItemDefWeapon : uint8
 	WEP_KEYBLADE13 = 14 UMETA(DisplayName = "Oblivion"),
 	WEP_KEYBLADE14 = 15 UMETA(DisplayName = "Ultima Weapon"),
 	WEP_KEYBLADE15 = 16 UMETA(DisplayName = "Elemental Encoder"),
-	WEP_KEYBLADE16 = 17 UMETA(DisplayName = "Keyblade 16"),
-	WEP_KEYBLADE17 = 18 UMETA(DisplayName = "Keyblade 17"),
-	WEP_KEYBLADE18 = 19 UMETA(DisplayName = "Keyblade 18"),
-	WEP_KEYBLADE19 = 20 UMETA(DisplayName = "Keyblade 19"),
-	WEP_DONALD00 = 21 UMETA(DisplayName = "Donald 00"),
-	WEP_DONALD01 = 22 UMETA(DisplayName = "Donald 01"),
-	WEP_DONALD02 = 23 UMETA(DisplayName = "Donald 02"),
-	WEP_DONALD03 = 24 UMETA(DisplayName = "Donald 03"),
-	WEP_DONALD04 = 25 UMETA(DisplayName = "Donald 04"),
-	WEP_DONALD05 = 26 UMETA(DisplayName = "Donald 05"),
-	WEP_DONALD06 = 27 UMETA(DisplayName = "Donald 06"),
-	WEP_DONALD07 = 28 UMETA(DisplayName = "Donald 07"),
-	WEP_DONALD08 = 29 UMETA(DisplayName = "Donald 08"),
-	WEP_DONALD09 = 30 UMETA(DisplayName = "Donald 09"),
-	WEP_DONALD10 = 31 UMETA(DisplayName = "Donald 10"),
-	WEP_DONALD11 = 32 UMETA(DisplayName = "Donald 11"),
-	WEP_DONALD12 = 33 UMETA(DisplayName = "Donald 12"),
-	WEP_DONALD13 = 34 UMETA(DisplayName = "Donald 13"),
-	WEP_DONALD14 = 35 UMETA(DisplayName = "Donald 14"),
-	WEP_DONALD15 = 36 UMETA(DisplayName = "Donald 15"),
-	WEP_DONALD16 = 37 UMETA(DisplayName = "Donald 16"),
-	WEP_DONALD17 = 38 UMETA(DisplayName = "Donald 17"),
-	WEP_DONALD18 = 39 UMETA(DisplayName = "Donald 18"),
-	WEP_DONALD19 = 40 UMETA(DisplayName = "Donald 19"),
-	WEP_GOOFY00 = 41 UMETA(DisplayName = "Goofy 00"),
-	WEP_GOOFY01 = 42 UMETA(DisplayName = "Goofy 01"),
-	WEP_GOOFY02 = 43 UMETA(DisplayName = "Goofy 02"),
-	WEP_GOOFY03 = 44 UMETA(DisplayName = "Goofy 03"),
-	WEP_GOOFY04 = 45 UMETA(DisplayName = "Goofy 04"),
-	WEP_GOOFY05 = 46 UMETA(DisplayName = "Goofy 05"),
-	WEP_GOOFY06 = 47 UMETA(DisplayName = "Goofy 06"),
-	WEP_GOOFY07 = 48 UMETA(DisplayName = "Goofy 07"),
-	WEP_GOOFY08 = 49 UMETA(DisplayName = "Goofy 08"),
-	WEP_GOOFY09 = 50 UMETA(DisplayName = "Goofy 09"),
-	WEP_GOOFY10 = 51 UMETA(DisplayName = "Goofy 10"),
-	WEP_GOOFY11 = 52 UMETA(DisplayName = "Goofy 11"),
-	WEP_GOOFY12 = 53 UMETA(DisplayName = "Goofy 12"),
-	WEP_GOOFY13 = 54 UMETA(DisplayName = "Goofy 13"),
-	WEP_GOOFY14 = 55 UMETA(DisplayName = "Goofy 14"),
-	WEP_GOOFY15 = 56 UMETA(DisplayName = "Goofy 15"),
-	WEP_GOOFY16 = 57 UMETA(DisplayName = "Goofy 16"),
-	WEP_GOOFY17 = 58 UMETA(DisplayName = "Goofy 17"),
-	WEP_GOOFY18 = 59 UMETA(DisplayName = "Goofy 18"),
-	WEP_GOOFY19 = 60 UMETA(DisplayName = "Goofy 19"),
+	WEP_KEYBLADE16 = 17,
+	WEP_KEYBLADE17 = 18,
+	WEP_KEYBLADE18 = 19,
+	WEP_KEYBLADE19 = 20,
+	WEP_DONALD00 = 21,
+	WEP_DONALD01 = 22,
+	WEP_DONALD02 = 23,
+	WEP_DONALD03 = 24,
+	WEP_DONALD04 = 25,
+	WEP_DONALD05 = 26,
+	WEP_DONALD06 = 27,
+	WEP_DONALD07 = 28,
+	WEP_DONALD08 = 29,
+	WEP_DONALD09 = 30,
+	WEP_DONALD10 = 31,
+	WEP_DONALD11 = 32,
+	WEP_DONALD12 = 33,
+	WEP_DONALD13 = 34,
+	WEP_DONALD14 = 35,
+	WEP_DONALD15 = 36,
+	WEP_DONALD16 = 37,
+	WEP_DONALD17 = 38,
+	WEP_DONALD18 = 39,
+	WEP_DONALD19 = 40,
+	WEP_GOOFY00 = 41,
+	WEP_GOOFY01 = 42,
+	WEP_GOOFY02 = 43,
+	WEP_GOOFY03 = 44,
+	WEP_GOOFY04 = 45,
+	WEP_GOOFY05 = 46,
+	WEP_GOOFY06 = 47,
+	WEP_GOOFY07 = 48,
+	WEP_GOOFY08 = 49,
+	WEP_GOOFY09 = 50,
+	WEP_GOOFY10 = 51,
+	WEP_GOOFY11 = 52,
+	WEP_GOOFY12 = 53,
+	WEP_GOOFY13 = 54,
+	WEP_GOOFY14 = 55,
+	WEP_GOOFY15 = 56,
+	WEP_GOOFY16 = 57,
+	WEP_GOOFY17 = 58,
+	WEP_GOOFY18 = 59,
+	WEP_GOOFY19 = 60,
 	WEP_AQUA00 = 61 UMETA(DisplayName = "Aqua (Master's Defender)"),
-	WEP_AQUA01 = 62 UMETA(DisplayName = "Aqua 01"),
-	WEP_AQUA02 = 63 UMETA(DisplayName = "Aqua 02"),
-	WEP_AQUA03 = 64 UMETA(DisplayName = "Aqua 03"),
-	WEP_MICKEY00 = 65 UMETA(DisplayName = "Mickey 00"),
+	WEP_AQUA01 = 62,
+	WEP_AQUA02 = 63,
+	WEP_AQUA03 = 64,
+	WEP_MICKEY00 = 65,
 	WEP_MICKEY01 = 66 UMETA(DisplayName = "Mickey (Kingdom Key D)"),
 	WEP_MICKEY02 = 67 UMETA(DisplayName = "Mickey (Star Cluster)"),
-	WEP_MICKEY03 = 68 UMETA(DisplayName = "Mickey 03"),
-	WEP_HERCULES00 = 69 UMETA(DisplayName = "Hercules 00"),
-	WEP_WOODY00 = 70 UMETA(DisplayName = "Woody 00"),
-	WEP_BUZZ00 = 71 UMETA(DisplayName = "Buzz 00"),
-	WEP_RAPUNZEL00 = 72 UMETA(DisplayName = "Rapunzel 00"),
-	WEP_FLYNN00 = 73 UMETA(DisplayName = "Flynn 00"),
-	WEP_JACK_SPARROW00 = 74 UMETA(DisplayName = "Jack Sparrow 00"),
-	WEP_MARSHMALLOW00 = 75 UMETA(DisplayName = "Marshmallow 00"),
-	WEP_BAYMAX00 = 76 UMETA(DisplayName = "Baymax 00"),
-	WEP_SULLEY00 = 77 UMETA(DisplayName = "Sulley 00"),
-	WEP_MIKE00 = 78 UMETA(DisplayName = "Mike 00"),
+	WEP_MICKEY03 = 68,
+	WEP_HERCULES00 = 69,
+	WEP_WOODY00 = 70,
+	WEP_BUZZ00 = 71,
+	WEP_RAPUNZEL00 = 72,
+	WEP_FLYNN00 = 73,
+	WEP_JACK_SPARROW00 = 74,
+	WEP_MARSHMALLOW00 = 75,
+	WEP_BAYMAX00 = 76,
+	WEP_SULLEY00 = 77,
+	WEP_MIKE00 = 78,
 	WEP_RIKU00 = 79 UMETA(DisplayName = "Riku (Braveheart)"),
 	WEP_RIKU01 = 80 UMETA(DisplayName = "Riku (Way to the Dawn)"),
-	WEP_RIKU02 = 81 UMETA(DisplayName = "Riku 02"),
-	WEP_RIKU03 = 82 UMETA(DisplayName = "Riku 03"),
+	WEP_RIKU02 = 81,
+	WEP_RIKU03 = 82,
 	WEP_KAIRI00 = 83 UMETA(DisplayName = "Kairi (Destiny's Embrace)"),
 	WEP_LEA00 = 84 UMETA(DisplayName = "Lea (Flame Liberator)"),
 	WEP_TERRA00 = 85 UMETA(DisplayName = "Terra (Earthshaker)"),
@@ -996,9 +1003,9 @@ enum class ETresItemDefWeapon : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresWeaponType
+enum class ETresWeaponType : uint8
 {
-	TRES_WEAPON_TYPE_NONE = 0,
+	TRES_WEAPON_TYPE_NONE = 0 UMETA(DisplayName = "None"),
 	TRES_WEAPON_TYPE_01 = 1,
 	TRES_WEAPON_TYPE_03 = 2,
 	TRES_WEAPON_TYPE_02 = 3,
@@ -1024,51 +1031,51 @@ enum ETresWeaponType
 UENUM(BlueprintType)
 enum ETresStateID
 {
-	TSID_STATE_EMPTY = 0,
-	TSID_STATE_IDLE = 1,
-	TSID_STATE_RUN = 2,
-	TSID_STATE_JUMP = 3,
-	TSID_STATE_GLIDE = 4,
-	TSID_STATE_FLOATING = 5,
-	TSID_STATE_DANGLE = 6,
-	TSID_STATE_CLIMBING = 7,
-	TSID_STATE_WALLRUN = 8,
-	TSID_STATE_HOPPING = 9,
-	TSID_STATE_SLOPESLIDE = 10,
-	TSID_STATE_SWAYING = 11,
-	TSID_STATE_ATTACK = 12,
-	TSID_STATE_ATTACK_AQ = 13,
-	TSID_STATE_ATTACK_RI = 14,
-	TSID_STATE_GUARD = 15,
-	TSID_STATE_DODGEROLL = 16,
-	TSID_STATE_RISKDODGE = 17,
-	TSID_STATE_FIREMAGIC = 18,
-	TSID_STATE_DAMAGE = 19,
-	TSID_STATE_AIR_SLIDE = 20,
-	TSID_STATE_SUPER_SLIDE = 21,
-	TSID_STATE_RAIL_SLIDE = 22,
-	TSID_STATE_WALL_KICK = 23,
-	TSID_STATE_POLE_TURN = 24,
-	TSID_STATE_ENEMY_FLOW = 25,
-	TSID_STATE_AF_ROLLER_COASTER = 26,
-	TSID_STATE_AF_VIKING_SHIP = 27,
-	TSID_STATE_DM_SIMBA = 28,
-	TSID_STATE_FRIENDATTACK = 29,
-	TSID_STATE_FR_SHIELD_GUARDIAN = 30,
-	TSID_STATE_STYLECHANGE = 31,
-	TSID_STATE_WEAPONCHANGE = 32,
-	TSID_STATE_STYLEFINISH = 33,
-	TSID_STATE_STYLEFINISH_DR = 34,
-	TSID_STATE_STYLEFINISH_SK = 35,
-	TSID_STATE_STYLEFINISH_GM = 36,
-	TSID_STATE_STYLEFINISH_WA = 37,
-	TSID_STATE_STYLEFINISH_SH = 38,
-	TSID_STATE_STYLEFINISH_FL = 39,
-	TSID_STATE_SHOOTERMODE = 40,
-	TSID_STATE_SHOOTFLOW = 41,
-	TSID_STATE_ATHLETICFLOW = 42,
-	TSID_STATE_NAVLINK_JUMP = 43,
-	TSID_STATE_TURN = 44,
+	TSID_STATE_EMPTY = 0 UMETA(DisplayName = "Empty"),
+	TSID_STATE_IDLE = 1 UMETA(DisplayName = "Idle"),
+	TSID_STATE_RUN = 2 UMETA(DisplayName = "Run"),
+	TSID_STATE_JUMP = 3 UMETA(DisplayName = "Jump"),
+	TSID_STATE_GLIDE = 4 UMETA(DisplayName = "Glide"),
+	TSID_STATE_FLOATING = 5 UMETA(DisplayName = "Floating"),
+	TSID_STATE_DANGLE = 6 UMETA(DisplayName = "Dangle"),
+	TSID_STATE_CLIMBING = 7 UMETA(DisplayName = "Climbing"),
+	TSID_STATE_WALLRUN = 8 UMETA(DisplayName = "Wall Run"),
+	TSID_STATE_HOPPING = 9 UMETA(DisplayName = "Hopping"),
+	TSID_STATE_SLOPESLIDE = 10 UMETA(DisplayName = "Slide Slide"),
+	TSID_STATE_SWAYING = 11 UMETA(DisplayName = "Swaying"),
+	TSID_STATE_ATTACK = 12 UMETA(DisplayName = "Attack"),
+	TSID_STATE_ATTACK_AQ = 13 UMETA(DisplayName = "Attack AQ"),
+	TSID_STATE_ATTACK_RI = 14 UMETA(DisplayName = "Attack RI"),
+	TSID_STATE_GUARD = 15 UMETA(DisplayName = "Guard"),
+	TSID_STATE_DODGEROLL = 16 UMETA(DisplayName = "Dodge Roll"),
+	TSID_STATE_RISKDODGE = 17 UMETA(DisplayName = "Risk Dodge"),
+	TSID_STATE_FIREMAGIC = 18 UMETA(DisplayName = "Fire Magic"),
+	TSID_STATE_DAMAGE = 19 UMETA(DisplayName = "Damage"),
+	TSID_STATE_AIR_SLIDE = 20 UMETA(DisplayName = "Air Slide"),
+	TSID_STATE_SUPER_SLIDE = 21 UMETA(DisplayName = "Super Slide"),
+	TSID_STATE_RAIL_SLIDE = 22 UMETA(DisplayName = "Rail Slide"),
+	TSID_STATE_WALL_KICK = 23 UMETA(DisplayName = "Wall Kick"),
+	TSID_STATE_POLE_TURN = 24 UMETA(DisplayName = "Pole Turn"),
+	TSID_STATE_ENEMY_FLOW = 25 UMETA(DisplayName = "Enemy Flow"),
+	TSID_STATE_AF_ROLLER_COASTER = 26 UMETA(DisplayName = "AF: Roller Coaster"),
+	TSID_STATE_AF_VIKING_SHIP = 27 UMETA(DisplayName = "AF: Viking Ship"),
+	TSID_STATE_DM_SIMBA = 28 UMETA(DisplayName = "DM: Simba"),
+	TSID_STATE_FRIENDATTACK = 29 UMETA(DisplayName = "Friend Attack"),
+	TSID_STATE_FR_SHIELD_GUARDIAN = 30 UMETA(DisplayName = "FR: Shield Guardian"),
+	TSID_STATE_STYLECHANGE = 31 UMETA(DisplayName = "Style Change"),
+	TSID_STATE_WEAPONCHANGE = 32 UMETA(DisplayName = "Weapon Change"),
+	TSID_STATE_STYLEFINISH = 33 UMETA(DisplayName = "Style Finish"),
+	TSID_STATE_STYLEFINISH_DR = 34 UMETA(DisplayName = "Style Finish: DR"),
+	TSID_STATE_STYLEFINISH_SK = 35 UMETA(DisplayName = "Style Finish: SK"),
+	TSID_STATE_STYLEFINISH_GM = 36 UMETA(DisplayName = "Style Finish: GM"),
+	TSID_STATE_STYLEFINISH_WA = 37 UMETA(DisplayName = "Style Finish: WA"),
+	TSID_STATE_STYLEFINISH_SH = 38 UMETA(DisplayName = "Style Finish: SH"),
+	TSID_STATE_STYLEFINISH_FL = 39 UMETA(DisplayName = "Style Finish: FL"),
+	TSID_STATE_SHOOTERMODE = 40 UMETA(DisplayName = "Shooter Mode"),
+	TSID_STATE_SHOOTFLOW = 41 UMETA(DisplayName = "Shoot Flow"),
+	TSID_STATE_ATHLETICFLOW = 42 UMETA(DisplayName = "Athletic Flow"),
+	TSID_STATE_NAVLINK_JUMP = 43 UMETA(DisplayName = "Navlink Jump"),
+	TSID_STATE_TURN = 44 UMETA(DisplayName = "Turn"),
 	TSID_STATE_ATTACK1 = 45,
 	TSID_STATE_ATTACK2 = 46,
 	TSID_STATE_ATTACK3 = 47,
@@ -1082,223 +1089,223 @@ enum ETresStateID
 	TSID_STATE_RUN1 = 55,
 	TSID_STATE_RUN2 = 56,
 	TSID_STATE_RUN3 = 57,
-	TSID_STATE_APPEAR = 58,
-	TSID_STATE_DIE = 59,
-	TSID_STATE_VANISH_DIE = 60,
-	TSID_STATE_CATCH = 61,
-	TSID_STATE_BIND = 62,
-	TSID_STATE_EMOTION = 63,
-	TSID_STATE_DISAPPEAR = 64,
-	TSID_STATE_FLY = 65,
-	TSID_STATE_REFLECT = 66,
-	TSID_STATE_CINEMATIC = 67,
-	TSID_STATE_ACTION = 68,
-	TSID_STATE_UP_DOWN = 69,
+	TSID_STATE_APPEAR = 58 UMETA(DisplayName = "Appear"),
+	TSID_STATE_DIE = 59 UMETA(DisplayName = "Die"),
+	TSID_STATE_VANISH_DIE = 60 UMETA(DisplayName = "Vanish Die"),
+	TSID_STATE_CATCH = 61 UMETA(DisplayName = "Catch"),
+	TSID_STATE_BIND = 62 UMETA(DisplayName = "Bind"),
+	TSID_STATE_EMOTION = 63 UMETA(DisplayName = "Emotion"),
+	TSID_STATE_DISAPPEAR = 64 UMETA(DisplayName = "Disappear"),
+	TSID_STATE_FLY = 65 UMETA(DisplayName = "Fly"),
+	TSID_STATE_REFLECT = 66 UMETA(DisplayName = "Reflect"),
+	TSID_STATE_CINEMATIC = 67 UMETA(DisplayName = "Cinematic"),
+	TSID_STATE_ACTION = 68 UMETA(DisplayName = "Action"),
+	TSID_STATE_UP_DOWN = 69 UMETA(DisplayName = "Up Down"),
 	TSID_STATE_FLY1 = 70,
 	TSID_STATE_FLY2 = 71,
-	TSID_STATE_PLAY_MOTION = 72,
-	TSID_STATE_AF_TEACUP = 73,
-	TSID_STATE_OPEN_TREASURE_BOX = 74,
-	TSID_STATE_COMBO_DW = 75,
-	TSID_STATE_COMBO_HM = 76,
-	TSID_STATE_COMBO_YO = 77,
-	TSID_STATE_COMBO_BZ = 78,
-	TSID_STATE_COMBO_DR = 79,
-	TSID_STATE_COMBO_SK = 80,
-	TSID_STATE_COMBO_GM = 81,
-	TSID_STATE_COMBO_SW = 82,
-	TSID_STATE_COMBO_WA = 83,
-	TSID_STATE_COMBO_SH = 84,
-	TSID_STATE_COMBO_CL = 85,
-	TSID_STATE_COMBO_AN = 86,
-	TSID_STATE_COMBO_HL = 87,
-	TSID_STATE_COMBO_FL = 88,
-	TSID_STATE_COMBO_SWIM = 89,
-	TSID_STATE_COMBO_LIMIT = 90,
-	TSID_STATE_COMMON_ATTACK = 91,
-	TSID_STATE_FR_MOUNTCURLING = 92,
-	TSID_STATE_COMMON_MOVE = 93,
-	TSID_STATE_COMMON_ACTION = 94,
-	TSID_STATE_AF_SHOOTINGRIDE = 95,
-	TSID_STATE_GIGAS = 96,
-	TSID_STATE_GIMMICK_ATTACH = 97,
-	TSID_STATE_AI_MOVE = 98,
-	TSID_STATE_AI_ACTION = 99,
-	TSID_STATE_AI_ATTACK = 100,
-	TSID_STATE_FR_GOOFYSHOOT = 101,
-	TSID_STATE_SWIM = 102,
-	TSID_STATE_SPECIAL_SHIP = 103,
-	TSID_STATE_TALK = 104,
-	TSID_STATE_SAVE_MENU = 105,
-	TSID_STATE_SHOP_MENU = 106,
-	TSID_STATE_NAVLINK_HOPPING = 107,
-	TSID_STATE_CHECK = 108,
-	TSID_STATE_RESCUE = 109,
-	TSID_STATE_AF_MERRYGOROUND = 110,
-	TSID_STATE_USE_ITEM = 111,
-	TSID_STATE_FR_MICKEYCHAIN = 112,
-	TSID_STATE_FR_MICKEYAQUA = 113,
-	TSID_STATE_FR_SNOWCURLING = 114,
-	TSID_STATE_FR_SNOWCHASE = 115,
-	TSID_STATE_FR_ICERAILSLIDE = 116,
-	TSID_STATE_DM_WANDANYAN = 117,
-	TSID_STATE_GAMEOVER = 118,
-	TSID_STATE_SMALLAIRPLANE = 119,
-	TSID_STATE_AF_WATERRIDE = 120,
-	TSID_STATE_FR_MIKEBOWLING = 121,
-	TSID_STATE_BADSTAT_STUN = 122,
-	TSID_STATE_BADSTAT_FREEZE = 123,
-	TSID_STATE_BADSTAT_BURN = 124,
-	TSID_STATE_WARP = 125,
-	TSID_STATE_DM_RALPH = 126,
-	TSID_STATE_DM_ARIEL = 127,
-	TSID_STATE_DM_STITCH = 128,
-	TSID_STATE_FR_JACKSPIN = 129,
-	TSID_STATE_FR_POWERSTRIKE = 130,
-	TSID_STATE_FR_GIANTSOLDIER = 131,
-	TSID_STATE_FR_ROCKETLASER = 132,
-	TSID_STATE_FR_SPINNINGHOLD = 133,
-	TSID_STATE_FR_SNOWCOVERSWING = 134,
-	TSID_STATE_FR_CALLMETEOR = 135,
-	TSID_STATE_FR_FLAREFORCE = 136,
-	TSID_STATE_FR_BAYMAXRIDE = 137,
-	TSID_STATE_RAILSLIDE_MI = 138,
-	TSID_STATE_AI_SLOPESLIDE = 139,
-	TSID_STATE_HIDDEN = 140,
-	TSID_STATE_BTL_COMICAL = 141,
-	TSID_STATE_COVER = 142,
-	TSID_STATE_AI_SWIM = 143,
-	TSID_STATE_HOLD_CAMERA = 144,
-	TSID_STATE_FESTIVAL_DANCE = 145,
-	TSID_STATE_IDLE_WAIT = 146,
-	TSID_STATE_SITUATION_ACTION = 147,
-	TSID_STATE_PLANEBOSS = 148,
-	TSID_STATE_TALK_MOTION = 149,
-	TSID_STATE_ONE_ACTION = 150,
-	TSID_STATE_BADSTAT_SNEEZE = 151,
-	TSID_STATE_FR_MICKEYRIKU = 152,
-	TSID_STATE_WATER_PLAY = 153,
-	TSID_STATE_FR_DONALDSORA = 154,
-	TSID_STATE_FR_GOOFYSORA = 155,
-	TSID_STATE_ATTACK_RO = 156,
-	TSID_STATE_ATTACK_KA = 157,
-	TSID_STATE_ATTACK_MI = 158,
-	TSID_STATE_COMBO_LF = 159,
-	TSID_STATE_COMBO_DF = 160,
-	TSID_STATE_COMBO_TF = 161,
-	TSID_STATE_SLIDE_TURN_RO = 162,
-	TSID_STATE_FR_POPPINGHOLY = 163,
-	TSID_STATE_FR_BLIZZAGABOARD = 164,
-	TSID_STATE_FR_THINKOFYOU = 165,
-	TSID_STATE_FR_ULTIMATEEND = 166,
-	TSID_STATE_FR_PROMISEWINGS = 167,
-	TSID_STATE_QUICKBATTLE = 168,
-	TSID_STATE_REMIND_LGRX = 169,
-	TSID_STATE_REMIND_MIRX_DOWN_MI = 170,
-	TSID_STATE_REMIND_MIRX_ATTACK_MI = 171,
-	TSID_STATE_REMIND_MIRX_TIRED_MI = 172,
-	TSID_STATE_REMIND_SOKC_MAIN = 173,
+	TSID_STATE_PLAY_MOTION = 72 UMETA(DisplayName = "Play Motion"),
+	TSID_STATE_AF_TEACUP = 73 UMETA(DisplayName = "AF: Teacup"),
+	TSID_STATE_OPEN_TREASURE_BOX = 74 UMETA(DisplayName = "Open Treasure Box"),
+	TSID_STATE_COMBO_DW = 75 UMETA(DisplayName = "Combo: DW"),
+	TSID_STATE_COMBO_HM = 76 UMETA(DisplayName = "Combo: HM"),
+	TSID_STATE_COMBO_YO = 77 UMETA(DisplayName = "Combo: YO"),
+	TSID_STATE_COMBO_BZ = 78 UMETA(DisplayName = "Combo: BZ"),
+	TSID_STATE_COMBO_DR = 79 UMETA(DisplayName = "Combo: DR"),
+	TSID_STATE_COMBO_SK = 80 UMETA(DisplayName = "Combo: SK"),
+	TSID_STATE_COMBO_GM = 81 UMETA(DisplayName = "Combo: GM"),
+	TSID_STATE_COMBO_SW = 82 UMETA(DisplayName = "Combo: SW"),
+	TSID_STATE_COMBO_WA = 83 UMETA(DisplayName = "Combo: WA"),
+	TSID_STATE_COMBO_SH = 84 UMETA(DisplayName = "Combo: SH"),
+	TSID_STATE_COMBO_CL = 85 UMETA(DisplayName = "Combo: CL"),
+	TSID_STATE_COMBO_AN = 86 UMETA(DisplayName = "Combo: AN"),
+	TSID_STATE_COMBO_HL = 87 UMETA(DisplayName = "Combo: HL"),
+	TSID_STATE_COMBO_FL = 88 UMETA(DisplayName = "Combo: FL"),
+	TSID_STATE_COMBO_SWIM = 89 UMETA(DisplayName = "Combo Swim"),
+	TSID_STATE_COMBO_LIMIT = 90 UMETA(DisplayName = "Combo Limit"),
+	TSID_STATE_COMMON_ATTACK = 91 UMETA(DisplayName = "Combo Attack"),
+	TSID_STATE_FR_MOUNTCURLING = 92 UMETA(DisplayName = "FR: Mount Curling"),
+	TSID_STATE_COMMON_MOVE = 93 UMETA(DisplayName = "Common Move"),
+	TSID_STATE_COMMON_ACTION = 94 UMETA(DisplayName = "Common Action"),
+	TSID_STATE_AF_SHOOTINGRIDE = 95 UMETA(DisplayName = "AF: Shooting Ride"),
+	TSID_STATE_GIGAS = 96 UMETA(DisplayName = "Gigas"),
+	TSID_STATE_GIMMICK_ATTACH = 97 UMETA(DisplayName = "Gimmick Attach"),
+	TSID_STATE_AI_MOVE = 98 UMETA(DisplayName = "AI Move"),
+	TSID_STATE_AI_ACTION = 99 UMETA(DisplayName = "AI Action"),
+	TSID_STATE_AI_ATTACK = 100 UMETA(DisplayName = "AI Attack"),
+	TSID_STATE_FR_GOOFYSHOOT = 101 UMETA(DisplayName = "FR: Goofy Shoot"),
+	TSID_STATE_SWIM = 102 UMETA(DisplayName = "Swim"),
+	TSID_STATE_SPECIAL_SHIP = 103 UMETA(DisplayName = "Special Ship"),
+	TSID_STATE_TALK = 104 UMETA(DisplayName = "Talk"),
+	TSID_STATE_SAVE_MENU = 105 UMETA(DisplayName = "Save Menu"),
+	TSID_STATE_SHOP_MENU = 106 UMETA(DisplayName = "Shop Menu"),
+	TSID_STATE_NAVLINK_HOPPING = 107 UMETA(DisplayName = "Navlink Hopping"),
+	TSID_STATE_CHECK = 108 UMETA(DisplayName = "Check"),
+	TSID_STATE_RESCUE = 109 UMETA(DisplayName = "Rescue"),
+	TSID_STATE_AF_MERRYGOROUND = 110 UMETA(DisplayName = "AF: Merry Go Round"),
+	TSID_STATE_USE_ITEM = 111 UMETA(DisplayName = "Use Item"),
+	TSID_STATE_FR_MICKEYCHAIN = 112 UMETA(DisplayName = "FR: Mickey Chain"),
+	TSID_STATE_FR_MICKEYAQUA = 113 UMETA(DisplayName = "FR: Mickey Aqua"),
+	TSID_STATE_FR_SNOWCURLING = 114 UMETA(DisplayName = "FR: Snow Curling"),
+	TSID_STATE_FR_SNOWCHASE = 115 UMETA(DisplayName = "FR: Snow Chase"),
+	TSID_STATE_FR_ICERAILSLIDE = 116 UMETA(DisplayName = "FR: Ice Rail Slide"),
+	TSID_STATE_DM_WANDANYAN = 117 UMETA(DisplayName = "DM: Wandanyan"),
+	TSID_STATE_GAMEOVER = 118 UMETA(DisplayName = "Game Over"),
+	TSID_STATE_SMALLAIRPLANE = 119 UMETA(DisplayName = "Small Airplane"),
+	TSID_STATE_AF_WATERRIDE = 120 UMETA(DisplayName = "AF: Water Ride"),
+	TSID_STATE_FR_MIKEBOWLING = 121 UMETA(DisplayName = "FR: Mike Bowling"),
+	TSID_STATE_BADSTAT_STUN = 122 UMETA(DisplayName = "Bad Stat: Stun"),
+	TSID_STATE_BADSTAT_FREEZE = 123 UMETA(DisplayName = "Bad Stat: Freeze"),
+	TSID_STATE_BADSTAT_BURN = 124 UMETA(DisplayName = "Bad Stat: Burn"),
+	TSID_STATE_WARP = 125 UMETA(DisplayName = "Warp"),
+	TSID_STATE_DM_RALPH = 126 UMETA(DisplayName = "DM: Ralph"),
+	TSID_STATE_DM_ARIEL = 127 UMETA(DisplayName = "DM: Ariel"),
+	TSID_STATE_DM_STITCH = 128 UMETA(DisplayName = "DM: Stitch"),
+	TSID_STATE_FR_JACKSPIN = 129 UMETA(DisplayName = "FR: Jack Spin"),
+	TSID_STATE_FR_POWERSTRIKE = 130 UMETA(DisplayName = "FR: Power Strike"),
+	TSID_STATE_FR_GIANTSOLDIER = 131 UMETA(DisplayName = "FR: Giant Solder"),
+	TSID_STATE_FR_ROCKETLASER = 132 UMETA(DisplayName = "FR: Rocket Laser"),
+	TSID_STATE_FR_SPINNINGHOLD = 133 UMETA(DisplayName = "FR: Spinning Hold"),
+	TSID_STATE_FR_SNOWCOVERSWING = 134 UMETA(DisplayName = "FR: Snow Cover Swing"),
+	TSID_STATE_FR_CALLMETEOR = 135 UMETA(DisplayName = "FR: Call Meteor"),
+	TSID_STATE_FR_FLAREFORCE = 136 UMETA(DisplayName = "FR: Flare Force"),
+	TSID_STATE_FR_BAYMAXRIDE = 137 UMETA(DisplayName = "FR: Baymax Ride"),
+	TSID_STATE_RAILSLIDE_MI = 138 UMETA(DisplayName = "Railslide Mi"),
+	TSID_STATE_AI_SLOPESLIDE = 139 UMETA(DisplayName = "AI Slope Slide"),
+	TSID_STATE_HIDDEN = 140 UMETA(DisplayName = "Hidden"),
+	TSID_STATE_BTL_COMICAL = 141 UMETA(DisplayName = "BTL Comical"),
+	TSID_STATE_COVER = 142 UMETA(DisplayName = "Cover"),
+	TSID_STATE_AI_SWIM = 143 UMETA(DisplayName = "AI Swim"),
+	TSID_STATE_HOLD_CAMERA = 144 UMETA(DisplayName = "Hold Camera"),
+	TSID_STATE_FESTIVAL_DANCE = 145 UMETA(DisplayName = "Festival Dance"),
+	TSID_STATE_IDLE_WAIT = 146 UMETA(DisplayName = "Idle Wait"),
+	TSID_STATE_SITUATION_ACTION = 147 UMETA(DisplayName = "Situation Action"),
+	TSID_STATE_PLANEBOSS = 148 UMETA(DisplayName = "Plane Boss"),
+	TSID_STATE_TALK_MOTION = 149 UMETA(DisplayName = "Talk Motion"),
+	TSID_STATE_ONE_ACTION = 150 UMETA(DisplayName = "One Action"),
+	TSID_STATE_BADSTAT_SNEEZE = 151 UMETA(DisplayName = "Bad Stat: Freeze"),
+	TSID_STATE_FR_MICKEYRIKU = 152 UMETA(DisplayName = "FR: Mickey Riku"),
+	TSID_STATE_WATER_PLAY = 153 UMETA(DisplayName = "Water Play"),
+	TSID_STATE_FR_DONALDSORA = 154 UMETA(DisplayName = "FR: Donald Sora"),
+	TSID_STATE_FR_GOOFYSORA = 155 UMETA(DisplayName = "FR: Goofy Sora"),
+	TSID_STATE_ATTACK_RO = 156 UMETA(DisplayName = "Attack: RO"),
+	TSID_STATE_ATTACK_KA = 157 UMETA(DisplayName = "Attack: KA"),
+	TSID_STATE_ATTACK_MI = 158 UMETA(DisplayName = "Attack: MI"),
+	TSID_STATE_COMBO_LF = 159 UMETA(DisplayName = "Combo: LF"),
+	TSID_STATE_COMBO_DF = 160 UMETA(DisplayName = "Combo: DF"),
+	TSID_STATE_COMBO_TF = 161 UMETA(DisplayName = "Combo: TF"),
+	TSID_STATE_SLIDE_TURN_RO = 162 UMETA(DisplayName = "Slide Turn RO"),
+	TSID_STATE_FR_POPPINGHOLY = 163 UMETA(DisplayName = "FR: Popping Holy"),
+	TSID_STATE_FR_BLIZZAGABOARD = 164 UMETA(DisplayName = "FR: Blizzaga Board"),
+	TSID_STATE_FR_THINKOFYOU = 165 UMETA(DisplayName = "FR: Think of You"),
+	TSID_STATE_FR_ULTIMATEEND = 166 UMETA(DisplayName = "FR: Ultimate End"),
+	TSID_STATE_FR_PROMISEWINGS = 167 UMETA(DisplayName = "FR: Promise Wings"),
+	TSID_STATE_QUICKBATTLE = 168 UMETA(DisplayName = "Quick Battle"),
+	TSID_STATE_REMIND_LGRX = 169 UMETA(DisplayName = "Remind: LgRx"),
+	TSID_STATE_REMIND_MIRX_DOWN_MI = 170 UMETA(DisplayName = "Remind: MiRx Attach Mi"),
+	TSID_STATE_REMIND_MIRX_ATTACK_MI = 171 UMETA(DisplayName = "Remind: MiRx Attach Mi"),
+	TSID_STATE_REMIND_MIRX_TIRED_MI = 172 UMETA(DisplayName = "Remind: MiRx Tired Mi"),
+	TSID_STATE_REMIND_SOKC_MAIN = 173 UMETA(DisplayName = "Remind: SoKc Main"),
 	TSID_STATE_MAX = 174 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum class ETresBodyCollReactionType : uint8
 {
-	TRES_BODY_RT_DEFAULT = 0 UMETA(DisplayName = "Default"),
-	TRES_BODY_RT_NO_REACTION = 1 UMETA(DisplayName = "No Reaction"),
-	TRES_BODY_RT_STRONG = 2 UMETA(DisplayName = "Strong"),
-	TRES_BODY_RT_GUARD = 3 UMETA(DisplayName = "Guard"),
-	TRES_BODY_RT_WEAK_GUARD = 4 UMETA(DisplayName = "Weak Guard"),
-	TRES_BODY_RT_GUARD_NOREACT = 5 UMETA(DisplayName = "Guard No React"),
-	TRES_BODY_RT_INVINCIBLE = 6 UMETA(DisplayName = "Invincible"),
-	TRES_BODY_RT_INVINCIBLE_NOREACT = 7 UMETA(DisplayName = "Invincible No React"),
-	TRES_BODY_RT_GHOST = 8 UMETA(DisplayName = "Ghost"),
-	TRES_BODY_RT_GHOST_NOREACT = 9 UMETA(DisplayName = "Ghost No React"),
-	TRES_BODY_RT_REFLECT1 = 10 UMETA(DisplayName = "Reflect 1"),
-	TRES_BODY_RT_GHOST_INVINCIBLE = 11 UMETA(DisplayName = "Ghost Invincible"),
+	TRES_BODY_RT_DEFAULT = 0 UMETA(DisplayName = "Tres Body RT Default"),
+	TRES_BODY_RT_NO_REACTION = 1 UMETA(DisplayName = "Tres Body RT No Reaction"),
+	STRONG = 2 UMETA(DisplayName = "Strong"),
+	TRES_BODY_RT_GUARD = 3 UMETA(DisplayName = "Tres Body RT Guard"),
+	WEAK_GUARD = 4 UMETA(DisplayName = "Weak Guard"),
+	GUARD_NOREACT = 5 UMETA(DisplayName = "Guard No React"),
+	TRES_BODY_RT_INVINCIBLE = 6 UMETA(DisplayName = "Tres Body RT Invincible"),
+	INVINCIBLE_NOREACT = 7 UMETA(DisplayName = "Invincible No React"),
+	TRES_BODY_RT_GHOST = 8 UMETA(DisplayName = "Tres Body RT Ghost"),
+	GHOST_NOREACT = 9 UMETA(DisplayName = "Ghost No React"),
+	REFLECT1 = 10 UMETA(DisplayName = "Reflect 1"),
+	GHOST_INVINCIBLE = 11 UMETA(DisplayName = "Ghost Invincible"),
 	_TRES_BODY_RT_MAX = 12 UMETA(Hidden),
 	ETresBodyCollReactionType_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPlayerJumpModes
+enum class ETresPlayerJumpModes : uint8
 {
-	ETresPlayerJumpModes_TPJ_NORMAL = 0 UMETA(DisplayName = "Normal"),
-	ETresPlayerJumpModes_TPJ_HIGH = 1 UMETA(DisplayName = "High"),
-	ETresPlayerJumpModes_TPJ_SUPER = 2 UMETA(DisplayName = "Super"),
-	ETresPlayerJumpModes_TPJ_DOUBLE_FLIGHT = 3 UMETA(DisplayName = "Double Flight"),
-	ETresPlayerJumpModes_TPJ_SUPER_FLIGHT = 4 UMETA(DisplayName = "Super Flight"),
+	TPJ_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	TPJ_HIGH = 1 UMETA(DisplayName = "High"),
+	TPJ_SUPER = 2 UMETA(DisplayName = "Super"),
+	TPJ_DOUBLE_FLIGHT = 3 UMETA(DisplayName = "Double Flight"),
+	TPJ_SUPER_FLIGHT = 4 UMETA(DisplayName = "Super Flight"),
 	TPJ_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresAnimNotifyBpEventID
 {
-	TRES_ANIMNOTIFYBPEVENT_NONE = 0  UMETA(DisplayName = "None"),
+	TRES_ANIMNOTIFYBPEVENT_NONE = 0 UMETA(DisplayName = "None"),
 	TRES_ANIMNOTIFYBPEVENT_MAX = 1 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresTeam
 {
-	ETresTeam_Player = 0 UMETA(DisplayName = "Player"),
-	ETresTeam_FriendNpc = 1 UMETA(DisplayName = "Friend NPC"),
-	ETresTeam_Enemy = 2 UMETA(DisplayName = "Enemy"),
-	ETresTeam_Heartless = 3 UMETA(DisplayName = "Heartless"),
-	ETresTeam_Nobody = 4 UMETA(DisplayName = "Nobody"),
-	ETresTeam_Unverse = 5 UMETA(DisplayName = "Unverse"),
-	ETresTeam_Neutral = 6 UMETA(DisplayName = "Neutral"),
-	ETresTeam_CityNpc = 7 UMETA(DisplayName = "City NPC"),
-	ETresTeam_Unknown = 8 UMETA(DisplayName = "Unknown"),
+	Player = 0 UMETA(DisplayName = "Player"),
+	FriendNpc = 1 UMETA(DisplayName = "Friend Npc"),
+	Enemy = 2 UMETA(DisplayName = "Enemy"),
+	Heartless = 3 UMETA(DisplayName = "Heartless"),
+	Nobody = 4 UMETA(DisplayName = "Nobody"),
+	Unverse = 5 UMETA(DisplayName = "Unverse"),
+	Neutral = 6 UMETA(DisplayName = "Neutral"),
+	CityNpc = 7 UMETA(DisplayName = "City Npc"),
+	Unknown = 8 UMETA(DisplayName = "Unknown"),
 	ETresTeam_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresReactionResultType
+enum class ETresReactionResultType : uint8
 {
-	TRES_REACT_RESULT_NONE = 0,
-	TRES_REACT_RESULT_NOREACTION = 1,
-	TRES_REACT_RESULT_DAMAGE = 2,
-	TRES_REACT_RESULT_REFLECT = 3,
-	TRES_REACT_RESULT_GUARD_REFLECT = 4,
-	TRES_REACT_RESULT_GUARD = 5,
-	TRES_REACT_RESULT_ARMOR_BREAK = 6,
-	TRES_REACT_RESULT_STRONG_BODY_DAMAGE1 = 7,
-	TRES_REACT_RESULT_STRONG_BODY_DAMAGE2 = 8,
-	TRES_REACT_RESULT_STRONG_BODY_DAMAGE3 = 9,
-	TRES_REACT_RESULT_STRONG_BODY_DAMAGE4 = 10,
-	TRES_REACT_RESULT_MAX = 11 UMETA(Hidden),
+	TRES_REACT_RESULT_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_REACT_RESULT_NOREACTION = 1 UMETA(DisplayName = "No Reaction"),
+	TRES_REACT_RESULT_DAMAGE = 2 UMETA(DisplayName = "Damage"),
+	TRES_REACT_RESULT_REFLECT = 3 UMETA(DisplayName = "Reflect"),
+	TRES_REACT_RESULT_GUARD_REFLECT = 4 UMETA(DisplayName = "Guard Reflect"),
+	TRES_REACT_RESULT_GUARD = 5 UMETA(DisplayName = "Guard"),
+	ARMOR_BREAK = 6 UMETA(DisplayName = "Armor Break"),
+	STRONG_BODY_DAMAGE1 = 7,
+	STRONG_BODY_DAMAGE2 = 8,
+	STRONG_BODY_DAMAGE3 = 9,
+	STRONG_BODY_DAMAGE4 = 10,
+	_MAX = 11 UMETA(Hidden),
 	ETresReactionResultType_MAX = 12 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresProjectileInnerWaterVolumeProc
+enum class ETresProjectileInnerWaterVolumeProc : uint8
 {
-	ETresProjectileInnerWaterVolumeProc_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresProjectileInnerWaterVolumeProc_SHUTDOWN = 1 UMETA(DisplayName = "Shutdown"),
-	ETresProjectileInnerWaterVolumeProc_MAPHITEXPLODE = 2 UMETA(DisplayName = "Map Hit Explode"),
-	ETresProjectileInnerWaterVolumeProc_SHUTDOWN_DOWN = 3 UMETA(DisplayName = "Shutdown Down"),
-	ETresProjectileInnerWaterVolumeProc_MAPHITEXPLODE_DOWN = 4 UMETA(DisplayName = "Map Hit Explode Down"),
+	NOTHING = 0 UMETA(DisplayName = "Nothing"),
+	SHUTDOWN = 1 UMETA(DisplayName = "Shutdown"),
+	MAPHITEXPLODE = 2 UMETA(DisplayName = "Map Hit Explode"),
+	SHUTDOWN_DOWN = 3 UMETA(DisplayName = "Shutdown Down"),
+	MAPHITEXPLODE_DOWN = 4 UMETA(DisplayName = "Map Hit Explode Down"),
 	ETresProjectileInnerWaterVolumeProc_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresProjectileRespawnRotType
+enum class ETresProjectileRespawnRotType : uint8
 {
-	TPRR_NORMAL = 0,
-	TPRR_YAW_ONLY = 1,
-	TPRR_CLEAR = 2,
+	TPRR_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	TPRR_YAW_ONLY = 1 UMETA(DisplayName = "Yaw Only"),
+	TPRR_CLEAR = 2 UMETA(DisplayName = "Clear"),
 	TPRR_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresProjectileRespawnType
+enum class ETresProjectileRespawnType : uint8
 {
-	TPR_TYPE_HIT_ALWAYS = 0,
-	TPR_TYPE_HIT_ANY = 1,
-	TPR_TYPE_HIT_PAWN = 2,
-	TPR_TYPE_HIT_MAP = 3,
-	TPR_TYPE_NO_HIT = 4,
+	TPR_TYPE_HIT_ALWAYS = 0 UMETA(DisplayName = "Hit Always"),
+	TPR_TYPE_HIT_ANY = 1 UMETA(DisplayName = "Hit Any"),
+	TPR_TYPE_HIT_PAWN = 2 UMETA(DisplayName = "Hit Pawn"),
+	TPR_TYPE_HIT_MAP = 3 UMETA(DisplayName = "Hit Map"),
+	TPR_TYPE_NO_HIT = 4 UMETA(DisplayName = "No Hit"),
 	TPR_TYPE_MAX = 5 UMETA(Hidden)
 };
 
@@ -1311,124 +1318,113 @@ enum ETresBodyCollOverlapCameraFunction
 };
 
 UENUM(BlueprintType)
-enum ETresBodyCollision
-{
-	ETresBodyCollision_SPHERE = 0 UMETA(DisplayName = "Sphere"),
-	ETresBodyCollision_CAPSULE = 1 UMETA(DisplayName = "Capsule"),
-	ETresBodyCollision_BOX = 2 UMETA(DisplayName = "Box"),
-	ETresBodyCollision_CONVEX = 3 UMETA(DisplayName = "Convex"),
-	ETresBodyCollision_1_MAX = 4 UMETA(Hidden),
-	ETresBodyCollision_MAX = 5 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
 enum ETresPlayerSpecificActionID
 {
-	TRES_PSA_ACCOMPANY_PAWN = 0,
-	TRES_PSA_CHANT_END = 1,
-	TRES_PSA_SHOOTFLOW_ACTION_END = 2,
-	TRES_PSA_ATHLETICFLOW_ATTACK = 3,
-	TRES_PSA_PLANEBOSS_START = 4,
-	TRES_PSA_SMALLAIRPLANE_AUTOTURN_START = 5,
-	TRES_PSA_SMALLAIRPLANE_AUTOTURN_END = 6,
-	TRES_PSA_SPECIALSHIP_DASHHIT_START = 7,
-	TRES_PSA_SPECIALSHIP_DASHHIT_END = 8,
-	TRES_PSA_SPECIALSHIP_JUMP_START = 9,
-	TRES_PSA_SPECIALSHIP_JUMP_DOWN = 10,
-	TRES_PSA_SPECIALSHIP_JUMP_LAND = 11,
-	TRES_PSA_SPECIALSHIP_ENEMY_START = 12,
-	TRES_PSA_SPECIALSHIP_HP0_START = 13,
-	TRES_PSA_SPECIALSHIP_MAELSTROM_HP0_START = 14,
-	TRES_PSA_RAIL_SLIDE_START = 15,
-	TRES_PSA_RAIL_SLIDE_END = 16,
-	TRES_PSA_MI_04_DOOR_ATTACH_START = 17,
-	TRES_PSA_MI_04_DOOR_ATTACH_END = 18,
-	TRES_PSA_VIKINGSHIP_APPEARSKIP = 19,
-	TRES_PSA_VIKINGSHIP_START = 20,
-	TRES_PSA_VIKINGSHIP_ATTACK = 21,
-	TRES_PSA_VIKINGSHIP_END = 22,
-	TRES_PSA_ROLLERCOASTER_PRE_JUMPSTART = 23,
-	TRES_PSA_ROLLERCOASTER_PRE_START = 24,
-	TRES_PSA_ROLLERCOASTER_START = 25,
-	TRES_PSA_ROLLERCOASTER_JUMP = 26,
-	TRES_PSA_ROLLERCOASTER_ATTACK = 27,
-	TRES_PSA_ROLLERCOASTER_ENEMY_ATTACKREFLECT = 28,
-	TRES_PSA_ROLLERCOASTER_CANCEL = 29,
-	TRES_PSA_ROLLERCOASTER_FINISH_START = 30,
-	TRES_PSA_ROLLERCOASTER_FINISH_WIN_START = 31,
-	TRES_PSA_ROLLERCOASTER_FINISH_WIN_END = 32,
-	TRES_PSA_ROLLERCOASTER_FINISH_CMD_START = 33,
-	TRES_PSA_TEACUP_APPEARSKIP = 34,
-	TRES_PSA_TEACUP_FINISH = 35,
-	TRES_PSA_TEACUP_END = 36,
-	TRES_PSA_SHOOTINGRIDE_APPEARSKIP = 37,
-	TRES_PSA_MERRYGOROUND_APPEARSKIP = 38,
-	TRES_PSA_MERRYGOROUND_FINISH = 39,
-	TRES_PSA_MERRYGOROUND_FINISH_ATTACK = 40,
-	TRES_PSA_MERRYGOROUND_END = 41,
-	TRES_PSA_WATERRIDE_SPAWNWARP = 42,
-	TRES_PSA_WATERRIDE_APPEARSKIP = 43,
-	TRES_PSA_WATERRIDE_START = 44,
-	TRES_PSA_WATERRIDE_FINISH = 45,
-	TRES_PSA_WATERRIDE_FINISH_LAST = 46,
-	TRES_PSA_WATERRIDE_FINISH_LAST2 = 47,
-	TRES_PSA_WATERRIDE_END = 48,
-	TRES_PSA_SIMBA_APPEARSKIP = 49,
-	TRES_PSA_SIMBA_START = 50,
-	TRES_PSA_SIMBA_FINISH = 51,
-	TRES_PSA_SIMBA_END = 52,
-	TRES_PSA_ARIEL_APPEARSKIP = 53,
-	TRES_PSA_ARIEL_START = 54,
-	TRES_PSA_ARIEL_CUT2 = 55,
-	TRES_PSA_ARIEL_END = 56,
-	TRES_PSA_RALPH_APPEARSKIP = 57,
-	TRES_PSA_RALPH_EXPLOSION = 58,
-	TRES_PSA_RALPH_END = 59,
-	TRES_PSA_STITCH_APPEARSKIP = 60,
-	TRES_PSA_STITCH_START = 61,
-	TRES_PSA_STITCH_END = 62,
-	TRES_PSA_WANDANYAN_APPEARSKIP = 63,
-	TRES_PSA_STYLE_FINISH_SH_END = 64,
-	TRES_PSA_STYLE_FINISH_WA_END = 65,
-	TRES_PSA_STYLE_FINISH_SK_END = 66,
-	TRES_PSA_STYLE_FINISH_GM_END = 67,
-	TRES_PSA_SHIELD_GUARDIAN_FINISH = 68,
-	TRES_PSA_SHIELD_GUARDIAN_END = 69,
-	TRES_PSA_MICKEYCHAIN_START = 70,
-	TRES_PSA_SNOW_COVER_SWING_START = 71,
-	TRES_PSA_SNOW_COVER_SWING_ATTACK_SUCCESS = 72,
-	TRES_PSA_SNOW_COVER_SWING_ATTACK_FAILED = 73,
-	TRES_PSA_SNOW_COVER_SWING_FAILED = 74,
-	TRES_PSA_SPINNING_HOLD_START = 75,
-	TRES_PSA_SPINNING_HOLD_EXPLODE = 76,
-	TRES_PSA_SPINNING_HOLD_LIGHTBALL_WALL_HIT = 77,
-	TRES_PSA_CALL_METEOR_START = 78,
-	TRES_PSA_CALL_METEOR_FINISH = 79,
-	TRES_PSA_CALL_METEOR_END = 80,
-	TRES_PSA_BAYMAXRIDE_FINISH_RUSH = 81,
-	TRES_PSA_BAYMAXRIDE_FINISH_HIT = 82,
-	TRES_PSA_BAYMAXRIDE_FINISH_END = 83,
-	TRES_PSA_GIANTSOLDIER_START = 84,
-	TRES_PSA_GIANTSOLDIER_CANCEL = 85,
-	TRES_PSA_POWERSTRIKE_START = 86,
-	TRES_PSA_FLAREFORCE_START = 87,
-	TRES_PSA_BLIZZAGABOARD_CUT3 = 88,
-	TRES_PSA_BLIZZAGABOARD_CUT4 = 89,
-	TRES_PSA_BLIZZAGABOARD_EXP = 90,
-	TRES_PSA_BLIZZAGABOARD_EXPEND = 91,
-	TRES_PSA_THINKOFYOU_END = 92,
-	TRES_PSA_PROMISEWINGS_START = 93,
-	TRES_PSA_PROMISEWINGS_MOVE = 94,
-	TRES_PSA_PROMISEWINGS_FINISH = 95,
-	TRES_PSA_PROMISEWINGS_END = 96,
-	TRES_PSA_LGRX_PHASE_START = 97,
-	TRES_PSA_LGRX_ADD_COMMAND_FINISH = 98,
-	TRES_PSA_LGRX_RUSH_START = 99,
-	TRES_PSA_LGRX_RUSH_LAST = 100,
-	TRES_PSA_LGRX_RUSH_END = 101,
-	TRES_PSA_LGRX_RUSH_HIT = 102,
-	TRES_PSA_LGRX_GUARD_HIT = 103,
-	TRES_PSA_LGRX_GUARDCOUNTER = 104,
+	TRES_PSA_ACCOMPANY_PAWN = 0 UMETA(DisplayName = "Accompany Pawn"),
+	TRES_PSA_CHANT_END = 1 UMETA(DisplayName = "Chant End"),
+	TRES_PSA_SHOOTFLOW_ACTION_END = 2 UMETA(DisplayName = "Shoot Flow Action End"),
+	TRES_PSA_ATHLETICFLOW_ATTACK = 3 UMETA(DisplayName = "Athletic Flow Attack"),
+	TRES_PSA_PLANEBOSS_START = 4 UMETA(DisplayName = "Plane Boss Start"),
+	TRES_PSA_SMALLAIRPLANE_AUTOTURN_START = 5 UMETA(DisplayName = "Small Airplane Auto Turn Start"),
+	TRES_PSA_SMALLAIRPLANE_AUTOTURN_END = 6 UMETA(DisplayName = "Small Airplane Auto Turn End"),
+	TRES_PSA_SPECIALSHIP_DASHHIT_START = 7 UMETA(DisplayName = "Special Ship Dash Hit Start"),
+	TRES_PSA_SPECIALSHIP_DASHHIT_END = 8 UMETA(DisplayName = "Special Ship Dash Hit End"),
+	TRES_PSA_SPECIALSHIP_JUMP_START = 9 UMETA(DisplayName = "Special Ship Jump Start"),
+	TRES_PSA_SPECIALSHIP_JUMP_DOWN = 10 UMETA(DisplayName = "Special Ship Jump Down"),
+	TRES_PSA_SPECIALSHIP_JUMP_LAND = 11 UMETA(DisplayName = "Special Ship Jump Land"),
+	TRES_PSA_SPECIALSHIP_ENEMY_START = 12 UMETA(DisplayName = "Special Ship Enemy Start"),
+	TRES_PSA_SPECIALSHIP_HP0_START = 13 UMETA(DisplayName = "Special Ship HP 0 Start"),
+	TRES_PSA_SPECIALSHIP_MAELSTROM_HP0_START = 14 UMETA(DisplayName = "Special Ship Maelstrom HP 0 Start"),
+	TRES_PSA_RAIL_SLIDE_START = 15 UMETA(DisplayName = "Rail Slide Start"),
+	TRES_PSA_RAIL_SLIDE_END = 16 UMETA(DisplayName = "Rail Slide End"),
+	TRES_PSA_MI_04_DOOR_ATTACH_START = 17 UMETA(DisplayName = "MI 04 Door Attach Start"),
+	TRES_PSA_MI_04_DOOR_ATTACH_END = 18 UMETA(DisplayName = "MI 04 Door Attach End"),
+	TRES_PSA_VIKINGSHIP_APPEARSKIP = 19 UMETA(DisplayName = "Viking Ship Appear Skip"),
+	TRES_PSA_VIKINGSHIP_START = 20 UMETA(DisplayName = "Viking Ship Start"),
+	TRES_PSA_VIKINGSHIP_ATTACK = 21 UMETA(DisplayName = "Viking Ship Attack"),
+	TRES_PSA_VIKINGSHIP_END = 22 UMETA(DisplayName = "Viking Ship End"),
+	TRES_PSA_ROLLERCOASTER_PRE_JUMPSTART = 23 UMETA(DisplayName = "Rollercoaster Pre Jump Start"),
+	TRES_PSA_ROLLERCOASTER_PRE_START = 24 UMETA(DisplayName = "Rollercoaster Pre Start"),
+	TRES_PSA_ROLLERCOASTER_START = 25 UMETA(DisplayName = "Rollercoaster Start"),
+	TRES_PSA_ROLLERCOASTER_JUMP = 26 UMETA(DisplayName = "Rollercoaster Jump"),
+	TRES_PSA_ROLLERCOASTER_ATTACK = 27 UMETA(DisplayName = "Rollercoaster Attack"),
+	TRES_PSA_ROLLERCOASTER_ENEMY_ATTACKREFLECT = 28 UMETA(DisplayName = "Rollercoaster Enemy Attack Reflect"),
+	TRES_PSA_ROLLERCOASTER_CANCEL = 29 UMETA(DisplayName = "Rollercoaster Cancel"),
+	TRES_PSA_ROLLERCOASTER_FINISH_START = 30 UMETA(DisplayName = "Rollercoaster Finish Start"),
+	TRES_PSA_ROLLERCOASTER_FINISH_WIN_START = 31 UMETA(DisplayName = "Rollercoaster Finish Win Start"),
+	TRES_PSA_ROLLERCOASTER_FINISH_WIN_END = 32 UMETA(DisplayName = "Rollercoaster Finish Win End"),
+	TRES_PSA_ROLLERCOASTER_FINISH_CMD_START = 33 UMETA(DisplayName = "Rollercoaster Finish CMD Start"),
+	TRES_PSA_TEACUP_APPEARSKIP = 34 UMETA(DisplayName = "Teacup Appear Skip"),
+	TRES_PSA_TEACUP_FINISH = 35 UMETA(DisplayName = "Teacup Finish"),
+	TRES_PSA_TEACUP_END = 36 UMETA(DisplayName = "Teacup End"),
+	TRES_PSA_SHOOTINGRIDE_APPEARSKIP = 37 UMETA(DisplayName = "Shooting Ride Appear Skip"),
+	TRES_PSA_MERRYGOROUND_APPEARSKIP = 38 UMETA(DisplayName = "Merry Go Round Appear Skip"),
+	TRES_PSA_MERRYGOROUND_FINISH = 39 UMETA(DisplayName = "Merry Go Round Finish"),
+	TRES_PSA_MERRYGOROUND_FINISH_ATTACK = 40 UMETA(DisplayName = "Merry Go Round Finish Attack"),
+	TRES_PSA_MERRYGOROUND_END = 41 UMETA(DisplayName = "Merrgy Go Round End"),
+	TRES_PSA_WATERRIDE_SPAWNWARP = 42 UMETA(DisplayName = "Water Ride Spawn Warp"),
+	TRES_PSA_WATERRIDE_APPEARSKIP = 43 UMETA(DisplayName = "Water Ride Appear Skip"),
+	TRES_PSA_WATERRIDE_START = 44 UMETA(DisplayName = "Water Ride Start"),
+	TRES_PSA_WATERRIDE_FINISH = 45 UMETA(DisplayName = "Water Ride Finish"),
+	TRES_PSA_WATERRIDE_FINISH_LAST = 46 UMETA(DisplayName = "Water Ride Finish Last"),
+	TRES_PSA_WATERRIDE_FINISH_LAST2 = 47 UMETA(DisplayName = "Water Ride Finish Last 2"),
+	TRES_PSA_WATERRIDE_END = 48 UMETA(DisplayName = "Water Ride End"),
+	TRES_PSA_SIMBA_APPEARSKIP = 49 UMETA(DisplayName = "Simba Appear Skip"),
+	TRES_PSA_SIMBA_START = 50 UMETA(DisplayName = "Simba Start"),
+	TRES_PSA_SIMBA_FINISH = 51 UMETA(DisplayName = "Simba Finish"),
+	TRES_PSA_SIMBA_END = 52 UMETA(DisplayName = "Simba End"),
+	TRES_PSA_ARIEL_APPEARSKIP = 53 UMETA(DisplayName = "Ariel Appear Skip"),
+	TRES_PSA_ARIEL_START = 54 UMETA(DisplayName = "Ariel Start"),
+	TRES_PSA_ARIEL_CUT2 = 55 UMETA(DisplayName = "Ariel Cut 2"),
+	TRES_PSA_ARIEL_END = 56 UMETA(DisplayName = "Ariel End"),
+	TRES_PSA_RALPH_APPEARSKIP = 57 UMETA(DisplayName = "Ralph Appear Skip"),
+	TRES_PSA_RALPH_EXPLOSION = 58 UMETA(DisplayName = "Ralph Explosion"),
+	TRES_PSA_RALPH_END = 59 UMETA(DisplayName = "Ralph End"),
+	TRES_PSA_STITCH_APPEARSKIP = 60 UMETA(DisplayName = "Stitch Appear Skip"),
+	TRES_PSA_STITCH_START = 61 UMETA(DisplayName = "Stitch Start"),
+	TRES_PSA_STITCH_END = 62 UMETA(DisplayName = "Stitch End"),
+	TRES_PSA_WANDANYAN_APPEARSKIP = 63 UMETA(DisplayName = "Wandanyan Appear Skip"),
+	TRES_PSA_STYLE_FINISH_SH_END = 64 UMETA(DisplayName = "Style Finish SH End"),
+	TRES_PSA_STYLE_FINISH_WA_END = 65 UMETA(DisplayName = "Style Finish WA End"),
+	TRES_PSA_STYLE_FINISH_SK_END = 66 UMETA(DisplayName = "Style Finish SK End"),
+	TRES_PSA_STYLE_FINISH_GM_END = 67 UMETA(DisplayName = "Style Finish GM End"),
+	TRES_PSA_SHIELD_GUARDIAN_FINISH = 68 UMETA(DisplayName = "Shield Guardian Finish"),
+	TRES_PSA_SHIELD_GUARDIAN_END = 69 UMETA(DisplayName = "Shield Guardian End"),
+	TRES_PSA_MICKEYCHAIN_START = 70 UMETA(DisplayName = "Mickey Chain Start"),
+	TRES_PSA_SNOW_COVER_SWING_START = 71 UMETA(DisplayName = "Snow Cover Swing Start"),
+	TRES_PSA_SNOW_COVER_SWING_ATTACK_SUCCESS = 72 UMETA(DisplayName = "Snow Cover Swing Attack Success"),
+	TRES_PSA_SNOW_COVER_SWING_ATTACK_FAILED = 73 UMETA(DisplayName = "Snow Cover Swing Attack Success"),
+	TRES_PSA_SNOW_COVER_SWING_FAILED = 74 UMETA(DisplayName = "Snow Cover Swing Attack Failed"),
+	TRES_PSA_SPINNING_HOLD_START = 75 UMETA(DisplayName = "Spinning Hold Start"),
+	TRES_PSA_SPINNING_HOLD_EXPLODE = 76 UMETA(DisplayName = "Spinning Hold Explode"),
+	TRES_PSA_SPINNING_HOLD_LIGHTBALL_WALL_HIT = 77 UMETA(DisplayName = "Spinning Hold Lightball Wall Hit"),
+	TRES_PSA_CALL_METEOR_START = 78 UMETA(DisplayName = "Call Meteor Start"),
+	TRES_PSA_CALL_METEOR_FINISH = 79 UMETA(DisplayName = "Call Meteor Finish"),
+	TRES_PSA_CALL_METEOR_END = 80 UMETA(DisplayName = "Call Meteor End"),
+	TRES_PSA_BAYMAXRIDE_FINISH_RUSH = 81 UMETA(DisplayName = "Baymax Ride Finish Rush"),
+	TRES_PSA_BAYMAXRIDE_FINISH_HIT = 82 UMETA(DisplayName = "Baymax Ride Finish Hit"),
+	TRES_PSA_BAYMAXRIDE_FINISH_END = 83 UMETA(DisplayName = "Baymax Ride Finish End"),
+	TRES_PSA_GIANTSOLDIER_START = 84 UMETA(DisplayName = "Giant Soldier Start"),
+	TRES_PSA_GIANTSOLDIER_CANCEL = 85 UMETA(DisplayName = "Giant Soldier Cancel"),
+	TRES_PSA_POWERSTRIKE_START = 86 UMETA(DisplayName = "Power Strike Start"),
+	TRES_PSA_FLAREFORCE_START = 87 UMETA(DisplayName = "Flare Force Start"),
+	TRES_PSA_BLIZZAGABOARD_CUT3 = 88 UMETA(DisplayName = "Blizzaga Board Cut 3"),
+	TRES_PSA_BLIZZAGABOARD_CUT4 = 89 UMETA(DisplayName = "Blizzaga Board Cut 4"),
+	TRES_PSA_BLIZZAGABOARD_EXP = 90 UMETA(DisplayName = "Blizzaga Board Exp"),
+	TRES_PSA_BLIZZAGABOARD_EXPEND = 91 UMETA(DisplayName = "Blizzaga Board Expend"),
+	TRES_PSA_THINKOFYOU_END = 92 UMETA(DisplayName = "Think of You End"),
+	TRES_PSA_PROMISEWINGS_START = 93 UMETA(DisplayName = "Promise Wings Start"),
+	TRES_PSA_PROMISEWINGS_MOVE = 94 UMETA(DisplayName = "Promise Wings Move"),
+	TRES_PSA_PROMISEWINGS_FINISH = 95 UMETA(DisplayName = "Promise Wings Finish"),
+	TRES_PSA_PROMISEWINGS_END = 96 UMETA(DisplayName = "Promise Wings End"),
+	TRES_PSA_LGRX_PHASE_START = 97 UMETA(DisplayName = "LgRx Phase Start"),
+	TRES_PSA_LGRX_ADD_COMMAND_FINISH = 98 UMETA(DisplayName = "LgRx Add Command Finish"),
+	TRES_PSA_LGRX_RUSH_START = 99 UMETA(DisplayName = "LgRx Rush Start"),
+	TRES_PSA_LGRX_RUSH_LAST = 100 UMETA(DisplayName = "LgRx Rush Last"),
+	TRES_PSA_LGRX_RUSH_END = 101 UMETA(DisplayName = "LgRx Rush End"),
+	TRES_PSA_LGRX_RUSH_HIT = 102 UMETA(DisplayName = "LgRx Rush Hit"),
+	TRES_PSA_LGRX_GUARD_HIT = 103 UMETA(DisplayName = "LgRx Guard Hit"),
+	TRES_PSA_LGRX_GUARDCOUNTER = 104 UMETA(DisplayName = "LgRx Guard Counter"),
 	TRES_PSA_LGRX_REACTION_CUT1 = 105,
 	TRES_PSA_LGRX_REACTION_CUT2 = 106,
 	TRES_PSA_LGRX_REACTION_CUT3 = 107,
@@ -1441,361 +1437,361 @@ enum ETresPlayerSpecificActionID
 	TRES_PSA_LGRX_REACTION_CUT10 = 114,
 	TRES_PSA_LGRX_REACTION_CUT11 = 115,
 	TRES_PSA_LGRX_REACTION_CUT12 = 116,
-	TRES_PSA_LGRX_REACTION_SUCCESS = 117,
-	TRES_PSA_LGRX_REACTION_FAIL = 118,
-	TRES_PSA_LGRX_GAMECLEAR = 119,
-	TRES_PSA_LGRX_GAMEOVER_ONE = 120,
-	TRES_PSA_LGRX_GAMEOVER_ALL = 121,
-	TRES_PSA_MIRX_REPLICA_LASER_OMEN_START = 122,
-	TRES_PSA_MIRX_REPLICA_WARP_ATTACK_START = 123,
-	TRES_PSA_MIRX_MICKEY_BLOW_START = 124,
-	TRES_PSA_MIRX_MICKEY_DOWN_START = 125,
-	TRES_PSA_MIRX_MICKEY_DOWN_DURING = 126,
-	TRES_PSA_MIRX_MICKEY_DOWN_END = 127,
-	TRES_PSA_MIRX_MICKEY_FAILDE_12_HOLY_SEAL = 128,
-	TRES_PSA_MIRX_MICKEY_RISE_LAST_HOLY_COMMAND = 129,
-	TRES_PSA_MIRX_MICKEY_LAST_HOLY_START = 130,
-	TRES_PSA_MIRX_MICKEY_TIRED_START = 131,
-	TRES_PSA_MIRX_MICKEY_TIRED_END = 132,
-	TRES_PSA_MIRX_REPLICA_STATE_END = 133,
-	TRES_PSA_MIRX_REPLICA_FULLFIRE_LASER_OMEN_START = 134,
+	TRES_PSA_LGRX_REACTION_SUCCESS = 117 UMETA(DisplayName = "LgRx Reaction Success"),
+	TRES_PSA_LGRX_REACTION_FAIL = 118 UMETA(DisplayName = "LgRx Reaction Fail"),
+	TRES_PSA_LGRX_GAMECLEAR = 119 UMETA(DisplayName = "LgRx Game Clear"),
+	TRES_PSA_LGRX_GAMEOVER_ONE = 120 UMETA(DisplayName = "LgRx Gameover One"),
+	TRES_PSA_LGRX_GAMEOVER_ALL = 121 UMETA(DisplayName = "LgRx Gameover All"),
+	TRES_PSA_MIRX_REPLICA_LASER_OMEN_START = 122 UMETA(DisplayName = "MiRx Replica Laser Omen Start"),
+	TRES_PSA_MIRX_REPLICA_WARP_ATTACK_START = 123 UMETA(DisplayName = "MiRx Replica Warp Attack Start"),
+	TRES_PSA_MIRX_MICKEY_BLOW_START = 124 UMETA(DisplayName = "MiRx Mickey Blow Start"),
+	TRES_PSA_MIRX_MICKEY_DOWN_START = 125 UMETA(DisplayName = "MiRx Mickey Down Start"),
+	TRES_PSA_MIRX_MICKEY_DOWN_DURING = 126 UMETA(DisplayName = "MiRx Mickey Down During"),
+	TRES_PSA_MIRX_MICKEY_DOWN_END = 127 UMETA(DisplayName = "MiRx Mickey Down End"),
+	TRES_PSA_MIRX_MICKEY_FAILDE_12_HOLY_SEAL = 128 UMETA(DisplayName = "MiRx Micked Failde 12 Holy Seal"),
+	TRES_PSA_MIRX_MICKEY_RISE_LAST_HOLY_COMMAND = 129 UMETA(DisplayName = "MiRx Mickey Rise Last Holy Command"),
+	TRES_PSA_MIRX_MICKEY_LAST_HOLY_START = 130 UMETA(DisplayName = "MiRx Mickey Last Holy Start"),
+	TRES_PSA_MIRX_MICKEY_TIRED_START = 131 UMETA(DisplayName = "MiRx Mickey Tired Start"),
+	TRES_PSA_MIRX_MICKEY_TIRED_END = 132 UMETA(DisplayName = "MiRx Mickey Tired End"),
+	TRES_PSA_MIRX_REPLICA_STATE_END = 133 UMETA(DisplayName = "MiRx Replica State End"),
+	TRES_PSA_MIRX_REPLICA_FULLFIRE_LASER_OMEN_START = 134 UMETA(DisplayName = "MiRx Replica Fullfire Laser Omen Start"),
 	TRES_PSA_MAX = 135 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresActorSpecificActionID
 {
-	TRES_ASA_BOSS_DIE = 0,
-	TRES_ASA_SATYR_SCRUM = 1,
-	TRES_ASA_SATYR_WARP = 2,
-	TRES_ASA_GOOFYSHOOT_TOWER = 3,
-	TRES_ASA_GOOFYSHOOT_TARUNVERSED = 4,
-	TRES_ASA_GOOFYSHOOT_GENERAL = 5,
-	TRES_ASA_TURTLEFROG_INHALE = 6,
-	TRES_ASA_TURTLEFROG_SPIT = 7,
-	TRES_ASA_DAVYJONES_DRAWINGTOSS = 8,
-	TRES_ASA_DAVYJONES_DRAWINGEND = 9,
-	TRES_ASA_TORNADO_INHALE_START = 10,
-	TRES_ASA_TORNADO_LAUNCH_START = 11,
-	TRES_ASA_TORNADO_LAUNCH_END = 12,
-	TRES_ASA_PLANEBOSS_SHAKEOFF_START = 13,
-	TRES_ASA_PLANEBOSS_SHAKEOFF_END = 14,
-	TRES_ASA_PLANEBOSS_TURNAROUND_START = 15,
-	TRES_ASA_E_EX027_EAT_BIND_START = 16,
-	TRES_ASA_E_EX027_EAT_BIND_END = 17,
-	TRES_ASA_E_EX027_BITE_BIND_START = 18,
-	TRES_ASA_E_EX027_BITE_BIND_END = 19,
-	TRES_ASA_E_EX054_JUMP_CHANGE_CAMERA = 20,
-	TRES_ASA_E_CA901_TENTACLE_SUMMONS_CAMERA = 21,
-	TRES_ASA_E_EX721_FLASH_CAMERA = 22,
-	TRES_ASA_E_CA404_BEFORE_STOLETRAP = 23,
-	TRES_ASA_E_CA404_EXEC_STOLETRAP = 24,
-	TRES_ASA_GUMISHIP_WORLD_SYMBOL_START = 25,
-	TRES_ASA_GUMISHIP_TRAVEL_POINT_START = 26,
-	TRES_ASA_GUMISHIP_FINISHED_BATTLE_WIPE_START = 27,
-	TRES_ASA_LEVLE_PRIZEBOX_FOOD_GET = 28,
-	TRES_ASA_MIRX_REPLICA_WARP_ATTACK_START = 29,
-	TRES_ASA_MIRX_REPLICA_WARP_ATTACK_END = 30,
-	TRES_ASA_MIRX_MICKEY_HOLY_SEAL_START = 31,
-	TRES_ASA_MIRX_MICKEY_HOLY_SEAL_END = 32,
-	TRES_ASA_MIRX_MICKEY_HIT_FINISH_ATTACK = 33,
+	TRES_ASA_BOSS_DIE = 0 UMETA(DisplayName = "Boss Die"),
+	TRES_ASA_SATYR_SCRUM = 1 UMETA(DisplayName = "Satyr Scrum"),
+	TRES_ASA_SATYR_WARP = 2 UMETA(DisplayName = "Satyr Warp"),
+	TRES_ASA_GOOFYSHOOT_TOWER = 3 UMETA(DisplayName = "Goofy Shoot Tower"),
+	TRES_ASA_GOOFYSHOOT_TARUNVERSED = 4 UMETA(DisplayName = "Goofy Shoot Tar Unversed"),
+	TRES_ASA_GOOFYSHOOT_GENERAL = 5 UMETA(DisplayName = "Goofy Shoot General"),
+	TRES_ASA_TURTLEFROG_INHALE = 6 UMETA(DisplayName = "Turtle Frog Inhale"),
+	TRES_ASA_TURTLEFROG_SPIT = 7 UMETA(DisplayName = "Turtle Frog Spit"),
+	TRES_ASA_DAVYJONES_DRAWINGTOSS = 8 UMETA(DisplayName = "Davy Jones Drawing Toss"),
+	TRES_ASA_DAVYJONES_DRAWINGEND = 9 UMETA(DisplayName = "Davy Jones Drawing End"),
+	TRES_ASA_TORNADO_INHALE_START = 10 UMETA(DisplayName = "Tornado Inhale Start"),
+	TRES_ASA_TORNADO_LAUNCH_START = 11 UMETA(DisplayName = "Tornado Launch Start"),
+	TRES_ASA_TORNADO_LAUNCH_END = 12 UMETA(DisplayName = "Tornado Launch End"),
+	TRES_ASA_PLANEBOSS_SHAKEOFF_START = 13 UMETA(DisplayName = "Plane Boss Shakeoff Start"),
+	TRES_ASA_PLANEBOSS_SHAKEOFF_END = 14 UMETA(DisplayName = "Plane Boss Shakeoff End"),
+	TRES_ASA_PLANEBOSS_TURNAROUND_START = 15 UMETA(DisplayName = "Plane Boss Turnaround Start"),
+	TRES_ASA_E_EX027_EAT_BIND_START = 16 UMETA(DisplayName = "Lightning Angler (EX027) Eat Bind Start"),
+	TRES_ASA_E_EX027_EAT_BIND_END = 17 UMETA(DisplayName = "Lightning Angler (EX027) Eat Bind End"),
+	TRES_ASA_E_EX027_BITE_BIND_START = 18 UMETA(DisplayName = "Lightning Angler (EX027) Bite Bind Start"),
+	TRES_ASA_E_EX027_BITE_BIND_END = 19 UMETA(DisplayName = "Lightning Angler (EX027) Bite Bind End"),
+	TRES_ASA_E_EX054_JUMP_CHANGE_CAMERA = 20 UMETA(DisplayName = "Catastrochorus (EX054) Jump Change Camera"),
+	TRES_ASA_E_CA901_TENTACLE_SUMMONS_CAMERA = 21 UMETA(DisplayName = "Davy Jones (CA901) Tentacle Summons Camera"),
+	TRES_ASA_E_EX721_FLASH_CAMERA = 22 UMETA(DisplayName = "Grim Guardianess (EX721) Flash Camera"),
+	TRES_ASA_E_CA404_BEFORE_STOLETRAP = 23 UMETA(DisplayName = "Ship Sails (CA404) Before Stole Trap"),
+	TRES_ASA_E_CA404_EXEC_STOLETRAP = 24 UMETA(DisplayName = "Ship Sails (CA404) Exec Stole Trap"),
+	TRES_ASA_GUMISHIP_WORLD_SYMBOL_START = 25 UMETA(DisplayName = "Gumiship World Symbol Start"),
+	TRES_ASA_GUMISHIP_TRAVEL_POINT_START = 26 UMETA(DisplayName = "Gumiship Travel Point Start"),
+	TRES_ASA_GUMISHIP_FINISHED_BATTLE_WIPE_START = 27 UMETA(DisplayName = "Gumiship Finished Battle Wipe Start"),
+	TRES_ASA_LEVLE_PRIZEBOX_FOOD_GET = 28 UMETA(DisplayName = "Levle Prizebox Food Get"),
+	TRES_ASA_MIRX_REPLICA_WARP_ATTACK_START = 29 UMETA(DisplayName = "MiRx Replica Warp Attack Start"),
+	TRES_ASA_MIRX_REPLICA_WARP_ATTACK_END = 30 UMETA(DisplayName = "MiRx Replica Warp Attack End"),
+	TRES_ASA_MIRX_MICKEY_HOLY_SEAL_START = 31 UMETA(DisplayName = "MiRx Mickey Holy Seal Start"),
+	TRES_ASA_MIRX_MICKEY_HOLY_SEAL_END = 32 UMETA(DisplayName = "MiRx Mickey Holy Seal End"),
+	TRES_ASA_MIRX_MICKEY_HIT_FINISH_ATTACK = 33 UMETA(DisplayName = "MiRx Mickey Hit Finish Attack"),
 	TRES_ASA_MAX = 34 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresPlayerFlyModes
 {
-	TPF_GLIDE = 0,
-	TPF_SUPER_SLIDE = 1,
-	TPF_SONIC_SLIDE = 2,
-	TPF_SUPER_FLIGHT = 3,
-	TPF_AIR_DODGE = 4,
+	TPF_GLIDE = 0 UMETA(DisplayName = "Glide"),
+	TPF_SUPER_SLIDE = 1 UMETA(DisplayName = "Super Glide"),
+	TPF_SONIC_SLIDE = 2 UMETA(DisplayName = "Sonic Glide"),
+	TPF_SUPER_FLIGHT = 3 UMETA(DisplayName = "Super Flight"),
+	TPF_AIR_DODGE = 4 UMETA(DisplayName = "Air Dodge"),
 	TPF_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyMajorUseID
 {
-	MAJOR_USE_ID_COMMON = 0,
-	MAJOR_USE_ID_BATTLE_PORTAL = 1,
+	MAJOR_USE_ID_COMMON = 0 UMETA(DisplayName = "Common"),
+	MAJOR_USE_ID_BATTLE_PORTAL = 1 UMETA(DisplayName = "Battle Portal"),
 	MAJOR_USE_ID_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemydw407Region
 {
-	TRES_ENEMY_DW407_REGION_RIGHTHAND = 0,
-	TRES_ENEMY_DW407_REGION_LEFTHAND = 1,
-	TRES_ENEMY_DW407_REGION_HEAD = 2,
+	TRES_ENEMY_DW407_REGION_RIGHTHAND = 0 UMETA(DisplayName = "Right Hand"),
+	TRES_ENEMY_DW407_REGION_LEFTHAND = 1 UMETA(DisplayName = "Left Hand"),
+	TRES_ENEMY_DW407_REGION_HEAD = 2 UMETA(DisplayName = "Head"),
 	TRES_ENEMY_DW407_REGION_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemydw407ViewWay
+enum class ETresEnemydw407ViewWay : uint8
 {
-	TRES_ENEMY_DW407_VIEWWAY_SEPARATESETTING = 0,
-	TRES_ENEMY_DW407_VIEWWAY_HEIGHTFIXED = 1,
+	TRES_ENEMY_DW407_VIEWWAY_SEPARATESETTING = 0 UMETA(DisplayName = "Separate Setting"),
+	TRES_ENEMY_DW407_VIEWWAY_HEIGHTFIXED = 1 UMETA(DisplayName = "Height Fixed"),
 	TRES_ENEMY_DW407_VIEWWAY_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickInstanceManagerInstanceState
+enum class ETresGimmickInstanceManagerInstanceState : uint8
 {
-	Alive = 0,
-	Destroy = 1,
+	Alive = 0 UMETA(DisplayName = "Alive"),
+	Destroy = 1 UMETA(DisplayName = "Destroy"),
 	ETresGimmickInstanceManagerInstanceState_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyToyKind
+enum class ETresEnemyToyKind : uint8
 {
-	TRES_ENEMY_TOY_KIND_UNKNOWN = 0,
-	TRES_ENEMY_TOY_KIND_MONSTER = 1,
-	TRES_ENEMY_TOY_KIND_ANGELICAMBER = 2,
-	TRES_ENEMY_TOY_KIND_BOUNCYPETS_PIGS = 3,
-	TRES_ENEMY_TOY_KIND_BOUNCYPETS_DOG = 4,
-	TRES_ENEMY_TOY_KIND_BOUNCYPETS_CAT = 5,
-	TRES_ENEMY_TOY_KIND_BOUNCYPETS_ELEPHANT = 6,
-	TRES_ENEMY_TOY_KIND_BOUNCYPETS_COW = 7,
-	TRES_ENEMY_TOY_KIND_BOUNCYPETS_FROG = 8,
-	TRES_ENEMY_TOY_KIND_PATCHWORKANIMALS_PANDA = 9,
-	TRES_ENEMY_TOY_KIND_PATCHWORKANIMALS_LION = 10,
-	TRES_ENEMY_TOY_KIND_ROBO_ELEPHANT = 11,
-	TRES_ENEMY_TOY_KIND_ROBO_FAN_WHITE = 12,
-	TRES_ENEMY_TOY_KIND_ROBO_FAN_BLUE = 13,
-	TRES_ENEMY_TOY_KIND_ROBO_FAN_GREEN = 14,
+	TRES_ENEMY_TOY_KIND_UNKNOWN = 0 UMETA(DisplayName = "Unknown"),
+	TRES_ENEMY_TOY_KIND_MONSTER = 1 UMETA(DisplayName = "Monster"),
+	TRES_ENEMY_TOY_KIND_ANGELICAMBER = 2 UMETA(DisplayName = "Angelic Amber"),
+	TRES_ENEMY_TOY_KIND_BOUNCYPETS_PIGS = 3 UMETA(DisplayName = "Bouncy Pets (Pigs)"),
+	TRES_ENEMY_TOY_KIND_BOUNCYPETS_DOG = 4 UMETA(DisplayName = "Bouncy Pets (Dog)"),
+	TRES_ENEMY_TOY_KIND_BOUNCYPETS_CAT = 5 UMETA(DisplayName = "Bouncy Pets (Cat)"),
+	TRES_ENEMY_TOY_KIND_BOUNCYPETS_ELEPHANT = 6 UMETA(DisplayName = "Bouncy Pets (Elephant)"),
+	TRES_ENEMY_TOY_KIND_BOUNCYPETS_COW = 7 UMETA(DisplayName = "Bouncy Pets (Cow)"),
+	TRES_ENEMY_TOY_KIND_BOUNCYPETS_FROG = 8 UMETA(DisplayName = "Bouncy Pets (Frog)"),
+	TRES_ENEMY_TOY_KIND_PATCHWORKANIMALS_PANDA = 9 UMETA(DisplayName = "Patchwork Animals (Panda)"),
+	TRES_ENEMY_TOY_KIND_PATCHWORKANIMALS_LION = 10 UMETA(DisplayName = "Patchwork Animals (Lion)"),
+	TRES_ENEMY_TOY_KIND_ROBO_ELEPHANT = 11 UMETA(DisplayName = "Robo Elephant"),
+	TRES_ENEMY_TOY_KIND_ROBO_FAN_WHITE = 12 UMETA(DisplayName = "Robo Fan (White)"),
+	TRES_ENEMY_TOY_KIND_ROBO_FAN_BLUE = 13 UMETA(DisplayName = "Robo Fan (Blue)"),
+	TRES_ENEMY_TOY_KIND_ROBO_FAN_GREEN = 14 UMETA(DisplayName = "Robo Fan (Green)"),
 	TRES_ENEMY_TOY_KIND_MAX = 15 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresHologramSubAnimReplaceType
+enum class ETresHologramSubAnimReplaceType : uint8
 {
-	ETresHologramSubAnimReplaceType_None = 0,
-	ETresHologramSubAnimReplaceType_LeftHand = 1,
-	ETresHologramSubAnimReplaceType_RightHand = 2,
-	ETresHologramSubAnimReplaceType_LeftHand2 = 3,
-	ETresHologramSubAnimReplaceType_RightHand2 = 4,
-	ETresHologramSubAnimReplaceType_LeftHand3 = 5,
-	ETresHologramSubAnimReplaceType_RightHand3 = 6,
-	ETresHologramSubAnimReplaceType_1_Max = 7 UMETA(Hidden),
+	None = 0 UMETA(DisplayName = "None"),
+	LeftHand = 1 UMETA(DisplayName = "Left Hand"),
+	RightHand = 2 UMETA(DisplayName = "Right Hand"),
+	LeftHand2 = 3 UMETA(DisplayName = "Left Hand 2"),
+	RightHand2 = 4 UMETA(DisplayName = "Right Hand 2"),
+	LeftHand3 = 5 UMETA(DisplayName = "Left Hand 3"),
+	RightHand3 = 6 UMETA(DisplayName = "RIght Hand 3"),
+	Max = 7 UMETA(Hidden),
 	ETresHologramSubAnimReplaceType_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDancePerformType
+enum class EDancePerformType : uint8
 {
-	EDancePerformType_NONE = 0,
-	SPIN_PERFORM = 1,
-	STEP_PERFORM = 2,
-	PAIR_IN = 3,
-	PAIR_LOOP = 4,
-	PAIR_OUT = 5,
-	PAIR_OUTIN_OUT = 6,
-	PAIR_OUTIN_IN = 7,
-	PAIR_CHANGE = 8,
-	PAIR_CHANGE_FAILED = 9,
-	SPECIAL_MOVE_SUCCESS = 10,
-	SITUATION_COMMAND = 11,
-	RAPUNZEL_FINISH = 12,
-	CLAP_ACTION = 13,
+	NONE = 0 UMETA(DisplayName = "None"),
+	SPIN_PERFORM = 1 UMETA(DisplayName = "Spin Perform"),
+	STEP_PERFORM = 2 UMETA(DisplayName = "Step Perform"),
+	PAIR_IN = 3 UMETA(DisplayName = "Pair In"),
+	PAIR_LOOP = 4 UMETA(DisplayName = "Pair Loop"),
+	PAIR_OUT = 5 UMETA(DisplayName = "Pair Out"),
+	PAIR_OUTIN_OUT = 6 UMETA(DisplayName = "Pair Out In Out"),
+	PAIR_OUTIN_IN = 7 UMETA(DisplayName = "Pair Out In In"),
+	PAIR_CHANGE = 8 UMETA(DisplayName = "Pair Change"),
+	PAIR_CHANGE_FAILED = 9 UMETA(DisplayName = "Pair Change Failed"),
+	SPECIAL_MOVE_SUCCESS = 10 UMETA(DisplayName = "Special Move Success"),
+	SITUATION_COMMAND = 11 UMETA(DisplayName = "Situation Command"),
+	RAPUNZEL_FINISH = 12 UMETA(DisplayName = "Rapunzel Finish"),
+	CLAP_ACTION = 13 UMETA(DisplayName = "Clap Action"),
 	EDancePerformType_MAX = 14 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresRaDanceAreaType
+enum class ETresRaDanceAreaType : uint8
 {
-	RA_DANCE_NONE = 0,
-	RA_DANCE_NORMAL = 1,
-	RA_DANCE_RETURN = 2,
-	RA_DANCE_CENTER = 3,
-	RA_DANCE_CENTER_OUT = 4,
-	RA_DANCE_OUTFIELD = 5,
-	RA_DANCE_RAPUNZEL = 6,
-	RA_DANCE_FLYNN = 7,
+	RA_DANCE_NONE = 0 UMETA(DisplayName = "None"),
+	RA_DANCE_NORMAL = 1 UMETA(DisplayName = "Normal"),
+	RA_DANCE_RETURN = 2 UMETA(DisplayName = "Return"),
+	RA_DANCE_CENTER = 3 UMETA(DisplayName = "Center"),
+	RA_DANCE_CENTER_OUT = 4 UMETA(DisplayName = "Center Out"),
+	RA_DANCE_OUTFIELD = 5 UMETA(DisplayName = "Outfield"),
+	RA_DANCE_RAPUNZEL = 6 UMETA(DisplayName = "Rapunzel"),
+	RA_DANCE_FLYNN = 7 UMETA(DisplayName = "Flynn"),
 	RA_DANCE_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDanceActorAction
+enum class EDanceActorAction : uint8
 {
-	NORMAL_STEP = 0,
-	INVITE = 1,
-	INVITE01 = 2,
+	NORMAL_STEP = 0 UMETA(DisplayName = "Normal Step"),
+	INVITE = 1 UMETA(DisplayName = "Invite"),
+	INVITE01 = 2 UMETA(DisplayName = "Invite 01"),
 	EDanceActorAction_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDanceActorType
+enum class EDanceActorType : uint8
 {
-	MALE = 0,
-	FEMALE = 1,
-	ANY = 2,
+	MALE = 0 UMETA(DisplayName = "Male"),
+	FEMALE = 1 UMETA(DisplayName = "Female"),
+	ANY = 2 UMETA(DisplayName = "Any"),
 	EDanceActorType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickDistanceBetweenPlayer
+enum class ETresGimmickDistanceBetweenPlayer : uint8
 {
-	ETresGimmickDistanceBetweenPlayer_None = 0,
-	ETresGimmickDistanceBetweenPlayer_Near = 1,
-	ETresGimmickDistanceBetweenPlayer_Middle = 2,
-	ETresGimmickDistanceBetweenPlayer_Far = 3,
+	None = 0 UMETA(DisplayName = "None"),
+	Near = 1 UMETA(DisplayName = "Near"),
+	Middle = 2 UMETA(DisplayName = "Middle"),
+	Far = 3 UMETA(DisplayName = "Far"),
 	ETresGimmickDistanceBetweenPlayer_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresGimmickLookAtType
 {
-	GLTYPE_NONE = 0,
-	GLTYPE_ALWAYS_TRUE = 1,
+	GLTYPE_NONE = 0 UMETA(DisplayName = "None"),
+	GLTYPE_ALWAYS_TRUE = 1 UMETA(DisplayName = "Always True"),
 	GLTYPE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresGimmickLookAtTrackingType
 {
-	GLTTYPE_NONE = 0,
-	GLTTYPE_PLAYER = 1,
+	GLTTYPE_NONE = 0 UMETA(DisplayName = "None"),
+	GLTTYPE_PLAYER = 1 UMETA(DisplayName = "Player"),
 	GLTTYPE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDanceSpecialPerformType
+enum class EDanceSpecialPerformType : uint8
 {
-	BARREL = 0,
-	FLAG = 1,
-	CART = 2,
+	BARREL = 0 UMETA(DisplayName = "Barrel"),
+	FLAG = 1 UMETA(DisplayName = "Flag"),
+	CART = 2 UMETA(DisplayName = "Cart"),
 	EDanceSpecialPerformType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudDanceResult
+enum class ETresUIHudDanceResult : uint8
 {
-	ETresUIHudDanceResult_RankA = 0,
-	ETresUIHudDanceResult_RankB = 1,
-	ETresUIHudDanceResult_RankC = 2,
-	ETresUIHudDanceResult_RankD = 3,
-	ETresUIHudDanceResult_1_MAX = 4,
+	RankA = 0 UMETA(DisplayName = "Rank A"),
+	RankB = 1 UMETA(DisplayName = "Rank B"),
+	RankC = 2 UMETA(DisplayName = "Rank C"),
+	RankD = 3 UMETA(DisplayName = "Rank D"),
+	MAX = 4 UMETA(Hidden),
 	ETresUIHudDanceResult_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDanceClapMissionType
+enum class EDanceClapMissionType : uint8
 {
-	PATTERN = 0,
+	PATTERN = 0 UMETA(DisplayName = "Pattern"),
 	PATTERN01 = 1,
 	PATTERN02 = 2,
 	PATTERN_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipCollisionShape
+enum class ETresGumiShipCollisionShape : uint8
 {
-	CS_SPHERE = 0,
-	CS_CAPSULE = 1,
-	CS_CAPSULE_ROOT = 2,
-	CS_BOX = 3,
-	CS_RING = 4,
+	CS_SPHERE = 0 UMETA(DisplayName = "Sphere"),
+	CS_CAPSULE = 1 UMETA(DisplayName = "Capsule"),
+	CS_CAPSULE_ROOT = 2 UMETA(DisplayName = "Capsule Root"),
+	CS_BOX = 3 UMETA(DisplayName = "Box"),
+	CS_RING = 4 UMETA(DisplayName = "Ring"),
 	CS_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipCollisionPriority
+enum class ETresGumiShipCollisionPriority : uint8
 {
-	CP_HIGH = 0,
-	CP_NORMAL = 1,
-	CP_LOW = 2,
+	CP_HIGH = 0 UMETA(DisplayName = "High"),
+	CP_NORMAL = 1 UMETA(DisplayName = "Normal"),
+	CP_LOW = 2 UMETA(DisplayName = "Low"),
 	CP_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipWeaponPrimType
+enum class ETresGumiShipWeaponPrimType : uint8
 {
-	ETresGumiShipWeaponPrimType_SEQUENCE = 0,
-	ETresGumiShipWeaponPrimType_NORMAL_WEAPON = 1,
-	ETresGumiShipWeaponPrimType_SPECIAL_WEAPON = 2,
-	ETresGumiShipWeaponPrimType_AUTO_MULTI_LOCKON_WEAPON = 3,
-	ETresGumiShipWeaponPrimType_MANUAL_MULTI_LOCKON_WEAPON = 4,
-	ETresGumiShipWeaponPrimType_NONE = 5,
-	ETresGumiShipWeaponPrimType_TYPE_MAX = 6 UMETA(Hidden),
+	SEQUENCE = 0 UMETA(DisplayName = "Sequence"),
+	NORMAL_WEAPON = 1 UMETA(DisplayName = "Normal Weapon"),
+	SPECIAL_WEAPON = 2 UMETA(DisplayName = "Special Weapon"),
+	AUTO_MULTI_LOCKON_WEAPON = 3 UMETA(DisplayName = "Auto Multi Lockon Weapon"),
+	MANUAL_MULTI_LOCKON_WEAPON = 4 UMETA(DisplayName = "Manual Multi Lockon Weapon"),
+	NONE = 5 UMETA(DisplayName = "None"),
+	TYPE_MAX = 6 UMETA(Hidden),
 	ETresGumiShipWeaponPrimType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipWeaponSequencePort
+enum class ETresGumiShipWeaponSequencePort : uint8
 {
-	WS_INDEX = 0,
+	WS_INDEX = 0 UMETA(DisplayName = "Index"),
 	WS_INDEX01 = 1,
 	WS_INDEX02 = 2,
 	WS_INDEX03 = 3,
-	WS_INDEX_SP = 4,
+	WS_INDEX_SP = 4 UMETA(DisplayName = "Index SP"),
 	WS_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBadStateType
+enum class ETresGumiShipBadStateType : uint8
 {
-	ETresGumiShipBadStateType_BS_NONE = 0,
-	ETresGumiShipBadStateType_BS_STUN = 1,
-	ETresGumiShipBadStateType_BS_MAX = 2 UMETA(Hidden)
+	BS_NONE = 0 UMETA(DisplayName = "None"),
+	BS_STUN = 1 UMETA(DisplayName = "Stun"),
+	BS_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipReactionType
+enum class ETresGumiShipReactionType : uint8
 {
-	RT_NONE = 0,
-	RT_BLOW_SMALL = 1,
-	RT_BLOW_MIDDLE = 2,
-	RT_BLOW_BIG = 3,
+	RT_NONE = 0 UMETA(DisplayName = "None"),
+	RT_BLOW_SMALL = 1 UMETA(DisplayName = "Blow Small"),
+	RT_BLOW_MIDDLE = 2 UMETA(DisplayName = "Blow Middle"),
+	RT_BLOW_BIG = 3 UMETA(DisplayName = "Blow Big"),
 	RT_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipPlayerAccelerationType
+enum class ETresGumiShipPlayerAccelerationType : uint8
 {
-	AT_NONE_TYPE = 0,
-	AT_GEAR_CHANGE_TYPE = 1,
-	AT_ACCELERATOR_TYPE = 2,
+	AT_NONE_TYPE = 0 UMETA(DisplayName = "None"),
+	AT_GEAR_CHANGE_TYPE = 1 UMETA(DisplayName = "Gear Change"),
+	AT_ACCELERATOR_TYPE = 2 UMETA(DisplayName = "Accelerator"),
 	AT_TYPE_MAX = 3 UMETA(Hidden),
 	AT_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipPlayerMovementType
+enum class ETresGumiShipPlayerMovementType : uint8
 {
-	MT_NONE_TYPE = 0,
-	MT_DEFAULT_TYPE = 1,
-	MT_EXPERT_TYPE = 2,
-	MT_TRACKING_TYPE = 3,
-	MT_RAIL_SLIDE_TYPE = 4,
-	MT_RAIL_SLIDE_TYPE_TRACKING_LIKE = 5,
-	MT_DEBUG_TYPE = 6,
+	MT_NONE_TYPE = 0 UMETA(DisplayName = "None"),
+	MT_DEFAULT_TYPE = 1 UMETA(DisplayName = "Default"),
+	MT_EXPERT_TYPE = 2 UMETA(DisplayName = "Expert"),
+	MT_TRACKING_TYPE = 3 UMETA(DisplayName = "Tracking"),
+	MT_RAIL_SLIDE_TYPE = 4 UMETA(DisplayName = "Rail Slide"),
+	MT_RAIL_SLIDE_TYPE_TRACKING_LIKE = 5 UMETA(DisplayName = "Rail Slide Tracking Like"),
+	MT_DEBUG_TYPE = 6 UMETA(DisplayName = "Debug"),
 	MOVE_TYPE_MAX = 7 UMETA(Hidden),
 	ETresGumiShipPlayerMovementType_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipSplineEventType
+enum class ETresGumiShipSplineEventType : uint8
 {
-	ENEMY_MOVE_SPEED_UP_POINT = 0,
-	ENEMY_MOVE_SPEED_DOWN_POINT = 1,
-	ENEMY_ATTACK_CHECK_START_POINT = 2,
-	ENEMY_SPECIAL_EVENT_TRIGGER_POINT = 3,
-	ARRIVED_SPLINE_END_POINT = 4,
+	ENEMY_MOVE_SPEED_UP_POINT = 0 UMETA(DisplayName = "Enemy Move Speed Up Point"),
+	ENEMY_MOVE_SPEED_DOWN_POINT = 1 UMETA(DisplayName = "Enemy Move Speed Down Point"),
+	ENEMY_ATTACK_CHECK_START_POINT = 2 UMETA(DisplayName = "Enemy Attack Check Start Point"),
+	ENEMY_SPECIAL_EVENT_TRIGGER_POINT = 3 UMETA(DisplayName = "Enemy Special Event Trigger Point"),
+	ARRIVED_SPLINE_END_POINT = 4 UMETA(DisplayName = "Arrived Spline End Point"),
 	SPLINE_ADDITIONAL_DATA_KIND_MAX = 5 UMETA(Hidden),
 	ETresGumiShipSplineEventType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyStateID
+enum class ETresGumiShipEnemyStateID : uint8
 {
-	BLANK_STATE = 0,
-	DEAD_STATE = 1,
-	APPEAR_STATE = 2,
-	DISAPPEAR_STATE = 3,
-	IDLING_STATE = 4,
-	CINEMATIC_MODE_STATE = 5,
-	FIELD_ENCOUNT_SYMBOL_STATE = 6,
+	BLANK_STATE = 0 UMETA(DisplayName = "Blank"),
+	DEAD_STATE = 1 UMETA(DisplayName = "Dead"),
+	APPEAR_STATE = 2 UMETA(DisplayName = "Appear"),
+	DISAPPEAR_STATE = 3 UMETA(DisplayName = "Disappear"),
+	IDLING_STATE = 4 UMETA(DisplayName = "Idling"),
+	CINEMATIC_MODE_STATE = 5 UMETA(DisplayName = "Cinematic Mode"),
+	FIELD_ENCOUNT_SYMBOL_STATE = 6 UMETA(DisplayName = "Field Encount Symbol"),
 	ATTACK1_STATE = 7,
 	ATTACK2_STATE = 8,
 	ATTACK3_STATE = 9,
@@ -1825,9 +1821,9 @@ enum ETresGumiShipEnemyStateID
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyID
+enum class ETresGumiShipEnemyID : uint8
 {
-	ENEMY_ID_NONE = 0,
+	ENEMY_ID_NONE = 0 UMETA(DisplayName = "None"),
 	E_GM601 = 1,
 	E_GM602 = 2,
 	E_GM603 = 3,
@@ -1860,26 +1856,26 @@ enum ETresGumiShipEnemyID
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyLookAtType
+enum class ETresGumiShipEnemyLookAtType : uint8
 {
-	KEEP_SPLINE_MOVE_DIRECTION = 0,
-	TURN_TO_GUMI_SHIP_PLAYER = 1,
-	TURN_TO_CAMERA_OFFSET_LOCATION = 2,
+	KEEP_SPLINE_MOVE_DIRECTION = 0 UMETA(DisplayName = "Keep Spline Move Direction"),
+	TURN_TO_GUMI_SHIP_PLAYER = 1 UMETA(DisplayName = "Turn to Gumi Ship Player"),
+	TURN_TO_CAMERA_OFFSET_LOCATION = 2 UMETA(DisplayName = "Turn to Camera Offset Location"),
 	DIRECTION_TYPE_MAX = 3 UMETA(Hidden),
 	ETresGumiShipEnemyLookAtType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyStateResult
+enum class ETresGumiShipEnemyStateResult : uint8
 {
-	RESULT_SUCCESS = 0,
-	RESULT_FAILED = 1,
-	RESULT_ABORT = 2,
+	RESULT_SUCCESS = 0 UMETA(DisplayName = "Success"),
+	RESULT_FAILED = 1 UMETA(DisplayName = "Failed"),
+	RESULT_ABORT = 2 UMETA(DisplayName = "Abort"),
 	RESULT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipGimmickID
+enum class ETresGumiShipGimmickID : uint8
 {
 	G_GM_000 = 0,
 	G_GM_002 = 1,
@@ -1963,44 +1959,44 @@ enum ETresGumiShipGimmickID
 	G_GM_269 = 79,
 	G_GM28 = 80,
 	G_GM29 = 81,
-	G_GM_NONE = 82,
+	G_GM_NONE = 82 UMETA(DisplayName = "None"),
 	G_GM_MAX = 83 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleMissionEndFactorType
+enum class ETresGumiShipBattleMissionEndFactorType : uint8
 {
-	BMEF_NONE = 0,
-	BMEF_RETRY = 1,
-	BMEF_QUIT = 2,
-	BMEF_SEARCH_RESTART = 3,
-	BMEF_NORMAL = 4,
+	BMEF_NONE = 0 UMETA(DisplayName = "None"),
+	BMEF_RETRY = 1 UMETA(DisplayName = "Retry"),
+	BMEF_QUIT = 2 UMETA(DisplayName = "Quit"),
+	BMEF_SEARCH_RESTART = 3 UMETA(DisplayName = "Search Restart"),
+	BMEF_NORMAL = 4 UMETA(DisplayName = "Normal"),
 	BMEF_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleMissionRankType
+enum class ETresGumiShipBattleMissionRankType : uint8
 {
-	BMRT_A = 0,
-	BMRT_B = 1,
-	BMRT_C = 2,
-	BMRT_D = 3,
-	BMRT_E = 4,
+	BMRT_A = 0 UMETA(DisplayName = "A"),
+	BMRT_B = 1 UMETA(DisplayName = "B"),
+	BMRT_C = 2 UMETA(DisplayName = "C"),
+	BMRT_D = 3 UMETA(DisplayName = "D"),
+	BMRT_E = 4 UMETA(DisplayName = "E"),
 	BMRT_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyBattleFinishType
+enum class ETresGumiShipEnemyBattleFinishType : uint8
 {
-	BATTLE_QUIT_SELECT = 0,
-	BATTLE_RETRY_SELECT = 1,
-	RETURN_FIELD_QUEST_SELECT = 2,
+	BATTLE_QUIT_SELECT = 0 UMETA(DisplayName = "Battle Quit"),
+	BATTLE_RETRY_SELECT = 1 UMETA(DisplayName = "Battle Retry"),
+	RETURN_FIELD_QUEST_SELECT = 2 UMETA(DisplayName = "Return Field Quest"),
 	BATTLE_FINISH_TYPE_MAX = 3 UMETA(Hidden),
 	ETresGumiShipEnemyBattleFinishType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyTerritoryID
+enum class ETresGumiShipEnemyTerritoryID : uint8
 {
 	E_GM01_TE_01 = 0,
 	E_GM01_TE_02 = 1,
@@ -2060,327 +2056,327 @@ enum ETresGumiShipEnemyTerritoryID
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyBattleStartType
+enum class ETresGumiShipEnemyBattleStartType : uint8
 {
-	ENEMY_SYMBOL_ENCOUNTER = 0,
-	BOSS_ENEMY_BATTLE_TRIGGER = 1,
-	FIELD_TYPE_ENEMY_BATTLE_TRIGGER = 2,
+	ENEMY_SYMBOL_ENCOUNTER = 0 UMETA(DisplayName = "Enemy Symbol Encounter"),
+	BOSS_ENEMY_BATTLE_TRIGGER = 1 UMETA(DisplayName = "Boss Enemy Battle Trigger"),
+	FIELD_TYPE_ENEMY_BATTLE_TRIGGER = 2 UMETA(DisplayName = "Field Type Enemy Battle Trigger"),
 	BATTLE_START_TYPE_MAX = 3 UMETA(Hidden),
 	ETresGumiShipEnemyBattleStartType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleAreaState
+enum class ETresGumiShipBattleAreaState : uint8
 {
-	ACTIVE = 0,
-	LEAVE_GUMI_SHIP = 1,
-	ENEMY_DISAPPEAR = 2,
-	NON_ACTIVE = 3,
+	ACTIVE = 0 UMETA(DisplayName = "Active"),
+	LEAVE_GUMI_SHIP = 1 UMETA(DisplayName = "Leave Gumiship"),
+	ENEMY_DISAPPEAR = 2 UMETA(DisplayName = "Enemy Disappear"),
+	NON_ACTIVE = 3 UMETA(DisplayName = "Nonactive"),
 	ETresGumiShipBattleAreaState_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipRailSlideType
+enum class ETresGumiShipRailSlideType : uint8
 {
-	RST_NONE = 0,
-	RST_ROUTE = 1,
-	RST_TRACKING = 2,
-	RST_SP_TRACKING = 3,
+	RST_NONE = 0 UMETA(DisplayName = "None"),
+	RST_ROUTE = 1 UMETA(DisplayName = "Route"),
+	RST_TRACKING = 2 UMETA(DisplayName = "Tracking"),
+	RST_SP_TRACKING = 3 UMETA(DisplayName = "SP Tracking"),
 	RST_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipConsumptionType
+enum class ETresGumiShipConsumptionType : uint8
 {
-	CT_CHARGE_TYPE = 0,
-	CT_COUNT_TYPE = 1,
-	CT_TIME_TYPE = 2,
+	CT_CHARGE_TYPE = 0 UMETA(DisplayName = "Charge"),
+	CT_COUNT_TYPE = 1 UMETA(DisplayName = "Count"),
+	CT_TIME_TYPE = 2 UMETA(DisplayName = "Time"),
 	CT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBonusKind
+enum class ETresGumiShipBonusKind : uint8
 {
-	BK_DEFEAD_COUNT = 0,
-	BK_QUICK_TEAM_DEFEAD = 1,
-	BK_AREA_DEFEAD = 2,
+	BK_DEFEAD_COUNT = 0 UMETA(DisplayName = "Defeat Count"),
+	BK_QUICK_TEAM_DEFEAD = 1 UMETA(DisplayName = "Quick Team Defead"),
+	BK_AREA_DEFEAD = 2 UMETA(DisplayName = "Area Defead"),
 	BK_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBonusType
+enum class ETresGumiShipBonusType : uint8
 {
-	BONUS_DEFEAT_ENEMY = 0,
-	BONUS_DESTROY_PARTS = 1,
-	BONUS_DEFEAT_GROUP = 2,
+	BONUS_DEFEAT_ENEMY = 0 UMETA(DisplayName = "Defeat Enemy"),
+	BONUS_DESTROY_PARTS = 1 UMETA(DisplayName = "Destroy Parts"),
+	BONUS_DEFEAT_GROUP = 2 UMETA(DisplayName = "Defeat Group"),
 	BONUS_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameHelp
+enum class ETresGameHelp : uint8
 {
-	ETresGameHelp_Help_00100 = 0 UMETA(DisplayName = "Help 00100"),
-	ETresGameHelp_Help_00200 = 1 UMETA(DisplayName = "Help 00200"),
-	ETresGameHelp_Help_00300 = 2 UMETA(DisplayName = "Help 00300"),
-	ETresGameHelp_Help_00400 = 3 UMETA(DisplayName = "Help 00400"),
-	ETresGameHelp_Help_00450 = 4 UMETA(DisplayName = "Help 00450"),
-	ETresGameHelp_Help_00500 = 5 UMETA(DisplayName = "Help 00600"),
-	ETresGameHelp_Help_00600 = 6 UMETA(DisplayName = "Help 00700"),
-	ETresGameHelp_Help_00700 = 7 UMETA(DisplayName = "Help 00700"),
-	ETresGameHelp_Help_00800 = 8 UMETA(DisplayName = "Help 00800"),
-	ETresGameHelp_Help_00900 = 9 UMETA(DisplayName = "Help 00900"),
-	ETresGameHelp_Help_01000 = 10 UMETA(DisplayName = "Help 01000"),
-	ETresGameHelp_Help_01100 = 11 UMETA(DisplayName = "Help 01100"),
-	ETresGameHelp_Help_01200 = 12 UMETA(DisplayName = "Help 01200"),
-	ETresGameHelp_Help_01300 = 13 UMETA(DisplayName = "Help 01300"),
-	ETresGameHelp_Help_01400 = 14 UMETA(DisplayName = "Help 01400"),
-	ETresGameHelp_Help_01500 = 15 UMETA(DisplayName = "Help 01500"),
-	ETresGameHelp_Help_01600 = 16 UMETA(DisplayName = "Help 01600"),
-	ETresGameHelp_Help_01700 = 17 UMETA(DisplayName = "Help 01700"),
-	ETresGameHelp_Help_01800 = 18 UMETA(DisplayName = "Help 01800"),
-	ETresGameHelp_Help_01900 = 19 UMETA(DisplayName = "Help 01900"),
-	ETresGameHelp_Help = 20 UMETA(DisplayName = "Help"),
-	ETresGameHelp_Help01 = 21 UMETA(DisplayName = "Help 01"),
-	ETresGameHelp_Help02 = 22 UMETA(DisplayName = "Help 02"),
-	ETresGameHelp_Help03 = 23 UMETA(DisplayName = "Help 03"),
-	ETresGameHelp_Help04 = 24 UMETA(DisplayName = "Help 04"),
-	ETresGameHelp_Help05 = 25 UMETA(DisplayName = "Help 05"),
-	ETresGameHelp_Help06 = 26 UMETA(DisplayName = "Help 06"),
-	ETresGameHelp_Help07 = 27 UMETA(DisplayName = "Help 07"),
-	ETresGameHelp_Help08 = 28 UMETA(DisplayName = "Help 08"),
-	ETresGameHelp_Help09 = 29 UMETA(DisplayName = "Help 09"),
-	ETresGameHelp_Help10 = 30 UMETA(DisplayName = "Help 10"),
-	ETresGameHelp_Help11 = 31 UMETA(DisplayName = "Help 11"),
-	ETresGameHelp_Help12 = 32 UMETA(DisplayName = "Help 12"),
-	ETresGameHelp_Help13 = 33 UMETA(DisplayName = "Help 13"),
-	ETresGameHelp_Help14 = 34 UMETA(DisplayName = "Help 14"),
-	ETresGameHelp_Help15 = 35 UMETA(DisplayName = "Help 15"),
-	ETresGameHelp_Help16 = 36 UMETA(DisplayName = "Help 16"),
-	ETresGameHelp_Help17 = 37 UMETA(DisplayName = "Help 17"),
-	ETresGameHelp_Help18 = 38 UMETA(DisplayName = "Help 18"),
-	ETresGameHelp_Help19 = 39 UMETA(DisplayName = "Help 19"),
-	ETresGameHelp_Help20 = 40 UMETA(DisplayName = "Help 20"),
-	ETresGameHelp_Help21 = 41 UMETA(DisplayName = "Help 21"),
-	ETresGameHelp_Help22 = 42 UMETA(DisplayName = "Help 22"),
-	ETresGameHelp_Help23 = 43 UMETA(DisplayName = "Help 23"),
-	ETresGameHelp_Help24 = 44 UMETA(DisplayName = "Help 24"),
-	ETresGameHelp_Help25 = 45 UMETA(DisplayName = "Help 25"),
-	ETresGameHelp_Help26 = 46 UMETA(DisplayName = "Help 26"),
-	ETresGameHelp_Help27 = 47 UMETA(DisplayName = "Help 27"),
-	ETresGameHelp_Help28 = 48 UMETA(DisplayName = "Help 28"),
-	ETresGameHelp_Help29 = 49 UMETA(DisplayName = "Help 29"),
-	ETresGameHelp_Help30 = 50 UMETA(DisplayName = "Help 30"),
-	ETresGameHelp_Help31 = 51 UMETA(DisplayName = "Help 31"),
-	ETresGameHelp_Help32 = 52 UMETA(DisplayName = "Help 32"),
-	ETresGameHelp_Help33 = 53 UMETA(DisplayName = "Help 33"),
-	ETresGameHelp_Help34 = 54 UMETA(DisplayName = "Help 34"),
-	ETresGameHelp_Help35 = 55 UMETA(DisplayName = "Help 35"),
-	ETresGameHelp_Help36 = 56 UMETA(DisplayName = "Help 36"),
-	ETresGameHelp_Help37 = 57 UMETA(DisplayName = "Help 37"),
-	ETresGameHelp_Help38 = 58 UMETA(DisplayName = "Help 38"),
-	ETresGameHelp_Help39 = 59 UMETA(DisplayName = "Help 39"),
-	ETresGameHelp_Help40 = 60 UMETA(DisplayName = "Help 40"),
-	ETresGameHelp_Help41 = 61 UMETA(DisplayName = "Help 41"),
-	ETresGameHelp_Help42 = 62 UMETA(DisplayName = "Help 42"),
-	ETresGameHelp_Help43 = 63 UMETA(DisplayName = "Help 43"),
-	ETresGameHelp_Help44 = 64 UMETA(DisplayName = "Help 44"),
-	ETresGameHelp_Help45 = 65 UMETA(DisplayName = "Help 45"),
-	ETresGameHelp_Help46 = 66 UMETA(DisplayName = "Help 46"),
-	ETresGameHelp_Help47 = 67 UMETA(DisplayName = "Help 47"),
-	ETresGameHelp_Help48 = 68 UMETA(DisplayName = "Help 48"),
-	ETresGameHelp_Help49 = 69 UMETA(DisplayName = "Help 49"),
-	ETresGameHelp_Help50 = 70 UMETA(DisplayName = "Help 50"),
-	ETresGameHelp_Help51 = 71 UMETA(DisplayName = "Help 51"),
-	ETresGameHelp_Help52 = 72 UMETA(DisplayName = "Help 52"),
-	ETresGameHelp_Help53 = 73 UMETA(DisplayName = "Help 53"),
-	ETresGameHelp_Help54 = 74 UMETA(DisplayName = "Help 54"),
-	ETresGameHelp_Help55 = 75 UMETA(DisplayName = "Help 55"),
-	ETresGameHelp_Help56 = 76 UMETA(DisplayName = "Help 56"),
-	ETresGameHelp_Help57 = 77 UMETA(DisplayName = "Help 57"),
-	ETresGameHelp_Help58 = 78 UMETA(DisplayName = "Help 58"),
-	ETresGameHelp_Help59 = 79 UMETA(DisplayName = "Help 59"),
-	ETresGameHelp_Help60 = 80 UMETA(DisplayName = "Help 60"),
-	ETresGameHelp_Help61 = 81 UMETA(DisplayName = "Help 61"),
-	ETresGameHelp_Help62 = 82 UMETA(DisplayName = "Help 62"),
-	ETresGameHelp_Help63 = 83 UMETA(DisplayName = "Help 63"),
-	ETresGameHelp_Help64 = 84 UMETA(DisplayName = "Help 64"),
-	ETresGameHelp_Help65 = 85 UMETA(DisplayName = "Help 65"),
-	ETresGameHelp_Help66 = 86 UMETA(DisplayName = "Help 66"),
-	ETresGameHelp_Help67 = 87 UMETA(DisplayName = "Help 67"),
-	ETresGameHelp_Help68 = 88 UMETA(DisplayName = "Help 68"),
-	ETresGameHelp_Help69 = 89 UMETA(DisplayName = "Help 69"),
-	ETresGameHelp_Help70 = 90 UMETA(DisplayName = "Help 70"),
-	ETresGameHelp_Help71 = 91 UMETA(DisplayName = "Help 71"),
-	ETresGameHelp_Help72 = 92 UMETA(DisplayName = "Help 72"),
-	ETresGameHelp_Help73 = 93 UMETA(DisplayName = "Help 73"),
-	ETresGameHelp_Help74 = 94 UMETA(DisplayName = "Help 74"),
-	ETresGameHelp_Help75 = 95 UMETA(DisplayName = "Help 75"),
-	ETresGameHelp_Help76 = 96 UMETA(DisplayName = "Help 76"),
-	ETresGameHelp_Help77 = 97 UMETA(DisplayName = "Help 77"),
-	ETresGameHelp_Help78 = 98 UMETA(DisplayName = "Help 78"),
-	ETresGameHelp_Help79 = 99 UMETA(DisplayName = "Help 79"),
-	ETresGameHelp_Help80 = 100 UMETA(DisplayName = "Help 80"),
-	ETresGameHelp_Help81 = 101 UMETA(DisplayName = "Help 81"),
-	ETresGameHelp_Help82 = 102 UMETA(DisplayName = "Help 82"),
-	ETresGameHelp_Help83 = 103 UMETA(DisplayName = "Help 83"),
-	ETresGameHelp_Help84 = 104 UMETA(DisplayName = "Help 84"),
-	ETresGameHelp_Help85 = 105 UMETA(DisplayName = "Help 85"),
-	ETresGameHelp_Help86 = 106 UMETA(DisplayName = "Help 86"),
-	ETresGameHelp_Help87 = 107 UMETA(DisplayName = "Help 87"),
-	ETresGameHelp_Help88 = 108 UMETA(DisplayName = "Help 88"),
-	ETresGameHelp_Help89 = 109 UMETA(DisplayName = "Help 89"),
-	ETresGameHelp_Help90 = 110 UMETA(DisplayName = "Help 90"),
-	ETresGameHelp_Help91 = 111 UMETA(DisplayName = "Help 91"),
-	ETresGameHelp_Help92 = 112 UMETA(DisplayName = "Help 92"),
-	ETresGameHelp_Help93 = 113 UMETA(DisplayName = "Help 93"),
-	ETresGameHelp_Help94 = 114 UMETA(DisplayName = "Help 94"),
-	ETresGameHelp_Help95 = 115 UMETA(DisplayName = "Help 95"),
-	ETresGameHelp_Help96 = 116 UMETA(DisplayName = "Help 96"),
-	ETresGameHelp_Help97 = 117 UMETA(DisplayName = "Help 97"),
-	ETresGameHelp_Help98 = 118 UMETA(DisplayName = "Help 98"),
-	ETresGameHelp_Help99 = 119 UMETA(DisplayName = "Help 99"),
-	ETresGameHelp_Help100 = 120 UMETA(DisplayName = "Help 100"),
-	ETresGameHelp_Help101 = 121 UMETA(DisplayName = "Help 101"),
-	ETresGameHelp_Help102 = 122 UMETA(DisplayName = "Help 102"),
-	ETresGameHelp_Help103 = 123 UMETA(DisplayName = "Help 103"),
-	ETresGameHelp_Help104 = 124 UMETA(DisplayName = "Help 104"),
-	ETresGameHelp_Help_00650 = 125 UMETA(DisplayName = "Help 00650"),
-	ETresGameHelp_Help105 = 126 UMETA(DisplayName = "Help 105"),
-	ETresGameHelp_Help106 = 127 UMETA(DisplayName = "Help 106"),
-	ETresGameHelp_Help107 = 128 UMETA(DisplayName = "Help 107"),
-	ETresGameHelp_Help108 = 129 UMETA(DisplayName = "Help 108"),
-	ETresGameHelp_Help109 = 130 UMETA(DisplayName = "Help 109"),
-	ETresGameHelp_Help110 = 131 UMETA(DisplayName = "Help 110"),
-	ETresGameHelp_Help111 = 132 UMETA(DisplayName = "Help 111"),
-	ETresGameHelp_Help112 = 133 UMETA(DisplayName = "Help 112"),
-	ETresGameHelp_Help113 = 134 UMETA(DisplayName = "Help 113"),
-	ETresGameHelp_Help114 = 135 UMETA(DisplayName = "Help 114"),
-	ETresGameHelp_Help115 = 136 UMETA(DisplayName = "Help 115"),
-	ETresGameHelp_Help116 = 137 UMETA(DisplayName = "Help 116"),
-	ETresGameHelp_Help117 = 138 UMETA(DisplayName = "Help 117"),
-	ETresGameHelp_Help118 = 139 UMETA(DisplayName = "Help 118"),
-	ETresGameHelp_Help119 = 140 UMETA(DisplayName = "Help 119"),
-	ETresGameHelp_Help120 = 141 UMETA(DisplayName = "Help 120"),
-	ETresGameHelp_Help121 = 142 UMETA(DisplayName = "Help 121"),
-	ETresGameHelp_Help122 = 143 UMETA(DisplayName = "Help 122"),
-	ETresGameHelp_Help123 = 144 UMETA(DisplayName = "Help 123"),
-	ETresGameHelp_1_Max = 145 UMETA(Hidden),
-	ETresGameHelp_Invalid = 146 UMETA(DisplayName = "Invalid"),
+	Help_00100 = 0,
+	Help_00200 = 1,
+	Help_00300 = 2,
+	Help_00400 = 3,
+	Help_00450 = 4,
+	Help_00500 = 5,
+	Help_00600 = 6,
+	Help_00700 = 7,
+	Help_00800 = 8,
+	Help_00900 = 9,
+	Help_01000 = 10,
+	Help_01100 = 11,
+	Help_01200 = 12,
+	Help_01300 = 13,
+	Help_01400 = 14,
+	Help_01500 = 15,
+	Help_01600 = 16,
+	Help_01700 = 17,
+	Help_01800 = 18,
+	Help_01900 = 19,
+	Help = 20,
+	Help01 = 21,
+	Help02 = 22,
+	Help03 = 23,
+	Help04 = 24,
+	Help05 = 25,
+	Help06 = 26,
+	Help07 = 27,
+	Help08 = 28,
+	Help09 = 29,
+	Help10 = 30,
+	Help11 = 31,
+	Help12 = 32,
+	Help13 = 33,
+	Help14 = 34,
+	Help15 = 35,
+	Help16 = 36,
+	Help17 = 37,
+	Help18 = 38,
+	Help19 = 39,
+	Help20 = 40,
+	Help21 = 41,
+	Help22 = 42,
+	Help23 = 43,
+	Help24 = 44,
+	Help25 = 45,
+	Help26 = 46,
+	Help27 = 47,
+	Help28 = 48,
+	Help29 = 49,
+	Help30 = 50,
+	Help31 = 51,
+	Help32 = 52,
+	Help33 = 53,
+	Help34 = 54,
+	Help35 = 55,
+	Help36 = 56,
+	Help37 = 57,
+	Help38 = 58,
+	Help39 = 59,
+	Help40 = 60,
+	Help41 = 61,
+	Help42 = 62,
+	Help43 = 63,
+	Help44 = 64,
+	Help45 = 65,
+	Help46 = 66,
+	Help47 = 67,
+	Help48 = 68,
+	Help49 = 69,
+	Help50 = 70,
+	Help51 = 71,
+	Help52 = 72,
+	Help53 = 73,
+	Help54 = 74,
+	Help55 = 75,
+	Help56 = 76,
+	Help57 = 77,
+	Help58 = 78,
+	Help59 = 79,
+	Help60 = 80,
+	Help61 = 81,
+	Help62 = 82,
+	Help63 = 83,
+	Help64 = 84,
+	Help65 = 85,
+	Help66 = 86,
+	Help67 = 87,
+	Help68 = 88,
+	Help69 = 89,
+	Help70 = 90,
+	Help71 = 91,
+	Help72 = 92,
+	Help73 = 93,
+	Help74 = 94,
+	Help75 = 95,
+	Help76 = 96,
+	Help77 = 97,
+	Help78 = 98,
+	Help79 = 99,
+	Help80 = 100,
+	Help81 = 101,
+	Help82 = 102,
+	Help83 = 103,
+	Help84 = 104,
+	Help85 = 105,
+	Help86 = 106,
+	Help87 = 107,
+	Help88 = 108,
+	Help89 = 109,
+	Help90 = 110,
+	Help91 = 111,
+	Help92 = 112,
+	Help93 = 113,
+	Help94 = 114,
+	Help95 = 115,
+	Help96 = 116,
+	Help97 = 117,
+	Help98 = 118,
+	Help99 = 119,
+	Help100 = 120,
+	Help101 = 121,
+	Help102 = 122,
+	Help103 = 123,
+	Help104 = 124,
+	Help_00650 = 125,
+	Help105 = 126,
+	Help106 = 127,
+	Help107 = 128,
+	Help108 = 129,
+	Help109 = 130,
+	Help110 = 131,
+	Help111 = 132,
+	Help112 = 133,
+	Help113 = 134,
+	Help114 = 135,
+	Help115 = 136,
+	Help116 = 137,
+	Help117 = 138,
+	Help118 = 139,
+	Help119 = 140,
+	Help120 = 141,
+	Help121 = 142,
+	Help122 = 143,
+	Help123 = 144,
+	Max = 145 UMETA(Hidden),
+	Invalid = 146 UMETA(DisplayName = "Invalid"),
 	ETresGameHelp_MAX = 147 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipMuzzleInfoCalcType
+enum class ETresGumiShipMuzzleInfoCalcType : uint8
 {
-	MICT_RROT_RLOC = 0,
-	MICT_RLOC_RROT = 1,
+	MICT_RROT_RLOC = 0 UMETA(DisplayName = "RROT RLOC"),
+	MICT_RLOC_RROT = 1 UMETA(DisplayName = "RLOC RROT"),
 	MICT_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleComboEvalution
+enum class EWinniePuzzleComboEvalution : uint8
 {
-	EWinniePuzzleComboEvalution_None = 0,
-	EWinniePuzzleComboEvalution_Good = 1,
-	EWinniePuzzleComboEvalution_Cool = 2,
-	EWinniePuzzleComboEvalution_Fantastic = 3,
+	None = 0 UMETA(DisplayName = "None"),
+	Good = 1 UMETA(DisplayName = "Good"),
+	Cool = 2 UMETA(DisplayName = "Cool"),
+	Fantastic = 3 UMETA(DisplayName = "Fantastic"),
 	WinniePuzzleComboEvalution_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleScoreEvalutionInOneTurnJudgementMethod
+enum class EWinniePuzzleScoreEvalutionInOneTurnJudgementMethod : uint8
 {
-	EWinniePuzzleScoreEvalutionInOneTurnJudgementMethod_ComboDependency = 0,
-	EWinniePuzzleScoreEvalutionInOneTurnJudgementMethod_ScoreDependency = 1,
+	ComboDependency = 0 UMETA(DisplayName = "Combo Dependency"),
+	ScoreDependency = 1 UMETA(DisplayName = "Score Dependency"),
 	WinniePuzzleScoreEvalutionInOneTurnJudgementMethod_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitScoreSizeJudgementMethod
+enum class EWinniePuzzleUnitScoreSizeJudgementMethod : uint8
 {
-	UnitNumDependency = 0,
-	ScoreDependency = 1,
+	UnitNumDependency = 0 UMETA(DisplayName = "Unit Num Dependency"),
+	ScoreDependency = 1 UMETA(DisplayName = "Score Dependency"),
 	WinniePuzzleUnitScoreSizeJudgementMethod_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresForwardDirection
+enum class ETresForwardDirection : uint8
 {
-	X_FORWAED = 0,
-	Y_FORWAED = 1,
-	Z_FORWAED = 2,
+	X_FORWAED = 0 UMETA(DisplayName = "X"),
+	Y_FORWAED = 1 UMETA(DisplayName = "Y"),
+	Z_FORWAED = 2 UMETA(DisplayName = "Z"),
 	ETresForwardDirection_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresNavLinkSegment_Common
 {
-	NavLinkSegment_Left = 0,
-	NavLinkSegment_Right = 1,
+	NavLinkSegment_Left = 0 UMETA(DisplayName = "Left"),
+	NavLinkSegment_Right = 1 UMETA(DisplayName = "Right"),
 	NavLinkSegment_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESEQUENTIAL_EXEC_GET_TARGET_ACTOR
+enum class ESEQUENTIAL_EXEC_GET_TARGET_ACTOR : uint8
 {
-	ESEQUENTIAL_EXEC_GET_TARGET_ACTOR_Blackboard = 0,
-	EQS_DefaultTargetSelection = 1,
+	Blackboard = 0 UMETA(DisplayName = "Blackboard"),
+	EQS_DefaultTargetSelection = 1 UMETA(DisplayName = "EQS Default Target Selection"),
 	SEQUENTIAL_EXEC_GET_TARGET_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESEQUENTIAL_EXEC_TASK_MODE
+enum class ESEQUENTIAL_EXEC_TASK_MODE : uint8
 {
-	ESEQUENTIAL_EXEC_TASK_MODE_None = 0,
-	ESEQUENTIAL_EXEC_TASK_MODE_MoveTo = 1,
-	ESEQUENTIAL_EXEC_TASK_MODE_MoveToWaitAnimEnd = 2,
-	ESEQUENTIAL_EXEC_TASK_MODE_TurnTo = 3,
-	ESEQUENTIAL_EXEC_TASK_MODE_SetTempDestination_Querier = 4,
-	ESEQUENTIAL_EXEC_TASK_MODE_SetTempDirection_Querier = 5,
-	ESEQUENTIAL_EXEC_TASK_MODE_TerminateTask = 6,
-	ESEQUENTIAL_EXEC_TASK_MODE_SkipSequence = 7,
+	None = 0 UMETA(DisplayName = "None"),
+	MoveTo = 1 UMETA(DisplayName = "Move To"),
+	MoveToWaitAnimEnd = 2 UMETA(DisplayName = "Move To Wait Anim End"),
+	TurnTo = 3 UMETA(DisplayName = "Turn To"),
+	SetTempDestination_Querier = 4 UMETA(DisplayName = "Set Temp Destination Querier"),
+	SetTempDirection_Querier = 5 UMETA(DisplayName = "Set Time Direction Querier"),
+	TerminateTask = 6 UMETA(DisplayName = "Terminate Task"),
+	SkipSequence = 7 UMETA(DisplayName = "Skip Sequence"),
 	SEQUENTIAL_EXEC_TASK_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EQS_PARAM_VALUE_Enum
+enum class EQS_PARAM_VALUE_Enum : uint8
 {
-	Literal = 0,
-	DistanceTargetToQuerier = 1,
-	DistanceTargetToQuerierPlusMargin = 2,
+	Literal = 0 UMETA(DisplayName = "Literal"),
+	DistanceTargetToQuerier = 1 UMETA(DisplayName = "Distance Target To Querier"),
+	DistanceTargetToQuerierPlusMargin = 2 UMETA(DisplayName = "Distance Target To Querier Plus Margin"),
 	EQS_PARAM_VALUE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EQS_PARAM_NAME_Enum
+enum class EQS_PARAM_NAME_Enum : uint8
 {
-	ONRING_MINRADIUS = 0,
-	ONRING_MAXRADIUS = 1,
-	ONRING_MINRADIUSITEMSPACING = 2,
-	ONRING_ANGLE = 3,
-	EQ_PAWNDISTANCE = 4,
-	RANGE = 5,
-	MINDISTANCE_FLOATVALUEMIN = 6,
-	MINDISTANCE_FLOATVALUEMAX = 7,
-	DOT_SCORINGFACTOR = 8,
-	DOT_SCORINGFACTOR2 = 9,
-	NOISE_SCORINGFACTOR = 10,
+	ONRING_MINRADIUS = 0 UMETA(DisplayName = "On Ring Min Radius"),
+	ONRING_MAXRADIUS = 1 UMETA(DisplayName = "On Ring Max Radius"),
+	ONRING_MINRADIUSITEMSPACING = 2 UMETA(DisplayName = "On Ring Min Radius Item Spacing"),
+	ONRING_ANGLE = 3 UMETA(DisplayName = "On Ring Angle"),
+	EQ_PAWNDISTANCE = 4 UMETA(DisplayName = "EQ Pawn Distance"),
+	RANGE = 5 UMETA(DisplayName = "Range"),
+	MINDISTANCE_FLOATVALUEMIN = 6 UMETA(DisplayName = "Min Distance Float Value Min"),
+	MINDISTANCE_FLOATVALUEMAX = 7 UMETA(DisplayName = "Min Distance Float Value Max"),
+	DOT_SCORINGFACTOR = 8 UMETA(DisplayName = "Dot Scoring Factor"),
+	DOT_SCORINGFACTOR2 = 9 UMETA(DisplayName = "Dot Scoring Factor 2"),
+	NOISE_SCORINGFACTOR = 10 UMETA(DisplayName = "Noise Scoring Factor"),
 	EQS_PARAM_NAME_MAX = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAbilityEquipType
+enum class ETresAbilityEquipType : uint8
 {
-	ETresAbilityEquipType_NORMAL = 0,
-	ETresAbilityEquipType_AUTO = 1,
-	ETresAbilityEquipType_1_MAX = 2,
+	NORMAL = 0 UMETA(DisplayName = "Normal"),
+	AUTO = 1 UMETA(DisplayName = "Auto"),
+	_MAX = 2 UMETA(Hidden),
 	ETresAbilityEquipType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum class ETresTextAbilityKind : uint8
 {
-	NONE = 0,
+	NONE = 0 UMETA(DisplayName = "None"),
 	TEXT_SHOOTFLOW_KB00_00 = 1,
 	TEXT_SHOOTFLOW_KB09_00 = 2,
 	TEXT_SHOOTFLOW_KB07_00 = 3,
@@ -2410,16 +2406,16 @@ enum class ETresTextAbilityKind : uint8
 	TEXT_SHOOTFLOW_KB06_01 = 27,
 	TEXT_SHOOTFLOW_KB05_01 = 28,
 	TEXT_SHOOTFLOW_KB14_00 = 29,
-	TEXT_FORM_EXPLOSION = 30,
-	TEXT_FORM_STRIDE_BREAK = 31,
-	TEXT_FORM_RIPPLE_FRIVE = 32,
-	TEXT_FORM_HURRICANE_PERIOD = 33,
-	TEXT_FORM_AERIAL_FINISH = 34,
-	TEXT_FORM_MAGNE_SPLASH = 35,
-	TEXT_FORM_STUN_IMPACT = 36,
-	TEXT_FORM_SONIC_RAVE = 37,
-	TEXT_FORM_LAST_ARCANUM = 38,
-	TEXT_FORM_UNION_DISCORD = 39,
+	TEXT_FORM_EXPLOSION = 30 UMETA(DisplayName = "Form Explosion"),
+	TEXT_FORM_STRIDE_BREAK = 31 UMETA(DisplayName = "Form Stride Break"),
+	TEXT_FORM_RIPPLE_FRIVE = 32 UMETA(DisplayName = "Form Ripple Frive"),
+	TEXT_FORM_HURRICANE_PERIOD = 33 UMETA(DisplayName = "Form Hurricane Period"),
+	TEXT_FORM_AERIAL_FINISH = 34 UMETA(DisplayName = "Form Aerial Finish"),
+	TEXT_FORM_MAGNE_SPLASH = 35 UMETA(DisplayName = "Form Magne Splash"),
+	TEXT_FORM_STUN_IMPACT = 36 UMETA(DisplayName = "Form Stun Impact"),
+	TEXT_FORM_SONIC_RAVE = 37 UMETA(DisplayName = "Form Sonic Rave"),
+	TEXT_FORM_LAST_ARCANUM = 38 UMETA(DisplayName = "Form Last Arcanum"),
+	TEXT_FORM_UNION_DISCORD = 39 UMETA(DisplayName = "Form Union Discord"),
 	TEXT_ACTION_KB0000 = 40,
 	TEXT_ACTION_KB0001 = 41,
 	TEXT_ACTION_KB0002 = 42,
@@ -2468,23 +2464,23 @@ enum class ETresTextAbilityKind : uint8
 	TEXT_ACTION_KB0045 = 85,
 	TEXT_ACTION_KB0046 = 86,
 	TEXT_ACTION_KB0047 = 87,
-	TEXT_ACTION_SLASH_DODGE = 88,
-	TEXT_ACTION_BACK_SLIDE = 89,
-	TEXT_ACTION_BACK_SLASH = 90,
-	TEXT_ACTION_REFLECT = 91,
-	TEXT_ACTION_BARRIER_CRACKER = 92,
-	TEXT_ACTION_FINISH_ARTS = 93,
-	TEXT_MOVE_TELEPO = 94,
-	TEXT_MOVE_ACTIVE_HOVER = 95,
-	TEXT_MOVE_ICE_SLIDE = 96,
-	TEXT_SUPPORT_FREE_FINISH = 97,
-	TEXT_SUPPORT_FULL_CARE = 98,
-	TEXT_SUPPORT_FULL_REFRESH = 99,
-	TEXT_SUPPORT_HONEY_JAM = 100,
-	TEXT_SUPPORT_MULTI_LOCK = 101,
-	TEXT_SUPPORT_GUARD_BREAK = 102,
-	TEXT_SUPPORT_TRANSFORM = 103,
-	TEXT_SUPPORT_RISK_CHARGE = 104,
+	TEXT_ACTION_SLASH_DODGE = 88 UMETA(DisplayName = "Action Splash Dodge"),
+	TEXT_ACTION_BACK_SLIDE = 89 UMETA(DisplayName = "Action Back Slide"),
+	TEXT_ACTION_BACK_SLASH = 90 UMETA(DisplayName = "Action Back Slash"),
+	TEXT_ACTION_REFLECT = 91 UMETA(DisplayName = "Action Reflect"),
+	TEXT_ACTION_BARRIER_CRACKER = 92 UMETA(DisplayName = "Action Barrier Cracker"),
+	TEXT_ACTION_FINISH_ARTS = 93 UMETA(DisplayName = "Action Finish Arts"),
+	TEXT_MOVE_TELEPO = 94 UMETA(DisplayName = "Move Telepo"),
+	TEXT_MOVE_ACTIVE_HOVER = 95 UMETA(DisplayName = "Move Active Hover"),
+	TEXT_MOVE_ICE_SLIDE = 96 UMETA(DisplayName = "Move Ice Slide"),
+	TEXT_SUPPORT_FREE_FINISH = 97 UMETA(DisplayName = "Support Free Finish"),
+	TEXT_SUPPORT_FULL_CARE = 98 UMETA(DisplayName = "Support Full Care"),
+	TEXT_SUPPORT_FULL_REFRESH = 99 UMETA(DisplayName = "Support Full Refresh"),
+	TEXT_SUPPORT_HONEY_JAM = 100 UMETA(DisplayName = "Support Honey Jam"),
+	TEXT_SUPPORT_MULTI_LOCK = 101 UMETA(DisplayName = "Support Multi Lock"),
+	TEXT_SUPPORT_GUARD_BREAK = 102 UMETA(DisplayName = "Support Guard Break"),
+	TEXT_SUPPORT_TRANSFORM = 103 UMETA(DisplayName = "Support Transform"),
+	TEXT_SUPPORT_RISK_CHARGE = 104 UMETA(DisplayName = "Support Risk Charge"),
 	TEXT_SHOOTFLOW_KB12_00 = 105,
 	TEXT_SHOOTFLOW_KB13_00 = 106,
 	TEXT_SHOOTFLOW_KB12_01 = 107,
@@ -2516,12 +2512,12 @@ enum class ETresTextAbilityKind : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresAbilityCategory
+enum class ETresAbilityCategory : uint8
 {
-	ETresAbilityCategory_ACTION = 0,
-	ETresAbilityCategory_MOVE = 1,
-	ETresAbilityCategory_SUPPORT = 2,
-	ETresAbilityCategory_1_MAX = 3 UMETA(Hidden),
+	ACTION = 0 UMETA(DisplayName = "Action"),
+	MOVE = 1 UMETA(DisplayName = "Move"),
+	SUPPORT = 2 UMETA(DisplayName = "Support"),
+	_MAX = 3 UMETA(Hidden),
 	ETresAbilityCategory_MAX = 4 UMETA(Hidden)
 };
 
@@ -2585,211 +2581,211 @@ enum class ETresAchievement : uint8
 };
 
 UENUM(BlueprintType)
-enum EBX901_CommonAction
+enum class EBX901_CommonAction : uint8
 {
-	EBX901_CommonAction_ResetBoolProperty = 0,
-	EBX901_CommonAction_BlockEffect = 1,
-	EBX901_CommonAction_BlockEffect_Wing = 2,
+	EBX901_CommonAction_ResetBoolProperty = 0 UMETA(DisplayName = "Reset Bool Property"),
+	EBX901_CommonAction_BlockEffect = 1 UMETA(DisplayName = "Block Effect"),
+	EBX901_CommonAction_BlockEffect_Wing = 2 UMETA(DisplayName = "Block Effect Wing"),
 	EBX901_CommonAction_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx009ActionKind
+enum class ETresEnemyEx009ActionKind : uint8
 {
-	Singleshot_One = 0,
-	Right_Step = 1,
-	Left_Step = 2,
-	ETresEnemyEx009ActionKind_1_MAX = 3 UMETA(Hidden),
+	Singleshot_One = 0 UMETA(DisplayName = "Singleshot One"),
+	Right_Step = 1 UMETA(DisplayName = "Right Step"),
+	Left_Step = 2 UMETA(DisplayName = "Left Step"),
+	MAX = 3 UMETA(Hidden),
 	ETresEnemyEx009ActionKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx016ActionKind
+enum class ETresEnemyEx016ActionKind : uint8
 {
-	ETresEnemyEx016ActionKind_Footwork_Loop = 0,
-	ETresEnemyEx016ActionKind_1_MAX = 1 UMETA(Hidden),
+	Footwork_Loop = 0 UMETA(DisplayName = "Footwork Loop"),
+	MAX = 1 UMETA(Hidden),
 	ETresEnemyEx016ActionKind_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECommonAction_e_ex306
+enum class ECommonAction_e_ex306 : uint8
 {
-	ECommonAction_e_ex306_ChangeDefaultBodyReactionType = 0,
-	ECommonAction_e_ex306_SpawnClaymore = 1,
-	ECommonAction_e_ex306_DestroyClaymore = 2,
+	ECommonAction_e_ex306_ChangeDefaultBodyReactionType = 0 UMETA(DisplayName = "Change Default Body Reaction Type"),
+	ECommonAction_e_ex306_SpawnClaymore = 1 UMETA(DisplayName = "Spawn Claymore"),
+	ECommonAction_e_ex306_DestroyClaymore = 2 UMETA(DisplayName = "Destroy Claymore"),
 	ECommonAction_e_ex306_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX354_CommonAction
+enum class EEX354_CommonAction : uint8
 {
-	EEX354_CommonAction_ChangeField_Standard = 0,
-	EEX354_CommonAction_ChangeField_Narrow = 1,
-	EEX354_CommonAction_ChangeField_Doughnut = 2,
-	EEX354_CommonAction_FinishQuickBattle = 3,
-	EEX354_CommonAction_BodyNoReaction = 4,
-	EEX354_CommonAction_NoAppearOnRevengeWarp = 5,
-	EEX354_CommonAction_ResetBodyReaction = 6,
+	EEX354_CommonAction_ChangeField_Standard = 0 UMETA(DisplayName = "Charge Field Standard"),
+	EEX354_CommonAction_ChangeField_Narrow = 1 UMETA(DisplayName = "Charge Field Narrow"),
+	EEX354_CommonAction_ChangeField_Doughnut = 2 UMETA(DisplayName = "Charge Field Doughnut"),
+	EEX354_CommonAction_FinishQuickBattle = 3 UMETA(DisplayName = "Finish Quick Battle"),
+	EEX354_CommonAction_BodyNoReaction = 4 UMETA(DisplayName = "Body No Reaction"),
+	EEX354_CommonAction_NoAppearOnRevengeWarp = 5 UMETA(DisplayName = "No Appear On Revenge Wrap"),
+	EEX354_CommonAction_ResetBodyReaction = 6 UMETA(DisplayName = "Reset Body Reaction"),
 	EEX354_CommonAction_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECommonAction_e_ex355
+enum class ECommonAction_e_ex355 : uint8
 {
-	ECommonAction_e_ex355_ChangeDefaultBodyReactionType = 0,
-	ECommonAction_e_ex355_SpawnClaymore = 1,
-	ECommonAction_e_ex355_DestroyClaymore = 2,
-	ECommonAction_e_ex355_ShowBerserkGage = 3,
-	ECommonAction_e_ex355_InitBerserkGage = 4,
-	ECommonAction_e_ex355_SetBodyTypeNormal = 5,
-	ECommonAction_e_ex355_SetBodyTypeBerserk = 6,
-	ECommonAction_e_ex355_SetBodyTypeBlue = 7,
-	ECommonAction_e_ex355_SetBodyTypeStun = 8,
-	ECommonAction_e_ex355_NotifyHpDownAIChange = 9,
-	ECommonAction_e_ex355_ResetBodyReactionType = 10,
+	ECommonAction_e_ex355_ChangeDefaultBodyReactionType = 0 UMETA(DisplayName = "Change Default Body Reaction Type"),
+	ECommonAction_e_ex355_SpawnClaymore = 1 UMETA(DisplayName = "Spawn Claymore"),
+	ECommonAction_e_ex355_DestroyClaymore = 2 UMETA(DisplayName = "Destroy Claymore"),
+	ECommonAction_e_ex355_ShowBerserkGage = 3 UMETA(DisplayName = "Show Berserk Gage"),
+	ECommonAction_e_ex355_InitBerserkGage = 4 UMETA(DisplayName = "Init Verserk Gage"),
+	ECommonAction_e_ex355_SetBodyTypeNormal = 5 UMETA(DisplayName = "Set Body Type Normal"),
+	ECommonAction_e_ex355_SetBodyTypeBerserk = 6 UMETA(DisplayName = "Set Body Type Berserk"),
+	ECommonAction_e_ex355_SetBodyTypeBlue = 7 UMETA(DisplayName = "Set Body Type Blue"),
+	ECommonAction_e_ex355_SetBodyTypeStun = 8 UMETA(DisplayName = "Set Body Type Stun"),
+	ECommonAction_e_ex355_NotifyHpDownAIChange = 9 UMETA(DisplayName = "Notify HP Down AI Change"),
+	ECommonAction_e_ex355_ResetBodyReactionType = 10 UMETA(DisplayName = "Reset Body Reaction Type"),
 	ECommonAction_e_ex355_MAX = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX359_CommonAction
+enum class EEX359_CommonAction : uint8
 {
-	EEX359_CommonAction_LockonOn = 0,
-	EEX359_CommonAction_LockonOff = 1,
-	EEX359_CommonAction_SceneChangeStart = 2,
-	EEX359_CommonAction_SceneChangeEnd = 3,
+	EEX359_CommonAction_LockonOn = 0 UMETA(DisplayName = "Lockon On"),
+	EEX359_CommonAction_LockonOff = 1 UMETA(DisplayName = "Lockon Off"),
+	EEX359_CommonAction_SceneChangeStart = 2 UMETA(DisplayName = "Scene Change Start"),
+	EEX359_CommonAction_SceneChangeEnd = 3 UMETA(DisplayName = "Scene Change End"),
 	EEX359_CommonAction_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX731_CommonAction
+enum class EEX731_CommonAction : uint8
 {
-	EEX731_CommonAction_Warp = 0,
-	EEX731_CommonAction_ModeChange = 1,
+	EEX731_CommonAction_Warp = 0 UMETA(DisplayName = "Warp"),
+	EEX731_CommonAction_ModeChange = 1 UMETA(DisplayName = "Mode Change"),
 	EEX731_CommonAction_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX734_CommonAction
+enum class EEX734_CommonAction : uint8
 {
-	EEX734_CommonAction_ModeChange = 0,
+	EEX734_CommonAction_ModeChange = 0 UMETA(DisplayName = "Mode Change"),
 	EEX734_CommonAction_MAX = 1 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETornado_CommonAction
+enum class ETornado_CommonAction : uint8
 {
-	ETornado_CommonAction_GenerateDebris = 0,
-	ETornado_CommonAction_Invincible = 1,
-	ETornado_CommonAction_WarpIn = 2,
-	ETornado_CommonAction_WarpOut = 3,
-	ETornado_CommonAction_PermitAttack = 4,
-	ETornado_CommonAction_ProhibitAttack = 5,
-	ETornado_CommonAction_EndFloatingMode = 6,
-	ETornado_CommonAction_BeginFloatingMode = 7,
-	ETornado_CommonAction_BeginBigTornado = 8,
+	ETornado_CommonAction_GenerateDebris = 0 UMETA(DisplayName = "Generate Debris"),
+	ETornado_CommonAction_Invincible = 1 UMETA(DisplayName = "Invincible"),
+	ETornado_CommonAction_WarpIn = 2 UMETA(DisplayName = "Warp In"),
+	ETornado_CommonAction_WarpOut = 3 UMETA(DisplayName = "Warp Out"),
+	ETornado_CommonAction_PermitAttack = 4 UMETA(DisplayName = "Permit Attack"),
+	ETornado_CommonAction_ProhibitAttack = 5 UMETA(DisplayName = "Prohibit Attack"),
+	ETornado_CommonAction_EndFloatingMode = 6 UMETA(DisplayName = "End Floating Mode"),
+	ETornado_CommonAction_BeginFloatingMode = 7 UMETA(DisplayName = "Begin Floating Mode"),
+	ETornado_CommonAction_BeginBigTornado = 8 UMETA(DisplayName = "Begin Big Tornado"),
 	ETornado_CommonAction_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyShipCondition
 {
-	MinCoreNum = 0,
-	TypeMax = 1,
+	MinCoreNum = 0 UMETA(DisplayName = "Min Core Num"),
+	TypeMax = 1 UMETA(DisplayName = "Type Max"),
 	ETresEnemyShipCondition_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EStoleTrapN
+enum class EStoleTrapN : uint8
 {
-	EStoleTrapN_CPT_Destination = 0,
-	EStoleTrapN_CPT_BattleAreaCenter = 1,
-	EStoleTrapN_CPT_OwnerLocation = 2,
-	EStoleTrapN_CPT_MAX = 3 UMETA(Hidden)
+	CPT_Destination = 0 UMETA(DisplayName = "Destination"),
+	CPT_BattleAreaCenter = 1 UMETA(DisplayName = "Battle Area Center"),
+	CPT_OwnerLocation = 2 UMETA(DisplayName = "Owner Location"),
+	CPT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex035_StepType
+enum class ETresEnemy_e_ex035_StepType : uint8
 {
-	ETresEnemy_e_ex035_StepType_Back = 0,
-	ETresEnemy_e_ex035_StepType_Right = 1,
-	ETresEnemy_e_ex035_StepType_Left = 2,
+	ETresEnemy_e_ex035_StepType_Back = 0 UMETA(DisplayName = "Back"),
+	ETresEnemy_e_ex035_StepType_Right = 1 UMETA(DisplayName = "Right"),
+	ETresEnemy_e_ex035_StepType_Left = 2 UMETA(DisplayName = "Left"),
 	ETresEnemy_e_ex035_StepType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex043_SideBoostType
+enum class ETresEnemy_e_ex043_SideBoostType : uint8
 {
-	ETresEnemy_e_ex043_SideBoostType_Right = 0,
-	ETresEnemy_e_ex043_SideBoostType_Left = 1,
+	ETresEnemy_e_ex043_SideBoostType_Right = 0 UMETA(DisplayName = "Right"),
+	ETresEnemy_e_ex043_SideBoostType_Left = 1 UMETA(DisplayName = "Left"),
 	ETresEnemy_e_ex043_SideBoostType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresActionTaskParamType
+enum class ETresActionTaskParamType : uint8
 {
-	ETresActionTaskParamType_Float = 0,
-	ETresActionTaskParamType_Int = 1,
-	ETresActionTaskParamType_Bool = 2,
+	Float = 0 UMETA(DisplayName = "Float"),
+	Int = 1 UMETA(DisplayName = "Int"),
+	Bool = 2 UMETA(DisplayName = "Bool"),
 	ETresActionTaskParamType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EMovingTypes_e_ex047
+enum class EMovingTypes_e_ex047 : uint8
 {
-	TRES_ENEMY_EX047_MOVE_FRONT = 0,
-	TRES_ENEMY_EX047_MOVE_BACK = 1,
-	TRES_ENEMY_EX047_MOVE_LEFT = 2,
-	TRES_ENEMY_EX047_MOVE_RIGHT = 3,
+	TRES_ENEMY_EX047_MOVE_FRONT = 0 UMETA(DisplayName = "Move Front"),
+	TRES_ENEMY_EX047_MOVE_BACK = 1 UMETA(DisplayName = "Move Back"),
+	TRES_ENEMY_EX047_MOVE_LEFT = 2 UMETA(DisplayName = "Move Left"),
+	TRES_ENEMY_EX047_MOVE_RIGHT = 3 UMETA(DisplayName = "Move Right"),
 	TRES_ENEMY_EX047_MOVE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum Ee_ex059_ACTION_TYPE
+enum class Ee_ex059_ACTION_TYPE : uint8
 {
-	Ee_ex059_ACTION_TYPE_Single = 0,
-	Ee_ex059_ACTION_TYPE_INCLUSIVE = 1,
-	Ee_ex059_ACTION_TYPE_CONDITION = 2,
+	Single = 0 UMETA(DisplayName = "Single"),
+	INCLUSIVE = 1 UMETA(DisplayName = "Inclusive"),
+	CONDITION = 2 UMETA(DisplayName = "Condition"),
 	e_ex059_ACTION_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETeleportTypes_e_ex301
+enum class ETeleportTypes_e_ex301 : uint8
 {
-	TRES_ENEMY_EX301_TELEPORT_NORMAL = 0,
-	TRES_ENEMY_EX301_TELEPORT_SPAWN = 1,
-	TRES_ENEMY_EX301_TELEPORT_INVISIBLE = 2,
+	TRES_ENEMY_EX301_TELEPORT_NORMAL = 0 UMETA(DisplayName = "Teleport Normal"),
+	TRES_ENEMY_EX301_TELEPORT_SPAWN = 1 UMETA(DisplayName = "Teleport Spawn"),
+	TRES_ENEMY_EX301_TELEPORT_INVISIBLE = 2 UMETA(DisplayName = "Teleport Invisible"),
 	TRES_ENEMY_EX301_TELEPORT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx304WarpType
+enum class ETresEnemyEx304WarpType : uint8
 {
-	ETresEnemyEx304WarpType_Warp = 0,
-	ETresEnemyEx304WarpType_WarpFastMove = 1,
-	ETresEnemyEx304WarpType_1_MAX = 2 UMETA(Hidden),
+	Warp = 0 UMETA(DisplayName = "Warp"),
+	WarpFastMove = 1 UMETA(DisplayName = "Warp Fast Move"),
+	MAX = 2 UMETA(Hidden),
 	ETresEnemyEx304WarpType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyStepDirectionType_e_ex309
+enum class ETresEnemyStepDirectionType_e_ex309 : uint8
 {
-	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_RIGHT = 0,
-	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_LEFT = 1,
-	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_BACK = 2,
+	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_RIGHT = 0 UMETA(DisplayName = "Right"),
+	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_LEFT = 1 UMETA(DisplayName = "Left"),
+	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_BACK = 2 UMETA(DisplayName = "Back"),
 	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX309_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EStepTypes_e_ex311
+enum class EStepTypes_e_ex311 : uint8
 {
-	TRES_ENEMY_EX311_BACK_STEP = 0,
-	TRES_ENEMY_EX311_RIGHT_STEP = 1,
-	TRES_ENEMY_EX311_LEFT_STEP = 2,
+	TRES_ENEMY_EX311_BACK_STEP = 0 UMETA(DisplayName = "Back Step"),
+	TRES_ENEMY_EX311_RIGHT_STEP = 1 UMETA(DisplayName = "Right Step"),
+	TRES_ENEMY_EX311_LEFT_STEP = 2 UMETA(DisplayName = "Left Step"),
 	TRES_ENEMY_EX311_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex313_StepType
+enum class ETresEnemy_e_ex313_StepType : uint8
 {
 	ETresEnemy_e_ex313_StepType_Back = 0,
 	ETresEnemy_e_ex313_StepType_Right = 1,
@@ -2798,7 +2794,7 @@ enum ETresEnemy_e_ex313_StepType
 };
 
 UENUM(BlueprintType)
-enum EStepTypes_e_ex360
+enum class EStepTypes_e_ex360 : uint8
 {
 	TRES_ENEMY_EX360_BACK_STEP = 0,
 	TRES_ENEMY_EX360_RIGHT_STEP = 1,
@@ -2807,16 +2803,16 @@ enum EStepTypes_e_ex360
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx361CounterAfterActionKind
+enum class ETresEnemyEx361CounterAfterActionKind : uint8
 {
-	ETresEnemyEx361CounterAfterActionKind_Kabutowari = 0,
-	ETresEnemyEx361CounterAfterActionKind_AirCombo = 1,
-	ETresEnemyEx361CounterAfterActionKind_1_MAX = 2 UMETA(Hidden),
+	Kabutowari = 0,
+	AirCombo = 1,
+	MAX = 2,
 	ETresEnemyEx361CounterAfterActionKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex361_StepType
+enum class ETresEnemy_e_ex361_StepType : uint8
 {
 	ETresEnemy_e_ex361_StepType_Back = 0,
 	ETresEnemy_e_ex361_StepType_Right = 1,
@@ -2825,7 +2821,7 @@ enum ETresEnemy_e_ex361_StepType
 };
 
 UENUM(BlueprintType)
-enum ETeleportTypes_e_ex367
+enum class ETeleportTypes_e_ex367 : uint8
 {
 	TRES_ENEMY_EX367_TELEPORT_NORMAL = 0,
 	TRES_ENEMY_EX367_TELEPORT_SPAWN = 1,
@@ -2834,7 +2830,7 @@ enum ETeleportTypes_e_ex367
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex731_StepType
+enum class ETresEnemy_e_ex731_StepType : uint8
 {
 	ETresEnemy_e_ex731_StepType_Back = 0,
 	ETresEnemy_e_ex731_StepType_Right = 1,
@@ -2843,27 +2839,27 @@ enum ETresEnemy_e_ex731_StepType
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEEX771_ACTION_1WARP_KIND
+enum class ETresEnemyEEX771_ACTION_1WARP_KIND : uint8
 {
-	ETresEnemyEEX771_ACTION_1WARP_KIND_WARP_KIND_COMMON = 0,
-	ETresEnemyEEX771_ACTION_1WARP_KIND_WARP_KIND_ESCAPE = 1,
-	ETresEnemyEEX771_ACTION_1WARP_KIND_WARP_KIND_HVN_PHASE3_FIRST = 2,
-	ETresEnemyEEX771_ACTION_1WARP_KIND_WARP_KIND_FTRND_END = 3,
-	ETresEnemyEEX771_ACTION_1WARP_KIND_WARP_KIND_MAX = 4 UMETA(Hidden)
+	WARP_KIND_COMMON = 0,
+	WARP_KIND_ESCAPE = 1,
+	WARP_KIND_HVN_PHASE3_FIRST = 2,
+	WARP_KIND_FTRND_END = 3,
+	WARP_KIND_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEEX773_ACTION_1WARP_KIND
+enum class ETresEnemyEEX773_ACTION_1WARP_KIND : uint8
 {
-	ETresEnemyEEX773_ACTION_1WARP_KIND_WARP_KIND_COMMON = 0,
-	ETresEnemyEEX773_ACTION_1WARP_KIND_WARP_KIND_ESCAPE = 1,
-	ETresEnemyEEX773_ACTION_1WARP_KIND_WARP_KIND_HVN_PHASE3_FIRST = 2,
-	ETresEnemyEEX773_ACTION_1WARP_KIND_WARP_KIND_FTRND_END = 3,
-	ETresEnemyEEX773_ACTION_1WARP_KIND_WARP_KIND_MAX = 4 UMETA(Hidden)
+	WARP_KIND_COMMON = 0,
+	WARP_KIND_ESCAPE = 1,
+	WARP_KIND_HVN_PHASE3_FIRST = 2,
+	WARP_KIND_FTRND_END = 3,
+	WARP_KIND_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EHVSceneTypes_e_ex781
+enum class EHVSceneTypes_e_ex781 : uint8
 {
 	TRES_ENEMY_EX781_HV_GRAVITY_SCENE = 0,
 	TRES_ENEMY_EX781_HV_CRAFT_SCENE = 1,
@@ -2880,16 +2876,16 @@ enum ETresE_dw405VigilanceMoveVec
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx304FastMoveType
+enum class ETresEnemyEx304FastMoveType : uint8
 {
-	ETresEnemyEx304FastMoveType_FastMove = 0,
-	ETresEnemyEx304FastMoveType_FastMoveWarp = 1,
-	ETresEnemyEx304FastMoveType_1_MAX = 2,
+	FastMove = 0,
+	FastMoveWarp = 1,
+	MAX = 2 UMETA(Hidden),
 	ETresEnemyEx304FastMoveType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EKBRideTypes_e_ex311
+enum class EKBRideTypes_e_ex311 : uint8
 {
 	TRES_ENEMY_EX311_KBRIDE_ALL = 0,
 	TRES_ENEMY_EX311_KBRIDE_CALL = 1,
@@ -2898,24 +2894,16 @@ enum EKBRideTypes_e_ex311
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353FastMoveType
+enum class ETresEnemyEx353FastMoveType : uint8
 {
-	ETresEnemyEx353FastMoveType_Speed = 0,
-	ETresEnemyEx353FastMoveType_Time = 1,
-	ETresEnemyEx353FastMoveType_1_MAX = 2,
+	Speed = 0,
+	Time = 1,
+	MAX = 2 UMETA(Hidden),
 	ETresEnemyEx353FastMoveType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyHideAndSeekLocation_e_ex356
-{
-	ETresEnemyHideAndSeekLocation_e_ex356_Target = 0,
-	ETresEnemyHideAndSeekLocation_e_ex356_Camera = 1,
-	ETresEnemyHideAndSeekLocation_e_MAX = 2 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum ETresEnemy_e_ex043_PhaseNum
+enum class ETresEnemy_e_ex043_PhaseNum : uint8
 {
 	ETresEnemy_e_ex043_Phase1 = 0,
 	ETresEnemy_e_ex043_Phase2 = 1,
@@ -2924,7 +2912,7 @@ enum ETresEnemy_e_ex043_PhaseNum
 };
 
 UENUM(BlueprintType)
-enum EEX354_WarpPosType
+enum class EEX354_WarpPosType : uint8
 {
 	EEX354_WarpPosType_Land = 0,
 	EEX354_WarpPosType_Fly = 1,
@@ -2933,7 +2921,7 @@ enum EEX354_WarpPosType
 };
 
 UENUM(BlueprintType)
-enum EEX354_WarpType
+enum class EEX354_WarpType : uint8
 {
 	EEX354_WarpType_Default = 0,
 	EEX354_WarpType_Disappear = 1,
@@ -2942,7 +2930,7 @@ enum EEX354_WarpType
 };
 
 UENUM(BlueprintType)
-enum EBX901_QuickMoveDir
+enum class EBX901_QuickMoveDir : uint8
 {
 	EBX901_QuickMoveDir_Front = 0,
 	EBX901_QuickMoveDir_Up = 1,
@@ -2953,31 +2941,31 @@ enum EBX901_QuickMoveDir
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyHeight_e_ex357
+enum class ETresEnemyHeight_e_ex357 : uint8
 {
-	ETresEnemyHeight_e_ex357_Target = 0,
-	ETresEnemyHeight_e_ex357_Ground = 1,
+	Target = 0 UMETA(DisplayName = "Target"),
+	Ground = 1 UMETA(DisplayName = "Ground"),
 	ETresEnemyHeight_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyMove_e_ex357
+enum class ETresEnemyMove_e_ex357 : uint8
 {
-	ETresEnemyMove_e_ex357_Target = 0,
-	ETresEnemyMove_e_ex357_InvTarget = 1,
+	Target = 0 UMETA(DisplayName = "Target"),
+	InvTarget = 1 UMETA(DisplayName = "Inv Target"),
 	ETresEnemyMove_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyArc_e_ex357
+enum class ETresEnemyArc_e_ex357 : uint8
 {
-	ETresEnemyArc_e_ex357_Right = 0,
-	ETresEnemyArc_e_ex357_Left = 1,
+	Right = 0 UMETA(DisplayName = "Right"),
+	Left = 1 UMETA(DisplayName = "Left"),
 	ETresEnemyArc_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWarpType_e_ex355
+enum class EWarpType_e_ex355 : uint8
 {
 	EWarpType_e_ex355_Appear = 0,
 	EWarpType_e_ex355_Disappear = 1,
@@ -2986,46 +2974,46 @@ enum EWarpType_e_ex355
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEEX771_POINT_KIND
+enum class ETresEnemyEEX771_POINT_KIND : uint8
 {
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_NONE = 0,
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_FACE_CLAW = 1,
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_HEAVENLY_PILLAR_START = 2,
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_HEAVENLY_PILLAR_END = 3,
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_FLARE_TORNADO = 4,
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_ALL_PILLAR_HEIGHT = 5,
-	ETresEnemyEEX771_POINT_KIND_POINT_KIND_MAX = 6 UMETA(Hidden)
+	POINT_KIND_NONE = 0,
+	POINT_KIND_FACE_CLAW = 1,
+	POINT_KIND_HEAVENLY_PILLAR_START = 2,
+	POINT_KIND_HEAVENLY_PILLAR_END = 3,
+	POINT_KIND_FLARE_TORNADO = 4,
+	POINT_KIND_ALL_PILLAR_HEIGHT = 5,
+	POINT_KIND_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEEX773_POINT_KIND
+enum class ETresEnemyEEX773_POINT_KIND : uint8
 {
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_NONE = 0,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_FACE_CLAW = 1,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_HEAVENLY_PILLAR_START = 2,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_HEAVENLY_PILLAR_END = 3,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_FLARE_TORNADO = 4,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_ALL_PILLAR_HEIGHT = 5,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_ECLIPSE13_WARP_ESCAPE = 6,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_ECLIPSE13_WARP_APEAR = 7,
-	ETresEnemyEEX773_POINT_KIND_POINT_KIND_MAX = 8 UMETA(Hidden)
+	POINT_KIND_NONE = 0,
+	POINT_KIND_FACE_CLAW = 1,
+	POINT_KIND_HEAVENLY_PILLAR_START = 2,
+	POINT_KIND_HEAVENLY_PILLAR_END = 3,
+	POINT_KIND_FLARE_TORNADO = 4,
+	POINT_KIND_ALL_PILLAR_HEIGHT = 5,
+	POINT_KIND_ECLIPSE13_WARP_ESCAPE = 6,
+	POINT_KIND_ECLIPSE13_WARP_APEAR = 7,
+	POINT_KIND_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx006ScrumState
+enum class ETresEnemyEx006ScrumState : uint8
 {
-	ETresEnemyEx006ScrumState_WARP = 0,
-	ETresEnemyEx006ScrumState_IDLE = 1,
-	ETresEnemyEx006ScrumState_WANTED_TURN = 2,
-	ETresEnemyEx006ScrumState_TURN = 3,
-	ETresEnemyEx006ScrumState_WANTED_DASH = 4,
-	ETresEnemyEx006ScrumState_DASH = 5,
-	ETresEnemyEx006ScrumState_1_MAX = 6 UMETA(Hidden),
+	WARP = 0,
+	IDLE = 1,
+	WANTED_TURN = 2,
+	TURN = 3,
+	WANTED_DASH = 4,
+	DASH = 5,
+	MAX = 6 UMETA(Hidden),
 	ETresEnemyEx006ScrumState_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresTurnMode
+enum class ETresTurnMode : uint8
 {
 	TurnInPlace = 0,
 	QuickTurn = 1,
@@ -3035,15 +3023,15 @@ enum ETresTurnMode
 UENUM(BlueprintType)
 enum ETresAIAction
 {
-	ETresAIAction_Move = 0,
-	ETresAIAction_Fall = 1,
-	ETresAIAction_Jump = 2,
-	ETresAIAction_Custom = 3,
+	/*Move = 0,
+	Fall = 1,
+	Jump = 2,
+	Custom = 3,*/
 	ETresAIAction_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyca901WarpKind
+enum class ETresEnemyca901WarpKind : uint8
 {
 	TRES_ENEMY_CA901_WARP_FIXEDPlACE = 0,
 	TRES_ENEMY_CA901_WARP_TENTACLESUMMONS = 1,
@@ -3051,7 +3039,7 @@ enum ETresEnemyca901WarpKind
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex035_AIPointType
+enum class ETresEnemy_e_ex035_AIPointType : uint8
 {
 	ETresEnemy_e_ex035_AIPointType_Tree = 0,
 	ETresEnemy_e_ex035_AIPointType_Carriage = 1,
@@ -3059,7 +3047,7 @@ enum ETresEnemy_e_ex035_AIPointType
 };
 
 UENUM(BlueprintType)
-enum ETresAIActionAbortTimingID
+enum class ETresAIActionAbortTimingID : uint8
 {
 	ID_None = 0,
 	ID_00 = 1,
@@ -3081,36 +3069,36 @@ enum ETresAIActionAbortTimingID
 };
 
 UENUM(BlueprintType)
-enum ETresAIAttrResistKind
+enum class ETresAIAttrResistKind : uint8
 {
-	ETresAIAttrResistKind_Normal = 0,
-	ETresAIAttrResistKind_Low = 1,
-	ETresAIAttrResistKind_High = 2,
-	ETresAIAttrResistKind_Invalid = 3,
+	Normal = 0,
+	Low = 1,
+	High = 2,
+	Invalid = 3,
 	ETresAIAttrResistKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWaypointKind
+enum class ETresWaypointKind : uint8
 {
-	ETresWaypointKind_Unknown = 0,
-	ETresWaypointKind_PositionForShooting = 1,
+	Unknown = 0,
+	PositionForShooting = 1,
 	ETresWaypointKind_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresNavAreaFlag
+enum class ETresNavAreaFlag : uint8
 {
-	ETresNavAreaFlag_Default = 0,
-	ETresNavAreaFlag_Jump = 1,
-	ETresNavAreaFlag_Fall = 2,
-	ETresNavAreaFlag_Hop = 3,
-	ETresNavAreaFlag_Rail = 4,
-	ETresNavAreaFlag_Vault = 5,
-	ETresNavAreaFlag_PowerWildOnlyTreeBranch = 6,
-	ETresNavAreaFlag_LowJump = 7,
-	ETresNavAreaFlag_WaterSurface = 8,
-	ETresNavAreaFlag_Damage = 9,
+	Default = 0,
+	Jump = 1,
+	Fall = 2,
+	Hop = 3,
+	Rail = 4,
+	Vault = 5,
+	PowerWildOnlyTreeBranch = 6,
+	LowJump = 7,
+	WaterSurface = 8,
+	Damage = 9,
 	ETresNavAreaFlag_MAX = 10 UMETA(Hidden)
 };
 
@@ -3124,37 +3112,37 @@ enum ETresFloorTestMode
 };
 
 UENUM(BlueprintType)
-enum class ETresFaceAnimType : uint8
+enum ETresFaceAnimType
 {
-	ETresFaceAnimType_NORMAL_AUTO = 0,
-	ETresFaceAnimType_NORMAL_AUTO_IDLE_BATTLE = 1,
-	ETresFaceAnimType_NORMAL_AUTO_BATTLE_IDLE = 2,
-	ETresFaceAnimType_Normal = 3,
-	ETresFaceAnimType_NO = 4,
-	ETresFaceAnimType_NO01 = 5,
-	ETresFaceAnimType_NO02 = 6,
-	ETresFaceAnimType_NO03 = 7,
-	ETresFaceAnimType_Battle = 8,
-	ETresFaceAnimType_BATTLE_SINGLE = 9,
-	ETresFaceAnimType_BA = 10,
-	ETresFaceAnimType_Damage = 11,
-	ETresFaceAnimType_DMG_LOOP = 12,
-	ETresFaceAnimType_DMG_END = 13,
-	ETresFaceAnimType_MAGIC_AUTO_IDLE_BATTLE = 14,
-	ETresFaceAnimType_MAGIC2_AUTO_IDLE_BATTLE = 15,
-	ETresFaceAnimType_USEITEM_AUTO_IDLE_BATTLE = 16,
-	ETresFaceAnimType_NORMAL_AUTO_01 = 17,
-	ETresFaceAnimType_SA_FREEZE = 18,
-	ETresFaceAnimType_SA_BARN = 19,
-	ETresFaceAnimType_SA_OIL = 20,
-	ETresFaceAnimType_SA_STEAM = 21,
-	ETresFaceAnimType_SA_THUNDER = 22,
-	ETresFaceAnimType_AF_RC = 23,
-	ETresFaceAnimType_AF_VS = 24,
-	ETresFaceAnimType_AF_TC = 25,
-	ETresFaceAnimType_WEP_BS = 26,
-	ETresFaceAnimType_WEP_GUN = 27,
-	ETresFaceAnimType_WEP_SD = 28,
+	/*NORMAL_AUTO = 0,
+	NORMAL_AUTO_IDLE_BATTLE = 1,
+	NORMAL_AUTO_BATTLE_IDLE = 2,
+	Normal = 3,
+	NO = 4,
+	NO01 = 5,
+	NO02 = 6,
+	NO03 = 7,
+	Battle = 8,
+	BATTLE_SINGLE = 9,
+	BA = 10,
+	Damage = 11,
+	DMG_LOOP = 12,
+	DMG_END = 13,
+	MAGIC_AUTO_IDLE_BATTLE = 14,
+	MAGIC2_AUTO_IDLE_BATTLE = 15,
+	USEITEM_AUTO_IDLE_BATTLE = 16,
+	NORMAL_AUTO_01 = 17,
+	SA_FREEZE = 18,
+	SA_BARN = 19,
+	SA_OIL = 20,
+	SA_STEAM = 21,
+	SA_THUNDER = 22,
+	AF_RC = 23,
+	AF_VS = 24,
+	AF_TC = 25,
+	WEP_BS = 26,
+	WEP_GUN = 27,
+	WEP_SD = 28,
 	NORMAL_AUTO_EF01 = 29,
 	NORMAL_AUTO_EU01 = 30,
 	NORMAL_AUTO_ED01 = 31,
@@ -3243,7 +3231,7 @@ enum class ETresFaceAnimType : uint8
 	EMOTION_TA_SU_E_02 = 114,
 	EMOTION_TA_SU_E = 115,
 	EMOTION_TA_SU_M_00 = 116,
-	EMOTION_TA_SU_M_02 = 117,
+	EMOTION_TA_SU_M_02 = 117,*/
 	FACE_ANIM_TYPE_MAX = 118 UMETA(Hidden),
 	ETresFaceAnimType_MAX = 119 UMETA(Hidden)
 };
@@ -3261,26 +3249,26 @@ enum ETresFaceAnimPlayPriority
 	PRIO06 = 7,
 	PRIO07 = 8,
 	PRIO08 = 9,
-	PRIO_MAX = 10 UMETA(Hidden),
+	PRIO_MAX = 10,
 	_PRIO_MAX = 11 UMETA(Hidden),
 	ETresFaceAnimPlayPriority_MAX = 12 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSplineAnchorInterpType
+enum class ETresSplineAnchorInterpType : uint8
 {
-	TSAIT_SPLINE = 0,
-	TSAIT_LINEAR = 1,
+	TSAIT_SPLINE = 0 UMETA(DisplayName = "Spline"),
+	TSAIT_LINEAR = 1 UMETA(DisplayName = "Linear"),
 	_TSAIT_MAX = 2 UMETA(Hidden),
 	ETresSplineAnchorInterpType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETRES_ATTACH_OBJECT_NAME
+enum class ETRES_ATTACH_OBJECT_NAME : uint8
 {
-	TRES_ATTACH_OBJECT_OWNER = 0,
-	TRES_ATTACH_OBJECT_ATTACH_TO_OBJECT = 1,
-	TRES_ATTACH_OBJECT_ATTACH_TO_WEAPON = 2,
+	TRES_ATTACH_OBJECT_OWNER = 0 UMETA(DisplayName = "Owner"),
+	TRES_ATTACH_OBJECT_ATTACH_TO_OBJECT = 1 UMETA(DisplayName = "Attach to Object"),
+	TRES_ATTACH_OBJECT_ATTACH_TO_WEAPON = 2 UMETA(DisplayName = "Attach to Weapon"),
 	TRES_ATTACH_OBJECT_MAX = 3 UMETA(Hidden)
 };
 
@@ -3305,81 +3293,81 @@ enum EFSQEX_EFFCT_CURVE_DATA_AXIS
 };
 
 UENUM(BlueprintType)
-enum ETresAtkCollRotAttachType
+enum class ETresAtkCollRotAttachType : uint8
 {
-	TRES_ACRA_NORMAL = 0,
-	TRES_ACRA_LOCAL = 1,
+	TRES_ACRA_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	TRES_ACRA_LOCAL = 1 UMETA(DisplayName = "Local"),
 	TRES_ACRA_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyDw405PostWaitAction
+enum class ETresEnemyDw405PostWaitAction : uint8
 {
-	TRES_ENEMY_DW405_POSTWAITACTION_IDLE = 0,
-	TRES_ENEMY_DW405_POSTWAITACTION_WHEELROLL = 1,
-	TRES_ENEMY_DW405_POSTWAITACTION_WALK = 2,
-	TRES_ENEMY_DW405_POSTWAITACTION_RESTBARRIER = 3,
+	TRES_ENEMY_DW405_POSTWAITACTION_IDLE = 0 UMETA(DisplayName = "Idle"),
+	TRES_ENEMY_DW405_POSTWAITACTION_WHEELROLL = 1 UMETA(DisplayName = "Wheel Roll"),
+	TRES_ENEMY_DW405_POSTWAITACTION_WALK = 2 UMETA(DisplayName = "Walk"),
+	TRES_ENEMY_DW405_POSTWAITACTION_RESTBARRIER = 3 UMETA(DisplayName = "DestroyClaymore"),
 	TRES_ENEMY_DW405_POSTWAITACTION_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyDw405AttackPossibleKind
 {
-	TRES_ENEMY_DW405_ATTACKPOSSIBLE_LAND = 0,
-	TRES_ENEMY_DW405_ATTACKPOSSIBLE_AIR = 1,
-	TRES_ENEMY_DW405_ATTACKPOSSIBLE_ALWAYS = 2,
-	TRES_ENEMY_DW405_ATTACKPOSSIBLE_NONE = 3,
+	TRES_ENEMY_DW405_ATTACKPOSSIBLE_LAND = 0 UMETA(DisplayName = "Land"),
+	TRES_ENEMY_DW405_ATTACKPOSSIBLE_AIR = 1 UMETA(DisplayName = "Air"),
+	TRES_ENEMY_DW405_ATTACKPOSSIBLE_ALWAYS = 2 UMETA(DisplayName = "Always"),
+	TRES_ENEMY_DW405_ATTACKPOSSIBLE_NONE = 3 UMETA(DisplayName = "None"),
 	TRES_ENEMY_DW405_ATTACKPOSSIBLE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyDw405ComboAttackType
+enum class ETresEnemyDw405ComboAttackType : uint8
 {
-	TRES_ENEMY_DW405_COMBOATTCKTYPE_LAND = 0,
-	TRES_ENEMY_DW405_COMBOATTCKTYPE_AIR = 1,
+	TRES_ENEMY_DW405_COMBOATTCKTYPE_LAND = 0 UMETA(DisplayName = "Land"),
+	TRES_ENEMY_DW405_COMBOATTCKTYPE_AIR = 1 UMETA(DisplayName = "Air"),
 	TRES_ENEMY_DW405_COMBOATTCKTYPE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx361ComboKind
+enum class ETresEnemyEx361ComboKind : uint8
 {
-	ETresEnemyEx361ComboKind_AirCombo_VerticalSwing = 0,
-	ETresEnemyEx361ComboKind_AirCombo_Turning = 1,
-	ETresEnemyEx361ComboKind_AirCombo_Thrust = 2,
-	ETresEnemyEx361ComboKind_AirCombo_ContinuousAttack = 3,
-	ETresEnemyEx361ComboKind_AirCombo_Beat = 4,
-	ETresEnemyEx361ComboKind_1_MAX = 5 UMETA(Hidden),
+	AirCombo_VerticalSwing = 0 UMETA(DisplayName = "Vertical Swing"),
+	AirCombo_Turning = 1 UMETA(DisplayName = "Turning"),
+	AirCombo_Thrust = 2 UMETA(DisplayName = "Thrust"),
+	AirCombo_ContinuousAttack = 3 UMETA(DisplayName = "Continuous Attack"),
+	AirCombo_Beat = 4 UMETA(DisplayName = "Beat"),
+	MAX = 5 UMETA(Hidden),
 	ETresEnemyEx361ComboKind_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttack_e_ex773_ReverseFlareMoveAxisType
+enum class ETresAttack_e_ex773_ReverseFlareMoveAxisType : uint8
 {
-	ETresAttack_e_ex773_ReverseFlareMoveAxisType_Camera = 0,
-	ETresAttack_e_ex773_ReverseFlareMoveAxisType_TargetDir2D = 1,
+	Camera = 0 UMETA(DisplayName = "Camera"),
+	TargetDir2D = 1 UMETA(DisplayName = "Target Dir 2D"),
 	ETresAttack_e_ex773_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresHitWallAction_e_ex011
+enum class ETresHitWallAction_e_ex011 : uint8
 {
-	ETresHitWallAction_e_ex011_None = 0,
-	AttackExit = 1,
-	Reflection = 2,
+	None = 0 UMETA(DisplayName = "None"),
+	AttackExit = 1 UMETA(DisplayName = "Attack Exit"),
+	Reflection = 2 UMETA(DisplayName = "Reflection"),
 	ETresHitWallAction_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDashLimit_e_ex011
+enum class ETresDashLimit_e_ex011 : uint8
 {
-	ETresDashLimit_e_ex011_Distance = 0,
-	ETresDashLimit_e_ex011_Time = 1,
-	ETresDashLimit_e_ex011_TargetDistance = 2,
+	Distance = 0,
+	Time = 1,
+	TargetDistance = 2,
 	ETresDashLimit_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EFireTurnTypes_e_ex047
+enum class EFireTurnTypes_e_ex047 : uint8
 {
 	TRES_ENEMY_EX047_FIRETURN_LEFT = 0,
 	TRES_ENEMY_EX047_FIRETURN_RIGHT = 1,
@@ -3400,7 +3388,7 @@ enum EKunaiType
 };
 
 UENUM(BlueprintType)
-enum EMoveSlashTypes_e_ex301
+enum class EMoveSlashTypes_e_ex301 : uint8
 {
 	TRES_ENEMY_EX301_MOVESLASH1 = 0,
 	TRES_ENEMY_EX301_MOVESLASH2 = 1,
@@ -3410,7 +3398,7 @@ enum EMoveSlashTypes_e_ex301
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx302ComboKind
+enum class ETresEnemyEx302ComboKind : uint8
 {
 	Combo_VerticalSwing = 0,
 	Combo_SideSwing = 1,
@@ -3419,97 +3407,97 @@ enum ETresEnemyEx302ComboKind
 	Combo_NearBlow = 4,
 	Combo_VerticalSwing2 = 5,
 	Combo_AirShotDown = 6,
-	ETresEnemyEx302ComboKind_1_MAX = 7 UMETA(Hidden),
+	MAX = 7 UMETA(Hidden),
 	ETresEnemyEx302ComboKind_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx304ComboKind
+enum class ETresEnemyEx304ComboKind : uint8
 {
 	Combo_Short = 0,
 	Combo_Medium = 1,
 	Combo_Wide = 2,
 	Combo_FinishBlow = 3,
 	Combo_FinishToss = 4,
-	ETresEnemyEx304ComboKind_1_MAX = 5 UMETA(Hidden),
+	MAX = 5 UMETA(Hidden),
 	ETresEnemyEx304ComboKind_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex305_ShotDirType
+enum class ETresEnemy_e_ex305_ShotDirType : uint8
 {
-	ETresEnemy_e_ex305_ShotDirType_Front = 0,
-	ETresEnemy_e_ex305_ShotDirType_Back = 1,
-	ETresEnemy_e_ex305_ShotDirType_Left = 2,
-	ETresEnemy_e_ex305_ShotDirType_Right = 3,
-	ETresEnemy_e_ex305_ShotDirType_Down = 4,
-	ETresEnemy_e_ex305_MAX = 5
+	Front = 0,
+	Back = 1,
+	Left = 2,
+	Right = 3,
+	Down = 4,
+	ETresEnemy_e_ex305_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex313_DarkHandComboType
+enum class ETresEnemy_e_ex313_DarkHandComboType : uint8
 {
 	ETresEnemy_e_ex313_DarkHandComboType_Slash = 0,
 	ETresEnemy_e_ex313_DarkHandComboType_Thrust = 1,
 	ETresEnemy_e_ex313_DarkHandComboType_Finish = 2,
-	ETresEnemy_e_ex313_DarkHandComboType_MAX = 3
+	ETresEnemy_e_ex313_DarkHandComboType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyex351ComboKind
+enum class ETresEnemyex351ComboKind : uint8
 {
-	ETresEnemyex351ComboKind_Combo_VerticalSwing = 0,
-	ETresEnemyex351ComboKind_Combo_SideSwing = 1,
-	ETresEnemyex351ComboKind_Combo_Attract = 2,
-	ETresEnemyex351ComboKind_Combo_JumpSlash = 3,
-	ETresEnemyex351ComboKind_Combo_NearBlow = 4,
-	ETresEnemyex351ComboKind_Combo_VerticalSwing2 = 5,
-	ETresEnemyex351ComboKind_Combo_AirShotDown = 6,
-	ETresEnemyex351ComboKind_1_MAX = 7,
-	ETresEnemyex351ComboKind_MAX = 8
+	Combo_VerticalSwing = 0,
+	Combo_SideSwing = 1,
+	Combo_Attract = 2,
+	Combo_JumpSlash = 3,
+	Combo_NearBlow = 4,
+	Combo_VerticalSwing2 = 5,
+	Combo_AirShotDown = 6,
+	MAX = 7 UMETA(Hidden),
+	ETresEnemyex351ComboKind_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353RootMotionCorrectionKind
+enum class ETresEnemyEx353RootMotionCorrectionKind : uint8
 {
 	CurveData = 0,
 	DistRate = 1,
 	AimFinishLocation = 2,
-	ETresEnemyEx353RootMotionCorrectionKind_1_MAX = 3,
-	ETresEnemyEx353RootMotionCorrectionKind_MAX = 4
+	MAX = 3 UMETA(Hidden),
+	ETresEnemyEx353RootMotionCorrectionKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353ComboKind
+enum class ETresEnemyEx353ComboKind : uint8
 {
-	ETresEnemyEx353ComboKind_Combo_Short = 0,
-	ETresEnemyEx353ComboKind_Combo_Medium = 1,
-	ETresEnemyEx353ComboKind_Combo_Wide = 2,
-	ETresEnemyEx353ComboKind_Combo_FinishBlow = 3,
-	ETresEnemyEx353ComboKind_Combo_FinishToss = 4,
-	ETresEnemyEx353ComboKind_Combo_KickUp = 5,
-	ETresEnemyEx353ComboKind_Combo_RushRoundhouseKick = 6,
-	ETresEnemyEx353ComboKind_1_MAX = 7,
-	ETresEnemyEx353ComboKind_MAX = 8
+	Combo_Short = 0,
+	Combo_Medium = 1,
+	Combo_Wide = 2,
+	Combo_FinishBlow = 3,
+	Combo_FinishToss = 4,
+	Combo_KickUp = 5,
+	Combo_RushRoundhouseKick = 6,
+	MAX = 7 UMETA(Hidden),
+	ETresEnemyEx353ComboKind_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX354_NormalShotDistanceType
+enum class EEX354_NormalShotDistanceType : uint8
 {
-	EEX354_NormalShotDistanceType_Distance2D = 0,
-	EEX354_NormalShotDistanceType_Distance3D = 1,
-	EEX354_MAX = 2
+	Distance2D = 0,
+	Distance3D = 1,
+	EEX354_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex354_ShotDirType
+enum class ETresEnemy_e_ex354_ShotDirType : uint8
 {
-	ETresEnemy_e_ex354_ShotDirType_Front = 0,
-	ETresEnemy_e_ex354_ShotDirType_Back = 1,
-	ETresEnemy_e_ex354_ShotDirType_Left = 2,
-	ETresEnemy_e_ex354_ShotDirType_Right = 3,
-	ETresEnemy_e_ex354_ShotDirType_Down = 4,
-	ETresEnemy_e_ex354_MAX = 5
+	Front = 0,
+	Back = 1,
+	Left = 2,
+	Right = 3,
+	Down = 4,
+	ETresEnemy_e_ex354_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3518,26 +3506,26 @@ enum ETresEnemyWarpCutMotionType_e_ex357
 	WarpCut = 0,
 	ContinuityCutStart = 1,
 	ContinuityCutEnd = 2,
-	ETresEnemyWarpCutMotionType_e_ex357_MAX = 3
+	ETresEnemyWarpCutMotionType_e_ex357_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX359_ComboStartType
+enum class EEX359_ComboStartType : uint8
 {
 	EEX359_ComboStartType = 0,
 	EEX359_ComboStartType01 = 1,
 	EEX359_ComboStartType02 = 2,
-	EEX359_ComboStartType_MAX = 3
+	EEX359_ComboStartType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex361_DarkHandComboType
+enum class ETresEnemy_e_ex361_DarkHandComboType : uint8
 {
 	ETresEnemy_e_ex361_DarkHandComboType_Slash = 0,
 	ETresEnemy_e_ex361_DarkHandComboType_Thrust = 1,
 	ETresEnemy_e_ex361_DarkHandComboType_Finish = 2,
 	ETresEnemy_e_ex361_DarkHandComboType_VerticalSwing = 3,
-	ETresEnemy_e_ex361_DarkHandComboType_MAX = 4
+	ETresEnemy_e_ex361_DarkHandComboType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3547,26 +3535,26 @@ enum EMoveSlashTypes_e_ex367
 	TRES_ENEMY_EX367_MOVESLASH2 = 1,
 	TRES_ENEMY_EX367_MOVESLASH3 = 2,
 	TRES_ENEMY_EX367_MOVESLASH4 = 3,
-	TRES_ENEMY_EX367_MAX = 4
+	TRES_ENEMY_EX367_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum Ee_ex731_DoubleClawType
+enum class Ee_ex731_DoubleClawType : uint8
 {
 	e_ex731_DoubleClawType_SINGLE = 0,
 	e_ex731_DoubleClawType_CONDITION = 1,
 	e_ex731_DoubleClawType_DASH = 2,
-	e_ex731_DoubleClawType_MAX = 3
+	e_ex731_DoubleClawType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECloneBurstSlashTypes_e_ex360
+enum class ECloneBurstSlashTypes_e_ex360 : uint8
 {
 	TRES_ENEMY_EX360_CLONEBURSTSLASH_MOVE_CUTDOWN = 0,
 	TRES_ENEMY_EX360_CLONEBURSTSLASH_CUTUP = 1,
 	TRES_ENEMY_EX360_CLONEBURSTSLASH_CUTDOWN = 2,
 	TRES_ENEMY_EX360_CLONEBURSTSLASH_SHOOT = 3,
-	TRES_ENEMY_EX360_CLONEBURSTSLASH_MAX = 4
+	TRES_ENEMY_EX360_CLONEBURSTSLASH_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3580,106 +3568,106 @@ enum EKBRCloneBurstTypes_e_ex360
 	TRES_ENEMY_EX360_CLONEBURST_CLONE_CUTUP = 5,
 	TRES_ENEMY_EX360_CLONEBURST_CLONE_CUTDOWN = 6,
 	TRES_ENEMY_EX360_CLONEBURST_SHOOT_KEYBLADES = 7,
-	TRES_ENEMY_EX360_CLONEBURST_MAX = 8
+	TRES_ENEMY_EX360_CLONEBURST_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBreakSlashNumTypes_e_ex781
+enum class EBreakSlashNumTypes_e_ex781 : uint8
 {
 	TRES_ENEMY_EX781_NORMAL_SLASH = 0,
 	TRES_ENEMY_EX781_CONTINUOUS_SLASH = 1,
 	TRES_ENEMY_EX781_FEINT = 2,
 	TRES_ENEMY_EX781_FAST_SLASH = 3,
 	TRES_ENEMY_EX781_FAST_CONTISLASH = 4,
-	TRES_ENEMY_EX781_MAX = 5
+	TRES_ENEMY_EX781_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex043_FlameFangBoostType
+enum class ETresEnemy_e_ex043_FlameFangBoostType : uint8
 {
 	ETresEnemy_e_ex043_FlameFangBoostType_Right = 0,
 	ETresEnemy_e_ex043_FlameFangBoostType_Left = 1,
-	ETresEnemy_e_ex043_FlameFangBoostType_MAX = 2
+	ETresEnemy_e_ex043_FlameFangBoostType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttack2_e_ex081_RotationGliding_HitWallReactionType
+enum class ETresAttack2_e_ex081_RotationGliding_HitWallReactionType : uint8
 {
 	TRES_EX081_ATTACK2_HITWALLREACTIONTYPE_END = 0,
 	TRES_EX081_ATTACK2_HITWALLREACTIONTYPE_REFLECTION = 1,
 	TRES_EX081_ATTACK2_HITWALLREACTIONTYPE_ALONGWALL = 2,
-	TRES_EX081_ATTACK2_HITWALLREACTIONTYPE_MAX = 3
+	TRES_EX081_ATTACK2_HITWALLREACTIONTYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx302SlowEndKind
+enum class ETresEnemyEx302SlowEndKind : uint8
 {
-	ETresEnemyEx302SlowEndKind_LastBlow_EndSlow = 0,
-	ETresEnemyEx302SlowEndKind_LastContinuousHit_EndSlow = 1,
-	ETresEnemyEx302SlowEndKind_Last_EndSlow = 2,
-	ETresEnemyEx302SlowEndKind_1_MAX = 3,
-	ETresEnemyEx302SlowEndKind_MAX = 4
+	LastBlow_EndSlow = 0,
+	LastContinuousHit_EndSlow = 1,
+	Last_EndSlow = 2,
+	MAX = 3 UMETA(Hidden),
+	ETresEnemyEx302SlowEndKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex305_ArmWarpType
+enum class ETresEnemy_e_ex305_ArmWarpType : uint8
 {
-	ETresEnemy_e_ex305_ArmWarpType_Random = 0,
-	ETresEnemy_e_ex305_ArmWarpType_Vertical = 1,
-	ETresEnemy_e_ex305_ArmWarpType_Horizontal = 2,
-	ETresEnemy_e_ex305_ArmWarpType_ETresEnemy_e_ex305_MAX = 3
+	Random = 0,
+	Vertical = 1,
+	Horizontal = 2,
+	ETresEnemy_e_ex305_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX354_ArmSpawnPosAdjustType
+enum class EEX354_ArmSpawnPosAdjustType : uint8
 {
 	EEX354_ArmSpawnPosAdjustType_Pos = 0,
 	EEX354_ArmSpawnPosAdjustType_Dir = 1,
-	EEX354_ArmSpawnPosAdjustType_Max = 2
+	EEX354_ArmSpawnPosAdjustType_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX354_ArmAimDirType
+enum class EEX354_ArmAimDirType : uint8
 {
 	EEX354_ArmAimDirType_ToTarget = 0,
 	EEX354_ArmAimDirType_OwnerToSelf = 1,
 	EEX354_ArmAimDirType_OwnerToTarget = 2,
-	EEX354_ArmAimDirType_Max = 3
+	EEX354_ArmAimDirType_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX354_ArmSpawnDirType
+enum class EEX354_ArmSpawnDirType : uint8
 {
 	EEX355_ArmSpawnDirType_Owner = 0,
 	EEX355_ArmSpawnDirType_Target = 1,
 	EEX355_ArmSpawnDirType_ToTarget = 2,
 	EEX355_ArmSpawnDirType_Camera = 3,
-	EEX355_ArmSpawnDirType_Max = 4
+	EEX355_ArmSpawnDirType_Max = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex354_ArmWarpPos
+enum class ETresEnemy_e_ex354_ArmWarpPos : uint8
 {
-	ETresEnemy_e_ex354_ArmWarpPos_Target = 0,
-	ETresEnemy_e_ex354_ArmWarpPos_Owner = 1,
-	ETresEnemy_e_ex354_ArmWarpPos_ETresEnemy_e_ex354_MAX = 2
+	Target = 0,
+	Owner = 1,
+	ETresEnemy_e_ex354_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex354_ArmWarpType
+enum class ETresEnemy_e_ex354_ArmWarpType : uint8
 {
-	ETresEnemy_e_ex354_ArmWarpType_Random = 0,
-	ETresEnemy_e_ex354_ArmWarpType_Vertical = 1,
-	ETresEnemy_e_ex354_ArmWarpType_Horizontal = 2,
-	ETresEnemy_e_ex354_ArmWarpType_ETresEnemy_e_ex354_MAX = 3
+	Random = 0,
+	Vertical = 1,
+	Horizontal = 2,
+	ETresEnemy_e_ex354_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex354_ArmTag
+enum class ETresEnemy_e_ex354_ArmTag : uint8
 {
 	ETresEnemy_e_ex354_ArmWarpTag_Left = 0,
 	ETresEnemy_e_ex354_ArmWarpTag_Right = 1,
-	ETresEnemy_e_ex354_ArmWarpTag_Max = 2
+	ETresEnemy_e_ex354_ArmWarpTag_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3688,7 +3676,7 @@ enum EEX355_RushAwayTurnDir
 	EEX355_RushAwayTurnDir_Default = 0,
 	EEX355_RushAwayTurnDir_Right = 1,
 	EEX355_RushAwayTurnDir_Left = 2,
-	EEX355_RushAwayTurnDir_Max = 3
+	EEX355_RushAwayTurnDir_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3696,55 +3684,55 @@ enum EEX355_RushAwayTurnType
 {
 	EEX355_RushAwayTurnType_Destination = 0,
 	EEX355_RushAwayTurnType_Target = 1,
-	EEX355_RushAwayTurnType_Max = 2
+	EEX355_RushAwayTurnType_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyCardThrow_e_ex356
+enum class ETresEnemyCardThrow_e_ex356 : uint8
 {
-	ETresEnemyCardThrow_e_ex356_First = 0,
-	ETresEnemyCardThrow_e_ex356_Second = 1,
-	ETresEnemyCardThrow_e_ex356_Finish = 2,
-	ETresEnemyCardThrow_e_MAX = 3
+	First = 0,
+	Second = 1,
+	Finish = 2,
+	ETresEnemyCardThrow_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBX901_ComboType
+enum class EBX901_ComboType : uint8
 {
 	EBX901_Combo_Claw = 0,
 	EBX901_Combo_Punch = 1,
 	EBX901_Combo_Chop = 2,
-	EBX901_Combo_MAX = 3
+	EBX901_Combo_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEx304HandKind
+enum class ETresEx304HandKind : uint8
 {
-	ETresEx304HandKind_Left = 0,
-	ETresEx304HandKind_Right = 1,
-	ETresEx304HandKind_1_Max = 2,
-	ETresEx304HandKind_MAX = 3
+	Left = 0,
+	Right = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEx304HandKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDarkVolleyNumTypes_e_ex325
+enum class EDarkVolleyNumTypes_e_ex325 : uint8
 {
 	TRES_ENEMY_EX047_DARKVOLLEYNUM1 = 0,
 	TRES_ENEMY_EX047_DARKVOLLEYNUM4 = 1,
-	TRES_ENEMY_EX047_MAX = 2
+	TRES_ENEMY_EX047_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx351RootMotionCorrectionKind
+enum class ETresEnemyEx351RootMotionCorrectionKind : uint8
 {
-	ETresEnemyEx351RootMotionCorrectionKind_AimFinishLocation = 0,
-	ETresEnemyEx351RootMotionCorrectionKind_DistRate = 1,
-	ETresEnemyEx351RootMotionCorrectionKind_1_MAX = 2,
-	ETresEnemyEx351RootMotionCorrectionKind_MAX = 3
+	AimFinishLocation = 0,
+	DistRate = 1,
+	MAX = 2 UMETA(Hidden),
+	ETresEnemyEx351RootMotionCorrectionKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx351KeyBladeComboKind
+enum class ETresEnemyEx351KeyBladeComboKind : uint8
 {
 	Combo_LeftRotaion = 0,
 	Combo_RightRotation = 1,
@@ -3753,17 +3741,17 @@ enum ETresEnemyEx351KeyBladeComboKind
 	AirCombo_Attract = 4,
 	AirMaliceWhip_VerticalSwing = 5,
 	AirMaliceWhip_SideSwing = 6,
-	ETresEnemyEx351KeyBladeComboKind_1_MAX = 7,
-	ETresEnemyEx351KeyBladeComboKind_MAX = 8
+	MAX = 7 UMETA(Hidden),
+	ETresEnemyEx351KeyBladeComboKind_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEx353HandKind
+enum class ETresEx353HandKind : uint8
 {
-	ETresEx353HandKind_Left = 0,
-	ETresEx353HandKind_Right = 1,
-	ETresEx353HandKind_1_Max = 2,
-	ETresEx353HandKind_MAX = 3
+	Left = 0,
+	Right = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEx353HandKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3772,7 +3760,7 @@ enum EEX355_SwingTractionHorizontalDir
 	EEX355_SwingTractionHorizontalDir_Both = 0,
 	EEX355_SwingTractionHorizontalDir_Front = 1,
 	EEX355_SwingTractionHorizontalDir_Rear = 2,
-	EEX355_SwingTractionHorizontalDir_Max = 3
+	EEX355_SwingTractionHorizontalDir_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3781,64 +3769,64 @@ enum EEX355_SwingTractionDir
 	EEX355_SwingTractionDir_Both = 0,
 	EEX355_SwingTractionDir_Up = 1,
 	EEX355_SwingTractionDir_Down = 2,
-	EEX355_SwingTractionDir_Max = 3
+	EEX355_SwingTractionDir_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWeaponDirection_e_ex357
+enum class ETresWeaponDirection_e_ex357 : uint8
 {
-	ETresWeaponDirection_e_ex357_Vertical = 0,
-	ETresWeaponDirection_e_ex357_Horizontal = 1,
-	ETresWeaponDirection_e_ex357_1_Max = 2,
-	ETresWeaponDirection_e_MAX = 3
+	Vertical = 0,
+	Horizontal = 1,
+	Max = 2 UMETA(Hidden),
+	ETresWeaponDirection_e_MAX = 3 UMETA(Hidden)
 };
 
-/*UENUM(BlueprintType)
-enum EEX359_BerserkComboType
+UENUM(BlueprintType)
+enum class EEX359_BerserkComboType : uint8
 {
 	EEX359_BerserkComboType0 = 0,
 	EEX359_BerserkComboType1 = 1,
 	EEX359_BerserkComboType2 = 2,
 	EEX359_BerserkComboType3 = 3,
-	EEX359_BerserkComboType_1_Max = 4,
-	EEX359_BerserkComboType_Max = 5
-};*/
-
-UENUM(BlueprintType)
-enum ETresEnemyEx361SettingKind
-{
-	ETresEnemyEx361SettingKind_Myself = 0,
-	ETresEnemyEx361SettingKind_Target = 1,
-	ETresEnemyEx361SettingKind_Sandwich = 2,
-	ETresEnemyEx361SettingKind_Ceiling = 3,
-	ETresEnemyEx361SettingKind_Ring = 4,
-	ETresEnemyEx361SettingKind_Row = 5,
-	ETresEnemyEx361SettingKind_RowTarget = 6,
-	ETresEnemyEx361SettingKind_1_MAX = 7,
-	ETresEnemyEx361SettingKind_MAX = 8
+	EEX359_BerserkComboType_Max = 4 UMETA(Hidden),
+	EEX359_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EPowerAlcanamNumTypes_e_ex362
+enum class ETresEnemyEx361SettingKind : uint8
+{
+	Myself = 0,
+	Target = 1,
+	Sandwich = 2,
+	Ceiling = 3,
+	Ring = 4,
+	Row = 5,
+	RowTarget = 6,
+	MAX = 7 UMETA(Hidden),
+	ETresEnemyEx361SettingKind_MAX = 8 UMETA(Hidden)
+};
+
+UENUM(BlueprintType)
+enum class EPowerAlcanamNumTypes_e_ex362 : uint8
 {
 	TRES_ENEMY_EX362_ATTACK_ALL = 0,
 	TRES_ENEMY_EX362_ATTACK_TYPEA = 1,
 	TRES_ENEMY_EX362_ATTACK_TYPEB = 2,
 	TRES_ENEMY_EX362_ATTACK_TYPEC = 3,
-	TRES_ENEMY_EX362_ATTACK_MAX = 4
+	TRES_ENEMY_EX362_ATTACK_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBX901_BoostAttack_Mine
+enum class EBX901_BoostAttack_Mine : uint8
 {
 	EBX901_BoostAttack_Mine_Back = 0,
 	EBX901_BoostAttack_Mine_Forward = 1,
 	EBX901_BoostAttack_Mine_Turn = 2,
-	EBX901_BoostAttack_Mine_Max = 3
+	EBX901_BoostAttack_Mine_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttack4AscensionTypes_e_ex301
+enum class ETresAttack4AscensionTypes_e_ex301 : uint8
 {
 	TRES_ATTACK4_ENEMY_EX301_ASCENSION1 = 0,
 	TRES_ATTACK4_ENEMY_EX301_ASCENSION2 = 1,
@@ -3847,76 +3835,76 @@ enum ETresAttack4AscensionTypes_e_ex301
 	TRES_ATTACK4_ENEMY_EX301_ASCENSION5 = 4,
 	TRES_ATTACK4_ENEMY_EX301_ASCENSION6 = 5,
 	TRES_ATTACK4_ENEMY_EX301_ASCENSION7 = 6,
-	TRES_ATTACK4_ENEMY_EX301_MAX = 7
+	TRES_ATTACK4_ENEMY_EX301_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyPressCardAttribute_e_ex356
 {
-	ETresEnemyPressCardAttribute_e_ex356_None = 0,
-	ETresEnemyPressCardAttribute_e_ex356_Fire = 1,
-	ETresEnemyPressCardAttribute_e_ex356_Thunder = 2,
-	ETresEnemyPressCardAttribute_e_MAX = 3
+	/*None = 0,
+	Fire = 1,
+	Thunder = 2,*/
+	ETresEnemyPressCardAttribute_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyContinuityCutAction_e_ex357
+enum class ETresEnemyContinuityCutAction_e_ex357 : uint8
 {
 	Auto = 0,
 	ForceLand = 1,
 	ForceAir = 2,
-	ETresEnemyContinuityCutAction_e_MAX = 3
+	ETresEnemyContinuityCutAction_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWaterActionTypes_e_ex047
+enum class EWaterActionTypes_e_ex047 : uint8
 {
 	TRES_ENEMY_EX047_WATERACTION_ALL = 0,
 	TRES_ENEMY_EX047_WATERACTION_START = 1,
 	TRES_ENEMY_EX047_WATERACTION_LOOP = 2,
 	TRES_ENEMY_EX047_WATERACTION_END = 3,
-	TRES_ENEMY_EX047_WATERACTION_MAX = 4
+	TRES_ENEMY_EX047_WATERACTION_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttack5XIIIAttackTypes_e_ex301
+enum class ETresAttack5XIIIAttackTypes_e_ex301 : uint8
 {
 	TRES_ATTACK5_ENEMY_EX301_XIIIATK1 = 0,
 	TRES_ATTACK5_ENEMY_EX301_XIIIATK2 = 1,
 	TRES_ATTACK5_ENEMY_EX301_XIIIATK3 = 2,
-	TRES_ATTACK5_ENEMY_EX301_MAX = 3
+	TRES_ATTACK5_ENEMY_EX301_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353EveryDirectionShotKind
+enum class ETresEnemyEx353EveryDirectionShotKind : uint8
 {
-	ETresEnemyEx353EveryDirectionShotKind_StartOrLoop = 0,
-	ETresEnemyEx353EveryDirectionShotKind_End = 1,
-	ETresEnemyEx353EveryDirectionShotKind_1_MAX = 2,
-	ETresEnemyEx353EveryDirectionShotKind_MAX = 3
+	StartOrLoop = 0,
+	End = 1,
+	MAX = 2 UMETA(Hidden),
+	ETresEnemyEx353EveryDirectionShotKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyWildDanceWarpHeight_e_ex358
+enum class ETresEnemyWildDanceWarpHeight_e_ex358 : uint8
 {
-	ETresEnemyWildDanceWarpHeight_e_ex358_Normal = 0,
-	ETresEnemyWildDanceWarpHeight_e_ex358_Absolute = 1,
-	ETresEnemyWildDanceWarpHeight_e_ex358_Relative = 2,
-	ETresEnemyWildDanceWarpHeight_e_ex358_TargetOffset = 3,
-	ETresEnemyWildDanceWarpHeight_e_MAX = 4
+	Normal = 0,
+	Absolute = 1,
+	Relative = 2,
+	TargetOffset = 3,
+	ETresEnemyWildDanceWarpHeight_e_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyWildDanceWarpDirection_e_ex358
+enum class ETresEnemyWildDanceWarpDirection_e_ex358 : uint8
 {
-	ETresEnemyWildDanceWarpDirection_e_ex358_Right = 0,
-	ETresEnemyWildDanceWarpDirection_e_ex358_Front = 1,
-	ETresEnemyWildDanceWarpDirection_e_ex358_Left = 2,
-	ETresEnemyWildDanceWarpDirection_e_MAX = 3
+	Right = 0,
+	Front = 1,
+	Left = 2,
+	ETresEnemyWildDanceWarpDirection_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDarkSplicerTypes_e_ex360
+enum class EDarkSplicerTypes_e_ex360 : uint8
 {
 	TRES_ENEMY_EX360_DARKSPLICER_MOVE_CUTDOWN = 0,
 	TRES_ENEMY_EX360_DARKSPLICER_CUTDOWN = 1,
@@ -3925,52 +3913,52 @@ enum EDarkSplicerTypes_e_ex360
 	TRES_ENEMY_EX360_DARKSPLICER_MOVE_WCUT = 4,
 	TRES_ENEMY_EX360_DARKSPLICER_WCUT = 5,
 	TRES_ENEMY_EX360_DARKSPLICER_MOVE_SPINCUT = 6,
-	TRES_ENEMY_EX360_DARKSPLICER_MAX = 7
+	TRES_ENEMY_EX360_DARKSPLICER_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx361ThunderKind
+enum class ETresEnemyEx361ThunderKind : uint8
 {
 	HomingBaseTarget = 0,
 	FirstBaseTarget = 1,
-	ETresEnemyEx361ThunderKind_1_MAX = 2,
-	ETresEnemyEx361ThunderKind_MAX = 3
+	MAX = 2 UMETA(Hidden),
+	ETresEnemyEx361ThunderKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttack5XIIIAttackTypes_e_ex367
+enum class ETresAttack5XIIIAttackTypes_e_ex367 : uint8
 {
 	TRES_ATTACK5_ENEMY_EX367_XIIIATKSTART = 0,
 	TRES_ATTACK5_ENEMY_EX367_CHANGECIRCLE = 1,
 	TRES_ATTACK5_ENEMY_EX367_XIIIATKEND = 2,
-	TRES_ATTACK5_ENEMY_EX367_MAX = 3
+	TRES_ATTACK5_ENEMY_EX367_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EProjectileSpawnPos
+enum class EProjectileSpawnPos : uint8
 {
 	EProjectileSpawnPos_L = 0,
 	EProjectileSpawnPos_R = 1,
 	EProjectileSpawnPos_H = 2,
-	EProjectileSpawnPos_Max = 3
+	EProjectileSpawnPos_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresHitWallAction_e_ex059
+enum class ETresHitWallAction_e_ex059 : uint8
 {
-	ETresHitWallAction_e_ex059_None = 0,
-	ETresHitWallAction_e_ex059_AttackExit = 1,
-	ETresHitWallAction_e_ex059_ETresHitWallAction_e_MAX = 2
+	None = 0,
+	AttackExit = 1,
+	ETresHitWallAction_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDarkRushTypes_e_ex325
+enum class EDarkRushTypes_e_ex325 : uint8
 {
 	TRES_ENEMY_EX325_DARKRUSH_START = 0,
 	TRES_ENEMY_EX325_DARKRUSH_STROM = 1,
 	TRES_ENEMY_EX325_DARKRUSH_ATTACK = 2,
 	TRES_ENEMY_EX325_DARKRUSH_FINISH = 3,
-	TRES_ENEMY_EX325_DARKRUSH_MAX = 4
+	TRES_ENEMY_EX325_DARKRUSH_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3979,7 +3967,7 @@ enum EEX355_DashMiddleAction
 	EEX355_DashMiddleAction_None = 0,
 	EEX355_DashRoamDir_Accel = 1,
 	EEX355_DashRoamDir_Swing = 2,
-	EEX355_MAX = 3
+	EEX355_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -3987,34 +3975,34 @@ enum EEX355_DashRoamDir
 {
 	EEX355_DashRoamDir_Left = 0,
 	EEX355_DashRoamDir_Right = 1,
-	EEX355_DashRoamDir_MAX = 2
+	EEX355_DashRoamDir_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EIceProjectileDestroyType_e_he903
+enum class EIceProjectileDestroyType_e_he903 : uint8
 {
 	DestroyType_Destroy = 0,
 	DestroyType_NoHoming = 1,
 	DestroyType_Evade = 2,
-	DestroyType_MAX = 3
+	DestroyType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX355_CutDownClaymoreGoalBase
+enum class EEX355_CutDownClaymoreGoalBase : uint8
 {
 	EEX355_CutDownClaymoreGoalBase_Owner = 0,
 	EEX355_CutDownClaymoreGoalBase_Target = 1,
 	EEX355_CutDownClaymoreGoalBase_Map = 2,
-	EEX355_CutDownClaymoreGoalBase_Max = 3
+	EEX355_CutDownClaymoreGoalBase_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EReverseSlashTypes_e_ex781
+enum class EReverseSlashTypes_e_ex781 : uint8
 {
 	TRES_ENEMY_EX781_RS_ALL = 0,
 	TRES_ENEMY_EX781_RS_SLASH_UP = 1,
 	TRES_ENEMY_EX781_RS_SLASH_DOWN = 2,
-	TRES_ENEMY_EX781_RS_MAX = 3
+	TRES_ENEMY_EX781_RS_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4022,71 +4010,59 @@ enum EBigTornadoProjPos
 {
 	EBigTornadoProjPos_L = 0,
 	EBigTornadoProjPos_R = 1,
-	EBigTornadoProjPos_MAX = 2
+	EBigTornadoProjPos_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttackDefinition
+enum class ETresHitWallAction : uint8
 {
-	ETresAttackDefinition_Unknown = 0,
-	ETresAttackDefinition_Melee = 1,
-	ETresAttackDefinition_Ranged = 2,
-	ETresAttackDefinition_Dash = 3,
-	ETresAttackDefinition_Jump = 4,
-	ETresAttackDefinition_Custom = 5,
-	ETresAttackDefinition_MAX = 6
+	None = 0,
+	AttackExit = 1,
+	Reflection = 2,
+	ETresHitWallAction_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresHitWallAction
+enum class ETresDashLimit : uint8
 {
-	ETresHitWallAction_None = 0,
-	ETresHitWallAction_AttackExit = 1,
-	ETresHitWallAction_Reflection = 2,
-	ETresHitWallAction_MAX = 3
+	Distance = 0,
+	Time = 1,
+	TargetDistance = 2,
+	ETresDashLimit_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDashLimit
+enum class ETresJumpAttack : uint8
 {
-	ETresDashLimit_Distance = 0,
-	ETresDashLimit_Time = 1,
-	ETresDashLimit_TargetDistance = 2,
-	ETresDashLimit_MAX = 3
+	Proximity = 0,
+	Rush = 1,
+	ETresJumpAttack_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresJumpAttack
-{
-	ETresJumpAttack_Proximity = 0,
-	ETresJumpAttack_Rush = 1,
-	ETresJumpAttack_MAX = 2
-};
-
-UENUM(BlueprintType)
-enum ETresAutoNavLinkDebugDrawLabels
+enum class ETresAutoNavLinkDebugDrawLabels : uint8
 {
 	Disable = 0,
 	Score = 1,
 	Priority = 2,
-	ETresAutoNavLinkDebugDrawLabels_MAX = 3
+	ETresAutoNavLinkDebugDrawLabels_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBPEM_SystemEventType
+enum class ETresBPEM_SystemEventType : uint8
 {
-	ETresBPEM_SystemEventType_UNKNOWN = 0,
-	ETresBPEM_SystemEventType_TICK_ENABLED = 1,
-	ETresBPEM_SystemEventType_TICK_DISABLED = 2,
-	ETresBPEM_SystemEventType_SUSPEND_START = 3,
-	ETresBPEM_SystemEventType_SUSPEND_END = 4,
-	ETresBPEM_MAX = 5
+	UNKNOWN = 0,
+	TICK_ENABLED = 1,
+	TICK_DISABLED = 2,
+	SUSPEND_START = 3,
+	SUSPEND_END = 4,
+	ETresBPEM_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBPEM_BattleEventType
+enum class ETresBPEM_BattleEventType : uint8
 {
-	ETresBPEM_BattleEventType_UNKNOWN = 0,
+	UNKNOWN = 0,
 	HIT_ATTACK_PLAYER = 1,
 	HIT_ATTACK_ENEMY = 2,
 	HIT_ATTACK_NOREACTION_PLAYER = 3,
@@ -4111,65 +4087,68 @@ enum ETresBPEM_BattleEventType
 	END_STYLECHANGE = 22,
 	BEGIN_STYLEFINISH = 23,
 	END_STYLEFINISH = 24,
-	ETresBPEM_BattleEventType_ETresBPEM_MAX = 25
+	ETresBPEM_MAX = 25 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBPEM_BattleType
+enum class ETresBPEM_BattleType : uint8
 {
-	ETresBPEM_BattleType_UNKNOWN = 0,
-	ETresBPEM_BattleType_XIII_A = 1,
-	ETresBPEM_BattleType_XIII_B = 2,
-	ETresBPEM_BattleType_XIII_E = 3,
-	ETresBPEM_BattleType_ETresBPEM_MAX = 4
+	UNKNOWN = 0,
+	XIII_A = 1,
+	XIII_B = 2,
+	XIII_E = 3,
+	ETresBPEM_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPlayerSpecialActionType
+enum class ETresPlayerSpecialActionType : uint8
 {
-	ETresPlayerSpecialActionType_Guard = 0,
-	ETresPlayerSpecialActionType_InvincibleTakeDamage = 1,
-	ETresPlayerSpecialActionType_MAX = 2
+	Guard = 0,
+	InvincibleTakeDamage = 1,
+	ETresPlayerSpecialActionType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCustomCompositeReturnCondition
+enum class ETresCustomCompositeReturnCondition : uint8
 {
 	FirstSuccess = 0,
 	FirstFailure = 1,
 	LastNodeCompletes = 2,
-	ETresCustomCompositeReturnCondition_MAX = 3
+	ETresCustomCompositeReturnCondition_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresControlledRandomPeriod
+enum class ETresControlledRandomPeriod : uint8
 {
-	ETresControlledRandomPeriod_NoRandom = 0,
-	ETresControlledRandomPeriod_VeryLowRandom = 1,
-	ETresControlledRandomPeriod_LowRandom = 2,
-	ETresControlledRandomPeriod_MediumRandom = 3,
-	ETresControlledRandomPeriod_PureRandom = 4,
-	ETresControlledRandomPeriod_Custom = 5,
-	ETresControlledRandomPeriod_MAX = 6
+	NoRandom = 0,
+	VeryLowRandom = 1,
+	LowRandom = 2,
+	MediumRandom = 3,
+	PureRandom = 4,
+	Custom = 5,
+	ETresControlledRandomPeriod_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresArithmeticComparisonSource
+namespace ETresArithmeticComparisonSource
 {
-	ETresArithmeticComparisonSource_Blackboard = 0,
-	ETresArithmeticComparisonSource_ActorProperty = 1,
-	ETresArithmeticComparisonSource_ActorFunction = 2,
-	ETresArithmeticComparisonSource_LiteralValue = 3,
-	ETresArithmeticComparisonSource_MAX = 4
-};
+	enum Type
+	{
+		Blackboard = 0,
+		ActorProperty = 1,
+		ActorFunction = 2,
+		LiteralValue = 3,
+		ETresArithmeticComparisonSource_MAX = 4 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresCanCoopJoinRole
+enum class ETresCanCoopJoinRole : uint8
 {
 	Leader = 0,
 	Follower = 1,
 	LeaderOrFollower = 2,
-	ETresCanCoopJoinRole_MAX = 3
+	ETresCanCoopJoinRole_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4179,120 +4158,150 @@ enum EEX354_TargetMoveDir
 	EEX354_TargetMoveDir_Rear = 1,
 	EEX354_TargetMoveDir_Right = 2,
 	EEX354_TargetMoveDir_Left = 3,
-	EEX354_TargetMoveDir_MAX = 4
+	EEX354_TargetMoveDir_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresHateCompare
+namespace ETresHateCompare
 {
-	ETresHateCompare_Blackboard = 0,
-	ETresHateCompare_MostHated = 1,
-	ETresHateCompare_TotalHateAgainstAllEnemies = 2,
-	ETresHateCompare_MAX = 3
-};
+	enum Type
+	{
+		Blackboard = 0,
+		MostHated = 1,
+		TotalHateAgainstAllEnemies = 2,
+		ETresHateCompare_MAX = 3 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum EInterruptableEvent
+namespace EInterruptableEvent
 {
-	EInterruptableEvent_IE_OnDamage = 0,
-	EInterruptableEvent_IE_OnReflect = 1,
-	EInterruptableEvent_IE_OnRevenge = 2,
-	EInterruptableEvent_IE_OnDeath = 3,
-	EInterruptableEvent_IE_OnScriptBegin = 4,
-	EInterruptableEvent_IE_OnScriptEnd = 5,
-	EInterruptableEvent_IE_MAX = 6
-};
+	enum Type
+	{
+		IE_OnDamage = 0,
+		IE_OnReflect = 1,
+		IE_OnRevenge = 2,
+		IE_OnDeath = 3,
+		IE_OnScriptBegin = 4,
+		IE_OnScriptEnd = 5,
+		IE_MAX = 6 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresDecoratorMercunaRaycast
+namespace ETresDecoratorMercunaRaycast
 {
-	ETresDecoratorMercunaRaycast_Forward = 0,
-	ETresDecoratorMercunaRaycast_Left = 1,
-	ETresDecoratorMercunaRaycast_Right = 2,
-	ETresDecoratorMercunaRaycast_Back = 3,
-	ETresDecoratorMercunaRaycast_Up = 4,
-	ETresDecoratorMercunaRaycast_Down = 5,
-	ETresDecoratorMercunaRaycast_Direct = 6,
-	ETresDecoratorMercunaRaycast_MAX = 7
-};
+	enum Type
+	{
+		Forward = 0,
+		Left = 1,
+		Right = 2,
+		Back = 3,
+		Up = 4,
+		Down = 5,
+		Direct = 6,
+		ETresDecoratorMercunaRaycast_MAX = 7 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresDecoratorNavigationRayDir
+namespace ETresDecoratorNavigationRayDir
 {
-	ETresDecoratorNavigationRayDir_Forward = 0,
-	ETresDecoratorNavigationRayDir_Left = 1,
-	ETresDecoratorNavigationRayDir_Right = 2,
-	ETresDecoratorNavigationRayDir_Back = 3,
-	ETresDecoratorNavigationRayDir_Direct = 4,
-	ETresDecoratorNavigationRayDir_MAX = 5
-};
+	enum Type
+	{
+		Forward = 0,
+		Left = 1,
+		Right = 2,
+		Back = 3,
+		Direct = 4,
+		ETresDecoratorNavigationRayDir_MAX = 5 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresDecoratorValueModifierMethod
+namespace ETresDecoratorValueModifierMethod
 {
-	ETresDecoratorValueModifierMethod_Set = 0,
-	ETresDecoratorValueModifierMethod_Add = 1,
-	ETresDecoratorValueModifierMethod_Sub = 2,
-	ETresDecoratorValueModifierMethod_Mul = 3,
-	ETresDecoratorValueModifierMethod_Div = 4,
-	ETresDecoratorValueModifierMethod_MAX = 5
-};
+	enum Type
+	{
+		Set = 0,
+		Add = 1,
+		Sub = 2,
+		Mul = 3,
+		Div = 4,
+		ETresDecoratorValueModifierMethod_MAX = 5 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresDecoratorVectorValueModifierMethod
+namespace ETresDecoratorVectorValueModifierMethod
 {
-	ETresDecoratorVectorValueModifierMethod_Set = 0,
-	ETresDecoratorVectorValueModifierMethod_Add = 1,
-	ETresDecoratorVectorValueModifierMethod_Sub = 2,
-	ETresDecoratorVectorValueModifierMethod_Mul = 3,
-	ETresDecoratorVectorValueModifierMethod_Div = 4,
-	ETresDecoratorVectorValueModifierMethod_MAX = 5
-};
+	enum Type
+	{
+		Set = 0,
+		Add = 1,
+		Sub = 2,
+		Mul = 3,
+		Div = 4,
+		ETresDecoratorVectorValueModifierMethod_MAX = 5 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresBTPlayerStateCkeck
+enum class ETresBTPlayerStateCkeck : uint8
 {
 	FlyingMissionNormal = 0,
 	FlyingMissionRideEx026 = 1,
 	FlyingMissionRideEx021 = 2,
 	ShootingRide = 3,
 	RailSlide = 4,
-	ETresBTPlayerStateCkeck_1_Max = 5,
-	ETresBTPlayerStateCkeck_MAX = 6
+	Max = 5 UMETA(Hidden),
+	ETresBTPlayerStateCkeck_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresRandomEntryProbabilitySource
+namespace ETresRandomEntryProbabilitySource
 {
-	ETresRandomEntryProbabilitySource_LiteralValue = 0,
-	ETresRandomEntryProbabilitySource_Blackboard = 1,
-	ETresRandomEntryProbabilitySource_MAX = 2
-};
+	enum Type
+	{
+		LiteralValue = 0,
+		Blackboard = 1,
+		ETresRandomEntryProbabilitySource_MAX = 2 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresRandomEntryCooldownProbabilitySource
+namespace ETresRandomEntryCooldownProbabilitySource
 {
-	ETresRandomEntryCooldownProbabilitySource_LiteralValue = 0,
-	ETresRandomEntryCooldownProbabilitySource_Blackboard = 1,
-	ETresRandomEntryCooldownProbabilitySource_MAX = 2
-};
+	enum Type
+	{
+		LiteralValue = 0,
+		Blackboard = 1,
+		ETresRandomEntryCooldownProbabilitySource_MAX = 2 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresRangeCheckValueSource
+namespace ETresRangeCheckValueSource
 {
-	ETresRangeCheckValueSource_LiteralValue = 0,
-	ETresRangeCheckValueSource_Blackboard = 1,
-	ETresRangeCheckValueSource_MAX = 2
-};
+	enum Type
+	{
+		LiteralValue = 0,
+		Blackboard = 1,
+		ETresRangeCheckValueSource_MAX = 2 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresRangeCheckValueSetting
+namespace ETresRangeCheckValueSetting
 {
-	ETresRangeCheckValueSetting_Minimum = 0,
-	ETresRangeCheckValueSetting_Maximum = 1,
-	ETresRangeCheckValueSetting_Range = 2,
-	ETresRangeCheckValueSetting_MAX = 3
-};
+	enum Type
+	{
+		Minimum = 0,
+		Maximum = 1,
+		Range = 2,
+		ETresRangeCheckValueSetting_MAX = 3 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
 enum ETresRangeCheckMode
@@ -4302,7 +4311,7 @@ enum ETresRangeCheckMode
 	DirectDistanceZ = 2,
 	PathDistance = 3,
 	PathCost = 4,
-	ETresRangeCheckMode_MAX = 5
+	ETresRangeCheckMode_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4311,142 +4320,157 @@ enum ETresVelocityTestMode
 	Velocity3D = 0,
 	Velocity2D = 1,
 	VelocityZ = 2,
-	ETresVelocityTestMode_MAX = 3
+	ETresVelocityTestMode_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBlackboardValueModifierInOutMethod
+namespace ETresBlackboardValueModifierInOutMethod
 {
-	ETresBlackboardValueModifierInOutMethod_Set = 0,
-	ETresBlackboardValueModifierInOutMethod_Add = 1,
-	ETresBlackboardValueModifierInOutMethod_Sub = 2,
-	ETresBlackboardValueModifierInOutMethod_Mul = 3,
-	ETresBlackboardValueModifierInOutMethod_Div = 4,
-	ETresBlackboardValueModifierInOutMethod_MAX = 5
-};
+	enum Type
+	{
+		Set = 0,
+		Add = 1,
+		Sub = 2,
+		Mul = 3,
+		Div = 4,
+		ETresBlackboardValueModifierInOutMethod_MAX = 5 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresArithmeticModifierSource
+namespace ETresArithmeticModifierSource
 {
-	ETresArithmeticModifierSource_Blackboard = 0,
-	ActorProperty = 1,
-	ActorFunction = 2,
-	LiteralValue = 3,
-	ETresArithmeticModifierSource_MAX = 4
-};
+	enum Type
+	{
+		Blackboard = 0,
+		ActorProperty = 1,
+		ActorFunction = 2,
+		LiteralValue = 3,
+		ETresArithmeticModifierSource_MAX = 4 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresValueModifierMethod
+namespace ETresValueModifierMethod
 {
-	ETresValueModifierMethod_Set = 0,
-	ETresValueModifierMethod_Add = 1,
-	ETresValueModifierMethod_Sub = 2,
-	ETresValueModifierMethod_Mul = 3,
-	ETresValueModifierMethod_Div = 4,
-	ETresValueModifierMethod_MAX = 5
-};
+	enum Type
+	{
+		Set = 0,
+		Add = 1,
+		Sub = 2,
+		Mul = 3,
+		Div = 4,
+		ETresValueModifierMethod_MAX = 5 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ECOMMON_HANGAROUNDTARGET_MODE_Enum
+enum class ECOMMON_HANGAROUNDTARGET_MODE_Enum : uint8
 {
 	Boorish = 0,
 	Smart = 1,
-	COMMON_HANGAROUNDTARGET_MODE_MAX = 2
+	COMMON_HANGAROUNDTARGET_MODE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECOMMON_ROUNDANDROUND_MODE_Enum
+enum class ECOMMON_ROUNDANDROUND_MODE_Enum : uint8
 {
-	ECOMMON_ROUNDANDROUND_MODE_Enum_Right = 0,
-	ECOMMON_ROUNDANDROUND_MODE_Enum_Unsteady = 1,
-	COMMON_ROUNDANDROUND_MODE_MAX = 2
+	Right = 0,
+	Unsteady = 1,
+	COMMON_ROUNDANDROUND_MODE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDIRECTIONAL_MOVE_MODE_Enum
+enum class EDIRECTIONAL_MOVE_MODE_Enum : uint8
 {
-	EDIRECTIONAL_MOVE_MODE_Enum_Forward = 0,
-	EDIRECTIONAL_MOVE_MODE_Enum_Backward = 1,
-	EDIRECTIONAL_MOVE_MODE_Enum_Left = 2,
-	EDIRECTIONAL_MOVE_MODE_Enum_Right = 3,
-	DIRECTIONAL_MOVE_MODE_MAX = 4
+	Forward = 0,
+	Backward = 1,
+	Left = 2,
+	Right = 3,
+	DIRECTIONAL_MOVE_MODE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresHateModifier
+namespace ETresHateModifier
 {
-	ETresHateModifier_Blackboard = 0,
-	ETresHateModifier_Everyone = 1,
-	ETresHateModifier_EveryoneExcludeBlackboard = 2,
-	ETresHateModifier_MAX = 3
-};
+	enum Type
+	{
+		Blackboard = 0,
+		Everyone = 1,
+		EveryoneExcludeBlackboard = 2,
+		ETresHateModifier_MAX = 3 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ELEAVE_FROM_TARGET_MODE_Enum
+enum class ELEAVE_FROM_TARGET_MODE_Enum : uint8
 {
-	ELEAVE_FROM_TARGET_MODE_Enum_Away = 0,
-	ELEAVE_FROM_TARGET_MODE_Enum_Forward = 1,
-	ELEAVE_FROM_TARGET_MODE_Enum_Random = 2,
-	LEAVE_FROM_TARGET_MODE_MAX = 3
+	Away = 0,
+	Forward = 1,
+	Random = 2,
+	LEAVE_FROM_TARGET_MODE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresRageSource
+namespace ETresRageSource
 {
-	ETresRageSource_LiteralValue = 0,
-	ETresRageSource_Blackboard = 1,
-	ETresRageSource_MAX = 2
-};
+	enum Type
+	{
+		LiteralValue = 0,
+		Blackboard = 1,
+		ETresRageSource_MAX = 2 UMETA(Hidden)
+	};
+}
 
 UENUM(BlueprintType)
-enum ECOMMON_RANDOMWALK_MODE_Enum
+enum class ECOMMON_RANDOMWALK_MODE_Enum : uint8
 {
-	ECOMMON_RANDOMWALK_MODE_Enum_Forward = 0,
-	ECOMMON_RANDOMWALK_MODE_Enum_Backward = 1,
-	ECOMMON_RANDOMWALK_MODE_Enum_ToTarget = 2,
-	COMMON_RANDOMWALK_MODE_MAX = 3
+	Forward = 0,
+	Backward = 1,
+	ToTarget = 2,
+	COMMON_RANDOMWALK_MODE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECOMMON_SHADOWMOVE_MODE_Enum
+enum class ECOMMON_SHADOWMOVE_MODE_Enum : uint8
 {
-	ECOMMON_SHADOWMOVE_MODE_Enum_Approach = 0,
-	ECOMMON_SHADOWMOVE_MODE_Enum_ApproachEnd = 1,
-	ECOMMON_SHADOWMOVE_MODE_Enum_Surround = 2,
-	ECOMMON_SHADOWMOVE_MODE_Enum_LinkSurround = 3,
-	COMMON_SHADOWMOVE_MODE_MAX = 4
+	Approach = 0,
+	ApproachEnd = 1,
+	Surround = 2,
+	LinkSurround = 3,
+	COMMON_SHADOWMOVE_MODE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECOMMON_SURROUNDTARGET_MODE_Enum
+enum class ECOMMON_SURROUNDTARGET_MODE_Enum : uint8
 {
-	ECOMMON_SURROUNDTARGET_MODE_Enum_Right = 0,
-	ECOMMON_SURROUNDTARGET_MODE_Enum_Left = 1,
-	ECOMMON_SURROUNDTARGET_MODE_Enum_UnsteadyTwoway = 2,
-	COMMON_SURROUNDTARGET_MODE_MAX = 3
+	Right = 0,
+	Left = 1,
+	UnsteadyTwoway = 2,
+	COMMON_SURROUNDTARGET_MODE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCameraStick
+enum class ETresCameraStick : uint8
 {
 	TRES_CAMERA_STICK_RIGHT = 0,
 	TRES_CAMERA_STICK_LEFT = 1,
 	TRES_CAMERA_STICK_RIGHTLEFT = 2,
-	TRES_CAMERA_STICK_MAX = 3
+	TRES_CAMERA_STICK_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECameraLensType
+enum class ECameraLensType : uint8
 {
 	LENS_DOF_OFF = 0,
 	LENS_DOF_ON = 1,
-	ECameraLensType_1_MAX = 2,
+	MAX = 2,
 	LENS_FISHEYE = 3,
-	ECameraLensType_MAX = 4
+	ECameraLensType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCameraTargetWallCheckType
+enum class ETresCameraTargetWallCheckType : uint8
 {
 	TCTWallCheckType_Normal = 0,
 	TCTWallCheckType_BasePos = 1,
@@ -4496,20 +4520,20 @@ enum class ETresBodyPushPowerLevel : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresChrDataTableSetType
+enum class ETresChrDataTableSetType : uint8
 {
-	CDTS_TYPE_PLAYER = 0 UMETA(DisplayName = "Player"),
-	CDTS_TYPE_ENEMY = 1 UMETA(DisplayName = "Enemy"),
-	CDTS_TYPE_GIMMICK = 2 UMETA(DisplayName = "Gimmick"),
-	CDTS_TYPE_PLAYER_GIGAS = 3 UMETA(DisplayName = "Player Gigas"),
-	CDTS_TYPE_PLAYER_SHIP = 4 UMETA(DisplayName = "Player Ship"),
-	CDTS_TYPE_ENEMY_SHIP = 5 UMETA(DisplayName = "Enemy Ship"),
-	CDTS_TYPE_MAX = 6  UMETA(Hidden),
-	ETresChrDataTableSetType_MAX = 7  UMETA(Hidden)
+	CDTS_TYPE_PLAYER = 0,
+	CDTS_TYPE_ENEMY = 1,
+	CDTS_TYPE_GIMMICK = 2,
+	PLAYER_GIGAS = 3,
+	PLAYER_SHIP = 4,
+	ENEMY_SHIP = 5,
+	CDTS_TYPE_MAX = 6 UMETA(Hidden),
+	ETresChrDataTableSetType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresChrLaunchType
+enum class ETresChrLaunchType : uint8
 {
 	TCLT_NORMAL = 0,
 	TCLT_AERO = 1,
@@ -4517,7 +4541,7 @@ enum ETresChrLaunchType
 };
 
 UENUM(BlueprintType)
-enum ETresCommandCategory
+enum class ETresCommandCategory : uint8
 {
 	TRES_CMD_CATEGORY_NONE = 0,
 	TRES_CMD_CATEGORY_MOVE = 1,
@@ -4552,7 +4576,7 @@ enum ETresCommandCategory
 };
 
 UENUM(BlueprintType)
-enum ETresCommandType
+enum class ETresCommandType : uint8
 {
 	TRES_CMD_TYPE_NONE = 0,
 	TRES_CMD_TYPE_ACTION = 1,
@@ -4568,7 +4592,7 @@ enum ETresCommandType
 };
 
 UENUM(BlueprintType)
-enum ETresComNpcMoveType
+enum class ETresComNpcMoveType : uint8
 {
 	CNPC_MOVE_NONE = 0,
 	CNPC_MOVE_CONTROLLER = 1,
@@ -4578,27 +4602,27 @@ enum ETresComNpcMoveType
 UENUM(BlueprintType)
 enum ETresRandomDistributionType
 {
-	ETresRandomDistributionType_Uniform = 0,
-	ETresRandomDistributionType_Normal = 1,
+	/*Uniform = 0,
+	Normal = 1,*/
 	ETresRandomDistributionType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex761_CommonCoopFollowers
+enum class ETresEnemy_e_ex761_CommonCoopFollowers : uint8
 {
-	ETresEnemy_e_ex761_CommonCoopFollowers_NearDistance = 0,
-	ETresEnemy_e_ex761_CommonCoopFollowers_Max = 1,
-	ETresEnemy_e_ex761_MAX = 2
+	NearDistance = 0,
+	Max = 1 UMETA(Hidden),
+	ETresEnemy_e_ex761_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex761_DarknessSpreadOut
+enum class ETresEnemy_e_ex761_DarknessSpreadOut : uint8
 {
-	ETresEnemy_e_ex761_DarknessSpreadOut_Near = 0,
-	ETresEnemy_e_ex761_DarknessSpreadOut_Middle = 1,
-	ETresEnemy_e_ex761_DarknessSpreadOut_Far = 2,
-	ETresEnemy_e_ex761_DarknessSpreadOut_Max = 3,
-	ETresEnemy_e_ex761_DarknessSpreadOut_ETresEnemy_e_ex761_MAX = 4
+	Near = 0,
+	Middle = 1,
+	Far = 2,
+	Max = 3 UMETA(Hidden),
+	ETresEnemy_e_ex761_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4606,15 +4630,15 @@ enum EEX355_AccelDir
 {
 	EEX355_AccelDir_Right = 0,
 	EEX355_AccelDir_Left = 1,
-	EEX355_AccelDir_Max = 2
+	EEX355_AccelDir_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EAccelVoice_e_ex359
+enum class EAccelVoice_e_ex359 : uint8
 {
 	EAccelVoice_e_ex359_Left = 0,
 	EAccelVoice_e_ex359_Right = 1,
-	EAccelVoice_e_ex359_MAX = 2
+	EAccelVoice_e_ex359_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4622,38 +4646,38 @@ enum EEX359_CutDownYawType
 {
 	EEX359_CutDownYawType_Relative = 0,
 	EEX359_CutDownYawType_Camera = 1,
-	EEX359_CutDownYawType_MAX = 2
+	EEX359_CutDownYawType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCoopRunningStatus
+enum class ETresCoopRunningStatus : uint8
 {
-	ETresCoopRunningStatus_Started = 0,
-	ETresCoopRunningStatus_Waiting = 1,
-	ETresCoopRunningStatus_Ready = 2,
-	ETresCoopRunningStatus_Running = 3,
-	ETresCoopRunningStatus_Finished = 4,
-	ETresCoopRunningStatus_Invaild = 5,
-	ETresCoopRunningStatus_MAX = 6
+	Started = 0,
+	Waiting = 1,
+	Ready = 2,
+	Running = 3,
+	Finished = 4,
+	Invaild = 5,
+	ETresCoopRunningStatus_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCoopRole
+enum class ETresCoopRole : uint8
 {
-	ETresCoopRole_Unknown = 0,
-	ETresCoopRole_Leader = 1,
-	ETresCoopRole_Follower = 2,
-	ETresCoopRole_MAX = 3
+	Unknown = 0,
+	Leader = 1,
+	Follower = 2,
+	ETresCoopRole_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECreateGummiShipState
+enum class ECreateGummiShipState : uint8
 {
 	GummiShipPrepare = 0,
 	GummiShipLoad = 1,
 	GummiShipBulliding = 2,
 	GummiShipError = 3,
-	CreateGummiShipState_MAX = 4
+	CreateGummiShipState_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4671,7 +4695,7 @@ enum ETresTornadoDebrisStateName
 	ETresTornadoDebrisStateName_Wind = 9,
 	ETresTornadoDebrisStateName_MAX = 10,
 	ETresTornadoDebrisStateName_Hide = 11,
-	ETresTornadoDebrisStateName_IdleAlt = 12
+	ETresTornadoDebrisStateName_IdleAlt = 12 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4679,7 +4703,7 @@ enum ETresDebugMenuBlendMode
 {
 	ETresDebugMenuBlendMode_normal = 0,
 	ETresDebugMenuBlendMode_add = 1,
-	ETresDebugMenuBlendMode_MAX = 2
+	ETresDebugMenuBlendMode_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4688,7 +4712,7 @@ enum EDrawTextFilterType
 	EDrawTextFilterType_Blur = 0,
 	EDrawTextFilterType_Glow = 1,
 	EDrawTextFilterType_DropShadow = 2,
-	EDrawTextFilterType_MAX = 3
+	EDrawTextFilterType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4725,7 +4749,7 @@ enum ETresDebugMenuMotionObjectPropertyType
 	ETresDebugMenuMotionObjectProperty_DropShadow_Color_G = 28,
 	ETresDebugMenuMotionObjectProperty_DropShadow_Color_B = 29,
 	ETresDebugMenuMotionObjectProperty_DropShadow_Color_A = 30,
-	ETresDebugMenuMotionObjectProperty_MAX = 31
+	ETresDebugMenuMotionObjectProperty_MAX = 31 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4734,7 +4758,7 @@ enum ETresDebugMenuTweenType
 	ETresDebugMenuTweenType_off = 0,
 	ETresDebugMenuTweenType_motion = 1,
 	ETresDebugMenuTweenType_motion_object = 2,
-	ETresDebugMenuTweenType_MAX = 3
+	ETresDebugMenuTweenType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4743,7 +4767,7 @@ enum ETresDebugMenuTextVAlignment
 	ETresDebugMenuTextVAlignment_top = 0,
 	ETresDebugMenuTextVAlignment_center = 1,
 	ETresDebugMenuTextVAlignment_bottom = 2,
-	ETresDebugMenuTextVAlignment_MAX = 3
+	ETresDebugMenuTextVAlignment_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4753,7 +4777,7 @@ enum ETresDebugMenuTextAlignment
 	ETresDebugMenuTextAlignment_center = 1,
 	ETresDebugMenuTextAlignment_right = 2,
 	ETresDebugMenuTextAlignment_justify = 3,
-	ETresDebugMenuTextAlignment_MAX = 4
+	ETresDebugMenuTextAlignment_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4763,7 +4787,7 @@ enum ETresDebugMenuResourceType
 	ETresDebugMenuResourceType_Text = 1,
 	ETresDebugMenuResourceType_MovieClip = 2,
 	ETresDebugMenuResourceType_Custom = 3,
-	ETresDebugMenuResourceType_MAX = 4
+	ETresDebugMenuResourceType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4773,17 +4797,17 @@ enum ETresDebugMenuState
 	ETresDebugMenuState_Opened = 1,
 	ETresDebugMenuState_Closing = 2,
 	ETresDebugMenuState_Closed = 3,
-	ETresDebugMenuState_MAX = 4
+	ETresDebugMenuState_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameKey
+enum class ETresGameKey : uint8
 {
 	Decide = 0,
 	Cancel = 1,
 	SituationCommand = 2,
 	AfCancel = 3,
-	ETresGameKey_MAX = 4
+	ETresGameKey_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -4793,11 +4817,11 @@ enum ETresDecoPartsAttachPartIdx
 	TDPE_BODY = 1,
 	TDPE_ARM = 2,
 	TDPE_TEXPAT = 3,
-	TDPE_MAX = 4
+	TDPE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresRalphBlockKind
+enum class ETresRalphBlockKind : uint8
 {
 	RALPH_BLOCK_KIND_A = 0,
 	RALPH_BLOCK_KIND_B = 1,
@@ -4807,94 +4831,94 @@ enum ETresRalphBlockKind
 	RALPH_BLOCK_KIND_F = 5,
 	RALPH_BLOCK_KIND_ONE = 6,
 	RALPH_BLOCK_KIND_CANNON = 7,
-	RALPH_BLOCK_KIND_MAX = 8
+	RALPH_BLOCK_KIND_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEncountDisableVolumeType
+enum class ETresEncountDisableVolumeType : uint8
 {
-	Type_Box = 0 UMETA(DisplayName = "Box"),
-	Type_Circle = 1 UMETA(DisplayName = "Circle"),
-	ETresEncountDisableVolumeType_Type_MAX = 2 UMETA(DisplayName = "MAX")
+	Type_Box = 0,
+	Type_Circle = 1,
+	Type_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEncountVolumeSnapTarget
+enum class ETresEncountVolumeSnapTarget : uint8
 {
-	Snap_Nothing = 0 UMETA(DisplayName = "Nothing"),
-	Snap_Ground = 1 UMETA(DisplayName = "Ground"),
-	Snap_Ocean = 2 UMETA(DisplayName = "Ocean"),
-	Snap_MAX = 3 UMETA(DisplayName = "MAX")
+	Snap_Nothing = 0,
+	Snap_Ground = 1,
+	Snap_Ocean = 2,
+	Snap_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEncountVolumeVehicleMode
+enum class ETresEncountVolumeVehicleMode : uint8
 {
-	DoNotCare = 0 UMETA(DisplayName = "Do Not Care"),
-	NoVehicle = 1 UMETA(DisplayName = "No Vehicle"),
-	OnlyVehicle = 2 UMETA(DisplayName = "Only Vehicle"),
-	ETresEncountVolumeVehicleMode_MAX = 3 UMETA(DisplayName = "MAX")
+	DoNotCare = 0,
+	NoVehicle = 1,
+	OnlyVehicle = 2,
+	ETresEncountVolumeVehicleMode_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBX901_ActionTriggerType
+enum class EBX901_ActionTriggerType : uint8
 {
 	EBX901_ActionTriggerType_DarkBaymax = 0,
 	EBX901_ActionTriggerType_Player = 1,
-	EBX901_ActionTriggerType_Max = 2
+	EBX901_ActionTriggerType_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353CatchAfterSituation
+enum class ETresEnemyEx353CatchAfterSituation : uint8
 {
 	ChangeSituation = 0,
 	Continuation = 1,
 	AbsoluteAir = 2,
-	ETresEnemyEx353CatchAfterSituation_1_Max = 3,
-	ETresEnemyEx353CatchAfterSituation_MAX = 4
+	Max = 3 UMETA(Hidden),
+	ETresEnemyEx353CatchAfterSituation_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemy_e_ex307_DummyCardSpawn
 {
-	Scatter = 0,
-	Collect = 1,
-	ETresEnemy_e_ex307_MAX = 2
+	/*Scatter = 0,
+	Collect = 1,*/
+	ETresEnemy_e_ex307_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex307_Phase2CardAction
+enum class ETresEnemy_e_ex307_Phase2CardAction : uint8
 {
-	ETresEnemy_e_ex307_Phase2CardAction_Shake = 0,
-	ETresEnemy_e_ex307_Phase2CardAction_VerticalSway = 1,
-	ETresEnemy_e_ex307_Phase2CardAction_HorizontalSway = 2,
-	ETresEnemy_e_ex307_Phase2CardAction_Shine = 3,
-	ETresEnemy_e_ex307_Phase2CardAction_1_Max = 4,
-	ETresEnemy_e_ex307_Phase2CardAction_ETresEnemy_e_ex307_MAX = 5
+	Shake = 0,
+	VerticalSway = 1,
+	HorizontalSway = 2,
+	Shine = 3,
+	Max = 4 UMETA(Hidden),
+	ETresEnemy_e_ex307_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex307_Phase2Card
+enum class ETresEnemy_e_ex307_Phase2Card : uint8
 {
-	ETresEnemy_e_ex307_Phase2Card_Correct = 0,
-	ETresEnemy_e_ex307_Phase2Card_Dummy = 1,
-	ETresEnemy_e_ex307_Phase2Card_Incorrect = 2,
-	ETresEnemy_e_ex307_Phase2Card_1_Max = 3,
-	ETresEnemy_e_ex307_Phase2Card_ETresEnemy_e_ex307_MAX = 4
+	Correct = 0,
+	Dummy = 1,
+	Incorrect = 2,
+	Max = 3 UMETA(Hidden),
+	ETresEnemy_e_ex307_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex307_CardDesign
+enum class ETresEnemy_e_ex307_CardDesign : uint8
 {
-	ETresEnemy_e_ex307_CardDesign_King = 0,
-	ETresEnemy_e_ex307_CardDesign_Luxord = 1,
-	ETresEnemy_e_ex307_CardDesign_Not = 2,
-	ETresEnemy_e_ex307_CardDesign_Plain = 3,
-	ETresEnemy_e_ex307_CardDesign_ETresEnemy_e_ex307_MAX = 4
+	King = 0,
+	Luxord = 1,
+	Not = 2,
+	Plain = 3,
+	ETresEnemy_e_ex307_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyGigasCheckActionState
+enum class ETresEnemyGigasCheckActionState : uint8
 {
 	ETresEnemyGigasCheckActionState_MachineGun = 0,
 	ETresEnemyGigasCheckActionState_Punch = 1,
@@ -4902,63 +4926,63 @@ enum ETresEnemyGigasCheckActionState
 	ETresEnemyGigasCheckActionState_Bomb = 3,
 	ETresEnemyGigasCheckActionState_Cannon = 4,
 	ETresEnemyGigasCheckActionState_Attack = 5,
-	ETresEnemyGigasCheckActionState_MAX = 6
+	ETresEnemyGigasCheckActionState_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyGigasActionState
+enum class ETresEnemyGigasActionState : uint8
 {
 	ETresEnemyGigasActionState_MachineGun = 0,
 	ETresEnemyGigasActionState_Punch = 1,
 	ETresEnemyGigasActionState_BoosterTackle = 2,
 	ETresEnemyGigasActionState_Bomb = 3,
 	ETresEnemyGigasActionState_Cannon = 4,
-	ETresEnemyGigasActionState_MAX = 5
+	ETresEnemyGigasActionState_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEnemyLargeShipBase
+enum class EEnemyLargeShipBase : uint8
 {
 	TO_TARGET = 0,
 	SELF_ROT = 1,
 	TARGET_ROT = 2,
 	TO_TARGET_SIDE = 3,
-	EEnemyLargeShipBase_MAX = 4
+	EEnemyLargeShipBase_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIIELeaderChangeRule
+enum class ETresEnemyXIIIELeaderChangeRule : uint8
 {
 	Alternate = 0,
 	LessFrequent = 1,
 	Random = 2,
 	LowerHitPoint = 3,
 	HigherHitPoint = 4,
-	ETresEnemyXIIIELeaderChangeRule_1_MAX = 5,
-	ETresEnemyXIIIELeaderChangeRule_MAX = 6
+	MAX = 5 UMETA(Hidden),
+	ETresEnemyXIIIELeaderChangeRule_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIIEFirstAnnihilationRule
+enum class ETresEnemyXIIIEFirstAnnihilationRule : uint8
 {
-	ETresEnemyXIIIEFirstAnnihilationRule_HpOrTime = 0,
-	ETresEnemyXIIIEFirstAnnihilationRule_Hp = 1,
-	ETresEnemyXIIIEFirstAnnihilationRule_Time = 2,
-	ETresEnemyXIIIEFirstAnnihilationRule_1_MAX = 3,
-	ETresEnemyXIIIEFirstAnnihilationRule_MAX = 4
+	HpOrTime = 0,
+	Hp = 1,
+	Time = 2,
+	MAX = 3 UMETA(Hidden),
+	ETresEnemyXIIIEFirstAnnihilationRule_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBX901_NoHitWallDamage
+enum class EBX901_NoHitWallDamage : uint8
 {
 	EBX901_NoHitWallDamage_BLOW = 0,
 	EBX901_NoHitWallDamage_PARABOLA = 1,
 	EBX901_NoHitWallDamage_PARABOLA_NO_RECOVERY = 2,
-	EBX901_NoHitWallDamage_MAX = 3
+	EBX901_NoHitWallDamage_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBX901_EffectGroupID
+enum class EBX901_EffectGroupID : uint8
 {
 	EBX901_EffectGroupID_RunLeg = 0,
 	EBX901_EffectGroupID_WalkLeg = 1,
@@ -4969,157 +4993,157 @@ enum EBX901_EffectGroupID
 	EBX901_EffectGroupID_WingBlock = 6,
 	EBX901_EffectGroupID_WingDisp = 7,
 	EBX901_EffectGroupID_Aura = 8,
-	EBX901_EffectGroupID_Max = 9
+	EBX901_EffectGroupID_Max = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyDarkBaymaxPhase
+enum class ETresEnemyDarkBaymaxPhase : uint8
 {
-	ETresEnemyDarkBaymaxPhase_PHASE1 = 0,
-	ETresEnemyDarkBaymaxPhase_PHASE2 = 1,
-	ETresEnemyDarkBaymaxPhase_1_MAX = 2,
-	ETresEnemyDarkBaymaxPhase_MAX = 3
+	PHASE1 = 0,
+	PHASE2 = 1,
+	_MAX = 2 UMETA(Hidden),
+	ETresEnemyDarkBaymaxPhase_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyDw401CoreColor
+enum class ETresEnemyDw401CoreColor : uint8
 {
 	ETresEnemyDw401CoreColor_A = 0,
 	ETresEnemyDw401CoreColor_B = 1,
 	ETresEnemyDw401CoreColor_C = 2,
 	ETresEnemyDw401CoreColor_D = 3,
 	ETresEnemyDw401CoreColor_None = 4,
-	ETresEnemyDw401CoreColor_MAX = 5
+	ETresEnemyDw401CoreColor_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyDw405BattleCount
+enum class ETresEnemyDw405BattleCount : uint8
 {
 	TRES_ENEMY_DW405_BATTLECOUNT_ONE = 0,
 	TRES_ENEMY_DW405_BATTLECOUNT_SECOND = 1,
 	TRES_ENEMY_DW405_BATTLECOUNT_THIRD = 2,
 	TRES_ENEMY_DW405_BATTLECOUNT_FOURTH = 3,
-	TRES_ENEMY_DW405_BATTLECOUNT_MAX = 4
+	TRES_ENEMY_DW405_BATTLECOUNT_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx409Event
+enum class ETresEnemyEx409Event : uint8
 {
 	DestroyEffect = 0,
-	ETresEnemyEx409Event_1_Max = 1,
-	ETresEnemyEx409Event_MAX = 2
+	Max = 1 UMETA(Hidden),
+	ETresEnemyEx409Event_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex002_GuardType
+enum class ETresEnemy_e_ex002_GuardType : uint8
 {
 	ETresEnemy_e_ex002_GuardType_None = 0,
 	ETresEnemy_e_ex002_GuardType_State = 1,
 	ETresEnemy_e_ex002_GuardType_Air = 2,
-	ETresEnemy_e_ex002_GuardType_MAX = 3
+	ETresEnemy_e_ex002_GuardType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFortressType_ex011
+enum class ETresFortressType_ex011 : uint8
 {
 	TRES_ENEMY_EX011_FORTRESS_TYPE_LOWER = 0,
 	TRES_ENEMY_EX011_FORTRESS_TYPE_MIDDLE = 1,
 	TRES_ENEMY_EX011_FORTRESS_TYPE_UPPER = 2,
-	TRES_ENEMY_EX011_FORTRESS_TYPE_MAX = 3
+	TRES_ENEMY_EX011_FORTRESS_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresVehicleType_e_ex011
+enum class ETresVehicleType_e_ex011 : uint8
 {
 	TRES_ENEMY_EX011_VEHICLE_TYPE_TOP = 0,
 	TRES_ENEMY_EX011_VEHICLE_TYPE_SECOND = 1,
 	TRES_ENEMY_EX011_VEHICLE_TYPE_THIRD = 2,
-	TRES_ENEMY_EX011_VEHICLE_TYPE_MAX = 3
+	TRES_ENEMY_EX011_VEHICLE_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex012_State
+enum class ETresEnemy_e_ex012_State : uint8
 {
-	ETresEnemy_e_ex012_State_None = 0,
-	ETresEnemy_e_ex012_State_Appear = 1,
-	ETresEnemy_e_ex012_State_Idle = 2,
-	ETresEnemy_e_ex012_State_BeginCooperation = 3,
-	ETresEnemy_e_ex012_State_BeginMove = 4,
-	ETresEnemy_e_ex012_State_DuringMove = 5,
-	ETresEnemy_e_ex012_State_FinishMove = 6,
-	ETresEnemy_e_ex012_State_Damage = 7,
-	ETresEnemy_e_ex012_State_BeginShowerNeedle = 8,
-	ETresEnemy_e_ex012_State_DuringShowerNeedle = 9,
-	ETresEnemy_e_ex012_State_FinishShowerNeedle = 10,
-	ETresEnemy_e_ex012_State_Die = 11,
-	ETresEnemy_e_ex012_State_Other = 12,
-	ETresEnemy_e_ex012_MAX = 13
+	None = 0,
+	Appear = 1,
+	Idle = 2,
+	BeginCooperation = 3,
+	BeginMove = 4,
+	DuringMove = 5,
+	FinishMove = 6,
+	Damage = 7,
+	BeginShowerNeedle = 8,
+	DuringShowerNeedle = 9,
+	FinishShowerNeedle = 10,
+	Die = 11,
+	Other = 12,
+	ETresEnemy_e_ex012_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_ex013_WatageMaterialType
+enum class ETresEnemy_ex013_WatageMaterialType : uint8
 {
 	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_ALL = 0,
 	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_HALF = 1,
 	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_NONE = 2,
 	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_NONE2 = 3,
 	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_NONE3 = 4,
-	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_MAX = 5
+	TRES_ENEMY_EX013_WATAGE_MATERIAL_TYPE_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx021ActionMode
+enum class ETresEnemyEx021ActionMode : uint8
 {
-	ETresEnemyEx021ActionMode_NORMAL = 0,
-	ETresEnemyEx021ActionMode_LONGSTUNNED = 1,
-	ETresEnemyEx021ActionMode_BOARDED = 2,
-	ETresEnemyEx021ActionMode_BOARDED_TURNAROUND = 3,
-	ETresEnemyEx021ActionMode_SMALLDAMAGE = 4,
-	ETresEnemyEx021ActionMode_1_MAX = 5,
-	ETresEnemyEx021ActionMode_MAX = 6
+	NORMAL = 0,
+	LONGSTUNNED = 1,
+	BOARDED = 2,
+	BOARDED_TURNAROUND = 3,
+	SMALLDAMAGE = 4,
+	MAX = 5,
+	ETresEnemyEx021ActionMode_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCoopColorSmokeKind
+enum class ETresCoopColorSmokeKind : uint8
 {
-	ETresCoopColorSmokeKind_RED = 0,
-	ETresCoopColorSmokeKind_BLUE = 1,
-	ETresCoopColorSmokeKind_YELLOW = 2,
-	ETresCoopColorSmokeKind_GREEN = 3,
-	ETresCoopColorSmokeKind_1_MAX = 4,
-	ETresCoopColorSmokeKind_MAX = 5
+	RED = 0,
+	BLUE = 1,
+	YELLOW = 2,
+	GREEN = 3,
+	MAX = 4 UMETA(Hidden),
+	ETresCoopColorSmokeKind_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex028_BodyColor
+enum class ETresEnemy_e_ex028_BodyColor : uint8
 {
 	ETresEnemy_e_ex028_BodyColor_Rainbow = 0,
 	ETresEnemy_e_ex028_BodyColor_Blue = 1,
 	ETresEnemy_e_ex028_BodyColor_Red = 2,
 	ETresEnemy_e_ex028_BodyColor_Yellow = 3,
-	ETresEnemy_e_ex028_BodyColor_Max = 4
+	ETresEnemy_e_ex028_BodyColor_Max = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum Ee_ex035_DAMAGE_TYPE
+enum class Ee_ex035_DAMAGE_TYPE : uint8
 {
-	Ee_ex035_DAMAGE_TYPE_BLOW = 0,
-	Ee_ex035_DAMAGE_TYPE_Finish = 1,
-	Ee_ex035_DAMAGE_TYPE_IMMOVABLE = 2,
-	e_ex035_DAMAGE_TYPE_MAX = 3
+	BLOW = 0,
+	Finish = 1,
+	IMMOVABLE = 2,
+	e_ex035_DAMAGE_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx046Region
+enum class ETresEnemyEx046Region : uint8
 {
 	TRES_ENEMY_EX046_REGION_RIGHTWING = 0,
 	TRES_ENEMY_EX046_REGION_LEFTWING = 1,
 	TRES_ENEMY_EX046_REGION_TAIL = 2,
-	TRES_ENEMY_EX046_REGION_MAX = 3
+	TRES_ENEMY_EX046_REGION_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETrese_ex047WorldTypes
+enum class ETrese_ex047WorldTypes : uint8
 {
 	TRES_ENEMY_EX047_WORLDTYPE_HE = 0,
 	TRES_ENEMY_EX047_WORLDTYPE_RA = 1,
@@ -5128,49 +5152,49 @@ enum ETrese_ex047WorldTypes
 	TRES_ENEMY_EX047_WORLDTYPE_CA = 4,
 	TRES_ENEMY_EX047_WORLDTYPE_FZ = 5,
 	TRES_ENEMY_EX047_WORLDTYPE_BX = 6,
-	TRES_ENEMY_EX047_WORLDTYPE_MAX = 7
+	TRES_ENEMY_EX047_WORLDTYPE_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx048Mode
+enum class ETresEnemyEx048Mode : uint8
 {
 	TRES_ENEMY_EX048_FLYMODE = 0,
 	TRES_ENEMY_EX048_LANDMODE = 1,
-	TRES_ENEMY_EX048_MAX = 2
+	TRES_ENEMY_EX048_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEx050PuddingType
+enum class ETresEx050PuddingType : uint8
 {
-	ETresEx050PuddingType_SMALL = 0,
-	ETresEx050PuddingType_BIG = 1,
-	ETresEx050PuddingType_FLY = 2,
-	ETresEx050PuddingType_CHASE = 3,
-	ETresEx050PuddingType_MAX = 4
+	SMALL = 0,
+	BIG = 1,
+	FLY = 2,
+	CHASE = 3,
+	ETresEx050PuddingType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex054_BattleStyle
+enum class ETresEnemy_e_ex054_BattleStyle : uint8
 {
 	ETresEnemy_e_ex054_BattleStyle_Dinosaur = 0,
 	ETresEnemy_e_ex054_BattleStyle_Volcano = 1,
 	ETresEnemy_e_ex054_BattleStyle_Thundercloud = 2,
 	ETresEnemy_e_ex054_BattleStyle_Berserk = 3,
-	ETresEnemy_e_ex054_BattleStyle_MAX = 4
+	ETresEnemy_e_ex054_BattleStyle_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx071DeckKind
+enum class ETresEnemyEx071DeckKind : uint8
 {
-	ETresEnemyEx071DeckKind_DeckA = 0,
-	ETresEnemyEx071DeckKind_DeckB = 1,
-	ETresEnemyEx071DeckKind_DeckC = 2,
-	ETresEnemyEx071DeckKind_1_MAX = 3,
-	ETresEnemyEx071DeckKind_MAX = 4
+	DeckA = 0,
+	DeckB = 1,
+	DeckC = 2,
+	MAX = 3 UMETA(Hidden),
+	ETresEnemyEx071DeckKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx082_SnowEffectLocationType
+enum class ETresEnemyEx082_SnowEffectLocationType : uint8
 {
 	TRES_ENEMY_EX082_SNOWEFFECTLOCATIONTYPE_RIGHT = 0,
 	TRES_ENEMY_EX082_SNOWEFFECTLOCATIONTYPE_LEFT = 1,
@@ -5178,41 +5202,41 @@ enum ETresEnemyEx082_SnowEffectLocationType
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx202ActionMode
+enum class ETresEnemyEx202ActionMode : uint8
 {
 	TRES_ENEMY_EX202_ACTIONMODE_SNAKE = 0,
 	TRES_ENEMY_EX202_ACTIONMODE_FLOWER = 1,
-	TRES_ENEMY_EX202_ACTIONMODE_MAX = 2
+	TRES_ENEMY_EX202_ACTIONMODE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx302WarpDirection
+enum class ETresEnemyEx302WarpDirection : uint8
 {
-	ETresEnemyEx302WarpDirection_Front = 0,
-	ETresEnemyEx302WarpDirection_Back = 1,
-	ETresEnemyEx302WarpDirection_Right = 2,
-	ETresEnemyEx302WarpDirection_Left = 3,
-	ETresEnemyEx302WarpDirection_1_Max = 4,
-	ETresEnemyEx302WarpDirection_MAX = 5
+	Front = 0,
+	Back = 1,
+	Right = 2,
+	Left = 3,
+	Max = 4 UMETA(Hidden),
+	ETresEnemyEx302WarpDirection_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx304HitEffectKind
+enum class ETresEnemyEx304HitEffectKind : uint8
 {
-	ETresEnemyEx304HitEffectKind_LaserHit = 0,
-	ETresEnemyEx304HitEffectKind_SparkHit = 1,
-	ETresEnemyEx304HitEffectKind_1_Max = 2,
-	ETresEnemyEx304HitEffectKind_MAX = 3
+	LaserHit = 0,
+	SparkHit = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEnemyEx304HitEffectKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx304BeamSaberPlace
+enum class ETresEnemyEx304BeamSaberPlace : uint8
 {
-	ETresEnemyEx304BeamSaberPlace_RightHand = 0,
-	ETresEnemyEx304BeamSaberPlace_LeftHand = 1,
-	ETresEnemyEx304BeamSaberPlace_BothHand = 2,
-	ETresEnemyEx304BeamSaberPlace_1_Max = 3,
-	ETresEnemyEx304BeamSaberPlace_MAX = 4
+	RightHand = 0,
+	LeftHand = 1,
+	BothHand = 2,
+	Max = 3 UMETA(Hidden),
+	ETresEnemyEx304BeamSaberPlace_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -5221,11 +5245,11 @@ enum EVoiceType_e_ex306
 	EVoiceType_e_ex306_Attach = 0,
 	EVoiceType_e_ex306_Location = 1,
 	EVoiceType_e_ex306_2D = 2,
-	EVoiceType_e_ex306_MAX = 3
+	EVoiceType_e_ex306_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EVoice_e_ex306
+enum class EVoice_e_ex306 : uint8
 {
 	EVoice_e_ex306_RevengeRoxas = 0,
 	EVoice_e_ex306_RevengeLea = 1,
@@ -5233,70 +5257,70 @@ enum EVoice_e_ex306
 	EVoice_e_ex306_BlueBurstLea = 3,
 	EVoice_e_ex306_BlueBurstDash = 4,
 	EVoice_e_ex306_Revenge = 5,
-	EVoice_e_ex306_MAX = 6
+	EVoice_e_ex306_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBodyType_e_ex306
+enum class EBodyType_e_ex306 : uint8
 {
 	EBodyType_e_ex306_Normal = 0,
 	EBodyType_e_ex306_Berserk = 1,
 	EBodyType_e_ex306_Blue = 2,
 	EBodyType_e_ex306_Stun = 3,
-	EBodyType_e_ex306_MAX = 4
+	EBodyType_e_ex306_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx351TimeRushEvent
+enum class ETresEnemyEx351TimeRushEvent : uint8
 {
 	TimeRushFinishMoveCenter = 0,
 	TimeRushFinishInvincible = 1,
-	ETresEnemyEx351TimeRushEvent_1_Max = 2,
-	ETresEnemyEx351TimeRushEvent_MAX = 3
+	Max = 2 UMETA(Hidden),
+	ETresEnemyEx351TimeRushEvent_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx351WarpDirection
+enum class ETresEnemyEx351WarpDirection : uint8
 {
-	ETresEnemyEx351WarpDirection_Front = 0,
-	ETresEnemyEx351WarpDirection_Back = 1,
-	ETresEnemyEx351WarpDirection_Right = 2,
-	ETresEnemyEx351WarpDirection_Left = 3,
-	ETresEnemyEx351WarpDirection_TimeRush = 4,
-	ETresEnemyEx351WarpDirection_1_Max = 5,
-	ETresEnemyEx351WarpDirection_MAX = 6
+	Front = 0,
+	Back = 1,
+	Right = 2,
+	Left = 3,
+	TimeRush = 4,
+	Max = 5 UMETA(Hidden),
+	ETresEnemyEx351WarpDirection_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353ThornWildDanceEvent
+enum class ETresEnemyEx353ThornWildDanceEvent : uint8
 {
 	SpawnThornWildDanceEffect = 0,
 	EndThornWildDanceEvent = 1,
-	ETresEnemyEx353ThornWildDanceEvent_1_Max = 2,
-	ETresEnemyEx353ThornWildDanceEvent_MAX = 3
+	Max = 2 UMETA(Hidden),
+	ETresEnemyEx353ThornWildDanceEvent_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353HitEffectKind
+enum class ETresEnemyEx353HitEffectKind : uint8
 {
 	LaserHit = 0,
 	SparkHit = 1,
-	ETresEnemyEx353HitEffectKind_1_Max = 2,
-	ETresEnemyEx353HitEffectKind_MAX = 3
+	Max = 2 UMETA(Hidden),
+	ETresEnemyEx353HitEffectKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx353BeamSaberPlace
+enum class ETresEnemyEx353BeamSaberPlace : uint8
 {
-	ETresEnemyEx353BeamSaberPlace_RightHand = 0,
-	ETresEnemyEx353BeamSaberPlace_LeftHand = 1,
-	ETresEnemyEx353BeamSaberPlace_BothHand = 2,
-	ETresEnemyEx353BeamSaberPlace_1_Max = 3,
-	ETresEnemyEx353BeamSaberPlace_MAX = 4
+	RightHand = 0,
+	LeftHand = 1,
+	BothHand = 2,
+	Max = 3 UMETA(Hidden),
+	ETresEnemyEx353BeamSaberPlace_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX354_RemoteEventID
+enum class EEX354_RemoteEventID : uint8
 {
 	EEX354_RemoteEventID_StartArtema = 0,
 	EEX354_RemoteEventID_EndArtema = 1,
@@ -5304,7 +5328,7 @@ enum EEX354_RemoteEventID
 	EEX354_RemoteEventID_QuickBattleSuccess = 3,
 	EEX354_RemoteEventID_QuickBattleFailure = 4,
 	EEX354_RemoteEventID_QuickBattleMognet = 5,
-	EEX354_RemoteEventID_Max = 6
+	EEX354_RemoteEventID_Max = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -5313,7 +5337,7 @@ enum EEX354_FieldID
 	EEX354_FieldID_Standard = 0,
 	EEX354_FieldID_Narrow = 1,
 	EEX354_FieldID_Doughnut = 2,
-	EEX354_FieldID_Max = 3
+	EEX354_FieldID_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -5323,26 +5347,26 @@ enum EEX355_MoveVelocityType
 	EEX355_MoveVelocityType_EaseIn = 1,
 	EEX355_MoveVelocityType_EaseOut = 2,
 	EEX355_MoveVelocityType_EaseInOut = 3,
-	EEX355_MoveVelocityType_Max = 4
+	EEX355_MoveVelocityType_Max = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX355_RemoteEventID
+enum class EEX355_RemoteEventID : uint8
 {
 	EEX355_RemoteEventID_StartBlue = 0,
 	EEX355_RemoteEventID_EndBlue = 1,
-	EEX355_RemoteEventID_Max = 2
+	EEX355_RemoteEventID_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX355_EffectGroupID
+enum class EEX355_EffectGroupID : uint8
 {
 	EEX355_EffectGroupID_WarpIn = 0,
 	EEX355_EffectGroupID_WarpOut = 1,
 	EEX355_EffectGroupID_BerserkAura = 2,
 	EEX355_EffectGroupID_BlueAura = 3,
 	EEX355_EffectGroupID_Disappear = 4,
-	EEX355_EffectGroupID_Max = 5
+	EEX355_EffectGroupID_Max = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -5351,11 +5375,11 @@ enum EVoiceType_e_ex355
 	EVoiceType_e_ex355_Attach = 0,
 	EVoiceType_e_ex355_Location = 1,
 	EVoiceType_e_ex355_2D = 2,
-	EVoiceType_e_ex355_MAX = 3
+	EVoiceType_e_ex355_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EVoice_e_ex355
+enum class EVoice_e_ex355 : uint8
 {
 	EVoice_e_ex355_RevengeRoxas = 0,
 	EVoice_e_ex355_RevengeLea = 1,
@@ -5368,59 +5392,59 @@ enum EVoice_e_ex355
 	EVoice_e_ex355_ThrowBlue = 8,
 	EVoice_e_ex355_MagnaStride = 9,
 	EVoice_e_ex355_Accel = 10,
-	EVoice_e_ex355_MAX = 11
+	EVoice_e_ex355_MAX = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EBodyType_e_ex355
+enum class EBodyType_e_ex355 : uint8
 {
 	EBodyType_e_ex355_Normal = 0,
 	EBodyType_e_ex355_Berserk = 1,
 	EBodyType_e_ex355_Blue = 2,
 	EBodyType_e_ex355_Stun = 3,
 	EBodyType_e_ex355_Charge = 4,
-	EBodyType_e_ex355_MAX = 5
+	EBodyType_e_ex355_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresTimeGauge_e_ex356
+enum class ETresTimeGauge_e_ex356 : uint8
 {
-	ETresTimeGauge_e_ex356_Player = 0,
-	ETresTimeGauge_e_ex356_Luxord = 1,
-	ETresTimeGauge_e_ex356_1_Max = 2,
-	ETresTimeGauge_e_MAX = 3
+	Player = 0,
+	Luxord = 1,
+	Max = 2,
+	ETresTimeGauge_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBigDealRemoteEvent_e_ex356
+enum class ETresBigDealRemoteEvent_e_ex356 : uint8
 {
-	ETresBigDealRemoteEvent_e_ex356_StartCinematicEnd = 0,
-	ETresBigDealRemoteEvent_e_ex356_EndCinematicEnd = 1,
-	ETresBigDealRemoteEvent_e_MAX = 2
+	StartCinematicEnd = 0,
+	EndCinematicEnd = 1,
+	ETresBigDealRemoteEvent_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDeathSentenceRemoteEventType_e_ex357
+enum class ETresDeathSentenceRemoteEventType_e_ex357 : uint8
 {
 	StartLongCinematicEnd = 0,
 	StartShortCinematicEnd = 1,
-	ETresDeathSentenceRemoteEventType_e_ex357_EndCinematicEnd = 2,
+	EndCinematicEnd = 2,
 	CountVisible = 3,
-	ETresDeathSentenceRemoteEventType_e_ex357_MAX = 4
+	ETresDeathSentenceRemoteEventType_e_ex357_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX359_SplineMoveVelocityType
+enum class EEX359_SplineMoveVelocityType : uint8
 {
 	EEX359_SplineMoveVelocityType_Constant = 0,
 	EEX359_SplineMoveVelocityType_EaseIn = 1,
 	EEX359_SplineMoveVelocityType_EaseOut = 2,
 	EEX359_SplineMoveVelocityType_EaseInOut = 3,
-	EEX359_SplineMoveVelocityType_Max = 4
+	EEX359_SplineMoveVelocityType_Max = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX359_EffectGroupID
+enum class EEX359_EffectGroupID : uint8
 {
 	EEX359_EffectGroupID_WarpDisappear = 0,
 	EEX359_EffectGroupID_WarpAppear = 1,
@@ -5429,11 +5453,11 @@ enum EEX359_EffectGroupID
 	EEX359_EffectGroupID_FastMove = 4,
 	EEX359_EffectGroupID_LaserRainShot = 5,
 	EEX359_EffectGroupID_FinalBrakeAura = 6,
-	EEX359_EffectGroupID_Max = 7
+	EEX359_EffectGroupID_Max = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX359_RemoteEventID
+enum class EEX359_RemoteEventID : uint8
 {
 	EEX359_RemoteEventID_ChangeSceneStart = 0,
 	EEX359_RemoteEventID_ChangeSceneEnd = 1,
@@ -5441,7 +5465,7 @@ enum EEX359_RemoteEventID
 	EEX359_RemoteEventID_FinalBrakeEnd = 3,
 	EEX359_RemoteEventID_BerserkStart = 4,
 	EEX359_RemoteEventID_BerserkEnd = 5,
-	EEX359_RemoteEventID_Max = 6
+	EEX359_RemoteEventID_Max = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -5450,41 +5474,41 @@ enum EVoiceType_e_ex359
 	EVoiceType_e_ex359_Attach = 0,
 	EVoiceType_e_ex359_Location = 1,
 	EVoiceType_e_ex359_2D = 2,
-	EVoiceType_e_ex359_MAX = 3
+	EVoiceType_e_ex359_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EVoice_e_ex359
+enum class EVoice_e_ex359 : uint8
 {
 	EVoice_e_ex359_AccelLeft = 0,
 	EVoice_e_ex359_AccelRight = 1,
 	EVoice_e_ex359_FinalBrakeAccelLeft = 2,
 	EVoice_e_ex359_FinalBrakeAccelRight = 3,
 	EVoice_e_ex359_Revenge = 4,
-	EVoice_e_ex359_MAX = 5
+	EVoice_e_ex359_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx701BodyCollisionType
+enum class ETresEnemyEx701BodyCollisionType : uint8
 {
 	TRES_ENEMY_EX701_BODYCOLLISIONTYPE_DFAULT = 0,
 	TRES_ENEMY_EX701_BODYCOLLISIONTYPE_RUSH = 1,
 	TRES_ENEMY_EX701_BODYCOLLISIONTYPE_SHOT = 2,
-	TRES_ENEMY_EX701_BODYCOLLISIONTYPE_MAX = 3
+	TRES_ENEMY_EX701_BODYCOLLISIONTYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx711_BodyCollision
+enum class ETresEnemyEx711_BodyCollision : uint8
 {
 	ETresEnemyEx711_BodyCollision_PlPushSphere = 0,
 	ETresEnemyEx711_BodyCollision_PlPushTornado = 1,
 	ETresEnemyEx711_BodyCollision_PlPushTornadoOverRun = 2,
 	ETresEnemyEx711_BodyCollision_ShootingRide = 3,
-	ETresEnemyEx711_BodyCollision_Max = 4
+	ETresEnemyEx711_BodyCollision_Max = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx711_Hatch
+enum class ETresEnemyEx711_Hatch : uint8
 {
 	ETresEnemyEx711_Hatch_LF = 0,
 	ETresEnemyEx711_Hatch_LC = 1,
@@ -5492,70 +5516,70 @@ enum ETresEnemyEx711_Hatch
 	ETresEnemyEx711_Hatch_RF = 3,
 	ETresEnemyEx711_Hatch_RC = 4,
 	ETresEnemyEx711_Hatch_RB = 5,
-	ETresEnemyEx711_Hatch_Max = 6
+	ETresEnemyEx711_Hatch_Max = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx721WoodsJailPattern
+enum class ETresEnemyEx721WoodsJailPattern : uint8
 {
-	ETresEnemyEx721WoodsJailPattern_CAMERA_IN = 0,
-	ETresEnemyEx721WoodsJailPattern_CAMERA_OUT = 1,
-	ETresEnemyEx721WoodsJailPattern_TOWER = 2,
-	ETresEnemyEx721WoodsJailPattern_1_MAX = 3,
-	ETresEnemyEx721WoodsJailPattern_MAX = 4
+	CAMERA_IN = 0,
+	CAMERA_OUT = 1,
+	TOWER = 2,
+	MAX = 3 UMETA(Hidden),
+	ETresEnemyEx721WoodsJailPattern_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx721HandID
+enum class ETresEnemyEx721HandID : uint8
 {
 	RIGHT_UP = 0,
 	RIGHT_DOWN = 1,
 	LEFT_UP = 2,
 	LEFT_DOWN = 3,
-	ETresEnemyEx721HandID_1_MAX = 4,
-	ETresEnemyEx721HandID_MAX = 5
+	MAX = 4 UMETA(Hidden),
+	ETresEnemyEx721HandID_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx721Mode
+enum class ETresEnemyEx721Mode : uint8
 {
 	TRES_ENEMY_EX721_NORMAL_MODE = 0,
 	TRES_ENEMY_EX721_TOWER_MODE = 1,
-	TRES_ENEMY_EX721_MAX = 2
+	TRES_ENEMY_EX721_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEx725DieKind
+enum class ETresEx725DieKind : uint8
 {
-	ETresEx725DieKind_NORMAL = 0,
-	ETresEx725DieKind_HOLE = 1,
-	ETresEx725DieKind_NONE = 2,
-	ETresEx725DieKind_MAX = 3
+	NORMAL = 0,
+	HOLE = 1,
+	NONE = 2,
+	ETresEx725DieKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresThornChainState
+enum class ETresThornChainState : uint8
 {
-	ETresThornChainState_APPEAR = 0,
-	ETresThornChainState_NORMAL = 1,
-	ETresThornChainState_AIMING = 2,
-	ETresThornChainState_CAPTURED = 3,
-	ETresThornChainState_AIMING_INTERVAL = 4,
-	ETresThornChainState_DRAG = 5,
-	ETresThornChainState_SWING = 6,
-	ETresThornChainState_DEAD = 7,
-	ETresThornChainState_MAX = 8
+	APPEAR = 0,
+	NORMAL = 1,
+	AIMING = 2,
+	CAPTURED = 3,
+	AIMING_INTERVAL = 4,
+	DRAG = 5,
+	SWING = 6,
+	DEAD = 7,
+	ETresThornChainState_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETres_e_ex773_Direction
+enum class ETres_e_ex773_Direction : uint8
 {
-	ETres_e_ex773_Direction_None = 0,
-	ETres_e_ex773_Direction_Front = 1,
-	ETres_e_ex773_Direction_Right = 2,
-	ETres_e_ex773_Direction_Left = 3,
-	ETres_e_ex773_Direction_Back = 4,
-	ETres_e_ex773_MAX = 5
+	None = 0,
+	Front = 1,
+	Right = 2,
+	Left = 3,
+	Back = 4,
+	ETres_e_ex773_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -5564,59 +5588,59 @@ enum EColorTypes_e_ex781Gigas
 	TRES_ENEMY_EX781GIGAS_YELLOW = 0,
 	TRES_ENEMY_EX781GIGAS_BLUE = 1,
 	TRES_ENEMY_EX781GIGAS_RED = 2,
-	TRES_ENEMY_EX781GIGAS_MAX = 3
+	TRES_ENEMY_EX781GIGAS_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETetraBitActionTypes_e_ex781
+enum class ETetraBitActionTypes_e_ex781 : uint8
 {
 	TRES_ENEMY_EX781_BITACTION_WAIT = 0,
 	TRES_ENEMY_EX781_BITACTION_MOVE = 1,
 	TRES_ENEMY_EX781_BITACTION_ATTACK = 2,
 	TRES_ENEMY_EX781_BITACTION_FORMATION = 3,
 	TRES_ENEMY_EX781_BITACTION_FINISH = 4,
-	TRES_ENEMY_EX781_BITACTION_MAX = 5
+	TRES_ENEMY_EX781_BITACTION_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEyeType_e_ex816
+enum class ETresEnemyEyeType_e_ex816 : uint8
 {
 	TRES_ENEMY_EYE_TYPE_E_EX816_LEFT = 0,
 	TRES_ENEMY_EYE_TYPE_E_EX816_RIGHT = 1,
-	TRES_ENEMY_EYE_TYPE_E_EX816_MAX = 2
+	TRES_ENEMY_EYE_TYPE_E_EX816_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyShip
 {
-	ETresEnemyShip_FRONT = 0,
-	ETresEnemyShip_RIGHT = 1,
-	ETresEnemyShip_LEFT = 2,
-	ETresEnemyShip_BACK = 3,
-	ETresEnemyShip_MAX = 4
+	/*FRONT = 0,
+	RIGHT = 1,
+	LEFT = 2,
+	BACK = 3,*/
+	ETresEnemyShip_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyShipSubType
+enum class ETresEnemyShipSubType : uint8
 {
-	ETresEnemyShipSubType_DEFAULT = 0,
-	ETresEnemyShipSubType_BLACK = 1,
-	ETresEnemyShipSubType_CRAB = 2,
-	ETresEnemyShipSubType_PHANTOM = 3,
-	ETresEnemyShipSubType_MAX = 4
+	DEFAULT = 0,
+	BLACK = 1,
+	CRAB = 2,
+	PHANTOM = 3,
+	ETresEnemyShipSubType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyBigDealAction_e_ex356
 {
-	ETresEnemyBigDealAction_e_ex356_None = 0,
-	ETresEnemyBigDealAction_e_ex356_Move = 1,
-	ETresEnemyBigDealAction_e_ex356_SideCardAttack = 2,
-	ETresEnemyBigDealAction_e_MAX = 3
+	/*None = 0,
+	Move = 1,
+	SideCardAttack = 2,*/
+	ETresEnemyBigDealAction_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex356_CardDesign
+enum class ETresEnemy_e_ex356_CardDesign : uint8
 {
 	BackSide = 0,
 	Luxord = 1,
@@ -5624,184 +5648,184 @@ enum ETresEnemy_e_ex356_CardDesign
 	Plain = 3,
 	Correct = 4,
 	Explode = 5,
-	ETresEnemy_e_ex356_MAX = 6
+	ETresEnemy_e_ex356_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyFieldAttack_e_ex357
+enum class ETresEnemyFieldAttack_e_ex357 : uint8
 {
-	ETresEnemyFieldAttack_e_ex357_Penetrate = 0,
-	ETresEnemyFieldAttack_e_ex357_Time = 1,
-	ETresEnemyFieldAttack_e_ex357_Max = 2,
-	ETresEnemyFieldAttack_e_MAX = 3
+	Penetrate = 0,
+	Time = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEnemyFieldAttack_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyFieldGenerateLocation_e_ex357
+enum class ETresEnemyFieldGenerateLocation_e_ex357 : uint8
 {
-	ETresEnemyFieldGenerateLocation_e_ex357_Target = 0,
-	ETresEnemyFieldGenerateLocation_e_ex357_Map = 1,
-	ETresEnemyFieldGenerateLocation_e_ex357_Max = 2,
-	ETresEnemyFieldGenerateLocation_e_MAX = 3
+	Target = 0,
+	Map = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEnemyFieldGenerateLocation_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyFieldSize_e_ex357
+enum class ETresEnemyFieldSize_e_ex357 : uint8
 {
-	ETresEnemyFieldSize_e_ex357_Small = 0,
-	ETresEnemyFieldSize_e_ex357_Medium = 1,
-	ETresEnemyFieldSize_e_ex357_Large = 2,
-	ETresEnemyFieldSize_e_MAX = 3
+	Small = 0,
+	Medium = 1,
+	Large = 2,
+	ETresEnemyFieldSize_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyBitGenerateLocation_e_ex357
 {
-	ETresEnemyBitGenerateLocation_e_ex357_Target = 0,
-	ETresEnemyBitGenerateLocation_e_ex357_Marluxia = 1,
-	ETresEnemyBitGenerateLocation_e_MAX = 2
+	Target = 0,
+	Marluxia = 1,
+	ETresEnemyBitGenerateLocation_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyAction_e_ex357
+enum class ETresEnemyAction_e_ex357 : uint8
 {
-	ETresEnemyAction_e_ex357_Normal = 0,
-	ETresEnemyAction_e_ex357_Warp = 1,
-	ETresEnemyAction_e_ex357_None = 2,
-	ETresEnemyAction_e_MAX = 3
+	Normal = 0,
+	Warp = 1,
+	None = 2,
+	ETresEnemyAction_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyAvatarAttackAppearLocation_e_ex358
 {
-	ETresEnemyAvatarAttackAppearLocation_e_ex358_Target = 0,
-	ETresEnemyAvatarAttackAppearLocation_e_ex358_Center = 1,
-	ETresEnemyAvatarAttackAppearLocation_e_ex358_Custom = 2,
-	ETresEnemyAvatarAttackAppearLocation_e_MAX = 3
+	/*Target = 0,
+	Center = 1,
+	Custom = 2,*/
+	ETresEnemyAvatarAttackAppearLocation_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyChangeManualLockonPriority_e_ex358
 {
-	ETresEnemyChangeManualLockonPriority_e_ex358_Low = 0,
-	ETresEnemyChangeManualLockonPriority_e_ex358_Normal = 1,
-	ETresEnemyChangeManualLockonPriority_e_ex358_High = 2,
-	ETresEnemyChangeManualLockonPriority_e_ex358_Max = 3,
-	ETresEnemyChangeManualLockonPriority_e_MAX = 4
+	/*Low = 0,
+	Normal = 1,
+	High = 2,
+	Max = 3 UMETA(Hidden),*/
+	ETresEnemyChangeManualLockonPriority_e_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemyWildDanceAppearLocation_e_ex358
 {
-	ETresEnemyWildDanceAppearLocation_e_ex358_Target = 0,
-	ETresEnemyWildDanceAppearLocation_e_ex358_Center = 1,
-	ETresEnemyWildDanceAppearLocation_e_MAX = 2
+	/*Target = 0,
+	Center = 1,*/
+	ETresEnemyWildDanceAppearLocation_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyWildDanceActionEnd_e_ex358
+enum class ETresEnemyWildDanceActionEnd_e_ex358 : uint8
 {
-	ETresEnemyWildDanceActionEnd_e_ex358_Normal = 0,
-	ETresEnemyWildDanceActionEnd_e_ex358_Warp = 1,
-	ETresEnemyWildDanceActionEnd_e_ex358_ThunderStep = 2,
-	ETresEnemyWildDanceActionEnd_e_MAX = 3
+	Normal = 0,
+	Warp = 1,
+	ThunderStep = 2,
+	ETresEnemyWildDanceActionEnd_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyNaruikazuchi_e_ex358
+enum class ETresEnemyNaruikazuchi_e_ex358 : uint8
 {
 	Fast = 0,
 	Slow = 1,
-	ETresEnemyNaruikazuchi_e_MAX = 2
+	ETresEnemyNaruikazuchi_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyJinraiPhaseType_e_ex358
+enum class ETresEnemyJinraiPhaseType_e_ex358 : uint8
 {
 	TRES_ENEMY_JINRAI_PHASE_TYPE_E_EX358_FIRST = 0,
 	TRES_ENEMY_JINRAI_PHASE_TYPE_E_EX358_SECOND = 1,
 	TRES_ENEMY_JINRAI_PHASE_TYPE_E_EX358_THIRD = 2,
 	TRES_ENEMY_JINRAI_PHASE_TYPE_E_EX358_NONE = 3,
-	TRES_ENEMY_JINRAI_PHASE_TYPE_E_EX358_MAX = 4
+	TRES_ENEMY_JINRAI_PHASE_TYPE_E_EX358_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyRunDirectionType_e_ex358
+enum class ETresEnemyRunDirectionType_e_ex358 : uint8
 {
 	TRES_ENEMY_RUN_DIRECTION_TYPE_E_EX358_CAUTION_RIGHT = 0,
 	TRES_ENEMY_RUN_DIRECTION_TYPE_E_EX358_CAUTION_LEFT = 1,
 	TRES_ENEMY_RUN_DIRECTION_TYPE_E_EX358_CAUTION_VIEW_CENTER = 2,
 	TRES_ENEMY_RUN_DIRECTION_TYPE_E_EX358_TARGET = 3,
-	TRES_ENEMY_RUN_DIRECTION_TYPE_E_EX358_MAX = 4
+	TRES_ENEMY_RUN_DIRECTION_TYPE_E_EX358_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyStepDirectionType_e_ex358
+enum class ETresEnemyStepDirectionType_e_ex358 : uint8
 {
 	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_RIGHT = 0,
 	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_LEFT = 1,
 	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_BACK = 2,
 	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_FRONT = 3,
 	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_AUTO = 4,
-	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_MAX = 5
+	TRES_ENEMY_STEP_DIRECTION_TYPE_E_EX358_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyActionType_e_ex358
+enum class ETresEnemyActionType_e_ex358 : uint8
 {
 	TRES_ENEMY_ACTION_TYPE_E_EX358_MOVE = 0,
 	TRES_ENEMY_ACTION_TYPE_E_EX358_WARP = 1,
 	TRES_ENEMY_ACTION_TYPE_E_EX358_ACTION = 2,
 	TRES_ENEMY_ACTION_TYPE_E_EX358_ATTACK = 3,
 	TRES_ENEMY_ACTION_TYPE_E_EX358_NONE = 4,
-	TRES_ENEMY_ACTION_TYPE_E_EX358_MAX = 5
+	TRES_ENEMY_ACTION_TYPE_E_EX358_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresEnemy_e_ex761_BattleAreaB_Camera
 {
-	ETresEnemy_e_ex761_BattleAreaB_Camera_Normal = 0,
-	ETresEnemy_e_ex761_BattleAreaB_Camera_NotZoom = 1,
-	ETresEnemy_e_ex761_BattleAreaB_Camera_Max = 2,
-	ETresEnemy_e_ex761_BattleAreaB_MAX = 3
+	/*Normal = 0,
+	NotZoom = 1,
+	Max = 2 UMETA(Hidden),*/
+	ETresEnemy_e_ex761_BattleAreaB_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex761_BattleAreaAttack
+enum class ETresEnemy_e_ex761_BattleAreaAttack : uint8
 {
-	ETresEnemy_e_ex761_BattleAreaAttack_TripleAttack = 0,
-	ETresEnemy_e_ex761_BattleAreaAttack_WarpRushVanish = 1,
-	ETresEnemy_e_ex761_BattleAreaAttack_WarpRushFinish = 2,
-	ETresEnemy_e_ex761_BattleAreaAttack_RaiseCut = 3,
-	ETresEnemy_e_ex761_BattleAreaAttack_RotationCut = 4,
-	ETresEnemy_e_ex761_BattleAreaAttack_Shot = 5,
-	ETresEnemy_e_ex761_BattleAreaAttack_ClusterShot = 6,
-	ETresEnemy_e_ex761_BattleAreaAttack_Max = 7,
-	ETresEnemy_e_ex761_BattleAreaAttack_ETresEnemy_e_ex761_MAX = 8
+	TripleAttack = 0,
+	WarpRushVanish = 1,
+	WarpRushFinish = 2,
+	RaiseCut = 3,
+	RotationCut = 4,
+	Shot = 5,
+	ClusterShot = 6,
+	Max = 7 UMETA(Hidden),
+	ETresEnemy_e_ex761_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex761_BattleAreaAppearTiming
+enum class ETresEnemy_e_ex761_BattleAreaAppearTiming : uint8
 {
-	ETresEnemy_e_ex761_BattleAreaAppearTiming_BeginOverlap = 0,
-	ETresEnemy_e_ex761_BattleAreaAppearTiming_EndOverlap = 1,
-	ETresEnemy_e_ex761_BattleAreaAppearTiming_1_Max = 2,
-	ETresEnemy_e_ex761_BattleAreaAppearTiming_ETresEnemy_e_ex761_MAX = 3
+	BeginOverlap = 0,
+	EndOverlap = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEnemy_e_ex761_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex761_BattleAreaAppear
+enum class ETresEnemy_e_ex761_BattleAreaAppear : uint8
 {
-	ETresEnemy_e_ex761_BattleAreaAppear_A = 0,
-	ETresEnemy_e_ex761_BattleAreaAppear_B = 1,
-	ETresEnemy_e_ex761_BattleAreaAppear_C = 2,
-	ETresEnemy_e_ex761_BattleAreaAppear_D = 3,
-	ETresEnemy_e_ex761_BattleAreaAppear_1_Max = 4,
-	ETresEnemy_e_ex761_BattleAreaAppear_ETresEnemy_e_ex761_MAX = 5
+	A = 0,
+	B = 1,
+	C = 2,
+	D = 3,
+	Max = 4 UMETA(Hidden),
+	ETresEnemy_e_ex761_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemy_e_ex761_Weapon
+enum class ETresEnemy_e_ex761_Weapon : uint8
 {
 	Weapon1 = 0,
 	Weapon2 = 1,
@@ -5815,163 +5839,163 @@ enum ETresEnemy_e_ex761_Weapon
 	Weapon10 = 9,
 	Weapon11 = 10,
 	Weapon12 = 11,
-	ETresEnemy_e_ex761_Weapon_Max = 12,
-	ETresEnemy_e_ex761_Weapon_ETresEnemy_e_ex761_MAX = 13
+	Max = 12 UMETA(Hidden),
+	ETresEnemy_e_ex761_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIIEPlayVoiceKind
+enum class ETresEnemyXIIIEPlayVoiceKind : uint8
 {
-	ETresEnemyXIIIEPlayVoiceKind_VoiceAttach = 0,
-	ETresEnemyXIIIEPlayVoiceKind_Voice2D = 1,
-	ETresEnemyXIIIEPlayVoiceKind_VoiceAtLocation = 2,
-	ETresEnemyXIIIEPlayVoiceKind_1_Max = 3,
-	ETresEnemyXIIIEPlayVoiceKind_MAX = 4
+	VoiceAttach = 0,
+	Voice2D = 1,
+	VoiceAtLocation = 2,
+	Max = 3 UMETA(Hidden),
+	ETresEnemyXIIIEPlayVoiceKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIILELineTraceKind
+enum class ETresEnemyXIIILELineTraceKind : uint8
 {
-	ETresEnemyXIIILELineTraceKind_None = 0,
-	ETresEnemyXIIILELineTraceKind_Horizontal = 1,
-	ETresEnemyXIIILELineTraceKind_Vertical = 2,
-	ETresEnemyXIIILELineTraceKind_Both = 3,
-	ETresEnemyXIIILELineTraceKind_1_Max = 4,
-	ETresEnemyXIIILELineTraceKind_MAX = 5
+	None = 0,
+	Horizontal = 1,
+	Vertical = 2,
+	Both = 3,
+	Max = 4 UMETA(Hidden),
+	ETresEnemyXIIILELineTraceKind_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIILEPlayVoiceKind
+enum class ETresEnemyXIIILEPlayVoiceKind : uint8
 {
-	ETresEnemyXIIILEPlayVoiceKind_VoiceAttach = 0,
-	ETresEnemyXIIILEPlayVoiceKind_Voice2D = 1,
-	ETresEnemyXIIILEPlayVoiceKind_VoiceAtLocation = 2,
-	ETresEnemyXIIILEPlayVoiceKind_1_Max = 3,
-	ETresEnemyXIIILEPlayVoiceKind_MAX = 4
+	VoiceAttach = 0,
+	Voice2D = 1,
+	VoiceAtLocation = 2,
+	Max = 3 UMETA(Hidden),
+	ETresEnemyXIIILEPlayVoiceKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIIPhaseType
+enum class ETresEnemyXIIIPhaseType : uint8
 {
-	ETresEnemyXIIIPhaseType_PHASE1 = 0 UMETA(DisplayName = "Phase 1"),
-	ETresEnemyXIIIPhaseType_PHASE2 = 1 UMETA(DisplayName = "Phase 2"),
-	ETresEnemyXIIIPhaseType_PHASE3 = 2 UMETA(DisplayName = "Phase 3"),
-	ETresEnemyXIIIPhaseType_PHASE4 = 3 UMETA(DisplayName = "Phase 4"),
-	ETresEnemyXIIIPhaseType_PHASE_EX1 = 4 UMETA(DisplayName = "Phase EX1"),
-	ETresEnemyXIIIPhaseType_1_MAX = 5 UMETA(DisplayName = "MAX"),
-	ETresEnemyXIIIPhaseType_MAX = 6 UMETA(DisplayName = "Tres Enemy XIII Phase Type MAX")
+	PHASE1 = 0,
+	PHASE2 = 1,
+	PHASE3 = 2,
+	PHASE4 = 3,
+	PHASE_EX1 = 4,
+	_MAX = 5 UMETA(Hidden),
+	ETresEnemyXIIIPhaseType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyXIIISettingPhase
+enum class ETresEnemyXIIISettingPhase : uint8
 {
-	ETresEnemyXIIISettingPhase_PHASE1 = 0,
-	ETresEnemyXIIISettingPhase_PHASE2 = 1,
-	ETresEnemyXIIISettingPhase_PHASE3 = 2,
-	ETresEnemyXIIISettingPhase_PHASE4 = 3,
-	ETresEnemyXIIISettingPhase_PHASE_EX1 = 4,
-	ETresEnemyXIIISettingPhase_1_MAX = 5,
-	ETresEnemyXIIISettingPhase_MAX = 6
+	PHASE1 = 0,
+	PHASE2 = 1,
+	PHASE3 = 2,
+	PHASE4 = 3,
+	PHASE_EX1 = 4,
+	_MAX = 5 UMETA(Hidden),
+	ETresEnemyXIIISettingPhase_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEnvGeneratorOnRingRadiusMode
+enum class EEnvGeneratorOnRingRadiusMode : uint8
 {
 	ContextCenter = 0,
 	ContextRadius = 1,
 	QuerierAndContextRadius = 2,
-	EEnvGeneratorOnRingRadiusMode_MAX = 3
+	EEnvGeneratorOnRingRadiusMode_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemPathDirectionMode
+enum class ETresItemPathDirectionMode : uint8
 {
-	ETresItemPathDirectionMode_ItemRotation = 0,
-	ETresItemPathDirectionMode_ContextToItem = 1,
-	ETresItemPathDirectionMode_ItemToContext = 2,
-	ETresItemPathDirectionMode_ItemToPathStart = 3,
-	ETresItemPathDirectionMode_PathStartToItem = 4,
-	ETresItemPathDirectionMode_ItemToPathRelativeDirection = 5,
-	ETresItemPathDirectionMode_PathToItemRelativeDirection = 6,
-	ETresItemPathDirectionMode_PathRotationAtStart = 7,
-	ETresItemPathDirectionMode_PathRotationAtClosestPointOnPath = 8,
-	ETresItemPathDirectionMode_MAX = 9
+	ItemRotation = 0,
+	ContextToItem = 1,
+	ItemToContext = 2,
+	ItemToPathStart = 3,
+	PathStartToItem = 4,
+	ItemToPathRelativeDirection = 5,
+	PathToItemRelativeDirection = 6,
+	PathRotationAtStart = 7,
+	PathRotationAtClosestPointOnPath = 8,
+	ETresItemPathDirectionMode_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresContextPathDirectionMode
+enum class ETresContextPathDirectionMode : uint8
 {
-	ETresContextPathDirectionMode_ContextRotation = 0,
-	ETresContextPathDirectionMode_ContextToItem = 1,
-	ETresContextPathDirectionMode_ItemToContext = 2,
-	ETresContextPathDirectionMode_ContextToPathStart = 3,
-	ETresContextPathDirectionMode_PathStartToContext = 4,
-	ETresContextPathDirectionMode_ContextToPathRelativeDirection = 5,
-	ETresContextPathDirectionMode_PathToContextRelativeDirection = 6,
-	ETresContextPathDirectionMode_PathRotationAtStart = 7,
-	ETresContextPathDirectionMode_PathRotationAtClosestPointOnPath = 8,
-	ETresContextPathDirectionMode_MAX = 9
+	ContextRotation = 0,
+	ContextToItem = 1,
+	ItemToContext = 2,
+	ContextToPathStart = 3,
+	PathStartToContext = 4,
+	ContextToPathRelativeDirection = 5,
+	PathToContextRelativeDirection = 6,
+	PathRotationAtStart = 7,
+	PathRotationAtClosestPointOnPath = 8,
+	ETresContextPathDirectionMode_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnvQueryTestItemPropertySource
+enum class ETresEnvQueryTestItemPropertySource : uint8
 {
-	ETresEnvQueryTestItemPropertySource_BlackboardKey = 0,
-	ETresEnvQueryTestItemPropertySource_Property = 1,
-	ETresEnvQueryTestItemPropertySource_Function = 2,
-	ETresEnvQueryTestItemPropertySource_MAX = 3
+	BlackboardKey = 0,
+	Property = 1,
+	Function = 2,
+	ETresEnvQueryTestItemPropertySource_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnvQueryTest_MercunaWallDistanceDir
+enum class ETresEnvQueryTest_MercunaWallDistanceDir : uint8
 {
-	ETresEnvQueryTest_MercunaWallDistanceDir_Side = 0,
-	ETresEnvQueryTest_MercunaWallDistanceDir_Bottom = 1,
-	ETresEnvQueryTest_MercunaWallDistanceDir_Ceiling = 2,
-	ETresEnvQueryTest_MAX = 3
+	Side = 0,
+	Bottom = 1,
+	Ceiling = 2,
+	ETresEnvQueryTest_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttributeHitEnd_e_ex357
+enum class ETresAttributeHitEnd_e_ex357 : uint8
 {
 	AllLoopEnd = 0,
 	ProjectileEndAfterLoopEnd = 1,
 	AllDestroy = 2,
-	ETresAttributeHitEnd_e_MAX = 3
+	ETresAttributeHitEnd_e_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFieldVoiceLip
+enum class ETresFieldVoiceLip : uint8
 {
-	ETresFieldVoiceLip_Default = 0,
-	ETresFieldVoiceLip_Joy = 1,
-	ETresFieldVoiceLip_Angly = 2,
-	ETresFieldVoiceLip_Sorrow = 3,
-	ETresFieldVoiceLip_MAX = 4
+	Default = 0,
+	Joy = 1,
+	Angly = 2,
+	Sorrow = 3,
+	ETresFieldVoiceLip_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresFieldVoiceExecuteMode
 {
-	ETresFieldVoiceExecuteMode_Tick = 0,
-	ETresFieldVoiceExecuteMode_Begin = 1,
-	ETresFieldVoiceExecuteMode_End = 2,
-	ETresFieldVoiceExecuteMode_Auto = 3,
-	ETresFieldVoiceExecuteMode_MAX = 4
+	Tick = 0,
+	Begin = 1,
+	End = 2,
+	Auto = 3,
+	ETresFieldVoiceExecuteMode_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresForceFeedbackKind
+enum class ETresForceFeedbackKind : uint8
 {
-	ETresForceFeedbackKind_TFFK_SMALL = 0 UMETA(DisplayName = "Small"),
-	ETresForceFeedbackKind_TFFK_MIDDLE = 1 UMETA(DisplayName = "Middle"),
-	ETresForceFeedbackKind_LARGE = 2 UMETA(DisplayName = "Large"),
-	ETresForceFeedbackKind_TFFK_MAX = 3  UMETA(Hidden),
-	ETresForceFeedbackKind_MAX = 4  UMETA(Hidden)
+	TFFK_SMALL = 0,
+	TFFK_MIDDLE = 1,
+	LARGE = 2,
+	TFFK_MAX = 3,
+	ETresForceFeedbackKind_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFriendAreaID
+enum class ETresFriendAreaID : uint8
 {
 	TRES_FR_AREA_ID_UNKNOWN = 0,
 	TRES_FR_AREA_ID_A = 1,
@@ -5982,70 +6006,70 @@ enum ETresFriendAreaID
 	TRES_FR_AREA_ID_DW = 6,
 	TRES_FR_AREA_ID_KG06 = 7,
 	TRES_FR_AREA_ID_EVENT = 8,
-	TRES_FR_AREA_ID_MAX = 9  UMETA(Hidden)
+	TRES_FR_AREA_ID_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EIceRaileCameraType
+enum class EIceRaileCameraType : uint8
 {
 	IRCT_Use_Rail = 0,
 	IRCT_Use_Jump = 1,
 	IRCT_Use_Move = 2,
-	IRCT_Use_MAX = 3  UMETA(Hidden)
+	IRCT_Use_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresStartMapType
+enum class ETresStartMapType : uint8
 {
-	ETresStartMapType_Normal = 0,
-	ETresStartMapType_RemindDLC = 1,
-	ETresStartMapType_1_Max = 2  UMETA(Hidden),
-	ETresStartMapType_MAX = 3  UMETA(Hidden)
+	Normal = 0,
+	RemindDLC = 1,
+	Max = 2 UMETA(Hidden),
+	ETresStartMapType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameOverHintSpecialType
+enum class ETresGameOverHintSpecialType : uint8
 {
-	ETresGameOverHintSpecialType_None = 0,
+	None = 0,
 	KilledByGimmick = 1,
 	DieInUnderwater = 2,
 	DieInSpecialRailSlide = 3,
 	OutsideSetting = 4,
 	RestrictWeapon = 5,
 	DeathSentence = 6,
-	ETresGameOverHintSpecialType_1_Max = 7,
-	ETresGameOverHintSpecialType_MAX = 8
+	Max = 7 UMETA(Hidden),
+	ETresGameOverHintSpecialType_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECardExplodeEffect_e_ex356
+enum class ECardExplodeEffect_e_ex356 : uint8
 {
-	ECardExplodeEffect_e_ex356_Normal = 0,
+	Normal = 0,
 	HideAndSeek = 1,
-	ECardExplodeEffect_e_MAX = 2
+	ECardExplodeEffect_e_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EHideAndSeekAnim_e_ex356
+enum class EHideAndSeekAnim_e_ex356 : uint8
 {
-	EHideAndSeekAnim_e_ex356_FallDown = 0,
-	EHideAndSeekAnim_e_ex356_GetUp = 1,
-	EHideAndSeekAnim_e_ex356_FallDownInverse = 2,
-	EHideAndSeekAnim_e_ex356_1_Max = 3,
-	EHideAndSeekAnim_e_MAX = 4
+	FallDown = 0,
+	GetUp = 1,
+	FallDownInverse = 2,
+	Max = 3 UMETA(Hidden),
+	EHideAndSeekAnim_e_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmick_e_ex711_PhysicsActorSizeKind
+enum class ETresGimmick_e_ex711_PhysicsActorSizeKind : uint8
 {
 	SIZE_KIND_SMALL = 0,
 	SIZE_KIND_MEDIUM = 1,
 	SIZE_KIND_BIG = 2,
-	SIZE_KIND_MAX = 3
+	SIZE_KIND_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmick_e_ex711_PhysicsActorGimmickKind
+enum class ETresGimmick_e_ex711_PhysicsActorGimmickKind : uint8
 {
 	GIMMICK_KIND_NONE = 0,
 	GIMMICK_KIND_ATHLETIC_FLOW_ROOT = 1,
@@ -6053,57 +6077,57 @@ enum ETresGimmick_e_ex711_PhysicsActorGimmickKind
 	GIMMICK_KIND_ATHLETIC_FLOW = 3,
 	GIMMICK_KIND_HOP = 4,
 	GIMMICK_KIND_SCAFFOLD = 5,
-	GIMMICK_KIND_MAX = 6
+	GIMMICK_KIND_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickEx781GravitySphereGravityType
+enum class ETresGimmickEx781GravitySphereGravityType : uint8
 {
-	ETresGimmickEx781GravitySphereGravityType_NONE = 0,
-	ETresGimmickEx781GravitySphereGravityType_UP = 1,
-	ETresGimmickEx781GravitySphereGravityType_PULL = 2,
-	ETresGimmickEx781GravitySphereGravityType_PUSH = 3,
-	ETresGimmickEx781GravitySphereGravityType_MAX = 4
+	NONE = 0,
+	UP = 1,
+	PULL = 2,
+	PUSH = 3,
+	ETresGimmickEx781GravitySphereGravityType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBxPuddingType
+enum class ETresBxPuddingType : uint8
 {
-	ETresBxPuddingType_NONE = 0,
-	ETresBxPuddingType_NORMAL = 1,
-	ETresBxPuddingType_CANNIBAL = 2,
-	ETresBxPuddingType_AREA_JUMP = 3,
-	ETresBxPuddingType_MAX = 4
+	NONE = 0,
+	NORMAL = 1,
+	CANNIBAL = 2,
+	AREA_JUMP = 3,
+	ETresBxPuddingType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickEwDirectionType
+enum class ETresGimmickEwDirectionType : uint8
 {
-	ETresGimmickEwDirectionType_Spline = 0,
-	ETresGimmickEwDirectionType_Custom = 1,
-	ETresGimmickEwDirectionType_1_Max = 2,
-	ETresGimmickEwDirectionType_MAX = 3
+	Spline = 0,
+	Custom = 1,
+	Max = 2 UMETA(Hidden),
+	ETresGimmickEwDirectionType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EFollowActorSplineMoveRotateStyle
+enum class EFollowActorSplineMoveRotateStyle : uint8
 {
 	SNAP_ALL = 0,
 	SNAP_YAW_ONLY = 1,
 	SLERP_START_TO_END = 2,
-	EFollowActorSplineMoveRotateStyle_MAX = 3
+	EFollowActorSplineMoveRotateStyle_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EFollowActorMoveStyle
+enum class EFollowActorMoveStyle : uint8
 {
 	LINEAR = 0,
 	EASE_INOUT_SINE = 1,
-	EFollowActorMoveStyle_MAX = 2
+	EFollowActorMoveStyle_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EFollowActorState
+enum class EFollowActorState : uint8
 {
 	STATE_NONE = 0,
 	STATE_WAIT = 1,
@@ -6113,74 +6137,74 @@ enum EFollowActorState
 	STATE_RETURN = 5,
 	STATE_DESTINATION_MOVE = 6,
 	STATE_SPLINE_MOVE = 7,
-	STATE_MAX = 8
+	STATE_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickBxCarTyreType
+enum class ETresGimmickBxCarTyreType : uint8
 {
-	ETresGimmickBxCarTyreType_Basic = 0,
-	ETresGimmickBxCarTyreType_Side = 1,
-	ETresGimmickBxCarTyreType_Front = 2,
-	ETresGimmickBxCarTyreType_MAX = 3
+	Basic = 0,
+	Side = 1,
+	Front = 2,
+	ETresGimmickBxCarTyreType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGimmickBX_CarSplineBlinker
+enum class EGimmickBX_CarSplineBlinker : uint8
 {
 	EGimmickBX_CarSplineBlinker_None = 0,
 	EGimmickBX_CarSplineBlinker_Left = 1,
 	EGimmickBX_CarSplineBlinker_Right = 2,
-	EGimmickBX_CarSplineBlinker_MAX = 3
+	EGimmickBX_CarSplineBlinker_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickBxFlashTracerCourse
+enum class ETresGimmickBxFlashTracerCourse : uint8
 {
 	Course = 0,
 	Course01 = 1,
-	Course_Max = 2
+	Course_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickBxSingoukiColorType
+enum class ETresGimmickBxSingoukiColorType : uint8
 {
-	ETresGimmickBxSingoukiColorType_Red = 0,
-	ETresGimmickBxSingoukiColorType_RedWait = 1,
-	ETresGimmickBxSingoukiColorType_Blue = 2,
-	ETresGimmickBxSingoukiColorType_BlueWait = 3,
-	ETresGimmickBxSingoukiColorType_NoSignal = 4,
-	ETresGimmickBxSingoukiColorType_MAX = 5
+	Red = 0,
+	RedWait = 1,
+	Blue = 2,
+	BlueWait = 3,
+	NoSignal = 4,
+	ETresGimmickBxSingoukiColorType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickDitherFade_State
+enum class ETresGimmickDitherFade_State : uint8
 {
-	ETresGimmickDitherFade_State_FadeIn = 0,
-	ETresGimmickDitherFade_State_FadeOut = 1,
-	ETresGimmickDitherFade_MAX = 2
+	FadeIn = 0,
+	FadeOut = 1,
+	ETresGimmickDitherFade_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickDitherFade_Invoker
+enum class ETresGimmickDitherFade_Invoker : uint8
 {
-	ETresGimmickDitherFade_Invoker_Clip = 0,
-	ETresGimmickDitherFade_Invoker_Gimmick = 1,
-	ETresGimmickDitherFade_Invoker_Max = 2,
-	ETresGimmickDitherFade_Invoker_ETresGimmickDitherFade_MAX = 3
+	Clip = 0,
+	Gimmick = 1,
+	Max = 2 UMETA(Hidden),
+	ETresGimmickDitherFade_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickHitCountComponentTeam
+enum class ETresGimmickHitCountComponentTeam : uint8
 {
-	ETresGimmickHitCountComponentTeam_Player = 0,
-	ETresGimmickHitCountComponentTeam_Enemy = 1,
-	ETresGimmickHitCountComponentTeam_Neutrality = 2,
-	ETresGimmickHitCountComponentTeam_MAX = 3
+	Player = 0,
+	Enemy = 1,
+	Neutrality = 2,
+	ETresGimmickHitCountComponentTeam_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickHitCountComponentDamageProfile
+enum class ETresGimmickHitCountComponentDamageProfile : uint8
 {
 	NotUse = 0,
 	Gimmick = 1,
@@ -6210,30 +6234,30 @@ enum ETresGimmickHitCountComponentDamageProfile
 	ReactionBT2 = 25,
 	ReactionBT3 = 26,
 	ReactionBT4 = 27,
-	ETresGimmickHitCountComponentDamageProfile_MAX = 28
+	ETresGimmickHitCountComponentDamageProfile_MAX = 28 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickHitCountComponentType
+enum class ETresGimmickHitCountComponentType : uint8
 {
 	HitCount = 0,
 	Accumulation = 1,
 	HitCheckOnly = 2,
-	ETresGimmickHitCountComponentType_MAX = 3
+	ETresGimmickHitCountComponentType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGimmickKG_UnionCrossEnemy_MoveMode
+enum class EGimmickKG_UnionCrossEnemy_MoveMode : uint8
 {
 	Progress = 0,
 	Direction = 1,
 	Straight = 2,
 	BlowUp = 3,
-	EGimmickKG_UnionCrossEnemy_MAX = 4
+	EGimmickKG_UnionCrossEnemy_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGimmickKG_UnionCrossAnim
+enum class EGimmickKG_UnionCrossAnim : uint8
 {
 	EGimmickKG_UnionCrossAnim_Invalid = 0,
 	EGimmickKG_UnionCrossAnim_Idle = 1,
@@ -6241,97 +6265,97 @@ enum EGimmickKG_UnionCrossAnim
 	EGimmickKG_UnionCrossAnim_Finish = 3,
 	EGimmickKG_UnionCrossAnim_DamageStart = 4,
 	EGimmickKG_UnionCrossAnim_DamageEnd = 5,
-	EGimmickKG_UnionCrossAnim_MAX = 6
+	EGimmickKG_UnionCrossAnim_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickMI_02_LaserArmAttackState
+enum class ETresGimmickMI_02_LaserArmAttackState : uint8
 {
-	ETresGimmickMI_02_LaserArmAttackState_Idle = 0,
-	ETresGimmickMI_02_LaserArmAttackState_Charging = 1,
-	ETresGimmickMI_02_LaserArmAttackState_Fire = 2,
-	ETresGimmickMI_02_MAX = 3
+	Idle = 0,
+	Charging = 1,
+	Fire = 2,
+	ETresGimmickMI_02_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickMI_02_LaserArmState
+enum class ETresGimmickMI_02_LaserArmState : uint8
 {
-	ETresGimmickMI_02_LaserArmState_Idle = 0,
-	ETresGimmickMI_02_LaserArmState_StartUp = 1,
-	ETresGimmickMI_02_LaserArmState_Attack = 2,
-	ETresGimmickMI_02_LaserArmState_Destroy = 3,
-	ETresGimmickMI_02_LaserArmState_ETresGimmickMI_02_MAX = 4
+	Idle = 0,
+	StartUp = 1,
+	Attack = 2,
+	Destroy = 3,
+	ETresGimmickMI_02_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickMI_02_LaserArmActionType
+enum class ETresGimmickMI_02_LaserArmActionType : uint8
 {
-	ETresGimmickMI_02_LaserArmActionType_BarricadeY = 0,
-	ETresGimmickMI_02_LaserArmActionType_BarricadeX = 1,
-	ETresGimmickMI_02_LaserArmActionType_Work = 2,
-	ETresGimmickMI_02_LaserArmActionType_Spline = 3,
-	ETresGimmickMI_02_LaserArmActionType_Player = 4,
-	ETresGimmickMI_02_LaserArmActionType_ETresGimmickMI_02_MAX = 5
+	BarricadeY = 0,
+	BarricadeX = 1,
+	Work = 2,
+	Spline = 3,
+	Player = 4,
+	ETresGimmickMI_02_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresMI_04_DoorGeneratorMoveType
+enum class ETresMI_04_DoorGeneratorMoveType : uint8
 {
-	ETresMI_04_DoorGeneratorMoveType_Lv0 = 0,
-	ETresMI_04_DoorGeneratorMoveType_Lv1 = 1,
-	ETresMI_04_DoorGeneratorMoveType_Lv2 = 2,
-	ETresMI_04_MAX = 3
+	Lv0 = 0,
+	Lv1 = 1,
+	Lv2 = 2,
+	ETresMI_04_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDanceDebugInfoType
+enum class EDanceDebugInfoType : uint8
 {
 	DEBUG_INFO_MOVE = 0,
 	DEBUG_INFO_SPLINE = 1,
 	DEBUG_INFO_TARGET = 2,
 	DEBUG_INFO_CLAPSPOT = 3,
 	DEBUG_INFO_BGM = 4,
-	DEBUG_INFO_MAX = 5
+	DEBUG_INFO_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EDanceResultType
+enum class EDanceResultType : uint8
 {
-	EDanceResultType_NORMAL = 0,
-	EDanceResultType_GREAT = 1,
-	EDanceResultType_BAD = 2,
-	EDanceResultType_MAX = 3
+	NORMAL = 0,
+	GREAT = 1,
+	BAD = 2,
+	EDanceResultType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERaPuddingStateType
+enum class ERaPuddingStateType : uint8
 {
-	ERaPuddingStateType_DEFAULT = 0,
-	ERaPuddingStateType_DAMAGE = 1,
-	ERaPuddingStateType_ANGRY = 2,
-	ERaPuddingStateType_SHUTTER = 3,
-	ERaPuddingStateType_HAPPY = 4,
-	ERaPuddingStateType_MAX = 5
+	DEFAULT = 0,
+	DAMAGE = 1,
+	ANGRY = 2,
+	SHUTTER = 3,
+	HAPPY = 4,
+	ERaPuddingStateType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERaPuddingCommandType
+enum class ERaPuddingCommandType : uint8
 {
-	ERaPuddingCommandType_IDLE = 0,
-	ERaPuddingCommandType_MOVEMENT = 1,
-	ERaPuddingCommandType_ANIMATION = 2,
-	ERaPuddingCommandType_ANGRY_VANISH = 3,
-	ERaPuddingCommandType_HAPPY_VANISH = 4,
-	ERaPuddingCommandType_FAIR_VANISH = 5,
-	ERaPuddingCommandType_PANCAKE_DIVE = 6,
-	ERaPuddingCommandType_PANCAKE_HIDE = 7,
-	ERaPuddingCommandType_PANCAKE_EFFECT = 8,
-	ERaPuddingCommandType_PANCAKE_APPEAR = 9,
-	ERaPuddingCommandType_PANCAKE_VANISH = 10,
-	ERaPuddingCommandType_TTR_ESCAPE = 11,
-	ERaPuddingCommandType_TTR_START = 12,
-	ERaPuddingCommandType_TTR_KEEP = 13,
-	ERaPuddingCommandType_TTR_END = 14,
+	IDLE = 0,
+	MOVEMENT = 1,
+	ANIMATION = 2,
+	ANGRY_VANISH = 3,
+	HAPPY_VANISH = 4,
+	FAIR_VANISH = 5,
+	PANCAKE_DIVE = 6,
+	PANCAKE_HIDE = 7,
+	PANCAKE_EFFECT = 8,
+	PANCAKE_APPEAR = 9,
+	PANCAKE_VANISH = 10,
+	TTR_ESCAPE = 11,
+	TTR_START = 12,
+	TTR_KEEP = 13,
+	TTR_END = 14,
 	PUDFORCE_IDLE = 15,
 	PUDFORCE_MOVE = 16,
 	PUDFORCE_POSE = 17,
@@ -6352,69 +6376,60 @@ enum ERaPuddingCommandType
 	SET_NORMAL_MARKER_VALID = 32,
 	SET_NORMAL_MARKER_ON = 33,
 	SET_NORMAL_MARKER_OFF = 34,
-	ERaPuddingCommandType_1_MAX = 35,
-	ERaPuddingCommandType_MAX = 36
+	MAX = 35,
+	ERaPuddingCommandType_MAX = 36 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickSimpleMovementDirAxis
+enum class ETresGimmickSimpleMovementAcclType : uint8
 {
-	ETresGimmickSimpleMovementDirAxis_Forward = 0,
-	ETresGimmickSimpleMovementDirAxis_Right = 1,
-	ETresGimmickSimpleMovementDirAxis_Up = 2,
-	ETresGimmickSimpleMovementDirAxis_MAX = 3
+	Linear = 0,
+	Accelerator = 1,
+	Curve = 2,
+	ETresGimmickSimpleMovementAcclType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickSimpleMovementAcclType
+enum class ETresGimmickSimpleMovementMoveType : uint8
 {
-	ETresGimmickSimpleMovementAcclType_Linear = 0,
-	ETresGimmickSimpleMovementAcclType_Accelerator = 1,
-	ETresGimmickSimpleMovementAcclType_Curve = 2,
-	ETresGimmickSimpleMovementAcclType_MAX = 3
+	Straight = 0,
+	Homing = 1,
+	TargetDir = 2,
+	TargetPoint = 3,
+	Parabola = 4,
+	ETresGimmickSimpleMovementMoveType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickSimpleMovementMoveType
+enum class ETresGimmickSimpleMovementStateType : uint8
 {
-	ETresGimmickSimpleMovementMoveType_Straight = 0,
-	ETresGimmickSimpleMovementMoveType_Homing = 1,
-	ETresGimmickSimpleMovementMoveType_TargetDir = 2,
-	ETresGimmickSimpleMovementMoveType_TargetPoint = 3,
-	ETresGimmickSimpleMovementMoveType_Parabola = 4,
-	ETresGimmickSimpleMovementMoveType_MAX = 5
+	Idle = 0,
+	Fire = 1,
+	ETresGimmickSimpleMovementStateType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGimmickSimpleMovementStateType
-{
-	ETresGimmickSimpleMovementStateType_Idle = 0,
-	ETresGimmickSimpleMovementStateType_Fire = 1,
-	ETresGimmickSimpleMovementStateType_MAX = 2
-};
-
-UENUM(BlueprintType)
-enum ETresGumiShipAtkHitTestType
+enum class ETresGumiShipAtkHitTestType : uint8
 {
 	HT_NONE = 0,
 	HT_ENEMY_ONLY = 1,
 	HT_PLAYER_ONLY = 2,
 	HT_ALL = 3,
-	HT_MAX = 4
+	HT_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipObjectSize
+enum class ETresGumiShipObjectSize : uint8
 {
 	SMALL_SIZE = 0,
 	MIDDLE_SIZE = 1,
 	BIG_SIZE = 2,
 	SIZE_TYPE_MAX = 3,
-	ETresGumiShipObjectSize_MAX = 4
+	ETresGumiShipObjectSize_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipGameBGM_ID
+enum class ETresGumiShipGameBGM_ID : uint8
 {
 	FIELD_BGM = 0,
 	NORMAL_BATTLE_BGM = 1,
@@ -6422,63 +6437,63 @@ enum ETresGumiShipGameBGM_ID
 	BATTLE_RESULT_BGM = 3,
 	E_GM623_BATTLE_BGM = 4,
 	E_GM628_BATTLE_BGM = 5,
-	ETresGumiShipGameBGM_MAX = 6
+	ETresGumiShipGameBGM_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipDirectNotifyType
+enum class ETresGumiShipDirectNotifyType : uint8
 {
-	DNT_FINISHED_BATTLE_MISSION = 0 UMETA(DisplayName = "Finished Battle Mission"),
-	DNT_ENCOUNT_BATTLE_START_CAMERA_SIGNAL = 1 UMETA(DisplayName = "Encount Battle Start Camera Signal"),
-	DNT_MAX = 2  UMETA(Hidden)
+	DNT_FINISHED_BATTLE_MISSION = 0,
+	DNT_ENCOUNT_BATTLE_START_CAMERA_SIGNAL = 1,
+	DNT_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipCinematicModeEventFlag
+enum class ETresGumiShipCinematicModeEventFlag : uint8
 {
 	NOTIFY_RUN_MATINEE = 0,
 	BOSS_ENEMY_APPEAR_EVENT = 1,
-	ETresGumiShipCinematicModeEventFlag_MAX = 2
+	ETresGumiShipCinematicModeEventFlag_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipClusterGeneratorShape
+enum class ETresGumiShipClusterGeneratorShape : uint8
 {
-	ETresGumiShipClusterGeneratorShape_BOX = 0,
-	ETresGumiShipClusterGeneratorShape_SPHERE = 1,
-	ETresGumiShipClusterGeneratorShape_CAPSULE = 2,
-	ETresGumiShipClusterGeneratorShape_1_MAX = 3,
-	ETresGumiShipClusterGeneratorShape_MAX = 4
+	BOX = 0,
+	SPHERE = 1,
+	CAPSULE = 2,
+	MAX = 3,
+	ETresGumiShipClusterGeneratorShape_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipCureValueType
+enum class ETresGumiShipCureValueType : uint8
 {
 	CVT_VALUE = 0,
 	CVT_PERCENT = 1,
-	CVT_MAX = 2
+	CVT_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipAttackSubElemntType
+enum class ETresGumiShipAttackSubElemntType : uint8
 {
 	ASET_NONE = 0,
 	ASET_SPECIAL = 1,
-	ASET_MAX = 2
+	ASET_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipAttackElementType
+enum class ETresGumiShipAttackElementType : uint8
 {
 	AET_NONE = 0,
 	AET_SHOT = 1,
 	AET_LASER = 2,
 	AET_STRIKE = 3,
-	AET_MAX = 4
+	AET_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipLimitType
+enum class ETresGumiShipLimitType : uint8
 {
 	LIMIT_ENDOFWORLD = 0,
 	LIMIT_NOENTRY = 1,
@@ -6489,37 +6504,37 @@ enum ETresGumiShipLimitType
 	LIMIT_ROLL = 6,
 	LIMIT_TURN = 7,
 	LIMIT_NONE = 8,
-	LIMIT_MAX = 9
+	LIMIT_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMISHIP_ENEMY622_STATUS
+enum class EGUMISHIP_ENEMY622_STATUS : uint8
 {
 	E_GM622_SHIELD_MODE = 0,
 	E_GM622_INVINCIBLE_MODE = 1,
 	E_GM622_CORE_MODE = 2,
-	E_GM622_MAX = 3
+	E_GM622_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMISHIP_ENEMY625_STATUS
+enum class EGUMISHIP_ENEMY625_STATUS : uint8
 {
 	E_GM625_LATENT = 0,
 	E_GM625_EMERGENCE = 1,
-	E_GM625_MAX = 2
+	E_GM625_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMISHIP_ENEMY625_METEORO_TARGET
+enum class EGUMISHIP_ENEMY625_METEORO_TARGET : uint8
 {
 	E_GM625_TARGET_METEORO1 = 0,
 	E_GM625_TARGET_METEORO2 = 1,
 	E_GM625_TARGET_METEORO3 = 2,
-	E_GM625_TARGET_MAX = 3
+	E_GM625_TARGET_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMISHIP_ENEMY625_METEORO_BONE
+enum class EGUMISHIP_ENEMY625_METEORO_BONE : uint8
 {
 	BACK_GM625_BONE = 0,
 	BOTTOM_GM625_BONE = 1,
@@ -6529,11 +6544,11 @@ enum EGUMISHIP_ENEMY625_METEORO_BONE
 	RIGHT_GM625_BONE = 5,
 	TOP_GM625_BONE = 6,
 	NEAR_GM625_BONE = 7,
-	GUMISHIP_ENEMY625_METEORO_MAX = 8
+	GUMISHIP_ENEMY625_METEORO_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMISHIP_ENEMY625_MOTIONS
+enum class EGUMISHIP_ENEMY625_MOTIONS : uint8
 {
 	E_GM625_MOTION_COME = 0,
 	E_GM625_MOTION_LATENT = 1,
@@ -6551,93 +6566,93 @@ enum EGUMISHIP_ENEMY625_MOTIONS
 	E_GM625_MOTION_STAND_BEAM1 = 13,
 	E_GM625_MOTION_STAND_BEAM2 = 14,
 	E_GM625_MOTION_STAND_BEAM3 = 15,
-	E_GM625_MOTION_MAX = 16
+	E_GM625_MOTION_MAX = 16 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_ENEMY_GM626_CANNON
+enum class EGUMI_SHIP_ENEMY_GM626_CANNON : uint8
 {
-	EGUMI_SHIP_ENEMY_GM626_CANNON_UPPER_CANNON_ = 0,
-	EGUMI_SHIP_ENEMY_GM626_CANNON_UNDER_CANNON_ = 1,
-	EGUMI_SHIP_ENEMY_GM626_CANNON_MAX = 2
+	_UPPER_CANNON_ = 0,
+	_UNDER_CANNON_ = 1,
+	_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_ENEMY_GM626_EYEMUZZLE
+enum class EGUMI_SHIP_ENEMY_GM626_EYEMUZZLE : uint8
 {
-	EGUMI_SHIP_ENEMY_GM626_EYEMUZZLE_NOMAL_LASER_ = 0,
-	EGUMI_SHIP_ENEMY_GM626_EYEMUZZLE_ZOMBIE_LASER_ = 1,
-	EGUMI_SHIP_ENEMY_GM626_EYEMUZZLE_MAX = 2
+	_NOMAL_LASER_ = 0,
+	_ZOMBIE_LASER_ = 1,
+	_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_ENEMY_GM626_STATUS
+enum class EGUMI_SHIP_ENEMY_GM626_STATUS : uint8
 {
-	EGUMI_SHIP_ENEMY_GM626_STATUS_UPPER_MODE_ = 0,
-	EGUMI_SHIP_ENEMY_GM626_STATUS_LOWER_MODE_ = 1,
-	EGUMI_SHIP_ENEMY_GM626_STATUS_UPPER_MODE2_ = 2,
-	EGUMI_SHIP_ENEMY_GM626_STATUS_CENTER_MODE_ = 3,
-	EGUMI_SHIP_ENEMY_GM626_STATUS_INVINCIBLE_ = 4,
-	EGUMI_SHIP_ENEMY_GM626_STATUS_MAX = 5
+	_UPPER_MODE_ = 0,
+	_LOWER_MODE_ = 1,
+	_UPPER_MODE2_ = 2,
+	_CENTER_MODE_ = 3,
+	_INVINCIBLE_ = 4,
+	_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_ENEMY_GM626_SHIELD
+enum class EGUMI_SHIP_ENEMY_GM626_SHIELD : uint8
 {
-	EGUMI_SHIP_ENEMY_GM626_SHIELD_SHIELD_NON_ = 0,
-	EGUMI_SHIP_ENEMY_GM626_SHIELD_SHIELD_UPPER_ = 1,
-	EGUMI_SHIP_ENEMY_GM626_SHIELD_SHIELD_LOWER_ = 2,
-	EGUMI_SHIP_ENEMY_GM626_SHIELD_SHIELD_ZOMBIE_ = 3,
-	EGUMI_SHIP_ENEMY_GM626_SHIELD_SHIELD_MAX = 4
+	_SHIELD_NON_ = 0,
+	_SHIELD_UPPER_ = 1,
+	_SHIELD_LOWER_ = 2,
+	_SHIELD_ZOMBIE_ = 3,
+	_SHIELD_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemySpawnConditionType
+enum class ETresGumiShipEnemySpawnConditionType : uint8
 {
 	TRIGGER_COLLISION_OVERLAP = 0,
 	OTHER_ENEMY_GROUPS_WIPE_OUT = 1,
 	OTHER_ENEMY_GROUPS_DISAPPEAR = 2,
 	OTHER_ENEMY_GROUPS_NON_EXISTS = 3,
 	EXTERNAL_NOTIFICATION = 4,
-	SPAWN_CONDITION_TYPE_MAX = 5,
-	ETresGumiShipEnemySpawnConditionType_MAX = 6
+	SPAWN_CONDITION_TYPE_MAX = 5 UMETA(Hidden),
+	ETresGumiShipEnemySpawnConditionType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyGroupDisappearType
+enum class ETresGumiShipEnemyGroupDisappearType : uint8
 {
 	LIFE_TIME_OUT = 0,
 	SPLINE_PATH_END_ARRIVED = 1,
 	OTHER_ENEMY_GROUP_APPEAR = 2,
 	NON_DISAPPEAR_TYPE = 3,
-	DISAPPEAR_TYPE_MAX = 4,
-	ETresGumiShipEnemyGroupDisappearType_MAX = 5
+	DISAPPEAR_TYPE_MAX = 4 UMETA(Hidden),
+	ETresGumiShipEnemyGroupDisappearType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipEnemyGroupMoveType
+enum class ETresGumiShipEnemyGroupMoveType : uint8
 {
 	FIXED_LOCATION = 0,
 	STATIC_SPLINE_PATH_MOVE = 1,
 	ATTACHED_SPLINE_PATH_MOVE = 2,
 	UNIQUE_MOVE = 3,
-	GROUP_MOVE_TYPE_MAX = 4,
-	ETresGumiShipEnemyGroupMoveType_MAX = 5
+	GROUP_MOVE_TYPE_MAX = 4 UMETA(Hidden),
+	ETresGumiShipEnemyGroupMoveType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_TREASURE_SE
+enum class EGUMI_SHIP_TREASURE_SE : uint8
 {
 	TREASURE_SE_CORE_LOOP_START = 0,
 	TREASURE_SE_CORE_LOOP_ERROR = 1,
 	TREASURE_SE_CORE_LOOP_END = 2,
 	TREASURE_SE_LOOP_GEAR = 3,
 	TREASURE_SE_GEAR_SUCCESS = 4,
-	TREASURE_SE_MAX = 5
+	TREASURE_SE_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_TREASURE_STATE
+enum class EGUMI_SHIP_TREASURE_STATE : uint8
 {
 	TREASURE_STATE_IDLEING = 0,
 	TREASURE_STATE_ST_EVENT = 1,
@@ -6645,83 +6660,83 @@ enum EGUMI_SHIP_TREASURE_STATE
 	TREASURE_STATE_ST_SUCCESS = 3,
 	TREASURE_STATE_ST_FAILURE = 4,
 	TREASURE_STATE_CLOSE = 5,
-	TREASURE_STATE_MAX = 6
+	TREASURE_STATE_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_GIMMICK_PLAYER_MODE
+enum class EGUMI_SHIP_GIMMICK_PLAYER_MODE : uint8
 {
 	_PLAYER_MODE_EVENT_ = 0,
 	_PLAYER_MODE_NOMAL_ = 1,
-	_PLAYER_MODE_MAX = 2
+	_PLAYER_MODE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_GIMMICK_TREASURE_STATE
+enum class EGUMI_SHIP_GIMMICK_TREASURE_STATE : uint8
 {
 	_TREASURE_SUCCESS_ = 0,
 	_TREASURE_FAILURE_ = 1,
 	_TREASURE_NOW_ = 2,
-	_TREASURE_MAX = 3
+	_TREASURE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_GIMMICK_GM200_CORE
+enum class EGUMI_SHIP_GIMMICK_GM200_CORE : uint8
 {
 	_CORE_A_ = 0,
 	_CORE_B_ = 1,
-	_CORE_MAX = 2
+	_CORE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipHudMode
+enum class ETresGumiShipHudMode : uint8
 {
 	HUD_MODE_QUEST = 0,
 	HUD_MODE_BATTLE = 1,
-	HUD_MODE_MAX = 2
+	HUD_MODE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_DROPITEM_RARITY
+enum class EGUMI_SHIP_DROPITEM_RARITY : uint8
 {
 	RARITY_LOW = 0,
 	RARITY_CENTER = 1,
 	RARITY_HIGH = 2,
-	RARITY_MAX = 3
+	RARITY_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGummiSpaceDef
+enum class ETresGummiSpaceDef : uint8
 {
 	SPACE_NON = 0,
 	SPACE1 = 1,
 	SPACE2 = 2,
 	SPACE3 = 3,
 	SPACE4 = 4,
-	SPACE_MAX = 5,
-	ETresGummiSpaceDef_MAX = 6
+	SPACE_MAX = 5 UMETA(Hidden),
+	ETresGummiSpaceDef_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleMissionItemRankType
+enum class ETresGumiShipBattleMissionItemRankType : uint8
 {
 	BMIRT_A = 0,
 	BMIRT_B = 1,
 	BMIRT_C = 2,
-	BMIRT_MAX = 3
+	BMIRT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleMissionDefeatedBonusRankType
+enum class ETresGumiShipBattleMissionDefeatedBonusRankType : uint8
 {
 	BMDBRT_A = 0,
 	BMDBRT_B = 1,
 	BMDBRT_C = 2,
-	BMDBRT_MAX = 3
+	BMDBRT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleMissionTimeBonusRankType
+enum class ETresGumiShipBattleMissionTimeBonusRankType : uint8
 {
 	BMTBRT_A = 0,
 	BMTBRT_B = 1,
@@ -6731,29 +6746,29 @@ enum ETresGumiShipBattleMissionTimeBonusRankType
 	BMTBRT_F = 5,
 	BMTBRT_G = 6,
 	BMTBRT_H = 7,
-	BMTBRT_MAX = 8
+	BMTBRT_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipBattleMissionType
+enum class ETresGumiShipBattleMissionType : uint8
 {
 	BMT_DEFEAT_TARGET = 0,
 	BMT_SPRINE_END = 1,
 	BMT_TIME_ATTACK = 2,
 	BMT_DEFEAT_COUNT = 3,
-	BMT_MAX = 4
+	BMT_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMISHIP_ENEMY703_PARTS_KIND
+enum class EGUMISHIP_ENEMY703_PARTS_KIND : uint8
 {
 	E_GM703_PARTS_SHIELD = 0,
 	E_GM703_PARTS_PETAL = 1,
-	E_GM703_PARTS_MAX = 2
+	E_GM703_PARTS_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipSpWeaponType
+enum class ETresGumiShipSpWeaponType : uint8
 {
 	SPWT_REPAIR_KIT = 0,
 	SPWT_FORCE_FIELD = 1,
@@ -6774,21 +6789,21 @@ enum ETresGumiShipSpWeaponType
 	SPWT_TRINITY_FIRE = 16,
 	SPWT_DECOY_TRIO = 17,
 	SPWT_NONE = 18,
-	SPWT_MAX = 19
+	SPWT_MAX = 19 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipPlayerLockonState
+enum class ETresGumiShipPlayerLockonState : uint8
 {
 	LOS_NONE_TYPE = 0,
 	LOS_AUTO_LOCKON_TYPE = 1,
 	LOS_MANUAL_LOCKON_TYPE = 2,
-	LOS_TYPE_MAX = 3,
-	LOS_MAX = 4
+	LOS_TYPE_MAX = 3 UMETA(Hidden),
+	LOS_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGUMI_SHIP_PRIZE_ITEM_KIND
+enum class EGUMI_SHIP_PRIZE_ITEM_KIND : uint8
 {
 	GM_EX_PRIZE_MIN = 0,
 	GM_EX_PRIZE_MID = 1,
@@ -6807,11 +6822,11 @@ enum EGUMI_SHIP_PRIZE_ITEM_KIND
 	GM_ITEM_DEFGUMI_SHIPBP = 14,
 	GM_ITEM_DEFGUMI_ETC = 15,
 	GM_ITEM_TRES_MATERIAL = 16,
-	GM_MAX = 17
+	GM_MAX = 17 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipRaderEntityType
+enum class ETresGumiShipRaderEntityType : uint8
 {
 	ICON_TYPE_MARKER = 0,
 	ICON_TYPE_WORLD = 1,
@@ -6821,30 +6836,30 @@ enum ETresGumiShipRaderEntityType
 	ICON_TYPE_CRYSTAL = 5,
 	ICON_TYPE_PRIZEBOX = 6,
 	ICON_TYPE_NONE = 7,
-	ICON_TYPE_MAX = 8
+	ICON_TYPE_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EFTresGumiShipRailSlideRailType
+enum class EFTresGumiShipRailSlideRailType : uint8
 {
 	RSR_ROAD_TYPE = 0,
 	RSR_BOSS_TRACKING_TYPE = 1,
 	RSR_NORMAL_TRACKING_TYPE = 2,
 	RSR_TREASURE_TYPE = 3,
-	RSR_MAX = 4
+	RSR_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipRailSlideSpeedAdjustmentType
+enum class ETresGumiShipRailSlideSpeedAdjustmentType : uint8
 {
 	RSSA_NONE = 0,
 	RSSA_ENEMY = 1,
 	RSSA_PLAYER = 2,
-	RSSA_MAX = 3
+	RSSA_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipTinyShipFormation
+enum class ETresGumiShipTinyShipFormation : uint8
 {
 	FORWARD_SIDE = 0,
 	FORWARD_FRONT = 1,
@@ -6867,74 +6882,74 @@ enum ETresGumiShipTinyShipFormation
 	SP_OPTION = 18,
 	SP_RANDOM = 19,
 	SP_HOMING = 20,
-	ETresGumiShipTinyShipFormation_UNKNOWN = 21,
-	ETresGumiShipTinyShipFormation_MAX = 22
+	UNKNOWN = 21,
+	ETresGumiShipTinyShipFormation_MAX = 22 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipMultiWeaponSetTargetType
+enum class ETresGumiShipMultiWeaponSetTargetType : uint8
 {
 	MWSTT_NORMAL = 0,
 	MWSTT_MOST_NEAR_DIST = 1,
 	MWSTT_MOST_LOW_HP = 2,
-	MWSTT_MAX = 3
+	MWSTT_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresShipCreateKind
+enum class ETresShipCreateKind : uint8
 {
 	TYPE_SAVE = 0,
 	TYPE_PLAN = 1,
 	TYPE_SPECIAL = 2,
 	TYPE_NEW = 3,
 	TYPE_NON = 4,
-	TYPE_MAX = 5
+	TYPE_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGummiKind
+enum class ETresGummiKind : uint8
 {
 	GUMMI_KIND_NULL = 0,
 	GUMMI_KIND_BASE = 1,
 	GUMMI_KIND_DECO = 2,
-	GUMMI_KIND_TYPE_MAX = 3,
-	GUMMI_KIND_MAX = 4
+	GUMMI_KIND_TYPE_MAX = 3 UMETA(Hidden),
+	GUMMI_KIND_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresStickerType
+enum class ETresStickerType : uint8
 {
 	STICKER_TYPE_NULL = 0,
 	STICKER_TYPE_NUMBER = 1,
 	STICKER_TYPE_SYMBOL = 2,
 	STICKER_TYPE_DESIGN = 3,
 	STICKER_TYPE_CHARACTER = 4,
-	STICKER_TYPE_MAX = 5
+	STICKER_TYPE_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGummiType
+enum class ETresGummiType : uint8
 {
-	ETresGummiType_TYPE_NULL = 0,
-	ETresGummiType_TYPE_EDGE = 1,
-	ETresGummiType_TYPE_CURVE = 2,
-	ETresGummiType_TYPE_PIPE = 3,
-	ETresGummiType_TYPE_AERO = 4,
-	ETresGummiType_TYPE_SHOOTING = 5,
-	ETresGummiType_TYPE_LASER = 6,
-	ETresGummiType_TYPE_STRIKE = 7,
-	ETresGummiType_TYPE_ENGINE = 8,
-	ETresGummiType_TYPE_WING = 9,
-	ETresGummiType_TYPE_WHEEL = 10,
-	ETresGummiType_TYPE_COCKPIT = 11,
-	ETresGummiType_TYPE_SHIELD = 12,
-	ETresGummiType_TYPE_OPTION = 13,
-	ETresGummiType_TYPE_CHARACTER = 14,
-	ETresGummiType_TYPE_MAX = 15
+	TYPE_NULL = 0,
+	TYPE_EDGE = 1,
+	TYPE_CURVE = 2,
+	TYPE_PIPE = 3,
+	TYPE_AERO = 4,
+	TYPE_SHOOTING = 5,
+	TYPE_LASER = 6,
+	TYPE_STRIKE = 7,
+	TYPE_ENGINE = 8,
+	TYPE_WING = 9,
+	TYPE_WHEEL = 10,
+	TYPE_COCKPIT = 11,
+	TYPE_SHIELD = 12,
+	TYPE_OPTION = 13,
+	TYPE_CHARACTER = 14,
+	TYPE_MAX = 15 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGummiEditorState
+enum class EGummiEditorState : uint8
 {
 	GummiEditorLoad = 0,
 	GummiEditorPrepare = 1,
@@ -6943,11 +6958,11 @@ enum EGummiEditorState
 	GummiEditorMainEditSelect = 4,
 	GummiEditorMaterialGummiCategorySelect = 5,
 	GummiEditorMaterialGummiBlockSelect = 6,
-	GummiEditorState_MAX = 7
+	GummiEditorState_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGummiMissionReleaseCondition
+enum class ETresGummiMissionReleaseCondition : uint8
 {
 	RELEASE_NON = 0,
 	RELEASE_FIRST = 1,
@@ -6971,22 +6986,22 @@ enum ETresGummiMissionReleaseCondition
 	RELEASE_AFTER_TREASURE_HUNT_NOVIS = 19,
 	RELEASE_AFTER_TREASURE_HUNT_MIDDLE = 20,
 	RELEASE_AFTER_TREASURE_HUNT_EXPERT = 21,
-	ETresGummiMissionReleaseCondition_RARITY_MAX = 22,
-	ETresGummiMissionReleaseCondition_MAX = 23
+	RARITY_MAX = 22 UMETA(Hidden),
+	ETresGummiMissionReleaseCondition_MAX = 23 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGummiMissionRarity
+enum class ETresGummiMissionRarity : uint8
 {
-	ETresGummiMissionRarity_RARITY_NON = 0,
-	ETresGummiMissionRarity_RARITY_LOW = 1,
-	ETresGummiMissionRarity_RARITY_MIDDLE = 2,
-	ETresGummiMissionRarity_RARITY_HIGH = 3,
-	ETresGummiMissionRarity_RARITY_MAX = 4
+	RARITY_NON = 0,
+	RARITY_LOW = 1,
+	RARITY_MIDDLE = 2,
+	RARITY_HIGH = 3,
+	RARITY_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipJumpPointID
+enum class ETresGumiShipJumpPointID : uint8
 {
 	E_GM01_JP_01 = 0,
 	E_GM01_JP_02 = 1,
@@ -7038,8 +7053,8 @@ enum ETresGumiShipJumpPointID
 	E_RESERVE_JP08 = 47,
 	E_RESERVE_JP09 = 48,
 	E_RESERVE_JP10 = 49,
-	JUMP_POINT_MAX = 50,
-	ETresGumiShipJumpPointID_MAX = 51
+	JUMP_POINT_MAX = 50 UMETA(Hidden),
+	ETresGumiShipJumpPointID_MAX = 51 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -7054,12 +7069,12 @@ enum ETresGumiShipConstellationCode
 	C07 = 6,
 	C08 = 7,
 	C09 = 8,
-	ETresGumiShipConstellationCode_1_Max = 9,
-	ETresGumiShipConstellationCode_MAX = 10
+	//Max = 9 UMETA(Hidden),
+	ETresGumiShipConstellationCode_MAX = 10 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipGumiCrystalID
+enum class ETresGumiShipGumiCrystalID : uint8
 {
 	E_GM01_GC_01 = 0,
 	E_GM01_GC_02 = 1,
@@ -7131,12 +7146,12 @@ enum ETresGumiShipGumiCrystalID
 	E_GM04_GC_08 = 67,
 	E_GM04_GC_09 = 68,
 	E_GM04_GC = 69,
-	GUMI_CRYSTAL_MAX = 70,
-	ETresGumiShipGumiCrystalID_MAX = 71
+	GUMI_CRYSTAL_MAX = 70 UMETA(Hidden),
+	ETresGumiShipGumiCrystalID_MAX = 71 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipSpecialCrystalID
+enum class ETresGumiShipSpecialCrystalID : uint8
 {
 	E_GM01_SC_01 = 0,
 	E_GM01_SC_02 = 1,
@@ -7198,12 +7213,12 @@ enum ETresGumiShipSpecialCrystalID
 	E_GM04_SC03 = 57,
 	E_GM04_SC04 = 58,
 	E_GM04_SC05 = 59,
-	SPECIAL_CRYSTAL_MAX = 60,
-	ETresGumiShipSpecialCrystalID_MAX = 61
+	SPECIAL_CRYSTAL_MAX = 60 UMETA(Hidden),
+	ETresGumiShipSpecialCrystalID_MAX = 61 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipTreasureSphereID
+enum class ETresGumiShipTreasureSphereID : uint8
 {
 	E_GM01_TR_01 = 0,
 	E_GM01_TR_02 = 1,
@@ -7217,12 +7232,12 @@ enum ETresGumiShipTreasureSphereID
 	E_GM04_TR_01 = 9,
 	E_GM04_TR_02 = 10,
 	E_GM04_TR_03 = 11,
-	TREASURE_SPHERE_MAX = 12,
-	ETresGumiShipTreasureSphereID_MAX = 13
+	TREASURE_SPHERE_MAX = 12 UMETA(Hidden),
+	ETresGumiShipTreasureSphereID_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipTravelPointID
+enum class ETresGumiShipTravelPointID : uint8
 {
 	E_GM01_TP_01 = 0,
 	E_GM01_TP_02 = 1,
@@ -7236,12 +7251,12 @@ enum ETresGumiShipTravelPointID
 	E_GM04_TP_01 = 9,
 	E_GM04_TP_02 = 10,
 	E_GM04_TP_03 = 11,
-	TRAVEL_POINT_MAX = 12,
-	ETresGumiShipTravelPointID_MAX = 13
+	TRAVEL_POINT_MAX = 12 UMETA(Hidden),
+	ETresGumiShipTravelPointID_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGumiShipWorldSymbolID
+enum class ETresGumiShipWorldSymbolID : uint8
 {
 	E_GM01_WS_HE = 0,
 	E_GM01_WS_TT = 1,
@@ -7258,53 +7273,53 @@ enum ETresGumiShipWorldSymbolID
 	E_GM04_WS_CS = 12,
 	E_GM04_WS_01 = 13,
 	E_GM04_WS_02 = 14,
-	WORLD_SYMBOL_MAX = 15,
-	ETresGumiShipWorldSymbolID_MAX = 16
+	WORLD_SYMBOL_MAX = 15 UMETA(Hidden),
+	ETresGumiShipWorldSymbolID_MAX = 16 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEx761_Location
+enum class ETresEnemyEx761_Location : uint8
 {
-	ETresEnemyEx761_Location_Home = 0,
-	ETresEnemyEx761_Location_Center = 1,
-	ETresEnemyEx761_Location_1_Max = 2,
-	ETresEnemyEx761_MAX = 3
+	Home = 0,
+	Center = 1,
+	Max = 2 UMETA(Hidden),
+	ETresEnemyEx761_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIControllerButtonType
+enum class ETresUIControllerButtonType : uint8
 {
-	ETresUIControllerButtonType_Circle = 0,
-	ETresUIControllerButtonType_Triangle = 1,
-	ETresUIControllerButtonType_Square = 2,
-	ETresUIControllerButtonType_Cross = 3,
-	ETresUIControllerButtonType_1_Max = 4,
-	ETresUIControllerButtonType_MAX = 5
+	Circle = 0,
+	Triangle = 1,
+	Square = 2,
+	Cross = 3,
+	Max = 4 UMETA(Hidden),
+	ETresUIControllerButtonType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresInfluenceEmitterShape
+enum class ETresInfluenceEmitterShape : uint8
 {
-	ETresInfluenceEmitterShape_Box = 0,
-	ETresInfluenceEmitterShape_Sphere = 1,
-	ETresInfluenceEmitterShape_Cone = 2,
-	ETresInfluenceEmitterShape_Ring = 3,
-	ETresInfluenceEmitterShape_MAX = 4
+	Box = 0,
+	Sphere = 1,
+	Cone = 2,
+	Ring = 3,
+	ETresInfluenceEmitterShape_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresInfluenceMapLayer
+enum class ETresInfluenceMapLayer : uint8
 {
-	ETresInfluenceMapLayer_PlayerAndFriendNpc = 0,
-	ETresInfluenceMapLayer_Enemy = 1,
-	ETresInfluenceMapLayer_Wall = 2,
-	ETresInfluenceMapLayer_VectorField = 3,
-	ETresInfluenceMapLayer_Extra1 = 4,
-	ETresInfluenceMapLayer_Extra2 = 5,
-	ETresInfluenceMapLayer_Extra3 = 6,
-	ETresInfluenceMapLayer_Extra4 = 7,
-	ETresInfluenceMapLayer_LayerMax = 8,
-	ETresInfluenceMapLayer_MAX = 9
+	PlayerAndFriendNpc = 0,
+	Enemy = 1,
+	Wall = 2,
+	VectorField = 3,
+	Extra1 = 4,
+	Extra2 = 5,
+	Extra3 = 6,
+	Extra4 = 7,
+	LayerMax = 8 UMETA(Hidden),
+	ETresInfluenceMapLayer_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -7313,7 +7328,7 @@ enum ESQEX_Bonamik_ControlType
 	ESQEX_Bonamik_ControlType_DoNothing = 0,
 	ESQEX_Bonamik_ControlType_On = 1,
 	ESQEX_Bonamik_ControlType_Off = 2,
-	ESQEX_Bonamik_ControlType_MAX = 3
+	ESQEX_Bonamik_ControlType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -7326,7 +7341,7 @@ enum ETresEffectAttachTrack_AttachType
 	ETresEffectAttachTrack_AttachType_CommonSet_ENEMY_APPEAR2 = 4,
 	ETresEffectAttachTrack_AttachType_CommonSet_ENEMY_DEATH0 = 5,
 	ETresEffectAttachTrack_AttachType_CommonSet_ENEMYDISAPPEAR0 = 6,
-	ETresEffectAttachTrack_AttachType_MAX = 7
+	ETresEffectAttachTrack_AttachType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -7338,7 +7353,7 @@ enum ETresEffectTriggerTrack_TriggerType
 	ETresEffectTriggerTrack_TriggerType_OnFadeOut = 3,
 	ETresEffectTriggerTrack_TriggerType_OnFadeIn = 4,
 	ETresEffectTriggerTrack_TriggerType_OnColorChange = 5,
-	ETresEffectTriggerTrack_TriggerType_MAX = 6
+	ETresEffectTriggerTrack_TriggerType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -7347,22 +7362,22 @@ enum ETresFadeTrack_Color
 	ETresFadeTrack_Color_Black = 0,
 	ETresFadeTrack_Color_White = 1,
 	ETresFadeTrack_Color_Custom = 2,
-	ETresFadeTrack_Color_MAX = 3
+	ETresFadeTrack_Color_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSubtitleTrack_OptionVoice
+enum class ETresSubtitleTrack_OptionVoice : uint8
 {
 	ETresSubtitleTrack_OptionVoice_DoNotCare = 0,
 	ETresSubtitleTrack_OptionVoice_Original = 1,
 	ETresSubtitleTrack_OptionVoice_Changed = 2,
-	ETresSubtitleTrack_OptionVoice_MAX = 3
+	ETresSubtitleTrack_OptionVoice_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFoodstuffDropperID
+enum class ETresFoodstuffDropperID : uint8
 {
-	ETresFoodstuffDropperID_NONE = 0,
+	NONE = 0,
 	HERBS01 = 1,
 	HERBS02 = 2,
 	HERBS03 = 3,
@@ -7383,8 +7398,8 @@ enum ETresFoodstuffDropperID
 	GIMMICK02 = 18,
 	GIMMICK03 = 19,
 	GIMMICK04 = 20,
-	ETresFoodstuffDropperID_1_MAX = 21,
-	ETresFoodstuffDropperID_MAX = 22
+	_MAX = 21 UMETA(Hidden),
+	ETresFoodstuffDropperID_MAX = 22 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -7534,1241 +7549,1241 @@ enum class ETresDropItemID : uint8
 	ITEM_Foodstuff59 = 141,
 	PRIZE_LightS = 142,
 	PRIZE_LightL = 143,
-	_DROP_ITEM_ID_MAX = 144  UMETA(Hidden),
-	ETresDropItemID_MAX = 145  UMETA(Hidden)
+	_DROP_ITEM_ID_MAX = 144 UMETA(Hidden),
+	ETresDropItemID_MAX = 145 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefGumiEtc
+enum class ETresItemDefGumiEtc : uint8
 {
-	ETresItemDefGumiEtc_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefGumiEtc_ITEM001 = 1 UMETA(DisplayName = "Item 001"),
-	ETresItemDefGumiEtc_ITEM002 = 2 UMETA(DisplayName = "Item 002"),
-	ETresItemDefGumiEtc_ITEM003 = 3 UMETA(DisplayName = "Item 003"),
-	ETresItemDefGumiEtc_ITEM004 = 4 UMETA(DisplayName = "Item 004"),
-	ETresItemDefGumiEtc_ITEM005 = 5 UMETA(DisplayName = "Item 005"),
-	ETresItemDefGumiEtc_ITEM006 = 6 UMETA(DisplayName = "Item 006"),
-	ETresItemDefGumiEtc_ITEM007 = 7 UMETA(DisplayName = "Item 007"),
-	ETresItemDefGumiEtc_ITEM008 = 8 UMETA(DisplayName = "Item 008"),
-	ETresItemDefGumiEtc_ITEM009 = 9 UMETA(DisplayName = "Item 009"),
-	ETresItemDefGumiEtc_ITEM010 = 10 UMETA(DisplayName = "Item 010"),
-	ETresItemDefGumiEtc_ITEM011 = 11 UMETA(DisplayName = "Item 011"),
-	ETresItemDefGumiEtc_ITEM012 = 12 UMETA(DisplayName = "Item 012"),
-	ETresItemDefGumiEtc_ITEM013 = 13 UMETA(DisplayName = "Item 013"),
-	ETresItemDefGumiEtc_ITEM014 = 14 UMETA(DisplayName = "Item 014"),
-	ETresItemDefGumiEtc_ITEM015 = 15 UMETA(DisplayName = "Item 015"),
-	ETresItemDefGumiEtc_ITEM016 = 16 UMETA(DisplayName = "Item 016"),
-	ETresItemDefGumiEtc_ITEM017 = 17 UMETA(DisplayName = "Item 017"),
-	ETresItemDefGumiEtc_ITEM018 = 18 UMETA(DisplayName = "Item 018"),
-	ETresItemDefGumiEtc_ITEM019 = 19 UMETA(DisplayName = "Item 019"),
-	ETresItemDefGumiEtc_ITEM020 = 20 UMETA(DisplayName = "Item 020"),
-	ETresItemDefGumiEtc_ITEM021 = 21 UMETA(DisplayName = "Item 021"),
-	ETresItemDefGumiEtc_ITEM022 = 22 UMETA(DisplayName = "Item 022"),
-	ETresItemDefGumiEtc_ITEM023 = 23 UMETA(DisplayName = "Item 023"),
-	ETresItemDefGumiEtc_ITEM024 = 24 UMETA(DisplayName = "Item 024"),
-	ETresItemDefGumiEtc_ITEM025 = 25 UMETA(DisplayName = "Item 025"),
-	ETresItemDefGumiEtc_ITEM026 = 26 UMETA(DisplayName = "Item 026"),
-	ETresItemDefGumiEtc_ITEM027 = 27 UMETA(DisplayName = "Item 027"),
-	ETresItemDefGumiEtc_ITEM028 = 28 UMETA(DisplayName = "Item 028"),
-	ETresItemDefGumiEtc_ITEM029 = 29 UMETA(DisplayName = "Item 029"),
-	ETresItemDefGumiEtc_ITEM030 = 30 UMETA(DisplayName = "Item 030"),
-	ETresItemDefGumiEtc_ITEM031 = 31 UMETA(DisplayName = "Item 031"),
-	ETresItemDefGumiEtc_ITEM032 = 32 UMETA(DisplayName = "Item 032"),
-	ETresItemDefGumiEtc_ITEM033 = 33 UMETA(DisplayName = "Item 033"),
-	ETresItemDefGumiEtc_ITEM034 = 34 UMETA(DisplayName = "Item 034"),
-	ETresItemDefGumiEtc_ITEM035 = 35 UMETA(DisplayName = "Item 035"),
-	ETresItemDefGumiEtc_ITEM036 = 36 UMETA(DisplayName = "Item 036"),
-	ETresItemDefGumiEtc_ITEM037 = 37 UMETA(DisplayName = "Item 037"),
-	ETresItemDefGumiEtc_ITEM038 = 38 UMETA(DisplayName = "Item 038"),
-	ETresItemDefGumiEtc_ITEM039 = 39 UMETA(DisplayName = "Item 039"),
-	ETresItemDefGumiEtc_ITEM040 = 40 UMETA(DisplayName = "Item 040"),
-	ETresItemDefGumiEtc_ITEM041 = 41 UMETA(DisplayName = "Item 041"),
-	ETresItemDefGumiEtc_ITEM042 = 42 UMETA(DisplayName = "Item 042"),
-	ETresItemDefGumiEtc_ITEM043 = 43 UMETA(DisplayName = "Item 043"),
-	ETresItemDefGumiEtc_ITEM044 = 44 UMETA(DisplayName = "Item 044"),
-	ETresItemDefGumiEtc_ITEM045 = 45 UMETA(DisplayName = "Item 045"),
-	ETresItemDefGumiEtc_ITEM046 = 46 UMETA(DisplayName = "Item 046"),
-	ETresItemDefGumiEtc_ITEM047 = 47 UMETA(DisplayName = "Item 047"),
-	ETresItemDefGumiEtc_ITEM048 = 48 UMETA(DisplayName = "Item 048"),
-	ETresItemDefGumiEtc_ITEM049 = 49 UMETA(DisplayName = "Item 049"),
-	ETresItemDefGumiEtc_ITEM050 = 50 UMETA(DisplayName = "Item 050"),
-	ETresItemDefGumiEtc_ITEM051 = 51 UMETA(DisplayName = "Item 051"),
-	ETresItemDefGumiEtc_ITEM052 = 52 UMETA(DisplayName = "Item 052"),
-	ETresItemDefGumiEtc_ITEM053 = 53 UMETA(DisplayName = "Item 053"),
-	ETresItemDefGumiEtc_ITEM054 = 54 UMETA(DisplayName = "Item 054"),
-	ETresItemDefGumiEtc_ITEM055 = 55 UMETA(DisplayName = "Item 055"),
-	ETresItemDefGumiEtc_ITEM056 = 56 UMETA(DisplayName = "Item 056"),
-	ETresItemDefGumiEtc_ITEM057 = 57 UMETA(DisplayName = "Item 057"),
-	ETresItemDefGumiEtc_ITEM058 = 58 UMETA(DisplayName = "Item 058"),
-	ETresItemDefGumiEtc_ITEM059 = 59 UMETA(DisplayName = "Item 059"),
-	ETresItemDefGumiEtc_ITEM060 = 60 UMETA(DisplayName = "Item 060"),
-	ETresItemDefGumiEtc_ITEM061 = 61 UMETA(DisplayName = "Item 061"),
-	ETresItemDefGumiEtc_ITEM062 = 62 UMETA(DisplayName = "Item 062"),
-	ETresItemDefGumiEtc_ITEM063 = 63 UMETA(DisplayName = "Item 063"),
-	ETresItemDefGumiEtc_ITEM064 = 64 UMETA(DisplayName = "Item 064"),
-	ETresItemDefGumiEtc_ITEM065 = 65 UMETA(DisplayName = "Item 065"),
-	ETresItemDefGumiEtc_ITEM066 = 66 UMETA(DisplayName = "Item 066"),
-	ETresItemDefGumiEtc_ITEM067 = 67 UMETA(DisplayName = "Item 067"),
-	ETresItemDefGumiEtc_ITEM068 = 68 UMETA(DisplayName = "Item 068"),
-	ETresItemDefGumiEtc_ITEM069 = 69 UMETA(DisplayName = "Item 069"),
-	ETresItemDefGumiEtc_ITEM070 = 70 UMETA(DisplayName = "Item 070"),
-	ETresItemDefGumiEtc_ITEM071 = 71 UMETA(DisplayName = "Item 071"),
-	ETresItemDefGumiEtc_ITEM072 = 72 UMETA(DisplayName = "Item 072"),
-	ETresItemDefGumiEtc_ITEM073 = 73 UMETA(DisplayName = "Item 073"),
-	ETresItemDefGumiEtc_ITEM074 = 74 UMETA(DisplayName = "Item 074"),
-	ETresItemDefGumiEtc_ITEM075 = 75 UMETA(DisplayName = "Item 075"),
-	ETresItemDefGumiEtc_ITEM076 = 76 UMETA(DisplayName = "Item 076"),
-	ETresItemDefGumiEtc_1_MAX = 77 UMETA(Hidden),
-	ETresItemDefGumiEtc_MAX = 78  UMETA(Hidden)
+	NOTHING = 0,
+	ITEM001 = 1,
+	ITEM002 = 2,
+	ITEM003 = 3,
+	ITEM004 = 4,
+	ITEM005 = 5,
+	ITEM006 = 6,
+	ITEM007 = 7,
+	ITEM008 = 8,
+	ITEM009 = 9,
+	ITEM010 = 10,
+	ITEM011 = 11,
+	ITEM012 = 12,
+	ITEM013 = 13,
+	ITEM014 = 14,
+	ITEM015 = 15,
+	ITEM016 = 16,
+	ITEM017 = 17,
+	ITEM018 = 18,
+	ITEM019 = 19,
+	ITEM020 = 20,
+	ITEM021 = 21,
+	ITEM022 = 22,
+	ITEM023 = 23,
+	ITEM024 = 24,
+	ITEM025 = 25,
+	ITEM026 = 26,
+	ITEM027 = 27,
+	ITEM028 = 28,
+	ITEM029 = 29,
+	ITEM030 = 30,
+	ITEM031 = 31,
+	ITEM032 = 32,
+	ITEM033 = 33,
+	ITEM034 = 34,
+	ITEM035 = 35,
+	ITEM036 = 36,
+	ITEM037 = 37,
+	ITEM038 = 38,
+	ITEM039 = 39,
+	ITEM040 = 40,
+	ITEM041 = 41,
+	ITEM042 = 42,
+	ITEM043 = 43,
+	ITEM044 = 44,
+	ITEM045 = 45,
+	ITEM046 = 46,
+	ITEM047 = 47,
+	ITEM048 = 48,
+	ITEM049 = 49,
+	ITEM050 = 50,
+	ITEM051 = 51,
+	ITEM052 = 52,
+	ITEM053 = 53,
+	ITEM054 = 54,
+	ITEM055 = 55,
+	ITEM056 = 56,
+	ITEM057 = 57,
+	ITEM058 = 58,
+	ITEM059 = 59,
+	ITEM060 = 60,
+	ITEM061 = 61,
+	ITEM062 = 62,
+	ITEM063 = 63,
+	ITEM064 = 64,
+	ITEM065 = 65,
+	ITEM066 = 66,
+	ITEM067 = 67,
+	ITEM068 = 68,
+	ITEM069 = 69,
+	ITEM070 = 70,
+	ITEM071 = 71,
+	ITEM072 = 72,
+	ITEM073 = 73,
+	ITEM074 = 74,
+	ITEM075 = 75,
+	ITEM076 = 76,
+	_MAX = 77 UMETA(Hidden),
+	ETresItemDefGumiEtc_MAX = 78 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefGumiShipBP
+enum class ETresItemDefGumiShipBP : uint8
 {
-	ETresItemDefGumiShipBP_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefGumiShipBP_ITEM001 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefGumiShipBP_ITEM002 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefGumiShipBP_ITEM003 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefGumiShipBP_ITEM004 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefGumiShipBP_ITEM005 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefGumiShipBP_ITEM006 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefGumiShipBP_ITEM007 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefGumiShipBP_ITEM008 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefGumiShipBP_ITEM009 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefGumiShipBP_ITEM010 = 10 UMETA(DisplayName = "Item 010"),
-	ETresItemDefGumiShipBP_ITEM011 = 11 UMETA(DisplayName = "Item 011"),
-	ETresItemDefGumiShipBP_ITEM012 = 12 UMETA(DisplayName = "Item 012"),
-	ETresItemDefGumiShipBP_ITEM013 = 13 UMETA(DisplayName = "Item 013"),
-	ETresItemDefGumiShipBP_ITEM014 = 14 UMETA(DisplayName = "Item 014"),
-	ETresItemDefGumiShipBP_ITEM015 = 15 UMETA(DisplayName = "Item 015"),
-	ETresItemDefGumiShipBP_ITEM016 = 16 UMETA(DisplayName = "Item 016"),
-	ETresItemDefGumiShipBP_ITEM017 = 17 UMETA(DisplayName = "Item 017"),
-	ETresItemDefGumiShipBP_ITEM018 = 18 UMETA(DisplayName = "Item 018"),
-	ETresItemDefGumiShipBP_ITEM019 = 19 UMETA(DisplayName = "Item 019"),
-	ETresItemDefGumiShipBP_ITEM020 = 20 UMETA(DisplayName = "Item 020"),
-	ETresItemDefGumiShipBP_ITEM021 = 21 UMETA(DisplayName = "Item 021"),
-	ETresItemDefGumiShipBP_ITEM022 = 22 UMETA(DisplayName = "Item 022"),
-	ETresItemDefGumiShipBP_ITEM023 = 23 UMETA(DisplayName = "Item 023"),
-	ETresItemDefGumiShipBP_ITEM024 = 24 UMETA(DisplayName = "Item 024"),
-	ETresItemDefGumiShipBP_ITEM025 = 25 UMETA(DisplayName = "Item 025"),
-	ETresItemDefGumiShipBP_ITEM026 = 26 UMETA(DisplayName = "Item 026"),
-	ETresItemDefGumiShipBP_ITEM027 = 27 UMETA(DisplayName = "Item 027"),
-	ETresItemDefGumiShipBP_ITEM028 = 28 UMETA(DisplayName = "Item 028"),
-	ETresItemDefGumiShipBP_ITEM029 = 29 UMETA(DisplayName = "Item 029"),
-	ETresItemDefGumiShipBP_ITEM030 = 30 UMETA(DisplayName = "Item 030"),
-	ETresItemDefGumiShipBP_ITEM031 = 31 UMETA(DisplayName = "Item 031"),
-	ETresItemDefGumiShipBP_ITEM032 = 32 UMETA(DisplayName = "Item 032"),
-	ETresItemDefGumiShipBP_ITEM033 = 33 UMETA(DisplayName = "Item 033"),
-	ETresItemDefGumiShipBP_ITEM034 = 34 UMETA(DisplayName = "Item 034"),
-	ETresItemDefGumiShipBP_ITEM035 = 35 UMETA(DisplayName = "Item 035"),
-	ETresItemDefGumiShipBP_ITEM036 = 36 UMETA(DisplayName = "Item 036"),
-	ETresItemDefGumiShipBP_ITEM037 = 37 UMETA(DisplayName = "Item 037"),
-	ETresItemDefGumiShipBP_ITEM038 = 38 UMETA(DisplayName = "Item 038"),
-	ETresItemDefGumiShipBP_ITEM039 = 39 UMETA(DisplayName = "Item 039"),
-	ETresItemDefGumiShipBP_ITEM040 = 40 UMETA(DisplayName = "Item 040"),
-	ETresItemDefGumiShipBP_ITEM041 = 41 UMETA(DisplayName = "Item 041"),
-	ETresItemDefGumiShipBP_ITEM042 = 42 UMETA(DisplayName = "Item 042"),
-	ETresItemDefGumiShipBP_ITEM043 = 43 UMETA(DisplayName = "Item 043"),
-	ETresItemDefGumiShipBP_ITEM044 = 44 UMETA(DisplayName = "Item 044"),
-	ETresItemDefGumiShipBP_ITEM045 = 45 UMETA(DisplayName = "Item 045"),
-	ETresItemDefGumiShipBP_ITEM046 = 46 UMETA(DisplayName = "Item 046"),
-	ETresItemDefGumiShipBP_ITEM047 = 47 UMETA(DisplayName = "Item 047"),
-	ETresItemDefGumiShipBP_ITEM048 = 48 UMETA(DisplayName = "Item 048"),
-	ETresItemDefGumiShipBP_ITEM049 = 49 UMETA(DisplayName = "Item 049"),
-	ETresItemDefGumiShipBP_ITEM050 = 50 UMETA(DisplayName = "Item 050"),
-	ETresItemDefGumiShipBP_ITEM051 = 51 UMETA(DisplayName = "Item 051"),
-	ETresItemDefGumiShipBP_ITEM052 = 52 UMETA(DisplayName = "Item 052"),
-	ETresItemDefGumiShipBP_ITEM053 = 53 UMETA(DisplayName = "Item 053"),
-	ETresItemDefGumiShipBP_ITEM054 = 54 UMETA(DisplayName = "Item 054"),
-	ETresItemDefGumiShipBP_ITEM055 = 55 UMETA(DisplayName = "Item 055"),
-	ETresItemDefGumiShipBP_ITEM056 = 56 UMETA(DisplayName = "Item 056"),
-	ETresItemDefGumiShipBP_ITEM057 = 57 UMETA(DisplayName = "Item 057"),
-	ETresItemDefGumiShipBP_ITEM058 = 58 UMETA(DisplayName = "Item 058"),
-	ETresItemDefGumiShipBP_ITEM059 = 59 UMETA(DisplayName = "Item 059"),
-	ETresItemDefGumiShipBP_ITEM060 = 60 UMETA(DisplayName = "Item 060"),
-	ETresItemDefGumiShipBP_ITEM061 = 61 UMETA(DisplayName = "Item 061"),
-	ETresItemDefGumiShipBP_ITEM062 = 62 UMETA(DisplayName = "Item 062"),
-	ETresItemDefGumiShipBP_ITEM063 = 63 UMETA(DisplayName = "Item 063"),
-	ETresItemDefGumiShipBP_ITEM064 = 64 UMETA(DisplayName = "Item 064"),
-	ETresItemDefGumiShipBP_ITEM065 = 65 UMETA(DisplayName = "Item 065"),
-	ETresItemDefGumiShipBP_ITEM066 = 66 UMETA(DisplayName = "Item 066"),
-	ETresItemDefGumiShipBP_ITEM067 = 67 UMETA(DisplayName = "Item 067"),
-	ETresItemDefGumiShipBP_ITEM068 = 68 UMETA(DisplayName = "Item 068"),
-	ETresItemDefGumiShipBP_ITEM069 = 69 UMETA(DisplayName = "Item 069"),
-	ETresItemDefGumiShipBP_ITEM070 = 70 UMETA(DisplayName = "Item 070"),
-	ETresItemDefGumiShipBP_ITEM071 = 71 UMETA(DisplayName = "Item 071"),
-	ETresItemDefGumiShipBP_ITEM072 = 72 UMETA(DisplayName = "Item 072"),
-	ETresItemDefGumiShipBP_ITEM073 = 73 UMETA(DisplayName = "Item 073"),
-	ETresItemDefGumiShipBP_ITEM074 = 74 UMETA(DisplayName = "Item 074"),
-	ETresItemDefGumiShipBP_ITEM075 = 75 UMETA(DisplayName = "Item 075"),
-	ETresItemDefGumiShipBP_ITEM076 = 76 UMETA(DisplayName = "Item 076"),
-	ETresItemDefGumiShipBP_ITEM077 = 77 UMETA(DisplayName = "Item 077"),
-	ETresItemDefGumiShipBP_ITEM078 = 78 UMETA(DisplayName = "Item 078"),
-	ETresItemDefGumiShipBP_ITEM079 = 79 UMETA(DisplayName = "Item 079"),
-	ETresItemDefGumiShipBP_ITEM080 = 80 UMETA(DisplayName = "Item 080"),
-	ETresItemDefGumiShipBP_ITEM081 = 81 UMETA(DisplayName = "Item 081"),
-	ETresItemDefGumiShipBP_ITEM082 = 82 UMETA(DisplayName = "Item 082"),
-	ETresItemDefGumiShipBP_ITEM083 = 83 UMETA(DisplayName = "Item 083"),
-	ETresItemDefGumiShipBP_ITEM084 = 84 UMETA(DisplayName = "Item 084"),
-	ETresItemDefGumiShipBP_ITEM085 = 85 UMETA(DisplayName = "Item 085"),
-	ETresItemDefGumiShipBP_ITEM086 = 86 UMETA(DisplayName = "Item 086"),
-	ETresItemDefGumiShipBP_ITEM087 = 87 UMETA(DisplayName = "Item 087"),
-	ETresItemDefGumiShipBP_ITEM088 = 88 UMETA(DisplayName = "Item 088"),
-	ETresItemDefGumiShipBP_ITEM089 = 89 UMETA(DisplayName = "Item 089"),
-	ETresItemDefGumiShipBP_ITEM090 = 90 UMETA(DisplayName = "Item 090"),
-	ETresItemDefGumiShipBP_ITEM091 = 91 UMETA(DisplayName = "Item 091"),
-	ETresItemDefGumiShipBP_ITEM092 = 92 UMETA(DisplayName = "Item 092"),
-	ETresItemDefGumiShipBP_ITEM093 = 93 UMETA(DisplayName = "Item 093"),
-	ETresItemDefGumiShipBP_ITEM094 = 94 UMETA(DisplayName = "Item 094"),
-	ETresItemDefGumiShipBP_ITEM095 = 95 UMETA(DisplayName = "Item 095"),
-	ETresItemDefGumiShipBP_ITEM096 = 96 UMETA(DisplayName = "Item 096"),
-	ETresItemDefGumiShipBP_ITEM097 = 97 UMETA(DisplayName = "Item 097"),
-	ETresItemDefGumiShipBP_ITEM098 = 98 UMETA(DisplayName = "Item 098"),
-	ETresItemDefGumiShipBP_ITEM099 = 99 UMETA(DisplayName = "Item 099"),
-	ETresItemDefGumiShipBP_ITEM100 = 100 UMETA(DisplayName = "Item 100"),
-	ETresItemDefGumiShipBP_ITEM101 = 101 UMETA(DisplayName = "Item 101"),
-	ETresItemDefGumiShipBP_ITEM102 = 102 UMETA(DisplayName = "Item 102"),
-	ETresItemDefGumiShipBP_ITEM103 = 103 UMETA(DisplayName = "Item 103"),
-	ETresItemDefGumiShipBP_ITEM104 = 104 UMETA(DisplayName = "Item 104"),
-	ETresItemDefGumiShipBP_ITEM105 = 105 UMETA(DisplayName = "Item 105"),
-	ETresItemDefGumiShipBP_ITEM106 = 106 UMETA(DisplayName = "Item 106"),
-	ETresItemDefGumiShipBP_ITEM107 = 107 UMETA(DisplayName = "Item 107"),
-	ETresItemDefGumiShipBP_ITEM108 = 108 UMETA(DisplayName = "Item 108"),
-	ETresItemDefGumiShipBP_ITEM109 = 109 UMETA(DisplayName = "Item 109"),
-	ETresItemDefGumiShipBP_ITEM110 = 110 UMETA(DisplayName = "Item 110"),
-	ETresItemDefGumiShipBP_ITEM111 = 111 UMETA(DisplayName = "Item 111"),
-	ETresItemDefGumiShipBP_ITEM112 = 112 UMETA(DisplayName = "Item 112"),
-	ETresItemDefGumiShipBP_ITEM113 = 113 UMETA(DisplayName = "Item 113"),
-	ETresItemDefGumiShipBP_ITEM114 = 114 UMETA(DisplayName = "Item 114"),
-	ETresItemDefGumiShipBP_ITEM115 = 115 UMETA(DisplayName = "Item 115"),
-	ETresItemDefGumiShipBP_ITEM116 = 116 UMETA(DisplayName = "Item 116"),
-	ETresItemDefGumiShipBP_ITEM117 = 117 UMETA(DisplayName = "Item 117"),
-	ETresItemDefGumiShipBP_ITEM118 = 118 UMETA(DisplayName = "Item 118"),
-	ETresItemDefGumiShipBP_ITEM119 = 119 UMETA(DisplayName = "Item 119"),
-	ETresItemDefGumiShipBP_ITEM120 = 120 UMETA(DisplayName = "Item 120"),
-	ETresItemDefGumiShipBP_ITEM121 = 121 UMETA(DisplayName = "Item 121"),
-	ETresItemDefGumiShipBP_ITEM122 = 122 UMETA(DisplayName = "Item 122"),
-	ETresItemDefGumiShipBP_ITEM123 = 123 UMETA(DisplayName = "Item 123"),
-	ETresItemDefGumiShipBP_ITEM124 = 124 UMETA(DisplayName = "Item 124"),
-	ETresItemDefGumiShipBP_ITEM125 = 125 UMETA(DisplayName = "Item 125"),
-	ETresItemDefGumiShipBP_ITEM126 = 126 UMETA(DisplayName = "Item 126"),
-	ETresItemDefGumiShipBP_ITEM127 = 127 UMETA(DisplayName = "Item 127"),
-	ETresItemDefGumiShipBP_ITEM128 = 128 UMETA(DisplayName = "Item 128"),
-	ETresItemDefGumiShipBP_ITEM129 = 129 UMETA(DisplayName = "Item 129"),
-	ETresItemDefGumiShipBP_ITEM130 = 130 UMETA(DisplayName = "Item 130"),
-	ETresItemDefGumiShipBP_ITEM131 = 131 UMETA(DisplayName = "Item 131"),
-	ETresItemDefGumiShipBP_ITEM132 = 132 UMETA(DisplayName = "Item 132"),
-	ETresItemDefGumiShipBP_ITEM133 = 133 UMETA(DisplayName = "Item 133"),
-	ETresItemDefGumiShipBP_ITEM134 = 134 UMETA(DisplayName = "Item 134"),
-	ETresItemDefGumiShipBP_ITEM135 = 135 UMETA(DisplayName = "Item 135"),
-	ETresItemDefGumiShipBP_ITEM136 = 136 UMETA(DisplayName = "Item 136"),
-	ETresItemDefGumiShipBP_ITEM137 = 137 UMETA(DisplayName = "Item 137"),
-	ETresItemDefGumiShipBP_ITEM138 = 138 UMETA(DisplayName = "Item 138"),
-	ETresItemDefGumiShipBP_ITEM139 = 139 UMETA(DisplayName = "Item 139"),
-	ETresItemDefGumiShipBP_ITEM140 = 140 UMETA(DisplayName = "Item 140"),
-	ETresItemDefGumiShipBP_ITEM141 = 141 UMETA(DisplayName = "Item 141"),
-	ETresItemDefGumiShipBP_ITEM142 = 142 UMETA(DisplayName = "Item 142"),
-	ETresItemDefGumiShipBP_ITEM143 = 143 UMETA(DisplayName = "Item 143"),
-	ETresItemDefGumiShipBP_ITEM144 = 144 UMETA(DisplayName = "Item 144"),
-	ETresItemDefGumiShipBP_ITEM145 = 145 UMETA(DisplayName = "Item 145"),
-	ETresItemDefGumiShipBP_ITEM146 = 146 UMETA(DisplayName = "Item 146"),
-	ETresItemDefGumiShipBP_ITEM147 = 147 UMETA(DisplayName = "Item 147"),
-	ETresItemDefGumiShipBP_ITEM148 = 148 UMETA(DisplayName = "Item 148"),
-	ETresItemDefGumiShipBP_ITEM149 = 149 UMETA(DisplayName = "Item 149"),
-	ETresItemDefGumiShipBP_ITEM150 = 150 UMETA(DisplayName = "Item 150"),
-	ETresItemDefGumiShipBP_ITEM151 = 151 UMETA(DisplayName = "Item 151"),
-	ETresItemDefGumiShipBP_ITEM152 = 152 UMETA(DisplayName = "Item 152"),
-	ETresItemDefGumiShipBP_ITEM153 = 153 UMETA(DisplayName = "Item 153"),
-	ETresItemDefGumiShipBP_ITEM154 = 154 UMETA(DisplayName = "Item 154"),
-	ETresItemDefGumiShipBP_ITEM155 = 155 UMETA(DisplayName = "Item 155"),
-	ETresItemDefGumiShipBP_ITEM156 = 156 UMETA(DisplayName = "Item 156"),
-	ETresItemDefGumiShipBP_ITEM157 = 157 UMETA(DisplayName = "Item 157"),
-	ETresItemDefGumiShipBP_ITEM158 = 158 UMETA(DisplayName = "Item 158"),
-	ETresItemDefGumiShipBP_ITEM159 = 159 UMETA(DisplayName = "Item 159"),
-	ETresItemDefGumiShipBP_ITEM160 = 160 UMETA(DisplayName = "Item 160"),
-	ETresItemDefGumiShipBP_ITEM161 = 161 UMETA(DisplayName = "Item 161"),
-	ETresItemDefGumiShipBP_ITEM162 = 162 UMETA(DisplayName = "Item 162"),
-	ETresItemDefGumiShipBP_ITEM163 = 163 UMETA(DisplayName = "Item 163"),
-	ETresItemDefGumiShipBP_ITEM164 = 164 UMETA(DisplayName = "Item 164"),
-	ETresItemDefGumiShipBP_ITEM165 = 165 UMETA(DisplayName = "Item 165"),
-	ETresItemDefGumiShipBP_ITEM166 = 166 UMETA(DisplayName = "Item 166"),
-	ETresItemDefGumiShipBP_ITEM167 = 167 UMETA(DisplayName = "Item 167"),
-	ETresItemDefGumiShipBP_ITEM168 = 168 UMETA(DisplayName = "Item 168"),
-	ETresItemDefGumiShipBP_ITEM169 = 169 UMETA(DisplayName = "Item 169"),
-	ETresItemDefGumiShipBP_ITEM170 = 170 UMETA(DisplayName = "Item 170"),
-	ETresItemDefGumiShipBP_ITEM171 = 171 UMETA(DisplayName = "Item 171"),
-	ETresItemDefGumiShipBP_ITEM172 = 172 UMETA(DisplayName = "Item 172"),
-	ETresItemDefGumiShipBP_ITEM173 = 173 UMETA(DisplayName = "Item 173"),
-	ETresItemDefGumiShipBP_ITEM174 = 174 UMETA(DisplayName = "Item 174"),
-	ETresItemDefGumiShipBP_ITEM175 = 175 UMETA(DisplayName = "Item 175"),
-	ETresItemDefGumiShipBP_ITEM176 = 176 UMETA(DisplayName = "Item 176"),
-	ETresItemDefGumiShipBP_ITEM177 = 177 UMETA(DisplayName = "Item 177"),
-	ETresItemDefGumiShipBP_ITEM178 = 178 UMETA(DisplayName = "Item 178"),
-	ETresItemDefGumiShipBP_ITEM179 = 179 UMETA(DisplayName = "Item 179"),
-	ETresItemDefGumiShipBP_ITEM180 = 180 UMETA(DisplayName = "Item 180"),
-	ETresItemDefGumiShipBP_ITEM181 = 181 UMETA(DisplayName = "Item 181"),
-	ETresItemDefGumiShipBP_ITEM182 = 182 UMETA(DisplayName = "Item 182"),
-	ETresItemDefGumiShipBP_ITEM183 = 183 UMETA(DisplayName = "Item 183"),
-	ETresItemDefGumiShipBP_ITEM184 = 184 UMETA(DisplayName = "Item 184"),
-	ETresItemDefGumiShipBP_ITEM185 = 185 UMETA(DisplayName = "Item 185"),
-	ETresItemDefGumiShipBP_ITEM186 = 186 UMETA(DisplayName = "Item 186"),
-	ETresItemDefGumiShipBP_ITEM187 = 187 UMETA(DisplayName = "Item 187"),
-	ETresItemDefGumiShipBP_ITEM188 = 188 UMETA(DisplayName = "Item 188"),
-	ETresItemDefGumiShipBP_ITEM189 = 189 UMETA(DisplayName = "Item 189"),
-	ETresItemDefGumiShipBP_ITEM190 = 190 UMETA(DisplayName = "Item 190"),
-	ETresItemDefGumiShipBP_ITEM191 = 191 UMETA(DisplayName = "Item 191"),
-	ETresItemDefGumiShipBP_ITEM192 = 192 UMETA(DisplayName = "Item 192"),
-	ETresItemDefGumiShipBP_ITEM193 = 193 UMETA(DisplayName = "Item 193"),
-	ETresItemDefGumiShipBP_ITEM194 = 194 UMETA(DisplayName = "Item 194"),
-	ETresItemDefGumiShipBP_ITEM195 = 195 UMETA(DisplayName = "Item 195"),
-	ETresItemDefGumiShipBP_1_MAX = 196 UMETA(Hidden),
-	ETresItemDefGumiShipBP_MAX = 197  UMETA(Hidden)
+	NOTHING = 0,
+	ITEM001 = 1,
+	ITEM002 = 2,
+	ITEM003 = 3,
+	ITEM004 = 4,
+	ITEM005 = 5,
+	ITEM006 = 6,
+	ITEM007 = 7,
+	ITEM008 = 8,
+	ITEM009 = 9,
+	ITEM010 = 10,
+	ITEM011 = 11,
+	ITEM012 = 12,
+	ITEM013 = 13,
+	ITEM014 = 14,
+	ITEM015 = 15,
+	ITEM016 = 16,
+	ITEM017 = 17,
+	ITEM018 = 18,
+	ITEM019 = 19,
+	ITEM020 = 20,
+	ITEM021 = 21,
+	ITEM022 = 22,
+	ITEM023 = 23,
+	ITEM024 = 24,
+	ITEM025 = 25,
+	ITEM026 = 26,
+	ITEM027 = 27,
+	ITEM028 = 28,
+	ITEM029 = 29,
+	ITEM030 = 30,
+	ITEM031 = 31,
+	ITEM032 = 32,
+	ITEM033 = 33,
+	ITEM034 = 34,
+	ITEM035 = 35,
+	ITEM036 = 36,
+	ITEM037 = 37,
+	ITEM038 = 38,
+	ITEM039 = 39,
+	ITEM040 = 40,
+	ITEM041 = 41,
+	ITEM042 = 42,
+	ITEM043 = 43,
+	ITEM044 = 44,
+	ITEM045 = 45,
+	ITEM046 = 46,
+	ITEM047 = 47,
+	ITEM048 = 48,
+	ITEM049 = 49,
+	ITEM050 = 50,
+	ITEM051 = 51,
+	ITEM052 = 52,
+	ITEM053 = 53,
+	ITEM054 = 54,
+	ITEM055 = 55,
+	ITEM056 = 56,
+	ITEM057 = 57,
+	ITEM058 = 58,
+	ITEM059 = 59,
+	ITEM060 = 60,
+	ITEM061 = 61,
+	ITEM062 = 62,
+	ITEM063 = 63,
+	ITEM064 = 64,
+	ITEM065 = 65,
+	ITEM066 = 66,
+	ITEM067 = 67,
+	ITEM068 = 68,
+	ITEM069 = 69,
+	ITEM070 = 70,
+	ITEM071 = 71,
+	ITEM072 = 72,
+	ITEM073 = 73,
+	ITEM074 = 74,
+	ITEM075 = 75,
+	ITEM076 = 76,
+	ITEM077 = 77,
+	ITEM078 = 78,
+	ITEM079 = 79,
+	ITEM080 = 80,
+	ITEM081 = 81,
+	ITEM082 = 82,
+	ITEM083 = 83,
+	ITEM084 = 84,
+	ITEM085 = 85,
+	ITEM086 = 86,
+	ITEM087 = 87,
+	ITEM088 = 88,
+	ITEM089 = 89,
+	ITEM090 = 90,
+	ITEM091 = 91,
+	ITEM092 = 92,
+	ITEM093 = 93,
+	ITEM094 = 94,
+	ITEM095 = 95,
+	ITEM096 = 96,
+	ITEM097 = 97,
+	ITEM098 = 98,
+	ITEM099 = 99,
+	ITEM100 = 100,
+	ITEM101 = 101,
+	ITEM102 = 102,
+	ITEM103 = 103,
+	ITEM104 = 104,
+	ITEM105 = 105,
+	ITEM106 = 106,
+	ITEM107 = 107,
+	ITEM108 = 108,
+	ITEM109 = 109,
+	ITEM110 = 110,
+	ITEM111 = 111,
+	ITEM112 = 112,
+	ITEM113 = 113,
+	ITEM114 = 114,
+	ITEM115 = 115,
+	ITEM116 = 116,
+	ITEM117 = 117,
+	ITEM118 = 118,
+	ITEM119 = 119,
+	ITEM120 = 120,
+	ITEM121 = 121,
+	ITEM122 = 122,
+	ITEM123 = 123,
+	ITEM124 = 124,
+	ITEM125 = 125,
+	ITEM126 = 126,
+	ITEM127 = 127,
+	ITEM128 = 128,
+	ITEM129 = 129,
+	ITEM130 = 130,
+	ITEM131 = 131,
+	ITEM132 = 132,
+	ITEM133 = 133,
+	ITEM134 = 134,
+	ITEM135 = 135,
+	ITEM136 = 136,
+	ITEM137 = 137,
+	ITEM138 = 138,
+	ITEM139 = 139,
+	ITEM140 = 140,
+	ITEM141 = 141,
+	ITEM142 = 142,
+	ITEM143 = 143,
+	ITEM144 = 144,
+	ITEM145 = 145,
+	ITEM146 = 146,
+	ITEM147 = 147,
+	ITEM148 = 148,
+	ITEM149 = 149,
+	ITEM150 = 150,
+	ITEM151 = 151,
+	ITEM152 = 152,
+	ITEM153 = 153,
+	ITEM154 = 154,
+	ITEM155 = 155,
+	ITEM156 = 156,
+	ITEM157 = 157,
+	ITEM158 = 158,
+	ITEM159 = 159,
+	ITEM160 = 160,
+	ITEM161 = 161,
+	ITEM162 = 162,
+	ITEM163 = 163,
+	ITEM164 = 164,
+	ITEM165 = 165,
+	ITEM166 = 166,
+	ITEM167 = 167,
+	ITEM168 = 168,
+	ITEM169 = 169,
+	ITEM170 = 170,
+	ITEM171 = 171,
+	ITEM172 = 172,
+	ITEM173 = 173,
+	ITEM174 = 174,
+	ITEM175 = 175,
+	ITEM176 = 176,
+	ITEM177 = 177,
+	ITEM178 = 178,
+	ITEM179 = 179,
+	ITEM180 = 180,
+	ITEM181 = 181,
+	ITEM182 = 182,
+	ITEM183 = 183,
+	ITEM184 = 184,
+	ITEM185 = 185,
+	ITEM186 = 186,
+	ITEM187 = 187,
+	ITEM188 = 188,
+	ITEM189 = 189,
+	ITEM190 = 190,
+	ITEM191 = 191,
+	ITEM192 = 192,
+	ITEM193 = 193,
+	ITEM194 = 194,
+	ITEM195 = 195,
+	_MAX = 196 UMETA(Hidden),
+	ETresItemDefGumiShipBP_MAX = 197 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefGumiSticker
+enum class ETresItemDefGumiSticker : uint8
 {
-	ETresItemDefGumiSticker_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefGumiSticker_ITEM001 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefGumiSticker_ITEM002 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefGumiSticker_ITEM003 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefGumiSticker_ITEM004 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefGumiSticker_ITEM005 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefGumiSticker_ITEM006 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefGumiSticker_ITEM007 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefGumiSticker_ITEM008 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefGumiSticker_ITEM009 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefGumiSticker_ITEM010 = 10 UMETA(DisplayName = "Item 010"),
-	ETresItemDefGumiSticker_ITEM011 = 11 UMETA(DisplayName = "Item 011"),
-	ETresItemDefGumiSticker_ITEM012 = 12 UMETA(DisplayName = "Item 012"),
-	ETresItemDefGumiSticker_ITEM013 = 13 UMETA(DisplayName = "Item 013"),
-	ETresItemDefGumiSticker_ITEM014 = 14 UMETA(DisplayName = "Item 014"),
-	ETresItemDefGumiSticker_ITEM015 = 15 UMETA(DisplayName = "Item 015"),
-	ETresItemDefGumiSticker_ITEM016 = 16 UMETA(DisplayName = "Item 016"),
-	ETresItemDefGumiSticker_ITEM017 = 17 UMETA(DisplayName = "Item 017"),
-	ETresItemDefGumiSticker_ITEM018 = 18 UMETA(DisplayName = "Item 018"),
-	ETresItemDefGumiSticker_ITEM019 = 19 UMETA(DisplayName = "Item 019"),
-	ETresItemDefGumiSticker_ITEM020 = 20 UMETA(DisplayName = "Item 020"),
-	ETresItemDefGumiSticker_ITEM021 = 21 UMETA(DisplayName = "Item 021"),
-	ETresItemDefGumiSticker_ITEM022 = 22 UMETA(DisplayName = "Item 022"),
-	ETresItemDefGumiSticker_ITEM023 = 23 UMETA(DisplayName = "Item 023"),
-	ETresItemDefGumiSticker_ITEM024 = 24 UMETA(DisplayName = "Item 024"),
-	ETresItemDefGumiSticker_ITEM025 = 25 UMETA(DisplayName = "Item 025"),
-	ETresItemDefGumiSticker_ITEM026 = 26 UMETA(DisplayName = "Item 026"),
-	ETresItemDefGumiSticker_ITEM027 = 27 UMETA(DisplayName = "Item 027"),
-	ETresItemDefGumiSticker_ITEM028 = 28 UMETA(DisplayName = "Item 028"),
-	ETresItemDefGumiSticker_ITEM029 = 29 UMETA(DisplayName = "Item 029"),
-	ETresItemDefGumiSticker_ITEM030 = 30 UMETA(DisplayName = "Item 030"),
-	ETresItemDefGumiSticker_ITEM031 = 31 UMETA(DisplayName = "Item 031"),
-	ETresItemDefGumiSticker_ITEM032 = 32 UMETA(DisplayName = "Item 032"),
-	ETresItemDefGumiSticker_ITEM033 = 33 UMETA(DisplayName = "Item 033"),
-	ETresItemDefGumiSticker_ITEM034 = 34 UMETA(DisplayName = "Item 034"),
-	ETresItemDefGumiSticker_ITEM035 = 35 UMETA(DisplayName = "Item 035"),
-	ETresItemDefGumiSticker_ITEM036 = 36 UMETA(DisplayName = "Item 036"),
-	ETresItemDefGumiSticker_ITEM037 = 37 UMETA(DisplayName = "Item 037"),
-	ETresItemDefGumiSticker_ITEM038 = 38 UMETA(DisplayName = "Item 038"),
-	ETresItemDefGumiSticker_ITEM039 = 39 UMETA(DisplayName = "Item 039"),
-	ETresItemDefGumiSticker_ITEM040 = 40 UMETA(DisplayName = "Item 040"),
-	ETresItemDefGumiSticker_ITEM041 = 41 UMETA(DisplayName = "Item 041"),
-	ETresItemDefGumiSticker_ITEM042 = 42 UMETA(DisplayName = "Item 042"),
-	ETresItemDefGumiSticker_ITEM043 = 43 UMETA(DisplayName = "Item 043"),
-	ETresItemDefGumiSticker_ITEM044 = 44 UMETA(DisplayName = "Item 044"),
-	ETresItemDefGumiSticker_ITEM045 = 45 UMETA(DisplayName = "Item 045"),
-	ETresItemDefGumiSticker_ITEM046 = 46 UMETA(DisplayName = "Item 046"),
-	ETresItemDefGumiSticker_ITEM047 = 47 UMETA(DisplayName = "Item 047"),
-	ETresItemDefGumiSticker_ITEM048 = 48 UMETA(DisplayName = "Item 048"),
-	ETresItemDefGumiSticker_ITEM049 = 49 UMETA(DisplayName = "Item 049"),
-	ETresItemDefGumiSticker_ITEM050 = 50 UMETA(DisplayName = "Item 050"),
-	ETresItemDefGumiSticker_ITEM051 = 51 UMETA(DisplayName = "Item 051"),
-	ETresItemDefGumiSticker_ITEM052 = 52 UMETA(DisplayName = "Item 052"),
-	ETresItemDefGumiSticker_ITEM053 = 53 UMETA(DisplayName = "Item 053"),
-	ETresItemDefGumiSticker_ITEM054 = 54 UMETA(DisplayName = "Item 054"),
-	ETresItemDefGumiSticker_ITEM055 = 55 UMETA(DisplayName = "Item 055"),
-	ETresItemDefGumiSticker_ITEM056 = 56 UMETA(DisplayName = "Item 056"),
-	ETresItemDefGumiSticker_ITEM057 = 57 UMETA(DisplayName = "Item 057"),
-	ETresItemDefGumiSticker_ITEM058 = 58 UMETA(DisplayName = "Item 058"),
-	ETresItemDefGumiSticker_ITEM059 = 59 UMETA(DisplayName = "Item 059"),
-	ETresItemDefGumiSticker_ITEM060 = 60 UMETA(DisplayName = "Item 060"),
-	ETresItemDefGumiSticker_ITEM061 = 61 UMETA(DisplayName = "Item 061"),
-	ETresItemDefGumiSticker_ITEM062 = 62 UMETA(DisplayName = "Item 062"),
-	ETresItemDefGumiSticker_ITEM063 = 63 UMETA(DisplayName = "Item 063"),
-	ETresItemDefGumiSticker_ITEM064 = 64 UMETA(DisplayName = "Item 064"),
-	ETresItemDefGumiSticker_ITEM065 = 65 UMETA(DisplayName = "Item 065"),
-	ETresItemDefGumiSticker_ITEM066 = 66 UMETA(DisplayName = "Item 066"),
-	ETresItemDefGumiSticker_ITEM067 = 67 UMETA(DisplayName = "Item 067"),
-	ETresItemDefGumiSticker_ITEM068 = 68 UMETA(DisplayName = "Item 068"),
-	ETresItemDefGumiSticker_ITEM069 = 69 UMETA(DisplayName = "Item 069"),
-	ETresItemDefGumiSticker_ITEM070 = 70 UMETA(DisplayName = "Item 070"),
-	ETresItemDefGumiSticker_ITEM071 = 71 UMETA(DisplayName = "Item 071"),
-	ETresItemDefGumiSticker_ITEM072 = 72 UMETA(DisplayName = "Item 072"),
-	ETresItemDefGumiSticker_ITEM073 = 73 UMETA(DisplayName = "Item 073"),
-	ETresItemDefGumiSticker_ITEM074 = 74 UMETA(DisplayName = "Item 074"),
-	ETresItemDefGumiSticker_ITEM075 = 75 UMETA(DisplayName = "Item 075"),
-	ETresItemDefGumiSticker_ITEM076 = 76 UMETA(DisplayName = "Item 076"),
-	ETresItemDefGumiSticker_ITEM077 = 77 UMETA(DisplayName = "Item 077"),
-	ETresItemDefGumiSticker_ITEM078 = 78 UMETA(DisplayName = "Item 078"),
-	ETresItemDefGumiSticker_ITEM079 = 79 UMETA(DisplayName = "Item 079"),
-	ETresItemDefGumiSticker_ITEM080 = 80 UMETA(DisplayName = "Item 080"),
-	ETresItemDefGumiSticker_ITEM081 = 81 UMETA(DisplayName = "Item 081"),
-	ETresItemDefGumiSticker_ITEM082 = 82 UMETA(DisplayName = "Item 082"),
-	ETresItemDefGumiSticker_ITEM083 = 83 UMETA(DisplayName = "Item 083"),
-	ETresItemDefGumiSticker_ITEM084 = 84 UMETA(DisplayName = "Item 084"),
-	ETresItemDefGumiSticker_ITEM085 = 85 UMETA(DisplayName = "Item 085"),
-	ETresItemDefGumiSticker_1_MAX = 86 UMETA(Hidden),
-	ETresItemDefGumiSticker_MAX = 87  UMETA(Hidden)
+	NOTHING = 0,
+	ITEM001 = 1,
+	ITEM002 = 2,
+	ITEM003 = 3,
+	ITEM004 = 4,
+	ITEM005 = 5,
+	ITEM006 = 6,
+	ITEM007 = 7,
+	ITEM008 = 8,
+	ITEM009 = 9,
+	ITEM010 = 10,
+	ITEM011 = 11,
+	ITEM012 = 12,
+	ITEM013 = 13,
+	ITEM014 = 14,
+	ITEM015 = 15,
+	ITEM016 = 16,
+	ITEM017 = 17,
+	ITEM018 = 18,
+	ITEM019 = 19,
+	ITEM020 = 20,
+	ITEM021 = 21,
+	ITEM022 = 22,
+	ITEM023 = 23,
+	ITEM024 = 24,
+	ITEM025 = 25,
+	ITEM026 = 26,
+	ITEM027 = 27,
+	ITEM028 = 28,
+	ITEM029 = 29,
+	ITEM030 = 30,
+	ITEM031 = 31,
+	ITEM032 = 32,
+	ITEM033 = 33,
+	ITEM034 = 34,
+	ITEM035 = 35,
+	ITEM036 = 36,
+	ITEM037 = 37,
+	ITEM038 = 38,
+	ITEM039 = 39,
+	ITEM040 = 40,
+	ITEM041 = 41,
+	ITEM042 = 42,
+	ITEM043 = 43,
+	ITEM044 = 44,
+	ITEM045 = 45,
+	ITEM046 = 46,
+	ITEM047 = 47,
+	ITEM048 = 48,
+	ITEM049 = 49,
+	ITEM050 = 50,
+	ITEM051 = 51,
+	ITEM052 = 52,
+	ITEM053 = 53,
+	ITEM054 = 54,
+	ITEM055 = 55,
+	ITEM056 = 56,
+	ITEM057 = 57,
+	ITEM058 = 58,
+	ITEM059 = 59,
+	ITEM060 = 60,
+	ITEM061 = 61,
+	ITEM062 = 62,
+	ITEM063 = 63,
+	ITEM064 = 64,
+	ITEM065 = 65,
+	ITEM066 = 66,
+	ITEM067 = 67,
+	ITEM068 = 68,
+	ITEM069 = 69,
+	ITEM070 = 70,
+	ITEM071 = 71,
+	ITEM072 = 72,
+	ITEM073 = 73,
+	ITEM074 = 74,
+	ITEM075 = 75,
+	ITEM076 = 76,
+	ITEM077 = 77,
+	ITEM078 = 78,
+	ITEM079 = 79,
+	ITEM080 = 80,
+	ITEM081 = 81,
+	ITEM082 = 82,
+	ITEM083 = 83,
+	ITEM084 = 84,
+	ITEM085 = 85,
+	_MAX = 86 UMETA(Hidden),
+	ETresItemDefGumiSticker_MAX = 87 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefGumiPattern
+enum class ETresItemDefGumiPattern : uint8
 {
-	ETresItemDefGumiPattern_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefGumiPattern_ITEM001 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefGumiPattern_ITEM002 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefGumiPattern_ITEM003 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefGumiPattern_ITEM004 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefGumiPattern_ITEM005 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefGumiPattern_ITEM006 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefGumiPattern_ITEM007 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefGumiPattern_ITEM008 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefGumiPattern_ITEM009 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefGumiPattern_ITEM010 = 10 UMETA(DisplayName = "Item 010"),
-	ETresItemDefGumiPattern_ITEM011 = 11 UMETA(DisplayName = "Item 011"),
-	ETresItemDefGumiPattern_ITEM012 = 12 UMETA(DisplayName = "Item 012"),
-	ETresItemDefGumiPattern_ITEM013 = 13 UMETA(DisplayName = "Item 013"),
-	ETresItemDefGumiPattern_ITEM014 = 14 UMETA(DisplayName = "Item 014"),
-	ETresItemDefGumiPattern_ITEM015 = 15 UMETA(DisplayName = "Item 015"),
-	ETresItemDefGumiPattern_ITEM016 = 16 UMETA(DisplayName = "Item 016"),
-	ETresItemDefGumiPattern_ITEM017 = 17 UMETA(DisplayName = "Item 017"),
-	ETresItemDefGumiPattern_ITEM018 = 18 UMETA(DisplayName = "Item 018"),
-	ETresItemDefGumiPattern_ITEM019 = 19 UMETA(DisplayName = "Item 019"),
-	ETresItemDefGumiPattern_ITEM020 = 20 UMETA(DisplayName = "Item 020"),
-	ETresItemDefGumiPattern_ITEM021 = 21 UMETA(DisplayName = "Item 021"),
-	ETresItemDefGumiPattern_ITEM022 = 22 UMETA(DisplayName = "Item 022"),
-	ETresItemDefGumiPattern_ITEM023 = 23 UMETA(DisplayName = "Item 023"),
-	ETresItemDefGumiPattern_ITEM024 = 24 UMETA(DisplayName = "Item 024"),
-	ETresItemDefGumiPattern_ITEM025 = 25 UMETA(DisplayName = "Item 025"),
-	ETresItemDefGumiPattern_ITEM026 = 26 UMETA(DisplayName = "Item 026"),
-	ETresItemDefGumiPattern_ITEM027 = 27 UMETA(DisplayName = "Item 027"),
-	ETresItemDefGumiPattern_ITEM028 = 28 UMETA(DisplayName = "Item 028"),
-	ETresItemDefGumiPattern_ITEM029 = 29 UMETA(DisplayName = "Item 029"),
-	ETresItemDefGumiPattern_ITEM030 = 30 UMETA(DisplayName = "Item 030"),
-	ETresItemDefGumiPattern_ITEM031 = 31 UMETA(DisplayName = "Item 031"),
-	ETresItemDefGumiPattern_ITEM032 = 32 UMETA(DisplayName = "Item 032"),
-	ETresItemDefGumiPattern_ITEM033 = 33 UMETA(DisplayName = "Item 033"),
-	ETresItemDefGumiPattern_ITEM034 = 34 UMETA(DisplayName = "Item 034"),
-	ETresItemDefGumiPattern_ITEM035 = 35 UMETA(DisplayName = "Item 035"),
-	ETresItemDefGumiPattern_ITEM036 = 36 UMETA(DisplayName = "Item 036"),
-	ETresItemDefGumiPattern_ITEM037 = 37 UMETA(DisplayName = "Item 037"),
-	ETresItemDefGumiPattern_ITEM038 = 38 UMETA(DisplayName = "Item 038"),
-	ETresItemDefGumiPattern_ITEM039 = 39 UMETA(DisplayName = "Item 039"),
-	ETresItemDefGumiPattern_ITEM040 = 40 UMETA(DisplayName = "Item 040"),
-	ETresItemDefGumiPattern_ITEM041 = 41 UMETA(DisplayName = "Item 041"),
-	ETresItemDefGumiPattern_ITEM042 = 42 UMETA(DisplayName = "Item 042"),
-	ETresItemDefGumiPattern_ITEM043 = 43 UMETA(DisplayName = "Item 043"),
-	ETresItemDefGumiPattern_ITEM044 = 44 UMETA(DisplayName = "Item 044"),
-	ETresItemDefGumiPattern_ITEM045 = 45 UMETA(DisplayName = "Item 045"),
-	ETresItemDefGumiPattern_ITEM046 = 46 UMETA(DisplayName = "Item 046"),
-	ETresItemDefGumiPattern_ITEM047 = 47 UMETA(DisplayName = "Item 047"),
-	ETresItemDefGumiPattern_ITEM048 = 48 UMETA(DisplayName = "Item 048"),
-	ETresItemDefGumiPattern_ITEM049 = 49 UMETA(DisplayName = "Item 049"),
-	ETresItemDefGumiPattern_ITEM050 = 50 UMETA(DisplayName = "Item 050"),
-	ETresItemDefGumiPattern_ITEM051 = 51 UMETA(DisplayName = "Item 051"),
-	ETresItemDefGumiPattern_ITEM052 = 52 UMETA(DisplayName = "Item 052"),
-	ETresItemDefGumiPattern_ITEM053 = 53 UMETA(DisplayName = "Item 053"),
-	ETresItemDefGumiPattern_ITEM054 = 54 UMETA(DisplayName = "Item 054"),
-	ETresItemDefGumiPattern_ITEM055 = 55 UMETA(DisplayName = "Item 055"),
-	ETresItemDefGumiPattern_ITEM056 = 56 UMETA(DisplayName = "Item 056"),
-	ETresItemDefGumiPattern_ITEM057 = 57 UMETA(DisplayName = "Item 057"),
-	ETresItemDefGumiPattern_ITEM058 = 58 UMETA(DisplayName = "Item 058"),
-	ETresItemDefGumiPattern_ITEM059 = 59 UMETA(DisplayName = "Item 059"),
-	ETresItemDefGumiPattern_ITEM060 = 60 UMETA(DisplayName = "Item 060"),
-	ETresItemDefGumiPattern_ITEM061 = 61 UMETA(DisplayName = "Item 061"),
-	ETresItemDefGumiPattern_ITEM062 = 62 UMETA(DisplayName = "Item 062"),
-	ETresItemDefGumiPattern_ITEM063 = 63 UMETA(DisplayName = "Item 063"),
-	ETresItemDefGumiPattern_ITEM064 = 64 UMETA(DisplayName = "Item 064"),
-	ETresItemDefGumiPattern_ITEM065 = 65 UMETA(DisplayName = "Item 065"),
-	ETresItemDefGumiPattern_ITEM066 = 66 UMETA(DisplayName = "Item 066"),
-	ETresItemDefGumiPattern_ITEM067 = 67 UMETA(DisplayName = "Item 067"),
-	ETresItemDefGumiPattern_ITEM068 = 68 UMETA(DisplayName = "Item 068"),
-	ETresItemDefGumiPattern_ITEM069 = 69 UMETA(DisplayName = "Item 069"),
-	ETresItemDefGumiPattern_ITEM070 = 70 UMETA(DisplayName = "Item 070"),
-	ETresItemDefGumiPattern_ITEM071 = 71 UMETA(DisplayName = "Item 071"),
-	ETresItemDefGumiPattern_ITEM072 = 72 UMETA(DisplayName = "Item 072"),
-	ETresItemDefGumiPattern_ITEM073 = 73 UMETA(DisplayName = "Item 073"),
-	ETresItemDefGumiPattern_ITEM074 = 74 UMETA(DisplayName = "Item 074"),
-	ETresItemDefGumiPattern_ITEM075 = 75 UMETA(DisplayName = "Item 075"),
-	ETresItemDefGumiPattern_ITEM076 = 76 UMETA(DisplayName = "Item 076"),
-	ETresItemDefGumiPattern_ITEM077 = 77 UMETA(DisplayName = "Item 077"),
-	ETresItemDefGumiPattern_ITEM078 = 78 UMETA(DisplayName = "Item 078"),
-	ETresItemDefGumiPattern_ITEM079 = 79 UMETA(DisplayName = "Item 079"),
-	ETresItemDefGumiPattern_ITEM080 = 80 UMETA(DisplayName = "Item 080"),
-	ETresItemDefGumiPattern_ITEM081 = 81 UMETA(DisplayName = "Item 081"),
-	ETresItemDefGumiPattern_ITEM082 = 82 UMETA(DisplayName = "Item 082"),
-	ETresItemDefGumiPattern_ITEM083 = 83 UMETA(DisplayName = "Item 083"),
-	ETresItemDefGumiPattern_ITEM084 = 84 UMETA(DisplayName = "Item 084"),
-	ETresItemDefGumiPattern_ITEM085 = 85 UMETA(DisplayName = "Item 085"),
-	ETresItemDefGumiPattern_ITEM086 = 86 UMETA(DisplayName = "Item 086"),
-	ETresItemDefGumiPattern_ITEM087 = 87 UMETA(DisplayName = "Item 087"),
-	ETresItemDefGumiPattern_ITEM088 = 88 UMETA(DisplayName = "Item 088"),
-	ETresItemDefGumiPattern_ITEM089 = 89 UMETA(DisplayName = "Item 089"),
-	ETresItemDefGumiPattern_ITEM090 = 90 UMETA(DisplayName = "Item 090"),
-	ETresItemDefGumiPattern_ITEM091 = 91 UMETA(DisplayName = "Item 091"),
-	ETresItemDefGumiPattern_ITEM092 = 92 UMETA(DisplayName = "Item 092"),
-	ETresItemDefGumiPattern_ITEM093 = 93 UMETA(DisplayName = "Item 093"),
-	ETresItemDefGumiPattern_ITEM094 = 94 UMETA(DisplayName = "Item 094"),
-	ETresItemDefGumiPattern_ITEM095 = 95 UMETA(DisplayName = "Item 095"),
-	ETresItemDefGumiPattern_ITEM096 = 96 UMETA(DisplayName = "Item 096"),
-	ETresItemDefGumiPattern_ITEM097 = 97 UMETA(DisplayName = "Item 097"),
-	ETresItemDefGumiPattern_ITEM098 = 98 UMETA(DisplayName = "Item 098"),
-	ETresItemDefGumiPattern_ITEM099 = 99 UMETA(DisplayName = "Item 099"),
-	ETresItemDefGumiPattern_ITEM100 = 100 UMETA(DisplayName = "Item 100"),
-	ETresItemDefGumiPattern_ITEM101 = 101 UMETA(DisplayName = "Item 101"),
-	ETresItemDefGumiPattern_ITEM102 = 102 UMETA(DisplayName = "Item 102"),
-	ETresItemDefGumiPattern_ITEM103 = 103 UMETA(DisplayName = "Item 103"),
-	ETresItemDefGumiPattern_ITEM104 = 104 UMETA(DisplayName = "Item 104"),
-	ETresItemDefGumiPattern_ITEM105 = 105 UMETA(DisplayName = "Item 105"),
-	ETresItemDefGumiPattern_ITEM106 = 106 UMETA(DisplayName = "Item 106"),
-	ETresItemDefGumiPattern_ITEM107 = 107 UMETA(DisplayName = "Item 107"),
-	ETresItemDefGumiPattern_1_MAX = 108 UMETA(Hidden),
-	ETresItemDefGumiPattern_MAX = 109  UMETA(Hidden)
+	NOTHING = 0,
+	ITEM001 = 1,
+	ITEM002 = 2,
+	ITEM003 = 3,
+	ITEM004 = 4,
+	ITEM005 = 5,
+	ITEM006 = 6,
+	ITEM007 = 7,
+	ITEM008 = 8,
+	ITEM009 = 9,
+	ITEM010 = 10,
+	ITEM011 = 11,
+	ITEM012 = 12,
+	ITEM013 = 13,
+	ITEM014 = 14,
+	ITEM015 = 15,
+	ITEM016 = 16,
+	ITEM017 = 17,
+	ITEM018 = 18,
+	ITEM019 = 19,
+	ITEM020 = 20,
+	ITEM021 = 21,
+	ITEM022 = 22,
+	ITEM023 = 23,
+	ITEM024 = 24,
+	ITEM025 = 25,
+	ITEM026 = 26,
+	ITEM027 = 27,
+	ITEM028 = 28,
+	ITEM029 = 29,
+	ITEM030 = 30,
+	ITEM031 = 31,
+	ITEM032 = 32,
+	ITEM033 = 33,
+	ITEM034 = 34,
+	ITEM035 = 35,
+	ITEM036 = 36,
+	ITEM037 = 37,
+	ITEM038 = 38,
+	ITEM039 = 39,
+	ITEM040 = 40,
+	ITEM041 = 41,
+	ITEM042 = 42,
+	ITEM043 = 43,
+	ITEM044 = 44,
+	ITEM045 = 45,
+	ITEM046 = 46,
+	ITEM047 = 47,
+	ITEM048 = 48,
+	ITEM049 = 49,
+	ITEM050 = 50,
+	ITEM051 = 51,
+	ITEM052 = 52,
+	ITEM053 = 53,
+	ITEM054 = 54,
+	ITEM055 = 55,
+	ITEM056 = 56,
+	ITEM057 = 57,
+	ITEM058 = 58,
+	ITEM059 = 59,
+	ITEM060 = 60,
+	ITEM061 = 61,
+	ITEM062 = 62,
+	ITEM063 = 63,
+	ITEM064 = 64,
+	ITEM065 = 65,
+	ITEM066 = 66,
+	ITEM067 = 67,
+	ITEM068 = 68,
+	ITEM069 = 69,
+	ITEM070 = 70,
+	ITEM071 = 71,
+	ITEM072 = 72,
+	ITEM073 = 73,
+	ITEM074 = 74,
+	ITEM075 = 75,
+	ITEM076 = 76,
+	ITEM077 = 77,
+	ITEM078 = 78,
+	ITEM079 = 79,
+	ITEM080 = 80,
+	ITEM081 = 81,
+	ITEM082 = 82,
+	ITEM083 = 83,
+	ITEM084 = 84,
+	ITEM085 = 85,
+	ITEM086 = 86,
+	ITEM087 = 87,
+	ITEM088 = 88,
+	ITEM089 = 89,
+	ITEM090 = 90,
+	ITEM091 = 91,
+	ITEM092 = 92,
+	ITEM093 = 93,
+	ITEM094 = 94,
+	ITEM095 = 95,
+	ITEM096 = 96,
+	ITEM097 = 97,
+	ITEM098 = 98,
+	ITEM099 = 99,
+	ITEM100 = 100,
+	ITEM101 = 101,
+	ITEM102 = 102,
+	ITEM103 = 103,
+	ITEM104 = 104,
+	ITEM105 = 105,
+	ITEM106 = 106,
+	ITEM107 = 107,
+	_MAX = 108 UMETA(Hidden),
+	ETresItemDefGumiPattern_MAX = 109 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefGumiMaterial
+enum class ETresItemDefGumiMaterial : uint8
 {
-	ETresItemDefGumiMaterial_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefGumiMaterial_ITEM001 = 1 UMETA(DisplayName = "Item 001"),
-	ETresItemDefGumiMaterial_ITEM002 = 2 UMETA(DisplayName = "Item 002"),
-	ETresItemDefGumiMaterial_ITEM003 = 3 UMETA(DisplayName = "Item 003"),
-	ETresItemDefGumiMaterial_ITEM004 = 4 UMETA(DisplayName = "Item 004"),
-	ETresItemDefGumiMaterial_ITEM005 = 5 UMETA(DisplayName = "Item 005"),
-	ETresItemDefGumiMaterial_ITEM006 = 6 UMETA(DisplayName = "Item 006"),
-	ETresItemDefGumiMaterial_ITEM007 = 7 UMETA(DisplayName = "Item 007"),
-	ETresItemDefGumiMaterial_ITEM008 = 8 UMETA(DisplayName = "Item 008"),
-	ETresItemDefGumiMaterial_ITEM009 = 9 UMETA(DisplayName = "Item 009"),
-	ETresItemDefGumiMaterial_ITEM010 = 10 UMETA(DisplayName = "Item 010"),
-	ETresItemDefGumiMaterial_ITEM011 = 11 UMETA(DisplayName = "Item 011"),
-	ETresItemDefGumiMaterial_ITEM012 = 12 UMETA(DisplayName = "Item 012"),
-	ETresItemDefGumiMaterial_ITEM013 = 13 UMETA(DisplayName = "Item 013"),
-	ETresItemDefGumiMaterial_ITEM014 = 14 UMETA(DisplayName = "Item 014"),
-	ETresItemDefGumiMaterial_ITEM015 = 15 UMETA(DisplayName = "Item 015"),
-	ETresItemDefGumiMaterial_ITEM016 = 16 UMETA(DisplayName = "Item 016"),
-	ETresItemDefGumiMaterial_ITEM017 = 17 UMETA(DisplayName = "Item 017"),
-	ETresItemDefGumiMaterial_ITEM018 = 18 UMETA(DisplayName = "Item 018"),
-	ETresItemDefGumiMaterial_ITEM019 = 19 UMETA(DisplayName = "Item 019"),
-	ETresItemDefGumiMaterial_ITEM020 = 20 UMETA(DisplayName = "Item 020"),
-	ETresItemDefGumiMaterial_ITEM021 = 21 UMETA(DisplayName = "Item 021"),
-	ETresItemDefGumiMaterial_ITEM022 = 22 UMETA(DisplayName = "Item 022"),
-	ETresItemDefGumiMaterial_ITEM023 = 23 UMETA(DisplayName = "Item 023"),
-	ETresItemDefGumiMaterial_ITEM024 = 24 UMETA(DisplayName = "Item 024"),
-	ETresItemDefGumiMaterial_ITEM025 = 25 UMETA(DisplayName = "Item 025"),
-	ETresItemDefGumiMaterial_ITEM026 = 26 UMETA(DisplayName = "Item 026"),
-	ETresItemDefGumiMaterial_ITEM027 = 27 UMETA(DisplayName = "Item 027"),
-	ETresItemDefGumiMaterial_ITEM028 = 28 UMETA(DisplayName = "Item 028"),
-	ETresItemDefGumiMaterial_ITEM029 = 29 UMETA(DisplayName = "Item 029"),
-	ETresItemDefGumiMaterial_ITEM030 = 30 UMETA(DisplayName = "Item 030"),
-	ETresItemDefGumiMaterial_ITEM031 = 31 UMETA(DisplayName = "Item 031"),
-	ETresItemDefGumiMaterial_ITEM032 = 32 UMETA(DisplayName = "Item 032"),
-	ETresItemDefGumiMaterial_ITEM033 = 33 UMETA(DisplayName = "Item 033"),
-	ETresItemDefGumiMaterial_ITEM034 = 34 UMETA(DisplayName = "Item 034"),
-	ETresItemDefGumiMaterial_ITEM035 = 35 UMETA(DisplayName = "Item 035"),
-	ETresItemDefGumiMaterial_ITEM036 = 36 UMETA(DisplayName = "Item 036"),
-	ETresItemDefGumiMaterial_ITEM037 = 37 UMETA(DisplayName = "Item 037"),
-	ETresItemDefGumiMaterial_ITEM038 = 38 UMETA(DisplayName = "Item 038"),
-	ETresItemDefGumiMaterial_ITEM039 = 39 UMETA(DisplayName = "Item 039"),
-	ETresItemDefGumiMaterial_ITEM040 = 40 UMETA(DisplayName = "Item 040"),
-	ETresItemDefGumiMaterial_ITEM041 = 41 UMETA(DisplayName = "Item 041"),
-	ETresItemDefGumiMaterial_ITEM042 = 42 UMETA(DisplayName = "Item 042"),
-	ETresItemDefGumiMaterial_ITEM043 = 43 UMETA(DisplayName = "Item 043"),
-	ETresItemDefGumiMaterial_ITEM044 = 44 UMETA(DisplayName = "Item 044"),
-	ETresItemDefGumiMaterial_ITEM045 = 45 UMETA(DisplayName = "Item 045"),
-	ETresItemDefGumiMaterial_ITEM046 = 46 UMETA(DisplayName = "Item 046"),
-	ETresItemDefGumiMaterial_ITEM047 = 47 UMETA(DisplayName = "Item 047"),
-	ETresItemDefGumiMaterial_ITEM048 = 48 UMETA(DisplayName = "Item 048"),
-	ETresItemDefGumiMaterial_ITEM049 = 49 UMETA(DisplayName = "Item 049"),
-	ETresItemDefGumiMaterial_ITEM050 = 50 UMETA(DisplayName = "Item 050"),
-	ETresItemDefGumiMaterial_ITEM051 = 51 UMETA(DisplayName = "Item 051"),
-	ETresItemDefGumiMaterial_ITEM052 = 52 UMETA(DisplayName = "Item 052"),
-	ETresItemDefGumiMaterial_ITEM053 = 53 UMETA(DisplayName = "Item 053"),
-	ETresItemDefGumiMaterial_ITEM054 = 54 UMETA(DisplayName = "Item 054"),
-	ETresItemDefGumiMaterial_ITEM055 = 55 UMETA(DisplayName = "Item 055"),
-	ETresItemDefGumiMaterial_ITEM056 = 56 UMETA(DisplayName = "Item 056"),
-	ETresItemDefGumiMaterial_ITEM057 = 57 UMETA(DisplayName = "Item 057"),
-	ETresItemDefGumiMaterial_ITEM058 = 58 UMETA(DisplayName = "Item 058"),
-	ETresItemDefGumiMaterial_ITEM059 = 59 UMETA(DisplayName = "Item 059"),
-	ETresItemDefGumiMaterial_ITEM060 = 60 UMETA(DisplayName = "Item 060"),
-	ETresItemDefGumiMaterial_ITEM061 = 61 UMETA(DisplayName = "Item 061"),
-	ETresItemDefGumiMaterial_ITEM062 = 62 UMETA(DisplayName = "Item 062"),
-	ETresItemDefGumiMaterial_ITEM063 = 63 UMETA(DisplayName = "Item 063"),
-	ETresItemDefGumiMaterial_ITEM064 = 64 UMETA(DisplayName = "Item 064"),
-	ETresItemDefGumiMaterial_ITEM065 = 65 UMETA(DisplayName = "Item 065"),
-	ETresItemDefGumiMaterial_ITEM066 = 66 UMETA(DisplayName = "Item 066"),
-	ETresItemDefGumiMaterial_ITEM067 = 67 UMETA(DisplayName = "Item 067"),
-	ETresItemDefGumiMaterial_ITEM068 = 68 UMETA(DisplayName = "Item 068"),
-	ETresItemDefGumiMaterial_1_MAX = 69 UMETA(Hidden),
-	ETresItemDefGumiMaterial_MAX = 70  UMETA(Hidden)
+	NOTHING = 0,
+	ITEM001 = 1,
+	ITEM002 = 2,
+	ITEM003 = 3,
+	ITEM004 = 4,
+	ITEM005 = 5,
+	ITEM006 = 6,
+	ITEM007 = 7,
+	ITEM008 = 8,
+	ITEM009 = 9,
+	ITEM010 = 10,
+	ITEM011 = 11,
+	ITEM012 = 12,
+	ITEM013 = 13,
+	ITEM014 = 14,
+	ITEM015 = 15,
+	ITEM016 = 16,
+	ITEM017 = 17,
+	ITEM018 = 18,
+	ITEM019 = 19,
+	ITEM020 = 20,
+	ITEM021 = 21,
+	ITEM022 = 22,
+	ITEM023 = 23,
+	ITEM024 = 24,
+	ITEM025 = 25,
+	ITEM026 = 26,
+	ITEM027 = 27,
+	ITEM028 = 28,
+	ITEM029 = 29,
+	ITEM030 = 30,
+	ITEM031 = 31,
+	ITEM032 = 32,
+	ITEM033 = 33,
+	ITEM034 = 34,
+	ITEM035 = 35,
+	ITEM036 = 36,
+	ITEM037 = 37,
+	ITEM038 = 38,
+	ITEM039 = 39,
+	ITEM040 = 40,
+	ITEM041 = 41,
+	ITEM042 = 42,
+	ITEM043 = 43,
+	ITEM044 = 44,
+	ITEM045 = 45,
+	ITEM046 = 46,
+	ITEM047 = 47,
+	ITEM048 = 48,
+	ITEM049 = 49,
+	ITEM050 = 50,
+	ITEM051 = 51,
+	ITEM052 = 52,
+	ITEM053 = 53,
+	ITEM054 = 54,
+	ITEM055 = 55,
+	ITEM056 = 56,
+	ITEM057 = 57,
+	ITEM058 = 58,
+	ITEM059 = 59,
+	ITEM060 = 60,
+	ITEM061 = 61,
+	ITEM062 = 62,
+	ITEM063 = 63,
+	ITEM064 = 64,
+	ITEM065 = 65,
+	ITEM066 = 66,
+	ITEM067 = 67,
+	ITEM068 = 68,
+	_MAX = 69 UMETA(Hidden),
+	ETresItemDefGumiMaterial_MAX = 70 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefGumiParts
+enum class ETresItemDefGumiParts : uint8
 {
-	ETresItemDefGumiParts_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefGumiParts_ITEM001 = 1 UMETA(DisplayName = "Item 001"),
-	ETresItemDefGumiParts_ITEM002 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefGumiParts_ITEM003 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefGumiParts_ITEM004 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefGumiParts_ITEM005 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefGumiParts_ITEM006 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefGumiParts_ITEM007 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefGumiParts_ITEM008 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefGumiParts_ITEM009 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefGumiParts_ITEM010 = 10 UMETA(DisplayName = "Item 010"),
-	ETresItemDefGumiParts_ITEM011 = 11 UMETA(DisplayName = "Item 011"),
-	ETresItemDefGumiParts_ITEM012 = 12 UMETA(DisplayName = "Item 012"),
-	ETresItemDefGumiParts_ITEM013 = 13 UMETA(DisplayName = "Item 013"),
-	ETresItemDefGumiParts_ITEM014 = 14 UMETA(DisplayName = "Item 014"),
-	ETresItemDefGumiParts_ITEM015 = 15 UMETA(DisplayName = "Item 015"),
-	ETresItemDefGumiParts_ITEM016 = 16 UMETA(DisplayName = "Item 016"),
-	ETresItemDefGumiParts_ITEM017 = 17 UMETA(DisplayName = "Item 017"),
-	ETresItemDefGumiParts_ITEM018 = 18 UMETA(DisplayName = "Item 018"),
-	ETresItemDefGumiParts_ITEM019 = 19 UMETA(DisplayName = "Item 019"),
-	ETresItemDefGumiParts_ITEM020 = 20 UMETA(DisplayName = "Item 020"),
-	ETresItemDefGumiParts_ITEM021 = 21 UMETA(DisplayName = "Item 021"),
-	ETresItemDefGumiParts_ITEM022 = 22 UMETA(DisplayName = "Item 022"),
-	ETresItemDefGumiParts_ITEM023 = 23 UMETA(DisplayName = "Item 023"),
-	ETresItemDefGumiParts_ITEM024 = 24 UMETA(DisplayName = "Item 024"),
-	ETresItemDefGumiParts_ITEM025 = 25 UMETA(DisplayName = "Item 025"),
-	ETresItemDefGumiParts_ITEM026 = 26 UMETA(DisplayName = "Item 026"),
-	ETresItemDefGumiParts_ITEM027 = 27 UMETA(DisplayName = "Item 027"),
-	ETresItemDefGumiParts_ITEM028 = 28 UMETA(DisplayName = "Item 028"),
-	ETresItemDefGumiParts_ITEM029 = 29 UMETA(DisplayName = "Item 029"),
-	ETresItemDefGumiParts_ITEM030 = 30 UMETA(DisplayName = "Item 030"),
-	ETresItemDefGumiParts_ITEM031 = 31 UMETA(DisplayName = "Item 031"),
-	ETresItemDefGumiParts_ITEM032 = 32 UMETA(DisplayName = "Item 032"),
-	ETresItemDefGumiParts_ITEM033 = 33 UMETA(DisplayName = "Item 033"),
-	ETresItemDefGumiParts_ITEM034 = 34 UMETA(DisplayName = "Item 034"),
-	ETresItemDefGumiParts_ITEM035 = 35 UMETA(DisplayName = "Item 035"),
-	ETresItemDefGumiParts_ITEM036 = 36 UMETA(DisplayName = "Item 036"),
-	ETresItemDefGumiParts_ITEM037 = 37 UMETA(DisplayName = "Item 037"),
-	ETresItemDefGumiParts_ITEM038 = 38 UMETA(DisplayName = "Item 038"),
-	ETresItemDefGumiParts_ITEM039 = 39 UMETA(DisplayName = "Item 039"),
-	ETresItemDefGumiParts_ITEM040 = 40 UMETA(DisplayName = "Item 040"),
-	ETresItemDefGumiParts_ITEM041 = 41 UMETA(DisplayName = "Item 041"),
-	ETresItemDefGumiParts_ITEM042 = 42 UMETA(DisplayName = "Item 042"),
-	ETresItemDefGumiParts_ITEM043 = 43 UMETA(DisplayName = "Item 043"),
-	ETresItemDefGumiParts_ITEM044 = 44 UMETA(DisplayName = "Item 044"),
-	ETresItemDefGumiParts_ITEM045 = 45 UMETA(DisplayName = "Item 045"),
-	ETresItemDefGumiParts_ITEM046 = 46 UMETA(DisplayName = "Item 046"),
-	ETresItemDefGumiParts_ITEM047 = 47 UMETA(DisplayName = "Item 047"),
-	ETresItemDefGumiParts_ITEM048 = 48 UMETA(DisplayName = "Item 048"),
-	ETresItemDefGumiParts_ITEM049 = 49 UMETA(DisplayName = "Item 049"),
-	ETresItemDefGumiParts_ITEM050 = 50 UMETA(DisplayName = "Item 050"),
-	ETresItemDefGumiParts_ITEM051 = 51 UMETA(DisplayName = "Item 051"),
-	ETresItemDefGumiParts_ITEM052 = 52 UMETA(DisplayName = "Item 052"),
-	ETresItemDefGumiParts_ITEM053 = 53 UMETA(DisplayName = "Item 053"),
-	ETresItemDefGumiParts_ITEM054 = 54 UMETA(DisplayName = "Item 054"),
-	ETresItemDefGumiParts_ITEM055 = 55 UMETA(DisplayName = "Item 055"),
-	ETresItemDefGumiParts_ITEM056 = 56 UMETA(DisplayName = "Item 056"),
-	ETresItemDefGumiParts_ITEM057 = 57 UMETA(DisplayName = "Item 057"),
-	ETresItemDefGumiParts_ITEM058 = 58 UMETA(DisplayName = "Item 058"),
-	ETresItemDefGumiParts_ITEM059 = 59 UMETA(DisplayName = "Item 059"),
-	ETresItemDefGumiParts_ITEM060 = 60 UMETA(DisplayName = "Item 060"),
-	ETresItemDefGumiParts_ITEM061 = 61 UMETA(DisplayName = "Item 061"),
-	ETresItemDefGumiParts_ITEM062 = 62 UMETA(DisplayName = "Item 062"),
-	ETresItemDefGumiParts_ITEM063 = 63 UMETA(DisplayName = "Item 063"),
-	ETresItemDefGumiParts_ITEM064 = 64 UMETA(DisplayName = "Item 064"),
-	ETresItemDefGumiParts_ITEM065 = 65 UMETA(DisplayName = "Item 065"),
-	ETresItemDefGumiParts_ITEM066 = 66 UMETA(DisplayName = "Item 066"),
-	ETresItemDefGumiParts_ITEM067 = 67 UMETA(DisplayName = "Item 067"),
-	ETresItemDefGumiParts_ITEM068 = 68 UMETA(DisplayName = "Item 068"),
-	ETresItemDefGumiParts_ITEM069 = 69 UMETA(DisplayName = "Item 069"),
-	ETresItemDefGumiParts_ITEM070 = 70 UMETA(DisplayName = "Item 070"),
-	ETresItemDefGumiParts_ITEM071 = 71 UMETA(DisplayName = "Item 071"),
-	ETresItemDefGumiParts_ITEM072 = 72 UMETA(DisplayName = "Item 072"),
-	ETresItemDefGumiParts_ITEM073 = 73 UMETA(DisplayName = "Item 073"),
-	ETresItemDefGumiParts_ITEM074 = 74 UMETA(DisplayName = "Item 074"),
-	ETresItemDefGumiParts_ITEM075 = 75 UMETA(DisplayName = "Item 075"),
-	ETresItemDefGumiParts_ITEM076 = 76 UMETA(DisplayName = "Item 076"),
-	ETresItemDefGumiParts_ITEM077 = 77 UMETA(DisplayName = "Item 077"),
-	ETresItemDefGumiParts_ITEM078 = 78 UMETA(DisplayName = "Item 078"),
-	ETresItemDefGumiParts_ITEM079 = 79 UMETA(DisplayName = "Item 079"),
-	ETresItemDefGumiParts_ITEM080 = 80 UMETA(DisplayName = "Item 080"),
-	ETresItemDefGumiParts_ITEM081 = 81 UMETA(DisplayName = "Item 081"),
-	ETresItemDefGumiParts_ITEM082 = 82 UMETA(DisplayName = "Item 082"),
-	ETresItemDefGumiParts_ITEM083 = 83 UMETA(DisplayName = "Item 083"),
-	ETresItemDefGumiParts_ITEM084 = 84 UMETA(DisplayName = "Item 084"),
-	ETresItemDefGumiParts_ITEM085 = 85 UMETA(DisplayName = "Item 085"),
-	ETresItemDefGumiParts_ITEM086 = 86 UMETA(DisplayName = "Item 086"),
-	ETresItemDefGumiParts_ITEM087 = 87 UMETA(DisplayName = "Item 087"),
-	ETresItemDefGumiParts_ITEM088 = 88 UMETA(DisplayName = "Item 088"),
-	ETresItemDefGumiParts_ITEM089 = 89 UMETA(DisplayName = "Item 089"),
-	ETresItemDefGumiParts_ITEM090 = 90 UMETA(DisplayName = "Item 090"),
-	ETresItemDefGumiParts_ITEM091 = 91 UMETA(DisplayName = "Item 091"),
-	ETresItemDefGumiParts_ITEM092 = 92 UMETA(DisplayName = "Item 092"),
-	ETresItemDefGumiParts_ITEM093 = 93 UMETA(DisplayName = "Item 093"),
-	ETresItemDefGumiParts_ITEM094 = 94 UMETA(DisplayName = "Item 094"),
-	ETresItemDefGumiParts_ITEM095 = 95 UMETA(DisplayName = "Item 095"),
-	ETresItemDefGumiParts_ITEM096 = 96 UMETA(DisplayName = "Item 096"),
-	ETresItemDefGumiParts_ITEM097 = 97 UMETA(DisplayName = "Item 097"),
-	ETresItemDefGumiParts_ITEM098 = 98 UMETA(DisplayName = "Item 098"),
-	ETresItemDefGumiParts_ITEM099 = 99 UMETA(DisplayName = "Item 099"),
-	ETresItemDefGumiParts_ITEM100 = 100 UMETA(DisplayName = "Item 100"),
-	ETresItemDefGumiParts_ITEM101 = 101 UMETA(DisplayName = "Item 101"),
-	ETresItemDefGumiParts_ITEM102 = 102 UMETA(DisplayName = "Item 102"),
-	ETresItemDefGumiParts_ITEM103 = 103 UMETA(DisplayName = "Item 103"),
-	ETresItemDefGumiParts_ITEM104 = 104 UMETA(DisplayName = "Item 104"),
-	ETresItemDefGumiParts_ITEM105 = 105 UMETA(DisplayName = "Item 105"),
-	ETresItemDefGumiParts_ITEM106 = 106 UMETA(DisplayName = "Item 106"),
-	ETresItemDefGumiParts_ITEM107 = 107 UMETA(DisplayName = "Item 107"),
-	ETresItemDefGumiParts_ITEM108 = 108 UMETA(DisplayName = "Item 108"),
-	ETresItemDefGumiParts_ITEM109 = 109 UMETA(DisplayName = "Item 109"),
-	ETresItemDefGumiParts_ITEM110 = 110 UMETA(DisplayName = "Item 110"),
-	ETresItemDefGumiParts_ITEM111 = 111 UMETA(DisplayName = "Item 111"),
-	ETresItemDefGumiParts_ITEM112 = 112 UMETA(DisplayName = "Item 112"),
-	ETresItemDefGumiParts_ITEM113 = 113 UMETA(DisplayName = "Item 113"),
-	ETresItemDefGumiParts_ITEM114 = 114 UMETA(DisplayName = "Item 114"),
-	ETresItemDefGumiParts_ITEM115 = 115 UMETA(DisplayName = "Item 115"),
-	ETresItemDefGumiParts_ITEM116 = 116 UMETA(DisplayName = "Item 116"),
-	ETresItemDefGumiParts_ITEM117 = 117 UMETA(DisplayName = "Item 117"),
-	ETresItemDefGumiParts_ITEM118 = 118 UMETA(DisplayName = "Item 118"),
-	ETresItemDefGumiParts_ITEM119 = 119 UMETA(DisplayName = "Item 119"),
-	ETresItemDefGumiParts_ITEM120 = 120 UMETA(DisplayName = "Item 120"),
-	ETresItemDefGumiParts_ITEM121 = 121 UMETA(DisplayName = "Item 121"),
-	ETresItemDefGumiParts_ITEM122 = 122 UMETA(DisplayName = "Item 122"),
-	ETresItemDefGumiParts_ITEM123 = 123 UMETA(DisplayName = "Item 123"),
-	ETresItemDefGumiParts_ITEM124 = 124 UMETA(DisplayName = "Item 124"),
-	ETresItemDefGumiParts_ITEM125 = 125 UMETA(DisplayName = "Item 125"),
-	ETresItemDefGumiParts_ITEM126 = 126 UMETA(DisplayName = "Item 126"),
-	ETresItemDefGumiParts_ITEM127 = 127 UMETA(DisplayName = "Item 127"),
-	ETresItemDefGumiParts_ITEM128 = 128 UMETA(DisplayName = "Item 128"),
-	ETresItemDefGumiParts_ITEM129 = 129 UMETA(DisplayName = "Item 129"),
-	ETresItemDefGumiParts_ITEM130 = 130 UMETA(DisplayName = "Item 130"),
-	ETresItemDefGumiParts_ITEM131 = 131 UMETA(DisplayName = "Item 131"),
-	ETresItemDefGumiParts_ITEM132 = 132 UMETA(DisplayName = "Item 132"),
-	ETresItemDefGumiParts_ITEM133 = 133 UMETA(DisplayName = "Item 133"),
-	ETresItemDefGumiParts_ITEM134 = 134 UMETA(DisplayName = "Item 134"),
-	ETresItemDefGumiParts_ITEM135 = 135 UMETA(DisplayName = "Item 135"),
-	ETresItemDefGumiParts_ITEM136 = 136 UMETA(DisplayName = "Item 136"),
-	ETresItemDefGumiParts_ITEM137 = 137 UMETA(DisplayName = "Item 137"),
-	ETresItemDefGumiParts_ITEM138 = 138 UMETA(DisplayName = "Item 138"),
-	ETresItemDefGumiParts_ITEM139 = 139 UMETA(DisplayName = "Item 139"),
-	ETresItemDefGumiParts_ITEM140 = 140 UMETA(DisplayName = "Item 140"),
-	ETresItemDefGumiParts_ITEM141 = 141 UMETA(DisplayName = "Item 141"),
-	ETresItemDefGumiParts_ITEM142 = 142 UMETA(DisplayName = "Item 142"),
-	ETresItemDefGumiParts_ITEM143 = 143 UMETA(DisplayName = "Item 143"),
-	ETresItemDefGumiParts_ITEM144 = 144 UMETA(DisplayName = "Item 144"),
-	ETresItemDefGumiParts_ITEM145 = 145 UMETA(DisplayName = "Item 145"),
-	ETresItemDefGumiParts_ITEM146 = 146 UMETA(DisplayName = "Item 146"),
-	ETresItemDefGumiParts_ITEM147 = 147 UMETA(DisplayName = "Item 147"),
-	ETresItemDefGumiParts_ITEM148 = 148 UMETA(DisplayName = "Item 148"),
-	ETresItemDefGumiParts_ITEM149 = 149 UMETA(DisplayName = "Item 149"),
-	ETresItemDefGumiParts_ITEM150 = 150 UMETA(DisplayName = "Item 150"),
-	ETresItemDefGumiParts_ITEM151 = 151 UMETA(DisplayName = "Item 151"),
-	ETresItemDefGumiParts_ITEM152 = 152 UMETA(DisplayName = "Item 152"),
-	ETresItemDefGumiParts_ITEM153 = 153 UMETA(DisplayName = "Item 153"),
-	ETresItemDefGumiParts_ITEM154 = 154 UMETA(DisplayName = "Item 154"),
-	ETresItemDefGumiParts_ITEM155 = 155 UMETA(DisplayName = "Item 155"),
-	ETresItemDefGumiParts_ITEM156 = 156 UMETA(DisplayName = "Item 156"),
-	ETresItemDefGumiParts_ITEM157 = 157 UMETA(DisplayName = "Item 157"),
-	ETresItemDefGumiParts_ITEM158 = 158 UMETA(DisplayName = "Item 158"),
-	ETresItemDefGumiParts_ITEM159 = 159 UMETA(DisplayName = "Item 159"),
-	ETresItemDefGumiParts_ITEM160 = 160 UMETA(DisplayName = "Item 160"),
-	ETresItemDefGumiParts_ITEM161 = 161 UMETA(DisplayName = "Item 161"),
-	ETresItemDefGumiParts_ITEM162 = 162 UMETA(DisplayName = "Item 162"),
-	ETresItemDefGumiParts_ITEM163 = 163 UMETA(DisplayName = "Item 163"),
-	ETresItemDefGumiParts_ITEM164 = 164 UMETA(DisplayName = "Item 164"),
-	ETresItemDefGumiParts_ITEM165 = 165 UMETA(DisplayName = "Item 165"),
-	ETresItemDefGumiParts_ITEM166 = 166 UMETA(DisplayName = "Item 166"),
-	ETresItemDefGumiParts_ITEM167 = 167 UMETA(DisplayName = "Item 167"),
-	ETresItemDefGumiParts_ITEM168 = 168 UMETA(DisplayName = "Item 168"),
-	ETresItemDefGumiParts_ITEM169 = 169 UMETA(DisplayName = "Item 169"),
-	ETresItemDefGumiParts_ITEM170 = 170 UMETA(DisplayName = "Item 170"),
-	ETresItemDefGumiParts_ITEM171 = 171 UMETA(DisplayName = "Item 171"),
-	ETresItemDefGumiParts_ITEM172 = 172 UMETA(DisplayName = "Item 172"),
-	ETresItemDefGumiParts_ITEM173 = 173 UMETA(DisplayName = "Item 173"),
-	ETresItemDefGumiParts_ITEM174 = 174 UMETA(DisplayName = "Item 174"),
-	ETresItemDefGumiParts_ITEM175 = 175 UMETA(DisplayName = "Item 175"),
-	ETresItemDefGumiParts_ITEM176 = 176 UMETA(DisplayName = "Item 176"),
-	ETresItemDefGumiParts_ITEM177 = 177 UMETA(DisplayName = "Item 177"),
-	ETresItemDefGumiParts_ITEM178 = 178 UMETA(DisplayName = "Item 178"),
-	ETresItemDefGumiParts_ITEM179 = 179 UMETA(DisplayName = "Item 179"),
-	ETresItemDefGumiParts_ITEM180 = 180 UMETA(DisplayName = "Item 180"),
-	ETresItemDefGumiParts_ITEM181 = 181 UMETA(DisplayName = "Item 181"),
-	ETresItemDefGumiParts_ITEM182 = 182 UMETA(DisplayName = "Item 182"),
-	ETresItemDefGumiParts_1_MAX = 183 UMETA(Hidden),
-	ETresItemDefGumiParts_MAX = 184  UMETA(Hidden)
+	NOTHING = 0,
+	ITEM001 = 1,
+	ITEM002 = 2,
+	ITEM003 = 3,
+	ITEM004 = 4,
+	ITEM005 = 5,
+	ITEM006 = 6,
+	ITEM007 = 7,
+	ITEM008 = 8,
+	ITEM009 = 9,
+	ITEM010 = 10,
+	ITEM011 = 11,
+	ITEM012 = 12,
+	ITEM013 = 13,
+	ITEM014 = 14,
+	ITEM015 = 15,
+	ITEM016 = 16,
+	ITEM017 = 17,
+	ITEM018 = 18,
+	ITEM019 = 19,
+	ITEM020 = 20,
+	ITEM021 = 21,
+	ITEM022 = 22,
+	ITEM023 = 23,
+	ITEM024 = 24,
+	ITEM025 = 25,
+	ITEM026 = 26,
+	ITEM027 = 27,
+	ITEM028 = 28,
+	ITEM029 = 29,
+	ITEM030 = 30,
+	ITEM031 = 31,
+	ITEM032 = 32,
+	ITEM033 = 33,
+	ITEM034 = 34,
+	ITEM035 = 35,
+	ITEM036 = 36,
+	ITEM037 = 37,
+	ITEM038 = 38,
+	ITEM039 = 39,
+	ITEM040 = 40,
+	ITEM041 = 41,
+	ITEM042 = 42,
+	ITEM043 = 43,
+	ITEM044 = 44,
+	ITEM045 = 45,
+	ITEM046 = 46,
+	ITEM047 = 47,
+	ITEM048 = 48,
+	ITEM049 = 49,
+	ITEM050 = 50,
+	ITEM051 = 51,
+	ITEM052 = 52,
+	ITEM053 = 53,
+	ITEM054 = 54,
+	ITEM055 = 55,
+	ITEM056 = 56,
+	ITEM057 = 57,
+	ITEM058 = 58,
+	ITEM059 = 59,
+	ITEM060 = 60,
+	ITEM061 = 61,
+	ITEM062 = 62,
+	ITEM063 = 63,
+	ITEM064 = 64,
+	ITEM065 = 65,
+	ITEM066 = 66,
+	ITEM067 = 67,
+	ITEM068 = 68,
+	ITEM069 = 69,
+	ITEM070 = 70,
+	ITEM071 = 71,
+	ITEM072 = 72,
+	ITEM073 = 73,
+	ITEM074 = 74,
+	ITEM075 = 75,
+	ITEM076 = 76,
+	ITEM077 = 77,
+	ITEM078 = 78,
+	ITEM079 = 79,
+	ITEM080 = 80,
+	ITEM081 = 81,
+	ITEM082 = 82,
+	ITEM083 = 83,
+	ITEM084 = 84,
+	ITEM085 = 85,
+	ITEM086 = 86,
+	ITEM087 = 87,
+	ITEM088 = 88,
+	ITEM089 = 89,
+	ITEM090 = 90,
+	ITEM091 = 91,
+	ITEM092 = 92,
+	ITEM093 = 93,
+	ITEM094 = 94,
+	ITEM095 = 95,
+	ITEM096 = 96,
+	ITEM097 = 97,
+	ITEM098 = 98,
+	ITEM099 = 99,
+	ITEM100 = 100,
+	ITEM101 = 101,
+	ITEM102 = 102,
+	ITEM103 = 103,
+	ITEM104 = 104,
+	ITEM105 = 105,
+	ITEM106 = 106,
+	ITEM107 = 107,
+	ITEM108 = 108,
+	ITEM109 = 109,
+	ITEM110 = 110,
+	ITEM111 = 111,
+	ITEM112 = 112,
+	ITEM113 = 113,
+	ITEM114 = 114,
+	ITEM115 = 115,
+	ITEM116 = 116,
+	ITEM117 = 117,
+	ITEM118 = 118,
+	ITEM119 = 119,
+	ITEM120 = 120,
+	ITEM121 = 121,
+	ITEM122 = 122,
+	ITEM123 = 123,
+	ITEM124 = 124,
+	ITEM125 = 125,
+	ITEM126 = 126,
+	ITEM127 = 127,
+	ITEM128 = 128,
+	ITEM129 = 129,
+	ITEM130 = 130,
+	ITEM131 = 131,
+	ITEM132 = 132,
+	ITEM133 = 133,
+	ITEM134 = 134,
+	ITEM135 = 135,
+	ITEM136 = 136,
+	ITEM137 = 137,
+	ITEM138 = 138,
+	ITEM139 = 139,
+	ITEM140 = 140,
+	ITEM141 = 141,
+	ITEM142 = 142,
+	ITEM143 = 143,
+	ITEM144 = 144,
+	ITEM145 = 145,
+	ITEM146 = 146,
+	ITEM147 = 147,
+	ITEM148 = 148,
+	ITEM149 = 149,
+	ITEM150 = 150,
+	ITEM151 = 151,
+	ITEM152 = 152,
+	ITEM153 = 153,
+	ITEM154 = 154,
+	ITEM155 = 155,
+	ITEM156 = 156,
+	ITEM157 = 157,
+	ITEM158 = 158,
+	ITEM159 = 159,
+	ITEM160 = 160,
+	ITEM161 = 161,
+	ITEM162 = 162,
+	ITEM163 = 163,
+	ITEM164 = 164,
+	ITEM165 = 165,
+	ITEM166 = 166,
+	ITEM167 = 167,
+	ITEM168 = 168,
+	ITEM169 = 169,
+	ITEM170 = 170,
+	ITEM171 = 171,
+	ITEM172 = 172,
+	ITEM173 = 173,
+	ITEM174 = 174,
+	ITEM175 = 175,
+	ITEM176 = 176,
+	ITEM177 = 177,
+	ITEM178 = 178,
+	ITEM179 = 179,
+	ITEM180 = 180,
+	ITEM181 = 181,
+	ITEM182 = 182,
+	_MAX = 183 UMETA(Hidden),
+	ETresItemDefGumiParts_MAX = 184 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefReport
+enum class ETresItemDefReport : uint8
 {
-	ETresForceFeedbackKind_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresForceFeedbackKind_ITEM01 = 1 UMETA(DisplayName = "Item 1"),
-	ETresForceFeedbackKind_ITEM02 = 2 UMETA(DisplayName = "Item 2"),
-	ETresForceFeedbackKind_ITEM03 = 3 UMETA(DisplayName = "Item 3"),
-	ETresForceFeedbackKind_ITEM04 = 4 UMETA(DisplayName = "Item 4"),
-	ETresForceFeedbackKind_ITEM05 = 5 UMETA(DisplayName = "Item 5"),
-	ETresForceFeedbackKind_ITEM06 = 6 UMETA(DisplayName = "Item 6"),
-	ETresForceFeedbackKind_ITEM07 = 7 UMETA(DisplayName = "Item 7"),
-	ETresForceFeedbackKind_ITEM08 = 8 UMETA(DisplayName = "Item 8"),
-	ETresForceFeedbackKind_ITEM09 = 9 UMETA(DisplayName = "Item 9"),
-	ETresForceFeedbackKind_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
-	ETresForceFeedbackKind_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
-	ETresForceFeedbackKind_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
-	ETresForceFeedbackKind_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
-	ETresForceFeedbackKind_ITEM14 = 14 UMETA(DisplayName = "Item 14"),
-	ETresItemDefReport_1_MAX = 15 UMETA(Hidden),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	ITEM14 = 14,
+	_MAX = 15 UMETA(Hidden),
 	ETresItemDefReport_MAX = 16 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefNavimap
+enum class ETresItemDefNavimap : uint8
 {
-	NM_WCID_DW01 = 0 UMETA(DisplayName = "DW 01"),
-	NM_WCID_DW02 = 1 UMETA(DisplayName = "DW 02"),
-	NM_WCID_DW03 = 2 UMETA(DisplayName = "DW 03"),
-	NM_WCID_DW04 = 3 UMETA(DisplayName = "DW 04"),
-	NM_WCID_MI01 = 4 UMETA(DisplayName = "MI 01"),
-	NM_WCID_MI02 = 5 UMETA(DisplayName = "MI 02"),
-	NM_WCID_MI03 = 6 UMETA(DisplayName = "MI 03"),
-	NM_WCID_MI04 = 7 UMETA(DisplayName = "MI 04"),
-	NM_WCID_TS01 = 8 UMETA(DisplayName = "TS 01"),
-	NM_WCID_TS02 = 9 UMETA(DisplayName = "TS 02"),
-	NM_WCID_TS03 = 10 UMETA(DisplayName = "TS 03"),
-	NM_WCID_TS04 = 11 UMETA(DisplayName = "TS 04"),
-	NM_WCID_FZ01 = 12 UMETA(DisplayName = "FZ 01"),
-	NM_WCID_FZ02 = 13 UMETA(DisplayName = "FZ 02"),
-	NM_WCID_FZ03 = 14 UMETA(DisplayName = "FZ 03"),
-	NM_WCID_FZ04 = 15 UMETA(DisplayName = "FZ 04"),
-	NM_WCID_RA01 = 16 UMETA(DisplayName = "RA 01"),
-	NM_WCID_RA02 = 17 UMETA(DisplayName = "RA 02"),
-	NM_WCID_RA03 = 18 UMETA(DisplayName = "RA 03"),
-	NM_WCID_RA04 = 19 UMETA(DisplayName = "RA 04"),
-	NM_WCID_CA01 = 20 UMETA(DisplayName = "CA 01"),
-	NM_WCID_CA02 = 21 UMETA(DisplayName = "CA 02"),
-	NM_WCID_CA03 = 22 UMETA(DisplayName = "CA 03"),
-	NM_WCID_CA04 = 23 UMETA(DisplayName = "CA 04"),
-	NM_WCID_HE01 = 24 UMETA(DisplayName = "HE 01"),
-	NM_WCID_HE02 = 25 UMETA(DisplayName = "HE 02"),
-	NM_WCID_HE03 = 26 UMETA(DisplayName = "HE 03"),
-	NM_WCID_HE04 = 27 UMETA(DisplayName = "HE 04"),
-	NM_WCID_BX01 = 28 UMETA(DisplayName = "BX 01"),
-	NM_WCID_BX02 = 29 UMETA(DisplayName = "BX 02"),
-	NM_WCID_BX03 = 30 UMETA(DisplayName = "BX 03"),
-	NM_WCID_BX04 = 31 UMETA(DisplayName = "BX 04"),
-	NM_WCID_TT01 = 32 UMETA(DisplayName = "TT 01"),
-	NM_WCID_TT02 = 33 UMETA(DisplayName = "TT 02"),
-	NM_WCID_TT03 = 34 UMETA(DisplayName = "TT 03"),
-	NM_WCID_TT04 = 35 UMETA(DisplayName = "TT 04"),
-	NM_WCID_PO01 = 36 UMETA(DisplayName = "PO 01"),
-	NM_WCID_PO02 = 37 UMETA(DisplayName = "PO 02"),
-	NM_WCID_PO03 = 38 UMETA(DisplayName = "PO 03"),
-	NM_WCID_PO04 = 39 UMETA(DisplayName = "PO 04"),
-	NM_WCID_KG01 = 40 UMETA(DisplayName = "KG 01"),
-	NM_WCID_KG02 = 41 UMETA(DisplayName = "KG 02"),
-	NM_WCID_KG03 = 42 UMETA(DisplayName = "KG 03"),
-	NM_WCID_KG04 = 43 UMETA(DisplayName = "KG 04"),
-	NM_WCID_EW01 = 44 UMETA(DisplayName = "EW 01"),
-	NM_WCID_EW02 = 45 UMETA(DisplayName = "EW 02"),
-	NM_WCID_EW03 = 46 UMETA(DisplayName = "EW 03"),
-	NM_WCID_EW04 = 47 UMETA(DisplayName = "EW 04"),
-	NM_WCID_BT01 = 48 UMETA(DisplayName = "BT 01"),
-	NM_WCID_BT02 = 49 UMETA(DisplayName = "BT 02"),
-	NM_WCID_BT03 = 50 UMETA(DisplayName = "BT 03"),
-	NM_WCID_BT04 = 51 UMETA(DisplayName = "BT 04"),
-	NM_WCID_CA05 = 52 UMETA(DisplayName = "CA 05"),
-	ETresItemDefNavimap_1_MAX = 53 UMETA(Hidden),
+	NM_WCID_DW01 = 0,
+	NM_WCID_DW02 = 1,
+	NM_WCID_DW03 = 2,
+	NM_WCID_DW04 = 3,
+	NM_WCID_MI01 = 4,
+	NM_WCID_MI02 = 5,
+	NM_WCID_MI03 = 6,
+	NM_WCID_MI04 = 7,
+	NM_WCID_TS01 = 8,
+	NM_WCID_TS02 = 9,
+	NM_WCID_TS03 = 10,
+	NM_WCID_TS04 = 11,
+	NM_WCID_FZ01 = 12,
+	NM_WCID_FZ02 = 13,
+	NM_WCID_FZ03 = 14,
+	NM_WCID_FZ04 = 15,
+	NM_WCID_RA01 = 16,
+	NM_WCID_RA02 = 17,
+	NM_WCID_RA03 = 18,
+	NM_WCID_RA04 = 19,
+	NM_WCID_CA01 = 20,
+	NM_WCID_CA02 = 21,
+	NM_WCID_CA03 = 22,
+	NM_WCID_CA04 = 23,
+	NM_WCID_HE01 = 24,
+	NM_WCID_HE02 = 25,
+	NM_WCID_HE03 = 26,
+	NM_WCID_HE04 = 27,
+	NM_WCID_BX01 = 28,
+	NM_WCID_BX02 = 29,
+	NM_WCID_BX03 = 30,
+	NM_WCID_BX04 = 31,
+	NM_WCID_TT01 = 32,
+	NM_WCID_TT02 = 33,
+	NM_WCID_TT03 = 34,
+	NM_WCID_TT04 = 35,
+	NM_WCID_PO01 = 36,
+	NM_WCID_PO02 = 37,
+	NM_WCID_PO03 = 38,
+	NM_WCID_PO04 = 39,
+	NM_WCID_KG01 = 40,
+	NM_WCID_KG02 = 41,
+	NM_WCID_KG03 = 42,
+	NM_WCID_KG04 = 43,
+	NM_WCID_EW01 = 44,
+	NM_WCID_EW02 = 45,
+	NM_WCID_EW03 = 46,
+	NM_WCID_EW04 = 47,
+	NM_WCID_BT01 = 48,
+	NM_WCID_BT02 = 49,
+	NM_WCID_BT03 = 50,
+	NM_WCID_BT04 = 51,
+	NM_WCID_CA05 = 52,
+	_MAX = 53 UMETA(Hidden),
 	ETresItemDefNavimap_MAX = 54 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefLSIGameItem
+enum class ETresItemDefLSIGameItem : uint8
 {
-	ETresItemDefLSIGameItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefLSIGameItem_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefLSIGameItem_ITEM02 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefLSIGameItem_ITEM03 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefLSIGameItem_ITEM04 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefLSIGameItem_ITEM05 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefLSIGameItem_ITEM06 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefLSIGameItem_ITEM07 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefLSIGameItem_ITEM08 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefLSIGameItem_ITEM09 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefLSIGameItem_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
-	ETresItemDefLSIGameItem_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
-	ETresItemDefLSIGameItem_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
-	ETresItemDefLSIGameItem_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
-	ETresItemDefLSIGameItem_ITEM14 = 14 UMETA(DisplayName = "Item 14"),
-	ETresItemDefLSIGameItem_ITEM15 = 15 UMETA(DisplayName = "Item 15"),
-	ETresItemDefLSIGameItem_ITEM16 = 16 UMETA(DisplayName = "Item 16"),
-	ETresItemDefLSIGameItem_ITEM17 = 17 UMETA(DisplayName = "Item 17"),
-	ETresItemDefLSIGameItem_ITEM18 = 18 UMETA(DisplayName = "Item 18"),
-	ETresItemDefLSIGameItem_ITEM19 = 19 UMETA(DisplayName = "Item 19"),
-	ETresItemDefLSIGameItem_ITEM20 = 20 UMETA(DisplayName = "Item 20"),
-	ETresItemDefLSIGameItem_ITEM21 = 21 UMETA(DisplayName = "Item 21"),
-	ETresItemDefLSIGameItem_ITEM22 = 22 UMETA(DisplayName = "Item 22"),
-	ETresItemDefLSIGameItem_ITEM23 = 23 UMETA(DisplayName = "Item 23"),
-	ETresItemDefLSIGameItem_1_MAX = 24 UMETA(Hidden),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	ITEM14 = 14,
+	ITEM15 = 15,
+	ITEM16 = 16,
+	ITEM17 = 17,
+	ITEM18 = 18,
+	ITEM19 = 19,
+	ITEM20 = 20,
+	ITEM21 = 21,
+	ITEM22 = 22,
+	ITEM23 = 23,
+	_MAX = 24 UMETA(Hidden),
 	ETresItemDefLSIGameItem_MAX = 25 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefMognetItem
+enum class ETresItemDefMognetItem : uint8
 {
-	ETresItemDefMognetItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefMognetItem_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefMognetItem_1_MAX = 2 UMETA(Hidden),
+	NOTHING = 0,
+	ITEM01 = 1,
+	_MAX = 2 UMETA(Hidden),
 	ETresItemDefMognetItem_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefKeyItem
+enum class ETresItemDefKeyItem : uint8
 {
-	ETresItemDefKeyItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefKeyItem_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefKeyItem_ITEM02 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefKeyItem_ITEM03 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefKeyItem_ITEM04 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefKeyItem_ITEM05 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefKeyItem_ITEM06 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefKeyItem_ITEM07 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefKeyItem_ITEM08 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefKeyItem_ITEM09 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefKeyItem_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
-	ETresItemDefKeyItem_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
-	ETresItemDefKeyItem_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
-	ETresItemDefKeyItem_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
-	ETresItemDefKeyItem_1_MAX = 14 UMETA(Hidden),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	_MAX = 14 UMETA(Hidden),
 	ETresItemDefKeyItem_MAX = 15 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefFoodstuff
+enum class ETresItemDefFoodstuff : uint8
 {
-	ETresItemDefFoodstuff_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefFoodstuff_ITEM01 = 1 UMETA(DisplayName = "Item 01"),
-	ETresItemDefFoodstuff_ITEM02 = 2 UMETA(DisplayName = "Item 02"),
-	ETresItemDefFoodstuff_ITEM03 = 3 UMETA(DisplayName = "Item 03"),
-	ETresItemDefFoodstuff_ITEM04 = 4 UMETA(DisplayName = "Item 04"),
-	ETresItemDefFoodstuff_ITEM05 = 5 UMETA(DisplayName = "Item 05"),
-	ETresItemDefFoodstuff_ITEM06 = 6 UMETA(DisplayName = "Item 06"),
-	ETresItemDefFoodstuff_ITEM07 = 7 UMETA(DisplayName = "Item 07"),
-	ETresItemDefFoodstuff_ITEM08 = 8 UMETA(DisplayName = "Item 08"),
-	ETresItemDefFoodstuff_ITEM09 = 9 UMETA(DisplayName = "Item 09"),
-	ETresItemDefFoodstuff_ITEM10 = 10 UMETA(DisplayName = "Item 10"),
-	ETresItemDefFoodstuff_ITEM11 = 11 UMETA(DisplayName = "Item 11"),
-	ETresItemDefFoodstuff_ITEM12 = 12 UMETA(DisplayName = "Item 12"),
-	ETresItemDefFoodstuff_ITEM13 = 13 UMETA(DisplayName = "Item 13"),
-	ETresItemDefFoodstuff_ITEM14 = 14 UMETA(DisplayName = "Item 14"),
-	ETresItemDefFoodstuff_ITEM15 = 15 UMETA(DisplayName = "Item 15"),
-	ETresItemDefFoodstuff_ITEM16 = 16 UMETA(DisplayName = "Item 16"),
-	ETresItemDefFoodstuff_ITEM17 = 17 UMETA(DisplayName = "Item 17"),
-	ETresItemDefFoodstuff_ITEM18 = 18 UMETA(DisplayName = "Item 18"),
-	ETresItemDefFoodstuff_ITEM19 = 19 UMETA(DisplayName = "Item 19"),
-	ETresItemDefFoodstuff_ITEM20 = 20 UMETA(DisplayName = "Item 20"),
-	ETresItemDefFoodstuff_ITEM21 = 21 UMETA(DisplayName = "Item 21"),
-	ETresItemDefFoodstuff_ITEM22 = 22 UMETA(DisplayName = "Item 22"),
-	ETresItemDefFoodstuff_ITEM23 = 23 UMETA(DisplayName = "Item 23"),
-	ETresItemDefFoodstuff_ITEM24 = 24 UMETA(DisplayName = "Item 24"),
-	ETresItemDefFoodstuff_ITEM25 = 25 UMETA(DisplayName = "Item 25"),
-	ETresItemDefFoodstuff_ITEM26 = 26 UMETA(DisplayName = "Item 26"),
-	ETresItemDefFoodstuff_ITEM27 = 27 UMETA(DisplayName = "Item 27"),
-	ETresItemDefFoodstuff_ITEM28 = 28 UMETA(DisplayName = "Item 28"),
-	ETresItemDefFoodstuff_ITEM29 = 29 UMETA(DisplayName = "Item 29"),
-	ETresItemDefFoodstuff_ITEM30 = 30 UMETA(DisplayName = "Item 30"),
-	ETresItemDefFoodstuff_ITEM31 = 31 UMETA(DisplayName = "Item 31"),
-	ETresItemDefFoodstuff_ITEM32 = 32 UMETA(DisplayName = "Item 32"),
-	ETresItemDefFoodstuff_ITEM33 = 33 UMETA(DisplayName = "Item 33"),
-	ETresItemDefFoodstuff_ITEM34 = 34 UMETA(DisplayName = "Item 34"),
-	ETresItemDefFoodstuff_ITEM35 = 35 UMETA(DisplayName = "Item 35"),
-	ETresItemDefFoodstuff_ITEM36 = 36 UMETA(DisplayName = "Item 36"),
-	ETresItemDefFoodstuff_ITEM37 = 37 UMETA(DisplayName = "Item 37"),
-	ETresItemDefFoodstuff_ITEM38 = 38 UMETA(DisplayName = "Item 38"),
-	ETresItemDefFoodstuff_ITEM39 = 39 UMETA(DisplayName = "Item 39"),
-	ETresItemDefFoodstuff_ITEM40 = 40 UMETA(DisplayName = "Item 40"),
-	ETresItemDefFoodstuff_ITEM41 = 41 UMETA(DisplayName = "Item 41"),
-	ETresItemDefFoodstuff_ITEM42 = 42 UMETA(DisplayName = "Item 42"),
-	ETresItemDefFoodstuff_ITEM43 = 43 UMETA(DisplayName = "Item 43"),
-	ETresItemDefFoodstuff_ITEM44 = 44 UMETA(DisplayName = "Item 44"),
-	ETresItemDefFoodstuff_ITEM45 = 45 UMETA(DisplayName = "Item 45"),
-	ETresItemDefFoodstuff_ITEM46 = 46 UMETA(DisplayName = "Item 46"),
-	ETresItemDefFoodstuff_ITEM47 = 47 UMETA(DisplayName = "Item 47"),
-	ETresItemDefFoodstuff_ITEM48 = 48 UMETA(DisplayName = "Item 48"),
-	ETresItemDefFoodstuff_ITEM49 = 49 UMETA(DisplayName = "Item 49"),
-	ETresItemDefFoodstuff_ITEM50 = 50 UMETA(DisplayName = "Item 50"),
-	ETresItemDefFoodstuff_ITEM51 = 51 UMETA(DisplayName = "Item 51"),
-	ETresItemDefFoodstuff_ITEM52 = 52 UMETA(DisplayName = "Item 52"),
-	ETresItemDefFoodstuff_ITEM53 = 53 UMETA(DisplayName = "Item 53"),
-	ETresItemDefFoodstuff_ITEM54 = 54 UMETA(DisplayName = "Item 54"),
-	ETresItemDefFoodstuff_ITEM55 = 55 UMETA(DisplayName = "Item 55"),
-	ETresItemDefFoodstuff_ITEM56 = 56 UMETA(DisplayName = "Item 56"),
-	ETresItemDefFoodstuff_ITEM57 = 57 UMETA(DisplayName = "Item 57"),
-	ETresItemDefFoodstuff_ITEM58 = 58 UMETA(DisplayName = "Item 58"),
-	ETresItemDefFoodstuff_ITEM59 = 59 UMETA(DisplayName = "Item 59"),
-	ETresItemDefFoodstuff_1_MAX = 60 UMETA(Hidden),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	ITEM14 = 14,
+	ITEM15 = 15,
+	ITEM16 = 16,
+	ITEM17 = 17,
+	ITEM18 = 18,
+	ITEM19 = 19,
+	ITEM20 = 20,
+	ITEM21 = 21,
+	ITEM22 = 22,
+	ITEM23 = 23,
+	ITEM24 = 24,
+	ITEM25 = 25,
+	ITEM26 = 26,
+	ITEM27 = 27,
+	ITEM28 = 28,
+	ITEM29 = 29,
+	ITEM30 = 30,
+	ITEM31 = 31,
+	ITEM32 = 32,
+	ITEM33 = 33,
+	ITEM34 = 34,
+	ITEM35 = 35,
+	ITEM36 = 36,
+	ITEM37 = 37,
+	ITEM38 = 38,
+	ITEM39 = 39,
+	ITEM40 = 40,
+	ITEM41 = 41,
+	ITEM42 = 42,
+	ITEM43 = 43,
+	ITEM44 = 44,
+	ITEM45 = 45,
+	ITEM46 = 46,
+	ITEM47 = 47,
+	ITEM48 = 48,
+	ITEM49 = 49,
+	ITEM50 = 50,
+	ITEM51 = 51,
+	ITEM52 = 52,
+	ITEM53 = 53,
+	ITEM54 = 54,
+	ITEM55 = 55,
+	ITEM56 = 56,
+	ITEM57 = 57,
+	ITEM58 = 58,
+	ITEM59 = 59,
+	_MAX = 60 UMETA(Hidden),
 	ETresItemDefFoodstuff_MAX = 61 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefMaterial
+enum class ETresItemDefMaterial : uint8
 {
-	ETresItemDefMaterial_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefMaterial_ITEM01 = 1 UMETA(DisplayName = "Blazing Shard"),
-	ETresItemDefMaterial_ITEM02 = 2 UMETA(DisplayName = "Blazing Stone"),
-	ETresItemDefMaterial_ITEM03 = 3 UMETA(DisplayName = "Blazing Gem"),
-	ETresItemDefMaterial_ITEM04 = 4 UMETA(DisplayName = "Blazing Crystal"),
-	ETresItemDefMaterial_ITEM05 = 5 UMETA(DisplayName = "Frost Shard"),
-	ETresItemDefMaterial_ITEM06 = 6 UMETA(DisplayName = "Frost Stone"),
-	ETresItemDefMaterial_ITEM07 = 7 UMETA(DisplayName = "Frost Gem"),
-	ETresItemDefMaterial_ITEM08 = 8 UMETA(DisplayName = "Frost Crystal"),
-	ETresItemDefMaterial_ITEM09 = 9 UMETA(DisplayName = "Lightning Shard"),
-	ETresItemDefMaterial_ITEM10 = 10 UMETA(DisplayName = "Lightning Stone"),
-	ETresItemDefMaterial_ITEM11 = 11 UMETA(DisplayName = "Lightning Gem"),
-	ETresItemDefMaterial_ITEM12 = 12 UMETA(DisplayName = "Lightning Crystal"),
-	ETresItemDefMaterial_ITEM13 = 13 UMETA(DisplayName = "Lucid Shard"),
-	ETresItemDefMaterial_ITEM14 = 14 UMETA(DisplayName = "Lucid Stone"),
-	ETresItemDefMaterial_ITEM15 = 15 UMETA(DisplayName = "Lucid Gem"),
-	ETresItemDefMaterial_ITEM16 = 16 UMETA(DisplayName = "Lucid Crystal"),
-	ETresItemDefMaterial_ITEM17 = 17 UMETA(DisplayName = "Pulsing Shard"),
-	ETresItemDefMaterial_ITEM18 = 18 UMETA(DisplayName = "Pulsing Stone"),
-	ETresItemDefMaterial_ITEM19 = 19 UMETA(DisplayName = "Pulsing Gem"),
-	ETresItemDefMaterial_ITEM20 = 20 UMETA(DisplayName = "Pulsing Crystal"),
-	ETresItemDefMaterial_ITEM21 = 21 UMETA(DisplayName = "Writhing Shard"),
-	ETresItemDefMaterial_ITEM22 = 22 UMETA(DisplayName = "Writhing Stone"),
-	ETresItemDefMaterial_ITEM23 = 23 UMETA(DisplayName = "Writhing Gem"),
-	ETresItemDefMaterial_ITEM24 = 24 UMETA(DisplayName = "Writhing Crystal"),
-	ETresItemDefMaterial_ITEM25 = 25 UMETA(DisplayName = "Betwixt Shard"),
-	ETresItemDefMaterial_ITEM26 = 26 UMETA(DisplayName = "Betwixt Stone"),
-	ETresItemDefMaterial_ITEM27 = 27 UMETA(DisplayName = "Betwixt Gem"),
-	ETresItemDefMaterial_ITEM28 = 28 UMETA(DisplayName = "Betwixt Crystal"),
-	ETresItemDefMaterial_ITEM29 = 29 UMETA(DisplayName = "Twilight Shard"),
-	ETresItemDefMaterial_ITEM30 = 30 UMETA(DisplayName = "Twilight Stone"),
-	ETresItemDefMaterial_ITEM31 = 31 UMETA(DisplayName = "Twilight Gem"),
-	ETresItemDefMaterial_ITEM32 = 32 UMETA(DisplayName = "Twilight Crystal"),
-	ETresItemDefMaterial_ITEM33 = 33 UMETA(DisplayName = "Mythril Shard"),
-	ETresItemDefMaterial_ITEM34 = 34 UMETA(DisplayName = "Mythril Stone"),
-	ETresItemDefMaterial_ITEM35 = 35 UMETA(DisplayName = "Mythril Gem"),
-	ETresItemDefMaterial_ITEM36 = 36 UMETA(DisplayName = "Mythril Crystal"),
-	ETresItemDefMaterial_ITEM37 = 37 UMETA(DisplayName = "Sinister Shard"),
-	ETresItemDefMaterial_ITEM38 = 38 UMETA(DisplayName = "Sinister Stone"),
-	ETresItemDefMaterial_ITEM39 = 39 UMETA(DisplayName = "Sinister Gem"),
-	ETresItemDefMaterial_ITEM40 = 40 UMETA(DisplayName = "Sinister Crystal"),
-	ETresItemDefMaterial_ITEM41 = 41 UMETA(DisplayName = "Soothing Shard"),
-	ETresItemDefMaterial_ITEM42 = 42 UMETA(DisplayName = "Soothing Stone"),
-	ETresItemDefMaterial_ITEM43 = 43 UMETA(DisplayName = "Soothing Gem"),
-	ETresItemDefMaterial_ITEM44 = 44 UMETA(DisplayName = "Soothing Crystal"),
-	ETresItemDefMaterial_ITEM45 = 45 UMETA(DisplayName = "Wellspring Shard"),
-	ETresItemDefMaterial_ITEM46 = 46 UMETA(DisplayName = "Wellspring Stone"),
-	ETresItemDefMaterial_ITEM47 = 47 UMETA(DisplayName = "Wellspring Gem"),
-	ETresItemDefMaterial_ITEM48 = 48 UMETA(DisplayName = "Wellspring Crystal"),
-	ETresItemDefMaterial_ITEM49 = 49 UMETA(DisplayName = "Hungry Shard"),
-	ETresItemDefMaterial_ITEM50 = 50 UMETA(DisplayName = "Hungry Stone"),
-	ETresItemDefMaterial_ITEM51 = 51 UMETA(DisplayName = "Hungry Gem"),
-	ETresItemDefMaterial_ITEM52 = 52 UMETA(DisplayName = "Hungry Crystal"),
-	ETresItemDefMaterial_ITEM53 = 53 UMETA(DisplayName = "Fluorite"),
-	ETresItemDefMaterial_ITEM54 = 54 UMETA(DisplayName = "Damascus"),
-	ETresItemDefMaterial_ITEM55 = 55 UMETA(DisplayName = "Adamantite"),
-	ETresItemDefMaterial_ITEM56 = 56 UMETA(DisplayName = "Orichalcum"),
-	ETresItemDefMaterial_ITEM57 = 57 UMETA(DisplayName = "Orichalcum+"),
-	ETresItemDefMaterial_ITEM58 = 58 UMETA(DisplayName = "Electrum"),
-	ETresItemDefMaterial_ITEM59 = 59 UMETA(DisplayName = "Evanescent Crystal"),
-	ETresItemDefMaterial_ITEM60 = 60 UMETA(DisplayName = "Illusory Crystal"),
-	ETresItemDefMaterial_1_MAX = 61 UMETA(Hidden),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	ITEM14 = 14,
+	ITEM15 = 15,
+	ITEM16 = 16,
+	ITEM17 = 17,
+	ITEM18 = 18,
+	ITEM19 = 19,
+	ITEM20 = 20,
+	ITEM21 = 21,
+	ITEM22 = 22,
+	ITEM23 = 23,
+	ITEM24 = 24,
+	ITEM25 = 25,
+	ITEM26 = 26,
+	ITEM27 = 27,
+	ITEM28 = 28,
+	ITEM29 = 29,
+	ITEM30 = 30,
+	ITEM31 = 31,
+	ITEM32 = 32,
+	ITEM33 = 33,
+	ITEM34 = 34,
+	ITEM35 = 35,
+	ITEM36 = 36,
+	ITEM37 = 37,
+	ITEM38 = 38,
+	ITEM39 = 39,
+	ITEM40 = 40,
+	ITEM41 = 41,
+	ITEM42 = 42,
+	ITEM43 = 43,
+	ITEM44 = 44,
+	ITEM45 = 45,
+	ITEM46 = 46,
+	ITEM47 = 47,
+	ITEM48 = 48,
+	ITEM49 = 49,
+	ITEM50 = 50,
+	ITEM51 = 51,
+	ITEM52 = 52,
+	ITEM53 = 53,
+	ITEM54 = 54,
+	ITEM55 = 55,
+	ITEM56 = 56,
+	ITEM57 = 57,
+	ITEM58 = 58,
+	ITEM59 = 59,
+	ITEM60 = 60,
+	_MAX = 61 UMETA(Hidden),
 	ETresItemDefMaterial_MAX = 62 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemRank
+enum class ETresItemRank : uint8
 {
-	ETresItemRank_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemRank_RANK00 = 1 UMETA(DisplayName = "Rank 00"),
-	ETresItemRank_RANK01 = 2 UMETA(DisplayName = "Rank 01"),
-	ETresItemRank_RANK02 = 3 UMETA(DisplayName = "Rank 02"),
-	ETresItemRank_RANK03 = 4 UMETA(DisplayName = "Rank 03"),
-	ETresItemRank_1_MAX = 5 UMETA(Hidden),
+	NOTHING = 0,
+	RANK00 = 1,
+	RANK01 = 2,
+	RANK02 = 3,
+	RANK03 = 4,
+	_MAX = 5 UMETA(Hidden),
 	ETresItemRank_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefFood
+enum class ETresItemDefFood : uint8
 {
-	ETresItemDefFood_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefFood_SOUP01 = 1 UMETA(DisplayName = "Soup 01"),
-	ETresItemDefFood_SOUP02 = 2 UMETA(DisplayName = "Soup 02"),
-	ETresItemDefFood_SOUP03 = 3 UMETA(DisplayName = "Soup 03"),
-	ETresItemDefFood_SOUP04 = 4 UMETA(DisplayName = "Soup 04"),
-	ETresItemDefFood_SOUP05 = 5 UMETA(DisplayName = "Soup 05"),
-	ETresItemDefFood_APPETIZER01 = 6 UMETA(DisplayName = "Appetizer 01"),
-	ETresItemDefFood_APPETIZER02 = 7 UMETA(DisplayName = "Appetizer 02"),
-	ETresItemDefFood_APPETIZER03 = 8 UMETA(DisplayName = "Appetizer 03"),
-	ETresItemDefFood_APPETIZER04 = 9 UMETA(DisplayName = "Appetizer 04"),
-	ETresItemDefFood_APPETIZER05 = 10 UMETA(DisplayName = "Appetizer 05"),
-	ETresItemDefFood_FISHDISH01 = 11 UMETA(DisplayName = "Fish Dish 01"),
-	ETresItemDefFood_FISHDISH02 = 12 UMETA(DisplayName = "Fish Dish 02"),
-	ETresItemDefFood_FISHDISH03 = 13 UMETA(DisplayName = "Fish Dish 03"),
-	ETresItemDefFood_FISHDISH04 = 14 UMETA(DisplayName = "Fish Dish 04"),
-	ETresItemDefFood_FISHDISH05 = 15 UMETA(DisplayName = "Fish Dish 05"),
-	ETresItemDefFood_FISHDISH06 = 16 UMETA(DisplayName = "Fish Dish 06"),
-	ETresItemDefFood_MEETDISH01 = 17 UMETA(DisplayName = "Meet Dish 01"),
-	ETresItemDefFood_MEETDISH02 = 18 UMETA(DisplayName = "Meet Dish 02"),
-	ETresItemDefFood_MEETDISH03 = 19 UMETA(DisplayName = "Meet Dish 03"),
-	ETresItemDefFood_MEETDISH04 = 20 UMETA(DisplayName = "Meet Dish 04"),
-	ETresItemDefFood_MEETDISH05 = 21 UMETA(DisplayName = "Meet Dish 05"),
-	ETresItemDefFood_DESSERT01 = 22 UMETA(DisplayName = "Dessert 01"),
-	ETresItemDefFood_DESSERT02 = 23 UMETA(DisplayName = "Dessert 02"),
-	ETresItemDefFood_DESSERT03 = 24 UMETA(DisplayName = "Dessert 03"),
-	ETresItemDefFood_DESSERT04 = 25 UMETA(DisplayName = "Dessert 04"),
-	ETresItemDefFood_DESSERT05 = 26 UMETA(DisplayName = "Dessert 05"),
-	ETresItemDefFood_DESSERT06 = 27 UMETA(DisplayName = "Dessert 06"),
-	ETresItemDefFood_DESSERT07 = 28 UMETA(DisplayName = "Dessert 07"),
-	ETresItemDefFood_SOUP01P = 29 UMETA(DisplayName = "Soup 01 P"),
-	ETresItemDefFood_SOUP02P = 30 UMETA(DisplayName = "Soup 02 P"),
-	ETresItemDefFood_SOUP03P = 31 UMETA(DisplayName = "Soup 03 P"),
-	ETresItemDefFood_SOUP04P = 32 UMETA(DisplayName = "Soup 04 P"),
-	ETresItemDefFood_SOUP05P = 33 UMETA(DisplayName = "Soup 05 P"),
-	ETresItemDefFood_APPETIZER01P = 34 UMETA(DisplayName = "Appetizer 01 P"),
-	ETresItemDefFood_APPETIZER02P = 35 UMETA(DisplayName = "Appetizer 02 P"),
-	ETresItemDefFood_APPETIZER03P = 36 UMETA(DisplayName = "Appetizer 03 P"),
-	ETresItemDefFood_APPETIZER04P = 37 UMETA(DisplayName = "Appetizer 04 P"),
-	ETresItemDefFood_APPETIZER05P = 38 UMETA(DisplayName = "Appetizer 05 P"),
-	ETresItemDefFood_FISHDISH01P = 39 UMETA(DisplayName = "Fish Dish 01 P"),
-	ETresItemDefFood_FISHDISH02P = 40 UMETA(DisplayName = "Fish Dish 02 P"),
-	ETresItemDefFood_FISHDISH03P = 41 UMETA(DisplayName = "Fish Dish 03 P"),
-	ETresItemDefFood_FISHDISH04P = 42 UMETA(DisplayName = "Fish Dish 04 P"),
-	ETresItemDefFood_FISHDISH05P = 43 UMETA(DisplayName = "Fish Dish 05 P"),
-	ETresItemDefFood_FISHDISH06P = 44 UMETA(DisplayName = "Fish Dish 06 P"),
-	ETresItemDefFood_MEETDISH01P = 45 UMETA(DisplayName = "Meet Dish 01 P"),
-	ETresItemDefFood_MEETDISH02P = 46 UMETA(DisplayName = "Meet Dish 02 P"),
-	ETresItemDefFood_MEETDISH03P = 47 UMETA(DisplayName = "Meet Dish 03 P"),
-	ETresItemDefFood_MEETDISH04P = 48 UMETA(DisplayName = "Meet Dish 04 P"),
-	ETresItemDefFood_MEETDISH05P = 49 UMETA(DisplayName = "Meet Dish 05 P"),
-	ETresItemDefFood_DESSERT01P = 50 UMETA(DisplayName = "Dessert 01 P"),
-	ETresItemDefFood_DESSERT02P = 51 UMETA(DisplayName = "Dessert 02 P"),
-	ETresItemDefFood_DESSERT03P = 52 UMETA(DisplayName = "Dessert 03 P"),
-	ETresItemDefFood_DESSERT04P = 53 UMETA(DisplayName = "Dessert 04 P"),
-	ETresItemDefFood_DESSERT05P = 54 UMETA(DisplayName = "Dessert 05 P"),
-	ETresItemDefFood_DESSERT06P = 55 UMETA(DisplayName = "Dessert 06 P"),
-	ETresItemDefFood_DESSERT07P = 56 UMETA(DisplayName = "Dessert 07 P"),
-	ETresItemDefFood_1_MAX = 57 UMETA(Hidden),
+	NOTHING = 0,
+	SOUP01 = 1,
+	SOUP02 = 2,
+	SOUP03 = 3,
+	SOUP04 = 4,
+	SOUP05 = 5,
+	APPETIZER01 = 6,
+	APPETIZER02 = 7,
+	APPETIZER03 = 8,
+	APPETIZER04 = 9,
+	APPETIZER05 = 10,
+	FISHDISH01 = 11,
+	FISHDISH02 = 12,
+	FISHDISH03 = 13,
+	FISHDISH04 = 14,
+	FISHDISH05 = 15,
+	FISHDISH06 = 16,
+	MEETDISH01 = 17,
+	MEETDISH02 = 18,
+	MEETDISH03 = 19,
+	MEETDISH04 = 20,
+	MEETDISH05 = 21,
+	DESSERT01 = 22,
+	DESSERT02 = 23,
+	DESSERT03 = 24,
+	DESSERT04 = 25,
+	DESSERT05 = 26,
+	DESSERT06 = 27,
+	DESSERT07 = 28,
+	SOUP01P = 29,
+	SOUP02P = 30,
+	SOUP03P = 31,
+	SOUP04P = 32,
+	SOUP05P = 33,
+	APPETIZER01P = 34,
+	APPETIZER02P = 35,
+	APPETIZER03P = 36,
+	APPETIZER04P = 37,
+	APPETIZER05P = 38,
+	FISHDISH01P = 39,
+	FISHDISH02P = 40,
+	FISHDISH03P = 41,
+	FISHDISH04P = 42,
+	FISHDISH05P = 43,
+	FISHDISH06P = 44,
+	MEETDISH01P = 45,
+	MEETDISH02P = 46,
+	MEETDISH03P = 47,
+	MEETDISH04P = 48,
+	MEETDISH05P = 49,
+	DESSERT01P = 50,
+	DESSERT02P = 51,
+	DESSERT03P = 52,
+	DESSERT04P = 53,
+	DESSERT05P = 54,
+	DESSERT06P = 55,
+	DESSERT07P = 56,
+	_MAX = 57 UMETA(Hidden),
 	ETresItemDefFood_MAX = 58 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum class ETresItemDefAccessory : uint8
 {
-	NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ITEM01 = 1 UMETA(DisplayName = "Laughter Pin"),
-	ITEM02 = 2 UMETA(DisplayName = "Forest Clasp"),
-	ITEM03 = 3 UMETA(DisplayName = "Ability Ring"),
-	ITEM04 = 4 UMETA(DisplayName = "Ability Ring+"),
-	ITEM05 = 5 UMETA(DisplayName = "Technician's Ring"),
-	ITEM06 = 6 UMETA(DisplayName = "Technician's Ring+"),
-	ITEM07 = 7 UMETA(DisplayName = "Skill Ring"),
-	ITEM08 = 8 UMETA(DisplayName = "Skillful Ring"),
-	ITEM09 = 9 UMETA(DisplayName = "Expert's Ring"),
-	ITEM10 = 10 UMETA(DisplayName = "Master's Ring"),
-	ITEM11 = 11 UMETA(DisplayName = "Cosmic Ring"),
-	ITEM12 = 12 UMETA(DisplayName = "Power Ring"),
-	ITEM13 = 13 UMETA(DisplayName = "Buster Ring"),
-	ITEM14 = 14 UMETA(DisplayName = "Valor Ring"),
-	ITEM15 = 15 UMETA(DisplayName = "Phantom Ring"),
-	ITEM16 = 16 UMETA(DisplayName = "Orichalcum Ring"),
-	ITEM17 = 17 UMETA(DisplayName = "Magic Ring"),
-	ITEM18 = 18 UMETA(DisplayName = "Rune Ring"),
-	ITEM19 = 19 UMETA(DisplayName = "Force Ring"),
-	ITEM20 = 20 UMETA(DisplayName = "Sorcerer's Ring"),
-	ITEM21 = 21 UMETA(DisplayName = "Wisdom Ring"),
-	ITEM22 = 22 UMETA(DisplayName = "Bronze Necklace"),
-	ITEM23 = 23 UMETA(DisplayName = "Silver Necklace"),
-	ITEM24 = 24 UMETA(DisplayName = "Master's Necklace"),
-	ITEM25 = 25 UMETA(DisplayName = "Bronze Amulet"),
-	ITEM26 = 26 UMETA(DisplayName = "Silver Amulet"),
-	ITEM27 = 27 UMETA(DisplayName = "Gold Amulet"),
-	ITEM28 = 28 UMETA(DisplayName = "Junior Medal"),
-	ITEM29 = 29 UMETA(DisplayName = "Master Medal"),
-	ITEM30 = 30 UMETA(DisplayName = "Star Medal"),
-	ITEM31 = 31 UMETA(DisplayName = "Mickey Clasp"),
-	ITEM32 = 32 UMETA(DisplayName = "Soldier's Earring"),
-	ITEM33 = 33 UMETA(DisplayName = "Fencer's Earring"),
-	ITEM34 = 34 UMETA(DisplayName = "Mage's Earring"),
-	ITEM35 = 35 UMETA(DisplayName = "Slayer's Earring"),
-	ITEM36 = 36 UMETA(DisplayName = "Moon Amulet"),
-	ITEM37 = 37 UMETA(DisplayName = "Star Charm"),
-	ITEM38 = 38 UMETA(DisplayName = "Cosmic Arts"),
-	ITEM39 = 39 UMETA(DisplayName = "Crystal Regalia"),
-	ITEM40 = 40 UMETA(DisplayName = "Water Cufflink"),
-	ITEM41 = 41 UMETA(DisplayName = "Thunder Cufflink"),
-	ITEM42 = 42 UMETA(DisplayName = "Fire Cufflink"),
-	ITEM43 = 43 UMETA(DisplayName = "Aero Cufflink"),
-	ITEM44 = 44 UMETA(DisplayName = "Blizzard Cufflink"),
-	ITEM45 = 45 UMETA(DisplayName = "Celestriad"),
-	ITEM46 = 46 UMETA(DisplayName = "Yin-Yang Cufflink"),
-	ITEM47 = 47 UMETA(DisplayName = "Gourmand's Ring"),
-	ITEM48 = 48 UMETA(DisplayName = "Draw Ring"),
-	ITEM49 = 49 UMETA(DisplayName = "Lucky Ring"),
-	ITEM50 = 50 UMETA(DisplayName = "Flanniversary Badge"),
-	ITEM51 = 51 UMETA(DisplayName = "Breakthrough"),
-	ITEM52 = 52 UMETA(DisplayName = "Crystal Regalia+"),
-	ITEM53 = 53 UMETA(DisplayName = "Item 53"),
-	ITEM54 = 54 UMETA(DisplayName = "Item 54"),
-	ITEM55 = 55 UMETA(DisplayName = "Item 55"),
-	ITEM56 = 56 UMETA(DisplayName = "Item 56"),
-	ITEM57 = 57 UMETA(DisplayName = "Item 57"),
-	ITEM58 = 58 UMETA(DisplayName = "Item 58"),
-	ITEM59 = 59 UMETA(DisplayName = "Item 59"),
-	ITEM60 = 60 UMETA(DisplayName = "Item 60"),
-	ITEM61 = 61 UMETA(DisplayName = "Item 61"),
-	ITEM62 = 62 UMETA(DisplayName = "Item 62"),
-	ITEM63 = 63 UMETA(DisplayName = "Item 63"),
-	ITEM64 = 64 UMETA(DisplayName = "Item 64"),
-	ITEM65 = 65 UMETA(DisplayName = "Item 65"),
-	ITEM66 = 66 UMETA(DisplayName = "Item 66"),
-	ITEM67 = 67 UMETA(DisplayName = "Item 67"),
-	ITEM68 = 68 UMETA(DisplayName = "Item 68"),
-	ITEM69 = 69 UMETA(DisplayName = "Item 69"),
-	ITEM70 = 70 UMETA(DisplayName = "Item 70"),
-	ITEM71 = 71 UMETA(DisplayName = "Item 71"),
-	ITEM72 = 72 UMETA(DisplayName = "Item 72"),
-	ITEM73 = 73 UMETA(DisplayName = "Item 73"),
-	ITEM74 = 74 UMETA(DisplayName = "Item 74"),
-	ITEM75 = 75 UMETA(DisplayName = "Item 75"),
-	ITEM76 = 76 UMETA(DisplayName = "Item 76"),
-	ITEM77 = 77 UMETA(DisplayName = "Item 77"),
-	ITEM78 = 78 UMETA(DisplayName = "Item 78"),
-	ITEM79 = 79 UMETA(DisplayName = "Item 79"),
-	ITEM80 = 80 UMETA(DisplayName = "Item 80"),
-	ITEM81 = 81 UMETA(DisplayName = "Item 81"),
-	ITEM82 = 82 UMETA(DisplayName = "Item 82"),
-	ITEM83 = 83 UMETA(DisplayName = "Item 83"),
-	ITEM84 = 84 UMETA(DisplayName = "Item 84"),
-	ITEM85 = 85 UMETA(DisplayName = "Item 85"),
-	ITEM86 = 86 UMETA(DisplayName = "Item 86"),
-	ITEM87 = 87 UMETA(DisplayName = "Item 87"),
-	ITEM88 = 88 UMETA(DisplayName = "Item 88"),
-	ITEM89 = 89 UMETA(DisplayName = "Item 89"),
-	ITEM90 = 90 UMETA(DisplayName = "Item 90"),
-	ITEM91 = 91 UMETA(DisplayName = "Item 91"),
-	ITEM92 = 92 UMETA(DisplayName = "Item 92"),
-	ITEM93 = 93 UMETA(DisplayName = "Item 93"),
-	ITEM94 = 94 UMETA(DisplayName = "Item 94"),
-	ITEM95 = 95 UMETA(DisplayName = "Item 95"),
-	ITEM96 = 96 UMETA(DisplayName = "Item 96"),
-	ITEM97 = 97 UMETA(DisplayName = "Item 97"),
-	ITEM98 = 98 UMETA(DisplayName = "Item 98"),
-	ITEM99 = 99 UMETA(DisplayName = "Item 99"),
-	ITEM100 = 100 UMETA(DisplayName = "Item 100"),
-	ITEM101 = 101 UMETA(DisplayName = "Item 101"),
-	ITEM102 = 102 UMETA(DisplayName = "Item 102"),
-	ITEM103 = 103 UMETA(DisplayName = "Item 103"),
-	ITEM104 = 104 UMETA(DisplayName = "Item 104"),
-	ITEM105 = 105 UMETA(DisplayName = "Item 105"),
-	ITEM106 = 106 UMETA(DisplayName = "Item 106"),
-	ITEM107 = 107 UMETA(DisplayName = "Item 107"),
-	ITEM108 = 108 UMETA(DisplayName = "Item 108"),
-	ITEM109 = 109 UMETA(DisplayName = "Item 109"),
-	ITEM110 = 110 UMETA(DisplayName = "Item 110"),
-	ITEM111 = 111 UMETA(DisplayName = "Item 111"),
-	ITEM112 = 112 UMETA(DisplayName = "Item 112"),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	ITEM14 = 14,
+	ITEM15 = 15,
+	ITEM16 = 16,
+	ITEM17 = 17,
+	ITEM18 = 18,
+	ITEM19 = 19,
+	ITEM20 = 20,
+	ITEM21 = 21,
+	ITEM22 = 22,
+	ITEM23 = 23,
+	ITEM24 = 24,
+	ITEM25 = 25,
+	ITEM26 = 26,
+	ITEM27 = 27,
+	ITEM28 = 28,
+	ITEM29 = 29,
+	ITEM30 = 30,
+	ITEM31 = 31,
+	ITEM32 = 32,
+	ITEM33 = 33,
+	ITEM34 = 34,
+	ITEM35 = 35,
+	ITEM36 = 36,
+	ITEM37 = 37,
+	ITEM38 = 38,
+	ITEM39 = 39,
+	ITEM40 = 40,
+	ITEM41 = 41,
+	ITEM42 = 42,
+	ITEM43 = 43,
+	ITEM44 = 44,
+	ITEM45 = 45,
+	ITEM46 = 46,
+	ITEM47 = 47,
+	ITEM48 = 48,
+	ITEM49 = 49,
+	ITEM50 = 50,
+	ITEM51 = 51,
+	ITEM52 = 52,
+	ITEM53 = 53,
+	ITEM54 = 54,
+	ITEM55 = 55,
+	ITEM56 = 56,
+	ITEM57 = 57,
+	ITEM58 = 58,
+	ITEM59 = 59,
+	ITEM60 = 60,
+	ITEM61 = 61,
+	ITEM62 = 62,
+	ITEM63 = 63,
+	ITEM64 = 64,
+	ITEM65 = 65,
+	ITEM66 = 66,
+	ITEM67 = 67,
+	ITEM68 = 68,
+	ITEM69 = 69,
+	ITEM70 = 70,
+	ITEM71 = 71,
+	ITEM72 = 72,
+	ITEM73 = 73,
+	ITEM74 = 74,
+	ITEM75 = 75,
+	ITEM76 = 76,
+	ITEM77 = 77,
+	ITEM78 = 78,
+	ITEM79 = 79,
+	ITEM80 = 80,
+	ITEM81 = 81,
+	ITEM82 = 82,
+	ITEM83 = 83,
+	ITEM84 = 84,
+	ITEM85 = 85,
+	ITEM86 = 86,
+	ITEM87 = 87,
+	ITEM88 = 88,
+	ITEM89 = 89,
+	ITEM90 = 90,
+	ITEM91 = 91,
+	ITEM92 = 92,
+	ITEM93 = 93,
+	ITEM94 = 94,
+	ITEM95 = 95,
+	ITEM96 = 96,
+	ITEM97 = 97,
+	ITEM98 = 98,
+	ITEM99 = 99,
+	ITEM100 = 100,
+	ITEM101 = 101,
+	ITEM102 = 102,
+	ITEM103 = 103,
+	ITEM104 = 104,
+	ITEM105 = 105,
+	ITEM106 = 106,
+	ITEM107 = 107,
+	ITEM108 = 108,
+	ITEM109 = 109,
+	ITEM110 = 110,
+	ITEM111 = 111,
+	ITEM112 = 112,
 	_MAX = 113 UMETA(Hidden),
 	ETresItemDefAccessory_MAX = 114 UMETA(Hidden)
 };
@@ -8776,107 +8791,107 @@ enum class ETresItemDefAccessory : uint8
 UENUM(BlueprintType)
 enum class ETresItemDefProtector : uint8
 {
-	NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ITEM01 = 1 UMETA(DisplayName = "Hero's Belt"),
-	ITEM02 = 2 UMETA(DisplayName = "Hero's Glove"),
-	ITEM03 = 3 UMETA(DisplayName = "Shield Belt"),
-	ITEM04 = 4 UMETA(DisplayName = "Defense Belt"),
-	ITEM05 = 5 UMETA(DisplayName = "Guardian's Belt"),
-	ITEM06 = 6 UMETA(DisplayName = "Power Band"),
-	ITEM07 = 7 UMETA(DisplayName = "Buster Band"),
-	ITEM08 = 8 UMETA(DisplayName = "Buster Band+"),
-	ITEM09 = 9 UMETA(DisplayName = "Cosmic Belt"),
-	ITEM10 = 10 UMETA(DisplayName = "Cosmic Belt+"),
-	ITEM11 = 11 UMETA(DisplayName = "Fire Bangle"),
-	ITEM12 = 12 UMETA(DisplayName = "Firaga Bangle"),
-	ITEM13 = 13 UMETA(DisplayName = "Firaza Bangle"),
-	ITEM14 = 14 UMETA(DisplayName = "Fire Chain"),
-	ITEM15 = 15 UMETA(DisplayName = "Blizzard Choker"),
-	ITEM16 = 16 UMETA(DisplayName = "Blizzara Choker"),
-	ITEM17 = 17 UMETA(DisplayName = "Blizzaga Choker"),
-	ITEM18 = 18 UMETA(DisplayName = "Blizzard Chain"),
-	ITEM19 = 19 UMETA(DisplayName = "Thunder Trinket"),
-	ITEM20 = 20 UMETA(DisplayName = "Thundaga Trinket"),
-	ITEM21 = 21 UMETA(DisplayName = "Thundaza Trinket"),
-	ITEM22 = 22 UMETA(DisplayName = "Thunder Chain"),
-	ITEM23 = 23 UMETA(DisplayName = "Dark Anklet"),
-	ITEM24 = 24 UMETA(DisplayName = "Midnight Anklet"),
-	ITEM25 = 25 UMETA(DisplayName = "Chaos Anklet"),
-	ITEM26 = 26 UMETA(DisplayName = "Dark Chain"),
-	ITEM27 = 27 UMETA(DisplayName = "Divine Bandanna"),
-	ITEM28 = 28 UMETA(DisplayName = "Elven Bandanna"),
-	ITEM29 = 29 UMETA(DisplayName = "Aqua Chaplet"),
-	ITEM30 = 30 UMETA(DisplayName = "Wind Fan"),
-	ITEM31 = 31 UMETA(DisplayName = "Storm Fan"),
-	ITEM32 = 32 UMETA(DisplayName = "Aero Armlet"),
-	ITEM33 = 33 UMETA(DisplayName = "Aegis Chain"),
-	ITEM34 = 34 UMETA(DisplayName = "Acrisius"),
-	ITEM35 = 35 UMETA(DisplayName = "Cosmic Chain"),
-	ITEM36 = 36 UMETA(DisplayName = "Petite Ribbon"),
-	ITEM37 = 37 UMETA(DisplayName = "Ribbon"),
-	ITEM38 = 38 UMETA(DisplayName = "Fira Bangle"),
-	ITEM39 = 39 UMETA(DisplayName = "Blizzaza Choker"),
-	ITEM40 = 40 UMETA(DisplayName = "Thundara Trinket"),
-	ITEM41 = 41 UMETA(DisplayName = "Shadow Anklet"),
-	ITEM42 = 42 UMETA(DisplayName = "Abas Chain"),
-	ITEM43 = 43 UMETA(DisplayName = "Acrisius+"),
-	ITEM44 = 44 UMETA(DisplayName = "Royal Ribbon"),
-	ITEM45 = 45 UMETA(DisplayName = "Firefighter Rosette"),
-	ITEM46 = 46 UMETA(DisplayName = "Umbrella Rosette"),
-	ITEM47 = 47 UMETA(DisplayName = "Mask Rosette"),
-	ITEM48 = 48 UMETA(DisplayName = "Snowman Rosette"),
-	ITEM49 = 49 UMETA(DisplayName = "Insulator Rosette"),
-	ITEM50 = 50 UMETA(DisplayName = "Power Weight"),
-	ITEM51 = 51 UMETA(DisplayName = "Magic Weight"),
-	ITEM52 = 52 UMETA(DisplayName = "Master Belt"),
+	NOTHING = 0,
+	ITEM01 = 1,
+	ITEM02 = 2,
+	ITEM03 = 3,
+	ITEM04 = 4,
+	ITEM05 = 5,
+	ITEM06 = 6,
+	ITEM07 = 7,
+	ITEM08 = 8,
+	ITEM09 = 9,
+	ITEM10 = 10,
+	ITEM11 = 11,
+	ITEM12 = 12,
+	ITEM13 = 13,
+	ITEM14 = 14,
+	ITEM15 = 15,
+	ITEM16 = 16,
+	ITEM17 = 17,
+	ITEM18 = 18,
+	ITEM19 = 19,
+	ITEM20 = 20,
+	ITEM21 = 21,
+	ITEM22 = 22,
+	ITEM23 = 23,
+	ITEM24 = 24,
+	ITEM25 = 25,
+	ITEM26 = 26,
+	ITEM27 = 27,
+	ITEM28 = 28,
+	ITEM29 = 29,
+	ITEM30 = 30,
+	ITEM31 = 31,
+	ITEM32 = 32,
+	ITEM33 = 33,
+	ITEM34 = 34,
+	ITEM35 = 35,
+	ITEM36 = 36,
+	ITEM37 = 37,
+	ITEM38 = 38,
+	ITEM39 = 39,
+	ITEM40 = 40,
+	ITEM41 = 41,
+	ITEM42 = 42,
+	ITEM43 = 43,
+	ITEM44 = 44,
+	ITEM45 = 45,
+	ITEM46 = 46,
+	ITEM47 = 47,
+	ITEM48 = 48,
+	ITEM49 = 49,
+	ITEM50 = 50,
+	ITEM51 = 51,
+	ITEM52 = 52,
 	_MAX = 53 UMETA(Hidden),
 	ETresItemDefProtector_MAX = 54 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemDefCampItem
+enum class ETresItemDefCampItem : uint8
 {
-	ETresItemDefCampItem_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresItemDefCampItem_TENT = 1 UMETA(DisplayName = "Tent"),
-	ETresItemDefCampItem_POWERUP = 2 UMETA(DisplayName = "Power Up"),
-	ETresItemDefCampItem_MAGICUP = 3 UMETA(DisplayName = "Magic Up"),
-	ETresItemDefCampItem_GUARDUP = 4 UMETA(DisplayName = "Guard Up"),
-	ETresItemDefCampItem_APUP = 5 UMETA(DisplayName = "AP Up"),
-	ETresItemDefCampItem_1_MAX = 6 UMETA(Hidden),
+	NOTHING = 0,
+	TENT = 1,
+	POWERUP = 2,
+	MAGICUP = 3,
+	GUARDUP = 4,
+	APUP = 5,
+	_MAX = 6 UMETA(Hidden),
 	ETresItemDefCampItem_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum class ETresItemDefBattleItem : uint8
 {
-	NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	BI_POTION = 1 UMETA(DisplayName = "Potion"),
-	BI_HIGHPOTION = 2 UMETA(DisplayName = "Hi-Potion"),
-	BI_MEGAPOTION = 3 UMETA(DisplayName = "Mega-Potion"),
-	BI_ETHER = 4 UMETA(DisplayName = "Ether"),
-	BI_MEGAETHER = 5 UMETA(DisplayName = "Mega-Ether"),
-	BI_ELIXIR = 6 UMETA(DisplayName = "Elixir"),
-	BI_LASTELIXIR = 7 UMETA(DisplayName = "Megalixir"),
-	BI_FOCUSSUPPLY = 8 UMETA(DisplayName = "Refocuser"),
-	BI_HIGHFOCUSSUPPLY = 9 UMETA(DisplayName = "Hi-Refocuser"),
-	BI_ALLCURE = 10 UMETA(DisplayName = "Panacea"),
-	BI_HIGHETHER = 11 UMETA(DisplayName = "Hi-Ether"),
+	NOTHING = 0,
+	BI_POTION = 1,
+	BI_HIGHPOTION = 2,
+	BI_MEGAPOTION = 3,
+	BI_ETHER = 4,
+	BI_MEGAETHER = 5,
+	BI_ELIXIR = 6,
+	BI_LASTELIXIR = 7,
+	BI_FOCUSSUPPLY = 8,
+	BI_HIGHFOCUSSUPPLY = 9,
+	BI_ALLCURE = 10,
+	BI_HIGHETHER = 11,
 	_MAX = 12 UMETA(Hidden),
 	ETresItemDefBattleItem_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemSubCategoryKeyItem
+enum class ETresItemSubCategoryKeyItem : uint8
 {
-	ETresItemSubCategoryKeyItem_NONE = 0,
-	ETresItemSubCategoryKeyItem_EVENT = 1,
-	ETresItemSubCategoryKeyItem_SYNTHESIS_RECIPE = 2,
-	ETresItemSubCategoryKeyItem_1_MAX = 3 UMETA(Hidden),
+	NONE = 0,
+	EVENT = 1,
+	SYNTHESIS_RECIPE = 2,
+	_MAX = 3 UMETA(Hidden),
 	ETresItemSubCategoryKeyItem_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemSubCategoryFoodStuff
+enum class ETresItemSubCategoryFoodStuff : uint8
 {
 	SEAFOOD = 0,
 	VEGETABLE = 1,
@@ -8885,54 +8900,54 @@ enum ETresItemSubCategoryFoodStuff
 	FRUIT = 4,
 	SEVENPUDDING = 5,
 	MEAT = 6,
-	ETresItemSubCategoryFoodStuff_1_MAX = 7 UMETA(Hidden),
+	_MAX = 7 UMETA(Hidden),
 	ETresItemSubCategoryFoodStuff_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemSubCategoryFood
+enum class ETresItemSubCategoryFood : uint8
 {
-	ETresItemSubCategoryFood_SOUP = 0,
-	ETresItemSubCategoryFood_APPETIZER = 1,
-	ETresItemSubCategoryFood_FISHDISH = 2,
-	ETresItemSubCategoryFood_MEETDISH = 3,
-	ETresItemSubCategoryFood_DESSERT = 4,
-	ETresItemSubCategoryFood_1_MAX = 5 UMETA(Hidden),
+	SOUP = 0,
+	APPETIZER = 1,
+	FISHDISH = 2,
+	MEETDISH = 3,
+	DESSERT = 4,
+	_MAX = 5 UMETA(Hidden),
 	ETresItemSubCategoryFood_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemCategoryIcon
+enum class ETresItemCategoryIcon : uint8
 {
-	ETresItemCategoryIcon_NONE = 0,
-	ETresItemCategoryIcon_WEAPON = 1,
-	ETresItemCategoryIcon_WEAPON_D = 2,
-	ETresItemCategoryIcon_WEAPON_G = 3,
-	ETresItemCategoryIcon_WEAPON_F = 4,
-	ETresItemCategoryIcon_BATTLEITEM = 5,
-	ETresItemCategoryIcon_CAMPITEM = 6,
-	ETresItemCategoryIcon_PROTECTOR = 7,
-	ETresItemCategoryIcon_ACCESSORY = 8,
-	ETresItemCategoryIcon_FOODSTUFF = 9,
-	ETresItemCategoryIcon_KEYITEM = 10,
-	ETresItemCategoryIcon_MATERIAL = 11,
-	ETresItemCategoryIcon_MOGNET = 12,
-	ETresItemCategoryIcon_FOOD = 13,
-	ETresItemCategoryIcon_GUMI_BASE = 14,
-	ETresItemCategoryIcon_GUMI_DECO = 15,
-	ETresItemCategoryIcon_GUMI_MATERIAL = 16,
-	ETresItemCategoryIcon_GUMI_PATTERN = 17,
-	ETresItemCategoryIcon_GUMI_STICKER = 18,
-	ETresItemCategoryIcon_GUMI_SHIP_BP = 19,
-	ETresItemCategoryIcon_GUMI_SHIP_BP_PIECE = 20,
-	ETresItemCategoryIcon_GUMI_WEAPON_SP = 21,
-	ETresItemCategoryIcon_GUMI_TREASURE_MAP = 22,
-	ETresItemCategoryIcon_1_MAX = 23 UMETA(Hidden),
+	NONE = 0,
+	WEAPON = 1,
+	WEAPON_D = 2,
+	WEAPON_G = 3,
+	WEAPON_F = 4,
+	BATTLEITEM = 5,
+	CAMPITEM = 6,
+	PROTECTOR = 7,
+	ACCESSORY = 8,
+	FOODSTUFF = 9,
+	KEYITEM = 10,
+	MATERIAL = 11,
+	MOGNET = 12,
+	FOOD = 13,
+	GUMI_BASE = 14,
+	GUMI_DECO = 15,
+	GUMI_MATERIAL = 16,
+	GUMI_PATTERN = 17,
+	GUMI_STICKER = 18,
+	GUMI_SHIP_BP = 19,
+	GUMI_SHIP_BP_PIECE = 20,
+	GUMI_WEAPON_SP = 21,
+	GUMI_TREASURE_MAP = 22,
+	MAX = 23 UMETA(Hidden),
 	ETresItemCategoryIcon_MAX = 24 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresItemCategory
+enum class ETresItemCategory : uint8
 {
 	CAT_NONE = 0,
 	BATTLEITEM = 1,
@@ -8959,7 +8974,7 @@ enum ETresItemCategory
 };
 
 UENUM(BlueprintType)
-enum ETresItemCollectRewardKind
+enum class ETresItemCollectRewardKind : uint8
 {
 	TICR_GET_ITEM = 0,
 	TICR_ENABLE_SYNTHESIS = 1,
@@ -8968,7 +8983,7 @@ enum ETresItemCollectRewardKind
 };
 
 UENUM(BlueprintType)
-enum ETresItemCollectCondition
+enum class ETresItemCollectCondition : uint8
 {
 	TICC_MAT_KIND_NUM = 0,
 	TICC_MAT_TOTAL_NUM = 1,
@@ -8979,7 +8994,7 @@ enum ETresItemCollectCondition
 };
 
 UENUM(BlueprintType)
-enum ETresItemSynthesisCondition
+enum class ETresItemSynthesisCondition : uint8
 {
 	TISC_NONE = 0,
 	TISC_COLLECT_LIST = 1,
@@ -8999,7 +9014,7 @@ enum ESqexCPPKHSWorldType
 };
 
 UENUM(BlueprintType)
-enum ETresLevelEntityRestartSequence
+enum class ETresLevelEntityRestartSequence : uint8
 {
 	RESTART_ENTER_SEQUENCE = 0,
 	RESTART_EXIT_SEQUENCE = 1,
@@ -9008,7 +9023,7 @@ enum ETresLevelEntityRestartSequence
 };
 
 UENUM(BlueprintType)
-enum ETresLevelEntitySequenceConditionDistanceSelector
+enum class ETresLevelEntitySequenceConditionDistanceSelector : uint8
 {
 	ETresLevelEntitySequenceConditionDistanceSelector_Nearest = 0,
 	ETresLevelEntitySequenceConditionDistanceSelector_Farthest = 1,
@@ -9016,7 +9031,7 @@ enum ETresLevelEntitySequenceConditionDistanceSelector
 };
 
 UENUM(BlueprintType)
-enum ETresLevelEntitySequenceConditionDistanceCompare
+enum class ETresLevelEntitySequenceConditionDistanceCompare : uint8
 {
 	ETresLevelEntitySequenceConditionDistanceCompare_GraeterEqual = 0,
 	ETresLevelEntitySequenceConditionDistanceCompare_LessEqual = 1,
@@ -9024,7 +9039,7 @@ enum ETresLevelEntitySequenceConditionDistanceCompare
 };
 
 UENUM(BlueprintType)
-enum ETresLevelEntitySequenceConditionBinOp
+enum class ETresLevelEntitySequenceConditionBinOp : uint8
 {
 	ETresLevelEntitySequenceConditionBinOp_Less = 0,
 	ETresLevelEntitySequenceConditionBinOp_Greater = 1,
@@ -9036,9 +9051,9 @@ enum ETresLevelEntitySequenceConditionBinOp
 };
 
 UENUM(BlueprintType)
-enum ETresLevelLoadAndVisible
+enum class ETresLevelLoadAndVisible : uint8
 {
-	ETresLevelLoadAndVisible_None = 0,
+	None = 0,
 	LoadAndVisible = 1,
 	LoadAndHidden = 2,
 	Unload = 3,
@@ -9046,17 +9061,17 @@ enum ETresLevelLoadAndVisible
 };
 
 UENUM(BlueprintType)
-enum ETresLevelVisibility
+enum class ETresLevelVisibility : uint8
 {
-	ETresLevelVisibility_Default = 0,
-	ETresLevelVisibility_Hidden = 1,
-	ETresLevelVisibility_Hidden_Tick = 2,
-	ETresLevelVisibility_None = 3,
+	Default = 0,
+	Hidden = 1,
+	Hidden_Tick = 2,
+	None = 3,
 	ETresLevelVisibility_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLinkActorEx202Size
+enum class ETresLinkActorEx202Size : uint8
 {
 	TRES_LINKACTOR_EX202_SIZE = 0,
 	TRES_LINKACTOR_EX202_SIZE01 = 1,
@@ -9073,48 +9088,40 @@ enum ETresNavLinkSegment_e_ex035_
 };
 
 UENUM(BlueprintType)
-enum ETresLocomotionMode
-{
-	ETresLocomotionMode_Forward = 0,
-	ETresLocomotionMode_Omnidirectional = 1,
-	ETresLocomotionMode_MAX = 2 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum ETresLSIBarnyardSportsMode
+enum class ETresLSIBarnyardSportsMode : uint8
 {
 	the100m = 0,
 	hurdle = 1,
 	triplejump = 2,
 	multisports = 3,
-	ETresLSIBarnyardSportsMode_MAX = 4
+	ETresLSIBarnyardSportsMode_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLSIHowtoPlayBaseballMode
+enum class ETresLSIHowtoPlayBaseballMode : uint8
 {
 	the1Inning = 0,
 	the3Inning = 1,
 	the6Inning = 2,
 	the9Inning = 3,
-	ETresLSIHowtoPlayBaseballMode_MAX = 4
+	ETresLSIHowtoPlayBaseballMode_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLSIHowtoPlayGolfMode
+enum class ETresLSIHowtoPlayGolfMode : uint8
 {
 	the3HOLE = 0,
 	the9HOLE = 1,
 	the18HOLE = 2,
-	ETresLSIHowtoPlayGolfMode_MAX = 3
+	ETresLSIHowtoPlayGolfMode_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLSIMusicFarmerMode
+enum class ETresLSIMusicFarmerMode : uint8
 {
 	GAME_A = 0,
 	GAME_B = 1,
-	GAME_MAX = 2
+	GAME_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9122,11 +9129,11 @@ enum ETresMapSetObjType
 {
 	LevelPath = 0,
 	StreamingVolume = 1,
-	ETresMapSetObjType_MAX = 2
+	ETresMapSetObjType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresMBCurveTrack
+enum class ETresMBCurveTrack : uint8
 {
 	ETresMBCRVT_ScalingX = 0,
 	ETresMBCRVT_ScalingY = 1,
@@ -9139,7 +9146,7 @@ enum ETresMBCurveTrack
 	ETresMBCRVT_TranslationZ = 8,
 	ETresMBCRVT_Roll = 9,
 	ETresMBCRVT_FieldOfView = 10,
-	ETresMBCRVT_Max = 11
+	ETresMBCRVT_Max = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9148,16 +9155,16 @@ enum ETresMBCurveInterp
 	ETresMBCI_Constant = 0,
 	ETresMBCI_Linear = 1,
 	ETresMBCI_Cubic = 2,
-	ETresMBCI_Max = 3
+	ETresMBCI_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresMiRxHolySealType
+enum class ETresMiRxHolySealType : uint8
 {
-	ETresMiRxHolySealType_HOLY_SEAL_TYPE_NONE = 0 UMETA(DisplayName = "None"),
-	ETresMiRxHolySealType_HOLY_SEAL_TYPE_SINGLE = 1 UMETA(DisplayName = "Single"),
-	ETresMiRxHolySealType_HOLY_SEAL_TYPE_FULL_FIRE = 2 UMETA(DisplayName = "Full Fire"),
-	ETresMiRxHolySealType_HOLY_SEAL_TYPE_MAX = 3 UMETA(Hidden)
+	HOLY_SEAL_TYPE_NONE = 0,
+	HOLY_SEAL_TYPE_SINGLE = 1,
+	HOLY_SEAL_TYPE_FULL_FIRE = 2,
+	HOLY_SEAL_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9179,141 +9186,141 @@ enum ETresMiRxReplicaManagerStateKind
 	STATE_KIND_SIMULTANEOUT_WARPATTACK = 13,
 	STATE_KIND_WAIT = 14,
 	STATE_KIND_WAIT_CHANGE_IDLE = 15,
-	STATE_KIND_MAX = 16
+	STATE_KIND_MAX = 16 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGoalType_e_ex042_Hook
+enum class ETresGoalType_e_ex042_Hook : uint8
 {
-	ETresGoalType_e_ex042_Hook_Destination = 0,
-	ETresGoalType_e_ex042_Hook_Target = 1,
-	ETresGoalType_e_ex042_Hook_MAX = 2
+	Destination = 0,
+	Target = 1,
+	ETresGoalType_e_ex042_Hook_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EEX731_DashEffectType
+enum class EEX731_DashEffectType : uint8
 {
 	EEX731_DashEffectType_Loop = 0,
 	EEX731_DashEffectType_End = 1,
-	EEX731_DashEffectType_Max = 2
+	EEX731_DashEffectType_Max = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAIAttackFlowWaitPhase
+enum class ETresFNpcAIAttackFlowWaitPhase : uint8
 {
 	FNPC_AI_ATK_FLOW_WAIT_PHASE = 0,
 	FNPC_AI_ATK_FLOW_WAIT_PHASE01 = 1,
-	FNPC_AI_ATK_FLOW_WAIT_PHASE_MAX = 2
+	FNPC_AI_ATK_FLOW_WAIT_PHASE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNPC_AI_LeadFinish
+enum class ETresFNPC_AI_LeadFinish : uint8
 {
 	TRES_FNPC_AI_LEAD_FINISH_ALL_UP = 0,
 	TRES_FNPC_AI_LEAD_FINISH_GOAL = 1,
 	TRES_FNPC_AI_LEAD_FINISH_GOAL_TURN = 2,
-	TRES_FNPC_AI_LEAD_FINISH_MAX = 3
+	TRES_FNPC_AI_LEAD_FINISH_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNPC_AI_LeadGoalWaitRelease
+enum class ETresFNPC_AI_LeadGoalWaitRelease : uint8
 {
 	TRES_FNPC_AI_LEAD_GOAL_WAIT_R_DIST = 0,
 	TRES_FNPC_AI_LEAD_GOAL_WAIT_R_TIME = 1,
 	TRES_FNPC_AI_LEAD_GOAL_WAIT_R_MANUAL = 2,
-	TRES_FNPC_AI_LEAD_GOAL_WAIT_R_MAX = 3
+	TRES_FNPC_AI_LEAD_GOAL_WAIT_R_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNPC_AI_LeadGoalAction
+enum class ETresFNPC_AI_LeadGoalAction : uint8
 {
 	TRES_FNPC_AI_LEAD_GOAL_WAIT = 0,
 	TRES_FNPC_AI_LEAD_GOAL_TALK = 1,
 	TRES_FNPC_AI_LEAD_GOAL_FREE_WALK = 2,
 	TRES_FNPC_AI_LEAD_GOAL_FREE_WALK_TALK = 3,
-	TRES_FNPC_AI_LEAD_GOAL_MAX = 4
+	TRES_FNPC_AI_LEAD_GOAL_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNPC_AI_LeadMoveType
+enum class ETresFNPC_AI_LeadMoveType : uint8
 {
 	TRES_FNPC_AI_LEAD_MOVE_RUN = 0,
 	TRES_FNPC_AI_LEAD_MOVE_WALK = 1,
-	TRES_FNPC_AI_LEAD_MOVE_MAX = 2
+	TRES_FNPC_AI_LEAD_MOVE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNPC_AI_LeadMode
+enum class ETresFNPC_AI_LeadMode : uint8
 {
 	TRES_FNPC_AI_LEAD_MODE_LEAD = 0,
 	TRES_FNPC_AI_LEAD_MODE_LEAD_POINT = 1,
 	TRES_FNPC_AI_LEAD_MODE_ROUTE = 2,
-	TRES_FNPC_AI_LEAD_MODE_MAX = 3
+	TRES_FNPC_AI_LEAD_MODE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAINpcMode
+enum class ETresFNpcAINpcMode : uint8
 {
 	TRES_FNPC_AI_NPC_MODE_NONE = 0,
 	TRES_FNPC_AI_NPC_MODE_WAIT = 1,
 	TRES_FNPC_AI_NPC_MODE_TALK = 2,
 	TRES_FNPC_AI_NPC_MODE_FREE_WALK = 3,
 	TRES_FNPC_AI_NPC_MODE_FREE_WALK_TALK = 4,
-	TRES_FNPC_AI_NPC_MODE_MAX = 5
+	TRES_FNPC_AI_NPC_MODE_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresNpcGimmickTargetKind
+enum class ETresNpcGimmickTargetKind : uint8
 {
 	TRES_NPC_GTK_RAND = 0,
 	TRES_NPC_GTK_NEAR = 1,
 	TRES_NPC_GTK_PLAYER_NEAR = 2,
 	TRES_NPC_GTK_TIME = 3,
-	TRES_NPC_GTK_MAX = 4
+	TRES_NPC_GTK_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAICombiRole
+enum class ETresFNpcAICombiRole : uint8
 {
 	COMBI_ROLE_NONE = 0,
 	COMBI_ROLE_MAIN = 1,
 	COMBI_ROLE_PARTNER = 2,
-	COMBI_ROLE_MAX = 3
+	COMBI_ROLE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAICombiState
+enum class ETresFNpcAICombiState : uint8
 {
 	STATE_COMBI_DISABLE = 0,
 	STATE_COMBI_ENABLE = 1,
 	STATE_COMBI_STANDBY = 2,
 	STATE_COMBI_EXECUTE = 3,
-	STATE_COMBI_MAX = 4
+	STATE_COMBI_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAICombiID
+enum class ETresFNpcAICombiID : uint8
 {
 	TRES_FNPC_AI_COMBI_NONE = 0,
 	TRES_FNPC_AI_COMBI_MI201_EX001 = 1,
-	TRES_FNPC_AI_COMBI_MAX = 2
+	TRES_FNPC_AI_COMBI_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNPCMat
+enum class ETresFNPCMat : uint8
 {
 	TRES_FNPC_MAT_NORMAL = 0,
 	TRES_FNPC_MAT_SCRIBBLE = 1,
-	TRES_FNPC_MAT_MAX = 2
+	TRES_FNPC_MAT_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresNpcUseItemType
+enum class ETresNpcUseItemType : uint8
 {
 	TRES_NPC_USE_ITEM_NONE = 0,
 	TRES_NPC_USE_ITEM_HP = 1,
 	TRES_NPC_USE_ITEM_MP = 2,
-	TRES_NPC_USE_ITEM_MAX = 3
+	TRES_NPC_USE_ITEM_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9332,147 +9339,147 @@ enum ETresNpcActionOnType
 	TRES_NPC_AOT_HAIR_ACTION = 10,
 	TRES_NPC_AOT_HAIR_ACTION_END = 11,
 	TRES_NPC_AOT_PRECEDE_MOVEMENT = 12,
-	TRES_NPC_AOT_MAX = 13
+	TRES_NPC_AOT_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresNpcSmartphoneCameraState
+enum class ETresNpcSmartphoneCameraState : uint8
 {
 	TRES_NPC_SMARTPHONE_CAM_STATE_STANDBY = 0,
 	TRES_NPC_SMARTPHONE_CAM_STATE_READY = 1,
 	TRES_NPC_SMARTPHONE_CAM_STATE_EXECUT = 2,
-	TRES_NPC_SMARTPHONE_CAM_STATE_MAX = 3
+	TRES_NPC_SMARTPHONE_CAM_STATE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EHologramWorldInitParamValueType
+enum class EHologramWorldInitParamValueType : uint8
 {
-	EHologramWorldInitParamValueType_Float = 0,
-	EHologramWorldInitParamValueType_Vector = 1,
-	EHologramWorldInitParamValueType_Color = 2,
-	EHologramWorldInitParamValueType_1_Max = 3,
-	EHologramWorldInitParamValueType_MAX = 4
+	Float = 0,
+	Vector = 1,
+	Color = 2,
+	Max = 3 UMETA(Hidden),
+	EHologramWorldInitParamValueType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EHologramActorCategory
+enum class EHologramActorCategory : uint8
 {
-	EHologramActorCategory_SORA = 0,
-	EHologramActorCategory_SORA_KH2 = 1,
-	EHologramActorCategory_LIGHT = 2,
-	EHologramActorCategory_DARK = 3,
-	EHologramActorCategory_FRIEND = 4,
-	EHologramActorCategory_ENEMY = 5,
-	EHologramActorCategory_OBJ_SPIRIT = 6,
-	EHologramActorCategory_OBJ_GUMIENEMY = 7,
-	EHologramActorCategory_OBJ_GUMIPARTS = 8,
-	EHologramActorCategory_OBJ_EFFECT = 9,
-	EHologramActorCategory_OBJ_OTHERS = 10,
-	EHologramActorCategory_PHOTOGRAPH_ASSIST = 11,
-	EHologramActorCategory_PHOTOGRAPH_ASSIST_LIGHT = 12,
-	EHologramActorCategory_EFF_CAMATTACH = 13,
-	EHologramActorCategory_EFF_FILTER = 14,
-	EHologramActorCategory_1_MAX = 15,
-	EHologramActorCategory_MAX = 16
+	SORA = 0,
+	SORA_KH2 = 1,
+	LIGHT = 2,
+	DARK = 3,
+	FRIEND = 4,
+	ENEMY = 5,
+	OBJ_SPIRIT = 6,
+	OBJ_GUMIENEMY = 7,
+	OBJ_GUMIPARTS = 8,
+	OBJ_EFFECT = 9,
+	OBJ_OTHERS = 10,
+	PHOTOGRAPH_ASSIST = 11,
+	PHOTOGRAPH_ASSIST_LIGHT = 12,
+	EFF_CAMATTACH = 13,
+	EFF_FILTER = 14,
+	MAX = 15 UMETA(Hidden),
+	EHologramActorCategory_MAX = 16 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSevenPrincessType
+enum class ETresSevenPrincessType : uint8
 {
-	ETresSevenPrincessType_EX_Donald = 0,
-	ETresSevenPrincessType_EX_Goofy = 1,
-	ETresSevenPrincessType_HE_Hercules = 2,
-	ETresSevenPrincessType_TS_Woody = 3,
-	ETresSevenPrincessType_TS_Buzz = 4,
-	ETresSevenPrincessType_RA_Rapunzel = 5,
-	ETresSevenPrincessType_RA_Flynn = 6,
-	ETresSevenPrincessType_FZ_Marshmallow = 7,
-	ETresSevenPrincessType_MI_Sulley = 8,
-	ETresSevenPrincessType_MI_Mike = 9,
-	ETresSevenPrincessType_CA_Jack = 10,
-	ETresSevenPrincessType_BX_Baymax = 11,
-	ETresSevenPrincessType_1_MAX = 12,
-	ETresSevenPrincessType_MAX = 13
+	EX_Donald = 0,
+	EX_Goofy = 1,
+	HE_Hercules = 2,
+	TS_Woody = 3,
+	TS_Buzz = 4,
+	RA_Rapunzel = 5,
+	RA_Flynn = 6,
+	FZ_Marshmallow = 7,
+	MI_Sulley = 8,
+	MI_Mike = 9,
+	CA_Jack = 10,
+	BX_Baymax = 11,
+	MAX = 12 UMETA(Hidden),
+	ETresSevenPrincessType_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresDetectCollShape2D
 {
-	ETresDetectCollShape2D_CIRCLE = 0,
-	ETresDetectCollShape2D_RECTANGLE = 1,
-	ETresDetectCollShape2D_POINT = 2,
-	ETresDetectCollShape2D_1_MAX = 3,
-	ETresDetectCollShape2D_MAX = 4
+	/*CIRCLE = 0,
+	RECTANGLE = 1,
+	POINT = 2,
+	MAX = 3 UMETA(Hidden),*/
+	ETresDetectCollShape2D_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresOneActionType
+enum class ETresOneActionType : uint8
 {
-	ETresOneActionType_DEFAULT = 0,
-	ETresOneActionType_SPECIAL_PERFORM = 1,
-	ETresOneActionType_IMPRESSION_BIRD = 2,
-	ETresOneActionType_1_MAX = 3,
-	ETresOneActionType_MAX = 4
+	DEFAULT = 0,
+	SPECIAL_PERFORM = 1,
+	IMPRESSION_BIRD = 2,
+	MAX = 3 UMETA(Hidden),
+	ETresOneActionType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum EPRIZE_KIND
 {
-	PRIZE_KIND_HpPrizeS = 0 UMETA(DisplayName = "HP Prize S"),
-	PRIZE_KIND_HpPrizeL = 1 UMETA(DisplayName = "HP Prize L"),
-	PRIZE_KIND_MpPrizeS = 2 UMETA(DisplayName = "MP Prize S"),
-	PRIZE_KIND_MpPrizeL = 3 UMETA(DisplayName = "MP Prize L"),
-	PRIZE_KIND_MunnyPrizeS = 4 UMETA(DisplayName = "Munny Prize S"),
-	PRIZE_KIND_MunnyPrizeM = 5 UMETA(DisplayName = "Munny Prize M"),
-	PRIZE_KIND_MunnyPrizeL = 6 UMETA(DisplayName = "Munny Prize L"),
-	PRIZE_KIND_FocusPrizeS = 7 UMETA(DisplayName = "Focus Prize S"),
-	PRIZE_KIND_FocusPrizeL = 8 UMETA(DisplayName = "Focus Prize L"),
-	PRIZE_KIND_CrabPrize = 9 UMETA(DisplayName = "Crab Prize"),
-	PRIZE_KIND_MovableCrabPrize = 10 UMETA(DisplayName = "Movable Crab Prize"),
-	PRIZE_KIND_LightPrizeS = 11 UMETA(DisplayName = "Light Prize S"),
-	PRIZE_KIND_LightPrizeL = 12 UMETA(DisplayName = "Light Prize L"),
-	PRIZE_KIND_HealPrizeBox = 13 UMETA(DisplayName = "Heal Prize Box"),
-	PRIZE_KIND_MatePrizeBox = 14 UMETA(DisplayName = "Mate Prize Box"),
-	PRIZE_KIND_FstfPrizeBox = 15 UMETA(DisplayName = "Fstf Prize Box"),
-	PRIZE_KIND_RarePrizeBox = 16 UMETA(DisplayName = "Rare Prize Box"),
+	PRIZE_KIND_HpPrizeS = 0,
+	PRIZE_KIND_HpPrizeL = 1,
+	PRIZE_KIND_MpPrizeS = 2,
+	PRIZE_KIND_MpPrizeL = 3,
+	PRIZE_KIND_MunnyPrizeS = 4,
+	PRIZE_KIND_MunnyPrizeM = 5,
+	PRIZE_KIND_MunnyPrizeL = 6,
+	PRIZE_KIND_FocusPrizeS = 7,
+	PRIZE_KIND_FocusPrizeL = 8,
+	PRIZE_KIND_CrabPrize = 9,
+	PRIZE_KIND_MovableCrabPrize = 10,
+	PRIZE_KIND_LightPrizeS = 11,
+	PRIZE_KIND_LightPrizeL = 12,
+	PRIZE_KIND_HealPrizeBox = 13,
+	PRIZE_KIND_MatePrizeBox = 14,
+	PRIZE_KIND_FstfPrizeBox = 15,
+	PRIZE_KIND_RarePrizeBox = 16,
 	PRIZE_KIND_MAX = 17 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresClaymoreState_e_ex306
+enum class ETresClaymoreState_e_ex306 : uint8
 {
 	ETresClaymoreState_e_ex306_Appear = 0,
 	ETresClaymoreState_e_ex306_Idle = 1,
 	ETresClaymoreState_e_ex306_SwingDown = 2,
 	ETresClaymoreState_e_ex306_Free = 3,
-	ETresClaymoreState_e_ex306_MAX = 4
+	ETresClaymoreState_e_ex306_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETres_e_ex352_DarkMineKind
+enum class ETres_e_ex352_DarkMineKind : uint8
 {
 	DarkMineKind_Release = 0,
 	DarkMineKind_Surround = 1,
-	DarkMineKind_MAX = 2
+	DarkMineKind_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETres_e_ex352_LightBulbKind
+enum class ETres_e_ex352_LightBulbKind : uint8
 {
 	LightBulbKind_Homing = 0,
 	LightBulbKind_Rotation = 1,
 	LightBulbKind_Scattering = 2,
-	LightBulbKind_MAX = 3
+	LightBulbKind_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresClaymoreState_e_ex355
+enum class ETresClaymoreState_e_ex355 : uint8
 {
 	ETresClaymoreState_e_ex355_Appear = 0,
 	ETresClaymoreState_e_ex355_Idle = 1,
 	ETresClaymoreState_e_ex355_SwingDown = 2,
 	ETresClaymoreState_e_ex355_Free = 3,
-	ETresClaymoreState_e_ex355_MAX = 4
+	ETresClaymoreState_e_ex355_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9481,7 +9488,7 @@ enum EEX355_ClaymoreRoamCenterType
 	EEX355_ClaymoreRoamCenterType_Owner = 0,
 	EEX355_ClaymoreRoamCenterType_Target = 1,
 	EEX355_ClaymoreRoamCenterType_Map = 2,
-	EEX355_ClaymoreRoamCenterType_Max = 3
+	EEX355_ClaymoreRoamCenterType_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9492,7 +9499,7 @@ enum EEX359_SpawnDirType
 	EEX359_SpawnDirType_ToTarget = 2,
 	EEX359_SpawnDirType_Camera = 3,
 	EEX359_SpawnDirType_ProjToTarget = 4,
-	EEX359_SpawnDirType_Max = 5
+	EEX359_SpawnDirType_Max = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -9501,207 +9508,207 @@ enum EEX359_SpawnLocType
 	EEX359_SpawnLocType_Self = 0,
 	EEX359_SpawnLocType_Target = 1,
 	EEX359_SpawnLocType_Owner = 2,
-	EEX359_SpawnLocType_Max = 3
+	EEX359_SpawnLocType_Max = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEEX771_FLARE_SHOT_SPAWN_TYPE
+enum class ETresEnemyEEX771_FLARE_SHOT_SPAWN_TYPE : uint8
 {
-	ETresEnemyEEX771_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_LR = 0,
-	ETresEnemyEEX771_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_L = 1,
-	ETresEnemyEEX771_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_R = 2,
-	ETresEnemyEEX771_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_MAX = 3
+	SPAWN_TYPE_LR = 0,
+	SPAWN_TYPE_L = 1,
+	SPAWN_TYPE_R = 2,
+	SPAWN_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyEEX773_FLARE_SHOT_SPAWN_TYPE
+enum class ETresEnemyEEX773_FLARE_SHOT_SPAWN_TYPE : uint8
 {
-	ETresEnemyEEX773_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_LR = 0,
-	ETresEnemyEEX773_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_L = 1,
-	ETresEnemyEEX773_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_R = 2,
-	ETresEnemyEEX773_FLARE_SHOT_SPAWN_TYPE_SPAWN_TYPE_MAX = 3
+	SPAWN_TYPE_LR = 0,
+	SPAWN_TYPE_L = 1,
+	SPAWN_TYPE_R = 2,
+	SPAWN_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPuddingResultRank
+enum class ETresPuddingResultRank : uint8
 {
-	ETresPuddingResultRank_RANK_A = 0,
-	ETresPuddingResultRank_RANK_B = 1,
-	ETresPuddingResultRank_RANK_C = 2,
-	ETresPuddingResultRank_RANK_MAX = 3
+	RANK_A = 0,
+	RANK_B = 1,
+	RANK_C = 2,
+	RANK_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPuddingTaskType
+enum class ETresPuddingTaskType : uint8
 {
-	ETresPuddingTaskType_NONE = 0,
-	ETresPuddingTaskType_HE = 1,
-	ETresPuddingTaskType_BX = 2,
-	ETresPuddingTaskType_CA = 3,
-	ETresPuddingTaskType_TS = 4,
-	ETresPuddingTaskType_MI = 5,
-	ETresPuddingTaskType_FZ = 6,
-	ETresPuddingTaskType_RA = 7,
-	ETresPuddingTaskType_MAX = 8
+	NONE = 0,
+	HE = 1,
+	BX = 2,
+	CA = 3,
+	TS = 4,
+	MI = 5,
+	FZ = 6,
+	RA = 7,
+	ETresPuddingTaskType_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECuttingMainState
+enum class ECuttingMainState : uint8
 {
-	ECuttingMainState_None = 0,
-	ECuttingMainState_Prepare = 1,
-	ECuttingMainState_Sloping = 2,
-	ECuttingMainState_SubSloping = 3,
-	ECuttingMainState_Calculate = 4,
-	ECuttingMainState_PrepareReload = 5,
-	ECuttingMainState_CommandReload = 6,
-	ECuttingMainState_StickOnlyReload = 7,
-	ECuttingMainState_WaitReload = 8,
-	ECuttingMainState_ResultWait = 9,
-	CuttingMainState_MAX = 10
+	None = 0,
+	Prepare = 1,
+	Sloping = 2,
+	SubSloping = 3,
+	Calculate = 4,
+	PrepareReload = 5,
+	CommandReload = 6,
+	StickOnlyReload = 7,
+	WaitReload = 8,
+	ResultWait = 9,
+	CuttingMainState_MAX = 10 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ECuttingReloadType
+enum class ECuttingReloadType : uint8
 {
-	ECuttingReloadType_Command = 0,
-	ECuttingReloadType_StickOnly = 1,
-	CuttingReloadType_MAX = 2
+	Command = 0,
+	StickOnly = 1,
+	CuttingReloadType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EggCrackingV2MainState
+enum class EggCrackingV2MainState : uint8
 {
-	EggCrackingV2MainState_None = 0,
-	EggCrackingV2MainState_CrackPrepare = 1,
-	EggCrackingV2MainState_CrackSloping = 2,
-	EggCrackingV2MainState_PullPrepare = 3,
-	EggCrackingV2MainState_PullSloping = 4,
-	EggCrackingV2MainState_Finished = 5,
-	EggCrackingV2MainState_MAX = 6
+	None = 0,
+	CrackPrepare = 1,
+	CrackSloping = 2,
+	PullPrepare = 3,
+	PullSloping = 4,
+	Finished = 5,
+	EggCrackingV2MainState_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EggCrackingV2AnimationType
+enum class EggCrackingV2AnimationType : uint8
 {
-	EggCrackingV2AnimationType_TypeA = 0,
-	EggCrackingV2AnimationType_TypeB = 1,
-	EggCrackingV2AnimationType_MAX = 2
+	TypeA = 0,
+	TypeB = 1,
+	EggCrackingV2AnimationType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EggCrackingV2MaterialAmountIncreaseType
+enum class EggCrackingV2MaterialAmountIncreaseType : uint8
 {
-	EggCrackingV2MaterialAmountIncreaseType_TypeA = 0,
-	EggCrackingV2MaterialAmountIncreaseType_TypeB = 1,
-	EggCrackingV2MaterialAmountIncreaseType_TypeC = 2,
-	EggCrackingV2MaterialAmountIncreaseType_TypeD = 3,
-	EggCrackingV2MaterialAmountIncreaseType_MAX = 4
+	TypeA = 0,
+	TypeB = 1,
+	TypeC = 2,
+	TypeD = 3,
+	EggCrackingV2MaterialAmountIncreaseType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESprinklePepperMainState
+enum class ESprinklePepperMainState : uint8
 {
-	ESprinklePepperMainState_None = 0,
-	ESprinklePepperMainState_Prepare = 1,
-	ESprinklePepperMainState_Sloping = 2,
-	ESprinklePepperMainState_Calculate = 3,
-	ESprinklePepperMainState_Finish = 4,
-	SprinklePepperMainState_MAX = 5
+	None = 0,
+	Prepare = 1,
+	Sloping = 2,
+	Calculate = 3,
+	Finish = 4,
+	SprinklePepperMainState_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESprinklePepperV2InputJudgementType
+enum class ESprinklePepperV2InputJudgementType : uint8
 {
-	ESprinklePepperV2InputJudgementType_TypeA = 0,
-	ESprinklePepperV2InputJudgementType_TypeB = 1,
-	ESprinklePepperV2InputJudgementType_TypeC = 2,
-	SprinklePepperV2InputJudgementType_MAX = 3
+	TypeA = 0,
+	TypeB = 1,
+	TypeC = 2,
+	SprinklePepperV2InputJudgementType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESprinklePepperV2InputType
+enum class ESprinklePepperV2InputType : uint8
 {
-	ESprinklePepperV2InputType_InputTypeNone = 0,
-	ESprinklePepperV2InputType_InputTypeA = 1,
-	ESprinklePepperV2InputType_InputTypeB = 2,
-	ESprinklePepperV2InputType_InputTypeC = 3,
-	ESprinklePepperV2InputType_InputTypeD = 4,
-	SprinklePepperV2InputType_MAX = 5
+	InputTypeNone = 0,
+	InputTypeA = 1,
+	InputTypeB = 2,
+	InputTypeC = 3,
+	InputTypeD = 4,
+	SprinklePepperV2InputType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESprinklePepperV2InputTimingEvalution
+enum class ESprinklePepperV2InputTimingEvalution : uint8
 {
 	InputTimingEvalutionNone = 0,
 	InputTimingEvalutionTooFast = 1,
 	InputTimingEvalutionSuccess = 2,
 	InputTimingEvalutionGreatSuccess = 3,
 	InputTimingEvalutionTooSlow = 4,
-	SprinklePepperV2InputTimingEvalution_MAX = 5
+	SprinklePepperV2InputTimingEvalution_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ESprinklePepperV2MainState
+enum class ESprinklePepperV2MainState : uint8
 {
-	ESprinklePepperV2MainState_None = 0,
-	ESprinklePepperV2MainState_TypeABPrepare = 1,
-	ESprinklePepperV2MainState_TypeABSloping = 2,
-	ESprinklePepperV2MainState_TypeABCalculate = 3,
-	ESprinklePepperV2MainState_TypeCDPrepare = 4,
-	ESprinklePepperV2MainState_TypeCDSloping = 5,
-	ESprinklePepperV2MainState_TypeCDCalculate = 6,
-	ESprinklePepperV2MainState_WaitThrowAnimation = 7,
-	ESprinklePepperV2MainState_WaitAnimation = 8,
-	ESprinklePepperV2MainState_TypeABWaitStickNeutral = 9,
-	ESprinklePepperV2MainState_TypeCDWaitStickNeutral = 10,
-	ESprinklePepperV2MainState_GameEndWaitThrowAnimation = 11,
-	ESprinklePepperV2MainState_GameEnd = 12,
-	SprinklePepperV2MainState_MAX = 13
+	None = 0,
+	TypeABPrepare = 1,
+	TypeABSloping = 2,
+	TypeABCalculate = 3,
+	TypeCDPrepare = 4,
+	TypeCDSloping = 5,
+	TypeCDCalculate = 6,
+	WaitThrowAnimation = 7,
+	WaitAnimation = 8,
+	TypeABWaitStickNeutral = 9,
+	TypeCDWaitStickNeutral = 10,
+	GameEndWaitThrowAnimation = 11,
+	GameEnd = 12,
+	SprinklePepperV2MainState_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyFPSMode
+enum class ERemyFPSMode : uint8
 {
-	ERemyFPSMode_FPS_Config = 0,
-	ERemyFPSMode_FPS = 1,
-	ERemyFPSMode_FPS01 = 2,
-	FPS_MAX = 3
+	FPS_Config = 0,
+	FPS = 1,
+	FPS01 = 2,
+	FPS_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyDishLevel
+enum class ERemyDishLevel : uint8
 {
 	RemyDishLevel1 = 0,
 	RemyDishLevel2 = 1,
 	RemyDishLevel3 = 2,
 	RemyDishLevel4 = 3,
 	RemyDishLevel5 = 4,
-	RemyDishLevel_MAX = 5
+	RemyDishLevel_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyKitchenGrade
+enum class ERemyKitchenGrade : uint8
 {
 	RemyKitchenGrade1 = 0,
 	RemyKitchenGrade2 = 1,
 	RemyKitchenGrade3 = 2,
 	RemyKitchenGrade4 = 3,
-	RemyKitchenGrade_MAX = 4
+	RemyKitchenGrade_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyMilestone
+enum class ERemyMilestone : uint8
 {
 	RemyMilestone0 = 0,
 	RemyMilestone1 = 1,
 	RemyMilestone2 = 2,
 	RemyMilestone3 = 3,
-	RemyMilestone_MAX = 4
+	RemyMilestone_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyRestaurantRank
+enum class ERemyRestaurantRank : uint8
 {
 	RemyRestaurantRank0 = 0,
 	RemyRestaurantRank1 = 1,
@@ -9709,38 +9716,38 @@ enum ERemyRestaurantRank
 	RemyRestaurantRank3 = 3,
 	RemyRestaurantRank4 = 4,
 	RemyRestaurantRank5 = 5,
-	RemyRestaurantRank_MAX = 6
+	RemyRestaurantRank_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyShowFinishOperationUITiming
+enum class ERemyShowFinishOperationUITiming : uint8
 {
-	ERemyShowFinishOperationUITiming_None = 0,
-	ERemyShowFinishOperationUITiming_HaveMaterial = 1,
-	ERemyShowFinishOperationUITiming_OnSuccess = 2,
-	RemyShowFinishOperationUITiming_MAX = 3
+	None = 0,
+	HaveMaterial = 1,
+	OnSuccess = 2,
+	RemyShowFinishOperationUITiming_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyStickControlType
+enum class ERemyStickControlType : uint8
 {
 	SoraViewpoint = 0,
 	UserViewpoint = 1,
-	RemyStickControlType_MAX = 2
+	RemyStickControlType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyCookingCommand
+enum class ERemyCookingCommand : uint8
 {
-	ERemyCookingCommand_Up = 0,
-	ERemyCookingCommand_Down = 1,
-	ERemyCookingCommand_Left = 2,
-	ERemyCookingCommand_Right = 3,
-	RemyCookingCommand_MAX = 4
+	Up = 0,
+	Down = 1,
+	Left = 2,
+	Right = 3,
+	RemyCookingCommand_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemySprinklePepperContentsType
+enum class ERemySprinklePepperContentsType : uint8
 {
 	RemySprinklePepperContentsA = 0,
 	RemySprinklePepperContentsB = 1,
@@ -9749,21 +9756,21 @@ enum ERemySprinklePepperContentsType
 	RemySprinklePepperContentsE = 4,
 	RemySprinklePepperContentsF = 5,
 	RemySprinklePepperContentsG = 6,
-	RemySprinklePepperContentsType_MAX = 7
+	RemySprinklePepperContentsType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemySprinklePepperEquipmentType
+enum class ERemySprinklePepperEquipmentType : uint8
 {
 	RemySprinklePepperNone = 0,
 	RemySprinklePepperSaucepan = 1,
 	RemySprinklePepperPan = 2,
 	RemySprinklePepperBowl = 3,
-	RemySprinklePepperEquipmentType_MAX = 4
+	RemySprinklePepperEquipmentType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyCuttingFoodType
+enum class ERemyCuttingFoodType : uint8
 {
 	RemyCuttingOnion = 0,
 	RemyCuttingZucchini = 1,
@@ -9771,11 +9778,11 @@ enum ERemyCuttingFoodType
 	RemyCuttingApple = 3,
 	RemyCuttingTomato = 4,
 	RemyCuttingPear = 5,
-	RemyCuttingFoodType_MAX = 6
+	RemyCuttingFoodType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyFlambeFoodType
+enum class ERemyFlambeFoodType : uint8
 {
 	RemyFlambeCrab = 0,
 	RemyFlambeScallops = 1,
@@ -9784,11 +9791,11 @@ enum ERemyFlambeFoodType
 	RemyFlambeCrepe = 4,
 	RemyFlambeSeaperch = 5,
 	RemyFlambeFilletMeat = 6,
-	RemyFlambeFoodType_MAX = 7
+	RemyFlambeFoodType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyCameraWorkTiming
+enum class ERemyCameraWorkTiming : uint8
 {
 	RemyCameraFirstPlay = 0,
 	RemyCameraGetReward1stMilestone = 1,
@@ -9844,11 +9851,11 @@ enum ERemyCameraWorkTiming
 	SprinklePepperCameraResultFail = 51,
 	SprinklePepperCameraRetry = 52,
 	SprinklePepperCameraReturnToMenu = 53,
-	RemyCameraWorkTiming_MAX = 54
+	RemyCameraWorkTiming_MAX = 54 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyResultAnimationType
+enum class ERemyResultAnimationType : uint8
 {
 	RemyResultAnimSuccess = 0,
 	RemyResultAnimSuccessLoop = 1,
@@ -9856,11 +9863,11 @@ enum ERemyResultAnimationType
 	RemyResultAnimGreatSuccessLoop = 3,
 	RemyResultAnimFail = 4,
 	RemyResultAnimFailLoop = 5,
-	RemyResultAnimationType_MAX = 6
+	RemyResultAnimationType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyAnimationType
+enum class ERemyAnimationType : uint8
 {
 	FlambeIdle = 0,
 	FlambeTakeProp = 1,
@@ -9906,11 +9913,11 @@ enum ERemyAnimationType
 	SprinklePepperRightHandSprinkleSuccess = 41,
 	SprinklePepperLeftHandSprinkleGreatSuccess = 42,
 	SprinklePepperRightHandSprinkleGreatSuccess = 43,
-	RemyAnimationType_MAX = 44
+	RemyAnimationType_MAX = 44 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyCookingEvaluationResult
+enum class ERemyCookingEvaluationResult : uint8
 {
 	RemyCookingResultNothing = 0,
 	RemyCookingResultTooLittle = 1,
@@ -9920,11 +9927,11 @@ enum ERemyCookingEvaluationResult
 	RemyCookingResultTimeOut = 5,
 	RemyCookingResultTooFast = 6,
 	RemyCookingResultTooSlow = 7,
-	RemyCookingEvaluationResult_MAX = 8
+	RemyCookingEvaluationResult_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyCookingEvalution
+enum class ERemyCookingEvalution : uint8
 {
 	RemyCookingEvalutionNothing = 0,
 	RemyCookingEvalutionTooLittle = 1,
@@ -9937,7 +9944,7 @@ enum ERemyCookingEvalution
 };
 
 UENUM(BlueprintType)
-enum ERemyCookingGameState
+enum class ERemyCookingGameState : uint8
 {
 	RemyCookingPrepare = 0,
 	RemyCookingTitle = 1,
@@ -9952,7 +9959,7 @@ enum ERemyCookingGameState
 };
 
 UENUM(BlueprintType)
-enum ERemyGameState
+enum class ERemyGameState : uint8
 {
 	RemyPrepare = 0,
 	RemyFirstPlay = 1,
@@ -9967,7 +9974,7 @@ enum ERemyGameState
 };
 
 UENUM(BlueprintType)
-enum ERemyCookingGameType
+enum class ERemyCookingGameType : uint8
 {
 	Flambe = 0,
 	EggCracking = 1,
@@ -9981,335 +9988,266 @@ enum ERemyCookingGameType
 };
 
 UENUM(BlueprintType)
-enum ERemyRecipeType
+enum class ERemyRecipeType : uint8
 {
-	ERemyRecipeType_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ERemyRecipeType_Recipe01 = 1 UMETA(DisplayName = "Recipe 01"),
-	ERemyRecipeType_Recipe02 = 2 UMETA(DisplayName = "Recipe 02"),
-	ERemyRecipeType_Recipe03 = 3 UMETA(DisplayName = "Recipe 03"),
-	ERemyRecipeType_Recipe04 = 4 UMETA(DisplayName = "Recipe 04"),
-	ERemyRecipeType_Recipe05 = 5 UMETA(DisplayName = "Recipe 05"),
-	ERemyRecipeType_Recipe06 = 6 UMETA(DisplayName = "Recipe 06"),
-	ERemyRecipeType_Recipe07 = 7 UMETA(DisplayName = "Recipe 07"),
-	ERemyRecipeType_Recipe08 = 8 UMETA(DisplayName = "Recipe 08"),
-	ERemyRecipeType_Recipe09 = 9 UMETA(DisplayName = "Recipe 09"),
-	ERemyRecipeType_Recipe10 = 10 UMETA(DisplayName = "Recipe 10"),
-	ERemyRecipeType_Recipe11 = 11 UMETA(DisplayName = "Recipe 11"),
-	ERemyRecipeType_Recipe12 = 12 UMETA(DisplayName = "Recipe 12"),
-	ERemyRecipeType_Recipe13 = 13 UMETA(DisplayName = "Recipe 13"),
-	ERemyRecipeType_Recipe14 = 14 UMETA(DisplayName = "Recipe 14"),
-	ERemyRecipeType_Recipe15 = 15 UMETA(DisplayName = "Recipe 15"),
-	ERemyRecipeType_Recipe16 = 16 UMETA(DisplayName = "Recipe 16"),
-	ERemyRecipeType_Recipe17 = 17 UMETA(DisplayName = "Recipe 17"),
-	ERemyRecipeType_Recipe18 = 18 UMETA(DisplayName = "Recipe 18"),
-	ERemyRecipeType_Recipe19 = 19 UMETA(DisplayName = "Recipe 19"),
-	ERemyRecipeType_Recipe20 = 20 UMETA(DisplayName = "Recipe 20"),
-	ERemyRecipeType_Recipe21 = 21 UMETA(DisplayName = "Recipe 21"),
-	ERemyRecipeType_Recipe22 = 22 UMETA(DisplayName = "Recipe 22"),
-	ERemyRecipeType_Recipe23 = 23 UMETA(DisplayName = "Recipe 23"),
-	ERemyRecipeType_Recipe24 = 24 UMETA(DisplayName = "Recipe 24"),
-	ERemyRecipeType_Recipe25 = 25 UMETA(DisplayName = "Recipe 25"),
-	ERemyRecipeType_Recipe26 = 26 UMETA(DisplayName = "Recipe 26"),
-	ERemyRecipeType_Recipe27 = 27 UMETA(DisplayName = "Recipe 27"),
-	ERemyRecipeType_Recipe28 = 28 UMETA(DisplayName = "Recipe 28"),
-	ERemyRecipeType_1_MAX = 29 UMETA(Hidden),
+	NOTHING = 0,
+	Recipe01 = 1,
+	Recipe02 = 2,
+	Recipe03 = 3,
+	Recipe04 = 4,
+	Recipe05 = 5,
+	Recipe06 = 6,
+	Recipe07 = 7,
+	Recipe08 = 8,
+	Recipe09 = 9,
+	Recipe10 = 10,
+	Recipe11 = 11,
+	Recipe12 = 12,
+	Recipe13 = 13,
+	Recipe14 = 14,
+	Recipe15 = 15,
+	Recipe16 = 16,
+	Recipe17 = 17,
+	Recipe18 = 18,
+	Recipe19 = 19,
+	Recipe20 = 20,
+	Recipe21 = 21,
+	Recipe22 = 22,
+	Recipe23 = 23,
+	Recipe24 = 24,
+	Recipe25 = 25,
+	Recipe26 = 26,
+	Recipe27 = 27,
+	Recipe28 = 28,
+	MAX = 29,
 	RemyRecipeType_MAX = 30 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyMenuType
+enum class ERemyMenuType : uint8
 {
-	ERemyMenuType_Normal = 0,
-	ERemyMenuType_Special = 1,
-	RemyMenuType_MAX = 2
+	Normal = 0,
+	Special = 1,
+	RemyMenuType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyDishCategory
+enum class ERemyDishCategory : uint8
 {
-	ERemyDishCategory_Appetizer = 0,
-	ERemyDishCategory_Soup = 1,
-	ERemyDishCategory_Fish = 2,
-	ERemyDishCategory_Meat = 3,
-	ERemyDishCategory_Dessert = 4,
-	ERemyDishCategory_RemyDishCategoryNum = 5,
-	RemyDishCategory_MAX = 6
+	Appetizer = 0,
+	Soup = 1,
+	Fish = 2,
+	Meat = 3,
+	Dessert = 4,
+	RemyDishCategoryNum = 5,
+	RemyDishCategory_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ERemyAccessMethod
+enum class ERemyAccessMethod : uint8
 {
-	ERemyAccessMethod_None = 0 UMETA(DisplayName = "None"),
-	ERemyAccessMethod_FromEntrance = 1 UMETA(DisplayName = "From Entrance"),
-	ERemyAccessMethod_FromSaveMenu = 2 UMETA(DisplayName = "From Save Menu"),
-	ERemyAccessMethod_FromWorldMap = 3 UMETA(DisplayName = "From World Map"),
+	None = 0,
+	FromEntrance = 1,
+	FromSaveMenu = 2,
+	FromWorldMap = 3,
 	RemyAccessMethod_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresShopChrID
+enum class ETresShopChrID : uint8
 {
-	ETresShopChrID_MOOGLE = 0 UMETA(DisplayName = "Moogle"),
-	ETresShopChrID_HUEY = 1 UMETA(DisplayName = "Huey"),
-	ETresShopChrID_DEWEY = 2 UMETA(DisplayName = "Dewey"),
-	ETresShopChrID_LOUIE = 3 UMETA(DisplayName = "Louie"),
-	ETresShopChrID_1_MAX = 4 UMETA(Hidden),
+	MOOGLE = 0,
+	HUEY = 1,
+	DEWEY = 2,
+	LOUIE = 3,
+	_MAX = 4 UMETA(Hidden),
 	ETresShopChrID_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresShopID
+enum class ETresShopID : uint8
 {
-	ETresShopID_NOTHING = 0,
-	ETresShopID_COMMON = 1,
-	ETresShopID_BT_MOOGLE1 = 2,
-	ETresShopID_DB_MOOGLE1 = 3,
-	ETresShopID_DW_MOOGLE1 = 4,
-	ETresShopID_HE_MOOGLE1 = 5,
-	ETresShopID_TS_MOOGLE1 = 6,
-	ETresShopID_CS_MOOGLE1 = 7,
-	ETresShopID_RA_MOOGLE1 = 8,
-	ETresShopID_FZ_MOOGLE1 = 9,
-	ETresShopID_CA_MOOGLE1 = 10,
-	ETresShopID_PO_MOOGLE1 = 11,
-	ETresShopID_MI_MOOGLE1 = 12,
-	ETresShopID_TT_MOOGLE1 = 13,
-	ETresShopID_YT_MOOGLE1 = 14,
-	ETresShopID_KB_MOOGLE1 = 15,
-	ETresShopID_FW_MOOGLE1 = 16,
-	ETresShopID_DC_MOOGLE1 = 17,
-	ETresShopID_WI_MOOGLE1 = 18,
-	ETresShopID_IN_MOOGLE1 = 19,
-	ETresShopID_BX_MOOGLE1 = 20,
-	ETresShopID_SR_MOOGLE1 = 21,
-	ETresShopID_CO_MOOGLE1 = 22,
-	ETresShopID_EW_MOOGLE1 = 23,
-	ETresShopID_DI_MOOGLE1 = 24,
-	ETresShopID_RG_MOOGLE1 = 25,
-	ETresShopID_DP_MOOGLE1 = 26,
-	ETresShopID_SF_MOOGLE1 = 27,
-	ETresShopID_GM_MOOGLE1 = 28,
-	ETresShopID_WM_MOOGLE1 = 29,
-	ETresShopID_GUMI_SHOP_L1 = 30,
-	ETresShopID_GUMI_SHOP_L2 = 31,
-	ETresShopID_GUMI_SHOP_L3 = 32,
-	ETresShopID_GUMI_SHOP_L4 = 33,
-	ETresShopID_GUMI_SHOP_L5 = 34,
-	ETresShopID_GUMI_SHOP_L6 = 35,
-	ETresShopID_1_MAX = 36 UMETA(Hidden),
-	ETresShopID_MAX = 37 UMETA(Hidden)
+	NOTHING = 0,
+	COMMON = 1,
+	BT_MOOGLE1 = 2,
+	DB_MOOGLE1 = 3,
+	DW_MOOGLE1 = 4,
+	HE_MOOGLE1 = 5,
+	TS_MOOGLE1 = 6,
+	CS_MOOGLE1 = 7,
+	RA_MOOGLE1 = 8,
+	FZ_MOOGLE1 = 9,
+	CA_MOOGLE1 = 10,
+	PO_MOOGLE1 = 11,
+	MI_MOOGLE1 = 12,
+	TT_MOOGLE1 = 13,
+	YT_MOOGLE1 = 14,
+	KB_MOOGLE1 = 15,
+	FW_MOOGLE1 = 16,
+	DC_MOOGLE1 = 17,
+	WI_MOOGLE1 = 18,
+	IN_MOOGLE1 = 19,
+	BX_MOOGLE1 = 20,
+	SR_MOOGLE1 = 21,
+	CO_MOOGLE1 = 22,
+	EW_MOOGLE1 = 23,
+	DI_MOOGLE1 = 24,
+	RG_MOOGLE1 = 25,
+	DP_MOOGLE1 = 26,
+	SF_MOOGLE1 = 27,
+	GM_MOOGLE1 = 28,
+	WM_MOOGLE1 = 29,
+	GUMI_SHOP_L1 = 30,
+	GUMI_SHOP_L2 = 31,
+	GUMI_SHOP_L3 = 32,
+	GUMI_SHOP_L4 = 33,
+	GUMI_SHOP_L5 = 34,
+	GUMI_SHOP_L6 = 35,
+	_MAX = 36,
+	ETresShopID_MAX = 37
 };
 
 UENUM(BlueprintType)
-enum ETresSkeletalFootStampDir
+enum class ETresSkeletalFootStampDir : uint8
 {
-	ETresSkeletalFootStampDir_Normal = 0,
+	Normal = 0,
 	LR_Reverse = 1,
 	FB_Reverse = 2,
 	LRFB_Reverse = 3,
-	ETresSkeletalFootStampDir_MAX = 4
+	ETresSkeletalFootStampDir_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSoundAliasLabel_Projectile
+enum class ETresSoundAliasLabel_Projectile : uint8
 {
-	ETresSoundAliasLabel_Projectile_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresSoundAliasLabel_Projectile_HIT1 = 1 UMETA(DisplayName = "Hit 1"),
-	ETresSoundAliasLabel_Projectile_HIT2 = 2 UMETA(DisplayName = "Hit 2"),
-	ETresSoundAliasLabel_Projectile_1_MAX = 3 UMETA(Hidden),
-	ETresSoundAliasLabel_Projectile_MAX = 4 UMETA(Hidden)
+	NOTHING = 0,
+	HIT1 = 1,
+	HIT2 = 2,
+	_MAX = 3 UMETA(Hidden),
+	ETresSoundAliasLabel_MAX = 4 UMETA(Hidden)
 };
 
-UENUM(BlueprintType)
-enum ETresRiskDodgeType
-{
-	TRDT_NONE = 0 UMETA(DisplayName = "None"),
-	TRDT_UNDERSLIDE = 1 UMETA(DisplayName = "UnderSlide"),
-	TRDT_OVERSLIDE = 2 UMETA(DisplayName = "OverSlide"),
-	TRDT_SLIDETURN = 3 UMETA(DisplayName = "SlideTurn"),
-	TRDT_WARP = 4 UMETA(DisplayName = "Warp"),
-	TRDT_MAX = 5 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum class ETresSoundAliasLabel_WeaponSwing : uint8
-{
-	NOTHING UMETA(DisplayName = "Nothing"),
-	SWING1 UMETA(DisplayName = "Swing1"),
-	SWING2 UMETA(DisplayName = "Swing2"),
-	SWING3 UMETA(DisplayName = "Swing3"),
-	SWING4 UMETA(DisplayName = "Swing4"),
-	SWING5 UMETA(DisplayName = "Swing5"),
-	SWING6 UMETA(DisplayName = "Swing6"),
-	SWING7 UMETA(DisplayName = "Swing7"),
-	SWING8 UMETA(DisplayName = "Swing8"),
-	SWING9 UMETA(DisplayName = "Swing9"),
-	SWING10 UMETA(DisplayName = "Swing10"),
-	SWING11 UMETA(DisplayName = "Swing11"),
-	SWING12 UMETA(DisplayName = "Swing12"),
-	SWING13 UMETA(DisplayName = "Swing13"),
-	MAX UMETA(Hidden)
-
-};
-
-/*
 UENUM(BlueprintType)
 enum ETresSoundAliasLabel_WeaponSwing
 {
-	ETresSoundAliasLabel_WeaponSwing_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresSoundAliasLabel_WeaponSwing_SWING1 = 1 UMETA(DisplayName = "Swing 1"),
-	ETresSoundAliasLabel_WeaponSwing_SWING2 = 2 UMETA(DisplayName = "Swing 2"),
-	ETresSoundAliasLabel_WeaponSwing_SWING3 = 3 UMETA(DisplayName = "Swing 3"),
-	ETresSoundAliasLabel_WeaponSwing_SWING4 = 4 UMETA(DisplayName = "Swing 4"),
-	ETresSoundAliasLabel_WeaponSwing_SWING5 = 5 UMETA(DisplayName = "Swing 5"),
-	ETresSoundAliasLabel_WeaponSwing_SWING6 = 6 UMETA(DisplayName = "Swing 6"),
-	ETresSoundAliasLabel_WeaponSwing_SWING7 = 7 UMETA(DisplayName = "Swing 7"),
-	ETresSoundAliasLabel_WeaponSwing_SWING8 = 8 UMETA(DisplayName = "Swing 8"),
-	ETresSoundAliasLabel_WeaponSwing_SWING9 = 9 UMETA(DisplayName = "Swing 9"),
-	ETresSoundAliasLabel_WeaponSwing_SWING10 = 10 UMETA(DisplayName = "Swing 10"),
-	ETresSoundAliasLabel_WeaponSwing_SWING11 = 11 UMETA(DisplayName = "Swing 11"),
-	ETresSoundAliasLabel_WeaponSwing_SWING12 = 12 UMETA(DisplayName = "Swing 12"),
-	ETresSoundAliasLabel_WeaponSwing_SWING13 = 13 UMETA(DisplayName = "Swing 13"),
-	ETresSoundAliasLabel_WeaponSwing_1_MAX = 14 UMETA(Hidden),
-	ETresSoundAliasLabel_WeaponSwing_MAX = 15 UMETA(Hidden)
+	/*NOTHING = 0,*/
+	SWING1 = 1,
+	SWING2 = 2,
+	SWING3 = 3,
+	SWING4 = 4,
+	SWING5 = 5,
+	SWING6 = 6,
+	SWING7 = 7,
+	SWING8 = 8,
+	SWING9 = 9,
+	SWING10 = 10,
+	SWING11 = 11,
+	SWING12 = 12,
+	SWING13 = 13,
+	/*_MAX = 14 UMETA(Hidden),
+	ETresSoundAliasLabel_MAX = 15 UMETA(Hidden)*/
 };
 
-*/
-
-UENUM(BlueprintType)
-enum class ETresSoundAliasLabel_WeaponHit : uint8
-{
-	NOTHING UMETA(DisplayName = "Nothing"),
-	HIT1 UMETA(DisplayName = "Hit 1"),
-	HIT2 UMETA(DisplayName = "Hit 2"),
-	HIT3 UMETA(DisplayName = "Hit 3"),
-	HIT4 UMETA(DisplayName = "Hit 4"),
-	HIT5 UMETA(DisplayName = "Hit 5"),
-	HIT6 UMETA(DisplayName = "Hit 6"),
-	HIT7 UMETA(DisplayName = "Hit 7"),
-	HIT8 UMETA(DisplayName = "Hit 8"),
-	HIT9 UMETA(DisplayName = "Hit 9"),
-	HIT10 UMETA(DisplayName = "Hit 10"),
-	HIT11 UMETA(DisplayName = "Hit 11"),
-	HIT12 UMETA(DisplayName = "Hit 12"),
-	HIT13 UMETA(DisplayName = "Hit 13"),
-	MAX UMETA(Hidden)
-};
-/*
 UENUM(BlueprintType)
 enum ETresSoundAliasLabel_WeaponHit
 {
-	ETresSoundAliasLabel_WeaponHit_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresSoundAliasLabel_WeaponHit_HIT1 = 1 UMETA(DisplayName = "Hit 1"),
-	ETresSoundAliasLabel_WeaponHit_HIT2 = 2 UMETA(DisplayName = "Hit 2"),
-	ETresSoundAliasLabel_WeaponHit_HIT3 = 3 UMETA(DisplayName = "Hit 3"),
-	ETresSoundAliasLabel_WeaponHit_HIT4 = 4 UMETA(DisplayName = "Hit 4"),
-	ETresSoundAliasLabel_WeaponHit_HIT5 = 5 UMETA(DisplayName = "Hit 5"),
-	ETresSoundAliasLabel_WeaponHit_HIT6 = 6 UMETA(DisplayName = "Hit 6"),
-	ETresSoundAliasLabel_WeaponHit_HIT7 = 7 UMETA(DisplayName = "Hit 7"),
-	ETresSoundAliasLabel_WeaponHit_HIT8 = 8 UMETA(DisplayName = "Hit 8"),
-	ETresSoundAliasLabel_WeaponHit_HIT9 = 9 UMETA(DisplayName = "Hit 9"),
-	ETresSoundAliasLabel_WeaponHit_HIT10 = 10 UMETA(DisplayName = "Hit 10"),
-	ETresSoundAliasLabel_WeaponHit_HIT11 = 11 UMETA(DisplayName = "Hit 11"),
-	ETresSoundAliasLabel_WeaponHit_1_MAX = 12 UMETA(Hidden),
-	ETresSoundAliasLabel_WeaponHit_MAX = 13 UMETA(Hidden)
-};
-*/
-
-UENUM(BlueprintType)
-enum class ETresSoundAliasUnit : uint8
-{
-	NOTHING UMETA(DisplayName = "Nothing"),
-	RH_WEAPON UMETA(DisplayName = "RH Weapon"),
-	LH_WEAPON UMETA(DisplayName = "LH Weapon"),
-	RL_WEAPON UMETA(DisplayName = "RL Weapon"),
-	LL_WEAPON UMETA(DisplayName = "LL Weapon"),
-	MAX UMETA(Hidden)
+	/*NOTHING = 0,*/
+	HIT1 = 1,
+	HIT2 = 2,
+	HIT3 = 3,
+	HIT4 = 4,
+	HIT5 = 5,
+	HIT6 = 6,
+	HIT7 = 7,
+	HIT8 = 8,
+	HIT9 = 9,
+	HIT10 = 10,
+	HIT11 = 11,
+	/*_MAX = 12 UMETA(Hidden),
+	ETresSoundAliasLabel_MAX = 13 UMETA(Hidden)*/
 };
 
-/*
 UENUM(BlueprintType)
 enum ETresSoundAliasUnit
 {
-	ETresSoundAliasUnit_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	ETresSoundAliasUnit_RH_WEAPON = 1 UMETA(DisplayName = "RH Weapon"),
-	ETresSoundAliasUnit_LH_WEAPON = 2 UMETA(DisplayName = "LH Weapon"),
-	ETresSoundAliasUnit_RL_WEAPON = 3 UMETA(DisplayName = "RL Weapon"),
-	ETresSoundAliasUnit_LL_WEAPON = 4 UMETA(DisplayName = "LL Weapon"),
-	ETresSoundAliasUnit_1_MAX = 5 UMETA(Hidden),
+	//NOTHING = 0,
+	RH_WEAPON = 1,
+	LH_WEAPON = 2,
+	RL_WEAPON = 3,
+	LL_WEAPON = 4,
+	//_MAX = 5 UMETA(Hidden),
 	ETresSoundAliasUnit_MAX = 6 UMETA(Hidden)
 };
-*/
 
 UENUM(BlueprintType)
 enum ETresSoundAliasLabel
 {
-	SEAL_NOTHING = 0 UMETA(DisplayName = "Nothing"),
-	SEAL_HIT1 = 1 UMETA(DisplayName = "HIT1"),
-	SEAL_HIT2 = 2 UMETA(DisplayName = "HIT2"),
-	SEAL_HIT3 = 3 UMETA(DisplayName = "HIT3"),
-	SEAL_HIT4 = 4 UMETA(DisplayName = "HIT4"),
-	SEAL_HIT5 = 5 UMETA(DisplayName = "HIT5"),
-	SEAL_HIT6 = 6 UMETA(DisplayName = "HIT6"),
-	SEAL_HIT7 = 7 UMETA(DisplayName = "HIT7"),
-	SEAL_SWING1 = 8 UMETA(DisplayName = "SWING1"),
-	SEAL_SWING2 = 9 UMETA(DisplayName = "SWING2"),
-	SEAL_SWING3 = 10 UMETA(DisplayName = "SWING3"),
-	SEAL_SWING4 = 11 UMETA(DisplayName = "SWING4"),
+	SEAL_NOTHING = 0,
+	SEAL_HIT1 = 1,
+	SEAL_HIT2 = 2,
+	SEAL_HIT3 = 3,
+	SEAL_HIT4 = 4,
+	SEAL_HIT5 = 5,
+	SEAL_HIT6 = 6,
+	SEAL_HIT7 = 7,
+	SEAL_SWING1 = 8,
+	SEAL_SWING2 = 9,
+	SEAL_SWING3 = 10,
+	SEAL_SWING4 = 11,
 	_SEAL_MAX = 12 UMETA(Hidden),
 	ETresSoundAliasLabel_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCategoryVolumeLayers
+enum class ETresCategoryVolumeLayers : uint8
 {
-	ETresCategoryVolumeLayers_GAME = 0 UMETA(DisplayName = "Game"),
-	ETresCategoryVolumeLayers_MATINEE = 1 UMETA(DisplayName = "Matinee"),
+	GAME = 0,
+	MATINEE = 1,
 	ETresCategoryVolumeLayers_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWorldStaticBGMTypes
+enum class ETresWorldStaticBGMTypes : uint8
 {
-	ETresWorldStaticBGMTypes_FIELD = 0 UMETA(DisplayName = "Field"),
-	ETresWorldStaticBGMTypes_BATTLE = 1 UMETA(DisplayName = "Battle"),
-	ETresWorldStaticBGMTypes_BOSS_BATTLE = 2 UMETA(DisplayName = "Boss Battle"),
-	ETresWorldStaticBGMTypes_EVENT_01 = 3 UMETA(DisplayName = "Event 01"),
+	FIELD = 0,
+	BATTLE = 1,
+	BOSS_BATTLE = 2,
+	EVENT_01 = 3,
 	ETresWorldStaticBGMTypes_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSoundModes
+enum class ETresSoundModes : uint8
 {
-	ETresSoundModes_BLACKOUT = 0 UMETA(DisplayName = "Blackout"),
-	ETresSoundModes_PAUSE = 1 UMETA(DisplayName = "Pause"),
-	ETresSoundModes_SLOW = 2 UMETA(DisplayName = "Slow"),
-	ETresSoundModes_PLAYER_DEAD = 3 UMETA(DisplayName = "Player Dead"),
-	ETresSoundModes_BOSS_DEAD = 4 UMETA(DisplayName = "Boss Dead"),
-	ETresSoundModes_THANKYOU_FOR_PLAYING = 5 UMETA(DisplayName = "Thank you for playing"),
-	ETresSoundModes_EVENT_SKIP_FADING = 6 UMETA(DisplayName = "Event Skip Fading"),
-	ETresSoundModes_MOVIE = 7 UMETA(DisplayName = "Movie"),
+	BLACKOUT = 0,
+	PAUSE = 1,
+	SLOW = 2,
+	PLAYER_DEAD = 3,
+	BOSS_DEAD = 4,
+	THANKYOU_FOR_PLAYING = 5,
+	EVENT_SKIP_FADING = 6,
+	MOVIE = 7,
 	ETresSoundModes_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSpawnPointSize
+enum class ETresSpawnPointSize : uint8
 {
-	ETresSpawnPointSize_Small = 0,
-	ETresSpawnPointSize_Big = 1,
-	ETresSpawnPointSize_MAX = 2
+	Small = 0,
+	Big = 1,
+	ETresSpawnPointSize_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSpawnPointBuildMethod
+enum class ETresSpawnPointBuildMethod : uint8
 {
-	ETresSpawnPointBuildMethod_Simple = 0,
-	ETresSpawnPointBuildMethod_PathFinding = 1,
-	ETresSpawnPointBuildMethod_MAX = 2
+	Simple = 0,
+	PathFinding = 1,
+	ETresSpawnPointBuildMethod_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSpawnPointHeightFilterType
+enum class ETresSpawnPointHeightFilterType : uint8
 {
 	ETresSpawnPointHeightFilterType_DoNotCare = 0,
 	ETresSpawnPointHeightFilterType_LessThan = 1,
@@ -10317,11 +10255,11 @@ enum ETresSpawnPointHeightFilterType
 	ETresSpawnPointHeightFilterType_Equal = 3,
 	ETresSpawnPointHeightFilterType_GraterEqual = 4,
 	ETresSpawnPointHeightFilterType_GraterThan = 5,
-	ETresSpawnPointHeightFilterType_MAX = 6
+	ETresSpawnPointHeightFilterType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSpawnPointRadiusFilterType
+enum class ETresSpawnPointRadiusFilterType : uint8
 {
 	ETresSpawnPointRadiusFilterType_DoNotCare = 0,
 	ETresSpawnPointRadiusFilterType_LessThan = 1,
@@ -10329,31 +10267,31 @@ enum ETresSpawnPointRadiusFilterType
 	ETresSpawnPointRadiusFilterType_Equal = 3,
 	ETresSpawnPointRadiusFilterType_GraterEqual = 4,
 	ETresSpawnPointRadiusFilterType_GraterThan = 5,
-	ETresSpawnPointRadiusFilterType_MAX = 6
+	ETresSpawnPointRadiusFilterType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSplineMoverMove
+enum class ETresSplineMoverMove : uint8
 {
 	Location = 0,
 	LocationAndRotation = 1,
 	MI_02_BeltConveyor = 2,
 	TS_02_UFO = 3,
 	TT_Train = 4,
-	ETresSplineMoverMove_MAX = 5
+	ETresSplineMoverMove_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSplineLast
+enum class ETresSplineLast : uint8
 {
-	ETresSplineLast_None = 0,
-	ETresSplineLast_End = 1,
-	ETresSplineLast_Loop = 2,
-	ETresSplineLast_MAX = 3
+	None = 0,
+	End = 1,
+	Loop = 2,
+	ETresSplineLast_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresStaticSE
+enum class ETresStaticSE : uint8
 {
 	se00000_001 = 0,
 	se00000_002 = 1,
@@ -10398,8 +10336,8 @@ enum ETresStaticSE
 	se00001 = 40,
 	se00000_076 = 41,
 	se00000_077 = 42,
-	_se00000_MAX = 43,
-	ETresStaticSE_MAX = 44
+	_se00000_MAX = 43 UMETA(Hidden),
+	ETresStaticSE_MAX = 44 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -10407,7 +10345,7 @@ enum ETresNavLinkSegment_e_ex035
 {
 	NavLinkSegmentLeft = 0,
 	NavLinkSegmentRight = 1,
-	ETresNavLinkSegment_e_ex035_MAX = 2
+	ETresNavLinkSegment_e_ex035_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -10415,28 +10353,28 @@ enum ETresNotifyFriendNpc
 {
 	MoveToActionPointStart = 0,
 	MoveToActionPointEnd = 1,
-	ETresNotifyFriendNpc_MAX = 2
+	ETresNotifyFriendNpc_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDetectMarkerType
+enum class ETresDetectMarkerType : uint8
 {
-	ETresDetectMarkerType_Default = 0,
+	Default = 0,
 	LuckyMark = 1,
 	GumiConstellation = 2,
 	RaPudding = 3,
 	NpcSmartphoneReaction = 4,
 	PhotoMission = 5,
-	ETresDetectMarkerType_MAX = 6
+	ETresDetectMarkerType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPropertyTrackTermnation
+enum class ETresPropertyTrackTermnation : uint8
 {
 	RestoreValue = 0,
 	SetEndValue = 1,
 	KeepValue = 2,
-	ETresPropertyTrackTermnation_MAX = 3
+	ETresPropertyTrackTermnation_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -10514,128 +10452,128 @@ enum ETresEffectAreaCode
 };
 
 UENUM(BlueprintType)
-enum ETresCampPawnAnimTypeID
+enum class ETresCampPawnAnimTypeID : uint8
 {
-	TCPAID_NORMAL = 0,
-	TCPAID_IDLE = 1,
+	TCPAID_NORMAL = 0 UMETA(DisplayName = "Normal"),
+	TCPAID_IDLE = 1 UMETA(DisplayName = "Idle"),
 	TCPAID_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDlcChallengeRank
+enum class ETresDlcChallengeRank : uint8
 {
-	RANK_NONE = 0,
-	RANK = 1,
-	RANK01 = 2,
-	RANK02 = 3,
-	RANK03 = 4,
-	RANK04 = 5,
-	RANK05 = 6,
-	RANK06 = 7,
-	RANK07 = 8,
-	RANK08 = 9,
-	RANK09 = 10,
-	RANK10 = 11,
-	RANK11 = 12,
-	RANK12 = 13,
-	ETresDlcChallengeRank_1_Max = 14 UMETA(Hidden),
+	RANK_NONE = 0 UMETA(DisplayName = "None"),
+	RANK = 1 UMETA(DisplayName = "Rank"),
+	RANK01 = 2 UMETA(DisplayName = "Rank 1"),
+	RANK02 = 3 UMETA(DisplayName = "Rank 2"),
+	RANK03 = 4 UMETA(DisplayName = "Rank 3"),
+	RANK04 = 5 UMETA(DisplayName = "Rank 4"),
+	RANK05 = 6 UMETA(DisplayName = "Rank 5"),
+	RANK06 = 7 UMETA(DisplayName = "Rank 6"),
+	RANK07 = 8 UMETA(DisplayName = "Rank 7"),
+	RANK08 = 9 UMETA(DisplayName = "Rank 8"),
+	RANK09 = 10 UMETA(DisplayName = "Rank 9"),
+	RANK10 = 11 UMETA(DisplayName = "Rank 10"),
+	RANK11 = 12 UMETA(DisplayName = "Rank 11"),
+	RANK12 = 13 UMETA(DisplayName = "Rank 12"),
+	_Max = 14 UMETA(Hidden),
 	ETresDlcChallengeRank_MAX = 15 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDlcChallengeScoreID
+enum class ETresDlcChallengeScoreID : uint8
 {
-	ETresDlcChallengeScoreID_ID01 = 0,
-	ETresDlcChallengeScoreID_ID02 = 1,
-	ETresDlcChallengeScoreID_ID03 = 2,
-	ETresDlcChallengeScoreID_ID04 = 3,
-	ETresDlcChallengeScoreID_ID05 = 4,
-	ETresDlcChallengeScoreID_ID06 = 5,
-	ETresDlcChallengeScoreID_ID07 = 6,
-	ETresDlcChallengeScoreID_ID08 = 7,
-	ETresDlcChallengeScoreID_ID09 = 8,
-	ETresDlcChallengeScoreID_ID10 = 9,
-	ETresDlcChallengeScoreID_ID11 = 10,
-	ETresDlcChallengeScoreID_ID12 = 11,
-	ETresDlcChallengeScoreID_ID13 = 12,
-	ETresDlcChallengeScoreID_ID14 = 13,
-	ETresDlcChallengeScoreID_ID15 = 14,
-	ETresDlcChallengeScoreID_ID16 = 15,
-	ETresDlcChallengeScoreID_ID17 = 16,
-	ETresDlcChallengeScoreID_ID18 = 17,
-	ETresDlcChallengeScoreID_ID19 = 18,
-	ETresDlcChallengeScoreID_ID20 = 19,
-	ETresDlcChallengeScoreID_ID21 = 20,
-	ETresDlcChallengeScoreID_ID22 = 21,
-	ETresDlcChallengeScoreID_ID23 = 22,
-	ETresDlcChallengeScoreID_ID24 = 23,
-	ETresDlcChallengeScoreID_ID25 = 24,
-	ETresDlcChallengeScoreID_ID26 = 25,
-	ETresDlcChallengeScoreID_ID27 = 26,
-	ETresDlcChallengeScoreID_ID28 = 27,
-	ETresDlcChallengeScoreID_ID29 = 28,
-	ETresDlcChallengeScoreID_ID30 = 29,
-	ETresDlcChallengeScoreID_ID31 = 30,
-	ETresDlcChallengeScoreID_ID32 = 31,
-	ETresDlcChallengeScoreID_ID33 = 32,
-	ETresDlcChallengeScoreID_ID34 = 33,
-	ETresDlcChallengeScoreID_1_Max = 34,
-	ETresDlcChallengeScoreID_MAX = 35
+	ID01 = 0,
+	ID02 = 1,
+	ID03 = 2,
+	ID04 = 3,
+	ID05 = 4,
+	ID06 = 5,
+	ID07 = 6,
+	ID08 = 7,
+	ID09 = 8,
+	ID10 = 9,
+	ID11 = 10,
+	ID12 = 11,
+	ID13 = 12,
+	ID14 = 13,
+	ID15 = 14,
+	ID16 = 15,
+	ID17 = 16,
+	ID18 = 17,
+	ID19 = 18,
+	ID20 = 19,
+	ID21 = 20,
+	ID22 = 21,
+	ID23 = 22,
+	ID24 = 23,
+	ID25 = 24,
+	ID26 = 25,
+	ID27 = 26,
+	ID28 = 27,
+	ID29 = 28,
+	ID30 = 29,
+	ID31 = 30,
+	ID32 = 31,
+	ID33 = 32,
+	ID34 = 33,
+	_Max = 34 UMETA(Hidden),
+	ETresDlcChallengeScoreID_MAX = 35 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDlcChallengeRecordID
+enum class ETresDlcChallengeRecordID : uint8
 {
-	ETresDlcChallengeRecordID_REC0101 = 0 UMETA(DisplayName = "REC 0101"),
-	ETresDlcChallengeRecordID_REC0201 = 1 UMETA(DisplayName = "REC 0201"),
-	ETresDlcChallengeRecordID_REC0202 = 2 UMETA(DisplayName = "REC 0202"),
-	ETresDlcChallengeRecordID_REC0301 = 3 UMETA(DisplayName = "REC 0301"),
-	ETresDlcChallengeRecordID_REC0401 = 4 UMETA(DisplayName = "REC 0401"),
-	ETresDlcChallengeRecordID_REC0501 = 5 UMETA(DisplayName = "REC 0501"),
-	ETresDlcChallengeRecordID_REC0601 = 6 UMETA(DisplayName = "REC 0601"),
-	ETresDlcChallengeRecordID_REC0701 = 7 UMETA(DisplayName = "REC 0701"),
-	ETresDlcChallengeRecordID_REC0801 = 8 UMETA(DisplayName = "REC 0801"),
-	ETresDlcChallengeRecordID_REC0901 = 9 UMETA(DisplayName = "REC 0901"),
-	ETresDlcChallengeRecordID_REC1001 = 10 UMETA(DisplayName = "REC 1001"),
-	ETresDlcChallengeRecordID_REC1101 = 11 UMETA(DisplayName = "REC 1101"),
-	ETresDlcChallengeRecordID_REC1201 = 12 UMETA(DisplayName = "REC 1201"),
-	ETresDlcChallengeRecordID_REC1301 = 13 UMETA(DisplayName = "REC 1301"),
-	ETresDlcChallengeRecordID_REC1401 = 14 UMETA(DisplayName = "REC 1401"),
-	ETresDlcChallengeRecordID_REC1402 = 15 UMETA(DisplayName = "REC 1402"),
-	ETresDlcChallengeRecordID_REC1501 = 16 UMETA(DisplayName = "REC 1501"),
-	ETresDlcChallengeRecordID_REC1502 = 17 UMETA(DisplayName = "REC 1502"),
-	ETresDlcChallengeRecordID_REC1601 = 18 UMETA(DisplayName = "REC 1601"),
-	ETresDlcChallengeRecordID_REC1602 = 19 UMETA(DisplayName = "REC 1602"),
-	ETresDlcChallengeRecordID_REC1603 = 20 UMETA(DisplayName = "REC 1603"),
-	ETresDlcChallengeRecordID_REC1701 = 21 UMETA(DisplayName = "REC 1701"),
-	ETresDlcChallengeRecordID_REC1801 = 22 UMETA(DisplayName = "REC 1801"),
-	ETresDlcChallengeRecordID_REC1802 = 23 UMETA(DisplayName = "REC 1802"),
-	ETresDlcChallengeRecordID_REC1803 = 24 UMETA(DisplayName = "REC 1803"),
-	ETresDlcChallengeRecordID_REC1901 = 25 UMETA(DisplayName = "REC 1901"),
-	ETresDlcChallengeRecordID_REC1902 = 26 UMETA(DisplayName = "REC 1902"),
-	ETresDlcChallengeRecordID_REC2001 = 27 UMETA(DisplayName = "REC 2001"),
-	ETresDlcChallengeRecordID_REC2002 = 28 UMETA(DisplayName = "REC 2002"),
-	ETresDlcChallengeRecordID_REC2101 = 29 UMETA(DisplayName = "REC 2101"),
-	ETresDlcChallengeRecordID_REC2201 = 30 UMETA(DisplayName = "REC 2201"),
-	ETresDlcChallengeRecordID_REC2301 = 31 UMETA(DisplayName = "REC 2301"),
-	ETresDlcChallengeRecordID_REC2401 = 32 UMETA(DisplayName = "REC 2401"),
-	ETresDlcChallengeRecordID_REC2501 = 33 UMETA(DisplayName = "REC 2501"),
-	ETresDlcChallengeRecordID_REC2601 = 34 UMETA(DisplayName = "REC 2601"),
-	ETresDlcChallengeRecordID_REC2701 = 35 UMETA(DisplayName = "REC 2701"),
-	ETresDlcChallengeRecordID_REC2801 = 36 UMETA(DisplayName = "REC 2801"),
-	ETresDlcChallengeRecordID_REC2901 = 37 UMETA(DisplayName = "REC 2901"),
-	ETresDlcChallengeRecordID_REC3001 = 38 UMETA(DisplayName = "REC 3001"),
-	ETresDlcChallengeRecordID_REC3101 = 39 UMETA(DisplayName = "REC 3101"),
-	ETresDlcChallengeRecordID_REC3201 = 40 UMETA(DisplayName = "REC 3201"),
-	ETresDlcChallengeRecordID_REC3301 = 41 UMETA(DisplayName = "REC 3301"),
-	ETresDlcChallengeRecordID_REC3401 = 42 UMETA(DisplayName = "REC 3401"),
-	ETresDlcChallengeRecordID_ScoreCheckMax = 43 UMETA(DisplayName = "Score Check Max"),
-	ETresDlcChallengeRecordID_1_Max = 44 UMETA(Hidden),
+	REC0101 = 0,
+	REC0201 = 1,
+	REC0202 = 2,
+	REC0301 = 3,
+	REC0401 = 4,
+	REC0501 = 5,
+	REC0601 = 6,
+	REC0701 = 7,
+	REC0801 = 8,
+	REC0901 = 9,
+	REC1001 = 10,
+	REC1101 = 11,
+	REC1201 = 12,
+	REC1301 = 13,
+	REC1401 = 14,
+	REC1402 = 15,
+	REC1501 = 16,
+	REC1502 = 17,
+	REC1601 = 18,
+	REC1602 = 19,
+	REC1603 = 20,
+	REC1701 = 21,
+	REC1801 = 22,
+	REC1802 = 23,
+	REC1803 = 24,
+	REC1901 = 25,
+	REC1902 = 26,
+	REC2001 = 27,
+	REC2002 = 28,
+	REC2101 = 29,
+	REC2201 = 30,
+	REC2301 = 31,
+	REC2401 = 32,
+	REC2501 = 33,
+	REC2601 = 34,
+	REC2701 = 35,
+	REC2801 = 36,
+	REC2901 = 37,
+	REC3001 = 38,
+	REC3101 = 39,
+	REC3201 = 40,
+	REC3301 = 41,
+	REC3401 = 42,
+	ScoreCheckMax = 43,
+	_Max = 44 UMETA(Hidden),
 	ETresDlcChallengeRecordID_MAX = 45 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDlcChallengeCode
+enum class ETresDlcChallengeCode : uint8
 {
 	LevelOne = 0,
 	GuardZero = 1,
@@ -10651,29 +10589,29 @@ enum ETresDlcChallengeCode
 	BanDisneyMagic = 11,
 	BanMogMedal = 12,
 	_CodeMax = 13,
-	ETresDlcChallengeCode_1_Max = 14 UMETA(Hidden),
+	_Max = 14 UMETA(Hidden),
 	ETresDlcChallengeCode_MAX = 15 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDlcCheatAchievementID
+enum class ETresDlcCheatAchievementID : uint8
 {
-	ETresDlcCheatAchievementID_RiskeyChallenge = 0 UMETA(DisplayName = "Riskey Challenge"),
-	ETresDlcCheatAchievementID_GlideChallenge = 1 UMETA(DisplayName = "Glide Challenge"),
-	ETresDlcCheatAchievementID_GumiSGeistChallenge = 2 UMETA(DisplayName = "Gumi S Geist Challenge"),
-	ETresDlcCheatAchievementID_AerialChallenge = 3 UMETA(DisplayName = "Aerial Challenge"),
-	ETresDlcCheatAchievementID_GigasChallenge = 4 UMETA(DisplayName = "Gigas Challenge"),
-	ETresDlcCheatAchievementID_BowlingChallenge = 5 UMETA(DisplayName = "Bowling Challenge"),
-	ETresDlcCheatAchievementID_FreezeChallenge = 6 UMETA(DisplayName = "Freeze Challenge"),
-	ETresDlcCheatAchievementID_RageChallenge = 7 UMETA(DisplayName = "Rage Challenge"),
-	ETresDlcCheatAchievementID_LinkChallenge = 8 UMETA(DisplayName = "Link Challenge"),
-	ETresDlcCheatAchievementID_AllClearCheck = 9 UMETA(DisplayName = "All Clear Check"),
-	ETresDlcCheatAchievementID_1_Max = 10 UMETA(Hidden),
+	RiskeyChallenge = 0,
+	GlideChallenge = 1,
+	GumiSGeistChallenge = 2,
+	AerialChallenge = 3,
+	GigasChallenge = 4,
+	BowlingChallenge = 5,
+	FreezeChallenge = 6,
+	RageChallenge = 7,
+	LinkChallenge = 8,
+	_AllClearCheck = 9,
+	_Max = 10 UMETA(Hidden),
 	ETresDlcCheatAchievementID_MAX = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDlcCheatCode
+enum class ETresDlcCheatCode : uint8
 {
 	PowerWorld = 0,
 	APFree = 1,
@@ -10690,22 +10628,22 @@ enum ETresDlcCheatCode
 	BattleVictory = 12,
 	PerfectCooking = 13,
 	GumiCheat = 14,
-	ETresDlcCheatCode_CodeMax = 15,
-	ETresDlcCheatCode_1_Max = 16 UMETA(Hidden),
+	_CodeMax = 15,
+	_Max = 16 UMETA(Hidden),
 	ETresDlcCheatCode_MAX = 17 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFadeTrack_TheaterMode
+enum class ETresFadeTrack_TheaterMode : uint8
 {
 	ETresFadeTrack_TheaterMode_Disable = 0,
 	ETresFadeTrack_TheaterMode_Only = 1,
 	ETresFadeTrack_TheaterMode_Regardless = 2,
-	ETresFadeTrack_TheaterMode_MAX = 3
+	ETresFadeTrack_TheaterMode_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPauseMenuType
+enum class ETresPauseMenuType : uint8
 {
 	ETresPauseMenuType_Normal = 0,
 	ETresPauseMenuType_EventSkip = 1,
@@ -10713,13 +10651,13 @@ enum ETresPauseMenuType
 	ETresPauseMenuType_MiniGame = 3,
 	ETresPauseMenuType_NoRetryMiniGame = 4,
 	ETresPauseMenuType_Tutorial = 5,
-	ETresPauseMenuType_MAX = 6
+	ETresPauseMenuType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameHelpCategory
+enum class ETresGameHelpCategory : uint8
 {
-	ETresGameHelpCategory_None = 0,
+	None = 0,
 	GameSystem = 1,
 	PlayerAction = 2,
 	Battle = 3,
@@ -10728,19 +10666,19 @@ enum ETresGameHelpCategory
 	GumiHelp = 6,
 	GumiEditHelp = 7,
 	ReMind = 8,
-	ETresGameHelpCategory_1_Max = 9,
-	ETresGameHelpCategory_MAX = 10
+	Max = 9 UMETA(Hidden),
+	ETresGameHelpCategory_MAX = 10 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLevelentityGroup_Selector
+enum class ETresLevelentityGroup_Selector : uint8
 {
-	ETresLevelentityGroup_Selector_None = 0,
-	ETresLevelentityGroup_Selector_MAX = 1
+	ETresLevelentityGroup_Selector_None = 0 UMETA(DisplayName = "None"),
+	ETresLevelentityGroup_Selector_MAX = 1 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLevelEntityDisappearMode
+enum class ETresLevelEntityDisappearMode : uint8
 {
 	ETresLevelEntityDisappearMode_Immediate = 0,
 	ETresLevelEntityDisappearMode_Perform1 = 1,
@@ -10748,36 +10686,36 @@ enum ETresLevelEntityDisappearMode
 	ETresLevelEntityDisappearMode_Perform3 = 3,
 	ETresLevelEntityDisappearMode_RunAway = 4,
 	ETresLevelEntityDisappearMode_Force = 5,
-	ETresLevelEntityDisappearMode_MAX = 6
+	ETresLevelEntityDisappearMode_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresLevelEntityAppearMode
 {
-	ETresLevelEntityAppearMode_Immediate = 0 UMETA(DisplayName = "Immediate"),
-	ETresLevelEntityAppearMode_Perform1 = 1 UMETA(DisplayName = "Perform 1"),
-	ETresLevelEntityAppearMode_Perform2 = 2 UMETA(DisplayName = "Perform 2"),
-	ETresLevelEntityAppearMode_Perform3 = 3 UMETA(DisplayName = "Perform 3"),
-	ETresLevelEntityAppearMode_Perform4 = 4 UMETA(DisplayName = "Perform 4"),
-	ETresLevelEntityAppearMode_Special1 = 5 UMETA(DisplayName = "Special 1"),
-	ETresLevelEntityAppearMode_Special2 = 6 UMETA(DisplayName = "Special 2"),
-	ETresLevelEntityAppearMode_Special3 = 7 UMETA(DisplayName = "Special 3"),
-	ETresLevelEntityAppearMode_IdleWait = 8 UMETA(DisplayName = "Idle Wait"),
+	ETresLevelEntityAppearMode_Immediate = 0,
+	ETresLevelEntityAppearMode_Perform1 = 1,
+	ETresLevelEntityAppearMode_Perform2 = 2,
+	ETresLevelEntityAppearMode_Perform3 = 3,
+	ETresLevelEntityAppearMode_Perform4 = 4,
+	ETresLevelEntityAppearMode_Special1 = 5,
+	ETresLevelEntityAppearMode_Special2 = 6,
+	ETresLevelEntityAppearMode_Special3 = 7,
+	ETresLevelEntityAppearMode_IdleWait = 8,
 	ETresLevelEntityAppearMode_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemySetVanishMode
+enum class ETresEnemySetVanishMode : uint8
 {
 	ETresEnemySetVanishMode_Immediate = 0,
 	ETresEnemySetVanishMode_Perform1 = 1,
 	ETresEnemySetVanishMode_Perform2 = 2,
 	ETresEnemySetVanishMode_Perform3 = 3,
-	ETresEnemySetVanishMode_MAX = 4
+	ETresEnemySetVanishMode_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresEnemySetAppearMode
+enum class ETresEnemySetAppearMode : uint8
 {
 	ETresEnemySetAppearMode_Immediate = 0,
 	ETresEnemySetAppearMode_Perform1 = 1,
@@ -10787,134 +10725,134 @@ enum ETresEnemySetAppearMode
 	ETresEnemySetAppearMode_Special1 = 5,
 	ETresEnemySetAppearMode_Special2 = 6,
 	ETresEnemySetAppearMode_Special3 = 7,
-	ETresEnemySetAppearMode_MAX = 8
+	ETresEnemySetAppearMode_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAIAttackDefType
+enum class ETresFNpcAIAttackDefType : uint8
 {
 	TRES_FNPC_AI_ATK_DEF_NONE = 0,
 	TRES_FNPC_AI_ATK_DEF_NORMAL_ATTACK = 1,
 	TRES_FNPC_AI_ATK_DEF_ABILITY_ATTACK = 2,
 	TRES_FNPC_AI_ATK_DEF_ABILITY_CURE = 3,
 	TRES_FNPC_AI_ATK_DEF_ABILITY_SUPPORT = 4,
-	TRES_FNPC_AI_ATK_DEF_MAX = 5
+	TRES_FNPC_AI_ATK_DEF_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAIModeLevelSetting
+enum class ETresFNpcAIModeLevelSetting : uint8
 {
 	TRES_FNPC_AI_MODE_LV_SET_FOLLOW = 0,
 	TRES_FNPC_AI_MODE_LV_SET_NPC_WAIT = 1,
 	TRES_FNPC_AI_MODE_LV_SET_NPC_TALK = 2,
 	TRES_FNPC_AI_MODE_LV_SET_NPC_FREE_WALK = 3,
 	TRES_FNPC_AI_MODE_LV_SET_NPC_FREE_WALK_TALK = 4,
-	TRES_FNPC_AI_MODE_LV_SET_MAX = 5
+	TRES_FNPC_AI_MODE_LV_SET_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAIStyle_Cure
+enum class ETresFNpcAIStyle_Cure : uint8
 {
 	TRES_FNPC_AI_STYLE_CURE_OFTEN = 0,
 	TRES_FNPC_AI_STYLE_CURE_PINCH = 1,
 	TRES_FNPC_AI_STYLE_CURE_ALWAYS = 2,
-	TRES_FNPC_AI_STYLE_CURE_MAX = 3
+	TRES_FNPC_AI_STYLE_CURE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAIStyle_Ability
+enum class ETresFNpcAIStyle_Ability : uint8
 {
 	TRES_FNPC_AI_STYLE_ABILITY_FREE = 0,
 	TRES_FNPC_AI_STYLE_ABILITY_BALANCE = 1,
 	TRES_FNPC_AI_STYLE_ABILITY_LESS = 2,
-	TRES_FNPC_AI_STYLE_ABILITY_MAX = 3
+	TRES_FNPC_AI_STYLE_ABILITY_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresFNpcAIStyle_Battle
+enum class ETresFNpcAIStyle_Battle : uint8
 {
 	TRES_FNPC_AI_STYLE_BATTLE_TOGETHER = 0,
 	TRES_FNPC_AI_STYLE_BATTLE_FREE = 1,
 	TRES_FNPC_AI_STYLE_BATTLE_SUPPORT = 2,
 	TRES_FNPC_AI_STYLE_BATTLE_FOCUS = 3,
-	TRES_FNPC_AI_STYLE_BATTLE_MAX = 4
+	TRES_FNPC_AI_STYLE_BATTLE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCmnCureEffectGrpID
+enum class ETresCmnCureEffectGrpID : uint8
 {
-	TRES_CURE_GRP_NONE = 0,
-	TRES_CURE_GRP_SAVEPOINT = 1,
-	TRES_CURE_GRP_PRIZE = 2,
-	TRES_CURE_GRP_POTION = 3,
-	TRES_CURE_GRP_HIGHPOTION = 4,
-	TRES_CURE_GRP_ETHER = 5,
-	TRES_CURE_GRP_ELIXIR = 6,
-	TRES_CURE_GRP_CURE = 7,
-	TRES_CURE_GRP_CURA = 8,
-	TRES_CURE_GRP_CURAGA = 9,
-	TRES_CURE_GRP_BONUS_CURE = 10,
-	TRES_CURE_GRP_BONUS_CURA = 11,
-	TRES_CURE_GRP_BONUS_CURAGA = 12,
-	TRES_CURE_GRP_DRAIN = 13,
-	D_CURE = 14,
-	BONUS_D_CURE = 15,
-	CURE_SPRAY = 16,
-	BONUS_CURE_SPRAY = 17,
-	TRES_CURE_GRP_HIGHETHER = 18,
-	TRES_CURE_GRP_FOCUSSUPPLY = 19,
-	TRES_CURE_GRP_HIGHFOCUSSUPPLY = 20,
-	TRES_CURE_GRP_ALLCURE = 21,
-	TRES_CURE_GRP_FOCUSASPIR = 22,
-	TRES_CURE_GRP_MAX = 23,
-	ETresCmnCureEffectGrpID_MAX = 24
+	TRES_CURE_GRP_NONE = 0 UMETA(DisplayName = "None"),
+	TRES_CURE_GRP_SAVEPOINT = 1 UMETA(DisplayName = "Save Point"),
+	TRES_CURE_GRP_PRIZE = 2 UMETA(DisplayName = "Prize"),
+	TRES_CURE_GRP_POTION = 3 UMETA(DisplayName = "Potion"),
+	TRES_CURE_GRP_HIGHPOTION = 4 UMETA(DisplayName = "High Potion"),
+	TRES_CURE_GRP_ETHER = 5 UMETA(DisplayName = "Ether"),
+	TRES_CURE_GRP_ELIXIR = 6 UMETA(DisplayName = "Elixir"),
+	TRES_CURE_GRP_CURE = 7 UMETA(DisplayName = "Cure"),
+	TRES_CURE_GRP_CURA = 8 UMETA(DisplayName = "Cura"),
+	TRES_CURE_GRP_CURAGA = 9 UMETA(DisplayName = "Curaga"),
+	TRES_CURE_GRP_BONUS_CURE = 10 UMETA(DisplayName = "Bonus Cure"),
+	TRES_CURE_GRP_BONUS_CURA = 11 UMETA(DisplayName = "Bonus Cura"),
+	TRES_CURE_GRP_BONUS_CURAGA = 12 UMETA(DisplayName = "Bonus Curaga"),
+	TRES_CURE_GRP_DRAIN = 13 UMETA(DisplayName = "Drain"),
+	D_CURE = 14 UMETA(DisplayName = "D Cure"),
+	BONUS_D_CURE = 15 UMETA(DisplayName = "Bonus D Cure"),
+	CURE_SPRAY = 16 UMETA(DisplayName = "Cure Spray"),
+	BONUS_CURE_SPRAY = 17 UMETA(DisplayName = "Bonus Cure Spray"),
+	TRES_CURE_GRP_HIGHETHER = 18 UMETA(DisplayName = "High Ether"),
+	TRES_CURE_GRP_FOCUSSUPPLY = 19 UMETA(DisplayName = "Focus Supply"),
+	TRES_CURE_GRP_HIGHFOCUSSUPPLY = 20 UMETA(DisplayName = "High Focus Supply"),
+	TRES_CURE_GRP_ALLCURE = 21 UMETA(DisplayName = "All Cure"),
+	TRES_CURE_GRP_FOCUSASPIR = 22 UMETA(DisplayName = "Focus Aspir"),
+	TRES_CURE_GRP_MAX = 23 UMETA(Hidden),
+	ETresCmnCureEffectGrpID_MAX = 24 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPawnCmnChargeEffectCategory
+enum class ETresPawnCmnChargeEffectCategory : uint8
 {
-	TRES_CMN_CEC_WEAPON = 0,
-	TRES_CMN_CEC_STYLECHANGE = 1,
-	TRES_CMN_CEC_MAX = 2
+	TRES_CMN_CEC_WEAPON = 0 UMETA(DisplayName = "Weapon"),
+	TRES_CMN_CEC_STYLECHANGE = 1 UMETA(DisplayName = "Style Change"),
+	TRES_CMN_CEC_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPawnCmnEffectID
+enum class ETresPawnCmnEffectID : uint8
 {
-	TRES_PAWN_CMN_EFFECT_FREEFLOW = 0,
-	TRES_PAWN_CMN_EFFECT_MAGIC_CAST = 1,
-	TRES_PAWN_CMN_EFFECT_BAD_STATES = 2,
-	TRES_PAWN_CMN_EFFECT_APPEAR = 3,
-	TRES_PAWN_CMN_EFFECT_CURE = 4,
-	TRES_PAWN_CMN_EFFECT_MAX = 5
+	TRES_PAWN_CMN_EFFECT_FREEFLOW = 0 UMETA(DisplayName = "Free Flow"),
+	TRES_PAWN_CMN_EFFECT_MAGIC_CAST = 1 UMETA(DisplayName = "Magic Cast"),
+	TRES_PAWN_CMN_EFFECT_BAD_STATES = 2 UMETA(DisplayName = "Bad States"),
+	TRES_PAWN_CMN_EFFECT_APPEAR = 3 UMETA(DisplayName = "Appear"),
+	TRES_PAWN_CMN_EFFECT_CURE = 4 UMETA(DisplayName = "Cure"),
+	TRES_PAWN_CMN_EFFECT_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresCharInputType
 {
-	TRES_CHAR_INPUT_AI = 0,
-	TRES_CHAR_INPUT_PAD = 1,
-	TRES_CHAR_INPUT_DEBUG_PAD = 2,
-	TRES_CHAR_INPUT_DONOTING = 3,
-	TRES_CHAR_INPUT_OTHER = 4,
-	TRES_CHAR_INPUT_MAX = 5
+	TRES_CHAR_INPUT_AI = 0 UMETA(DisplayName = "AI"),
+	TRES_CHAR_INPUT_PAD = 1 UMETA(DisplayName = "Pad"),
+	TRES_CHAR_INPUT_DEBUG_PAD = 2 UMETA(DisplayName = "Debug Pad"),
+	TRES_CHAR_INPUT_DONOTING = 3 UMETA(DisplayName = "Do Noting"),
+	TRES_CHAR_INPUT_OTHER = 4 UMETA(DisplayName = "Other"),
+	TRES_CHAR_INPUT_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCinematicPlayerStyleType
+enum class ETresCinematicPlayerStyleType : uint8
 {
-	ETresCinematicPlayerStyleType_NONE = 0 UMETA(DisplayName = "None"),
-	WEAR_L0_WEAPON_L1 = 1 UMETA(DisplayName = "L0 Weapon L1"),
-	WEAR_L1_WEAPON_L0 = 2 UMETA(DisplayName = "L1 Weapon L0"),
-	WEAR_L1_WEAPON_L1 = 3 UMETA(DisplayName = "L1 Weapon L1"),
-	WEAR_L2_WEAPON_L0 = 4 UMETA(DisplayName = "L2 Weapon L0"),
-	WEAR_L2_WEAPON_L1 = 5 UMETA(DisplayName = "L2 Weapon L1"),
-	ETresCinematicPlayerStyleType_1_MAX = 6 UMETA(Hidden),
+	NONE = 0 UMETA(DisplayName = "None"),
+	WEAR_L0_WEAPON_L1 = 1 UMETA(DisplayName = "Wear L0 Weapon L1"),
+	WEAR_L1_WEAPON_L0 = 2 UMETA(DisplayName = "Wear L1 Weapon L0"),
+	WEAR_L1_WEAPON_L1 = 3 UMETA(DisplayName = "Wear L1 Weapon L1"),
+	WEAR_L2_WEAPON_L0 = 4 UMETA(DisplayName = "Wear L2 Weapon L0"),
+	WEAR_L2_WEAPON_L1 = 5 UMETA(DisplayName = "Wear L2 Weapon L1"),
+	_MAX = 6 UMETA(Hidden),
 	ETresCinematicPlayerStyleType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCinematicPlayerStateType
+enum class ETresCinematicPlayerStateType : uint8
 {
 	TCPST_NONE = 0 UMETA(DisplayName = "None"),
 	TCPST_TPVIEW = 1 UMETA(DisplayName = "TP View"),
@@ -10925,7 +10863,7 @@ enum ETresCinematicPlayerStateType
 };
 
 UENUM(BlueprintType)
-enum ETresCinematicLayerChannel
+enum class ETresCinematicLayerChannel : uint8
 {
 	TCLC_EVENT1 = 0,
 	TCLC_EVENT2 = 1,
@@ -10935,12 +10873,12 @@ enum ETresCinematicLayerChannel
 	TCLC_LEVEL2 = 5,
 	TCLC_LEVEL3 = 6,
 	TCLC_LEVEL4 = 7,
-	_TCLC_MAX = 8,
-	ETresCinematicLayerChannel_MAX = 9
+	_TCLC_MAX = 8 UMETA(Hidden),
+	ETresCinematicLayerChannel_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresObjTypeProcChannel
+enum class ETresObjTypeProcChannel : uint8
 {
 	CH_COMMON = 0 UMETA(DisplayName = "Common"),
 	CH_PLAYER = 1 UMETA(DisplayName = "Player"),
@@ -10948,10 +10886,10 @@ enum ETresObjTypeProcChannel
 	CH_MENU = 3 UMETA(DisplayName = "Menu"),
 	CH_ENEMY = 4 UMETA(DisplayName = "Enemy"),
 	CH_ENEMYBOSS = 5 UMETA(DisplayName = "Enemy Boss"),
-	_CH_RESERVE06 = 6 UMETA(DisplayName = "Reserve 06"),
-	_CH_RESERVE07 = 7 UMETA(DisplayName = "Reserve 07"),
+	_CH_RESERVE06 = 6 UMETA(DisplayName = "Reserve 6"),
+	_CH_RESERVE07 = 7 UMETA(DisplayName = "Reserve 7"),
 	CH_SYSTEM1 = 8 UMETA(DisplayName = "System 1"),
-	_CH_RESERVE09 = 9 UMETA(DisplayName = "Reserve 09"),
+	_CH_RESERVE09 = 9 UMETA(DisplayName = "Reserve 9"),
 	_CH_RESERVE10 = 10 UMETA(DisplayName = "Reserve 10"),
 	_CH_RESERVE11 = 11 UMETA(DisplayName = "Reserve 11"),
 	CH_DEBUG1 = 12 UMETA(DisplayName = "Debug 1"),
@@ -10963,7 +10901,7 @@ enum ETresObjTypeProcChannel
 };
 
 UENUM(BlueprintType)
-enum ETresBadStatCloudWeatherType
+enum class ETresBadStatCloudWeatherType : uint8
 {
 	TRES_BS_WEATHER_TYPE_NONE = 0 UMETA(DisplayName = "None"),
 	TRES_BS_WEATHER_TYPE_CLOUD = 1 UMETA(DisplayName = "Cloud"),
@@ -10975,70 +10913,60 @@ enum ETresBadStatCloudWeatherType
 UENUM(BlueprintType)
 enum class ETresAtkCollReflectReaction : uint8
 {
-	TRES_ATK_RR_DEFAULT = 0 UMETA(DisplayName = "Default"),
-	TRES_ATK_RR_STAGGER = 1 UMETA(DisplayName = "Stagger"),
-	TRES_ATK_RS_GUARD = 2 UMETA(DisplayName = "Guard"),
-	TRES_ATK_RR_NOREACTION = 3 UMETA(DisplayName = "No Reaction"),
+	TRES_ATK_RR_DEFAULT = 0 UMETA(DisplayName = "RR Default"),
+	TRES_ATK_RR_STAGGER = 1 UMETA(DisplayName = "RR Stagger"),
+	TRES_ATK_RS_GUARD = 2 UMETA(DisplayName = "RS Guard"),
+	TRES_ATK_RR_NOREACTION = 3 UMETA(DisplayName = "RR No Reaction"),
 	_TRES_ATK_RR_MAX = 4 UMETA(Hidden),
 	ETresAtkCollReflectReaction_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresIkCollision
-{
-	ETresIkCollision_SPHERE = 0,
-	ETresIkCollision_CAPSULE = 1,
-	ETresIkCollision_BOX = 2,
-	ETresIkCollision_1_MAX = 3 UMETA(Hidden),
-	ETresIkCollision_MAX = 4 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum ETresAtkCollMapHitType
+enum class ETresAtkCollMapHitType : uint8
 {
 	NOHIT = 0,
 	PHYSOBJ_NOHIT = 1,
 	HITMAP = 2,
 	IGNORE_GROUND = 3,
-	ETresAtkCollMapHitType_1_MAX = 4,
-	ETresAtkCollMapHitType_MAX = 5
+	_MAX = 4 UMETA(Hidden),
+	ETresAtkCollMapHitType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAtkCollLocationAttachType
+enum class ETresAtkCollLocationAttachType : uint8
 {
-	ETresAtkCollLocationAttachType_NORMAL = 0,
-	ETresAtkCollLocationAttachType_OWNER_ATTACHED_MESH = 1,
-	ETresAtkCollLocationAttachType_WORLD = 2,
-	ETresAtkCollLocationAttachType_MAX = 3
+	NORMAL = 0,
+	OWNER_ATTACHED_MESH = 1,
+	WORLD = 2,
+	ETresAtkCollLocationAttachType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresCollision
 {
-	ETresCollision_SPHERE = 0 UMETA(DisplayName = "Sphere"),
-	ETresCollision_CAPSULE1 = 1 UMETA(DisplayName = "Capsule 1"),
-	ETresCollision_CAPSULE2 = 2 UMETA(DisplayName = "Capsule 2"),
-	ETresCollision_CAPSULE_RING = 3 UMETA(DisplayName = "Capsule Ring"),
-	ETresCollision_BOX = 4 UMETA(DisplayName = "Box"),
-	ETresCollision_BOX_RING = 5 UMETA(DisplayName = "Box Ring"),
-	ETresCollision_CONVEX = 6 UMETA(DisplayName = "Convex"),
-	ETresCollision_LASER1 = 7 UMETA(DisplayName = "Laser1"),
-	ETresCollision_DCONVEX = 8 UMETA(DisplayName = "D Convex"),
-	ETresCollision_1_MAX = 9 UMETA(Hidden),
+	/*SPHERE = 0,
+	CAPSULE1 = 1,
+	CAPSULE2 = 2,
+	CAPSULE_RING = 3,
+	BOX = 4,
+	BOX_RING = 5,
+	CONVEX = 6,
+	LASER1 = 7,
+	DCONVEX = 8,
+	MAX = 9 UMETA(Hidden),*/
 	ETresCollision_MAX = 10 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresLockonPriority
+enum class ETresLockonPriority : uint8
 {
 	LOW = 0,
 	HIGH = 1,
-	ETresLockonPriority_MAX = 2
+	ETresLockonPriority_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresReactorCommandID
+enum class ETresReactorCommandID : uint8
 {
 	TRES_RCID_UNKNOWN = 0,
 	TRES_RCID_SAVE = 1,
@@ -11071,66 +10999,66 @@ enum ETresReactorCommandID
 	TRES_RCID_ANS_EASY = 28,
 	TRES_RCID_ANS_CHALLENGING = 29,
 	TRES_RCID_CARDDRAW = 30,
-	_TRES_RCID_MAX = 31,
-	ETresReactorCommandID_MAX = 32
+	_TRES_RCID_MAX = 31 UMETA(Hidden),
+	ETresReactorCommandID_MAX = 32 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresAttackerPosition
+enum class ETresAttackerPosition : uint8
 {
-	ETresAttackerPosition_Front = 0,
-	ETresAttackerPosition_Back = 1,
-	ETresAttackerPosition_Right = 2,
-	ETresAttackerPosition_Left = 3,
-	ETresAttackerPosition_1_Max = 4,
-	ETresAttackerPosition_MAX = 5
+	Front = 0,
+	Back = 1,
+	Right = 2,
+	Left = 3,
+	Max = 4 UMETA(Hidden),
+	ETresAttackerPosition_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresGrass
 {
-	ETresGrass_RADIAL = 0 UMETA(DisplayName = "Radial"),
-	ETresGrass_CLOCKWISE = 1 UMETA(DisplayName = "Clockwise"),
-	ETresGrass_CCLOCKWISE = 2 UMETA(DisplayName = "Counter Clockwise"),
-	ETresGrass_ETresGrass_1_MAX = 3 UMETA(Hidden),
-	ETresGrass_ETresGrass_MAX = 4 UMETA(Hidden)
+	RADIAL = 0,
+	CLOCKWISE = 1,
+	CCLOCKWISE = 2,
+	//MAX = 3 UMETA(Hidden),
+	ETresGrass_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresScalabilityType
+enum class ETresScalabilityType : uint8
 {
 	SCALABILITY_TYPE_ENGINE = 0,
 	SCALABILITY_TYPE_GAME = 1,
 	SCALABILITY_TYPE_CUT_SCENE = 2,
-	SCALABILITY_TYPE_MAX = 3
+	SCALABILITY_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresBoneSpacesType
+enum class ETresBoneSpacesType : uint8
 {
-	TBST_WorldSpace = 0 UMETA(DisplayName = "World Space"),
-	TBST_LocalSpace = 1 UMETA(DisplayName = "Local Space"),
-	TBST_ComponentSpace = 2 UMETA(DisplayName = "Component Space"),
+	TBST_WorldSpace = 0,
+	TBST_LocalSpace = 1,
+	TBST_ComponentSpace = 2,
 	TBST_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresSaveLevel
+enum class ETresSaveLevel : uint8
 {
-	ETresSaveLevel_Visible = 0,
-	ETresSaveLevel_Load = 1,
-	ETresSaveLevel_1_Max = 2,
-	ETresSaveLevel_MAX = 3
+	Visible = 0,
+	Load = 1,
+	Max = 2 UMETA(Hidden),
+	ETresSaveLevel_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresClimbingAnimPose
+enum class ETresClimbingAnimPose : uint8
 {
 	TRES_CLIMBINGANIMPOSE_NONE = 0,
 	TRES_CLIMBINGANIMPOSE_LOW = 1,
 	TRES_CLIMBINGANIMPOSE_MIDDLE = 2,
 	TRES_CLIMBINGANIMPOSE_HIGH = 3,
-	TRES_CLIMBINGANIMPOSE_MAX = 4
+	TRES_CLIMBINGANIMPOSE_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -11141,7 +11069,7 @@ enum ETresLandAnimPose
 	TRES_LANDANIMPOSE_LIGHT = 2,
 	TRES_LANDANIMPOSE_LIGHT_R = 3,
 	TRES_LANDANIMPOSE_LIGHT_L = 4,
-	TRES_LANDANIMPOSE_MAX = 5
+	TRES_LANDANIMPOSE_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -11149,53 +11077,64 @@ enum ETresLastAnimPose
 {
 	TRES_LASTANIMPOSE_NORMAL = 0,
 	TRES_LASTANIMPOSE_BATTLE = 1,
-	TRES_LASTANIMPOSE_MAX = 2
+	TRES_LASTANIMPOSE_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCharRestrictActionID
+enum class ETresCharRestrictActionID : uint8
 {
-	ETresCharRestrictActionID_ATTACK = 0,
-	ETresCharRestrictActionID_MAGIC = 1,
-	ETresCharRestrictActionID_ITEM = 2,
-	ETresCharRestrictActionID_LINK = 3,
-	ETresCharRestrictActionID_FRIENDLINK = 4,
-	ETresCharRestrictActionID_ATTRACTIONFLOW = 5,
-	ETresCharRestrictActionID_STYLE = 6,
-	ETresCharRestrictActionID_SITUATION = 7,
-	ETresCharRestrictActionID_GUARD = 8,
-	ETresCharRestrictActionID_JUMP = 9,
-	ETresCharRestrictActionID_SHOOTLOCK = 10,
-	ETresCharRestrictActionID_RUN = 11,
-	ETresCharRestrictActionID_DIVEFALL = 12,
-	ETresCharRestrictActionID_DEEPDIVING = 13,
-	ETresCharRestrictActionID_CANCELSITUATION = 14,
-	ETresCharRestrictActionID_ALWAYS_USESPAWNPOINT = 15,
-	ETresCharRestrictActionID_PHOTO_MODE = 16,
-	ETresCharRestrictActionID_1_MAX = 17,
-	ETresCharRestrictActionID_MAX = 18
+	ATTACK = 0,
+	MAGIC = 1,
+	ITEM = 2,
+	LINK = 3,
+	FRIENDLINK = 4,
+	ATTRACTIONFLOW = 5,
+	STYLE = 6,
+	SITUATION = 7,
+	GUARD = 8,
+	JUMP = 9,
+	SHOOTLOCK = 10,
+	RUN = 11,
+	DIVEFALL = 12,
+	DEEPDIVING = 13,
+	CANCELSITUATION = 14,
+	ALWAYS_USESPAWNPOINT = 15,
+	PHOTO_MODE = 16,
+	_MAX = 17 UMETA(Hidden),
+	ETresCharRestrictActionID_MAX = 18 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCoverIdlingDirID
+enum class ETresCoverIdlingDirID : uint8
 {
 	TRES_CID_ID_NONE = 0,
 	TRES_CID_ID_LEFT = 1,
 	TRES_CID_ID_RIGHT = 2,
-	_TRES_CID_ID_MAX = 3,
-	ETresCoverIdlingDirID_MAX = 4
+	_TRES_CID_ID_MAX = 3 UMETA(Hidden),
+	ETresCoverIdlingDirID_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresdirectionType
+enum class ETresdirectionType : uint8
 {
-	TRES_DIR_FRONT = 0 UMETA(DisplayName = "Front"),
-	TRES_DIR_BACK = 1 UMETA(DisplayName = "Back"),
-	TRES_DIR_RIGHT = 2 UMETA(DisplayName = "Right"),
-	TRES_DIR_LEFT = 3 UMETA(DisplayName = "Left"),
-	TRES_DIR_UP = 4 UMETA(DisplayName = "Up"),
-	TRES_DIR_DOWN = 5 UMETA(DisplayName = "Down"),
+	TRES_DIR_FRONT = 0,
+	TRES_DIR_BACK = 1,
+	TRES_DIR_RIGHT = 2,
+	TRES_DIR_LEFT = 3,
+	TRES_DIR_UP = 4,
+	TRES_DIR_DOWN = 5,
 	TRES_DIR_MAX = 6 UMETA(Hidden)
+};
+
+UENUM(BlueprintType)
+enum ETresRiskDodgeType
+{
+	TRDT_NONE = 0,
+	TRDT_UNDERSLIDE = 1,
+	TRDT_OVERSLIDE = 2,
+	TRDT_SLIDETURN = 3,
+	TRDT_WARP = 4,
+	TRDT_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
@@ -11212,45 +11151,45 @@ enum ETresHopMotionType
 	THIM_HASSOU_JUMP = 8,
 	THIM_HASSOU_JUMP_HIGH = 9,
 	THIM_HASSOU_JUMP_FLIGHT = 10,
-	THIM_MAX = 11
+	THIM_MAX = 11 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPlayerHoukouModes
+enum class ETresPlayerHoukouModes : uint8
 {
 	TPH_FRONT = 0,
 	TPH_BACK = 1,
 	TPH_RIGHT = 2,
 	TPH_LEFT = 3,
-	TPH_MAX = 4
+	TPH_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresCharEquipPart
+enum class ETresCharEquipPart : uint8
 {
-	ETresCharEquipPart_UNKNOWN = 0,
-	ETresCharEquipPart_RIGHT_HAND = 1,
-	ETresCharEquipPart_LEFT_HAND = 2,
-	ETresCharEquipPart_BOTH_HAND = 3,
-	ETresCharEquipPart_RIGHT_LEG = 4,
-	ETresCharEquipPart_LEFT_LEG = 5,
-	ETresCharEquipPart_BOTH_LEG = 6,
-	ETresCharEquipPart_ALL = 7,
-	ETresCharEquipPart_1_MAX = 8,
-	ETresCharEquipPart_MAX = 9
+	UNKNOWN = 0,
+	RIGHT_HAND = 1,
+	LEFT_HAND = 2,
+	BOTH_HAND = 3,
+	RIGHT_LEG = 4,
+	LEFT_LEG = 5,
+	BOTH_LEG = 6,
+	ALL = 7,
+	_MAX = 8 UMETA(Hidden),
+	ETresCharEquipPart_MAX = 9 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWeaponGrowLvl
+enum class ETresWeaponGrowLvl : uint8
 {
 	TRES_WEAPON_GROW_LVL01 = 0,
 	TRES_WEAPON_GROW_LVL02 = 1,
 	TRES_WEAPON_GROW_LVL03 = 2,
-	TRES_WEAPON_GROW_MAX = 3
+	TRES_WEAPON_GROW_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWeaponForm
+enum class ETresWeaponForm : uint8
 {
 	TRES_WEAPON_FORM_NONE = 0,
 	TRES_WEAPON_FORM_01 = 1,
@@ -11277,215 +11216,215 @@ enum ETresWeaponForm
 	TRES_WEAPON_FORM06 = 22,
 	TRES_WEAPON_FORM07 = 23,
 	TRES_WEAPON_FORM08 = 24,
-	ETresWeaponForm_1_TRES_WEAPON_FORM_MAX = 25 UMETA(Hidden)
+	TRES_WEAPON_FORM_MAX = 25 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDamageLeaveOneType
+enum class ETresDamageLeaveOneType : uint8
 {
-	ETresDamageLeaveOneType_NORMAL = 0,
-	ETresDamageLeaveOneType_ANYONE = 1,
-	ETresDamageLeaveOneType_PLAYER_ONLY = 2,
-	ETresDamageLeaveOneType_PLAYERTEAM_ONLY = 3,
-	ETresDamageLeaveOneType_ENEMY_ONLY = 4,
-	ETresDamageLeaveOneType_1_MAX = 5 UMETA(Hidden),
+	NORMAL = 0,
+	ANYONE = 1,
+	PLAYER_ONLY = 2,
+	PLAYERTEAM_ONLY = 3,
+	ENEMY_ONLY = 4,
+	_MAX = 5 UMETA(Hidden),
 	ETresDamageLeaveOneType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresDamageCalcType
+enum class ETresDamageCalcType : uint8
 {
-	ETresDamageCalcType_NORMAL = 0,
-	ETresDamageCalcType_RATE_MAXHP = 1,
-	ETresDamageCalcType_RATE_HP = 2,
-	ETresDamageCalcType_NO_OXYGEN = 3,
-	ETresDamageCalcType_1_MAX = 4 UMETA(Hidden),
+	NORMAL = 0,
+	RATE_MAXHP = 1,
+	RATE_HP = 2,
+	NO_OXYGEN = 3,
+	_MAX = 4 UMETA(Hidden),
 	ETresDamageCalcType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresMapJumpFadeKind
 {
-	MAPJUMP_FADE_KIND_NONE = 0 UMETA(DisplayName = "None"),
-	MAPJUMP_FADE_KIND_FADEOUT = 1 UMETA(DisplayName = "Fade Out"),
-	MAPJUMP_FADE_KIND_WHITEOUT = 2 UMETA(DisplayName = "White Out"),
-	MAPJUMP_FADE_KIND_WIPEOUT = 3 UMETA(DisplayName = "Wipe Out"),
+	MAPJUMP_FADE_KIND_NONE = 0,
+	MAPJUMP_FADE_KIND_FADEOUT = 1,
+	MAPJUMP_FADE_KIND_WHITEOUT = 2,
+	MAPJUMP_FADE_KIND_WIPEOUT = 3,
 	MAPJUMP_FADE_KIND_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresWorldAreaCode
 {
-	TRES_WAID_AREA_00 = 0 UMETA(DisplayName = "Area 00"),
-	TRES_WAID_AREA_01 = 1 UMETA(DisplayName = "Area 01"),
-	TRES_WAID_AREA_02 = 2 UMETA(DisplayName = "Area 02"),
-	TRES_WAID_AREA_03 = 3 UMETA(DisplayName = "Area 03"),
-	TRES_WAID_AREA_04 = 4 UMETA(DisplayName = "Area 04"),
-	TRES_WAID_AREA_05 = 5 UMETA(DisplayName = "Area 05"),
-	TRES_WAID_AREA_06 = 6 UMETA(DisplayName = "Area 06"),
-	TRES_WAID_AREA_07 = 7 UMETA(DisplayName = "Area 07"),
-	TRES_WAID_AREA_08 = 8 UMETA(DisplayName = "Area 08"),
-	TRES_WAID_AREA_09 = 9 UMETA(DisplayName = "Area 09"),
-	TRES_WAID_AREA = 10 UMETA(DisplayName = "Area"),
-	TRES_WAID_AREA01 = 11 UMETA(DisplayName = "Area01"),
-	TRES_WAID_AREA02 = 12 UMETA(DisplayName = "Area02"),
-	TRES_WAID_AREA03 = 13 UMETA(DisplayName = "Area03"),
-	TRES_WAID_AREA04 = 14 UMETA(DisplayName = "Area04"),
-	TRES_WAID_AREA05 = 15 UMETA(DisplayName = "Area05"),
+	TRES_WAID_AREA_00 = 0,
+	TRES_WAID_AREA_01 = 1,
+	TRES_WAID_AREA_02 = 2,
+	TRES_WAID_AREA_03 = 3,
+	TRES_WAID_AREA_04 = 4,
+	TRES_WAID_AREA_05 = 5,
+	TRES_WAID_AREA_06 = 6,
+	TRES_WAID_AREA_07 = 7,
+	TRES_WAID_AREA_08 = 8,
+	TRES_WAID_AREA_09 = 9,
+	TRES_WAID_AREA = 10,
+	TRES_WAID_AREA01 = 11,
+	TRES_WAID_AREA02 = 12,
+	TRES_WAID_AREA03 = 13,
+	TRES_WAID_AREA04 = 14,
+	TRES_WAID_AREA05 = 15,
 	TRES_WAID_AREA_MAX = 16 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresWorldCode
 {
-	TRES_WCID_EX = 0 UMETA(DisplayName = "EX"),
-	TRES_WCID_BT = 1 UMETA(DisplayName = "BT"),
-	TRES_WCID_DB = 2 UMETA(DisplayName = "DB"),
-	TRES_WCID_DW = 3 UMETA(DisplayName = "DW"),
-	TRES_WCID_HE = 4 UMETA(DisplayName = "HE"),
-	TRES_WCID_TS = 5 UMETA(DisplayName = "TS"),
-	TRES_WCID_CS = 6 UMETA(DisplayName = "CS"),
-	TRES_WCID_RA = 7 UMETA(DisplayName = "RA"),
-	TRES_WCID_FZ = 8 UMETA(DisplayName = "FZ"),
-	TRES_WCID_CA = 9 UMETA(DisplayName = "CA"),
-	TRES_WCID_PO = 10 UMETA(DisplayName = "PO"),
-	TRES_WCID_MI = 11 UMETA(DisplayName = "MI"),
-	TRES_WCID_TT = 12 UMETA(DisplayName = "TT"),
-	TRES_WCID_YT = 13 UMETA(DisplayName = "YT"),
-	TRES_WCID_KG = 14 UMETA(DisplayName = "KG"),
-	TRES_WCID_RE = 15 UMETA(DisplayName = "RE"),
-	TRES_WCID_DC = 16 UMETA(DisplayName = "DC"),
-	TRES_WCID_WI = 17 UMETA(DisplayName = "WI"),
-	TRES_WCID_IN = 18 UMETA(DisplayName = "IN"),
-	TRES_WCID_BX = 19 UMETA(DisplayName = "BX"),
-	TRES_WCID_SR = 20 UMETA(DisplayName = "SR"),
-	TRES_WCID_CO = 21 UMETA(DisplayName = "CO"),
-	TRES_WCID_EW = 22 UMETA(DisplayName = "EW"),
-	TRES_WCID_DI = 23 UMETA(DisplayName = "DI"),
-	TRES_WCID_RG = 24 UMETA(DisplayName = "RG"),
-	TRES_WCID_DP = 25 UMETA(DisplayName = "DP"),
-	TRES_WCID_SF = 26 UMETA(DisplayName = "SF"),
-	TRES_WCID_GM = 27 UMETA(DisplayName = "GM"),
-	TRES_WCID_WM = 28 UMETA(DisplayName = "WM"),
-	TRES_WCID_SP = 29 UMETA(DisplayName = "SP"),
-	TRES_WCID_00 = 30 UMETA(DisplayName = "00"),
-	TRES_WCID_ZZ = 31 UMETA(DisplayName = "ZZ"),
+	TRES_WCID_EX = 0,
+	TRES_WCID_BT = 1,
+	TRES_WCID_DB = 2,
+	TRES_WCID_DW = 3,
+	TRES_WCID_HE = 4,
+	TRES_WCID_TS = 5,
+	TRES_WCID_CS = 6,
+	TRES_WCID_RA = 7,
+	TRES_WCID_FZ = 8,
+	TRES_WCID_CA = 9,
+	TRES_WCID_PO = 10,
+	TRES_WCID_MI = 11,
+	TRES_WCID_TT = 12,
+	TRES_WCID_YT = 13,
+	TRES_WCID_KG = 14,
+	TRES_WCID_RE = 15,
+	TRES_WCID_DC = 16,
+	TRES_WCID_WI = 17,
+	TRES_WCID_IN = 18,
+	TRES_WCID_BX = 19,
+	TRES_WCID_SR = 20,
+	TRES_WCID_CO = 21,
+	TRES_WCID_EW = 22,
+	TRES_WCID_DI = 23,
+	TRES_WCID_RG = 24,
+	TRES_WCID_DP = 25,
+	TRES_WCID_SF = 26,
+	TRES_WCID_GM = 27,
+	TRES_WCID_WM = 28,
+	TRES_WCID_SP = 29,
+	TRES_WCID_00 = 30,
+	TRES_WCID_ZZ = 31,
 	TRES_WCID_MAX = 32 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameOverMenuType
+enum class ETresGameOverMenuType : uint8
 {
-	ETresGameOverMenuType_NORMAL = 0 UMETA(DisplayName = "Normal"),
-	ETresGameOverMenuType_BOSSBATTLE = 1 UMETA(DisplayName = "Boss Battle"),
-	ETresGameOverMenuType_MISSION_FAILED = 2 UMETA(DisplayName = "Mission Failed"),
+	NORMAL = 0,
+	BOSSBATTLE = 1,
+	MISSION_FAILED = 2,
 	ETresGameOverMenuType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameMiniGameType
+enum class ETresGameMiniGameType : uint8
 {
-	ETresGameMiniGameType_NORMAL = 0 UMETA(DisplayName = "Normal"),
-	ETresGameMiniGameType_TS_GIGAS_BATTLE = 1 UMETA(DisplayName = "TS Gigas Battle"),
-	ETresGameMiniGameType_TS_GIGAS_GAME = 2 UMETA(DisplayName = "TS Gigas Game"),
-	ETresGameMiniGameType_RA_FESTIVAL_DANCE = 3 UMETA(DisplayName = "RA Festival Dance"),
-	ETresGameMiniGameType_FZ_SNOWCURLING = 4 UMETA(DisplayName = "FZ Snow Curling"),
-	ETresGameMiniGameType_BX_FLASHTRACER = 5 UMETA(DisplayName = "BX Flash Tracer"),
-	ETresGameMiniGameType_BX_DARKBAYMAX_RAIL = 6 UMETA(DisplayName = "BX Dark Baymax Rail"),
-	ETresGameMiniGameType_BX_DARKBAYMAX_NEAR = 7 UMETA(DisplayName = "BX Dark Baymax Near"),
-	ETresGameMiniGameType_CA_BP_TUTORIAL = 8 UMETA(DisplayName = "CA BP Tutorial"),
-	ETresGameMiniGameType_CA_BOARD_ENEMYSHIP = 9 UMETA(DisplayName = "CA Board Enemy Ship"),
-	ETresGameMiniGameType_CA_LUXORD_COMPE = 10 UMETA(DisplayName = "CA Luxord Compe"),
-	ETresGameMiniGameType_CA_FD_MAELSTROM = 11 UMETA(DisplayName = "CA FB Maelstrom"),
-	ETresGameMiniGameType_HE_PUDDING = 12 UMETA(DisplayName = "HE Pudding"),
-	ETresGameMiniGameType_TS_PUDDING = 13 UMETA(DisplayName = "TS Pudding"),
-	ETresGameMiniGameType_RA_PUDDING = 14 UMETA(DisplayName = "RA Pudding"),
-	ETresGameMiniGameType_MI_PUDDING = 15 UMETA(DisplayName = "MI Pudding"),
-	ETresGameMiniGameType_FZ_PUDDING = 16 UMETA(DisplayName = "FZ Pudding"),
-	ETresGameMiniGameType_BX_PUDDING = 17 UMETA(DisplayName = "BX Pudding"),
-	ETresGameMiniGameType_CA_PUDDING = 18 UMETA(DisplayName = "CA Pudding"),
+	NORMAL = 0,
+	TS_GIGAS_BATTLE = 1,
+	TS_GIGAS_GAME = 2,
+	RA_FESTIVAL_DANCE = 3,
+	FZ_SNOWCURLING = 4,
+	BX_FLASHTRACER = 5,
+	BX_DARKBAYMAX_RAIL = 6,
+	BX_DARKBAYMAX_NEAR = 7,
+	CA_BP_TUTORIAL = 8,
+	CA_BOARD_ENEMYSHIP = 9,
+	CA_LUXORD_COMPE = 10,
+	CA_FD_MAELSTROM = 11,
+	HE_PUDDING = 12,
+	TS_PUDDING = 13,
+	RA_PUDDING = 14,
+	MI_PUDDING = 15,
+	FZ_PUDDING = 16,
+	BX_PUDDING = 17,
+	CA_PUDDING = 18,
 	ETresGameMiniGameType_MAX = 19 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresGameOverKind
+enum class ETresGameOverKind : uint8
 {
-	GAMEOVER_KIND_NORMAL = 0 UMETA(DisplayName = "Normal"),
-	GAMEOVER_KIND_MISSION_FAILED = 1 UMETA(DisplayName = "Mission Failed"),
-	GAMEOVER_KIND_GUMISHIP = 2 UMETA(DisplayName = "Gumiship"),
+	GAMEOVER_KIND_NORMAL = 0,
+	GAMEOVER_KIND_MISSION_FAILED = 1,
+	GAMEOVER_KIND_GUMISHIP = 2,
 	GAMEOVER_KIND_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPlayerAbilityGrowthType
+enum class ETresPlayerAbilityGrowthType : uint8
 {
-	ETresPlayerAbilityGrowthType_TYPE_A = 0 UMETA(DisplayName = "Type A"),
-	ETresPlayerAbilityGrowthType_TYPE_B = 1 UMETA(DisplayName = "Type B"),
-	ETresPlayerAbilityGrowthType_TYPE_C = 2 UMETA(DisplayName = "Type C"),
-	ETresPlayerAbilityGrowthType_1_MAX = 3 UMETA(Hidden),
+	TYPE_A = 0,
+	TYPE_B = 1,
+	TYPE_C = 2,
+	_MAX = 3 UMETA(Hidden),
 	ETresPlayerAbilityGrowthType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresPlayerGrowthType
+enum class ETresPlayerGrowthType : uint8
 {
-	ETresPlayerGrowthType_POWER = 0 UMETA(DisplayName = "Power"),
-	ETresPlayerGrowthType_MAGIC = 1 UMETA(DisplayName = "Magic"),
-	ETresPlayerGrowthType_DEFENSE = 2 UMETA(DisplayName = "Defense"),
-	ETresPlayerGrowthType_1_MAX = 3 UMETA(Hidden),
+	POWER = 0,
+	MAGIC = 1,
+	DEFENSE = 2,
+	_MAX = 3 UMETA(Hidden),
 	ETresPlayerGrowthType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresGameLevelID
 {
-	TRES_GAME_LVID_BEGINNER = 0 UMETA(DisplayName = "Beginner"),
-	TRES_GAME_LVID_STANDARD = 1 UMETA(DisplayName = "Standard"),
-	TRES_GAME_LVID_PROUD = 2 UMETA(DisplayName = "Proud"),
-	TRES_GAME_LVID_CRITICAL = 3 UMETA(DisplayName = "Critical"),
+	TRES_GAME_LVID_BEGINNER = 0,
+	TRES_GAME_LVID_STANDARD = 1,
+	TRES_GAME_LVID_PROUD = 2,
+	TRES_GAME_LVID_CRITICAL = 3,
 	TRES_GAME_LVID_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIMainCommandTitleKind
+enum class ETresUIMainCommandTitleKind : uint8
 {
-	ETresUIMainCommandTitleKind_None = 0,
-	ETresUIMainCommandTitleKind_Logo = 1,
-	ETresUIMainCommandTitleKind_Button = 2,
-	ETresUIMainCommandTitleKind_ShootLock = 3,
-	ETresUIMainCommandTitleKind_Operation = 4,
+	None = 0,
+	Logo = 1,
+	Button = 2,
+	ShootLock = 3,
+	Operation = 4,
 	ETresUIMainCommandTitleKind_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUICheatCategory
+enum class ETresUICheatCategory : uint8
 {
-	ETresUICheatCategory_None = 0,
-	ETresUICheatCategory_Battle = 1,
-	ETresUICheatCategory_Support = 2,
-	ETresUICheatCategory_1_Max = 3 UMETA(Hidden),
+	None = 0,
+	Battle = 1,
+	Support = 2,
+	Max = 3 UMETA(Hidden),
 	ETresUICheatCategory_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUISlideShowDataType
+enum class ETresUISlideShowDataType : uint8
 {
-	ETresUISlideShowDataType_Simple = 0,
-	ETresUISlideShowDataType_Gorgeous = 1,
-	ETresUISlideShowDataType_1_Max = 2 UMETA(Hidden),
+	Simple = 0,
+	Gorgeous = 1,
+	Max = 2 UMETA(Hidden),
 	ETresUISlideShowDataType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EActionCommandSearchMethod
+enum class EActionCommandSearchMethod : uint8
 {
 	Latest = 0,
 	Oldest = 1,
-	EActionCommandSearchMethod_MAX = 2
+	EActionCommandSearchMethod_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EHudCommandActionCommandType
+enum class EHudCommandActionCommandType : uint8
 {
 	ACTION_COMMAND_TYPE_HATENA = 0,
 	ACTION_COMMAND_TYPE_WEP = 1,
@@ -11493,12 +11432,12 @@ enum EHudCommandActionCommandType
 	ACTION_COMMAND_TYPE_DMAGIC = 3,
 	ACTION_COMMAND_TYPE_FRIEND = 4,
 	ACTION_COMMAND_TYPE_LINK = 5,
-	ACTION_COMMAND_TYPE_MAX = 6,
+	ACTION_COMMAND_TYPE_MAX = 6 UMETA(Hidden),
 	ACTION_COMMAND_TYPE_STYLE_POINT_GAUGE = 7
 };
 
 UENUM(BlueprintType)
-enum ETresCockpitActionSelectCategory
+enum class ETresCockpitActionSelectCategory : uint8
 {
 	TCASC_NONE = 0,
 	TCASC_COMMAND = 1,
@@ -11508,7 +11447,7 @@ enum ETresCockpitActionSelectCategory
 };
 
 UENUM(BlueprintType)
-enum ETresCockpitCmdCategory
+enum class ETresCockpitCmdCategory : uint8
 {
 	TCCC_NONE = 0,
 	TCCC_BATTLE = 1,
@@ -11532,291 +11471,291 @@ enum ETresCockpitCmdCategory
 };
 
 UENUM(BlueprintType)
-enum ETresUIMessageBGColor
+enum class ETresUIMessageBGColor : uint8
 {
-	MESSAGE_BG_COLOR_BLACK = 0 UMETA(DisplayName = "Black"),
-	MESSAGE_BG_COLOR_RED = 1 UMETA(DisplayName = "Red"),
-	MESSAGE_BG_COLOR_BLUE = 2 UMETA(DisplayName = "Blue"),
-	MESSAGE_BG_COLOR_DEBUG = 3 UMETA(DisplayName = "Debug"),
+	MESSAGE_BG_COLOR_BLACK = 0,
+	MESSAGE_BG_COLOR_RED = 1,
+	MESSAGE_BG_COLOR_BLUE = 2,
+	MESSAGE_BG_COLOR_DEBUG = 3,
 	MESSAGE_BG_COLOR_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIMessageTitleType
+enum class ETresUIMessageTitleType : uint8
 {
-	MESSAGE_TITLE_TYPE_NONE = 0 UMETA(DisplayName = "None"),
-	MESSAGE_TITLE_TYPE_INFORMATION = 1 UMETA(DisplayName = "Information"),
-	MESSAGE_TITLE_TYPE_QUESTION = 2 UMETA(DisplayName = "Question"),
+	MESSAGE_TITLE_TYPE_NONE = 0,
+	MESSAGE_TITLE_TYPE_INFORMATION = 1,
+	MESSAGE_TITLE_TYPE_QUESTION = 2,
 	MESSAGE_TITLE_TYPE_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUICommonAction
+enum class ETresUICommonAction : uint8
 {
-	TUCA_Open = 0 UMETA(DisplayName = "Open"),
-	TUCA_Close = 1 UMETA(DisplayName = "Close"),
-	TUCA_Decide = 2 UMETA(DisplayName = "Decide"),
-	TUCA_DecideClose = 3 UMETA(DisplayName = "Decide Close"),
-	TUCA_Open2 = 4 UMETA(DisplayName = "Open 2"),
-	TUCA_DecideClose2 = 5 UMETA(DisplayName = "Decide Close 2"),
+	TUCA_Open = 0,
+	TUCA_Close = 1,
+	TUCA_Decide = 2,
+	TUCA_DecideClose = 3,
+	TUCA_Open2 = 4,
+	TUCA_DecideClose2 = 5,
 	TUCA_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
 enum ETresUIPadButtonType
 {
-	TUPBT_NONE = 0 UMETA(DisplayName = "None"),
-	TUPBT_RIGHT = 1 UMETA(DisplayName = "Right"),
-	TUPBT_UP = 2 UMETA(DisplayName = "Up"),
-	TUPBT_LEFT = 3 UMETA(DisplayName = "Left"),
-	TUPBT_DOWN = 4 UMETA(DisplayName = "Down"),
-	TUPBT_R1 = 5 UMETA(DisplayName = "R1"),
-	TUPBT_L1 = 6 UMETA(DisplayName = "L1"),
-	TUPBT_R2 = 7 UMETA(DisplayName = "R2"),
-	TUPBT_L2 = 8 UMETA(DisplayName = "L2"),
-	TUPBT_TOUCH = 9 UMETA(DisplayName = "Touch"),
-	TUPBT_R2HOLD = 10 UMETA(DisplayName = "R2 Hold"),
-	TUPBT_DECIDE = 11 UMETA(DisplayName = "Decide"),
-	TUPBT_CANCEL = 12 UMETA(DisplayName = "Cancel"),
-	TUPBT_RIGHT_L = 13 UMETA(DisplayName = "Right L"),
-	TUPBT_UP_L = 14 UMETA(DisplayName = "Up L"),
-	TUPBT_LEFT_L = 15 UMETA(DisplayName = "Left L"),
-	TUPBT_DOWN_L = 16 UMETA(DisplayName = "Down L"),
-	TUPBT_KEYUP = 17 UMETA(DisplayName = "Key Up"),
-	TUPBT_KEYLEFT = 18 UMETA(DisplayName = "Key Left"),
-	TUPBT_KEYDOWN = 19 UMETA(DisplayName = "Key Down"),
-	TUPBT_KEYRIGHT = 20 UMETA(DisplayName = "Key Right"),
-	TUPBT_KEYUP_L = 21 UMETA(DisplayName = "Key Up L"),
-	TUPBT_KEYLEFT_L = 22 UMETA(DisplayName = "Key Left L"),
-	TUPBT_KEYDOWN_L = 23 UMETA(DisplayName = "Key Down L"),
-	TUPBT_KEYRIGHT_L = 24 UMETA(DisplayName = "Key RIght L"),
-	TUPBT_TOUCH_L = 25 UMETA(DisplayName = "Touch L"),
-	TUPBT_R2_L = 26 UMETA(DisplayName = "R2 L"),
-	TUPBT_L2_L = 27 UMETA(DisplayName = "L2 L"),
-	TUPBT_OPTION = 28 UMETA(DisplayName = "Option"),
-	TUPBT_LSTICK = 29 UMETA(DisplayName = "L Stick"),
-	TUPBT_RSTICK = 30 UMETA(DisplayName = "R Stick"),
-	TUPBT_LSTICK_UP = 31 UMETA(DisplayName = "LStick Up"),
-	TUPBT_LSTICK_DOWN = 32 UMETA(DisplayName = "LStick Down"),
-	TUPBT_LSTICK_LEFT = 33 UMETA(DisplayName = "LStick Left"),
-	TUPBT_LSTICK_RIGHT = 34 UMETA(DisplayName = "LStick Right"),
-	TUPBT_L3 = 35 UMETA(DisplayName = "L3"),
-	TUPBT_DECIDE_L = 36 UMETA(DisplayName = "Decide L"),
-	TUPBT_CANCEL_L = 37 UMETA(DisplayName = "Cancel L"),
+	TUPBT_NONE = 0,
+	TUPBT_RIGHT = 1,
+	TUPBT_UP = 2,
+	TUPBT_LEFT = 3,
+	TUPBT_DOWN = 4,
+	TUPBT_R1 = 5,
+	TUPBT_L1 = 6,
+	TUPBT_R2 = 7,
+	TUPBT_L2 = 8,
+	TUPBT_TOUCH = 9,
+	TUPBT_R2HOLD = 10,
+	TUPBT_DECIDE = 11,
+	TUPBT_CANCEL = 12,
+	TUPBT_RIGHT_L = 13,
+	TUPBT_UP_L = 14,
+	TUPBT_LEFT_L = 15,
+	TUPBT_DOWN_L = 16,
+	TUPBT_KEYUP = 17,
+	TUPBT_KEYLEFT = 18,
+	TUPBT_KEYDOWN = 19,
+	TUPBT_KEYRIGHT = 20,
+	TUPBT_KEYUP_L = 21,
+	TUPBT_KEYLEFT_L = 22,
+	TUPBT_KEYDOWN_L = 23,
+	TUPBT_KEYRIGHT_L = 24,
+	TUPBT_TOUCH_L = 25,
+	TUPBT_R2_L = 26,
+	TUPBT_L2_L = 27,
+	TUPBT_OPTION = 28,
+	TUPBT_LSTICK = 29,
+	TUPBT_RSTICK = 30,
+	TUPBT_LSTICK_UP = 31,
+	TUPBT_LSTICK_DOWN = 32,
+	TUPBT_LSTICK_LEFT = 33,
+	TUPBT_LSTICK_RIGHT = 34,
+	TUPBT_L3 = 35,
+	TUPBT_DECIDE_L = 36,
+	TUPBT_CANCEL_L = 37,
 	TUPBT_MAX = 38 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIFaceUniqueID
+enum class ETresUIFaceUniqueID : uint8
 {
-	TRES_FACE_UID_UNKNOWN = 0 UMETA(DisplayName = "Unknown"),
-	TRES_FACE_UID_LEON = 1 UMETA(DisplayName = "Leon"),
-	TRES_FACE_UID_AERITH = 2 UMETA(DisplayName = "Aerith"),
-	TRES_FACE_UID_YUFFIE = 3 UMETA(DisplayName = "Yuffie"),
-	TRES_FACE_UID_CID = 4 UMETA(DisplayName = "CID"),
+	TRES_FACE_UID_UNKNOWN = 0,
+	TRES_FACE_UID_LEON = 1,
+	TRES_FACE_UID_AERITH = 2,
+	TRES_FACE_UID_YUFFIE = 3,
+	TRES_FACE_UID_CID = 4,
 	TRES_FACE_UID_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIDataVersion
+enum class ETresUIDataVersion : uint8
 {
-	ETresUIDataVersion_None = 0 UMETA(DisplayName = "None"),
-	ETresUIDataVersion_DLC = 1 UMETA(DisplayName = "DLC"),
-	ETresUIDataVersion_1_Max = 2 UMETA(Hidden),
+	None = 0,
+	DLC = 1,
+	Max = 2 UMETA(Hidden),
 	ETresUIDataVersion_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIDialogColor
+enum class ETresUIDialogColor : uint8
 {
-	ETresUIDialogColor_World = 0 UMETA(DisplayName = "World"),
-	ETresUIDialogColor_DH = 1 UMETA(DisplayName = "DH"),
+	World = 0,
+	DH = 1,
 	ETresUIDialogColor_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIGameDataInstallMessageType
+enum class ETresUIGameDataInstallMessageType : uint8
 {
-	ETresUIGameDataInstallMessageType_Block = 0 UMETA(DisplayName = "Block"),
-	ETresUIGameDataInstallMessageType_Wait = 1 UMETA(DisplayName = "Wait"),
+	Block = 0,
+	Wait = 1,
 	ETresUIGameDataInstallMessageType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIDictionaryEnemyCategory
+enum class ETresUIDictionaryEnemyCategory : uint8
 {
-	ETresUIDictionaryEnemyCategory_Heartless = 0 UMETA(DisplayName = "Heartless"),
-	ETresUIDictionaryEnemyCategory_Nobody = 1 UMETA(DisplayName = "Nobody"),
-	ETresUIDictionaryEnemyCategory_Unversed = 2 UMETA(DisplayName = "Unversed"),
-	ETresUIDictionaryEnemyCategory_Other = 3 UMETA(DisplayName = "Other"),
-	ETresUIDictionaryEnemyCategory_1_Max = 4 UMETA(Hidden),
+	Heartless = 0,
+	Nobody = 1,
+	Unversed = 2,
+	Other = 3,
+	Max = 4 UMETA(Hidden),
 	ETresUIDictionaryEnemyCategory_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIValueCompareType
+enum class ETresUIValueCompareType : uint8
 {
-	ETresUIValueCompareType_GreaterEq = 0 UMETA(DisplayName = "Greater EQ"),
-	ETresUIValueCompareType_Grater = 1 UMETA(DisplayName = "Grater"),
-	ETresUIValueCompareType_LessEq = 2 UMETA(DisplayName = "Less EQ"),
-	ETresUIValueCompareType_Less = 3 UMETA(DisplayName = "Less"),
-	ETresUIValueCompareType_Equal = 4 UMETA(DisplayName = "Equal"),
-	ETresUIValueCompareType_NotEqual = 5 UMETA(DisplayName = "Not Equal"),
-	ETresUIValueCompareType_None = 6 UMETA(DisplayName = "None"),
+	GreaterEq = 0,
+	Grater = 1,
+	LessEq = 2,
+	Less = 3,
+	Equal = 4,
+	NotEqual = 5,
+	None = 6,
 	ETresUIValueCompareType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUICharaID
+enum class ETresUICharaID : uint8
 {
-	ETresUICharaID_SORA = 0 UMETA(DisplayName = "Sora"),
-	ETresUICharaID_RIKU = 1 UMETA(DisplayName = "Riku"),
-	ETresUICharaID_KAIRI = 2 UMETA(DisplayName = "Kairi"),
-	ETresUICharaID_MICKEY = 3 UMETA(DisplayName = "Mickey"),
-	ETresUICharaID_DONALD = 4 UMETA(DisplayName = "Donald"),
-	ETresUICharaID_GOOFY = 5 UMETA(DisplayName = "Goofy"),
-	ETresUICharaID_TERRA = 6 UMETA(DisplayName = "Terra"),
-	ETresUICharaID_VENTUS = 7 UMETA(DisplayName = "Ventus"),
-	ETresUICharaID_AQUA = 8 UMETA(DisplayName = "Aqua"),
-	ETresUICharaID_ROXAS = 9 UMETA(DisplayName = "Roxas"),
-	ETresUICharaID_LEA = 10 UMETA(DisplayName = "Lea"),
-	ETresUICharaID_XION = 11 UMETA(DisplayName = "Xion"),
-	ETresUICharaID_JACK_SPARROW = 12 UMETA(DisplayName = "Jack Sparrow"),
-	ETresUICharaID_WOODY = 13 UMETA(DisplayName = "Woody"),
-	ETresUICharaID_BUZZ = 14 UMETA(DisplayName = "Buzz"),
-	ETresUICharaID_HERCULES = 15 UMETA(DisplayName = "Hercules"),
-	ETresUICharaID_RAPUNZEL = 16 UMETA(DisplayName = "Rapunzel"),
-	ETresUICharaID_FLYNN = 17 UMETA(DisplayName = "Flynn"),
-	ETresUICharaID_SULLEY = 18 UMETA(DisplayName = "Sulley"),
-	ETresUICharaID_MIKE = 19 UMETA(DisplayName = "Mike"),
-	ETresUICharaID_BOO = 20 UMETA(DisplayName = "Boo"),
-	ETresUICharaID_MARSHMALLOW = 21 UMETA(DisplayName = "Marshmallow"),
-	ETresUICharaID_BAYMAX = 22 UMETA(DisplayName = "Baymax"),
-	ETresUICharaID_IENZO = 23 UMETA(DisplayName = "Ienzo"),
-	ETresUICharaID_PENCE = 24 UMETA(DisplayName = "Pence"),
-	ETresUICharaID_UNKNOWN = 25 UMETA(DisplayName = "Unknown"),
+	SORA = 0 UMETA(DisplayName = "Sora"),
+	RIKU = 1 UMETA(DisplayName = "Riku"),
+	KAIRI = 2 UMETA(DisplayName = "Kairi"),
+	MICKEY = 3 UMETA(DisplayName = "Mickey"),
+	DONALD = 4 UMETA(DisplayName = "Donald"),
+	GOOFY = 5 UMETA(DisplayName = "Goofy"),
+	TERRA = 6 UMETA(DisplayName = "Terra"),
+	VENTUS = 7 UMETA(DisplayName = "Ventus"),
+	AQUA = 8 UMETA(DisplayName = "Aqua"),
+	ROXAS = 9 UMETA(DisplayName = "Roxas"),
+	LEA = 10 UMETA(DisplayName = "Lea"),
+	XION = 11 UMETA(DisplayName = "Xion"),
+	JACK_SPARROW = 12 UMETA(DisplayName = "Jack Sparrow"),
+	WOODY = 13 UMETA(DisplayName = "Woody"),
+	BUZZ = 14 UMETA(DisplayName = "Buzz"),
+	HERCULES = 15 UMETA(DisplayName = "Hercules"),
+	RAPUNZEL = 16 UMETA(DisplayName = "Rapunzel"),
+	FLYNN = 17 UMETA(DisplayName = "Flynn"),
+	SULLEY = 18 UMETA(DisplayName = "Sulley"),
+	MIKE = 19 UMETA(DisplayName = "Mike"),
+	BOO = 20 UMETA(DisplayName = "Boo"),
+	MARSHMALLOW = 21 UMETA(DisplayName = "Marshmallow"),
+	BAYMAX = 22 UMETA(DisplayName = "Baymax"),
+	IENZO = 23 UMETA(DisplayName = "Ienzo"),
+	PENCE = 24 UMETA(DisplayName = "Pence"),
+	UNKNOWN = 25 UMETA(DisplayName = "Unknown"),
 	ETresUICharaID_MAX = 26 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUILSIScoreType
+enum class ETresUILSIScoreType : uint8
 {
-	ETresUILSIScoreType_Score = 0 UMETA(DisplayName = "Score"),
-	ETresUILSIScoreType_Stage = 1 UMETA(DisplayName = "Stage"),
-	ETresUILSIScoreType_Win = 2 UMETA(DisplayName = "Win"),
-	ETresUILSIScoreType_BarnyardSports = 3 UMETA(DisplayName = "Barnyard Sports"),
-	ETresUILSIScoreType_TheMusicalFarmer = 4 UMETA(DisplayName = "The Musical Farmer"),
-	ETresUILSIScoreType_HowToPlayGolf = 5 UMETA(DisplayName = "How to Play Golf"),
-	ETresUILSIScoreType_HowToPlayBaseball = 6 UMETA(DisplayName = "How to Play Baseball"),
+	Score = 0,
+	Stage = 1,
+	Win = 2,
+	BarnyardSports = 3,
+	TheMusicalFarmer = 4,
+	HowToPlayGolf = 5,
+	HowToPlayBaseball = 6,
 	ETresUILSIScoreType_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIShopType
+enum class ETresUIShopType : uint8
 {
-	ETresUIShopType_Normal = 0 UMETA(DisplayName = "Normal"),
-	ETresUIShopType_Gummi_Huey = 1 UMETA(DisplayName = "Gummi Huey"),
-	ETresUIShopType_Gummi_Dewey = 2 UMETA(DisplayName = "Gummi Dewey"),
-	ETresUIShopType_Gummi_Louie = 3 UMETA(DisplayName = "Gummi Louie"),
-	ETresUIShopType_1_Max = 4 UMETA(Hidden),
+	Normal = 0,
+	Gummi_Huey = 1,
+	Gummi_Dewey = 2,
+	Gummi_Louie = 3,
+	Max = 4 UMETA(Hidden),
 	ETresUIShopType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIActorAnimType
+enum class ETresUIActorAnimType : uint8
 {
-	ETresUIActorAnimType_None = 0,
-	ETresUIActorAnimType_Idle = 1,
-	ETresUIActorAnimType_IdleBreak1 = 2,
-	ETresUIActorAnimType_IdleBreak2 = 3,
-	ETresUIActorAnimType_1_Max = 4 UMETA(Hidden),
+	None = 0,
+	Idle = 1,
+	IdleBreak1 = 2,
+	IdleBreak2 = 3,
+	Max = 4 UMETA(Hidden),
 	ETresUIActorAnimType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIGradeTextValue
+enum class ETresUIGradeTextValue : uint8
 {
-	ETresUIGradeTextValue_TOOFAST = 0 UMETA(DisplayName = "Too Fast"),
-	ETresUIGradeTextValue_GOOD = 1 UMETA(DisplayName = "Good"),
-	ETresUIGradeTextValue_EXCELLENT = 2 UMETA(DisplayName = "Excellent"),
-	ETresUIGradeTextValue_TOOSLOW = 3 UMETA(DisplayName = "Too Slow"),
-	ETresUIGradeTextValue_SUCCESSFUL = 4 UMETA(DisplayName = "Successful"),
-	ETresUIGradeTextValue_1_Max = 5 UMETA(DisplayName = "Max"),
-	ETresUIGradeTextValue_None = 6 UMETA(DisplayName = "None"),
+	TOOFAST = 0,
+	GOOD = 1,
+	EXCELLENT = 2,
+	TOOSLOW = 3,
+	SUCCESSFUL = 4,
+	Max = 5,
+	None = 6,
 	ETresUIGradeTextValue_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUICinematicCockpitID
+enum class ETresUICinematicCockpitID : uint8
 {
-	ETresUICinematicCockpitID_None = 0 UMETA(DisplayName = "None"),
-	ETresUICinematicCockpitID_HudOlaf = 1 UMETA(DisplayName = "HUD Olaf"),
-	ETresUICinematicCockpitID_HudLeft = 2 UMETA(DisplayName = "HUD Left"),
+	None = 0,
+	HudOlaf = 1,
+	HudLeft = 2,
 	ETresUICinematicCockpitID_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudPuddingCountDown
+enum class ETresUIHudPuddingCountDown : uint8
 {
-	ETresUIHudPuddingCountDown_Three = 0 UMETA(DisplayName = "Three"),
-	ETresUIHudPuddingCountDown_Two = 1 UMETA(DisplayName = "Two"),
-	ETresUIHudPuddingCountDown_One = 2 UMETA(DisplayName = "One"),
-	ETresUIHudPuddingCountDown_Start = 3 UMETA(DisplayName = "Start"),
-	ETresUIHudPuddingCountDown_Finish = 4 UMETA(DisplayName = "Finish"),
-	ETresUIHudPuddingCountDown_1_MAX = 5 UMETA(Hidden),
+	Three = 0,
+	Two = 1,
+	One = 2,
+	Start = 3,
+	Finish = 4,
+	MAX = 5 UMETA(Hidden),
 	ETresUIHudPuddingCountDown_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudBaymaxHero
+enum class ETresUIHudBaymaxHero : uint8
 {
-	ETresUIHudBaymaxHero_Lemon = 0 UMETA(DisplayName = "Lemon"),
-	ETresUIHudBaymaxHero_Tomago = 1 UMETA(DisplayName = "Tomago"),
-	ETresUIHudBaymaxHero_Wasabi = 2 UMETA(DisplayName = "Wasabi"),
-	ETresUIHudBaymaxHero_Fred = 3 UMETA(DisplayName = "Fred"),
-	ETresUIHudBaymaxHero_1_MAX = 4 UMETA(Hidden),
+	Lemon = 0,
+	Tomago = 1,
+	Wasabi = 2,
+	Fred = 3,
+	MAX = 4 UMETA(Hidden),
 	ETresUIHudBaymaxHero_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudBaymaxResult
+enum class ETresUIHudBaymaxResult : uint8
 {
-	ETresUIHudBaymaxResult_RankA = 0 UMETA(DisplayName = "Rank A"),
-	ETresUIHudBaymaxResult_RankB = 1 UMETA(DisplayName = "Rank B"),
-	ETresUIHudBaymaxResult_RankC = 2 UMETA(DisplayName = "Rank C"),
-	ETresUIHudBaymaxResult_RankD = 3 UMETA(DisplayName = "Rank D"),
-	ETresUIHudBaymaxResult_1_MAX = 4 UMETA(Hidden),
+	RankA = 0 UMETA(DisplayName = "Rank A"),
+	RankB = 1 UMETA(DisplayName = "Rank B"),
+	RankC = 2 UMETA(DisplayName = "Rank C"),
+	RankD = 3 UMETA(DisplayName = "Rank D"),
+	MAX = 4 UMETA(Hidden),
 	ETresUIHudBaymaxResult_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudBaymaxCountDown
+enum class ETresUIHudBaymaxCountDown : uint8
 {
-	ETresUIHudBaymaxCountDown_Ready = 0 UMETA(DisplayName = "Ready"),
-	ETresUIHudBaymaxCountDown_Three = 1 UMETA(DisplayName = "Three"),
-	ETresUIHudBaymaxCountDown_Two = 2 UMETA(DisplayName = "Two"),
-	ETresUIHudBaymaxCountDown_One = 3 UMETA(DisplayName = "One"),
-	ETresUIHudBaymaxCountDown_Go = 4 UMETA(DisplayName = "Go"),
-	ETresUIHudBaymaxCountDown_Finish = 5 UMETA(DisplayName = "Finish"),
-	ETresUIHudBaymaxCountDown_Finish_End = 6 UMETA(DisplayName = "Finish End"),
-	ETresUIHudBaymaxCountDown_1_MAX = 7 UMETA(Hidden),
+	Ready = 0,
+	Three = 1,
+	Two = 2,
+	One = 3,
+	Go = 4,
+	Finish = 5,
+	Finish_End = 6,
+	MAX = 7 UMETA(Hidden),
 	ETresUIHudBaymaxCountDown_MAX = 8 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudBaymaxKind
+enum class ETresUIHudBaymaxKind : uint8
 {
-	ETresUIHudBaymaxKind_None = 0 UMETA(DisplayName = "None"),
-	ETresUIHudBaymaxKind_FlashTracer = 1 UMETA(DisplayName = "Flash Tracer"),
-	ETresUIHudBaymaxKind_FlashTracer_MiniGame = 2 UMETA(DisplayName = "Flash Tracer Minigame"),
-	ETresUIHudBaymaxKind_HeroRescue = 3 UMETA(DisplayName = "Hero Rescue"),
-	ETresUIHudBaymaxKind_DarkCube = 4 UMETA(DisplayName = "Dark Cube"),
-	ETresUIHudBaymaxKind_1_MAX = 5 UMETA(Hidden),
+	None = 0,
+	FlashTracer = 1,
+	FlashTracer_MiniGame = 2,
+	HeroRescue = 3,
+	DarkCube = 4,
+	MAX = 5 UMETA(Hidden),
 	ETresUIHudBaymaxKind_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUINauticalChartPoint
+enum class ETresUINauticalChartPoint : uint8
 {
 	No1 = 0,
 	No2 = 1,
@@ -11831,251 +11770,251 @@ enum ETresUINauticalChartPoint
 	No11 = 10,
 	No12 = 11,
 	No13 = 12,
-	ETresUINauticalChartPoint_1_MAX = 13 UMETA(Hidden),
+	MAX = 13 UMETA(Hidden),
 	ETresUINauticalChartPoint_MAX = 14 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudBlackPearlAlert
+enum class ETresUIHudBlackPearlAlert : uint8
 {
-	ETresUIHudBlackPearlAlert_Normal = 0 UMETA(DisplayName = "Normal"),
-	ETresUIHudBlackPearlAlert_Blink1 = 1 UMETA(DisplayName = "Blink 1"),
-	ETresUIHudBlackPearlAlert_Blink2 = 2 UMETA(DisplayName = "Blink 2"),
-	ETresUIHudBlackPearlAlert_1_MAX = 3 UMETA(Hidden),
+	Normal = 0,
+	Blink1 = 1,
+	Blink2 = 2,
+	MAX = 3 UMETA(Hidden),
 	ETresUIHudBlackPearlAlert_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudBlackPearlMarker
+enum class ETresUIHudBlackPearlMarker : uint8
 {
-	ETresUIHudBlackPearlMarker_Player = 0 UMETA(DisplayName = "Player"),
-	ETresUIHudBlackPearlMarker_BlackPearl = 1 UMETA(DisplayName = "Black Pearl"),
-	ETresUIHudBlackPearlMarker_1_MAX = 2 UMETA(Hidden),
+	Player = 0,
+	BlackPearl = 1,
+	MAX = 2 UMETA(Hidden),
 	ETresUIHudBlackPearlMarker_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudSpecialShipMarker
+enum class ETresUIHudSpecialShipMarker : uint8
 {
-	ETresUIHudSpecialShipMarker_Player = 0 UMETA(DisplayName = "Player"),
-	ETresUIHudSpecialShipMarker_Enemy = 1 UMETA(DisplayName = "Enemy"),
-	ETresUIHudSpecialShipMarker_1_MAX = 2 UMETA(Hidden),
+	Player = 0,
+	Enemy = 1,
+	MAX = 2 UMETA(Hidden),
 	ETresUIHudSpecialShipMarker_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudSpecialShip
+enum class ETresUIHudSpecialShip : uint8
 {
-	ETresUIHudSpecialShip_Normal = 0 UMETA(DisplayName = "Normal"),
-	ETresUIHudSpecialShip_Marker = 1 UMETA(DisplayName = "Marker"),
-	ETresUIHudSpecialShip_1_MAX = 2 UMETA(Hidden),
+	Normal = 0,
+	Marker = 1,
+	MAX = 2 UMETA(Hidden),
 	ETresUIHudSpecialShip_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudScoreMode
+enum class ETresUIHudScoreMode : uint8
 {
-	ETresUIHudScoreMode_None = 0 UMETA(DisplayName = "None"),
-	ETresUIHudScoreMode_Default = 1 UMETA(DisplayName = "Default"),
-	ETresUIHudScoreMode_Pudding = 2 UMETA(DisplayName = "Pudding"),
-	ETresUIHudScoreMode_1_MAX = 3 UMETA(Hidden),
+	None = 0,
+	Default = 1,
+	Pudding = 2,
+	MAX = 3 UMETA(Hidden),
 	ETresUIHudScoreMode_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudCommonIcon
+enum class ETresUIHudCommonIcon : uint8
 {
-	ETresUIHudCommonIcon_Attraction = 0 UMETA(DisplayName = "Attraction"),
-	ETresUIHudCommonIcon_Ralph = 1 UMETA(DisplayName = "Ralph"),
-	ETresUIHudCommonIcon_Ariel = 2 UMETA(DisplayName = "Ariel"),
-	ETresUIHudCommonIcon_RaDance = 3 UMETA(DisplayName = "RA Dance"),
-	ETresUIHudCommonIcon_SnowSlide = 4 UMETA(DisplayName = "Snow Slide"),
-	ETresUIHudCommonIcon_Pudding_Cherry = 5 UMETA(DisplayName = "Pudding Cherry"),
-	ETresUIHudCommonIcon_Pudding_Strawberry = 6 UMETA(DisplayName = "Pudding Strawberry"),
-	ETresUIHudCommonIcon_Pudding_Orange = 7 UMETA(DisplayName = "Pudding Orange"),
-	ETresUIHudCommonIcon_Pudding_Banana = 8 UMETA(DisplayName = "Pudding Banana"),
-	ETresUIHudCommonIcon_Pudding_Grape = 9 UMETA(DisplayName = "Pudding Grape"),
-	ETresUIHudCommonIcon_Pudding_Melon = 10 UMETA(DisplayName = "Pudding Melon"),
-	ETresUIHudCommonIcon_Pudding_Watermelon = 11 UMETA(DisplayName = "Pudding Watermelon"),
-	ETresUIHudCommonIcon_1_MAX = 12 UMETA(Hidden),
+	Attraction = 0,
+	Ralph = 1,
+	Ariel = 2,
+	RaDance = 3,
+	SnowSlide = 4,
+	Pudding_Cherry = 5,
+	Pudding_Strawberry = 6,
+	Pudding_Orange = 7,
+	Pudding_Banana = 8,
+	Pudding_Grape = 9,
+	Pudding_Melon = 10,
+	Pudding_Watermelon = 11,
+	MAX = 12 UMETA(Hidden),
 	ETresUIHudCommonIcon_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudCommonKind
+enum class ETresUIHudCommonKind : uint8
 {
-	ETresUIHudCommonKind_None = 0 UMETA(DisplayName = "None"),
-	ETresUIHudCommonKind_Score = 1 UMETA(DisplayName = "Score"),
-	ETresUIHudCommonKind_Score_Chain = 2 UMETA(DisplayName = "Score Chain"),
-	ETresUIHudCommonKind_Score5 = 3 UMETA(DisplayName = "Score 5"),
-	ETresUIHudCommonKind_Score5_Chain = 4 UMETA(DisplayName = "Score 5 Chain"),
-	ETresUIHudCommonKind_Score6 = 5 UMETA(DisplayName = "Score 6"),
-	ETresUIHudCommonKind_Score6_Chain = 6 UMETA(DisplayName = "Score 6 Chain"),
-	ETresUIHudCommonKind_Height = 7 UMETA(DisplayName = "Height"),
-	ETresUIHudCommonKind_HitCount = 8 UMETA(DisplayName = "Hit Count"),
-	ETresUIHudCommonKind_1_MAX = 9 UMETA(Hidden),
+	None = 0,
+	Score = 1,
+	Score_Chain = 2,
+	Score5 = 3,
+	Score5_Chain = 4,
+	Score6 = 5,
+	Score6_Chain = 6,
+	Height = 7,
+	HitCount = 8,
+	MAX = 9 UMETA(Hidden),
 	ETresUIHudCommonKind_MAX = 10 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIHudCommandExKind
+enum class ETresUIHudCommandExKind : uint8
 {
-	ETresUIHudCommandExKind_None = 0 UMETA(DisplayName = "None"),
-	ETresUIHudCommandExKind_Railscope1 = 1 UMETA(DisplayName = "Rail Scope 1"),
-	ETresUIHudCommandExKind_Railscope2 = 2 UMETA(DisplayName = "Rail Scope 2"),
-	ETresUIHudCommandExKind_RailChange = 3 UMETA(DisplayName = "Rail Change"),
-	ETresUIHudCommandExKind_HeWorkshop = 4 UMETA(DisplayName = "HE Workshop"),
-	ETresUIHudCommandExKind_HeWorkshop_Finish = 5 UMETA(DisplayName = "HE Workshop Finish"),
-	ETresUIHudCommandExKind_TsToyGame = 6 UMETA(DisplayName = "TS Toy Game"),
-	ETresUIHudCommandExKind_RaDanceCommand = 7 UMETA(DisplayName = "RA Dance Command"),
-	ETresUIHudCommandExKind_RaDanceRapunzel = 8 UMETA(DisplayName = "RA Dance Rapunzel"),
-	ETresUIHudCommandExKind_RaDanceRapunzel_Finish = 9 UMETA(DisplayName = "RA Dance Rapunzel Finish"),
-	ETresUIHudCommandExKind_BxCommand = 10 UMETA(DisplayName = "BX Command"),
-	ETresUIHudCommandExKind_BxDarkBaymax = 11 UMETA(DisplayName = "BX Dark Baymax"),
-	ETresUIHudCommandExKind_BxDarkBaymax_Rail = 12 UMETA(DisplayName = "BX Dark Baymax Rail"),
-	ETresUIHudCommandExKind_BxDarkBaymax_Finish = 13 UMETA(DisplayName = "BX Dark Baymax Finish"),
-	ETresUIHudCommandExKind_CaSpecialShipCommand = 14 UMETA(DisplayName = "CA Special Ship Command"),
-	ETresUIHudCommandExKind_CaBlackPearlCommand = 15 UMETA(DisplayName = "CA Black Pearl Command"),
-	ETresUIHudCommandExKind_ShootFlow_Rainbow = 16 UMETA(DisplayName = "Shoot Flow Rainbow"),
-	ETresUIHudCommandExKind_ShootFlow_Burst = 17 UMETA(DisplayName = "Shoot Flow Burst"),
-	ETresUIHudCommandExKind_ShootFlow_Shining = 18 UMETA(DisplayName = "Shoot Flow Shining"),
-	ETresUIHudCommandExKind_ShootFlow_DarkVolley = 19 UMETA(DisplayName = "Shoot Flow Dark Volley"),
-	ETresUIHudCommandExKind_ShootFlow_BurstR = 20 UMETA(DisplayName = "Shoot Flow Burst R"),
-	ETresUIHudCommandExKind_1_MAX = 21 UMETA(Hidden),
+	None = 0,
+	Railscope1 = 1,
+	Railscope2 = 2,
+	RailChange = 3,
+	HeWorkshop = 4,
+	HeWorkshop_Finish = 5,
+	TsToyGame = 6,
+	RaDanceCommand = 7,
+	RaDanceRapunzel = 8,
+	RaDanceRapunzel_Finish = 9,
+	BxCommand = 10,
+	BxDarkBaymax = 11,
+	BxDarkBaymax_Rail = 12,
+	BxDarkBaymax_Finish = 13,
+	CaSpecialShipCommand = 14,
+	CaBlackPearlCommand = 15,
+	ShootFlow_Rainbow = 16,
+	ShootFlow_Burst = 17,
+	ShootFlow_Shining = 18,
+	ShootFlow_DarkVolley = 19,
+	ShootFlow_BurstR = 20,
+	MAX = 21 UMETA(Hidden),
 	ETresUIHudCommandExKind_MAX = 22 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUISnowSlideRank
+enum class ETresUISnowSlideRank : uint8
 {
-	ETresUISnowSlideRank_A = 0 UMETA(DisplayName = "A"),
-	ETresUISnowSlideRank_B = 1 UMETA(DisplayName = "B"),
-	ETresUISnowSlideRank_C = 2 UMETA(DisplayName = "C"),
-	ETresUISnowSlideRank_D = 3 UMETA(DisplayName = "D"),
-	ETresUISnowSlideRank_1_Max = 4 UMETA(Hidden),
+	A = 0,
+	B = 1,
+	C = 2,
+	D = 3,
+	Max = 4 UMETA(Hidden),
 	ETresUISnowSlideRank_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUISnowSlideCountDownType
+enum class ETresUISnowSlideCountDownType : uint8
 {
-	ETresUISnowSlideCountDownType_Three = 0 UMETA(DisplayName = "Three"),
-	ETresUISnowSlideCountDownType_Two = 1 UMETA(DisplayName = "Two"),
-	ETresUISnowSlideCountDownType_One = 2 UMETA(DisplayName = "One"),
-	ETresUISnowSlideCountDownType_Start = 3 UMETA(DisplayName = "Start"),
-	ETresUISnowSlideCountDownType_Finish = 4 UMETA(DisplayName = "Finish"),
-	ETresUISnowSlideCountDownType_1_Max = 5 UMETA(Hidden),
+	Three = 0,
+	Two = 1,
+	One = 2,
+	Start = 3,
+	Finish = 4,
+	Max = 5 UMETA(Hidden),
 	ETresUISnowSlideCountDownType_MAX = 6 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIOlafPartsType
+enum class ETresUIOlafPartsType : uint8
 {
-	ETresUIOlafPartsType_Head = 0 UMETA(DisplayName = "Head"),
-	ETresUIOlafPartsType_Body = 1 UMETA(DisplayName = "Body"),
-	ETresUIOlafPartsType_Leg = 2 UMETA(DisplayName = "Leg"),
-	ETresUIOlafPartsType_1_Max = 3 UMETA(Hidden),
+	Head = 0,
+	Body = 1,
+	Leg = 2,
+	Max = 3 UMETA(Hidden),
 	ETresUIOlafPartsType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIGigasGameResultRank
+enum class ETresUIGigasGameResultRank : uint8
 {
-	ETresUIGigasGameResultRank_A = 0 UMETA(DisplayName = "A"),
-	ETresUIGigasGameResultRank_B = 1 UMETA(DisplayName = "B"),
-	ETresUIGigasGameResultRank_C = 2 UMETA(DisplayName = "C"),
-	ETresUIGigasGameResultRank_D = 3 UMETA(DisplayName = "D"),
-	ETresUIGigasGameResultRank_Max = 4 UMETA(Hidden),
+	A = 0,
+	B = 1,
+	C = 2,
+	D = 3,
+	Max = 4 UMETA(Hidden),
 	ETresUIGigasGameResultRank_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIGigasGameStartSignalType
+enum class ETresUIGigasGameStartSignalType : uint8
 {
-	ETresUIGigasGameStartSignalType_Ready = 0 UMETA(DisplayName = "Ready"),
-	ETresUIGigasGameStartSignalType_Start = 1 UMETA(DisplayName = "Start"),
+	Ready = 0,
+	Start = 1,
 	ETresUIGigasGameStartSignalType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIGigasGameGimmickType
+enum class ETresUIGigasGameGimmickType : uint8
 {
-	ETresUIGigasGameGimmickType_SparkTrap = 0 UMETA(DisplayName = "Spark Trap"),
-	ETresUIGigasGameGimmickType_HeatBlast = 1 UMETA(DisplayName = "Heat Blast"),
-	ETresUIGigasGameGimmickType_CrystalSmash = 2 UMETA(DisplayName = "Crystal Smash"),
+	SparkTrap = 0,
+	HeatBlast = 1,
+	CrystalSmash = 2,
 	ETresUIGigasGameGimmickType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUITimerType
+enum class ETresUITimerType : uint8
 {
-	CountDown = 0 UMETA(DisplayName = "Count Down"),
-	CountUp = 1 UMETA(DisplayName = "Count Up"),
+	CountDown = 0,
+	CountUp = 1,
 	ETresUITimerType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUITimerColor
+enum class ETresUITimerColor : uint8
 {
-	ETresUITimerColor_Common = 0 UMETA(DisplayName = "Common"),
-	ETresUITimerColor_Red1 = 1 UMETA(DisplayName = "Red 1"),
-	ETresUITimerColor_Red2 = 2 UMETA(DisplayName = "Red 2"),
+	Common = 0,
+	Red1 = 1,
+	Red2 = 2,
 	ETresUITimerColor_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUISubtitleUsage
+enum class ETresUISubtitleUsage : uint8
 {
-	ETresUISubtitleUsage_Cutscene = 0 UMETA(DisplayName = "Cutscene"),
-	ETresUISubtitleUsage_FieldVoice = 1 UMETA(DisplayName = "Field Voice"),
-	ETresUISubtitleUsage_Talk = 2 UMETA(DisplayName = "Talk"),
+	Cutscene = 0,
+	FieldVoice = 1,
+	Talk = 2,
 	ETresUISubtitleUsage_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIMissionGageIconType
+enum class ETresUIMissionGageIconType : uint8
 {
-	ETresUIMissionGageIconType_ComicalBattle1 = 0 UMETA(DisplayName = "Comical Battle 1"),
-	ETresUIMissionGageIconType_ComicalBattle2 = 1 UMETA(DisplayName = "Comical Battle 2"),
-	ETresUIMissionGageIconType_ComicalBattle3 = 2 UMETA(DisplayName = "Comical Battle 3"),
-	ETresUIMissionGageIconType_1_Max = 3 UMETA(Hidden),
+	ComicalBattle1 = 0,
+	ComicalBattle2 = 1,
+	ComicalBattle3 = 2,
+	Max = 3 UMETA(Hidden),
 	ETresUIMissionGageIconType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUILoadingScreenType
+enum class ETresUILoadingScreenType : uint8
 {
-	ETresUILoadingScreenType_NORMAL = 0 UMETA(DisplayName = "Normal"),
-	ETresUILoadingScreenType_EXTRA = 1 UMETA(DisplayName = "Extra"),
-	ETresUILoadingScreenType_1_Max = 2 UMETA(Hidden),
+	NORMAL = 0,
+	EXTRA = 1,
+	Max = 2,
 	ETresUILoadingScreenType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUILoadingScreenBGColor
+enum class ETresUILoadingScreenBGColor : uint8
 {
-	ETresUILoadingScreenBGColor_BLACK = 0 UMETA(DisplayName = "Black"),
-	ETresUILoadingScreenBGColor_WHITE = 1 UMETA(DisplayName = "White"),
-	ETresUILoadingScreenBGColor_1_Max = 2 UMETA(Hidden),
+	BLACK = 0,
+	WHITE = 1,
+	Max = 2 UMETA(Hidden),
 	ETresUILoadingScreenBGColor_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EGameOverHintType
+enum class EGameOverHintType : uint8
 {
-	CommonHint = 0 UMETA(DisplayName = "Common Hint"),
-	SpecialHint = 1 UMETA(DisplayName = "Special Hint"),
-	TopPriority = 2 UMETA(DisplayName = "Top Priority"),
-	FixedHit = 3 UMETA(DisplayName = "Fixed Hit"),
+	CommonHint = 0,
+	SpecialHint = 1,
+	TopPriority = 2,
+	FixedHit = 3,
 	EGameOverHintType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIFullscreenVideoCallbackType
+enum class ETresUIFullscreenVideoCallbackType : uint8
 {
-	ETresUIFullscreenVideoCallbackType_PlayTimeOut = 0 UMETA(DisplayName = "Play Time Out"),
-	ETresUIFullscreenVideoCallbackType_PlayFinish = 1 UMETA(DisplayName = "Play Finish"),
-	ETresUIFullscreenVideoCallbackType_Prepared = 2 UMETA(DisplayName = "Prepared"),
+	PlayTimeOut = 0,
+	PlayFinish = 1,
+	Prepared = 2,
 	ETresUIFullscreenVideoCallbackType_MAX = 3 UMETA(Hidden)
 };
 
@@ -12097,62 +12036,62 @@ enum ETresUIWindowWaitType
 };
 
 UENUM(BlueprintType)
-enum ETresUICutsceneTextHideMethod
+enum class ETresUICutsceneTextHideMethod : uint8
 {
-	ETresUICutsceneTextHideMethod_None = 0 UMETA(DisplayName = "None"),
-	ETresUICutsceneTextHideMethod_Fade = 1 UMETA(DisplayName = "Fade"),
+	None = 0,
+	Fade = 1,
 	ETresUICutsceneTextHideMethod_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUICutsceneTextShowMethod
+enum class ETresUICutsceneTextShowMethod : uint8
 {
-	ETresUICutsceneTextShowMethod_None = 0 UMETA(DisplayName = "None"),
-	ETresUICutsceneTextShowMethod_Fade = 1 UMETA(DisplayName = "Fade"),
-	ETresUICutsceneTextShowMethod_LineFade = 2 UMETA(DisplayName = "Line Fade"),
+	None = 0,
+	Fade = 1,
+	LineFade = 2,
 	ETresUICutsceneTextShowMethod_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUITextAlignV
+enum class ETresUITextAlignV : uint8
 {
-	ETresUITextAlignV_Top = 0 UMETA(DisplayName = "Top"),
-	ETresUITextAlignV_Center = 1 UMETA(DisplayName = "Center"),
-	ETresUITextAlignV_Bottom = 2 UMETA(DisplayName = "Bottom"),
+	Top = 0,
+	Center = 1,
+	Bottom = 2,
 	ETresUITextAlignV_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUITextAlignH
+enum class ETresUITextAlignH : uint8
 {
-	ETresUITextAlignH_Left = 0 UMETA(DisplayName = "Left"),
-	ETresUITextAlignH_Center = 1 UMETA(DisplayName = "Center"),
-	ETresUITextAlignH_Right = 2 UMETA(DisplayName = "Right"),
+	Left = 0 UMETA(DisplayName = "Left"),
+	Center = 1 UMETA(DisplayName = "Center"),
+	Right = 2 UMETA(DisplayName = "Right"),
 	ETresUITextAlignH_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIMissionGageColorType
+enum class ETresUIMissionGageColorType : uint8
 {
-	ETresUIMissionGageColorType_Yellow = 0 UMETA(DisplayName = "Yellow"),
-	ETresUIMissionGageColorType_Red = 1 UMETA(DisplayName = "Red"),
-	ETresUIMissionGageColorType_Green = 2 UMETA(DisplayName = "Green"),
-	ETresUIMissionGageColorType_1_Max = 3 UMETA(Hidden),
+	Yellow = 0 UMETA(DisplayName = "Yellow"),
+	Red = 1 UMETA(DisplayName = "Red"),
+	Green = 2 UMETA(DisplayName = "Green"),
+	Max = 3 UMETA(Hidden),
 	ETresUIMissionGageColorType_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresUIMapMarkerType
+enum class ETresUIMapMarkerType : uint8
 {
-	ETresUIMapMarkerType_SavePoint = 0 UMETA(DisplayName = "Save Point"),
-	ETresUIMapMarkerType_Shop = 1 UMETA(DisplayName = "Shop"),
-	ETresUIMapMarkerType_MapLine = 2 UMETA(DisplayName = "Map Line"),
-	ETresUIMapMarkerType_EnemyGigas = 3 UMETA(DisplayName = "Enemy Gigas"),
-	ETresUIMapMarkerType_EnemyGigasAce = 4 UMETA(DisplayName = "Enemy Gigas Ace"),
-	ETresUIMapMarkerType_Gigas = 5 UMETA(DisplayName = "Gigas"),
-	ETresUIMapMarkerType_EnemySea = 6 UMETA(DisplayName = "Enemy Sea"),
-	ETresUIMapMarkerType_EnemySeaLuxord = 7 UMETA(DisplayName = "Enemy Sea Luxord"),
-	ETresUIMapMarkerType_1_Max = 8 UMETA(Hidden),
+	SavePoint = 0 UMETA(DisplayName = "Save Point"),
+	Shop = 1 UMETA(DisplayName = "Shop"),
+	MapLine = 2 UMETA(DisplayName = "Map Line"),
+	EnemyGigas = 3 UMETA(DisplayName = "Enemy Gigas"),
+	EnemyGigasAce = 4 UMETA(DisplayName = "Enemy Gigas Ace"),
+	Gigas = 5 UMETA(DisplayName = "Gigas"),
+	EnemySea = 6 UMETA(DisplayName = "Enemy Sea"),
+	EnemySeaLuxord = 7 UMETA(DisplayName = "Enemy Sea Luxord"),
+	Max = 8 UMETA(Hidden),
 	ETresUIMapMarkerType_MAX = 9 UMETA(Hidden)
 };
 
@@ -12170,87 +12109,87 @@ UENUM(BlueprintType)
 enum class ETresVictoryBonusKind : uint8
 {
 	NONE = 0 UMETA(DisplayName = "None"),
-	HP_UP3 = 1 UMETA(DisplayName = "HP Up 3"),
-	HP_UP5 = 2 UMETA(DisplayName = "HP Up 5"),
-	HP_UP10 = 3 UMETA(DisplayName = "HP Up 10"),
-	HP_UP15 = 4 UMETA(DisplayName = "HP Up 15"),
-	HP_UP30 = 5 UMETA(DisplayName = "HP Up 30"),
-	_RESERVE6 = 6 UMETA(DisplayName = "Reserve 6"),
-	_RESERVE7 = 7 UMETA(DisplayName = "Reserve 7"),
-	MP_UP3 = 8 UMETA(DisplayName = "MP Up 3"),
-	MP_UP5 = 9 UMETA(DisplayName = "MP Up 5"),
-	MP_UP10 = 10 UMETA(DisplayName = "MP Up 10"),
-	MP_UP20 = 11 UMETA(DisplayName = "MP Up 20"),
-	_RESERVE12 = 12 UMETA(DisplayName = "Reserve 12"),
-	_RESERVE13 = 13 UMETA(DisplayName = "Reserve 13"),
-	_RESERVE14 = 14 UMETA(DisplayName = "Reserve 14"),
-	_RESERVE15 = 15 UMETA(DisplayName = "Reserve 15"),
-	DEF_SLOT_UP1 = 16 UMETA(DisplayName = "Def Slot Up 1"),
-	ACC_SLOT_UP1 = 17 UMETA(DisplayName = "Acc Slot Up 1"),
-	ITEM_SLOT_UP1 = 18 UMETA(DisplayName = "Item Slot Up 1"),
-	_RESERVE19 = 19 UMETA(DisplayName = "Reserve 19"),
-	_RESERVE20 = 20 UMETA(DisplayName = "Reserve 20"),
-	_RESERVE21 = 21 UMETA(DisplayName = "Reserve 21"),
-	_RESERVE22 = 22 UMETA(DisplayName = "Reserve 22"),
-	_RESERVE23 = 23 UMETA(DisplayName = "Reserve 23"),
-	MELEM_FIRE = 24 UMETA(DisplayName = "Melem Fire"),
-	MELEM_BLIZZARD = 25 UMETA(DisplayName = "Melem Blizzard"),
-	MELEM_THUNDER = 26 UMETA(DisplayName = "Melem Thunder"),
-	MELEM_WATER = 27 UMETA(DisplayName = "Melem Water"),
-	MELEM_AERO = 28 UMETA(DisplayName = "Melem Aero"),
-	MELEM_CURE = 29 UMETA(DisplayName = "Melem Cure"),
-	_RESERVE30 = 30 UMETA(DisplayName = "Reserve 30"),
-	_RESERVE31 = 31 UMETA(DisplayName = "Reserve 31"),
+	HP_UP3 = 1,
+	HP_UP5 = 2,
+	HP_UP10 = 3,
+	HP_UP15 = 4,
+	HP_UP30 = 5,
+	_RESERVE6 = 6,
+	_RESERVE7 = 7,
+	MP_UP3 = 8,
+	MP_UP5 = 9,
+	MP_UP10 = 10,
+	MP_UP20 = 11,
+	_RESERVE12 = 12,
+	_RESERVE13 = 13,
+	_RESERVE14 = 14,
+	_RESERVE15 = 15,
+	DEF_SLOT_UP1 = 16,
+	ACC_SLOT_UP1 = 17,
+	ITEM_SLOT_UP1 = 18,
+	_RESERVE19 = 19,
+	_RESERVE20 = 20,
+	_RESERVE21 = 21,
+	_RESERVE22 = 22,
+	_RESERVE23 = 23,
+	MELEM_FIRE = 24,
+	MELEM_BLIZZARD = 25,
+	MELEM_THUNDER = 26,
+	MELEM_WATER = 27,
+	MELEM_AERO = 28,
+	MELEM_CURE = 29,
+	_RESERVE30 = 30,
+	_RESERVE31 = 31,
 	TYPE_MAX = 32 UMETA(Hidden),
 	ETresVictoryBonusKind_MAX = 33 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleStopElapsedTimeTiming
+enum class EWinniePuzzleStopElapsedTimeTiming : uint8
 {
 	WhenShoot = 0,
 	PlayerUnitsMoved = 1,
-	WinniePuzzleStopElapsedTimeTiming_MAX = 2
+	WinniePuzzleStopElapsedTimeTiming_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleSlopeActionRemoveFindingTarget
+enum class EWinniePuzzleSlopeActionRemoveFindingTarget : uint8
 {
 	DontRemove = 0,
 	SlopeDirection = 1,
 	Around = 2,
 	All = 3,
-	WinniePuzzleSlopeActionRemoveFindingTarget_MAX = 4
+	WinniePuzzleSlopeActionRemoveFindingTarget_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitAppearColumnDependencyDirection
+enum class EWinniePuzzleUnitAppearColumnDependencyDirection : uint8
 {
 	FrontToBack = 0,
 	BackToFront = 1,
-	WinniePuzzleUnitAppearColumnDependencyDirection_MAX = 2
+	WinniePuzzleUnitAppearColumnDependencyDirection_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitAppearDelayType
+enum class EWinniePuzzleUnitAppearDelayType : uint8
 {
-	EWinniePuzzleUnitAppearDelayType_None = 0,
-	EWinniePuzzleUnitAppearDelayType_ColumnDependency = 1,
-	EWinniePuzzleUnitAppearDelayType_Random = 2,
-	WinniePuzzleUnitAppearDelayType_MAX = 3
+	None = 0,
+	ColumnDependency = 1,
+	Random = 2,
+	WinniePuzzleUnitAppearDelayType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleVoicePriority
+enum class EWinniePuzzleVoicePriority : uint8
 {
-	EWinniePuzzleVoicePriority_Low = 0,
-	EWinniePuzzleVoicePriority_Medium = 1,
-	EWinniePuzzleVoicePriority_High = 2,
-	WinniePuzzleVoicePriority_MAX = 3
+	Low = 0,
+	Medium = 1,
+	High = 2,
+	WinniePuzzleVoicePriority_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleVoice
+enum class EWinniePuzzleVoice : uint8
 {
 	PlayerGameStart = 0,
 	PlayerShot = 1,
@@ -12282,129 +12221,129 @@ enum EWinniePuzzleVoice
 	GopherInvoke = 27,
 	GopherInvokableRepeat = 28,
 	Num = 29,
-	EWinniePuzzleVoice_None = 30,
-	WinniePuzzleVoice_MAX = 31
+	None = 30,
+	WinniePuzzleVoice_MAX = 31 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleSoundEffect
+enum class EWinniePuzzleSoundEffect : uint8
 {
-	EWinniePuzzleSoundEffect_Countdown = 0,
-	EWinniePuzzleSoundEffect_GameStart = 1,
-	EWinniePuzzleSoundEffect_GameClear = 2,
-	EWinniePuzzleSoundEffect_GameOver = 3,
-	EWinniePuzzleSoundEffect_Match1st = 4,
-	EWinniePuzzleSoundEffect_Match2nd = 5,
-	EWinniePuzzleSoundEffect_Match3rd = 6,
-	EWinniePuzzleSoundEffect_Aiming = 7,
-	EWinniePuzzleSoundEffect_SwitchUnit = 8,
-	EWinniePuzzleSoundEffect_FillBuckets = 9,
-	EWinniePuzzleSoundEffect_DecreaseBucket = 10,
-	EWinniePuzzleSoundEffect_PowerGauge = 11,
-	EWinniePuzzleSoundEffect_UnitVibration = 12,
-	EWinniePuzzleSoundEffect_AdditionalBonus = 13,
-	EWinniePuzzleSoundEffect_ResultScore = 14,
-	EWinniePuzzleSoundEffect_ResultNewRecord = 15,
-	EWinniePuzzleSoundEffect_ResultEvalution = 16,
-	WinniePuzzleSoundEffect_MAX = 17
+	Countdown = 0,
+	GameStart = 1,
+	GameClear = 2,
+	GameOver = 3,
+	Match1st = 4,
+	Match2nd = 5,
+	Match3rd = 6,
+	Aiming = 7,
+	SwitchUnit = 8,
+	FillBuckets = 9,
+	DecreaseBucket = 10,
+	PowerGauge = 11,
+	UnitVibration = 12,
+	AdditionalBonus = 13,
+	ResultScore = 14,
+	ResultNewRecord = 15,
+	ResultEvalution = 16,
+	WinniePuzzleSoundEffect_MAX = 17 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleTotalScoreEvalution
+enum class EWinniePuzzleTotalScoreEvalution : uint8
 {
-	EWinniePuzzleTotalScoreEvalution_None = 0,
-	EWinniePuzzleTotalScoreEvalution_LowerGood = 1,
-	EWinniePuzzleTotalScoreEvalution_Good = 2,
-	EWinniePuzzleTotalScoreEvalution_Cool = 3,
-	EWinniePuzzleTotalScoreEvalution_Fantastic = 4,
-	WinniePuzzleTotalScoreEvalution_MAX = 5
+	None = 0,
+	LowerGood = 1,
+	Good = 2,
+	Cool = 3,
+	Fantastic = 4,
+	WinniePuzzleTotalScoreEvalution_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleRuleGameOverCondition
+enum class EWinniePuzzleRuleGameOverCondition : uint8
 {
-	EWinniePuzzleRuleGameOverCondition_None = 0,
-	EWinniePuzzleRuleGameOverCondition_Increase = 1,
-	EWinniePuzzleRuleGameOverCondition_TimeLimit = 2,
-	WinniePuzzleRuleGameOverCondition_MAX = 3
+	None = 0,
+	Increase = 1,
+	TimeLimit = 2,
+	WinniePuzzleRuleGameOverCondition_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleRuleGameClearCondition
+enum class EWinniePuzzleRuleGameClearCondition : uint8
 {
-	EWinniePuzzleRuleGameClearCondition_None = 0,
-	EWinniePuzzleRuleGameClearCondition_EarnUnitsNum = 1,
-	EWinniePuzzleRuleGameClearCondition_Decrease = 2,
-	EWinniePuzzleRuleGameClearCondition_TimeLimit = 3,
-	EWinniePuzzleRuleGameClearCondition_EarnHoneypotsNum = 4,
-	WinniePuzzleRuleGameClearCondition_MAX = 5
+	None = 0,
+	EarnUnitsNum = 1,
+	Decrease = 2,
+	TimeLimit = 3,
+	EarnHoneypotsNum = 4,
+	WinniePuzzleRuleGameClearCondition_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzlePowerGaugeLevel
+enum class EWinniePuzzlePowerGaugeLevel : uint8
 {
-	EWinniePuzzlePowerGaugeLevel_Level1 = 0,
-	EWinniePuzzlePowerGaugeLevel_Level2 = 1,
-	EWinniePuzzlePowerGaugeLevel_Level3 = 2,
-	EWinniePuzzlePowerGaugeLevel_Level4 = 3,
-	EWinniePuzzlePowerGaugeLevel_Level5 = 4,
-	EWinniePuzzlePowerGaugeLevel_Level6 = 5,
-	EWinniePuzzlePowerGaugeLevel_Level7 = 6,
-	EWinniePuzzlePowerGaugeLevel_Level8 = 7,
-	EWinniePuzzlePowerGaugeLevel_Level9 = 8,
-	EWinniePuzzlePowerGaugeLevel_Level10 = 9,
-	EWinniePuzzlePowerGaugeLevel_Level11 = 10,
-	EWinniePuzzlePowerGaugeLevel_Level12 = 11,
-	EWinniePuzzlePowerGaugeLevel_Num = 12,
-	WinniePuzzlePowerGaugeLevel_MAX = 13
+	Level1 = 0,
+	Level2 = 1,
+	Level3 = 2,
+	Level4 = 3,
+	Level5 = 4,
+	Level6 = 5,
+	Level7 = 6,
+	Level8 = 7,
+	Level9 = 8,
+	Level10 = 9,
+	Level11 = 10,
+	Level12 = 11,
+	Num = 12,
+	WinniePuzzlePowerGaugeLevel_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleWallVolumeType
+enum class EWinniePuzzleWallVolumeType : uint8
 {
-	EWinniePuzzleWallVolumeType_Bound = 0,
-	EWinniePuzzleWallVolumeType_Snap = 1,
-	EWinniePuzzleWallVolumeType_None = 2,
-	WinniePuzzleWallVolumeType_MAX = 3
+	Bound = 0,
+	Snap = 1,
+	None = 2,
+	WinniePuzzleWallVolumeType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleBucketFillMoveType
+enum class EWinniePuzzleBucketFillMoveType : uint8
 {
-	EWinniePuzzleBucketFillMoveType_InOrder = 0,
-	EWinniePuzzleBucketFillMoveType_Random = 1,
-	WinniePuzzleBucketFillMoveType_MAX = 2
+	InOrder = 0,
+	Random = 1,
+	WinniePuzzleBucketFillMoveType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleBucketType
+enum class EWinniePuzzleBucketType : uint8
 {
-	EWinniePuzzleBucketType_Normal = 0,
-	EWinniePuzzleBucketType_Special = 1,
-	WinniePuzzleBucketType_MAX = 2
+	Normal = 0,
+	Special = 1,
+	WinniePuzzleBucketType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitFillType
+enum class EWinniePuzzleUnitFillType : uint8
 {
-	EWinniePuzzleUnitFillType_RollOver = 0,
-	EWinniePuzzleUnitFillType_Growing = 1,
-	WinniePuzzleUnitFillType_MAX = 2
+	RollOver = 0,
+	Growing = 1,
+	WinniePuzzleUnitFillType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitAnimationType
+enum class EWinniePuzzleUnitAnimationType : uint8
 {
-	EWinniePuzzleUnitAnimationType_Idle = 0,
-	EWinniePuzzleUnitAnimationType_Roll = 1,
-	EWinniePuzzleUnitAnimationType_RollEnd = 2,
-	EWinniePuzzleUnitAnimationType_Grow = 3,
-	EWinniePuzzleUnitAnimationType_GrowWait = 4,
-	WinniePuzzleUnitAnimationType_MAX = 5
+	Idle = 0,
+	Roll = 1,
+	RollEnd = 2,
+	Grow = 3,
+	GrowWait = 4,
+	WinniePuzzleUnitAnimationType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitState
+enum class EWinniePuzzleUnitState : uint8
 {
 	Unit_State_Idle = 0,
 	Unit_State_Roll = 1,
@@ -12413,65 +12352,65 @@ enum EWinniePuzzleUnitState
 	Unit_State_Pool = 4,
 	Unit_State_Particle_Destroyed = 5,
 	Unit_State_None = 6,
-	Unit_State_MAX = 7
+	Unit_State_MAX = 7 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleUnitType
+enum class EWinniePuzzleUnitType : uint8
 {
-	EWinniePuzzleUnitType_Carrot = 0,
-	EWinniePuzzleUnitType_Eggplant = 1,
-	EWinniePuzzleUnitType_Garlic = 2,
-	EWinniePuzzleUnitType_Pumpkin = 3,
-	EWinniePuzzleUnitType_Tomato = 4,
-	EWinniePuzzleUnitType_Zucchini = 5,
-	EWinniePuzzleUnitType_VegetableBoss = 6,
-	EWinniePuzzleUnitType_VegetableBossCollision = 7,
-	EWinniePuzzleUnitType_Apple = 8,
-	EWinniePuzzleUnitType_Blackberry = 9,
-	EWinniePuzzleUnitType_GreenApple = 10,
-	EWinniePuzzleUnitType_Lemon = 11,
-	EWinniePuzzleUnitType_Orange = 12,
-	EWinniePuzzleUnitType_Pear = 13,
-	EWinniePuzzleUnitType_Anemone = 14,
-	EWinniePuzzleUnitType_Daffodil = 15,
-	EWinniePuzzleUnitType_Dahlia = 16,
-	EWinniePuzzleUnitType_Gerbera = 17,
-	EWinniePuzzleUnitType_OrangePixie = 18,
-	EWinniePuzzleUnitType_RoofFlower = 19,
-	EWinniePuzzleUnitType_Honeypot = 20,
-	EWinniePuzzleUnitType_None = 21,
-	WinniePuzzleUnitType_MAX = 22
+	Carrot = 0,
+	Eggplant = 1,
+	Garlic = 2,
+	Pumpkin = 3,
+	Tomato = 4,
+	Zucchini = 5,
+	VegetableBoss = 6,
+	VegetableBossCollision = 7,
+	Apple = 8,
+	Blackberry = 9,
+	GreenApple = 10,
+	Lemon = 11,
+	Orange = 12,
+	Pear = 13,
+	Anemone = 14,
+	Daffodil = 15,
+	Dahlia = 16,
+	Gerbera = 17,
+	OrangePixie = 18,
+	RoofFlower = 19,
+	Honeypot = 20,
+	None = 21,
+	WinniePuzzleUnitType_MAX = 22 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleBoundStartMoveDirection
+enum class EWinniePuzzleBoundStartMoveDirection : uint8
 {
-	UpLeft = 0,
-	UpRight = 1,
-	WinniePuzzleBoundStartMoveDirection_MAX = 2
+	UpLeft = 0 UMETA(DisplayName = "Up Left"),
+	UpRight = 1 UMETA(DisplayName = "Up Right"),
+	WinniePuzzleBoundStartMoveDirection_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleCharacterBonusGaugeType
+enum class EWinniePuzzleCharacterBonusGaugeType : uint8
 {
-	EWinniePuzzleCharacterBonusGaugeType_Single = 0,
-	EWinniePuzzleCharacterBonusGaugeType_Dual = 1,
-	EWinniePuzzleCharacterBonusGaugeType_None = 2,
-	WinniePuzzleCharacterBonusGaugeType_MAX = 3
+	Single = 0 UMETA(DisplayName = "Single"),
+	Dual = 1 UMETA(DisplayName = "Dual"),
+	None = 2 UMETA(DisplayName = "None"),
+	WinniePuzzleCharacterBonusGaugeType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleCharacterBonusType
+enum class EWinniePuzzleCharacterBonusType : uint8
 {
 	Tigger_Bound = 0,
 	Lumpy_Decrease = 1,
 	Gopher_Bomb = 2,
-	WinniePuzzleCharacterBonusType_MAX = 3
+	WinniePuzzleCharacterBonusType_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinnieCharacterState
+enum class EWinnieCharacterState : uint8
 {
 	Rabbit_State_Idle = 0,
 	Rabbit_State_See_Player = 1,
@@ -12509,72 +12448,72 @@ enum EWinnieCharacterState
 	Pooh_State_Level_Up = 33,
 	Pooh_State_Eat_Honey = 34,
 	Pooh_State_Down = 35,
-	EWinnieCharacterState_State_None = 36,
-	WinnieCharacterState_MAX = 37
+	State_None = 36,
+	WinnieCharacterState_MAX = 37 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinnieCharacterAnimationType
+enum class EWinnieCharacterAnimationType : uint8
 {
-	EWinnieCharacterAnimationType_Idle = 0,
-	EWinnieCharacterAnimationType_Walk = 1,
-	EWinnieCharacterAnimationType_JumpStart = 2,
-	EWinnieCharacterAnimationType_JumpLoop = 3,
-	EWinnieCharacterAnimationType_RabbitSeePlayer = 4,
-	EWinnieCharacterAnimationType_RabbitSeeUnit = 5,
-	EWinnieCharacterAnimationType_RabbitHappy = 6,
-	EWinnieCharacterAnimationType_RabbitHappyLanding = 7,
-	EWinnieCharacterAnimationType_RabbitWell = 8,
-	EWinnieCharacterAnimationType_RabbitHarvest = 9,
-	EWinnieCharacterAnimationType_RabbitHarvestEnd = 10,
-	EWinnieCharacterAnimationType_RabbitLanding = 11,
-	EWinnieCharacterAnimationType_RabbitFailureStart = 12,
-	EWinnieCharacterAnimationType_RabbitFailureLoop = 13,
-	EWinnieCharacterAnimationType_SuperJumpStart = 14,
-	EWinnieCharacterAnimationType_SuperJumpLoop = 15,
-	EWinnieCharacterAnimationType_SuperJumpBoundL = 16,
-	EWinnieCharacterAnimationType_SuperJumpBoundR = 17,
-	EWinnieCharacterAnimationType_TiggerLanding = 18,
-	EWinnieCharacterAnimationType_TiggerJumpStart = 19,
-	EWinnieCharacterAnimationType_LumpyIdle = 20,
-	EWinnieCharacterAnimationType_LumpyRunL = 21,
-	EWinnieCharacterAnimationType_LumpyRunR = 22,
-	EWinnieCharacterAnimationType_LumpyRunLoopL = 23,
-	EWinnieCharacterAnimationType_LumpyRunLoopR = 24,
-	EWinnieCharacterAnimationType_LumpyEntry = 25,
-	EWinnieCharacterAnimationType_LumpyStop = 26,
-	EWinnieCharacterAnimationType_LumpyRunStart = 27,
-	EWinnieCharacterAnimationType_LumpyRunLoop = 28,
-	EWinnieCharacterAnimationType_GopherEntry = 29,
-	EWinnieCharacterAnimationType_GopherOut = 30,
-	EWinnieCharacterAnimationType_GopherWait = 31,
-	EWinnieCharacterAnimationType_GopherLookAround = 32,
-	EWinnieCharacterAnimationType_GopherDive = 33,
-	EWinnieCharacterAnimationType_GopherJump = 34,
-	EWinnieCharacterAnimationType_PoohEntry = 35,
-	EWinnieCharacterAnimationType_PoohIdle = 36,
-	EWinnieCharacterAnimationType_PoohHungry = 37,
-	EWinnieCharacterAnimationType_PoohHappy = 38,
-	EWinnieCharacterAnimationType_PoohHappyOnce = 39,
-	EWinnieCharacterAnimationType_PoohHappyEnd = 40,
-	EWinnieCharacterAnimationType_PoohEatHoneyStart = 41,
-	EWinnieCharacterAnimationType_PoohEatingHoney = 42,
-	EWinnieCharacterAnimationType_PoohEatHoneyEnd = 43,
-	EWinnieCharacterAnimationType_PoohDownStart = 44,
-	EWinnieCharacterAnimationType_PoohDownLoop = 45,
-	WinnieCharacterAnimationType_MAX = 46
+	Idle = 0,
+	Walk = 1,
+	JumpStart = 2,
+	JumpLoop = 3,
+	RabbitSeePlayer = 4,
+	RabbitSeeUnit = 5,
+	RabbitHappy = 6,
+	RabbitHappyLanding = 7,
+	RabbitWell = 8,
+	RabbitHarvest = 9,
+	RabbitHarvestEnd = 10,
+	RabbitLanding = 11,
+	RabbitFailureStart = 12,
+	RabbitFailureLoop = 13,
+	SuperJumpStart = 14,
+	SuperJumpLoop = 15,
+	SuperJumpBoundL = 16,
+	SuperJumpBoundR = 17,
+	TiggerLanding = 18,
+	TiggerJumpStart = 19,
+	LumpyIdle = 20,
+	LumpyRunL = 21,
+	LumpyRunR = 22,
+	LumpyRunLoopL = 23,
+	LumpyRunLoopR = 24,
+	LumpyEntry = 25,
+	LumpyStop = 26,
+	LumpyRunStart = 27,
+	LumpyRunLoop = 28,
+	GopherEntry = 29,
+	GopherOut = 30,
+	GopherWait = 31,
+	GopherLookAround = 32,
+	GopherDive = 33,
+	GopherJump = 34,
+	PoohEntry = 35,
+	PoohIdle = 36,
+	PoohHungry = 37,
+	PoohHappy = 38,
+	PoohHappyOnce = 39,
+	PoohHappyEnd = 40,
+	PoohEatHoneyStart = 41,
+	PoohEatingHoney = 42,
+	PoohEatHoneyEnd = 43,
+	PoohDownStart = 44,
+	PoohDownLoop = 45,
+	WinnieCharacterAnimationType_MAX = 46 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinnieWalkingControlType
+enum class EWinnieWalkingControlType : uint8
 {
-	WalkingWithStick = 0,
-	WalkingWithDPad = 1,
-	WinnieWalkingControlType_MAX = 2
+	WalkingWithStick = 0 UMETA(DisplayName = "Walking with Stick"),
+	WalkingWithDPad = 1 UMETA(DisplayName = "Walking with DPad"),
+	WinnieWalkingControlType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzlePlayerState
+enum class EWinniePuzzlePlayerState : uint8
 {
 	Player_State_Entry = 0,
 	Player_State_Idle = 1,
@@ -12589,21 +12528,21 @@ enum EWinniePuzzlePlayerState
 	Player_State_Success = 10,
 	Player_State_Failure = 11,
 	Player_State_None = 12,
-	Player_State_MAX = 13
+	Player_State_MAX = 13 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleResult
+enum class EWinniePuzzleResult : uint8
 {
 	PuzzleResultSuccess = 0,
 	PuzzleResultFailure = 1,
 	PuzzleResultFinish = 2,
 	PuzzleResultNone = 3,
-	WinniePuzzleResult_MAX = 4
+	WinniePuzzleResult_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleState
+enum class EWinniePuzzleState : uint8
 {
 	PuzzlePrepare = 0,
 	PuzzleHelp = 1,
@@ -12626,36 +12565,36 @@ enum EWinniePuzzleState
 	PuzzleBomb = 18,
 	PuzzleResult = 19,
 	PuzzleNone = 20,
-	WinniePuzzleState_MAX = 21
+	WinniePuzzleState_MAX = 21 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleManagerState
+enum class EWinniePuzzleManagerState : uint8
 {
 	PuzzleManagerMain = 0,
 	PuzzleManagerRetry = 1,
 	PuzzleManagerFinalize = 2,
-	WinniePuzzleManagerState_MAX = 3
+	WinniePuzzleManagerState_MAX = 3 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePlayerSituation
+enum class EWinniePlayerSituation : uint8
 {
-	EWinniePlayerSituation_None = 0,
-	EWinniePlayerSituation_Normal = 1,
-	EWinniePlayerSituation_Weapon = 2,
-	EWinniePlayerSituation_Battle = 3,
-	EWinniePlayerSituation_Fixed = 4,
-	WinniePlayerSituation_MAX = 5
+	None = 0,
+	Normal = 1,
+	Weapon = 2,
+	Battle = 3,
+	Fixed = 4,
+	WinniePlayerSituation_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePlayerAnimationType
+enum class EWinniePlayerAnimationType : uint8
 {
-	EWinniePlayerAnimationType_IdleN = 0,
-	EWinniePlayerAnimationType_IdleB = 1,
-	EWinniePlayerAnimationType_IdleBreakN = 2,
-	EWinniePlayerAnimationType_IdleBreakW = 3,
+	IdleN = 0,
+	IdleB = 1,
+	IdleBreakN = 2,
+	IdleBreakW = 3,
 	WalkLoopN = 4,
 	WalkLoopW = 5,
 	WalkLoopB = 6,
@@ -12677,9 +12616,9 @@ enum EWinniePlayerAnimationType
 	RunEndR = 22,
 	RunEndRW = 23,
 	RunEndRB = 24,
-	EWinniePlayerAnimationType_Turn = 25,
+	Turn = 25,
 	ShotPrepare = 26,
-	EWinniePlayerAnimationType_Shot = 27,
+	Shot = 27,
 	Strike = 28,
 	RollLoop = 29,
 	RollEnd = 30,
@@ -12687,910 +12626,252 @@ enum EWinniePlayerAnimationType
 	HarvestStart = 32,
 	HarvestLoop = 33,
 	HarvestEnd = 34,
-	EWinniePlayerAnimationType_Entry = 35,
+	Entry = 35,
 	SuccessStart = 36,
 	SuccessLoop = 37,
 	FailureStart = 38,
 	FailureLoop = 39,
-	WinniePlayerAnimationType_MAX = 40
+	WinniePlayerAnimationType_MAX = 40 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleVagetableUnitRoot
+enum class EWinniePuzzleVagetableUnitRoot : uint8
 {
 	UnitRootNorth = 0,
 	UnitRootSouth = 1,
 	UnitRootWest = 2,
 	UnitRootEast = 3,
-	WinniePuzzleVagetableUnitRoot_MAX = 4
+	WinniePuzzleVagetableUnitRoot_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleVagetableSlopeDirection
+enum class EWinniePuzzleVagetableSlopeDirection : uint8
 {
 	SlopeNorth = 0,
 	SlopeSouth = 1,
 	SlopeWest = 2,
 	SlopeEast = 3,
-	WinniePuzzleVagetableSlopeDirection_MAX = 4
+	WinniePuzzleVagetableSlopeDirection_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePlayerStayDirection
+enum class EWinniePlayerStayDirection : uint8
 {
-	EWinniePlayerStayDirection_StayNorth = 0,
-	EWinniePlayerStayDirection_StaySouth = 1,
-	EWinniePlayerStayDirection_StayWest = 2,
-	EWinniePlayerStayDirection_StayEast = 3,
-	WinniePlayerStayDirection_MAX = 4
+	StayNorth = 0,
+	StaySouth = 1,
+	StayWest = 2,
+	StayEast = 3,
+	WinniePlayerStayDirection_MAX = 4 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleShootType
+enum class EWinniePuzzleShootType : uint8
 {
-	EWinniePuzzleShootType_Pressed = 0,
-	EWinniePuzzleShootType_Released = 1,
-	WinniePuzzleShootType_MAX = 2
+	Pressed = 0 UMETA(DisplayName = "Pressed"),
+	Released = 1 UMETA(DisplayName = "Released"),
+	WinniePuzzleShootType_MAX = 2 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum EWinniePuzzleType
+enum class EWinniePuzzleType : uint8
 {
-	EWinniePuzzleType_Vegetable = 0,
-	EWinniePuzzleType_Fruit = 1,
-	EWinniePuzzleType_Flower = 2,
-	EWinniePuzzleType_Num = 3,
-	EWinniePuzzleType_None = 4,
-	WinniePuzzleType_MAX = 5
+	Vegetable = 0 UMETA(DisplayName = "Vegetable"),
+	Fruit = 1 UMETA(DisplayName = "Fruit"),
+	Flower = 2 UMETA(DisplayName = "Flower"),
+	Num = 3 UMETA(DisplayName = "Num"),
+	None = 4 UMETA(DisplayName = "None"),
+	WinniePuzzleType_MAX = 5 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWoldMapObjID
+enum class ETresWoldMapObjID : uint8
 {
 	WM_OBJ_ID00 = 0,
-	WM_OBJ_SPACE_CENTER = 1,
-	WM_OBJ_BG = 2,
-	WM_OBJ_WORLD_SYMBOL = 3,
-	WM_OBJ_ID_TRAVEL = 4,
-	WM_OBJ_ID_TREASURE = 5,
-	WM_OBJ_ID_TERRITORY = 6,
-	WM_OBJ_WORLD_SYMBOL_DUMMY = 7,
-	WM_OBJ_WORLD_SYMBOL_PREVIEW = 8,
-	WM_OBJ_ID_JUMP_POINT = 9,
-	WM_OBJ_KG_MIST = 10,
-	WM_OBJ_TYPE_MAX = 11,
-	WM_OBJ_MAX = 12
+	WM_OBJ_SPACE_CENTER = 1 UMETA(DisplayName = "Space Center"),
+	WM_OBJ_BG = 2 UMETA(DisplayName = "BG"),
+	WM_OBJ_WORLD_SYMBOL = 3 UMETA(DisplayName = "World Symbol"),
+	WM_OBJ_ID_TRAVEL = 4 UMETA(DisplayName = "ID Travel"),
+	WM_OBJ_ID_TREASURE = 5 UMETA(DisplayName = "ID Treasure"),
+	WM_OBJ_ID_TERRITORY = 6 UMETA(DisplayName = "ID Territory"),
+	WM_OBJ_WORLD_SYMBOL_DUMMY = 7 UMETA(DisplayName = "World Symbol Dummy"),
+	WM_OBJ_WORLD_SYMBOL_PREVIEW = 8 UMETA(DisplayName = "World Symbol Preview"),
+	WM_OBJ_ID_JUMP_POINT = 9 UMETA(DisplayName = "ID Jump Point"),
+	WM_OBJ_KG_MIST = 10 UMETA(DisplayName = "KG Mist"),
+	WM_OBJ_TYPE_MAX = 11 UMETA(Hidden),
+	WM_OBJ_MAX = 12 UMETA(Hidden)
 };
 
 UENUM(BlueprintType)
-enum ETresWoldPlaceID
+enum class ETresWoldPlaceID : uint8
 {
 	WM_PLACE_ID00 = 0,
 	WM_PLACE_ID01 = 1,
 	WM_PLACE_ID02 = 2,
 	WM_PLACE_ID03 = 3,
 	WM_PLACE_ID04 = 4,
-	WM_PLACE_MAX = 5
-};
-
-UENUM(BlueprintType)
-enum ESQEX_ATTACH_OBJECT_NAME
-{
-	SQEX_ATTACH_OBJECT_OWNER = 0 UMETA(DisplayName = "Owner"),
-	SQEX_ATTACH_OBJECT_ATTACH_TO_WEAPON = 1 UMETA(DisplayName = "Weapon"),
-	SQEX_ATTACH_OBJECT_ATTACH_TO_RIGHT_HAND_WEAPON = 2 UMETA(DisplayName = "RH Weapon"),
-	SQEX_ATTACH_OBJECT_ATTACH_TO_LEFT_HAND_WEAPON = 3  UMETA(DisplayName = "LH Weapon"),
-	SQEX_ATTACH_OBJECT_ATTACH_TO_ALL_WEAPON = 4	UMETA(DisplayName = "All Weapon")
-};
-
-UENUM(BlueprintType)
-enum ESQEX_ATTACH_THEMES
-{
-	ESQEX_ATTACH_THEMES_ALWAYS = 0  UMETA(DisplayName = "Always")
-};
-
-UENUM(BlueprintType)
-enum ESQEX_CHANGE_ANIMATION_TYPE
-{
-	ESQEX_CHANGE_ANIMATION_TYPE_END = 0 UMETA(DisplayName = "End")
-};
-
-UENUM(BlueprintType)
-enum ESQEX_ATTACH_EFFECT_END_TYPE
-{
-	ESQEX_ATTACH_EFFECT_END_TYPE_LOOPEND = 0 UMETA(DisplayName = "Loop End"),
-	ESQEX_ATTACH_EFFECT_END_TYPE_FADEOUT = 1 UMETA(DisplayName = "Fade Out")
-};
-
-UENUM(BlueprintType)
-enum class ESQEX_ChangeFaceAnimBlendParamFunction : uint8
-{
-	Linear = 0,
-	EaseIn = 1,
-	EaseOut = 2,
-	EaseInOut = 3,
-	_MAX = 4 UMETA(Hidden),
-	ESQEX_MAX = 5 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum class ESqEX_BonePoseToMaterialSetParamType : uint8
-{
-	SQEX_BPMPT_SCALAR = 0 UMETA(DisplayName = "Scalar"),
-	SQEX_BPMPT_VECTOR = 1 UMETA(DisplayName = "Vector"),
-	SQEX_BPMPT_MAX = 2 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
-enum ETresAreaCustonEffectsType
-{
-	//	Most of these are only guesses, I've only found type 1 and 4 so far.
-	ETresAreaCustonEffectType1 = 0 UMETA(DisplayName = "Type1"),
-	ETresAreaCustonEffectType2 = 1 UMETA(DisplayName = "Type2"),
-	ETresAreaCustonEffectType3 = 2 UMETA(DisplayName = "Type3"),
-	ETresAreaCustonEffectType4 = 3 UMETA(DisplayName = "Type4"),
-	ETresAreaCustonEffectType5 = 4 UMETA(DisplayName = "Type5"),
-	ETresAreaCustonEffectType6 = 5 UMETA(DisplayName = "Type6"),
-	ETresAreaCustonEffectType7 = 6 UMETA(DisplayName = "Type7"),
-	ETresAreaCustonEffectType8 = 7 UMETA(DisplayName = "Type8"),
-	ETresAreaCustonEffectType9 = 8 UMETA(DisplayName = "Type9")
+	WM_PLACE_MAX = 5 UMETA(Hidden)
 };
 
 //---------------------------------------------------------------------------
 //Script Structs
 //---------------------------------------------------------------------------
-
 USTRUCT(BlueprintType)
-struct FTresCollShapeAssetUnit
+struct FTresFNpcAIAttackDefInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FName m_GrpName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
+	FName m_AttackParamKey;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	TEnumAsByte<ETresCollision> ShapeType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
+	ETresFNpcAIAttackDefType m_AttackDefType;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FVector Size;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FVector RelativeLocation;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FRotator RelativeRocation;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	FVector Scale;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	class UStaticMesh* Mesh;
-};
-
-struct FTresRootComponentPostPhysicsTickFunction : public FTickFunction
-{
-	//APPEARS EMPTY
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
+	ETresAbilityKind m_AttackAbilityKind;
 };
 
 USTRUCT(BlueprintType)
-struct FTresOverlapInfo
+struct FAITestTractionParam
 {
 	GENERATED_BODY()
 public:
-	//APPEARS EMPTY
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	bool m_bTractionXY;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	bool m_bTractionZUp;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	bool m_bTractionZDown;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	bool m_bTractionNear;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	bool m_bTractionFar;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	float m_TractionDisMin;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	float m_TractionDisMax;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	float m_TractionMaxSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	float m_TractionAcc;
 };
 
 USTRUCT(BlueprintType)
-struct FTresBodyTakeDamageEffect
+struct FTresDamageInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBodyTakeDamageEffect")
-	class UParticleSystem* m_DamageEffect;
-};
-
-USTRUCT(BlueprintType)
-struct FTresSubCommandData : public FTableRowBase
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand4;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand5;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand6;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand7;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand8;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
-	TEnumAsByte<ETresCommandKind> SubCommand9;
-};
-
-USTRUCT(BlueprintType)
-struct FTresShortcutCommandPageData
-{
-	GENERATED_BODY()
-public:
-	TEnumAsByte<ETresCommandKind> Commands[0x4];
-};
-
-USTRUCT(BlueprintType)
-struct FTresShortcutCommandData : public FTableRowBase
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
-	struct FTresShortcutCommandPageData Page1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
-	struct FTresShortcutCommandPageData Page2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
-	struct FTresShortcutCommandPageData Page3;
-};
-
-USTRUCT(BlueprintType)
-struct FTresLevelEntityAppearInfo
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	TEnumAsByte<ETresLevelEntityAppearMode> m_AppearMode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	float m_AppearWaitMin;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	float m_AppearWaitMax;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	bool m_Visible;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	int m_CoopNo;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	FVector m_Location;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
-	FRotator m_Rotation;
-};
-
-USTRUCT(BlueprintType)
-struct FTresLevelEntityUserData
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
-	UObject* m_UserObject;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
-	float m_UserParams;
-};
-
-USTRUCT(BlueprintType)
-struct FTresCockpitCmd
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitCmd")
-	TEnumAsByte<ETresCommandKind> m_cmdKind;
-};
-
-USTRUCT(BlueprintType)
-struct FTresCockpitCmdInfo
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitCmdInfo")
-	TArray<struct FTresCockpitCmd> m_cockpitCmdAry;
-};
-
-USTRUCT(BlueprintType)
-struct FTresCockpitShortcutCmdInfo
-{
-	GENERATED_BODY()
-public:
-	struct FTresCockpitCmd m_cockpitCmdList[0x4];
-};
-
-USTRUCT(BlueprintType)
-struct FTresCockpitFriendInfo
-{
-	GENERATED_BODY()
-	//APPEARS EMPTY
-};
-
-USTRUCT(BlueprintType)
-struct FTresEncountSpawnRequest
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
-	class UClass* m_Class;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
-	class ATresEncountVolume* m_EncountVolume;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
-	TArray<FName> m_Groups;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
-	TWeakObjectPtr<AActor> m_Template;
-};
-/*
-USTRUCT(BlueprintType)
-struct FTresInterpGroupInstUpdateSettings
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
-	class USkeletalMeshComponent* m_SkeletalMeshComponent;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
-	//TEnumAsByte<EMeshComponentUpdateFlag> m_UpdateFlag;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
-	bool m_UpdateRateOptimizations;
-};
-*/
-USTRUCT(BlueprintType)
-struct FTresVoiceGroupUnit
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroupUnit")
-	int m_GroupNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroupUnit")
-	class USoundBase* m_pVoice;
-};
-
-USTRUCT(BlueprintType)
-struct FTresVoiceGroup
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
-	FName m_GroupName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
-	bool m_bPlayOnGroupNotFound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
-	class USoundBase* m_pDefaultVoice;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
-	TArray<struct FTresVoiceGroupUnit> m_Table;
-};
-
-USTRUCT(BlueprintType)
-struct FTresEncountVolumeEntry
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	TArray<FName> m_GroupNames;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	FVector m_StartOffset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	FVector m_EndOffset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	bool m_WorldOffsetZ;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	int m_TryCount;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	float m_EscapeDistance;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	int m_LotteryWeight;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	bool m_bSkipNextTime;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	class UClass* m_Troops;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountVolumeEntry")
-	FName m_InternalGroupName;
-};
-
-USTRUCT(BlueprintType)
-struct FTresLevelEntitySequenceConditionalAction
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
-	class UTresLevelEntitySequenceCondition* m_Condition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
-	class UTresLevelEntitySequenceAction* m_Action;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
-	bool m_Abandonable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
-	class UTresLevelEntitySequenceCondition* m_AbandonCondition;
-};
-
-USTRUCT(BlueprintType)
-struct FTresAttractionFlowDrawingEntry
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowDrawingEntry")
-	TEnumAsByte<ETresCommandKind> m_Command;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowDrawingEntry")
-	float m_Weight;
-};
-
-USTRUCT(BlueprintType)
-struct FTresGumiShipCinematicModeEventData
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresGumiShipCinematicModeEventData")
-	int m_eEventFlags;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresGumiShipCinematicModeEventData")
-	FName m_EventName;
-};
-
-USTRUCT(BlueprintType)
-struct FTresLocText
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
-	FString Namespace;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
-	FString Key;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
-	TArray<FString> Params;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
-	FString LocalizedText;
-};
-
-USTRUCT(BlueprintType)
-struct FTresUIWindowSetting
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
-	TEnumAsByte<ETresUIWindowWaitType> WaitType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
-	TEnumAsByte<ETresUIWindowPositionType> PositionType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
-	FVector2D Position;
-};
-
-struct FTresMovementComponentPostPhysicsTickFunction : public FTickFunction
-{
-};
-
-USTRUCT(BlueprintType)
-struct FTresStateAsset
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
-	class UClass* MyStateClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
-	FName MyStateName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
-	TEnumAsByte<ETresStateID> MyStateID;
-};
-
-USTRUCT(BlueprintType)
-struct FTresRailSlideWork
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRailSlideWork")
-	class AActor* m_LeadActor;
-	//class ASQEX_SplineActor* m_RailSlideActor;
-	//class USQEX_SplineComponent* m_RailSlideComponent;
-	//class ASQEX_SplineActor* m_LastRailSlideActor;
-	//class USQEX_SplineComponent* m_LastRailSlideComponent;
-	//class ASQEX_SplineActor* m_PauseCheckActor;
-	//class USQEX_SplineComponent* m_PauseCheckComponent;
-};
-
-USTRUCT(BlueprintType)
-struct FTresSkeletalFootStepUnit
-{
-	GENERATED_BODY()
-public:
-	struct FBoneReference m_Bone;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FName m_BoneName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	int m_BoneIndex;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	TEnumAsByte<ETresIkCollision> m_ShapeType;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FVector m_OffsetLocation;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FRotator m_OffsetRotation;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FVector m_Size;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FVector m_CheckDist;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	float m_TouchedCheckDist;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FVector m_EffectScale;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	class UTresFootStepSet* m_FootStepSet;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	FVector m_FootStepSize;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	TEnumAsByte<ETresSkeletalFootStampDir> m_FootStampDir;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSkeletalFootStepUnit")
-	float m_StampCheckDist;
-};
-
-USTRUCT(BlueprintType)
-struct FTresAtkCollShapeAssetUnit
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FName m_GrpName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FName m_DefaultAttackDataIDName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	TEnumAsByte<ETresCollision> m_ShapeType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	class UStaticMesh* m_Mesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	struct FCollisionProfileName m_CollisionProfileName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	TEnumAsByte<ETresAtkCollLocationAttachType> m_AttachType1; 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FName m_SocketName1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bSocketName1UseParentSkeleton;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_RelativeLocation1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bAbsoluteOffset1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableLocation1Attach;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	TEnumAsByte<ETresAtkCollLocationAttachType> m_AttachType2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FName m_SocketName2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bSocketName2UseParentSkeleton;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_RelativeLocation2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bAbsoluteOffset2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableLocation2Attach;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_Size;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_IncSize;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_IncMaxSize;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	class UCurveVector* m_SizeVectorCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bSizeVectorCurveLoop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FRotator m_RelativeRocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	TEnumAsByte<ETresAtkCollRotAttachType> m_RotAttachType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_Scale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_IncScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FVector m_IncMaxScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	class UCurveVector* m_ScaleVectorCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bScaleVectorCurveLoop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableSweep;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bEnablePawnRootCollision;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bIsPhysAttackCollision;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	TEnumAsByte<ETresAtkCollMapHitType> m_MapHitType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bEnableMapHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableGround;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableTakeDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableTeamCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bZeroDamageIfSameTeam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bDisableCharHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	bool m_bIgnoreParentScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	FName m_EffectGrpName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	class USoundBase* m_HitSEAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollShapeAssetUnit")
-	TEnumAsByte<ETresSoundAliasLabel> m_HitSEID;
-};
-
-USTRUCT(BlueprintType)
-struct FTresDecalData
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
-	class UMaterial* m_DecalMaterial;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
-	float m_DecalSize;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
-	float m_LifeSpan;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
-	float m_FadeinTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
-	float m_FadeoutTime;
-};
-
-USTRUCT(BlueprintType)
-struct FTresAtkCollHitEffUnit
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class UParticleSystem* m_PawnHitEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class USoundBase* m_PawnHitSEAsset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class UParticleSystem* m_PawnHitEffectPerAttr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class USoundBase* m_PawnHitSEAssetPerAttr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class UParticleSystem* m_DirectHitEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	bool m_bChangeMapHit;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class UParticleSystem* m_MapHitEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	bool m_bChangeSEMapHit;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	class USoundBase* m_MapHitSEAsset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	bool m_bEnableDecal;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollHitEffUnit")
-	struct FTresDecalData m_DecalData;
-};
-
-USTRUCT(BlueprintType)
-struct FTresAtkColHitEffect
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	FName m_GrpName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class UParticleSystem* m_PawnHitEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class USoundBase* m_PawnHitSEAsset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class UParticleSystem* m_PawnHitEffectPerAttr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class USoundBase* m_PawnHitSEAssetPerAttr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class UParticleSystem* m_DirectHitEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	bool m_bChangeMapHit;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class UParticleSystem* m_MapHitEffect;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	bool m_bChangeSEMapHit;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	class USoundBase* m_MapHitSEAsset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	bool m_bEnableDecal;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	struct FTresDecalData m_DecalData;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkColHitEffect")
-	TArray<struct FTresAtkCollHitEffUnit> m_HitEffSet;
-};
-
-USTRUCT(BlueprintType)
-struct FTresAtkCollAutoActivate
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
-	FName m_GrpName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
 	FName m_AttackDataIDName;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAtkCollAutoActivate")
-	float m_AttackInterval;
-};
-
-USTRUCT(BlueprintType)
-struct FTresPhysMatEffectAssetUnit
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	bool m_bEnableInnerWater;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	TEnumAsByte<ETresCommandKind> m_CommandKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	float m_NmlSpeedParam;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	TEnumAsByte<ETresShootFlowKind> m_ShootFlowKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	class UParticleSystem* m_NmlEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	TEnumAsByte<ETresDamageKind> m_DamageKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	float m_HighSpeedParam;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresDamageAttribute m_DamageAttribute;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	class UParticleSystem* m_HighEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_AttackSrcPower;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	class UParticleSystem* m_StillEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamagePowerScale;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	class UParticleSystem* m_EnterEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageParabolaAngle;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
-	class UParticleSystem* m_LeaveEffect;
-};
-
-USTRUCT(BlueprintType)
-struct FTresMapSetObjData
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
-	FName Name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
-	TEnumAsByte<ETresMapSetObjType> Type;
-};
-
-USTRUCT(BlueprintType)
-struct FTresMapSetData
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
-	bool Load;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageMoveLength;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
-	bool Visible;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageBrakeParam;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
-	bool Ignore;
-};
-
-USTRUCT(BlueprintType)
-struct FTresMapSetDataArray
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
-	TArray<FTresMapSetData> DataArray;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_DamageEffectTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresAtkHitKnockbackType m_KnockbackType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	FVector m_KnockbackDir;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresBadStatusType m_BadStatusKind;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_BadStatusEffectTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	float m_BadStatusEffectParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	int m_ReactionPower;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	int m_ArmorAttackPower;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	int m_FormPoint;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsMagicAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsFinishAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsKillerAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsIgnoreGuard;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsRapidFireAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsCriticalHit;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsArmorDamage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsAerialAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsAttractionDamage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsCounterAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsJustGuardAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableWeakGuardAttack;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableFullMpBurst;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableMagicDraw;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	bool m_bIsEnableNoReactBodyCorrection;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	ETresPhysDamageForceLevel m_PhysForceLv;
 };
 
 USTRUCT(BlueprintType)
@@ -13606,45 +12887,90 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FRevengeAttacks
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRevengeAttacks")
+	class UClass* RevengeAttackDefinition;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRevengeAttacks")
+	bool bAir;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyRetryVoiceData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyRetryVoiceData")
+	FName FaceAnimName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyRetryVoiceData")
+	class USoundBase* VOICE;
+};
+
+USTRUCT(BlueprintType)
 struct FTresProjectileSpawnData
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	class UClass* m_GenerateClass;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
-	TEnumAsByte<ETresProjectileRespawnType> m_CheckType;
-
+	ETresProjectileRespawnType m_CheckType;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
-	TEnumAsByte<ETresProjectileRespawnRotType> m_RotInheritType;
-
+	ETresProjectileRespawnRotType m_RotInheritType;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	float m_CheckRange;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bOnGroundOnly;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bBlockByWaterSurface;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverAtkTarget;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverAtkCollHitList;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverAtkCollFinishFlag;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bIgnoreSendShutdownMsgToOwner;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverEffectColorParam;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverEffectAlphaParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDecalData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	class UMaterial* m_DecalMaterial;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_DecalSize;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_LifeSpan;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_FadeinTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDecalData")
+	float m_FadeoutTime;
 };
 
 USTRUCT(BlueprintType)
@@ -13654,70 +12980,5987 @@ struct FTresEffectUnit
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEffectUnit")
 	class UParticleSystem* MyParticleSystem;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEffectUnit")
 	class USoundBase* MySoundCue;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEffectUnit")
 	struct FTresDecalData MyTresDecal;
 };
 
 USTRUCT(BlueprintType)
-struct FTresVectorAnim
+struct FTresNavLinkSet_Common
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	struct FVector m_SrcValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	struct FVector m_UpdatedValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	struct FVector m_LimitMin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	struct FVector m_LimitMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	class UCurveVector* m_pCurveVectorAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	bool m_bLoopCurveAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	bool m_bLimitMinValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
-	bool m_bLimitMaxValue;
+	class ANavLinkProxy* NavLinkProxy;
+	TEnumAsByte<ETresNavLinkSegment_Common> NavLinkSegment;
 };
 
 USTRUCT(BlueprintType)
-struct FTresScaleVectorAnim : public FTresVectorAnim
+struct FTres_LocomotionDefinition_SnowChaseParam
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_DashDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_DashMaxSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_DashAcceleration;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_SlowTargetDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_SlowMaxSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_SuperSlowTargetDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_SuperSlowMaxSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_LocomotionDefinition_SnowChaseParam")
+	float m_SlowAcceleration;
 };
 
 USTRUCT(BlueprintType)
-struct FTresDebugMenuInfo
+struct FTres_InterfaceDecorator
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDebugMenuInfo")
-	class UTresDebugMenuScene* m_Instance;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_InterfaceDecorator")
+	class UClass* m_pActor;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_InterfaceDecorator")
+	float m_valueA;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_InterfaceDecorator")
+	float m_valueB;
 };
 
 USTRUCT(BlueprintType)
-struct FTresTimerTaskData
+struct FTres_EQS_ParamName
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTimerTaskData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_EQS_ParamName")
+	EQS_PARAM_NAME_Enum m_Name;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_EQS_ParamName")
+	float m_Value;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_EQS_ParamName")
+	float m_RandomValue;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_EQS_ParamName")
+	EQS_PARAM_VALUE_Enum m_EnumValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSequentialExecDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	FName m_OutlineComment;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	TArray<struct FTres_InterfaceDecorator> m_DecoratorArray;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	ESEQUENTIAL_EXEC_TASK_MODE m_taskMode;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	bool m_skipSequence;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	class UEnvQuery* m_QueryInstance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	bool m_bQueryFirstRun;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	float m_TimeLimit;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	TEnumAsByte<EEnvQueryRunMode::Type> m_RunMode;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	float m_UpdateTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	float m_UpdateTimeRandomDeviation;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	TArray<struct FTres_EQS_ParamName> m_ParamName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	class UClass* m_LocomotionDefinition;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	float m_AcceptanceRadius;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	float m_AvoidanceWeight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	bool m_bPreciseArrival;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	bool m_bFastAbort;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	bool m_bFailOnDamageReaction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSequentialExecDataTable")
+	FString m_Memo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405ChainActionParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ChainActionParam")
+	class UClass* ActionDefinition;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ChainActionParam")
+	int ActionIdx;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ChainActionParam")
+	float MoveAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405ChainActionParams
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ChainActionParams")
+	TArray<struct FTresE_dw405ChainActionParam> Params;
+};
+
+USTRUCT(BlueprintType)
+struct FStoleTrapWorkData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FStoleTrapWorkData")
+	class UParticleSystemComponent* m_PointEffectComp;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnHandParam_e_ex702
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSpawnHandParam_e_ex702")
+	class UClass* ProjectileClass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSpawnHandParam_e_ex702")
+	int Num;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSpawnHandParam_e_ex702")
+	float MinRadius;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSpawnHandParam_e_ex702")
+	float MaxRadius;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNpcTractionParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	bool m_bTractionXY;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	bool m_bTractionZUp;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	bool m_bTractionZDown;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	bool m_bTractionNear;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	bool m_bTractionFar;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	float m_TractionDisMin;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	float m_TractionDisMax;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	float m_TractionMaxSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresNpcTractionParam")
+	float m_TractionAcc;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405AvatarActionParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	float AppearDelayTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	float AppearOffsetAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	class UAnimSequenceBase* AnimData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	class USoundBase* SoundData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	float AppearDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	float AppearHeight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	bool bAnimPlayFallEnd;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	float MoveSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	bool bEnableVigilanceMove;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	TArray<float> MoveAngles;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	TEnumAsByte<ETresE_dw405VigilanceMoveVec> VigilanceMoveVec;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	bool bEnableSettingDisappearTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405AvatarActionParam")
+	float DisappearTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405RespawnParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405RespawnParam")
+	bool bEnableRespawn;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405RespawnParam")
+	float AppearMaxAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405RespawnParam")
+	struct FTresE_dw405AvatarActionParam ActionParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405RespawnParam")
+	float DisappearRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405RespawnParam")
+	float DisappearDelayTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405RespawnParam")
+	float MoveHomingAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405SoundData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405SoundData")
+	class USoundBase* Sound;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405SoundInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405SoundInfo")
+	TArray<struct FTresE_dw405SoundData> SoundDatas;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405SoundInfo")
+	float PlaySoundReamingTimeAtLastSound;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405CounterAttackParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405CounterAttackParam")
+	class UClass* AttackDefinitionClass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405CounterAttackParam")
+	int ActionIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405ActionParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	FName Name;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float AutoLockOnRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableInvincible;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float GameLevelLimitTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float LimitOverDisappearRandomTIme;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableAppear;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float EndActionOffsetTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	class UAnimationAsset* StartAnimData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	class UAnimSequenceBase* AnimData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	class USoundBase* SoundData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float AppearDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableFixingAppearAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float FixingAppearAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float AppearMaxAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float AppearHeight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bAnimPlayFallEnd;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float MoveSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableVigilanceMove;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	TArray<float> MoveAngles;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float MoveHomingAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	TEnumAsByte<ETresE_dw405VigilanceMoveVec> VigilanceMoveVec;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableSettingDisappearTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float DisappearTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableSettingDisappearRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float DisappearRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float DisappearDelayTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	bool bEnableSettingAvatarDisappearRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float AvatarDisappearRange;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	TArray<struct FTresE_dw405AvatarActionParam> AvatarAppearParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float TurnToTargetAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float TurnToTargetHeight;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float TurnToTargetDistance;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	struct FTresE_dw405RespawnParam RespawnParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float SoundPlayStartTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	struct FTresE_dw405SoundInfo SoundInfo;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	TArray<struct FTresE_dw405CounterAttackParam> CounterAttackParam;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresE_dw405ActionParam")
+	float CounterRate;
+};
+
+USTRUCT(BlueprintType)
+struct FWolfSpawnInfo_e_ex731
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex731")
+	int m_NotifyParam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex731")
+	FName m_BoneName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex731")
+	FRotator m_SpawnRot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex731")
+	bool m_bSpawnOnBoneRot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex731")
+	float m_fAppearMoveVelocity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex731")
+	float m_fAppearMoveDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FWolfSpawnInfo_e_ex734
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex734")
+	float m_fAppearMoveVelocity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex734")
+	float m_fAppearRadius;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex734")
+	float m_fAppearMoveGoalHeight_Min;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FWolfSpawnInfo_e_ex734")
+	float m_fAppearMoveGoalHeight_Max;
+};
+
+USTRUCT(BlueprintType)
+struct FActionCancelParam_e_ex043
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FActionCancelParam_e_ex043")
+	int CancelChance_Phase1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FActionCancelParam_e_ex043")
+	int CancelChance_Phase2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FActionCancelParam_e_ex043")
+	int CancelChance_Phase3;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyCardWallParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyCardWallParam_e_ex356")
+	float RotationSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyCardWallParam_e_ex356")
+	float RotationRadius;
+
+	float RotationStopTimeList[0x5];
+};
+
+USTRUCT(BlueprintType)
+struct FTresBitGenerateParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitGenerateParam_e_ex357")
+	int Num;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitGenerateParam_e_ex357")
+	int MaxNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitGenerateParam_e_ex357")
+	int AddNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitGenerateParam_e_ex357")
+	TEnumAsByte<ETresEnemyBitGenerateLocation_e_ex357> AppearLocationType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitGenerateParam_e_ex357")
+	float AppearDistance;
+
+	struct FFloatInterval AppearHeightRange;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBitMoveParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	struct FFloatInterval RadiusRange;
+	struct FFloatInterval HeightRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitMoveParam_e_ex357")
+	float AppearEndTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitMoveParam_e_ex357")
+	float MoveStartIntervalTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitMoveParam_e_ex357")
+	float MoveSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBitAttackParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float AttackIntervalTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	int DisableAttackShotNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float DisableAttackTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float AttackToAllAttackIntervalTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float AllAttackIntervalTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float AllAttackShotIntervalTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float AllAttackMoveStartDelayTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
+	float AllAttackMoveTime;
+
+	struct FFloatInterval AllAttackTargetRadiusRange;
+	struct FFloatInterval AllAttackTargetHeightRange;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_RailSlideProjectileInfo
+{
+	GENERATED_BODY()
+public:
+	bool m_bRailSlide;
+	float m_fWaitTime;
+	float m_fVelocity;
+	bool m_bRelativeVelocityToOwner;
+	FVector m_vInitOffset;
+	bool m_bOwnerAsInitOffsetAxis;
+	bool m_bHoming;
+	FVector m_vHomingOffset;
+	bool m_bTargetAsHomingAxis;
+	float m_fMinHomingDistance;
+	float m_fHomingAccel;
+	float m_fMaxHomingVelocity;
+	float m_fMinHomingDistance_Reflect;
+	float m_fHomingAccel_Reflect;
+	float m_fMaxHomingVelocity_Reflect;
+	TArray<FName> m_ReflectAttackIDArray;
+	uint32 m_bBoolArray[0xA];
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_DarkCubeMineInfo
+{
+	GENERATED_BODY()
+public:
+	FVector m_vLocationOffset;
+	FRotator m_rRotationOffset;
+	bool m_bMoveOnFinish;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_DarkCubeMineProjInfo
+{
+	GENERATED_BODY()
+public:
+	bool m_bNormal;
+	struct FBX901_RailSlideProjectileInfo m_RailSlideProjInfo;
+	struct FBX901_DarkCubeMineInfo m_ProjInfo;
+	float m_fSpawnDelayTime;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_DarkCubeMineSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	class UClass* m_Projectile;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	TArray<struct FBX901_DarkCubeMineProjInfo> m_ProjeInfoArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	class UClass* m_JointActorClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	FString m_JointInfo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	int m_iMaxDestroyComboNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	float m_fDestroyComboTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	class ATresCharPawnBase* m_Owner;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineSpawnInfo")
+	class AActor* m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_DarkCubeMineGroupSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineGroupSpawnInfo")
+	struct FBX901_DarkCubeMineSpawnInfo m_ProjSpawnInfo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineGroupSpawnInfo")
+	float m_fWaitTimeAfterFinish;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineGroupSpawnInfo")
+	class ATresCharPawnBase* m_Owner;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FBX901_DarkCubeMineGroupSpawnInfo")
+	class AActor* m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealCardSpawnParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardSpawnParam_e_ex356")
+	float CardRadius;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardSpawnParam_e_ex356")
+	float CardHeightDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardSpawnParam_e_ex356")
+	int OneStepCardNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardSpawnParam_e_ex356")
+	int StepNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealMoveParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float CardRevolveAcceleration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float CardRevolveDeceleration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float CardRotationAcceleration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float CardRotationSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float CardRotationDeceleration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float AllCardRotationDelayTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float EndCardRevolveAcceleration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float EndCardRevolveAccelerationTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float EndCardRevolveMaxSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealMoveParam_e_ex356")
+	float CardLocationInterpTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealAttackParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float TargetFollowSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float StartDelayTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float LuxordSideCardAttackSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float LuxordSideCardAttackTurnSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float LuxordSideCardAttackScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float LuxordSideCardAttackScaleUpTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float LuxordSideCardAttackRotationEndDelayTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	float LuxordSideCardAttackMoveStartDelayTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	FName LuxordSideCardAttackCollisionGroupName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealAttackParam_e_ex356")
+	FName LuxordSideCardAttackAttackDtataIDName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealContractionSpeedParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealContractionSpeedParam_e_ex356")
+	float Distance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealContractionSpeedParam_e_ex356")
+	float Speed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealCardRotationEndParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardRotationEndParam_e_ex356")
+	int NotCardDesignNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardRotationEndParam_e_ex356")
+	int PlainCardDesignNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyBigDealCardRotationEndParam_e_ex356")
+	int LuxordCardDesignNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealOneStepParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	int NotCardDesignNum;
+	TArray<struct FTresEnemyBigDealContractionSpeedParam_e_ex356> ContractionSpeedParamList;
+	float CardRevolveSpeed;
+	float PlainCardDamageAfterCardRevolveStopTime;
+	float CardRotationEndIntervalTime;
+	TArray<struct FTresEnemyBigDealCardRotationEndParam_e_ex356> CardRotationEndParamList;
+	TArray<float> AttackStartTimeList;
+	float CardShuffleTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealActionParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyBigDealAction_e_ex356> ActionType;
+	float ActionTime;
+	class USoundBase* VoiceData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealParamEx_e_ex356
+{
+	GENERATED_BODY()
+public:
+	FName FailedDamageAttackDataIDName;
+	float EndRadius;
+	float CenterLocationCheckPlayerRadius;
+	float FirstScondEndExplodeIntervalTime;
+	struct FTresEnemyBigDealMoveParam_e_ex356 MoveParam;
+	struct FTresEnemyBigDealAttackParam_e_ex356 AttackParam;
+	struct FTresEnemyBigDealOneStepParam_e_ex356 FirstOneStepParam;
+	struct FTresEnemyBigDealOneStepParam_e_ex356 SecondOneStepParam;
+	struct FTresEnemyBigDealOneStepParam_e_ex356 LastOneStepParam;
+	float LastContractionStartDelayTime;
+	TArray<struct FTresEnemyBigDealActionParam_e_ex356> LastActionParamList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDeathSentenceParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	float StartCount;
+	float CountSpeed;
+	bool bEnableDispelArmorHP;
+	bool bEnableDispelDamage;
+	int DispelDamageNum;
+	float DispelTotalAttackSrcPower;
+	float DamageCountDisableTime;
+	int DispelBitDieNum;
+	float BloomShieldTime;
+	bool bIsEndNotDieMode;
+	bool bEnableRevengeChain;
+	bool bEnableInformation;
+	bool bEnableSpecialGameoverHint;
+};
+
+USTRUCT(BlueprintType)
+struct FLastPlayedInfo
+{
+	GENERATED_BODY()
+public:
+	class UAnimationAsset* m_pAsset;
+};
+
+struct FTresMovementComponentPostPhysicsTickFunction : public FTickFunction
+{
+};
+
+USTRUCT(BlueprintType)
+struct FTresRailSlideWork
+{
+	GENERATED_BODY()
+public:
+	class AActor* m_LeadActor;
+/*	class ASQEX_SplineActor* m_RailSlideActor;
+	class USQEX_SplineComponent* m_RailSlideComponent;
+	class ASQEX_SplineActor* m_LastRailSlideActor;
+	class USQEX_SplineComponent* m_LastRailSlideComponent;
+	class ASQEX_SplineActor* m_PauseCheckActor;
+	class USQEX_SplineComponent* m_PauseCheckComponent;*/
+};
+
+USTRUCT(BlueprintType)
+struct FTresGameplayTagDebugColor
+{
+	GENERATED_BODY()
+public:
+	struct FGameplayTag GameplayTag;
+	struct FLinearColor Color;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTeamDebugColor
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTeamDebugColor")
+	TEnumAsByte<ETresTeam> TeamID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTeamDebugColor")
+	FLinearColor Color;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoLoadWork
+{
+	GENERATED_BODY()
+public:
+	class UTexture2D* m_pTexture;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRandomVoice
+{
+	GENERATED_BODY()
+public:
+	class USoundBase* VOICE;
+	int RandomWeights;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRandomVoiceForTable
+{
+	GENERATED_BODY()
+public:
+	class USoundBase* m_pVoice;
+	int m_dRandomWeights;
+	FName m_MouthMotionName;
+};
+
+USTRUCT(BlueprintType)
+struct FRandomTableParameter
+{
+	GENERATED_BODY()
+public:
+	FName m_GroupName;
+	TArray<struct FTresRandomVoiceForTable> m_RandomVoiceAssets;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUInt8_Range
+{
+	GENERATED_BODY()
+public:
+	int8_t m_uMinValue;
+	int8_t m_uMaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFloat32_RangeDegree
+{
+	GENERATED_BODY()
+public:
+	float m_fMinAngle;
+	float m_fMaxAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPoppingHolyProjectileOverrideParameters
+{
+	GENERATED_BODY()
+public:
+	float m_fRisingThresholdHeight;
+	float m_fGravityScaleWhenFalling;
+	FVector m_vBrakingVelocityScaleWhenFallingStarted;
+	float m_fAcceleration;
+	float m_fInitialSpeed;
+	float m_fMaxSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPoppingHolyBulletShootParameter
+{
+	GENERATED_BODY()
+public:
+	struct FTresUInt8_Range m_HolyBulletShootNum;
+	struct FTresFloat32_RangeDegree m_HolyBulletSpreadRangeAngle;
+	float m_fHolyBulletShootYawAngleRandomOffset;
+	bool m_bIsIgnoreKeyBladePitch;
+	struct FTresFloat32_RangeDegree m_HolyBulletShootRandomPitchRange;
+	bool m_bIsOverrideHolyProjectileParameter;
+	TArray<struct FTresPoppingHolyProjectileOverrideParameters> m_HolyProjectileOverrideParameterList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresChangeMeshMaterialParamData
+{
+	GENERATED_BODY()
+public:
+	FName m_MaterialParamName;
+	TArray<FName> m_MaterialInstanceList;
+//	ESqEX_BonePoseToMaterialSetParamType m_MaterialParamSetType;
+	float m_StartScalarParam;
+	float m_EndScalarParam;
+	FVector m_StartVectorParam;
+	FVector m_EndVectorParam;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEX_EffectCurveData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	TEnumAsByte<EFSQEX_EFFCT_CURVE_DATA_AXIS> ParamAxis;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName ParameterName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	class UCurveFloat* CurveData;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseCurveAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName XCurveName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseParameterX;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName YCurveName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseParameterY;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	FName ZCurveName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
+	bool bUseParameterZ;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimAssetUnit
+{
+	GENERATED_BODY()
+public:
+	FName AnimName;
+	class UAnimationAsset* AnimData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkCollShapeAssetUnit
+{
+	GENERATED_BODY()
+public:
+	FName m_GrpName;
+	FName m_DefaultAttackDataIDName;
+	TEnumAsByte<ETresCollision> m_ShapeType;
+	class UStaticMesh* m_Mesh;
+	struct FCollisionProfileName m_CollisionProfileName;
+	ETresAtkCollLocationAttachType m_AttachType1;
+	FName m_SocketName1;
+	bool m_bSocketName1UseParentSkeleton;
+	FVector m_RelativeLocation1;
+	bool m_bAbsoluteOffset1;
+	bool m_bDisableLocation1Attach;
+	ETresAtkCollLocationAttachType m_AttachType2;
+	FName m_SocketName2;
+	bool m_bSocketName2UseParentSkeleton;
+	FVector m_RelativeLocation2;
+	bool m_bAbsoluteOffset2;
+	bool m_bDisableLocation2Attach;
+	FVector m_Size;
+	FVector m_IncSize;
+	FVector m_IncMaxSize;
+	class UCurveVector* m_SizeVectorCurve;
+	bool m_bSizeVectorCurveLoop;
+	FRotator m_RelativeRocation;
+	ETresAtkCollRotAttachType m_RotAttachType;
+	FVector m_Scale;
+	FVector m_IncScale;
+	FVector m_IncMaxScale;
+	class UCurveVector* m_ScaleVectorCurve;
+	bool m_bScaleVectorCurveLoop;
+	bool m_bDisableSweep;
+	bool m_bEnablePawnRootCollision;
+	bool m_bIsPhysAttackCollision;
+	ETresAtkCollMapHitType m_MapHitType;
+	bool m_bEnableMapHit;
+	bool m_bDisableGround;
+	bool m_bDisableTakeDamage;
+	bool m_bDisableTeamCheck;
+	bool m_bZeroDamageIfSameTeam;
+	bool m_bDisableCharHit;
+	bool m_bIgnoreParentScale;
+	FName m_EffectGrpName;
+	class USoundBase* m_HitSEAsset;
+	TEnumAsByte<ETresSoundAliasLabel> m_HitSEID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkCollHitEffUnit
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_PawnHitEffect;
+	class USoundBase* m_PawnHitSEAsset;
+	class UParticleSystem* m_PawnHitEffectPerAttr[0x8];
+	class USoundBase* m_PawnHitSEAssetPerAttr[0x8];
+	class UParticleSystem* m_DirectHitEffect;
+	bool m_bChangeMapHit;
+	class UParticleSystem* m_MapHitEffect;
+	bool m_bChangeSEMapHit;
+	class USoundBase* m_MapHitSEAsset;
+	bool m_bEnableDecal;
+	struct FTresDecalData m_DecalData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkColHitEffect
+{
+	GENERATED_BODY()
+public:
+	FName m_GrpName;
+	class UParticleSystem* m_PawnHitEffect;
+	class USoundBase* m_PawnHitSEAsset;
+	class UParticleSystem* m_PawnHitEffectPerAttr[0x8];
+	class USoundBase* m_PawnHitSEAssetPerAttr[0x8];
+	class UParticleSystem* m_DirectHitEffect;
+	bool m_bChangeMapHit;
+	class UParticleSystem* m_MapHitEffect;
+	bool m_bChangeSEMapHit;
+	class USoundBase* m_MapHitSEAsset;
+	bool m_bEnableDecal;
+	struct FTresDecalData m_DecalData;
+	TArray<struct FTresAtkCollHitEffUnit> m_HitEffSet;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAtkCollAutoActivate
+{
+	GENERATED_BODY()
+public:
+	FName m_GrpName;
+	FName m_AttackDataIDName;
+	float m_AttackInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405AttackParam
+{
+	GENERATED_BODY()
+public:
+	class UClass* AttackDefinition;
+	bool bEnableOverrideAppearOffsetAngle;
+	float AppearOffsetAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405ComboParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresE_dw405AttackParam> AttackParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBladeTornadoInfo_e_ex301a
+{
+	GENERATED_BODY()
+public:
+	float Interval;
+	float SpawnDistance;
+	float SpawnHeight;
+	float AppearExcludeAngle;
+	float AppearAngle;
+	float SpawnExcludeAngleYaw;
+	float SpawnAngleYaw;
+	float SpawnAngleMaxPitch;
+	float SpawnAngleMinPitch;
+	int AimNum;
+	float MinMissDistance;
+	float MaxMissDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresChaosFiragaShotInterval_e_ex352
+{
+	GENERATED_BODY()
+public:
+	float m_Interval;
+	bool m_bHomingEnabled;
+};
+
+USTRUCT(BlueprintType)
+struct FTresChaosFiragaParams_e_ex352
+{
+	GENERATED_BODY()
+public:
+	bool m_bSingleShot;
+	float m_DisengageRange;
+	float m_fProjectileFiringRadius;
+	float m_ShotSpeed;
+	float m_AimOffsetHeight;
+	float m_fProjectileSpreadRadius;
+	float m_fMinAngle;
+	float m_fMaxAngle;
+	float m_fProjectileSpreadMargin;
+	TArray<float> m_AttackIntervals;
+	TArray<struct FTresChaosFiragaShotInterval_e_ex352> m_ShotIntervalArray;
+	bool m_bShot3D;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVoice_e_ex352
+{
+	GENERATED_BODY()
+public:
+	int m_Param;
+	class USoundBase* m_Voice;
+	bool m_bSound3D;
+};
+
+USTRUCT(BlueprintType)
+struct FMeleeRootMotionScaleParam_e_ex761
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNpc_n_ex023_TractionData
+{
+	GENERATED_BODY()
+public:
+	FString m_Comment;
+	float m_fMaxVerticalTractionDistance;
+	float m_fMaxHorizontalTractionDistance;
+	float m_fVerticalOffsetFromTarget;
+	float m_fHorizontalOffsetFromTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkHomingProjectileNum_e_dw407
+{
+	GENERATED_BODY()
+public:
+	uint32 m_ForwardProjectileNum;
+	uint32 m_BackwardProjectileNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkHomingProjectileNumParams_e_dw407
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresDarkHomingProjectileNum_e_dw407> m_SpawnProjectileNumParams;
+	bool m_bIsUseIntervalGameLevelParam;
+	bool m_bIsUseSpeedGameLevelParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkHomingProjectileParam_e_dw407
+{
+	GENERATED_BODY()
+public:
+	float m_StartHomingTime;
+	float m_HomingSpeedXY;
+	float m_HomingAccelSpeedXY;
+	float m_HomingMaxSpeedXY;
+	float m_HomingSpeedZ;
+	float m_HomingAccelSpeedZ;
+	float m_HomingMaxSpeedZ;
+	bool m_bDistance3D;
+	float m_HomigMinDist;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkHomingAttackParam_e_dw407
+{
+	GENERATED_BODY()
+public:
+	float m_TimeUntilSpawnProjectile;
+	TArray<struct FTresDarkHomingProjectileNumParams_e_dw407> m_SpawnProjectileParams;
+	float m_Pitch;
+	float m_SpawnProjectileInterval;
+	float m_GameLevelMinSpawnProjectileInterval[0x4];
+	float m_GameLevelMaxSpawnProjectileInterval[0x4];
+	float m_TimeUntilReStart;
+	float m_EnableBackwardParam;
+	float m_ProjectileSpeed;
+	float m_GameLevelMinProjectileSpeed[0x4];
+	float m_GameLevelMaxProjectileSpeed[0x4];
+	struct FTresDarkHomingProjectileParam_e_dw407 m_ForwardProjectileParams;
+	struct FTresDarkHomingProjectileParam_e_dw407 m_BackwardProjectileParams;
+	float m_HomingMaxAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRoarSpawnProjectileParam_e_dw407b
+{
+	GENERATED_BODY()
+public:
+	int m_SpawnProjectileSameTimeNum;
+	float m_SpawnProjectileRadius;
+	float m_AimTargetDirectionMinDistance;
+	float m_AimTargetDirectionMaxDistance;
+	float m_AimTargetDirectionAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFeatherShotProjectileParam_e_ex081
+{
+	GENERATED_BODY()
+public:
+	float m_ProjectileInterval;
+	float m_ShootPitchAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDashAnims_e_ex107
+{
+	GENERATED_BODY()
+public:
+	class UAnimSequenceBase* StartAnimData;
+	class UAnimSequenceBase* DashAnimData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDashParams_e_ex107
+{
+	GENERATED_BODY()
+public:
+	float MaxMoveSpeed;
+	float Acceleration;
+	float Decelaration;
+	float MinMoveSpeed;
+	float HomingAngleXY;
+	float HomingAngleZ;
+	bool bDashLimit;
+	float LimitDistance;
+	float LimitTime;
+};
+
+USTRUCT(BlueprintType)
+struct FKunai_Setup
+{
+	GENERATED_BODY()
+public:
+	FName m_BoneName;
+	FName m_IgnoreAtkCollGroupName;
+};
+
+USTRUCT(BlueprintType)
+struct FKunai_Details
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<EKunaiType> m_KunaiType;
+	float m_Timing;
+	float m_Angle;
+	float m_Velocity;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx304RootMotionScaleInfo
+{
+	GENERATED_BODY()
+public:
+	class UCurveFloat* RootMotionScaleCurveData;
+	bool bOverRunTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHomingDarkLaserSpawnParams_e_ex316
+{
+	GENERATED_BODY()
+public:
+	float m_SpawnMinRadius;
+	float m_SpawnMaxRadius;
+	float m_SpawnMinHieght;
+	float m_SpawnMaxHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FProjectileParam_e_ex322a
+{
+	GENERATED_BODY()
+public:
+	float AppearAngle;
+	float AppearDistance;
+	float AppearHeight;
+	float AppearOffsetTime;
+	float ShotOffsetTime;
+	bool bEnableSettingShotYaw;
+	float ShotYaw;
+	bool bEnableSettingShotPitch;
+	float ShotPitch;
+	float OverrideRange;
+	bool bOverrideEnableSettingShotYaw;
+	float OverrideShotYaw;
+	bool bOverrideEnableSettingShotPitch;
+	float OverrideShotPitch;
+	bool bOverrideEnableHoming;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351RootMotionScaleParam
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351RootScale
+{
+	GENERATED_BODY()
+public:
+	float TractionMaxScale;
+	float TractionMinScale;
+	bool bMovedCorrection;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkLaserSpawnParams_e_ex352
+{
+	GENERATED_BODY()
+public:
+	float m_BeginLaserIrradiationTime;
+	float m_LaserShiftMinTime;
+	float m_LaserShiftMaxTime;
+	float m_LaserIrradiationSignTime;
+	float m_LaserIrradiationLoopTime;
+	float m_LaserExtendSpeed;
+	float m_SignStartRequiredTime;
+	float m_SignEndRequiredTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHomingDarkLaserSpawnParams_e_ex352 : public FTresDarkLaserSpawnParams_e_ex352
+{
+	GENERATED_BODY()
+public:
+	int m_SpawnNum;
+	int m_SpawnSameTimeNum;
+	float m_SpawnMinRadius;
+	float m_SpawnMaxRadius;
+	float m_SpawnMinHieght;
+	float m_SpawnMaxHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353RootMotionScaleParam
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353RootMotionScaleInfo
+{
+	GENERATED_BODY()
+public:
+	ETresEnemyEx353RootMotionCorrectionKind RootMotionCorrectionKind;
+	class UCurveFloat* RootMotionScaleCurveData;
+	struct FTresEnemyEx353RootMotionScaleParam MinRootMotionScaleParam;
+	struct FTresEnemyEx353RootMotionScaleParam MaxRootMotionScaleParam;
+	float ChangeCorrectionKindDistance;
+	float MaxRootMotionScale;
+	float AimTargetBackDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353HomingParam
+{
+	GENERATED_BODY()
+public:
+	float HomingSpeedYaw;
+	float HomingSpeedPitch;
+	float HomingMinDist;
+	float HomingAbsTime;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ComboTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	FVector vTractionOffset;
+	float fMaxTractionDistance;
+	float fMinTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWarpCutMotionParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyWarpCutMotionType_e_ex357> MotionType;
+	float AnimStartTime;
+};
+
+USTRUCT(BlueprintType)
+struct FRootMotionScaleParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FJinraiRootMotionScaleParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_ComboTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	FVector vTractionOffset;
+	float fMaxTractionDistance;
+	float fMinTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamWaitMoveInfo
+{
+	GENERATED_BODY()
+public:
+	bool m_bNotEndOnTime;
+	float m_fMaxWaitTime;
+	bool m_bUpdateMoveDir;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamSpinMoveInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fMaxSpinTime;
+	bool m_bSpinInversed;
+	float m_fInitSpinVelocity;
+	bool m_bSpinAccel;
+	float m_fSpinAccel;
+	float m_fMaxSpinVelocity;
+	class ATresProjectileBase* m_Projectile;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamHomingMoveInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fInitVelocity;
+	bool m_bResetInitVelocity;
+	bool m_bAccel;
+	float m_fAccel;
+	float m_fMaxVelocity;
+	float m_fMaxMoveDistance;
+	bool m_bMaxMoveDistance;
+	bool m_bHoming;
+	float m_fHomingAccel;
+	float m_fHomingMaxVelocity;
+	float m_fHomingMaxAngle;
+	float m_fHomingMinDistance;
+	float m_fHomingIgnoreMaxAngleTime;
+	class ATresProjectileBase* m_Projectile;
+	class AActor* m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamMoveInfoSet
+{
+	GENERATED_BODY()
+public:
+	struct FEX359_BeamWaitMoveInfo m_WaitMoveInfo;
+	bool m_bMoveWait;
+	struct FEX359_BeamSpinMoveInfo m_SpinMoveInfo;
+	bool m_bSpinMove;
+	struct FEX359_BeamHomingMoveInfo m_HomingMoveInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamInfo
+{
+	GENERATED_BODY()
+public:
+	int m_iNotify;
+	class UClass* m_pProjClass;
+	class UClass* m_pProjClass_FinalBrake;
+	FVector m_vSpawnLocOffset;
+	bool m_bPolarSpawnLocOffset;
+	float m_fSpawnLocPolarYawOffset;
+	TEnumAsByte<EEX359_SpawnLocType> m_SpawnLocType;
+	TEnumAsByte<EEX359_SpawnDirType> m_SpawnDirType;
+	float m_fSpawnDirYawOffset;
+	float m_fLifeTime;
+	bool m_bLifeTime;
+	bool m_bIgnoreSameIndexHit;
+	struct FEX359_BeamMoveInfoSet m_MoveInfoSet;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_BeamInfo> m_BeamInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_ComboAttackIDModifySet
+{
+	GENERATED_BODY()
+public:
+	FName m_OldAttackID;
+	FName m_NewAttackID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShotParam_e_ex701_DarkCloud
+{
+	GENERATED_BODY()
+public:
+	float Height;
+	float SideOffset;
+	float FrontOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShockWaveRushParam_e_ex352
+{
+	GENERATED_BODY()
+public:
+	float m_RushSpeed;
+	float m_Acceleration;
+	float m_NextTargetDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresKBRCloneBurstParam
+{
+	GENERATED_BODY()
+public:
+	float m_ShotTime;
+	float m_ShotDirYaw;
+	float m_ShotDirPitch;
+	float m_ShadowMoveDirYaw;
+	TEnumAsByte<EKBRCloneBurstTypes_e_ex360> m_AttackType;
+	float m_IntervalTime;
+	FVector m_ShotDist;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTarHandParam_e_ex701
+{
+	GENERATED_BODY()
+public:
+	class UClass* TarHandActionClass;
+	bool bEnablelifeTimeOverride;
+	float OverrideLifeTime;
+};
+
+USTRUCT(BlueprintType)
+struct FRootMotionScaleParam_e_ex781
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FRootMotionScaleDataParam_e_ex781
+{
+	GENERATED_BODY()
+public:
+	int ID;
+	bool bEnableAttackHitResetRootMotionScale;
+	struct FRootMotionScaleParam_e_ex781 MinRootMotionScaleParam;
+	struct FRootMotionScaleParam_e_ex781 MaxRootMotionScaleParam;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_NeedleRainInfo
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_Projectile_Needle_Up;
+	class UClass* m_Projectile_Needle_Fall;
+	float m_fUpDistance;
+	float m_fFallHeight;
+	float m_fFallRangeRadius;
+	class UParticleSystem* m_EffectClass;
+	float m_fEffectHeight;
+	TWeakObjectPtr<class AActor> m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_NeedleSpawnerInfo
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_NeedleSpawnerClass;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaRunShotSequenceInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fYaw;
+	float m_fHeightOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotProjInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fShotWaitTime;
+	float m_fTargetPastDestroyDistance;
+	float m_fCenterPastDestroyDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotGrid
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotGridSet
+{
+	GENERATED_BODY()
+public:
+	int m_iGridNumX;
+	int m_iGridNumY;
+	float m_AvoidOverrapScale;
+	TArray<struct FEX354_ArtemaWarpShotGrid> m_GridArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fMaxShotTime;
+	float m_fShotInterval;
+	float m_fWaitTime;
+	struct FEX354_ArtemaWarpShotProjInfo m_ProjInfo;
+	bool m_bSpawnInRectangle;
+	float m_fSpawnLocDeviationXY;
+	float m_fSpawnLocDeviationX;
+	float m_fSpawnLocDeviationY;
+	float m_fSpawnLocDeviationZ;
+	bool m_bAimInRectangle;
+	float m_fAimLocDeviationRadius;
+	float m_fAimLocDeviationX;
+	float m_fAimLocDeviationY;
+	struct FEX354_ArtemaWarpShotGridSet m_GridSet;
+	bool m_bUseGrid;
+	FRotator m_rAimLocOffsetRot;
+	float m_fAimLocMaxTargetVelocity;
+	float m_fAimLocTargetVelocityRate;
+	bool m_bAimLocTargetVelocity2D;
+	bool m_bAimLocEachShot;
+	int m_EqsIndex;
+	bool m_bRefreshEQS;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX354_ArtemaWarpShotInfo> m_ArtemaWarpShotInfoArray;
+	bool m_bSendEventOnEnd;
+	bool m_bIgnoreTargetModify;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMagnaStormTractionInfo_e_ex355
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	FVector vTractionOffset;
+	float fMaxTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx771_AttractParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex771_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx773_AttractParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex773_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FDeviationShotInfo_e_ex355
+{
+	GENERATED_BODY()
+public:
+	float fDeviationRate;
+	float fMaxDeviationTargetVelocity;
+	bool bNoVerticalDiviation;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowRoamMoveInfo
+{
+	GENERATED_BODY()
+public:
+	bool m_bRoamMove;
+	float m_fRoamMoveTime;
+	float m_fRoamMoveVelocity;
+	float m_fRoamRotateYawVelocity;
+	float m_fRoamRotatePitchVelocity;
+	TEnumAsByte<EEX355_ClaymoreRoamCenterType> m_RoamCenterType;
+	float m_fRoamRadius;
+	float m_fRoamHeight;
+	FRotator m_rInitRotOffset_Roam;
+	bool m_bEnableAttackCollision;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowFirstMoveInfo
+{
+	GENERATED_BODY()
+public:
+	bool m_bFirstMove;
+	float m_fFirstMoveTime;
+	float m_fInitVelocity_First;
+	float m_fMaxVelocity_First;
+	float m_fAccel_First;
+	bool m_bInitRotOffset_First;
+	FRotator m_rInitRotOffset_First;
+	bool m_bInitRotOffset_Roam_NoOwnerRot;
+	float m_fMinHomingDistance_Fisrt;
+	float m_fMaxHomingAngle_First;
+	float m_fInitHomingRotateVelocity_First;
+	float m_fMaxHomingRotateVelocity_First;
+	float m_fMaxHomingRotateAccel_First;
+	float m_fMaxHomingAngleIgnoreTime_First;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowHomingInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fInitVelocity;
+	float m_fMaxVelocity;
+	float m_fAccel;
+	float m_fMinHomingDistance;
+	float m_fMaxHomingAngle;
+	float m_fInitHomingRotateVelocity;
+	float m_fMaxHomingRotateVelocity;
+	float m_fHomingRotateAccel;
+	float m_fMaxHomingAngleIgnoreTime;
+	bool m_bEnableGrabityOnDisablingHomingToLandTarget;
+	float m_fGravityScale;
+	bool m_bSpawnNextProjectileOnHomingEnd;
+	FVector m_vSpawnNextProjLocationOffset;
+	int m_iMaxRespawnCount;
+	float m_fNextRespawnWaitTime;
+	class UClass* m_ProjectileClass;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowInfoSet
+{
+	GENERATED_BODY()
+public:
+	struct FEX355_ThrowRoamMoveInfo m_RoamMoveInfo;
+	struct FEX355_ThrowFirstMoveInfo m_FirstMoveInfo;
+	struct FEX355_ThrowHomingInfo m_HomingInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowBB_Info
+{
+	GENERATED_BODY()
+public:
+	FRotator m_rShotRot;
+	FVector m_vShotLoc;
+	struct FEX355_ThrowInfoSet m_ThrowInfoSet;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowBB_Pattern
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX355_ThrowBB_Info> m_ThrowInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresex301AscensionPillarPatternParam
+{
+	GENERATED_BODY()
+public:
+	bool m_IsShotRotationToTarget;
+	int m_ShotRotation;
+	bool m_IsShotLocationTarget;
+	float m_OffsetRenge;
+	float m_OffsetRot;
+	bool m_IsCalcOffsetRotation;
+	int m_BulletID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackSphereSpawnParams_e_ex352
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_SpawnBlackSphere;
+	TArray<float> m_AttackTimes;
+	FRotator m_FiringAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackSphere_e_ex352
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresBlackSphereSpawnParams_e_ex352> m_BlackSphereSpawnParams;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotSequence_ProjectileInfo
+{
+	GENERATED_BODY()
+public:
+	struct FEX354_ArtemaWarpShotSet m_ShotSet;
+	FVector m_vSpawnLocOffset;
+	class ATresProjectileBase* m_Spawner;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotSequenceInfo
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX354_ArtemaWarpShotSequence_ProjectileInfo> m_ProjectileInfoArray;
+	float m_fShotWaitTime;
+	FVector m_vSpawnLoc;
+	class UCurveVector* m_SpawnLocCurve;
+	FVector m_vAimLoc;
+	class UCurveVector* m_AimLocCurve;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotSequenceInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX354_ArtemaWarpShotSequenceInfo> m_SequenceInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_CutUpTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	FVector vTractionOffset;
+	float fMaxTractionDistance;
+	TEnumAsByte<EEX355_MoveVelocityType> m_HorizontalVelocityType;
+	float m_fHorizontalVelocityExp;
+	TEnumAsByte<EEX355_MoveVelocityType> m_VerticalVelocityType;
+	float m_fVerticalVelocityExp;
+};
+
+USTRUCT(BlueprintType)
+struct FTresex367AscensionPillarPatternParam
+{
+	GENERATED_BODY()
+public:
+	bool m_IsShotRotationToTarget;
+	int m_ShotRotation;
+	bool m_IsShotLocationTarget;
+	float m_OffsetRenge;
+	float m_OffsetRot;
+	bool m_IsCalcOffsetRotation;
+	int m_BulletID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkBarrageParam_e_ex352
+{
+	GENERATED_BODY()
+public:
+	bool bAimTarget;
+	class UClass* m_DarkBarrageProjectileClass;
+	TArray<float> AttackIntervals;
+	float StartAttackAngle;
+	float EndAttackAngle;
+	float InitialSpeed;
+	float Acceleration;
+	float MaxSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FRootMotionScaleParam_e_ex367
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FRootMotionScaleDataParam_e_ex367
+{
+	GENERATED_BODY()
+public:
+	int ID;
+	bool bEnableAttackHitResetRootMotionScale;
+	struct FRootMotionScaleParam_e_ex367 MinRootMotionScaleParam;
+	struct FRootMotionScaleParam_e_ex367 MaxRootMotionScaleParam;
+	float TargetDistOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTres_e_bx903Rush_Trigger
+{
+	GENERATED_BODY()
+public:
+	float m_triggerTimeStamp;
+	FName m_attachBoneName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMotion_e_ex011_WheeliePress
+{
+	GENERATED_BODY()
+public:
+	class UAnimSequenceBase* StartAnimData;
+	class UAnimSequenceBase* LoopAnimData;
+	class UAnimSequenceBase* EndAnimData;
+};
+
+USTRUCT(BlueprintType)
+struct FRockShotProjInfo_e_ex059
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_Projectile;
+	float m_fMaxShotPitch;
+	float m_fMinShotPitch;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFollowParams_e_ex203
+{
+	GENERATED_BODY()
+public:
+	float FollowSpeed;
+	float TurnSpeed;
+	bool bDisableAttenuation;
+	bool bDisableTurnAngleCheck;
+	bool bEnableLessTurnSpeed;
+	float MaxRate;
+	float MinRate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttackParam_e_ex322a
+{
+	GENERATED_BODY()
+public:
+	class UAnimSequenceBase* AnimData;
+	float ActionStartDelayTime;
+	float SpeedAutoCorrectionRate;
+	float AppearDistance;
+	float AppearMaxAngle;
+	float LandAppearOffsetHeight;
+	float AirAppearOffsetHeight;
+	float AppearHomingMaxAngle;
+	float HomingAngle;
+	float Acceleration;
+	float Speed;
+	float Deceleration;
+	bool bEnableGravity;
+	bool bIsAerial;
+	float AppearLocationCorrectionRate;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_CreateArmWarpInfo
+{
+	GENERATED_BODY()
+public:
+	ETresEnemy_e_ex354_ArmWarpType m_ArmWarpType;
+	ETresEnemy_e_ex354_ArmWarpPos m_PosType;
+	EEX354_ArmSpawnDirType m_DirType;
+	float m_fDistance;
+	float m_fPitch;
+	float m_fYaw;
+	bool m_bPitchAdjustToCamera;
+	float m_fPitchAdjustToCamera_MaxPitchDiff;
+	bool m_bReverseCameraPitch;
+	float m_fPitchAdjustToCamera_MaxPitch;
+	float m_fPitchAdjustToCamera_MinPitch;
+	bool m_bPitchAdjustToCamera_DebugDisp;
+	EEX354_ArmSpawnPosAdjustType m_SpawnPosAdjustType;
+	float m_SpawnPosAdjustMaxAngle;
+	float m_fTargetVelocityAdjust_MaxVelocity;
+	float m_fTargetVelocityAdjustRate;
+	bool m_bTargetVelocityAdjustDirectional;
+	float m_fTargetVelocityAdjustDirectionalYaw;
+	float m_fTargetVelocityAdjustDirectionalYawWidth;
+	float m_fTargetVelocityAdjustDirectionalScale;
+	float m_fMinHeight;
+	EEX354_ArmAimDirType m_AimDirType;
+	float m_fTargetVelocityRotAdjust_MaxVelocity;
+	float m_fTargetVelocityRotAdjustRate;
+	float m_fTargetVelocityRotAdjust_MaxPitch;
+	float m_fTargetVelocityRotAdjust_MaxYaw;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_CreateArmWarpInfoSet
+{
+	GENERATED_BODY()
+public:
+	struct FEX354_CreateArmWarpInfo m_ArmWarpInfoArray[0x2];
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_RushTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	FVector vTractionOffset;
+	float fMaxTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_RushAwayTurnInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	float fTurnVelocity;
+	TEnumAsByte<EEX355_RushAwayTurnType> m_TurnType;
+	TEnumAsByte<EEX355_RushAwayTurnDir> m_TurnDir;
+	float m_fTurnOffset;
+	float m_fTurnDirDivideAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_RushAwayTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	float m_fFinalVelocity;
+	bool m_bUsePawnDir;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyCardThrowCardMoveParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	float ThrowAngleYaw;
+	float ThrowAnglePitch;
+	float InitialSpeed;
+	float Accel;
+	float MaxSpeed;
+	float AccelStartDelayTime;
+	bool EnableHomingPitch;
+};
+
+USTRUCT(BlueprintType)
+struct FTornadoCutWindParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float WindForce;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamOnTimeInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fNotifyTime;
+	int m_iNotify;
+	bool m_bSetToTimeOnHit;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamOnTimeInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_BeamOnTimeInfo> m_BeamOnTimeInfoArray;
+	struct FEX359_BeamInfoSet m_BeamInfoSet;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+	class AActor* m_SpawnActor;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_ThrowEffectInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fNotifyTime;
+	bool m_bSetToTimeOnHit;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_ThrowEffectInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_ThrowEffectInfo> m_ThrowEffectInfoArray;
+	class UParticleSystem* m_ParticleClass;
+	bool m_bAttach;
+	class ATresProjectileBase* m_OwnerProj;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_ThrowInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fStopTime;
+	bool m_bStopTime;
+	float m_fLifeTime;
+	bool m_bLifeTime;
+	bool m_iNoStopOnHit;
+	bool m_iNoDestroyOnHit;
+	float m_fLifeTimeAfterHit;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShotParam_e_ex701
+{
+	GENERATED_BODY()
+public:
+	int Num;
+	float Angle;
+	float HomingStartTime;
+	float HomingTargetRange;
+};
+
+USTRUCT(BlueprintType)
+struct FTresParamProjectileComboHitSoloParam
+{
+	GENERATED_BODY()
+public:
+	float Interval;
+};
+
+USTRUCT(BlueprintType)
+struct FTresParamProjectileComboHit
+{
+	GENERATED_BODY()
+public:
+	class UClass* GeneratedClass;
+	TArray<struct FTresParamProjectileComboHitSoloParam> SpawnParam;
+	FVector SpawnOffset;
+	FName BaseAtkId;
+	FName LastAtkId;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx771_AttractBT04Param
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex771_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx773_AttractBT04Param
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex773_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_ComboInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fDesiredTargetDistance;
+	float m_fMaxTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_dw401_DevilTornadoParam
+{
+	GENERATED_BODY()
+public:
+	float m_pro_InitMoveSpped;
+	float m_pro_MaxMoveSpped;
+	float m_pro_AddMoveSpped;
+	float m_pro_TurnSpped;
+	float m_pro_RushTime;
+	float m_pro_SubMoveSpped;
+	float m_pro_NextRushTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_dw401_CycloneEffectParam
+{
+	GENERATED_BODY()
+public:
+	float m_ScaleMin;
+	float m_ScaleMax;
+	float m_ScaleChangeTime;
+	float m_MoveRate;
+	float m_MaxRotSpeed;
+	float m_CreateDelay;
+};
+
+USTRUCT(BlueprintType)
+struct FPoleFireGroundStabEffectParam_e_ex043
+{
+	GENERATED_BODY()
+public:
+	int m_iNotifyParam;
+	class UParticleSystem* m_GroundStabEffectParticleSystem;
+	float m_fWorldGroundHeight;
+	float m_fGroundStabEffectSpawnHeight;
+	FVector m_GroundStabEffectLocationOffset;
+	FRotator m_GroundStabEffectRotationOffset;
+	bool m_bGroundStabEffectLoopSpawn;
+	float m_fGroundStabEffectSpawnInterval;
+	class ATresCharPawnBase* MyCharPawn;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFollowParams_e_ex107
+{
+	GENERATED_BODY()
+public:
+	float FollowSpeed;
+	float FollowAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx304ProjectileSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	float SpawnAngleYaw;
+	float SpawnAnglePitch;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveInfo_e_ex310
+{
+	GENERATED_BODY()
+public:
+	int iNotifyParam;
+	FVector vOffset;
+	bool bPolarOffset;
+	float fLength;
+	float fVelocity;
+	float fYaw;
+	float fAttackInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveSet_e_ex310
+{
+	GENERATED_BODY()
+public:
+	class UClass* pWaveSpawner;
+	class UClass* pOneCollision;
+	TArray<struct FWaveInfo_e_ex310> WaveInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353ProjectileSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	float SpawnAngleYaw;
+	float SpawnAnglePitch;
+	float LifeTime;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ClusterShotInfo
+{
+	GENERATED_BODY()
+public:
+	int m_iMaxHitNum;
+	bool m_bMaxHitNum;
+	int m_iMaxGuardNum;
+	bool m_bMaxGuardNum;
+	bool m_bStartMoveAll;
+	float m_fMinMoveWaitTime;
+	float m_fMaxMoveWaitTime;
+	float m_fMoveWaitTimeSingle;
+	float m_fSpreadAngle;
+	float m_fMaxMoveAngle;
+	bool m_fMoveStraightOnTargetOut;
+	bool m_bDebugDisp;
+	class AActor* m_TargetActor;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_SwingTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	TEnumAsByte<EEX355_SwingTractionHorizontalDir> TractionDir;
+	FVector vTractionOffset;
+	bool bPawnRotAsDir;
+	float fMaxHorizontalTractionDistance;
+	TEnumAsByte<EEX355_MoveVelocityType> TractionVelocityType;
+	float fTractionInterpExp;
+	bool bNoTractionOnLand;
+	float fHeightFromLand;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_SwingTractionVerticalInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	TEnumAsByte<EEX355_SwingTractionDir> TractionDir;
+	FVector vTractionOffset;
+	float fMaxVerticalTractionDistance;
+	TEnumAsByte<EEX355_MoveVelocityType> TractionVelocityType;
+	float fTractionInterpExp;
+	bool bNoTractionOnLand;
+	float fHeightFromLand;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveInfo_e_ex359
+{
+	GENERATED_BODY()
+public:
+	int iNotifyParam;
+	FVector vOffset;
+	bool bPolarOffset;
+	float fLength;
+	float fVelocity;
+	float fYaw;
+	float fAttackInterval;
+	float fHeightAdjustVelocity_Up;
+	float fHeightAdjustVelocity_Down;
+	float fHeightAdjustOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveSet_e_ex359
+{
+	GENERATED_BODY()
+public:
+	class UClass* pWaveSpawner;
+	class UClass* pOneCollision;
+	TArray<struct FWaveInfo_e_ex359> WaveInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_SwingThrowExplodeInfo
+{
+	GENERATED_BODY()
+public:
+	bool bExplodeOnHeight;
+	float fExplodeHeightOffset;
+	bool bExplodeOnHorizontalDistance;
+	float fExplodeHorizontalDistance;
+	bool bExplodeOnTime;
+	float fExplodeTime;
+	float fExplodeMinTime;
+	bool bExplodeMinTime;
+	float fExplodeMinDistance;
+	bool bExplodeMinDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_SwingThrowDirection
+{
+	GENERATED_BODY()
+public:
+	bool bAimTarget;
+	FVector vAimTargetOffset;
+	float fMaxPitch;
+	float fMinPitch;
+	FRotator rAimRot;
+	struct FEX355_SwingThrowExplodeInfo SwingThrowExplodeLandInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_SwingWeaponGroundHitEffectInfo
+{
+	GENERATED_BODY()
+public:
+	int m_iNotifyID;
+	class UParticleSystem* m_WeaponGroundHitEffectClass;
+	FVector m_vSpawnLocOffset;
+	bool m_bSpawnOnLandOnly;
+	float fHeightFromLand;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhantomBlitzHomingParam
+{
+	GENERATED_BODY()
+public:
+	float HomingSpeedYaw;
+	float HomingSpeedPitch;
+	float HomingLimitAnglePitch;
+	float HomingEndDistance;
+	float AimLocationOffsetDistance;
+	float AimLocationAfterTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhantomBlitzQuickTurnaroundExecuteParam
+{
+	GENERATED_BODY()
+public:
+	TArray<int> QuickTurnaroundExecuteNumList;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_DashTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	float fDashGoalToTargetDistance;
+	float fMaxTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx361DarkMineInfo
+{
+	GENERATED_BODY()
+public:
+	ETresEnemyEx361SettingKind SettingKind;
+	int DarkMineNum;
+	float BetweenDarkMineDist;
+	float DarkMineDist;
+	bool bConsiderHeight;
+	float DarkMineHeight;
+	float DarkMineOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX367_DarkShootingPatternParam
+{
+	GENERATED_BODY()
+public:
+	float m_ShotWaitTime;
+	FVector m_Offset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX781MarkerShotParam
+{
+	GENERATED_BODY()
+public:
+	float m_MarkerWaitTime;
+	float m_ShotStartTime;
+	int m_ShotNum;
+	float m_ShotIntervalTime;
+	FVector m_Offset;
+};
+
+USTRUCT(BlueprintType)
+struct FDebrisDetails_e_he903_DebrisLand
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_Projectile;
+	FRotator m_rShotAngleOffset;
+	bool m_bHoming;
+};
+
+USTRUCT(BlueprintType)
+struct FTripleBreakRootMotionScaleParam_e_ex043
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx302ProjectileSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	float SpawnAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FOneCollInfo_e_ex310
+{
+	GENERATED_BODY()
+public:
+	int iNotifyParam;
+	class UClass* pOneCollision;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveOneCollInfo_e_ex310
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FOneCollInfo_e_ex310> OneCollInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyex351ProjectileSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	float SpawnAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351ProjectileInfoL
+{
+	GENERATED_BODY()
+public:
+	FRotator SpawnAngle;
+	float SpawnDistance;
+	FRotator FireAngle;
+	float FireDelay;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351SpawnInfoL
+{
+	GENERATED_BODY()
+public:
+	class UClass* FreezeShotProjectileClass;
+	bool bIsBaseTarget;
+	TArray<struct FTresEnemyEx351ProjectileInfoL> ProjectileInfoL;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351FreezeShotSpawnWorker
+{
+	GENERATED_BODY()
+public:
+	struct FTresEnemyEx351SpawnInfoL SpawnInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351FreezeShotInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FOneCollInfo_e_ex359
+{
+	GENERATED_BODY()
+public:
+	int iNotifyParam;
+	class UClass* pOneCollision;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveOneCollInfo_e_ex359
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FOneCollInfo_e_ex359> OneCollInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPairCardParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	float IntervalTime;
+	float PressStartTargetDistance;
+	float AttackStartDelayTime;
+	TEnumAsByte<ETresEnemyPressCardAttribute_e_ex356> AttributeType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNaruikazuchiProjectileGenerateParam
+{
+	GENERATED_BODY()
+public:
+	float Range;
+	float IntervalDistance;
+	float IntervalTime;
+	float HomingAngle;
+};
+
+USTRUCT(BlueprintType)
+struct FDebrisDetails_e_he903_DebrisAir
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_Projectile;
+	FRotator m_rShotAngleOffset;
+	bool m_bHoming;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMotion_e_ex011_Bombardment
+{
+	GENERATED_BODY()
+public:
+	class UAnimSequenceBase* StartAnimData;
+	class UAnimSequenceBase* LoopAnimData;
+	class UAnimSequenceBase* EndAnimData;
+};
+
+USTRUCT(BlueprintType)
+struct FDeviationShotInfo_e_ex306
+{
+	GENERATED_BODY()
+public:
+	float fDeviationRate;
+	float fMaxDeviationTargetVelocity;
+	bool bNoVerticalDiviation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351AvaterParam
+{
+	GENERATED_BODY()
+public:
+	float AppearAngle;
+	float AvaterDistance;
+	ETresEnemyEx351WarpDirection Direction;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351TimeRushComboDefine
+{
+	GENERATED_BODY()
+public:
+	bool bNoInOrderData;
+	FString Comment;
+	int JoinNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx353EveryDirectionShotParam
+{
+	GENERATED_BODY()
+public:
+	float LoopPauseTime;
+	float PauseTime;
+	float NextIntervalTime;
+	float NextMissIntervalTime;
+	bool bInfluencedMissPauseTime;
+	int NextEraseNum;
+	int NextMissEraseNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAvatarAttackLocationTypeParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyAvatarAttackAppearLocation_e_ex358> LocationType;
+	float OffsetAngle;
+	float Distance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAvatarAttackAppearParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyAvatarAttackAppearLocation_e_ex358> LocationType;
+	struct FTresAvatarAttackLocationTypeParam_e_ex358 CustomLocationTypeParam;
+	bool bEnableSyncTargetHeight;
+	float OffsetHeight;
+	float OffsetAngle;
+	float Distance;
+	bool bEnableFixedLookAtAngle;
+	float FixedLookAtOffsetAngle;
+	float LookAtOffsetAngle;
+	float DelayTime;
+	bool bCalcAppearLocationDelayAfter;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAvatarAttackParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	class UWildDanceActionParamBase_e_ex358* ActionData;
+	TArray<struct FTresAvatarAttackAppearParam_e_ex358> AppearParamList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWildDanceAppearParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyWildDanceAppearLocation_e_ex358> LocationType;
+	float OffsetAngle;
+	float Distance;
+	float DelayTime;
+	bool bCalcAppearLocationDelayAfter;
+	TEnumAsByte<ETresEnemyChangeManualLockonPriority_e_ex358> ChangeManualLockonPriority;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWildDanceOneActionParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	class UWildDanceActionParamBase_e_ex358* ActionData;
+	class UWildDanceActionParamBase_e_ex358* AirActionData;
+	float AirActionExecuteTargetHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWildDanceAllActionParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	struct FTresWildDanceAppearParam_e_ex358 AppearParam;
+	TArray<struct FTresWildDanceOneActionParam_e_ex358> ActionList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWildDanceParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresWildDanceAllActionParam_e_ex358> ActionParamList;
+};
+
+USTRUCT(BlueprintType)
+struct FMeleeRootMotionScaleParam_e_ex358
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FRaiseCutRootMotionScaleParam_e_ex761
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FProjectileSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	FName m_SocketName;
+	int m_iMaxShotCount;
+	float m_fProjectileVariance;
+	float m_fMinProjectileDiameter;
+	float m_fMaxProjectileDiameter;
+};
+
+USTRUCT(BlueprintType)
+struct FTornadoBlowSet
+{
+	GENERATED_BODY()
+public:
+	float fMaxStartDistance;
+	float fEndDistance;
+	float fBlowTime;
+	float fEndHeight;
+	bool bForceEndHeight;
+	bool bSetFloatingMode;
+	bool bBlowToDebrisOwnerDir;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405_AvatarStyleFinishVelocityParam
+{
+	GENERATED_BODY()
+public:
+	float StartTime;
+	bool bEnableSettingAcceleration;
+	float Acceleration;
+	float InterpolationTime;
+	float TargetSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FMeleeRootMotionScaleParam_e_ex043
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	float RootMotionScale;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_DashRoamDir
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<EEX355_DashRoamDir> m_DashRoamDir;
+	TEnumAsByte<EEX355_DashRoamDir> m_DashAttackDir;
+	TEnumAsByte<EEX355_DashMiddleAction> m_DashMiddleAction;
+	float m_fDashMiddleActionTime;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowAirSet
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_ProjectileClass;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_DashThrowTimingInfo
+{
+	GENERATED_BODY()
+public:
+	int m_iIndex;
+	int m_iRoamCount;
+	int m_iAttackCount;
+	float m_fRoamTime;
+	bool m_bAttack;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_DashClaymoreInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fRevolveRadius;
+	class UCurveFloat* m_RevolveRadiusCurve;
+	float m_fRevolveSpeed;
+	class UCurveFloat* m_RevolvePhaseCurve;
+	float m_fRevolveHeight;
+	class UCurveFloat* m_RevolveHeightCurve;
+	class UCurveVector* m_RotationCurve;
+	struct FWaveOneCollInfo_e_ex359 m_OneCollInfo;
+	FVector m_WaveSpawnLocOffset;
+	float m_fWaveWaitTime;
+	class UParticleSystem* m_GroundHitEffectClass;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_DashClaymoreSet
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectile_e_ex355_Claymore_Idle* m_Claymore;
+	class ATresCharPawnBase* m_Owner;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_DashClaymoreMap
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectileBase* m_pLastProj;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_DashClaymoreSpawnWaitSet
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_Gigas_BulletParam
+{
+	GENERATED_BODY()
+public:
+	float m_HomingInterval;
+	float m_HomingEndDist;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_DarkCubeMine_DarkWingInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fMaxMoveDistance;
+	float m_fMinMoveDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405NormalComboAttackParam
+{
+	GENERATED_BODY()
+public:
+	class UClass* AttackDefinition;
+	FName OverrideAttackDataIDName;
+	bool bEnableBeforeEndAttackStart;
+	float AttackStartOffsetTime;
+	float AppearOffsetAngle;
+	float AppearOffsetDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405NormalComboAttackParamType
+{
+	GENERATED_BODY()
+public:
+	struct FTresE_dw405NormalComboAttackParam Type[0x2];
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405NormalComboParam
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyDw405AttackPossibleKind> AttackPossibleKind;
+	bool bDisableLastAttackNotifyDisappear;
+	float LastAttackPostWaitTime;
+	bool bEnableFixedAngle;
+	float AppearAngle;
+	TArray<struct FTresE_dw405CounterAttackParam> CounterAttackParam;
+	float CounterRate;
+	TArray<struct FTresE_dw405NormalComboAttackParamType> AttackParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSurroundDarkMineSpawnParams_e_ex352
+{
+	GENERATED_BODY()
+public:
+	int m_DMNum;
+	float m_DMBootRange;
+	float m_DMTimeToExplodeAfterBoot;
+	float m_DMRadius;
+	float m_DMSpreadStartTime;
+	float m_DMSpreadSpeed;
+	float m_DMSpreadTime;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_CutDownClaymoreInfo
+{
+	GENERATED_BODY()
+public:
+	FVector m_AimLocOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_CutDownTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	FVector vTractionOffset;
+	float fMaxHorizontalTractionDistance;
+	float fMaxVerticalTractionDistance;
+	bool bMaxVerticalTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserOnTimeInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fNotifyTime;
+	float m_fModifySpawnTFTime;
+	bool m_bModifySpawnTF;
+	int m_iNotify;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserInfo
+{
+	GENERATED_BODY()
+public:
+	int m_iNotify;
+	class UClass* m_pProjClass;
+	FVector m_vSpawnLocOffset;
+	bool m_bPolarSpawnLocOffset;
+	TEnumAsByte<EEX359_SpawnLocType> m_SpawnLocType;
+	TEnumAsByte<EEX359_SpawnDirType> m_SpawnDirType;
+	float m_fSpawnDirYawOffset;
+	float m_fLifeTime;
+	bool m_bLifeTime;
+	bool m_bIgnoreSameIndexHit;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_LaserInfo> m_LaserInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserOnTimeInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_LaserOnTimeInfo> m_LaserOnTimeInfoArray;
+	struct FEX359_LaserInfoSet m_LaserInfoSet;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+	class AActor* m_SpawnActor;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserRainShotEffectTimeSet
+{
+	GENERATED_BODY()
+public:
+	float m_fTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx361ProjectileSpawnInfo
+{
+	GENERATED_BODY()
+public:
+	float ShockWaveRotYaw;
+};
+
+USTRUCT(BlueprintType)
+struct FBigTornadoProjPosBoneInfo
+{
+	GENERATED_BODY()
+public:
+	FName m_BoneName;
+};
+
+USTRUCT(BlueprintType)
+struct FBigTornadoProjInfo
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<EBigTornadoProjPos> m_ProjPos;
+	float m_fProjPosRadiusDeviation;
+	float m_fProjAngleDeviation;
+	TArray<class UClass*> m_ProjectileClassArray;
+	int m_iMaxShotCount;
+};
+
+USTRUCT(BlueprintType)
+struct FBigTornadoHomingProjInfo : public FBigTornadoProjInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FDiveAttackPosition_e_he903
+{
+	GENERATED_BODY()
+public:
+	FVector m_vDiveAttackStartOffset;
+	FRotator m_vDiveAttackStartRot;
+	bool bDiveAttackStartOffset;
+	bool bDiveAttackStartRot;
+	FVector m_vDiveAttackEndOffset;
+	bool bDiveAttackEndOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405LineComboAttackParam
+{
+	GENERATED_BODY()
+public:
+	class UClass* AttackDefinition;
+	bool bEnableBeforeEndAttackStart;
+	float AttackStartOffsetTime;
+	float AppearOffsetDistance;
+	float AppearDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405LineComboParam
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemyDw405AttackPossibleKind> AttackPossibleKind;
+	bool bDisableLastAttackNotifyDisappear;
+	float LastAttackPostWaitTime;
+	bool bEnableFixedAngle;
+	float AppearAngle;
+	float AppearMaxAngle;
+	float AppearLocationCorrectionRate;
+	TArray<struct FTresE_dw405LineComboAttackParam> AttackParams;
+};
+
+USTRUCT(BlueprintType)
+struct FWarpSet_e_ex306
+{
+	GENERATED_BODY()
+public:
+	FName m_GoalBBKeyName;
+	float m_WarpTime;
+	class ATresCharPawnBase* m_pOwner;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_dw405IllusionBlizzagaProjectileParam
+{
+	GENERATED_BODY()
+public:
+	float AppearAngle;
+	float AppearDistance;
+	float AppearHeight;
+	float AppearOffsetTime;
+	float ShotOffsetTime;
+	bool bEnableSettingShotYaw;
+	float ShotYaw;
+	bool bEnableSettingShotPitch;
+	float ShotPitch;
+	float OverrideRange;
+	bool bOverrideEnableSettingShotYaw;
+	float OverrideShotYaw;
+	bool bOverrideEnableSettingShotPitch;
+	float OverrideShotPitch;
+	bool bOverrideEnableHoming;
+};
+
+USTRUCT(BlueprintType)
+struct FTres_e_ex352_DarkShotSpawnParam
+{
+	GENERATED_BODY()
+public:
+	FVector Offset;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_RunShotTimeInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fShotTime;
+	bool m_bRight;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_CutDownTractionInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fTargetDistance;
+	float m_fMaxTractionDistance;
+	float m_fYaw;
+	TEnumAsByte<EEX359_CutDownYawType> m_YawType;
+	struct FEX359_BeamInfoSet m_BeamInfoSet;
+	struct FEX359_LaserInfoSet m_LaserInfoSet;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserWaveInfo
+{
+	GENERATED_BODY()
+public:
+	struct FEX359_LaserInfo m_LaserInfo;
+	float m_fProjSpawnStartWaitTime;
+	int m_iMaxProjNum;
+	float m_fProjSpawnInterval;
+	float m_fProjSpawnDistance;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+	class AActor* m_SpawnActor;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserWaveInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_LaserWaveInfo> m_LaserWaveInfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserRainTriangleGuardInfo
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectileBase* m_Proj;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_LaserRainTriangleGuardInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_LaserRainTriangleGuardInfo> m_InfoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_GuardBeamInfoSet
+{
+	GENERATED_BODY()
+public:
+	struct FEX359_BeamInfo m_BeamInfo;
+	float m_fSpawnWaitTime;
+	int m_iBeamSpawnNum;
+	float m_fHomingAccel;
+	float m_fHomingMaxVelocity;
+	float m_fRotateAccel;
+	float m_fRotateMaxVelocity;
+	float m_fSpreadWaitTime;
+	float m_fSpreadTime;
+	float m_fSpreadRadius;
+	float m_fOpenWaitTime;
+	float m_fOpenTime;
+	float m_fOpenRadius;
+	TEnumAsByte<EEX359_SpawnDirType> m_OpenDirType;
+	float m_fOpenDirOffset;
+	float m_fOpenDirDetermineTime;
+	bool m_bDetermineOpenDirByTime;
+	int m_iOpenBeamNum;
+	float m_fShotWaitTime;
+	class ATresCharPawnBase* m_Owner;
+	class AActor* m_Target;
+	class AActor* m_SpawnActor;
+	TArray<class ATresProjectileBase*> m_ProjArray;
+	struct FEX359_LaserRainTriangleGuardInfoSet m_GuardInfoSet;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX362DarkVolleyParam
+{
+	GENERATED_BODY()
+public:
+	FVector m_Offset;
+	FVector m_Rot;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShotParam_e_ex701_Attack9
+{
+	GENERATED_BODY()
+public:
+	float EndRadius;
+	float EndDistance;
+	float MaxDistance;
+	float HomingStartTime;
+	float HomingTargetRange;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttractionFlowDrawingEntry
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowDrawingEntry")
+	TEnumAsByte<ETresCommandKind> m_Command;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowDrawingEntry")
+	float m_Weight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTeaCupPuddingData
+{
+	GENERATED_BODY()
+public:
+	//class ATresEnemyPawn_e_ex050* m_pPuddingPawn;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAutoNavLinkExclusiveVolumeInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAutoNavLinkExclusiveVolumeInfo")
+	class UClass* AreaClass;
+
+	struct FNavAgentSelector SupportedAgents;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGenerateNavLinkArgs
+{
+	GENERATED_BODY()
+public:
+	struct FFloatInterval Height;
+	struct FFloatInterval Length;
+	float SamplingDistance;
+	float DefaultSearchAngle;
+	float CornerSearchAngle;
+	float SamplingAngle;
+	float MinPathLengthReductionPercentage;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX367AvaterSlashParam
+{
+	GENERATED_BODY()
+public:
+	float m_IntervalTime;
+	TEnumAsByte<EMoveSlashTypes_e_ex367> m_MoveSlashType;
+	float m_MoveRot;
+	FVector m_PopOffset;
+	bool m_UseOwnerLocation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBattleAreaCameraData_e_ex761
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemy_e_ex761_BattleAreaB_Camera> CameraTypeAtBattleAreaB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBattleLevelAutoData
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	TEnumAsByte<ETresWorldAreaCode> AreaCode;
+	FName LabelStart;
+	FName LabelEnd;
+	int BattleLevel;
+	int BattleLevelDLC;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEmotionPoint
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEmotionPoint")
+	float m_Hope;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEmotionPoint")
+	float m_Fear;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTakeDamageLogInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresStartAttackLogInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresStateLogInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresRecoveryHpMpFpLogInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttackHitInvincibleCharLogInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresSelfieCameraActionDef
+{
+	GENERATED_BODY()
+public:
+	int RewardIndex;
+	int BattlePortalClearCount;
+	int8 LoopActionFlag;
+	int8 DefaultActionFlag;
+	FName MotionName_In;
+	FName MotionName_Loop;
+	FName MotionName_Out;
+	FName MotionNameUnderwater_In;
+	FName MotionNameUnderwater_Loop;
+	FName MotionNameUnderwater_Out;
+	FString RewardStr;
+};
+
+USTRUCT(BlueprintType)
+struct FTresOverlapInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresBodyTakeDamageEffect
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBodyTakeDamageEffect")
+	class UParticleSystem* m_DamageEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTres_ValidateAction_Param
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	class UClass* ActionDefinitionOverride;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	FBlackboardKeySelector Target;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	bool bValidateLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	bool bValidateOrientation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	bool bValidateExecution;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	float offsetLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_ValidateAction_Param")
+	float offsetRatio;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardBoolValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardBoolValueModifierInOutParam")
+	bool bEnableCheck;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardBoolValueModifierInOutParam")
+	FBlackboardKeySelector CheckBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardBoolValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardBoolValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardBoolValueModifierInOutParam")
+	bool bValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardBoolValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardClassValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardClassValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardClassValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardClassValueModifierInOutParam")
+	class UClass* Class;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardClassValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardFloatValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	bool bEnableCheck;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	FBlackboardKeySelector CheckBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	TEnumAsByte<ETresBlackboardValueModifierInOutMethod::Type> MethodType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	float Value;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardIntValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	bool bEnableCheck;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	FBlackboardKeySelector CheckBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	TEnumAsByte<ETresBlackboardValueModifierInOutMethod::Type> MethodType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	int Value;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardIntValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardObjectValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardObjectValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardObjectValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardObjectValueModifierInOutParam")
+	class UObject* Object;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardObjectValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardRotatorValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardRotatorValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardRotatorValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardRotatorValueModifierInOutParam")
+	FRotator Value;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardRotatorValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardVectorValueModifierInOutParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardVectorValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueA;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardVectorValueModifierInOutParam")
+	bool bUseBlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardVectorValueModifierInOutParam")
+	TEnumAsByte<ETresBlackboardValueModifierInOutMethod::Type> MethodType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardVectorValueModifierInOutParam")
+	FVector Value;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardVectorValueModifierInOutParam")
+	FBlackboardKeySelector BlackboardKeyValueB;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBlackboardFloatValueModifier
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifier")
+	TEnumAsByte<ETresValueModifierMethod::Type> ValueModifierType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifier")
+	FBlackboardKeySelector BBKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBlackboardFloatValueModifier")
+	float Value;
+};
+
+USTRUCT(BlueprintType)
+struct FTresActionTaskParam
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresActionTaskParam")
+	FName ParamName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresActionTaskParam")
+	float ParamValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresActionTaskParam")
+	ETresActionTaskParamType ParamType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresActionTaskParam")
+	bool m_bValueEditable;
+};
+
+USTRUCT(BlueprintType)
+struct FTres_GenerateRandomNumber_Param
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_GenerateRandomNumber_Param")
+	FBlackboardKeySelector m_BlackboardKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_GenerateRandomNumber_Param")
+	bool m_bUseRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_GenerateRandomNumber_Param")
+	float m_MinValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTres_GenerateRandomNumber_Param")
+	float m_MaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCameraTargetInfo
+{
+	GENERATED_BODY()
+public:
+	FVector m_TargetOffset;
+	FVector m_TargetLocalOffset;
+	class AActor* m_TargetActor;
+	class UTresLockonTargetComponent* m_TargetComp;
+};
+
+USTRUCT(BlueprintType)
+struct FHoldCameraParam
+{
+	GENERATED_BODY()
+public:
+	FVector m_CameraLocalOffset;
+	FRotator m_CameraLocalRotation;
+	float m_LimitPitchMax;
+	float m_LimitPitchMin;
+	float m_FovDefault;
+	float m_ZoomFovMax;
+	float m_ZoomFovMin;
+	float m_ZoomTotalTime;
+	float m_CameraFStopMax;
+	float m_CameraFStopMin;
+	float m_CameraFStopDefault;
+	float m_HeightOffsetMax;
+	float m_HeightOffsetMin;
+	float m_RollMax;
+	float m_RollMin;
+	bool m_bCalcDOF;
+};
+
+USTRUCT(BlueprintType)
+struct FDetectMarkerCheckArea
+{
+	GENERATED_BODY()
+public:
+	float Left;
+	float Right;
+	float Top;
+	float Buttom;
+};
+
+USTRUCT(BlueprintType)
+struct FHoldCameraVoice
+{
+	GENERATED_BODY()
+public:
+	class UTresFieldVoice* FieldVoiceAsset;
+	int Rate;
+};
+
+USTRUCT(BlueprintType)
+struct FTCPATH_SPLINEGROUP
+{
+	GENERATED_BODY()
+public:
+	TArray<class ATresCameraPathSplineActor*> AryActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUICampCharacterParam
+{
+	GENERATED_BODY()
+public:
+	class ATresUIActor* UIActor;
+	class UTresUIDataAssetStatus* UIStatusData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShipDamageParam
+{
+	GENERATED_BODY()
+public:
+	FName m_AttackName;
+	bool m_bForce;
+	bool m_bActionCancel;
+	float m_SpeedRate;
+	float m_PitchRollPower;
+	float m_YawPower;
+	float m_MovePower;
+	float m_WaitTimer;
+	float m_SpeedRateTime;
+};
+
+USTRUCT(BlueprintType)
+struct FSmokeTrigger
+{
+	GENERATED_BODY()
+public:
+	float m_triggerHpPer;
+	FName m_attachSocketName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresChrInitEquip
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefWeapon> m_Weapons;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	bool m_bWeaponFixed;
+
+	//NOT BLUEPRINTABLE
+	int8 m_InitProtectorSlot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefProtector> m_Protectors;
+
+	//NOT BLUEPRINTABLE
+	int8 m_InitAccessorySlot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefAccessory> m_Accessorys;
+
+	//NOT BLUEPRINTABLE
+	int8 m_InitItemSlot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresItemDefBattleItem> m_Items;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_EquipAbility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_HaveAbility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_CriticalEquipAbility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	TArray<ETresAbilityKind> m_CriticalHaveAbility;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	class UDataTable* m_BaseParamData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	int m_CriticalUseAPUpNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	class UDataTable* m_LevelData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
+	class UTresFormAbilitySet* m_FormAbilityAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCollShapeAssetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	FName m_GrpName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	TEnumAsByte<ETresCollision> ShapeType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	FVector Size;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	FVector RelativeLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	FRotator RelativeRocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	FVector Scale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
+	class UStaticMesh* Mesh;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClaymoreIdleInfo_e_ex306
+{
+	GENERATED_BODY()
+public:
+	float m_fRotationSpeed;
+	float m_fRevolveSpeed;
+	float m_fRevolveRadius;
+	float m_fRevolveHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClaymoreSwingDownInfo_e_ex306
+{
+	GENERATED_BODY()
+public:
+	float m_fRevolveRadius;
+	float m_fRevolveHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClaymoreIdleInfo_e_ex355
+{
+	GENERATED_BODY()
+public:
+	float m_fRotationSpeed;
+	float m_fRevolveSpeed;
+	float m_fRevolveRadius;
+	float m_fRevolveHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClaymoreSwingDownInfo_e_ex355
+{
+	GENERATED_BODY()
+public:
+	float m_fRevolveRadius;
+	float m_fRevolveHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClipData
+{
+	GENERATED_BODY()
+public:
+	bool bExclusionMode;
+	float ClipLength;
+	TArray<class UClass*> ClassArray;
+	FName ClippingGroupName;
+	bool bUseClippingEvent;
+	bool bDisableTick;
+	bool bDisableDitherFade;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIPreloadInfo
+{
+	GENERATED_BODY()
+public:
+	uint32 Handle;
+	FString PackageName;
+	FString Name;
+	TArray<FString> PreloadQueue;
+	TArray<class UObject*> LoadedObjectsHolder;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCollisionDistanceData
+{
+	GENERATED_BODY()
+public:
+	bool bExclusionMode;
+	float Length;
+	TArray<class UClass*> ClassArray;
+};
+
+struct FTresCollMgrSubTickFunction : public FTickFunction
+{
+};
+
+struct FTresCollMgrDetectUpdateGrassBumpTickFunction : public FTresCollMgrSubTickFunction
+{
+};
+
+struct FTresCollMgrDetectPhysMatTickFunction : public FTresCollMgrSubTickFunction
+{
+};
+
+struct FTresCollMgrFootStepEffectGenTickFunction : public FTresCollMgrSubTickFunction
+{
+};
+
+struct FTresCollMgrDetectBodyCollTickFunction : public FTresCollMgrSubTickFunction
+{
+};
+
+USTRUCT(BlueprintType)
+struct FTresAssetReferences
+{
+	GENERATED_BODY()
+public:
+	FName m_Tag;
+	TArray<struct FStringAssetReference> m_Assets;
+	TArray<class UObject*> m_Residents;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcReaction
+{
+	GENERATED_BODY()
+public:
+	float m_fMinRange;
+	float m_fMaxRange;
+	float m_fLimitDir;
+	float m_fInRange;
+	float m_fInDir;
+	float m_fCoolDownTime;
+	TArray<FVector> m_IgnorePoints;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActorInfo
+{
+	GENERATED_BODY()
+public:
+	FName m_ActorType;
+	int m_BodyType;
+	class UClass* m_ActorClass;
+	int m_MaxActorNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcLookInfo
+{
+	GENERATED_BODY()
+public:
+	TArray<FName> m_AnimTypes;
+	TArray<FName> m_LookAtAnims;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcPrizeInfo
+{
+	GENERATED_BODY()
+public:
+	int m_Num;
+	class UTresGimmickDropPrizeSet* m_pPrizeDataAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActMotion
+{
+	GENERATED_BODY()
+public:
+	FName m_AnimName;
+	float m_fBlendInTime;
+	bool m_bLoop;
+	bool m_bEnableRootMotion;
+	bool m_bWaitMotion;
+	bool m_bWaitTurn;
+	bool m_bSetIdle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActTarget
+{
+	GENERATED_BODY()
+public:
+	FName m_TargetName;
+	float m_fMinLength;
+	float m_fMaxLength;
+	float m_fLimitDir;
+	int m_RequiredNum;
+	float m_fPriorty;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActMoveNormal
+{
+	GENERATED_BODY()
+public:
+	FName m_TargetName;
+	float m_fLimitTimer;
+	int m_nWalkMode;
+	bool m_bNextMove;
+	bool m_bDisableAvoid;
+	bool m_bLoopMode;
+	float m_fPriorty;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActRandomValue
+{
+	GENERATED_BODY()
+public:
+	float m_fBase;
+	int m_Random;
+	float m_fScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActSelectBranch
+{
+	GENERATED_BODY()
+public:
+	int m_Id;
+	int m_SeqIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActLookTarget
+{
+	GENERATED_BODY()
+public:
+	FName m_TargetName;
+	float m_fPriorty;
+	float m_fLookAtBlendTime;
+	float m_fMinDegree;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcFaceMotion
+{
+	GENERATED_BODY()
+public:
+	FName m_EyeAnimName;
+	float m_fEyeBlendInTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActGreet
+{
+	GENERATED_BODY()
+public:
+	FName m_AnimName;
+	FName m_ActionName;
+	int m_Rate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActionSeqDatas
+{
+	GENERATED_BODY()
+public:
+	FName m_SeqName;
+	int m_LinkActorMax;
+	int m_LookAtMax;
+	TArray<uint32_t> m_Commands;
+	TArray<struct FTresComNpcActMotion> m_Motions;
+	TArray<struct FTresComNpcActTarget> m_Targets;
+	TArray<struct FTresComNpcActMoveNormal> m_MoveNormals;
+	TArray<struct FTresComNpcActRandomValue> m_RandomValues;
+	TArray<struct FTresComNpcActSelectBranch> m_Branchs;
+	TArray<struct FTresComNpcActLookTarget> m_LookTargets;
+	TArray<struct FTresComNpcFaceMotion> m_FaceMotions;
+	TArray<struct FTresComNpcActGreet> m_GreetActions;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActionSetValue
+{
+	GENERATED_BODY()
+public:
+	int m_Value;
+	FName m_ScriptName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcActionSetDatas
+{
+	GENERATED_BODY()
+public:
+	FName m_DataName;
+	bool m_bDropItem;
+	bool m_bTargetTurn;
+	TArray<struct FTresComNpcActionSetValue> m_Values;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcEntitySetData
+{
+	GENERATED_BODY()
+public:
+	FVector m_Location;
+	FRotator m_Rotation;
+	FName m_RecordName;
+	FName m_IdleAnimName;
+	FName m_ActionSeqName;
+	FName m_MasterPoseSeqName;
+	int16_t m_PoseGroupType;
+	int16_t m_ReactionType;
+	int16_t m_BodyColType;
+	int16_t m_ScaleType;
+	FName m_AnimActorType;
+	FName m_MeshActorType;
+	FName m_EntityName;
+	FName m_FaceAnimName;
+	bool m_bDisableLookAt;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcEntityMoveData
+{
+	GENERATED_BODY()
+public:
+	FName m_EntityName;
+	TArray<FName> m_ReplaceMovePoints;
+	TArray<FVector> m_MovePoints;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcEntityLinkData
+{
+	GENERATED_BODY()
+public:
+	FName m_EntityName;
+	TArray<FName> m_LinkActors;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcBodySetupData
+{
+	GENERATED_BODY()
+public:
+	int m_BodyType;
+	FName m_attachBoneName;
+	FVector m_BodySize;
+	FVector m_BodyLocation;
+	FRotator m_BodyRotation;
+	bool m_bEnableDamage;
+	bool m_bEnablePush;
+	bool m_bEnableCamera;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcScaleData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresComNpcScaleData")
+	float m_fWidthBase;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresComNpcScaleData")
+	float m_fWidthMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresComNpcScaleData")
+	float m_fPriortyRangeScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcEntityVoiceData
+{
+	GENERATED_BODY()
+public:
+	FName m_EntityName;
+	float m_fVoiceRange;
+	TArray<FName> m_VoiceLists;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcReplaceMeshData
+{
+	GENERATED_BODY()
+public:
+	class USkeletalMesh* m_MeshData;
+	class UMaterialInterface* m_MatData;
+	int m_VoiceType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcMeshSetDatas
+{
+	GENERATED_BODY()
+public:
+	FName m_MeshName;
+	TArray<struct FTresComNpcReplaceMeshData> m_MeshLists;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcAttachMesh
+{
+	GENERATED_BODY()
+public:
+	FName m_MeshName;
+	FName m_SoketName;
+	bool m_bChangeMesh;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcVoiceSetDatas
+{
+	GENERATED_BODY()
+public:
+	FName m_VoiceName;
+	FName m_ActionName;
+	TArray<class UTresFieldVoice*> m_VoiceLists;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcRandomVoiceDatas
+{
+	GENERATED_BODY()
+public:
+	int m_VoiceType;
+	TArray<class USoundBase*> m_VoiceLists;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcRandomFieldVoiceDatas
+{
+	GENERATED_BODY()
+public:
+	int m_VoiceType;
+	TArray<class UTresFieldVoice*> m_VoiceLists;
+};
+
+USTRUCT(BlueprintType)
+struct FTresControlledRandom
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresRandomDistributionType> Distribution;
+	float Period;
+	TArray<float> Weights;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCoopDefinitionParamBP
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCoopSimultaneousRushInfo
+{
+	GENERATED_BODY()
+public:
+	float m_Distance;
+	float m_Yaw;
+	float m_Pitch;
+	ETresCoopColorSmokeKind m_ColorKind;
+};
+
+USTRUCT(BlueprintType)
+struct FCameraEventParam_e_ex761
+{
+	GENERATED_BODY()
+public:
+	float CenterEffectSpawnDelayTime;
+	float VisualChangeStartDelayTime;
+	float LightningStartDelayTime;
+};
+
+USTRUCT(BlueprintType)
+struct FAttackAppearParam_e_ex761
+{
+	GENERATED_BODY()
+public:
+	float IntervalTime;
+	float Angle;
+	float Distance;
+	float Height;
+	float OffsetYaw;
+	float OffsetPitch;
+};
+
+USTRUCT(BlueprintType)
+struct FAttackSendParam_e_ex761
+{
+	GENERATED_BODY()
+public:
+	float StartDistance;
+	float StartHeight;
+	float StartAccel;
+	float StartMaxSpeed;
+	float StartOffsetAngle;
+	float HomingMoveRate;
+	float LoopTime;
+	float InitSpeed;
+	float Acceleration;
+	float MaxSpeed;
+	float HomingSpeedXY;
+	float HomingSpeedZ;
+	float HomingTargetOffsetRadius;
+	float HomingEndDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FAttackParam_e_ex761
+{
+	GENERATED_BODY()
+public:
+	struct FAttackAppearParam_e_ex761 AppearParam;
+	struct FAttackSendParam_e_ex761 SendParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAccelAttackInfo_e_ex310
+{
+	GENERATED_BODY()
+public:
+	bool bValid;
+	float A;
+	float B;
+	float x_min;
+	float x_max;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_AccelTractionInfo
+{
+	GENERATED_BODY()
+public:
+	int iNotifyID;
+	FString Comment;
+	float fVerticalTractionOffset;
+	float fMaxVerticalTractionDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_AccelDirectionInfo
+{
+	GENERATED_BODY()
+public:
+	float Distance;
+	TEnumAsByte<EEX355_AccelDir> Direction;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_AccelWaveTimingInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_AccelWaveTimingInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiShipHeader
+{
+	GENERATED_BODY()
+public:
+	FName m_VerName;
+	FString m_Name;
+	ETresItemDefGumiShipBP m_ItemID;
+	uint16 m_nTotalBaseGummiNum;
+	uint16 m_nTotalDecoGummiNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiShipAbility
+{
+	GENERATED_BODY()
+public:
+	int8 m_nAbilityID01;
+	int8 m_nAbilityID02;
+	int8 m_nAbilityID03;
+	int8 m_nAbilityID04;
+	int8 m_nAbilityID05;
+	int8 m_nAbilityID06;
+	int8 m_nAbilityID07;
+	int8 m_nAbilityID08;
+	int8 m_nAbilityID09;
+	int8 m_nAbilityID10;
+	int8 m_nAbilityID11;
+	int8 m_nAbilityID12;
+	int8 m_nAbilityID13;
+	int8 m_nAbilityID14;
+	int8 m_nAbilityID15;
+	int8 m_nAbilityID16;
+	int8 m_nAbilityID17;
+	int8 m_nAbilityID18;
+	int8 m_nAbilityID19;
+	int8 m_nAbilityID20;
+	int8 m_nAbilityID21;
+	int8 m_nAbilityID22;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiShipSticker
+{
+	GENERATED_BODY()
+public:
+	ETresStickerType m_nStickerType;
+	int8 m_nStickerID;
+	int8 m_posX;
+	int8 m_posY;
+	int8 m_posZ;
+	float m_roll;
+	float m_Pitch;
+	float m_Yaw;
+	float m_Scale;
+	int8 m_flip;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiShipPartsStruct
+{
+	GENERATED_BODY()
+public:
+	int8 m_indexX;
+	int8 m_indexY;
+	int8 m_indexZ;
+	ETresGummiType m_gummiKind;
+	int8 m_gummiID;
+	int8 m_sizeX;
+	int8 m_sizeY;
+	int8 m_sizeZ;
+	float m_rotX;
+	float m_rotY;
+	float m_rotZ;
+	int8 m_pointX;
+	int8 m_pointY;
+	int8 m_pointZ;
+	int8 m_materialID;
+	int8 m_patternID;
+	int8 m_baseColor;
+	int8 m_materilColor;
+	int8 m_flipX;
+	int8 m_flipY;
+	int8 m_flipZ;
+	int8 m_Offset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiBaseParam
+{
+	GENERATED_BODY()
+public:
+	int m_nCost;
+	int m_nHP;
+	int m_nSpeed;
+	int m_nPower;
+	int m_nRoll;
+	int m_nAttack;
+	int m_nTurn;
+	class UTexture2D* m_CT1_PaletteTexture;
+	float m_CT2_PaletteNum;
+	class UTexture2D* m_CT3_MaskTexture_Base;
+	class UTexture2D* m_CT3_MaskTexture_Deco;
+	float m_CT4_MaskTexUVIndex;
+	float m_CT5_MaskTexUVTiling;
+	struct FLinearColor m_CT_CustomColor;
+	float m_CT_PaletteUse;
+	bool m_isFlip;
+	bool m_isMaterial;
+	bool m_isPattern;
+	bool m_isSticker;
+	bool m_isColorChange;
+	bool m_isAnim;
+	bool m_isUVAnim;
+	float m_fPreviewScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRealGummiShipStruct
+{
+	GENERATED_BODY()
+public:
+	class USkeletalMesh* m_pSkeltalMesh;
+	class USkeletalMeshComponent* m_pSkeletalMeshComponent;
+	class USceneComponent* m_pSceneComponent;
+	int64_t m_nUniqueID;
+	int8_t m_nMterialID;
+	int8_t m_nPattern;
+	struct FTresGummiBaseParam m_nPartsParam;
+	struct FTresGummiBaseParam m_nMaterialParam;
+	class UTexture2D* m_NormalTexture;
+	float m_NormalTexUVIndex;
+	class UTexture2D* m_AOTexture;
+	float m_AOTexUVIndex;
+	int8_t m_nPartsColorIndex;
+	int8_t m_nMaterialColorIndex;
+	float m_RotateAxisX;
+	float m_RotateAxisY;
+	float m_RotateAxisZ;
+	float m_RotateSpeed;
+	float m_UVScrollSpeedU;
+	float m_UVScrollSpeedV;
+	struct FTresGummiShipPartsStruct planData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEffectAttachParts
+{
+	GENERATED_BODY()
+public:
+	class USkeletalMeshComponent* m_pSkeletalMeshComponent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTornadoDebrisTransformInfo
+{
+	GENERATED_BODY()
+public:
+	float DebrisLocation_R;
+	float DebrisLocation_P;
+	float DebrisLocation_H;
+	float DebrisLocation_TargetHeightRate;
+	float RevolveSpeed;
+	FRotator RotateSpeed;
+	float Amplitude;
+	float Frequency;
+	float StateMoveVelocity;
+	bool bDestinationEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTornadoDebrisUnit
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresTornadoDebrisStateName> StateName;
+	TArray<struct FTresTornadoDebrisTransformInfo> DebrisArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTornadoDebrisDestinationEffectInfo
+{
+	GENERATED_BODY()
+public:
+	float fDisableDistance;
+	float fScale;
+	bool bDetachOnDisappear;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuImageResource
+{
+	GENERATED_BODY()
+public:
+	int m_TextureIndex;
+	float m_U;
+	float m_V;
+	float m_UL;
+	float m_VL;
+	bool m_UseScaleGrid;
+	float m_ScaleGridLeft;
+	float m_ScaleGridRight;
+	float m_ScaleGridTop;
+	float m_ScaleGridBottom;
+	float m_ScaleGridWidth;
+	float m_ScaleGridHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FDrawTextFilterParam
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<EDrawTextFilterType> m_FilterType;
+	float m_BlurX;
+	float m_BlurY;
+	float m_Strength;
+	struct FColor m_Color;
+	float m_Angle;
+	float m_Distance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuTextResource
+{
+	GENERATED_BODY()
+public:
+	FString m_FontFace;
+	float m_FontSize;
+	struct FColor m_Color;
+	float m_Width;
+	float m_Height;
+	TEnumAsByte<ETresDebugMenuTextAlignment> m_Alignment;
+	TEnumAsByte<ETresDebugMenuTextVAlignment> m_VAlignment;
+	TArray<struct FDrawTextFilterParam> m_Filters;
+	FString m_TextString;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuFrameLabel
+{
+	GENERATED_BODY()
+public:
+	FName m_LabelName;
+	int m_LabelFrame;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuIntPair
+{
+	GENERATED_BODY()
+public:
+	int m_FirstInt;
+	int m_SecondInt;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuTween
+{
+	GENERATED_BODY()
+public:
+	int m_StartFrame;
+	int m_EndFrame;
+	TEnumAsByte<ETresDebugMenuTweenType> m_TweenType;
+	float m_Acceleration;
+	struct FTresDebugMenuIntPair m_ElementPair;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuFrame
+{
+	GENERATED_BODY()
+public:
+	int m_Start;
+	int m_End;
+	int m_TweenIndex;
+	FName m_Script;
+	TArray<int> m_Elements;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuLayer
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresDebugMenuFrame> m_Frames;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuTimeline
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresDebugMenuLayer> m_Layers;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuMovieClipResource
+{
+	GENERATED_BODY()
+public:
+	float m_FrameRate;
+	int m_Duration;
+	TArray<struct FTresDebugMenuFrameLabel> m_Labels;
+	TArray<struct FTresDebugMenuTween> m_Tween;
+	TArray<struct FTresDebugMenuTimeline> m_Timelines;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuElement
+{
+	GENERATED_BODY()
+public:
+	FName m_ElementName;
+	float m_X;
+	float m_Y;
+	float m_Width;
+	float m_Height;
+	TEnumAsByte<ETresDebugMenuBlendMode> m_BlendMode;
+	struct FLinearColor m_ColorMultiplier;
+	struct FLinearColor m_ColorOffset;
+	TEnumAsByte<ETresDebugMenuResourceType> m_ResourceType;
+	int m_ResourceIndex;
+	FVector2D m_LayoutFactor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuCustomPart
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresDebugMenuResourceType> m_ResourceType;
+	int m_ResourceIndex;
+	class UClass* CustomClass;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuMotionObjectKeyFrame
+{
+	GENERATED_BODY()
+public:
+	FVector2D m_Anchor;
+	FVector2D m_Next;
+	FVector2D m_Previous;
+	float m_Time;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuMotionObjectProperty
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresDebugMenuMotionObjectPropertyType> m_PropertyType;
+	TArray<struct FTresDebugMenuMotionObjectKeyFrame> m_KeyFrames;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuMotionObject
+{
+	GENERATED_BODY()
+public:
+	float m_X;
+	float m_Y;
+	float m_Width;
+	float m_Height;
+	TArray<int> m_Properties;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInputStruct
+{
+	GENERATED_BODY()
+public:
+	float m_FirstRepeatTime;
+	float m_RepeatTime;
+};
+
+
+USTRUCT(BlueprintType)
+struct FTresDecoPartsUnit
+{
+	GENERATED_BODY()
+public:
+	FName m_attachSocketName;
+	class UClass* m_Asset;
+	FName m_ColorChangeMaterialName;
+	class UTexture2D* m_ColorChangePointTexture;
+	struct FLinearColor m_ChangePatternColor1;
+	struct FLinearColor m_ChangePatternColor2;
+	float m_GradePow;
+	struct FLinearColor m_3Color_Top;
+	float m_3ColorModeMode;
+	float m_halfUVTil_VMove;
+	float m_halfUVTilingMode;
+	float m_LeatherMode;
+	float m_MeshTypeModeChange;
+	float m_MoveMeshArea;
+	float m_MoveNoMeshVisMaskArea;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEX_CommonEffectData
+{
+	GENERATED_BODY()
+public:
+	FName CommonKey;
+	int GroupID;
+	class UParticleSystem* CommonEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEX_DesignatedAttachData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_DesignatedAttachData")
+	FName Key;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_DesignatedAttachData")
+	class USQEX_ParticleAttachDataAsset* DesignatedAttachData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEncountVolumeEntry
+{
+	GENERATED_BODY()
+public:
+	TArray<FName> m_GroupNames;
+	FVector m_StartOffset;
+	FVector m_EndOffset;
+	bool m_WorldOffsetZ;
+	int m_TryCount;
+	float m_EscapeDistance;
+	int m_LotteryWeight;
+	bool m_bSkipNextTime;
+	class UClass* m_Troops;
+	FName m_InternalGroupName;
+};
+
+USTRUCT(BlueprintType)
+struct FEX901_ActionKey
+{
+	GENERATED_BODY()
+public:
+	TArray<FName> m_ActionKeyArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353ThornBeamProjectileInfo
+{
+	GENERATED_BODY()
+public:
+	float FireDelayTime;
+	float InitialSpeed;
+	float AccelSpeed;
+	float MaxSpeed;
+	float HomingStartTime;
+	float HomingAbsTime;
+	float HomingSpeedXY;
+	float HomingAccelSpeedXY;
+	float HomingMaxSpeedXY;
+	float HomingSpeedZ;
+	float HomingAccelSpeedZ;
+	float HomingMaxSpeedZ;
+	float HomingMinDist;
+	FRotator ShotDirection;
+	float MissMinDist;
+	float MissMaxDist;
+	float MissMinHeight;
+	float MissMaxHeight;
+	bool bIsSetAngle;
+	float MissMinAngle;
+	float MissMaxAngle;
+	bool bIsDecelSpeed;
+	float DecelStartTime;
+	float DecelSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353ThornBeamBeforeHitInfo
+{
+	GENERATED_BODY()
+public:
+	FString Comment;
+	bool bIsSpawnThornSpaceEffect;
+	bool bIsBaseCamera;
+	bool bIsKeepDistance;
+	float LifeTime;
+	float BaseCameraRotateYaw;
+	float TargetDistXY;
+	float TargetDistZ;
+	bool bIsAttach;
+	FName AttachBoneName;
+	FVector Offset;
+	TArray<struct FTresEnemyEx353ThornBeamProjectileInfo> ThornBeamProjectileInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353ThornBeamAfterHitInfo
+{
+	GENERATED_BODY()
+public:
+	FString Comment;
+	ETresEnemyEx353CatchAfterSituation CatchAfterSituation;
+	bool bIsMoveShield;
+	float CanMoveShieldMinDist;
+	float CanMoveShieldMaxDist;
+	float AimShieldSpeed;
+	float MinMoveDist;
+	float EndMoveTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx353ThornBeamIndex
+{
+	GENERATED_BODY()
+public:
+	FString Comment;
+	TArray<int> ThornBeamIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCardActionParam_e_ex307
+{
+	GENERATED_BODY()
+public:
+	float MoveScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCardAction_e_ex307
+{
+	GENERATED_BODY()
+public:
+	int8 ActionType;
+	struct FTresCardActionParam_e_ex307 ActionParam[0x4];
+};
+
+USTRUCT(BlueprintType)
+struct FTresCardSpawnInfo_e_ex307
+{
+	GENERATED_BODY()
+public:
+	float HitPointRate;
+	int Num[0x3];
+	TEnumAsByte<ETresEnemy_e_ex307_DummyCardSpawn> DummyCardsSpawnType;
+	struct FTresCardAction_e_ex307 CardAction[0x3];
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyDarkSidePawnBase_LockOnParam
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresEnemydw407Region> Region;
+	FName BoneName;
+	float BoneOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyPawn_e_ca901_JointParam
+{
+	GENERATED_BODY()
+public:
+	FName m_JointName;
+	int m_OppositeAttachIndex;
+	ETresEnemyEx071DeckKind m_Kind;
+};
+
+USTRUCT(BlueprintType)
+struct FEnemyShipCoreData
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_CoreParticleComponent;
+	class UParticleSystemComponent* m_CoreThonParticleComponent;
+	class UTresLockonTargetComponent* m_CoreLockOnComponent;
+	class UTresBodyCollPrimitive* m_CoreBodyCollPrim;
+};
+
+USTRUCT(BlueprintType)
+struct FEnemyShipDustEffectData
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_Particle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyShipCoreSpawnData
+{
+	GENERATED_BODY()
+public:
+	FName m_SocketName;
+	TEnumAsByte<ETresEnemyShip> m_LocType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyShipFadeParameter
+{
+	GENERATED_BODY()
+public:
+	FName m_FadeAllName;
+	FName m_DriverFadeName;
+	float m_FadeTimeAppear;
+	float m_FadeTimeAppearOnSpawn;
+	float m_FadeTimeDisappear;
+	float m_SwitchAtkCollValue;
+	float m_SwitchBodyCollValue;
+	float m_SwitchDamageSmokeValue;
+	float m_StartFadeTimeAfterEffect;
+	FName m_MastFadeName0;
+	FName m_MastFadeName1;
+	FName m_MastFadeName2;
+	FName m_MastFadeName3;
+	float m_MastFadeApplyHPRate0;
+	float m_MastFadeApplyHPRate1;
+	float m_MastFadeApplyHPRate2;
+	float m_MastFadeTime0;
+	float m_MastFadeTime1;
+	float m_MastFadeTime2;
+	float m_MastFadeTime3;
+	float m_MastFadeDelayTime2;
+	float m_MastFadeOnDieDelayTime;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_IdleFlyInfo
+{
+	GENERATED_BODY()
+public:
+	FVector m_vOffsetMin;
+	FVector m_vOffsetMax;
+	FVector m_vOffsetPeriod;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_EffectGroupID
+{
+	GENERATED_BODY()
+public:
+	int ID;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEX_SplineMoverExecutor
+{
+	GENERATED_BODY()
+public:
+	bool m_IsReverse;
+	bool m_IsLoop;
+	bool m_IsStraightSpline;
+	class ASQEX_SplineActor* m_pCurrentSplineActor;
+	class ASQEX_SplineActor* m_pSplineActorFirst;
+	class ASQEX_SplineActor* m_pSplineActorLast;
+	class USplineComponent* m_pUnrealSplineComponent;
+	float m_Speed;
+};
+
+USTRUCT(BlueprintType)
+struct Fca404aParam
+{
+	GENERATED_BODY()
+public:
+	float m_DefaultSpeed;
+	float m_MaxYawSpeed;
+	float m_MaxYawSpeedForOwnerRot;
+	float m_YawSpeedAccelForOwnerRot;
+	struct FFloatInterval m_YawSpeedRange;
+	float m_Acceleration;
+	float m_FrictionAcceleration;
+	float m_Brake;
+	float m_StartDashTime;
+	float m_StartDashAccel;
+	float m_SlowDownTime;
+	float m_SlowDownSpeed;
+	float m_DownSpeedPerDamage;
+	float m_MinSpeedByDamage;
+	float m_TakeDamageWaitTime;
+	struct FFloatInterval m_DownSpeedRecoveryTime;
+	float m_DamegeOscPitchRoll;
+	float m_DamegeOscTime;
+	float m_OscRecoverySpeed;
+	float m_OscMaxLaneOffset;
+	float m_OscYawSpeedPerTorqu;
+	float m_OscYawMaxSpeed;
+	float m_OscYawMaxAngle;
+	float m_OscYawSpeedBrake;
+	float m_OscYawMinTime;
+};
+
+USTRUCT(BlueprintType)
+struct Fca404aSplineParam
+{
+	GENERATED_BODY()
+public:
+	float m_DefaultOffsetDistance;
+	float m_MaxApproachAngle;
+	float m_MaxApproachDistance;
+	float m_OffsetCorrectionAddRateOnForward;
+	float m_OffsetCorrectionMaxDist;
+	float m_OffsetCorrectionMaxSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct Fca405MovementParam
+{
+	GENERATED_BODY()
+public:
+	FVector m_Param_MaelstromBaseCenter;
+	float m_AngularAccel;
+	float m_AngularBrake;
+	float m_AngularFriction;
+	struct FFloatInterval m_AngularSpeedRange;
+};
+
+USTRUCT(BlueprintType)
+struct Fca405MaelstromSpawnParameter
+{
+	GENERATED_BODY()
+public:
+	struct FFloatInterval m_YawRange;
+	struct FFloatInterval m_YawLimitRange;
+	struct FFloatInterval m_RadiusRange;
+	struct FFloatInterval m_DepthRange;
+	FRotator m_RotationOffset;
+	float m_RotationSpeed;
+	TArray<struct FTresEnemyShipCoreSpawnData> m_CoreParamArray;
+	struct FInt32Interval m_SpawnCoreNumRange;
+	int m_SelectWeight;
+	int m_DamageAmount;
+};
+
+USTRUCT(BlueprintType)
+struct FRevengeAttacks_e_dw405
+{
+	GENERATED_BODY()
+public:
+	struct FRevengeAttacks RevengeAttacks;
+	int ComboIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnEnemyParam_e_ex001a
+{
+	GENERATED_BODY()
+public:
+	float HpRate;
+	class UClass* SpawnEnemyClass;
+	int SpawnNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex003Effect
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_EffData;
+	FName m_EffAttachName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyPawn_e_ca010_CoopInfo
+{
+	GENERATED_BODY()
+public:
+	FName m_attachBoneName;
+	FVector m_OffsetLoc;
+	FRotator m_OffsetRot;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBoneNames_e_ex011
+{
+	GENERATED_BODY()
+public:
+	FName ParentConnectBoneName;
+	FName ChildConnectBoneName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWheelRotationWork_e_ex011
+{
+	GENERATED_BODY()
+public:
+	FName BoneName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_ex011ConnectEffectParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* ConnectParticleSystem;
+	class UParticleSystem* AppearParticleSystem;
+	class UParticleSystem* GlowParticleSystem;
+	float RespawnDistance;
+	float FadeInTime;
+	float FadeOutTime;
+	float OffsetDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDieParam_e_ex020
+{
+	GENERATED_BODY()
+public:
+	float InitSpeedXY;
+	float InitSpeedZ;
+	float GravityStartSpeedXY;
+	float Brake;
 	float Time;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTimerTaskData")
-	FName RemoteEventName;
+USTRUCT(BlueprintType)
+struct FTressEnemyEx021BlurParamater
+{
+	GENERATED_BODY()
+public:
+	FName m_ParamName;
+	float m_NormalParam;
+	float m_AccelParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCoopColorSmokeInfo
+{
+	GENERATED_BODY()
+public:
+	ETresCoopColorSmokeKind m_Color;
+	class UParticleSystem* m_pSmokeEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FRegionParam_e_ex046
+{
+	GENERATED_BODY()
+public:
+	FName BreakEffectSpawnBoneName;
+	FName BreakMaterialParamName;
+	FName BodyCollGroupName;
+	FName BaseDataTableIDName;
+	FName LockOnTargetTagName;
+};
+
+USTRUCT(BlueprintType)
+struct FSaveInfo_e_ex046
+{
+	GENERATED_BODY()
+public:
+	int RegionHitPoint[0x3];
+	bool bInheritParam;
+	bool bIsModeChangeRegionBreak;
+	FVector ModeChangePawnSpawnLocation;
+	FRotator ModeChangePawnSpawnRotation;
+	int ModeChangePawnAppearMode;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx048BladeEffectMan
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_BladeEffectCmp[0x2];
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx050SpawnInfo
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class AActor> wpSpawn;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx050PuddingNum
+{
+	GENERATED_BODY()
+public:
+	int All;
+	int Pile;
+	int NotPile;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx050EffectInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* pEffect;
+	FName AttachName;
+	FVector Location;
+	FRotator Rotation;
+};
+
+USTRUCT(BlueprintType)
+struct FSpawnEx052Actors
+{
+	GENERATED_BODY()
+public:
+	TArray<TWeakObjectPtr<class AActor>> wpActors;
+};
+
+USTRUCT(BlueprintType)
+struct FEx053SpawnData
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresEnemyPawn_e_ex053> wpActor;
+	TWeakObjectPtr<class AActor> wpSpawn;
+	float Wait;
+};
+
+USTRUCT(BlueprintType)
+struct FEx053SpawnGroup
+{
+	GENERATED_BODY()
+public:
+	TArray<int> SpawnDataIndexArray;
+	bool bCluster;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex054_VolcanoCraterAtkCollInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_BurnOmenEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx056EffectInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* pEffect;
+	FName AttachName;
+	FVector Location;
+	FRotator Rotation;
+};
+
+USTRUCT(BlueprintType)
+struct Fex064ShipBodyParameter
+{
+	GENERATED_BODY()
+public:
+	int m_ShipBodyHP;
+	float m_DamageWeightFromPlayer;
+	float m_DamageWeightFromEnemy;
+};
+
+USTRUCT(BlueprintType)
+struct Fe_ex064_AnimParam
+{
+	GENERATED_BODY()
+public:
+	FName m_AnimName;
+	struct FInt32Interval m_NumRange;
+};
+
+USTRUCT(BlueprintType)
+struct Fex064WallPartsLayoutData
+{
+	GENERATED_BODY()
+public:
+	int m_SelectWeight;
+	FVector m_RandLocationRange;
+	FName m_AnimIdle0;
+	struct Fe_ex064_AnimParam m_AnimIdleOptional1;
+	struct Fe_ex064_AnimParam m_AnimIdleOptional2;
+	TArray<int> m_SpawnList;
+};
+
+USTRUCT(BlueprintType)
+struct Fex064WallPartsParameter
+{
+	GENERATED_BODY()
+public:
+	int m_NumWallParts;
+	FVector m_BaseRelativeLocation;
+	float m_RandYawRange;
+	float m_BeginSpawnHPRate;
+	class UClass* m_SpawnClass;
+	TArray<struct Fex064WallPartsLayoutData> m_LayoutList;
+};
+
+USTRUCT(BlueprintType)
+struct Fex064Parameter
+{
+	GENERATED_BODY()
+public:
+	float m_AnimDamageWaitTime;
+	struct FFloatInterval m_WallPartsSpawnTimeRange;
+};
+
+USTRUCT(BlueprintType)
+struct Fe_ex064_WallParam
+{
+	GENERATED_BODY()
+public:
+	FName m_ChangeMatName0;
+	float m_ChangeMatValue0;
+	FName m_AnimNameDamage;
+	FName m_AnimNameAppear;
+	FName m_AnimNameDisappear;
+	struct FFloatInterval m_AnimIdleRandomRange;
+	struct FFloatInterval m_AnimAppearRandomWait;
+	struct FFloatInterval m_AnimDisappearRandomWait;
+	FName m_ForceDeathAtkName;
+	int m_BodyHP;
+};
+
+USTRUCT(BlueprintType)
+struct FMissionIntervalParamTimeStamp_e_ex082
+{
+	GENERATED_BODY()
+public:
+	float ElapsedTime;
+	float IntervalTime;
+};
+
+USTRUCT(BlueprintType)
+struct FMissionIntervalParam_e_ex082
+{
+	GENERATED_BODY()
+public:
+	bool bEnableTimeStampInterval;
+	float StartIntervalTime;
+	float IntervalReduceTime;
+	float MinIntervalTime;
+	TArray<struct FMissionIntervalParamTimeStamp_e_ex082> TimeStampIntervalArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx082_SnowEffectParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* Effect;
+	FName BoneName;
+};
+
+USTRUCT(BlueprintType)
+struct FSaveInfo_e_ex082
+{
+	GENERATED_BODY()
+public:
+	bool bInheritParam;
+	bool bIsModeChangeRegionBreak;
+	FVector ModeChangePawnSpawnLocation;
+	FRotator ModeChangePawnSpawnRotation;
+	int ModeChangePawnAppearMode;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyXIIIPlayerKilledVoiceData
+{
+	GENERATED_BODY()
+public:
+	ETresPlayerUniqueID PlayerUniqueID;
+	class USoundBase* VOICE;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx302AfterImageEffect
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* WarpEffectData;
+	class UParticleSystem* VisibleEffectData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAfterImageVisibleWorker
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_VisibleEffectCmp;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx304HitEffectInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_EffectAsset;
+	TArray<FName> m_AtkGrpNames;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx304HitEffectManager
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_LaserEffectCmp;
+	class UParticleSystemComponent* m_SparkEffectCmp;
+};
+
+USTRUCT(BlueprintType)
+struct FEffectSpawnParam_e_ex304a
+{
+	GENERATED_BODY()
+public:
+	bool bStartSpawned;
+	float SpawnTimeRate;
+	class UParticleSystem* SpawnParticleSystem;
+};
+
+USTRUCT(BlueprintType)
+struct FEffectControlParameterVector_e_ex304a
+{
+	GENERATED_BODY()
+public:
+	FName EffectParameterName;
+	float InterpTime;
+	FVector StartParam;
+	FVector EndParam;
+};
+
+USTRUCT(BlueprintType)
+struct FEffectControlParameterFloat_e_ex304a
+{
+	GENERATED_BODY()
+public:
+	FName EffectParameterName;
+	float InterpTime;
+	float StartParam;
+	float EndParam;
+};
+
+USTRUCT(BlueprintType)
+struct FEffectControlParam_e_ex304a
+{
+	GENERATED_BODY()
+public:
+	float ChangeStartTimeRate;
+	TArray<struct FEffectControlParameterVector_e_ex304a> VectorParamList;
+	TArray<struct FEffectControlParameterFloat_e_ex304a> FloatParamList;
+};
+
+USTRUCT(BlueprintType)
+struct FVoiceSet_e_ex306
+{
+	GENERATED_BODY()
+public:
+	TArray<class USoundBase*> VoiceDataArray;
+	TEnumAsByte<EVoiceType_e_ex306> VoiceType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDarkRushCircleParam
+{
+	GENERATED_BODY()
+public:
+	float m_IntervalRange;
+	int m_m_InitAngle;
+	int m_m_IntervalAngle;
+	float m_IntervalTime;
+	float m_EndRange;
+	float m_MoveSpeed;
+	bool m_IsMoveReverse;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351AfterImageEffect
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* WarpEffectData;
+	class UParticleSystem* VisibleEffectData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx351AfterImageVisibleWorker
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_VisibleEffectCmp;
+	class UParticleSystemComponent* m_WarpEffectCmp;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx353HitEffectInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_EffectAsset;
+	TArray<FName> m_AtkGrpNames;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx353HitEffectManager
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_LaserEffectCmp;
+	class UParticleSystemComponent* m_SparkEffectCmp;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEx353EveryDirectionShotReserveWorker
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_FieldChangeRemote
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<EEX354_FieldID> FieldID;
+	FName RemoteName;
+	FName RemoteName_OneFrameChange;
+	FName RemoteName_NoCinematic;
+	FName XigbalMoveRemoteName;
+	FName AIRestartRemoteName;
+	FName XigbalMoveActorTagName;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_RemoteEventID
+{
+	GENERATED_BODY()
+public:
+	FName m_RemoteEventName;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_RemoteEventID
+{
+	GENERATED_BODY()
+public:
+	FName m_RemoteEventName;
+};
+
+USTRUCT(BlueprintType)
+struct FVoiceSet_e_ex355
+{
+	GENERATED_BODY()
+public:
+	TArray<class USoundBase*> VoiceDataArray;
+	TEnumAsByte<EVoiceType_e_ex355> VoiceType;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_EffectGroupID
+{
+	GENERATED_BODY()
+public:
+	int ID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTimeGaugeParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	float InitialValue;
+	float SubValueIntervalTime;
+	float SubValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDeathSentenceArmorRevengeParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	FName BaseParamID;
+	int RevengeStartArmorDamage;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEnvQueryBindParamFloat_ex358
+{
+	GENERATED_BODY()
+public:
+	FName BindName;
+	float Value;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_EffectGroupID
+{
+	GENERATED_BODY()
+public:
+	int ID;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_RemoteEventID
+{
+	GENERATED_BODY()
+public:
+	FName m_RemoteEventName;
+};
+
+USTRUCT(BlueprintType)
+struct FVoiceSet_e_ex359
+{
+	GENERATED_BODY()
+public:
+	TArray<class USoundBase*> VoiceDataArray;
+	TEnumAsByte<EVoiceType_e_ex359> VoiceType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx361CounterAfterActionPeriodInfo
+{
+	GENERATED_BODY()
+public:
+	int HPPersentage;
+	int Period;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX363DarkRushCircleParam
+{
+	GENERATED_BODY()
+public:
+	float m_IntervalRange;
+	int m_InitAngle;
+	int m_IntervalAngle;
+	float m_IntervalTime;
+	float m_EndRange;
+	float m_MoveSpeed;
+	bool m_IsMoveReverse;
+	int m_patternID;
+	bool m_TargetCenter;
+};
+
+USTRUCT(BlueprintType)
+struct FTresThornWavingDummyMeshAttachInfo
+{
+	GENERATED_BODY()
+public:
+	ETresEnemyEx721HandID m_HandID;
+	FName m_AttachName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresThornChainEffectInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_EffectAsset;
+	FName m_AttachName;
+};
+
+USTRUCT(BlueprintType)
+struct FEX734_FallInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fWorldGroundHeight;
+	float m_fFallBeginRelativeHeight;
+	float m_fFallEndRelativeHeight;
+	float m_fFallTime;
+};
+
+USTRUCT(BlueprintType)
+struct FDarkRainInfo_e_ex734
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_Projectile;
+	float m_fSpawnRate;
+	int m_iAimTargetMinInterval;
+	int m_iAimTargetMaxInterval;
+	float m_fAimTargetForbiddenTime;
+	float m_fSpawnRadius;
+};
+
+USTRUCT(BlueprintType)
+struct FParticleSystemAttachData_e_ex761
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* ParticleSystem;
+	FName AttachSocketName;
+};
+
+USTRUCT(BlueprintType)
+struct FEyeLookAtWork_e_ex816
+{
+	GENERATED_BODY()
+public:
+	FName BaseBoneName;
+	FRotator MinLimitRot;
+	FRotator MaxLimitRot;
+	float RotationSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FBonePhysicsBlendRateData_e_ex816
+{
+	GENERATED_BODY()
+public:
+	FName BoneName;
+	float PhysicsBlendRate;
+	float StartInterpTime;
+	float EndInterpTime;
+};
+
+USTRUCT(BlueprintType)
+struct FBonePhysicsBlendRateDataList_e_ex816
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FBonePhysicsBlendRateData_e_ex816> List;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnims_e_he001a
+{
+	GENERATED_BODY()
+public:
+	FName AttackName;
+	FName ReactionName;
+};
+
+USTRUCT(BlueprintType)
+struct FDebrisStatePattern_e_he903
+{
+	GENERATED_BODY()
+public:
+	float fValidHpPer;
+	TArray<float> fStateChangeRateArray;
+};
+
+USTRUCT(BlueprintType)
+struct FDebrisStatePatternSet_e_he903
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FDebrisStatePattern_e_he903> m_DebrisStatePatternArray;
+};
+
+USTRUCT(BlueprintType)
+struct FFieldGenerateMapParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	float DelayTime;
+	float OffsetAngle;
+	float Distance;
+	float FirstAttackDelayTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipmentAssetUnit
+{
+	GENERATED_BODY()
+public:
+	FName UnitName;
+	ETresCharEquipPart m_AttachPart;
+	FName AttachBoneName;
+	bool m_bApplyParentScale;
+	class UClass* RsrcData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipmentAccompanyPawnAssetUnit
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresCommandKind> m_Command;
+	class UClass* m_AssetData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipWeaponSlotWork
+{
+	GENERATED_BODY()
+public:
+	class UTresEquipDataBase* m_pAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFieldAddProjectileParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	float OffsetAngle;
+	float Distance;
 };
 
 USTRUCT(BlueprintType)
@@ -13760,6 +19003,98 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FTresFormAbilitySetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFormAbilitySetUnit")
+	TArray<ETresAbilityKind> m_Ability;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFormAbilitySetUnit")
+	TArray<ETresTextAbilityKind> m_TextAbility;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFriendLinkPawnCallMeteorData
+{
+	GENERATED_BODY()
+public:
+	float m_fBaseYaw;
+	float m_fStartLength;
+	float m_fTargetLength;
+	float m_fStartTimer;
+	float m_fInitialSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFriendLinkPawnFlareForceData
+{
+	GENERATED_BODY()
+public:
+	float m_fAppearYaw;
+	float m_fAppearTimer;
+	float m_fFireTimer;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFRJackSpinBombParam
+{
+	GENERATED_BODY()
+public:
+	float m_fBombRotate;
+	float m_fBombLength;
+	float m_fBombHeight;
+	float m_fStruckBombSpeed;
+	float m_fStruckBombGravityScale;
+	float m_fStruckBombHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLocText
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
+	FString Namespace;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
+	FString Key;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
+	TArray<FString> Params;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLocText")
+	FString LocalizedText;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIWindowSetting
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
+	TEnumAsByte<ETresUIWindowWaitType> WaitType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
+	TEnumAsByte<ETresUIWindowPositionType> PositionType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIWindowSetting")
+	FVector2D Position;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipCinematicModeEventData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresGumiShipCinematicModeEventData")
+	int m_eEventFlags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresGumiShipCinematicModeEventData")
+	FName m_EventName;
+};
+
+USTRUCT(BlueprintType)
 struct FTresVectorInt
 {
 	GENERATED_BODY()
@@ -13772,6 +19107,1531 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorInt")
 	int Z;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWorldCodeLoadAssetName
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWorldCodeLoadAssetName")
+	TEnumAsByte<ETresWorldCode> m_WorldCode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWorldCodeLoadAssetName")
+	struct FStringAssetReference m_AssetName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLSIGameDriver
+{
+	GENERATED_BODY()
+public:
+	class UTresGameInstance* m_GameInstance;
+	class AGameMode* m_LSIGameMode;
+	class ATresLSIGameActor* m_LSIGameActor;
+	class ACameraActor* m_LSIGameCamera;
+	class UPlayerInput* m_LSIGamePlayerInput;
+	class APostProcessVolume* m_LSIPostprocess;
+	class APlayerController* m_OriginalPC;
+	class AActor* m_OriginalViewTarget;
+	TArray<class AActor*> m_OriginalHiddenActors;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGamePlayWorldSwitcher
+{
+	GENERATED_BODY()
+public:
+	class UTresGameInstance* m_GameInstance;
+	ESQEX_Invoker m_Invoker;
+	bool m_FromMenu;
+	bool m_Paused;
+	int m_BattleLevel;
+	class AGameModeBase* m_GameMode;
+	class APlayerController* m_PlayerController;
+	class APawn* m_PlayerPawn;
+	class AActor* m_ViewTarget;
+	class APlayerStart* m_PlayerStartForTeleport;
+	TArray<class ULevel*> m_Levels;
+	TArray<FName> m_ActiveLevels;
+	TArray<class UModelComponent*> m_ModelComponents;
+	TArray<class AActor*> m_Actors;
+	TArray<class APostProcessVolume*> m_PostProcessVolumes;
+	TArray<class UTresGimmickComponentBase*> m_Gimmicks;
+	class ATresKHShaderController* m_pKHSBackup;
+	FName m_PrepareName;
+	FName m_StartName;
+};
+
+struct FTresGameModeBaseLastCleanupTickFunction : public FTickFunction
+{
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhysMatEffectAssetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	bool m_bEnableInnerWater;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	float m_NmlSpeedParam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_NmlEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	float m_HighSpeedParam;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_HighEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_StillEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_EnterEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPhysMatEffectAssetUnit")
+	class UParticleSystem* m_LeaveEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWorldAppendAnimSetUnit
+{
+	GENERATED_BODY()
+public:
+	TArray<class UTresAnimSet*> m_AnimSets;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDebugMenuInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDebugMenuInfo")
+	class UTresDebugMenuScene* m_Instance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX781_CallGigasPatternParam
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<EColorTypes_e_ex781Gigas> m_GigasType;
+	bool m_LandAfterAttack;
+	float m_CraftWaitTime;
+	bool m_IsTargetPos;
+	bool m_IsWarldPos;
+	FVector m_WarldPos;
+	float m_TargetDist;
+	FVector2D m_TargetDir;
+	FVector m_Offset;
+	int m_MoveDir;
+	int m_PitchMoveDir;
+	int m_ActionID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX781_GunShotMarkerPatternParam
+{
+	GENERATED_BODY()
+public:
+	float m_MarkerWaitTime;
+	float m_ShotStartTime;
+	int m_ShotNum;
+	float m_ShotIntervalTime;
+	FVector m_Offset;
+	bool m_IsChaseTarget;
+	bool m_IsTargetPos;
+	float m_TargetDist;
+	FVector2D m_TargetDir;
+	bool m_UseEXMode;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnRuleChildGenerator
+{
+	GENERATED_BODY()
+public:
+	class UClass* GeneratedClass;
+	float Size;
+	int Num;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_HopParam
+{
+	GENERATED_BODY()
+public:
+	class ATresGimmick_e_ex711_PhysicsActor* m_pActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_HopLevelParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresEnemyEx711_HopParam> m_HopParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_AthleticFlowParam
+{
+	GENERATED_BODY()
+public:
+	class ATresGimmick_e_ex711_PhysicsActor* m_pActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_AthleticFlowLevelParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresEnemyEx711_AthleticFlowParam> m_AthleticFlowParamArray;
+	TArray<struct FTresEnemyEx711_AthleticFlowParam> m_AthleticFlowReverseParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_TornadoInvolveParam
+{
+	GENERATED_BODY()
+public:
+	class ATresGimmick_e_ex711_PhysicsActor* m_pActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_GimmickBouncyPetsParam
+{
+	GENERATED_BODY()
+public:
+	class ATresGimmickTsBouncyPet* m_pActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_GimmickBouncyPetsGroupParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresEnemyEx711_GimmickBouncyPetsParam> m_GimmickBouncyPetsParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_OuterScaffoldParam
+{
+	GENERATED_BODY()
+public:
+	class ATresGimmick_e_ex711_PhysicsActor* m_pActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_OuterScaffoldGroupParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresEnemyEx711_OuterScaffoldParam> m_OuterScaffoldParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEwOpacityData
+{
+	GENERATED_BODY()
+public:
+	int Num;
+	float Opacity;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnActorData
+{
+	GENERATED_BODY()
+public:
+	struct FTransform Transform;
+	class UClass* GeneratedClass;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSnapData
+{
+	GENERATED_BODY()
+public:
+	bool Snap;
+	float HeightOffset;
+	float LayHeightStartOffset;
+	float LayHeightEndOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMI_02GeneratorRuleParam
+{
+	GENERATED_BODY()
+public:
+	class UClass* generateClass;
+	float nextLength;
+	int life;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMI_02GeneratorRuleParamArray
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresMI_02GeneratorRuleParam> Params;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCarGenerateData
+{
+	GENERATED_BODY()
+public:
+	class UTresCarBodyWithColorDataAsset* CarBodyAsset;
+	TArray<class UTresCarDriverDataAsset*> CarDriverAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBxCarRouteControlGroupData
+{
+	GENERATED_BODY()
+public:
+	TArray<class ATresBxCarGenerator*> Generators;
+};
+
+USTRUCT(BlueprintType)
+struct FCAJellyfishParam
+{
+	GENERATED_BODY()
+public:
+	float m_WaveUPDownTimeMulti;
+	float m_WaveUPDownLength;
+	struct FFloatInterval m_TickEnableRange;
+	FName m_AttackName;
+	float m_AttackInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FCAMovableBarrelParam
+{
+	GENERATED_BODY()
+public:
+	ETresDropItemID m_prizeKind;
+	float m_directionChangeInterval;
+	float m_turnRate;
+	float m_turnRateOnHitWall;
+	float m_turnRateTimeOnHitWall;
+	float m_moveRange;
+	float m_defaultVelocity;
+	float m_maxDeltaAngle;
+	int m_MaxHitPoint;
+	int m_spawnPrizeNumForDead;
+	int m_spawnPrizeNumForNormalAttack;
+	int m_spawnPrizeNumPerDamageInAttraction;
+	float m_prizeSpawnUpDirectionOffset;
+	float m_naviMeshExtent;
+	float m_bodyCollMargin;
+	float m_minSpeedScaleOnAvoidPlayer;
+	float m_declVelocityRate;
+	float m_yawMaxSpeed;
+	bool m_bRunningAwayMode;
+	bool m_bUseNaviMesh;
+	bool m_bStopMovement;
+};
+
+USTRUCT(BlueprintType)
+struct FCAMovableBarrelPrizeParam
+{
+	GENERATED_BODY()
+public:
+	float m_InitSpeed;
+	float m_InitSpeedRand;
+	struct FFloatInterval m_PitchRange;
+	float m_AirResistance;
+	float m_PrizeLivingTime;
+};
+
+USTRUCT(BlueprintType)
+struct FCAMovableBarrelRunAwayParam
+{
+	GENERATED_BODY()
+public:
+	float m_directionOfRunAwayChangeInterval;
+	float m_MinDistance;
+	float m_MaxDistance;
+	float m_SleepWaitTime;
+	float m_MaxRandomAngleForRunAway;
+	float m_MaxRandomAngleForMiddle;
+	float m_MaxRandomAngleForGetBack;
+	float m_TurnRateForRunAway;
+	float m_TurnRateForMiddle;
+	float m_SpeedForRunAway;
+	float m_SpeedForMiddle;
+};
+
+USTRUCT(BlueprintType)
+struct FCAPrizeChimneyParam
+{
+	GENERATED_BODY()
+public:
+	int m_MaxHitPoint;
+	int m_spawnPrizeNumForNormalAttack;
+	int m_spawnPrizeNumForDead;
+	ETresDropItemID m_prizeKind;
+	float m_InitSpeed;
+	float m_InitSpeedRand;
+	struct FFloatInterval m_PitchRange;
+	float m_AirResistance;
+	float m_PrizeLivingTime;
+};
+
+USTRUCT(BlueprintType)
+struct FRunAwayShipParam
+{
+	GENERATED_BODY()
+public:
+	float m_defaultVelocity;
+	float m_MaxYawSpeed;
+	float m_turnRate;
+	float m_minSafeAreaYaw;
+	float m_maxSafeAreaYaw;
+	float m_minShotYaw;
+	float m_maxShotYaw;
+	float m_minShotDistance;
+	float m_maxShotDistance;
+	float m_shotRandamLength;
+	float m_shotRandamDistanceFactor;
+	float m_shotRandamMoveDirectionFactor;
+	float m_shotInterval;
+	float m_minShotPitchAngle;
+	float m_maxShotPitchAngle;
+	float m_maxShotPitchDistance;
+	int m_numProjectilePerFrame;
+	FVector m_offsetVector;
+	bool m_bStopMovement;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSplineGeneratorActorParam
+{
+	GENERATED_BODY()
+public:
+	class UClass* ActorClass;
+	float Span;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSplineGeneratorActorRule
+{
+	GENERATED_BODY()
+public:
+	int SpawnPower;
+	TArray<struct FTresSplineGeneratorActorParam> ParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickMI_02_LaserArmActionParam
+{
+	GENERATED_BODY()
+public:
+	float m_ArmRotateSpeed;
+	float m_ArmUpDownSpeed;
+	float m_ArmTargetSpeed;
+	float m_ArmStartupTime;
+	float m_ArmRotateMin;
+	float m_ArmRotateMax;
+	float m_LaserChargeTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickMI_04Status
+{
+	GENERATED_BODY()
+public:
+	struct FSQEX_SplineMoverExecutor SplineMover;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickMI_04_DoorDamageParam
+{
+	GENERATED_BODY()
+public:
+	float interpSpeed;
+	float maxAngle;
+	float timeRate;
+	float initPower;
+	float powerReturnRate;
+	float stopPower;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickMI_04_EventDoor
+{
+	GENERATED_BODY()
+public:
+	struct FSQEX_SplineMoverExecutor SplineMover;
+};
+
+USTRUCT(BlueprintType)
+struct FPairChangeActionParam
+{
+	GENERATED_BODY()
+public:
+	FName spinMotion;
+	FName stepMotion;
+	float changeDirectionTime;
+	FName pcSpinMotion;
+	float pcSpinChangeTime;
+	float pcSpinWaitTime;
+	FName pcStepMotion;
+	float pcStepChangeTime;
+	float pcStepWaitTime;
+	int effectGroupID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDanceNpcActionSet
+{
+	GENERATED_BODY()
+public:
+	TArray<EDanceActorAction> ActionList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTimerTaskData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTimerTaskData")
+	float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTimerTaskData")
+	FName RemoteEventName;
+};
+
+USTRUCT(BlueprintType)
+struct FDancePlayerAction
+{
+	GENERATED_BODY()
+public:
+	FName NormalMotion;
+	FName GreatMotion;
+	FName BadMotion;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDanceEffectColorParam
+{
+	GENERATED_BODY()
+public:
+	FName Key;
+	struct FLinearColor Color_PS4;
+	struct FLinearColor Color_XB1;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaFestivalReplaceMeshData
+{
+	GENERATED_BODY()
+public:
+	class USkeletalMesh* m_MeshData;
+	class UMaterialInterface* m_MatData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaFestivalReplaceMesh
+{
+	GENERATED_BODY()
+public:
+	FName m_MeshName;
+	TArray<struct FTresRaFestivalReplaceMeshData> m_MeshLists;
+};
+
+USTRUCT(BlueprintType)
+struct FSpecialMoveMissionParam
+{
+	GENERATED_BODY()
+public:
+	EDancePerformType perform;
+	EDanceActorType ActorType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRapunzelDanceMission
+{
+	GENERATED_BODY()
+public:
+	TArray<EDancePerformType> ActionList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaDanceSplineMover
+{
+	GENERATED_BODY()
+public:
+	FVector m_Location;
+	struct FQuat m_Rotation;
+	bool m_bSelect;
+	bool m_bMoveing;
+	float m_fNowLength;
+	float m_fSpeed;
+	float m_fLineSpeed;
+	float m_fCurrentDistance;
+	bool m_bIsReverse;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaDanceSplineGroup
+{
+	GENERATED_BODY()
+public:
+	FName m_GroupName;
+	ETresRaDanceAreaType m_eAreaType;
+	int m_MaxMove;
+	TWeakObjectPtr<class ATresRaFestivalDanceSplineActor> m_pSpline;
+	float m_fSpeed;
+	float m_fSpeedRate;
+	float m_fMaxSpeedScale;
+	float m_fInAddLength;
+	float m_fTotalLength;
+	int m_GroupIndex;
+	bool m_bIsReverse;
+	TArray<struct FTresRaDanceSplineMover> m_SplineMovers;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaDanceSplineOwner
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresCharPawnBase> m_pOwner;
+	TScriptInterface<class UTresRaDanceSplineInterface> m_pSplineInterface;
+	int m_nPrevArea;
+	int m_nAreaGroupIndex;
+	float m_fMoveSpeed;
+	float m_fTurnSpeed;
+	bool m_bSelect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaGimmickBird
+{
+	GENERATED_BODY()
+public:
+	class UTresSkeletalMeshComponent* m_Mesh;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaPuddingEffectRef
+{
+	GENERATED_BODY()
+public:
+	FName ID;
+	class UParticleSystem* EffectRef;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaPuddingPosition
+{
+	GENERATED_BODY()
+public:
+	FName ID;
+	TWeakObjectPtr<class ATresRaPuddingSplineActor> TargetActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaPuddingCommand
+{
+	GENERATED_BODY()
+public:
+	ERaPuddingCommandType CommandType;
+	FName PositionID;
+	FName ParamName;
+	float StartTime;
+	float LastTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRaPuddingSchedule
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresCharPawnBase> TargetPawn;
+	TArray<struct FTresRaPuddingCommand> CommandList;
+	bool Flag_LoopOnEnd;
+	TArray<struct FTresRaPuddingCommand> DamageList;
+	TArray<struct FTresRaPuddingCommand> ShutterList;
+	TArray<struct FTresRaPuddingCommand> AngryList;
+	TArray<struct FTresRaPuddingCommand> HappyList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickTS_01_BedCollisionDMatParam
+{
+	GENERATED_BODY()
+public:
+	int m_DynamicMaterialIndex;
+	class UMaterialInterface* m_DynamicMaterial;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipCollisionSizeParam
+{
+	GENERATED_BODY()
+public:
+	FVector m_vSize;
+	FVector m_vMaxOfIncreaseSize;
+	float m_fIncreaseTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipCollisionAttachParam
+{
+	GENERATED_BODY()
+public:
+	FName m_SocketNameBase;
+	FVector m_vOffsetBase;
+	FName m_SocketNameDest;
+	FVector m_vOffsetDest;
+	FRotator m_Rotate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipCollisionParam
+{
+	GENERATED_BODY()
+public:
+	FName m_GroupName;
+	ETresGumiShipCollisionShape m_eShapeType;
+	FVector m_vScale;
+	struct FTresGumiShipCollisionSizeParam m_SizeParam;
+	struct FTresGumiShipCollisionAttachParam m_AttachParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipSkillParam
+{
+	GENERATED_BODY()
+public:
+	float m_fAttackPoint;
+	ETresGumiShipAttackElementType m_eElementType;
+	ETresGumiShipAttackSubElemntType m_eSubElementType;
+	ETresGumiShipBadStateType m_eBadStateType;
+	float m_fTimeOfBadStateEffective;
+	float m_fPercentOfBadState;
+	ETresGumiShipReactionType m_eReactionType;
+	class UParticleSystem* m_pHitEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipAtkCollisionParam
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipAtkHitTestType m_eHitTestType;
+	bool m_bIsHitProjectile;
+	bool m_bIsHitBackGround;
+	FName m_AtkParamName;
+	float m_fTimeOfRefreshIgnore;
+	struct FTresGumiShipSkillParam m_SkillParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipMuzzleParam
+{
+	GENERATED_BODY()
+public:
+	FVector m_vOffset;
+	FRotator m_Rotate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyGroupWipeOutData
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipAttackElementResistance
+{
+	GENERATED_BODY()
+public:
+	float m_fShot;
+	float m_fLaser;
+	float m_fStrike;
+	float m_fSpecial;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipHitEffectInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pHitEffect;
+	bool m_bIsAttach;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBodyCollisionParam
+{
+	GENERATED_BODY()
+public:
+	float m_fDamageScale;
+	struct FTresGumiShipAttackElementResistance m_ElementResistance;
+	struct FTresGumiShipHitEffectInfo m_EffectInfo;
+	bool m_bDontUseGrazeCollision;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipDefCollisionParam
+{
+	GENERATED_BODY()
+public:
+	float m_fHitPoint;
+	float m_fDefenseDegree;
+	class UParticleSystem* m_pBarrierEffect;
+	FVector m_vEffectScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipDirectParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pScudEffctType;
+	FVector m_vEffectOffset;
+	FName m_ParamName;
+	class UClass* m_pShakeType;
+	bool m_bRebuildWhenDirect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipDirectEventBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipDirectParam m_DirectParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipTouchSpeedPointEvent : public FTresGumiShipDirectEventBase
+{
+	GENERATED_BODY()
+public:
+	float m_fSpeedPoint;
+	bool m_bUpOnly;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBetweenSpeedEvent : public FTresGumiShipDirectEventBase
+{
+	GENERATED_BODY()
+public:
+	float m_fBottomSpeed;
+	float m_fTopSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipLimitAreaData
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipLimitType m_eType;
+	float m_fValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipProjectileSequenceData
+{
+	GENERATED_BODY()
+public:
+	float m_fExecuteSec;
+	float m_fHomingAngle;
+	float m_fMovementSpeed;
+	float m_fTargetDotCheckRotation;
+	bool m_bTargetLocationPredictable;
+	bool m_bTargetDotCheckable;
+	bool m_bReleaseAttach;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipRailShootingRouteSplineDataGetter
+{
+	GENERATED_BODY()
+public:
+	float m_fSplineDistanceRate;
+	bool m_bReverseSpline;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipRailShootingBattleSetData
+{
+	GENERATED_BODY()
+public:
+	class ATriggerBase* m_pEnemySpawnTrigger;
+	TArray<class ATresGumiShipEnemyGenerator*> m_EnemyGeneratorList;
+	struct FTresGumiShipRailShootingRouteSplineDataGetter m_TriggerPointAttachData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipSplinePathMoveParameter
+{
+	GENERATED_BODY()
+public:
+	float m_fPathMoveSpeed;
+	float m_fMaxPathMoveSpeed;
+	float m_fPathMoveAcceleration;
+	float m_fPathMoveDeceleration;
+	float m_fStartDistanceRate;
+	bool m_bReversePath;
+	bool m_bLoopPath;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipSplineAdditionalData
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipSplineEventType m_eEventType;
+	float m_fKeyDistanceRate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyUsableAttackMethodData
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipEnemyStateID m_eAttackStateID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipStateArgs
+{
+	GENERATED_BODY()
+public:
+	int m_dArg;
+	float m_fArg;
+	FVector m_vArg;
+	FRotator m_RotArg;
+	bool m_bArg;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipDropPrizeData
+{
+	GENERATED_BODY()
+public:
+	int m_ExpMinCount;
+	int m_ExpMidCount;
+	int m_ExpMaxCount;
+	int m_HPMinCount;
+	int m_HPMidCount;
+	int m_HPMaxCount;
+	int m_MunnyMinCount;
+	int m_MunnyMidCount;
+	int m_MunnyMaxCount;
+	TArray<ETresItemDefGumiParts> m_GumiParts;
+	TArray<ETresItemDefGumiMaterial> m_GumiMaterial;
+	TArray<ETresItemDefGumiPattern> m_GumiPattern;
+	TArray<ETresItemDefGumiSticker> m_GumiSticker;
+	TArray<ETresItemDefGumiShipBP> m_GumiShipBP;
+	TArray<ETresItemDefGumiEtc> m_GumiEtc;
+	TArray<ETresItemDefMaterial> m_Material;
+};
+
+USTRUCT(BlueprintType)
+struct FMashRotatorDataTable
+{
+	GENERATED_BODY()
+public:
+	FName _Name;
+	FRotator _Rotater;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBonusParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipBonusKind m_eBonusKind;
+	float m_fBonusValue;
+	float m_fTimeLimit;
+	int m_dArgs1;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGMInputResult
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipRailSwitchInfo
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresRailSlideActor> m_pDefaultOnRail;
+	TWeakObjectPtr<class ATresRailSlideActor> m_pDefaultOffRail;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipRailSwitchInfos
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresGumiShipRailSwitchInfo> m_Infos;
+	FName m_RailSwitchName;
+};
+
+USTRUCT(BlueprintType)
+struct FLockAtChangeInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fChangeDot;
+	TEnumAsByte<EViewTargetBlendFunction> m_eInterpFunction;
+	float m_fInterpSec;
+	float m_fInterpExp;
+};
+
+USTRUCT(BlueprintType)
+struct FCameraSensitivityInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fMin;
+	float m_fMax;
+	float m_fSensitivity;
+};
+
+USTRUCT(BlueprintType)
+struct FCameraSensitivityInfoSet
+{
+	GENERATED_BODY()
+public:
+	struct FCameraSensitivityInfo m_RotationSpeedPitch;
+	struct FCameraSensitivityInfo m_RotationSpeedYaw;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipElementResistance
+{
+	GENERATED_BODY()
+public:
+	float m_fShot;
+	float m_fLaser;
+	float m_fStrike;
+	float m_fSpecial;
+};
+
+USTRUCT(BlueprintType)
+struct FHiddenMickeyBoundingAreaCircles
+{
+	GENERATED_BODY()
+public:
+	FVector2D Offset;
+	float Size;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHitActor_e_he90x_Setup
+{
+	GENERATED_BODY()
+public:
+	float m_fRadius;
+	float m_fHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInfluenceMapLayer
+{
+	GENERATED_BODY()
+public:
+	bool bEnabled;
+	float Decay;
+	float Flow;
+	bool bUpdate;
+	float UpdateInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpGroupInstUpdateSettings
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
+	class USkeletalMeshComponent* m_SkeletalMeshComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
+	TEnumAsByte<EMeshComponentUpdateFlag::Type> m_UpdateFlag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresInterpGroupInstUpdateSettings")
+	bool m_UpdateRateOptimizations;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackActorVoiceKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	class UTresActorVoice* m_ActorVoice;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTrackAttachKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	bool m_bAttach;
+	class AActor* m_ParentActor;
+	FName m_BoneSocketName;
+	TEnumAsByte<EAttachLocation::Type> m_AttachLocationType;
+	bool m_bWeldSimulatedBodies;
+	bool m_bAbsoluteLocation;
+	bool m_bAbsoluteRotation;
+	bool m_bAbsoluteScale;
+	bool m_bUseGroupName;
+	FName m_AttachGroupName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackBonamikCharaWindKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackBonamikControlKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	bool m_Reset;
+	bool m_ResetPose;
+	bool m_ReinitializeSimulationPose;
+	bool m_RestoreDefaultParams;
+	int m_PreRoll;
+	int m_PreRollForAttachment;
+	TArray<FString> m_Groups;
+	TEnumAsByte<ESQEX_Bonamik_ControlType> m_SimulationOnOff;
+	TEnumAsByte<ESQEX_Bonamik_ControlType> m_GroundOnOff;
+	bool m_ChangeInnerCone;
+	float m_InnerConeScale;
+	bool m_ChangeOuterCone;
+	float m_OuterConeScale;
+	bool m_ChangeLocalForce;
+	float m_LocalForceScale;
+	bool m_ChangeWindScale;
+	float m_GroupWindScale;
+	bool m_ChangeHighFPSEvaluation;
+	bool m_EnableHighFPSEvaluation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackBonamikTeleportKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	float m_Distance;
+	int m_PreRoll;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackBonamikWindControlKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackBonamikWorldWindKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSlotAnimationTrackKey
+{
+	GENERATED_BODY()
+public:
+	float Time;
+	class UAnimationAsset* AnimAsset;
+	float BlendInTime;
+	float BlendOutTime;
+	float AnimStartOffset;
+	float AnimEndOffset;
+	float PlayRate;
+	bool Loop;
+	int EffectGroup;
+	bool Reverse;
+	bool RootTrans;
+	bool RootRotate;
+	bool DisableRootTransExtract;
+	float RootMoveScaleXY;
+	float RootMoveScaleZ;
+	float MeshScale;
+	bool BonamikReset;
+	int BonamikPreRoll;
+	int BonamikPreRollForAttachment;
+	bool SimulateMotionBuilderClip;
+	float MotionBuilderClipFirstLoop;
+	float MotionBuilderClipStop;
+	int ForcedLOD;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackDrawMaterialKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	class UMaterialInterface* m_Material;
+	FName m_ParameterName;
+	float m_X;
+	float m_Y;
+	float m_W;
+	float m_H;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEffectAttachTrackKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	TEnumAsByte<ETresEffectAttachTrack_AttachType> m_AttachType;
+	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> m_AttachObjectType;
+	FName m_SocketName;
+	int m_GroupID;
+	bool m_RunEvenWhenSkippingKey;
+};
+
+USTRUCT(BlueprintType)
+struct FSQEX_AttachEffectTrackDataToDataAsset
+{
+	GENERATED_BODY()
+public:
+	bool bUseCommonAttachData;
+	TArray<class USQEX_ParticleAttachDataAsset*> AttachDatas;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEffectTriggerTrackKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	TEnumAsByte<ETresEffectTriggerTrack_TriggerType> m_TriggerType;
+	float m_FadeTime;
+	bool bChangeColor;
+	FVector ParticleColor;
+	float ParticleAlpha;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFaceAnimationTrackKey
+{
+	GENERATED_BODY()
+public:
+	float Time;
+	FName AnimName;
+	class UAnimationAsset* AnimAsset;
+	float BlendInTime;
+	bool Loop;
+	float PlayRate;
+	float AnimStartOffset;
+	float AnimEndOffset;
+	bool SimulateMotionBuilderClip;
+	float MotionBuilderClipFirstLoop;
+	float MotionBuilderClipStop;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackFadeKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	TEnumAsByte<ETresFadeTrack_Color> m_Color;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFullBodyAnimationTrackKey
+{
+	GENERATED_BODY()
+public:
+	float Time;
+	FName AnimName;
+	class UAnimationAsset* AnimAsset;
+	float BlendInTime;
+	float BlendOutTime;
+	float AnimStartOffset;
+	float AnimEndOffset;
+	float PlayRate;
+	bool Loop;
+	int EffectGroup;
+	bool Reverse;
+	bool RootTrans;
+	bool RootRotate;
+	bool DisableRootTransExtract;
+	float RootMoveScaleXY;
+	float RootMoveScaleZ;
+	float MeshScale;
+	bool BonamikReset;
+	int BonamikPreRoll;
+	int BonamikPreRollForAttachment;
+	bool SimulateMotionBuilderClip;
+	float MotionBuilderClipFirstLoop;
+	float MotionBuilderClipStop;
+	int ForcedLOD;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackIndirectLightingCacheQualityControlKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	TEnumAsByte<EIndirectLightingCacheQuality> m_Quality;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackLightPropertiesKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	float m_MinRoughness;
+	float m_ShadowResolutionScale;
+	float m_ShadowBias;
+	float m_DynamicShadowDistanceMovableLight;
+	float m_DynamicShadowDistanceStationaryLight;
+	int m_DynamicShadowCascades;
+	float m_CascadeDistributionExponent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMBCameraDataTrackKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	class UTresMBCameraData* m_CameraData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackMorphControlElement
+{
+	GENERATED_BODY()
+public:
+	FName m_TargetName;
+	struct FAlphaBlend m_AlphaBlend;
+	float m_StartValue;
+	float m_EndValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackMorphControlKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	TArray<struct FTresInterpTrackMorphControlElement> m_Elements;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackSceneCapture2DKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	FName m_TargetCamGroup;
+	bool m_CaptureEveryFrame;
+	float m_CaptureRange;
+	float m_CaptureOffsetTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInterpTrackShadowQualityControlKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	TEnumAsByte<ESQEX_ShadowQuality> m_Quality;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTrackSnapToFloorKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	bool m_SnapToFloor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSubtitleTrackKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	float m_Length;
+	FString m_TextLabel;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWeaponControlTrackKey
+{
+	GENERATED_BODY()
+public:
+	float m_Time;
+	bool m_Visible;
+	bool m_AppearEffect;
+	float m_AppearEffectPlayRate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresKeybladeFormAbilityData
+{
+	GENERATED_BODY()
+public:
+	TArray<ETresTextAbilityKind> m_TextAbilitys;
+};
+
+USTRUCT(BlueprintType)
+struct FTresKeybladeAbilityData
+{
+	GENERATED_BODY()
+public:
+	TArray<ETresTextAbilityKind> m_ShootflowAbilitys;
+	TArray<ETresCharWearForm> m_WearForms;
+	TMap<ETresWeaponForm, struct FTresKeybladeFormAbilityData> m_FormAbilityMap;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipItemDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_KeyName;
+	FString m_Comment;
+	int m_AP;
+	int m_AttackPlus;
+	int m_MagicPlus;
+	int m_DefensePlus;
+	int m_AttrResistPhysical;
+	int m_AttrResistFire;
+	int m_AttrResistBlizzard;
+	int m_AttrResistThunder;
+	int m_AttrResistWater;
+	int m_AttrResistAero;
+	int m_AttrResistDark;
+	int m_AttrResistNoType;
+	TArray<ETresAbilityKind> m_AppendAbility;
+	TAssetPtr<class UTresEquipDataBase> m_EquipSubclass;
+};
+
+USTRUCT(BlueprintType)
+struct FMognetMedalPrizeWork
+{
+	GENERATED_BODY()
+public:
+	ETresDropItemID m_Type;
+	int m_NumDropMin;
+	int m_NumDropMax;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntityAppearInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	TEnumAsByte<ETresLevelEntityAppearMode> m_AppearMode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	float m_AppearWaitMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	float m_AppearWaitMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	bool m_Visible;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	int m_CoopNo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	FVector m_Location;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityAppearInfo")
+	FRotator m_Rotation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntityUserData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
+	class UObject* m_UserObject;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityUserData")
+	float m_UserParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEncountSpawnRequest
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	class UClass* m_Class;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	class ATresEncountVolume* m_EncountVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	TArray<FName> m_Groups;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEncountSpawnRequest")
+	TWeakObjectPtr<class AActor> m_Template;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntitySequenceConditionalAction
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	class UTresLevelEntitySequenceCondition* m_Condition;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	class UTresLevelEntitySequenceAction* m_Action;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	bool m_Abandonable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntitySequenceConditionalAction")
+	class UTresLevelEntitySequenceCondition* m_AbandonCondition;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLevelEntityRestartTarget
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityRestartTarget")
+	class ATresLevelEntityControlVolume* m_SequenceOwner;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresLevelEntityRestartTarget")
+	ETresLevelEntityRestartSequence m_Sequence;
 };
 
 USTRUCT(BlueprintType)
@@ -13847,24 +20707,1248 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTresFriendWarpPointData
+struct FTresNavLinkSet_e_ex035_
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
-	class AActor* m_WarpPoint;
+	class ANavLinkProxy* NavLinkProxy;
+	TEnumAsByte<ETresNavLinkSegment_e_ex035_> NavLinkSegment;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
-	bool m_bUsedRangeXY;
+USTRUCT(BlueprintType)
+struct FTresLSIScoreEntryScores
+{
+	GENERATED_BODY()
+public:
+	int scores;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
-	float m_WarpPointRangeXY;
+USTRUCT(BlueprintType)
+struct FTresLSIScoreEntryStages
+{
+	GENERATED_BODY()
+public:
+	int stages;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
-	bool m_bUsedRangeZ;
+USTRUCT(BlueprintType)
+struct FTresLSIScoreEntryMusicalFarmer
+{
+	GENERATED_BODY()
+public:
+	ETresLSIMusicFarmerMode mode;
+	int Score;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
-	float m_WarpPointRangeZ;
+USTRUCT(BlueprintType)
+struct FTresLSIScoreEntryWins
+{
+	GENERATED_BODY()
+public:
+	int wins;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLSIScoreEntryHowtoPlayGolf
+{
+	GENERATED_BODY()
+public:
+	ETresLSIHowtoPlayGolfMode mode;
+	int Score;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLSIScoreEntryHowtoPlayBaseball
+{
+	GENERATED_BODY()
+public:
+	ETresLSIHowtoPlayBaseballMode mode;
+	int Score;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLSIScoreBarnyardSports
+{
+	GENERATED_BODY()
+public:
+	int the100m;
+	int hurdle;
+	int triplejump;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapSetObjData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
+	FName Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetObjData")
+	TEnumAsByte<ETresMapSetObjType> Type;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapSetData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
+	bool Load;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
+	bool Visible;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetData")
+	bool Ignore;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMapSetDataArray
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapSetDataArray")
+	TArray<struct FTresMapSetData> DataArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMBModelElement
+{
+	GENERATED_BODY()
+public:
+	FName m_ModelName;
+	int m_ParentIndex;
+	FVector m_Scaling;
+	FVector m_Rotation;
+	FVector m_Translation;
+	int m_CurveIndex[0x9];
+};
+
+USTRUCT(BlueprintType)
+struct FTresMBCameraElement
+{
+	GENERATED_BODY()
+public:
+	int m_Index;
+	int m_InterestIndex;
+	float m_roll;
+	float m_FOV;
+	int m_CurveIndex[0x2];
+};
+
+USTRUCT(BlueprintType)
+struct FTresMBCurveKeyElement
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresMBCurveInterp> m_Interpolation;
+	float m_Time;
+	float m_Value;
+	float m_Left;
+	float m_Right;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMBCurveElement
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresMBCurveKeyElement> m_Keys;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMBClipElement
+{
+	GENERATED_BODY()
+public:
+	int m_CameraIndex;
+	float m_Start;
+	float m_Stop;
+	bool m_bFadeOut;
+	float m_FadeoutTime;
+	bool m_bFadeOutCaptureEveryFrame;
+	float m_FadeOutCaptureOffsetTime;
+	float m_PreBlankTime;
+	float m_PostBlankTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMiRxReplicaStateInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fCoolDownTime;
+	TEnumAsByte<ETresMiRxReplicaManagerStateKind> m_eNextState;
+	TArray<float> m_fCommonParams;
+	TArray<bool> m_bCommonParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMiRxReplicaStatePattern
+{
+	GENERATED_BODY()
+public:
+	bool m_bIsFirstTimeUseOnly;
+	int m_dTransitionPercent;
+	TEnumAsByte<ETresStateID> m_eStateIDWhenInterrupt;
+	TArray<struct FTresMiRxReplicaStateInfo> m_StateInfos;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMiRxReplicaStateTable
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresMiRxReplicaStatePattern> m_Patterns;
+};
+
+USTRUCT(BlueprintType)
+struct FAttackIntervalParam_e_ex082
+{
+	GENERATED_BODY()
+public:
+	float ElapsedTime;
+	bool bDisableAttack;
+	struct FFloatInterval IntervalTimeRange;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamOnCircleInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fAngle;
+	int m_iNotify;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamOnRateInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fTimingRate;
+	int m_iNotify;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnims_e_ex113_Move2_UpDown
+{
+	GENERATED_BODY()
+public:
+	class UAnimationAsset* StartAnimData;
+	class UAnimationAsset* LoopAnimData;
+	class UAnimationAsset* EndAnimData;
+};
+
+USTRUCT(BlueprintType)
+struct FEX731_DashEffectInfo
+{
+	GENERATED_BODY()
+public:
+	int m_iNotifyParam;
+	class UParticleSystem* m_DashEffectClass;
+	float m_fWorldGroundHeight;
+	float m_fDashEffectSpawnHeight;
+	FVector m_DashEffectLocationOffset;
+	FRotator m_DashEffectRotationOffset;
+	bool m_bDashEffectLoopSpawn;
+	float m_fDashEffectSpawnInterval;
+	class ATresCharPawnBase* MyCharPawn;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNavLinkExtendedInfo
+{
+	GENERATED_BODY()
+public:
+	uint32_t ElementSize;
+	uint32_t Version;
+	TArray<int8_t> Data;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAgentInfoStruct
+{
+	GENERATED_BODY()
+public:
+	class UClass* AgentType;
+	class AActor* AgentActor;
+	float AgentRadius;
+	float AgentHeight;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNpcAICombiData
+{
+	GENERATED_BODY()
+public:
+	ETresFNpcAICombiID m_CombiID;
+	ETresChrUniqueID m_MainChrUID;
+	ETresChrUniqueID m_PartnerChrUID;
+	bool m_bUseMP;
+	float m_StandbyLimitTime;
+	float m_ExecLength_PtoM;
+};
+
+USTRUCT(BlueprintType)
+struct FTresComNpcMaterialInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresComNpcMaterialInfo")
+	FName m_MaterialName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresComNpcMaterialInfo")
+	FName m_ParamName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresComNpcMaterialInfo")
+	float m_fValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex711_BouncyPetsParam
+{
+	GENERATED_BODY()
+public:
+	int m_BouncyPetsNum;
+	float m_DistMin;
+	float m_DistMax;
+	float m_HeightMin;
+	float m_HeightMax;
+	float m_RevolutionSpeed;
+	float m_RevolutionOffsetYaw;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex711_OuterScaffoldParam
+{
+	GENERATED_BODY()
+public:
+	int m_ScaffoldNum;
+	float m_HeightMin;
+	float m_HeightMax;
+	float m_DistMin;
+	float m_DistMax;
+	float m_RotSpeed;
+	float m_RevolutionSpeed;
+	float m_TornadoRotSpeed;
+	float m_TornadoRevolutionSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex711_PhysicsActorTornadoInvolveParam
+{
+	GENERATED_BODY()
+public:
+	float m_InitMoveSpeed;
+	float m_AddMoveSpeed;
+	float m_MaxMoveSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_CrushingParam
+{
+	GENERATED_BODY()
+public:
+	FName m_Comment;
+	class UMaterialInterface* m_Material;
+	FVector2D m_Size;
+	float m_AnimTime;
+	//TEnumAsByte<ESQEX_BreakBlendMode> m_Mode;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_CrushingPattern
+{
+	GENERATED_BODY()
+public:
+	FName m_Comment;
+	struct FKey m_Keys;
+	TArray<int> m_pro_CrushingParamNoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresParam_e_ex773_SpawnParam
+{
+	GENERATED_BODY()
+public:
+	float Interval;
+	class UClass* SpawnClass;
+};
+
+USTRUCT(BlueprintType)
+struct FTresParam_e_ex773_ParamReverseFlareShot
+{
+	GENERATED_BODY()
+public:
+	int Num;
+	int MaxNum;
+	float StartLocationOffsetSize;
+	float TabooEndLength;
+	float OneLength;
+	float StartTimeOffset;
+	float NextSpawnTime;
+	float ExplosionTime;
+	FVector TargetOffset;
+	FVector SpawnOffsetMaxValue;
+	TArray<FVector> SpawnOffsetArray;
+	TArray<float> SpawnOffsetAngleArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_CrushingParam
+{
+	GENERATED_BODY()
+public:
+	FName m_Comment;
+	class UMaterialInterface* m_Material;
+	FVector2D m_Size;
+	float m_AnimTime;
+	//TEnumAsByte<ESQEX_BreakBlendMode> m_Mode;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_CrushingPattern
+{
+	GENERATED_BODY()
+public:
+	FName m_Comment;
+	struct FKey m_Keys;
+	TArray<int> m_pro_CrushingParamNoArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHologramLocationResetInfo
+{
+	GENERATED_BODY()
+public:
+	class ATresPhotoHologramActor* m_pTargetActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramDebugMenu
+{
+	GENERATED_BODY()
+public:
+	class UTresUIP_MobileAlbum* m_pAlbum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramEditEffectDef
+{
+	GENERATED_BODY()
+public:
+	float TargetMaxRootSize;
+	class UParticleSystem* EditMarkerEffectData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramFacialDef
+{
+	GENERATED_BODY()
+public:
+	FName FacialType;
+	FName EyeAnimName;
+	FName LipAnimName;
+	FString TextId;
+	int TextIndex;
+	FName PreEvent;
+	FName PostEvent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHologramSubAnimReplaceDef
+{
+	GENERATED_BODY()
+public:
+	ETresHologramSubAnimReplaceType m_Type;
+	FName m_Slot;
+	FName m_AnimName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHologramSubAnimReplaceInfo
+{
+	GENERATED_BODY()
+public:
+	TArray<FName> m_ValidSlotList;
+	TArray<struct FTresHologramSubAnimReplaceDef> m_ReplaceDefList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHologramActorPoseTableInfo
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class UDataTable> m_pTable;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHologramWorldInitParam
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> World;
+	FName MapId;
+	EHologramWorldInitParamValueType ValueType;
+	FName ParamName;
+	float FloatValue;
+	FVector VectorValue;
+	struct FLinearColor ColorValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramEffectData
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* AttachEffect;
+	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
+	FName SocketName;
+	FName EndSocketName;
+	FVector LocationOffset;
+	FRotator RotationOffset;
+	FVector ScaleOffset;
+	float WarmupTime;
+	bool PauseEffect;
+	float PauseTime;
+	TEnumAsByte<ESQEX_ATTACH_EFFECT_END_TYPE> AttachEffectEndType;
+	float FadeOut;
+	TArray<struct FTresHologramWorldInitParam> WorldInitParamList;
+	bool EffectInvisibleInPhoto;
+	bool IsAsWeaponEffect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresDetectCollShapeAssetUnit2D
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresDetectCollShape2D> ShapeType;
+	FVector Size;
+	FVector RelativeLocation;
+	FRotator RelativeRocation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttractionFlowAssetInfo
+{
+	GENERATED_BODY()
+public:
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowAssetInfo")
+	//TAssetPtr<class UClass> m_AssetPtr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttractionFlowAssetInfo")
+	class UClass* m_pAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FVoiceAndLipParameter
+{
+	GENERATED_BODY()
+public:
+	FName GroupID;
+	class USoundBase* pAsset;
+	FName LipName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickDropPrizeDataUnit
+{
+	GENERATED_BODY()
+public:
+	ETresDropItemID m_Prize;
+	int m_SpawnNum;
+	int m_SpawnPlusNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickDropPrizeTable
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresGimmickDropPrizeDataUnit> m_Prizes;
+	float m_SpawnRate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickPrizeVelocityData
+{
+	GENERATED_BODY()
+public:
+	bool m_bSetDirection;
+	bool m_bApplyParentRotation;
+	float m_InitSpeed;
+	float m_InitSpeedRand;
+	float m_PitchMin;
+	float m_PitchMax;
+	float m_YawMin;
+	float m_YawMax;
+	float m_AirResistance;
+};
+
+USTRUCT(BlueprintType)
+struct FMovableCrabParam
+{
+	GENERATED_BODY()
+public:
+	float m_directionChangeInterval;
+	float m_turnRate;
+	float m_turnRateOnHitWall;
+	float m_turnRateTimeOnHitWall;
+	float m_moveRange;
+	float m_moveRangePredictRate;
+	float m_defaultVelocity;
+	float m_maxDeltaAngle;
+	float m_gravityScaleOnMove;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVectorAnim
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	FVector m_SrcValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	FVector m_UpdatedValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	FVector m_LimitMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	FVector m_LimitMax;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	class UCurveVector* m_pCurveVectorAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	bool m_bLoopCurveAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	bool m_bLimitMinValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVectorAnim")
+	bool m_bLimitMaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresScaleVectorAnim : public FTresVectorAnim
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresProj_MagicReaction
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_ReactionSpawnProjectileClass;
+	bool m_ReactionOnlySameTeam;
+};
+
+USTRUCT(BlueprintType)
+struct FBX901_RailSlideProjDropInfo
+{
+	GENERATED_BODY()
+public:
+	ETresDropItemID m_DropPrize1;
+	int m_NumDropPrize1;
+	ETresDropItemID m_DropPrize2;
+	int m_NumDropPrize2;
+	ETresDropItemID m_DropItemID;
+	int m_DropItemRate;
+};
+
+USTRUCT(BlueprintType)
+struct FEX105_JOINT_INFO
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectileBase* pCube;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ChargeShotBounceInfo
+{
+	GENERATED_BODY()
+public:
+	TArray<int> m_iMaxBounceCountArray;
+	bool m_bCountReflectAsBounce;
+	float m_fMaxBounceCountDistance;
+	TArray<float> m_fVelocityArray;
+	class UEnvQuery* m_EQS_Bounce;
+	float m_fEQSWaitTime;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ClusterShotMoveInfo
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectileBase* m_Proj;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_ClusterShotHitActorInfo
+{
+	GENERATED_BODY()
+public:
+	class AActor* m_HitActor;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_DownShotInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fVelocity;
+	float m_fLandMoveStartHeight;
+	float m_fLandMoveHeight;
+	float m_fMaxLandMoveTime;
+	float m_fRotateVelocity;
+	bool m_bKeepVelocityOnHoming;
+	float m_fNoHomingDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FEX354_UpShotInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fVelocity;
+	float m_fMaxUpTime;
+	float m_fMaxDownTime;
+	float m_fRotateVelocity;
+	bool m_bKeepVelocityOnHoming;
+	float m_fMinHomingTime;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamOnSplineInfo
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_ProjectileClass;
+	float m_fStartRadius;
+	float m_fStartAngle;
+	float m_fSplineSizeScale;
+	bool m_bSplineReverse;
+	float m_fSplineAngleOffset;
+	float m_fMaxWaitTime;
+	float m_fAccel;
+	float m_fMaxVelocity;
+	float m_fMaxMoveEndLifeTime;
+	bool m_bStopOnEnd;
+	float m_fDebugDispTime;
+	bool m_bDebugDisp;
+	class USplineComponent* m_SplineComp;
+	class ATresCharPawnBase* m_Owner;
+	class ATresProjectile_e_ex359_BeamBase* m_Projectile;
+};
+
+USTRUCT(BlueprintType)
+struct FEX359_BeamOnSplineInfoSet
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FEX359_BeamOnSplineInfo> m_BeamOnSplineInfoArray;
+	TEnumAsByte<EEX359_SpawnDirType> m_DirType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx771_FlareAttractParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex771_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx771_FlarePillarAttractParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex771_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx771_BlowParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex771_Attract* m_pBlow;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTres_e_ex773_Eclipse13_ShellMoveData
+{
+	GENERATED_BODY()
+public:
+	float SpawnTime;
+	float TimeToLandingPoint;
+	int GeneratorIndex;
+	int LandingPointIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FTres_e_ex773_Eclipse13_WaveData
+{
+	GENERATED_BODY()
+public:
+	float StartWait;
+	class UTres_e_ex773_Eclipse13_WaveAsset* Asset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx773_FlareAttractParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex773_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx773_FlarePillarAttractParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex773_Attract* m_pAttract;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx773_BlowParam
+{
+	GENERATED_BODY()
+public:
+	class ATresActor_e_ex773_Attract* m_pBlow;
+	class AActor* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex027_ThundagaParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_ThundagaEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex054_DischargeInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex313_ThunderInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_ThunderEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex361_ThunderInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_ThunderEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_EncloseFlareParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_EncloseFlareHvnParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotSphereEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotHvnParam
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectile_e_ex771_FlareShotTornado* m_FlareShot;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotHvnGroupParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_FireOmenEff;
+	TArray<struct FTresEnemy_e_ex771_FlareShotHvnParam> m_FlareShotHvnParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotTornadoParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_FireOmenEff;
+	TArray<TWeakObjectPtr<class ATresProjectileBase>> m_FlareShotArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotTornadoEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareTornadoParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_ExFlareTornadoParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_HvnDebrisParam
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectile_e_ex771_DebrisAttract* m_DebrisAttract;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_LivelyFlarePillarParam
+{
+	GENERATED_BODY()
+public:
+	class AActor* m_Target;
+	class ATresProjectileBase* m_LivelyFlarePillar;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_LivelyFlarePillarPoint
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_EncloseFlareParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_EncloseFlareHvnParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotSphereEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotHvnParam
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectile_e_ex773_FlareShotTornado* m_FlareShot;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotHvnGroupParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_FireOmenEff;
+	TArray<struct FTresEnemy_e_ex773_FlareShotHvnParam> m_FlareShotHvnParamArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotTornadoParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_FireOmenEff;
+	TArray<TWeakObjectPtr<class ATresProjectileBase>> m_FlareShotArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotTornadoEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareTornadoParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_ExFlareTornadoParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_HvnDebrisParam
+{
+	GENERATED_BODY()
+public:
+	class ATresProjectile_e_ex773_DebrisAttract* m_DebrisAttract;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_LivelyFlarePillarParam
+{
+	GENERATED_BODY()
+public:
+	class AActor* m_Target;
+	class ATresProjectileBase* m_LivelyFlarePillar;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_LivelyFlarePillarPoint
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_LivelyFlarePillarGenClass
+{
+	GENERATED_BODY()
+public:
+	FName ClassName;
+	FName AttackName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresE_EX781BreakSlashPatternWaveParam
+{
+	GENERATED_BODY()
+public:
+	float m_IntervalTime;
+	float m_SwordWaveRot;
+	float m_LookAheadTime;
+	int m_BulletID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresProjEffectSet_e_ex310
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_AppearEffect;
+	FName m_AppearEffectAttach;
+	float m_AppearVisibleDelayTime;
+	bool m_bIsEnableAppearScaleAnim;
+	bool m_bIsDelayAppearScaleAnim;
+	float m_AppearScaleAnimTime;
+	float m_AppearScaleAnimStartScale;
+	bool m_bIsEnableAppearDitherAnim;
+	bool m_bIsDelayAppearDitherAnim;
+	float m_AppearDitherAnimTime;
+	float m_AppearDitherAnimStartValue;
+	class UParticleSystem* m_DisappearEffect;
+	FName m_DisappearEffectAttach;
+	float m_DisappearVisibleDelayTime;
+	bool m_bIsEnableDisappearScaleAnim;
+	float m_DisappearScaleAnimTime;
+	float m_DisappearScaleAnimEndScale;
+	bool m_bIsEnableDisappearDitherAnim;
+	float m_DisappearDitherAnimTime;
+	float m_DisappearDitherAnimEndValue;
+	bool m_bIsNotifyOnlyVisible;
+	class UParticleSystemComponent* m_pEffect;
+	class UTresSkeletalMeshComponent* MyMesh;
+};
+
+USTRUCT(BlueprintType)
+struct FTresProjEffectSet_e_ex359
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_AppearEffect;
+	FName m_AppearEffectAttach;
+	float m_AppearVisibleDelayTime;
+	bool m_bIsEnableAppearScaleAnim;
+	bool m_bIsDelayAppearScaleAnim;
+	float m_AppearScaleAnimTime;
+	float m_AppearScaleAnimStartScale;
+	bool m_bIsEnableAppearDitherAnim;
+	bool m_bIsDelayAppearDitherAnim;
+	float m_AppearDitherAnimTime;
+	float m_AppearDitherAnimStartValue;
+	class UParticleSystem* m_DisappearEffect;
+	FName m_DisappearEffectAttach;
+	float m_DisappearVisibleDelayTime;
+	bool m_bIsEnableDisappearScaleAnim;
+	float m_DisappearScaleAnimTime;
+	float m_DisappearScaleAnimEndScale;
+	bool m_bIsEnableDisappearDitherAnim;
+	float m_DisappearDitherAnimTime;
+	float m_DisappearDitherAnimEndValue;
+	bool m_bIsNotifyOnlyVisible;
+	class UParticleSystemComponent* m_pEffect;
+	class UTresSkeletalMeshComponent* MyMesh;
+};
+
+USTRUCT(BlueprintType)
+struct FTresProjectileAssetUnit
+{
+	GENERATED_BODY()
+public:
+	FName ProjectileName;
+	class UClass* ProjectileData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPlayerMagicAssetUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	TEnumAsByte<ETresCommandKind> m_Command;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	bool m_bIsCastType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	bool m_bIsTurnType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	bool m_bIsDirectPos;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	int m_EffectGroup;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	int m_VoiceGroup;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	int m_VoiceGroupFinish;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	class UClass* m_AssetData00;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPlayerMagicAssetUnit")
+	class UClass* m_AssetData01;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLotterySpawnActorData
+{
+	GENERATED_BODY()
+public:
+	class UClass* SpawnClass;
+	int Power;
+	struct FTresSpawnRuleChildGenerator ChildGeneratorRule;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemunerationData
+{
+	GENERATED_BODY()
+public:
+	uint32 Crc;
+	TArray<FName> ItemKeyArray;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyCuttingFoodParam
+{
+	GENERATED_BODY()
+public:
+	ERemyCuttingFoodType FoodType;
+	class UClass* FoodPawn;
+	class UClass* FoodMassStaticMeshActor;
+	float FoodSliceBending;
+	float FoodSliceJumpWaitTime;
+	float FoodSliceJumpWaitTimeLagRangeStart;
+	float FoodSliceJumpWaitTimeLagRangeEnd;
+	float FoodSliceJumpSpeedCoefficient;
+	class UParticleSystem* FoodClusterParticle;
+	class UCurveVector* FoodClusterParticleCurveVector;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSharedFixedCameraParam
+{
+	GENERATED_BODY()
+public:
+	float FieldOfView;
+	FVector WorldLocation;
+	FRotator WorldRotation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTextureReference
+{
+	GENERATED_BODY()
+public:
+	struct FStringAssetReference m_TexturePath;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedTextureSet
+{
+	GENERATED_BODY()
+public:
+	FName m_Tag;
+	TArray<struct FTresTextureReference> m_TextureReferences;
+	TArray<class UTexture2D*> m_Textures;
+};
+
+struct FTresRootComponentPostPhysicsTickFunction : public FTickFunction
+{
+};
+
+USTRUCT(BlueprintType)
+struct FTresSignProjectileAttackStartDelayParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	FName AttackCollisionGroupName;
+	float AttackStartDelayTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSoKcKeyHoleConnectNode
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresSoKcKeyHoleGimmickActor> ConnectableKeyHole;
 };
 
 USTRUCT(BlueprintType)
@@ -13895,63 +21979,1453 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTresFNpcAIAttackDefInfo
+struct FTresSplineMeshExtensionStaticMeshInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
-	FName m_AttackParamKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
-	TEnumAsByte<ETresFNpcAIAttackDefType> m_AttackDefType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
-	ETresAbilityKind m_AttackAbilityKind;
+	class UStaticMesh* StaticMesh;
+	class ASQEX_SplineActor* spline;
+	bool isReverseMeshFront;
 };
 
 USTRUCT(BlueprintType)
-struct FAITestTractionParam
+struct FTresSplineTransformArray
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	bool m_bTractionXY;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	bool m_bTractionZUp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	bool m_bTractionZDown;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	bool m_bTractionNear;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	bool m_bTractionFar;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	float m_TractionDisMin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	float m_TractionDisMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	float m_TractionMaxSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
-	float m_TractionAcc;
+	FVector Location;
+	FRotator Rotator;
 };
 
 USTRUCT(BlueprintType)
-struct FTresFormAbilitySetUnit
+struct FTresSqexSplineNearestInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFormAbilitySetUnit")
-	TArray<ETresAbilityKind> m_Ability;
+	float Time;
+	FVector nearPos;
+	/*class ASQEX_SplineActor* splineActor;
+	class ASQEX_SplineActor* nextSplineActor;
+	class USQEX_SplineComponent* SplineComponent;*/
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFormAbilitySetUnit")
-	TArray<ETresTextAbilityKind> m_TextAbility;
+USTRUCT(BlueprintType)
+struct FTresStateAsset
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
+	class UClass* MyStateClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
+	FName MyStateName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStateAsset")
+	TEnumAsByte<ETresStateID> MyStateID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnActorDataForGenerator : public FTresSpawnActorData
+{
+	GENERATED_BODY()
+public:
+	struct FTresSpawnRuleChildGenerator ChildParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTsAwardData
+{
+	GENERATED_BODY()
+public:
+	FName m_Key;
+	FString m_DevelopName;
+	bool m_IsGet;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTextColor
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTextColor")
+	FName Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTextColor")
+	struct FColor Color;
+};
+
+USTRUCT(BlueprintType)
+struct FTresStreamingTextureData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStreamingTextureData")
+	FStringAssetReference m_TexturePath;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStreamingTextureData")
+	int m_MipMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresStreamingTextureData")
+	int m_MaxMipMap;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTextureStream
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTextureStream")
+	FName m_ViewTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTextureStream")
+	TArray<struct FTresStreamingTextureData> m_TextureData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTextureStream")
+	TArray<class UTexture2D*> m_Textures;
+};
+
+USTRUCT(BlueprintType)
+struct FTresOverwriteAllowedMips
+{
+	GENERATED_BODY()
+public:
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresOverwriteAllowedMips")
+	//TEnumAsByte<ETextureGroup> m_TextureGroup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresOverwriteAllowedMips")
+	int m_MaxAllowedMips;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNavLinkSet_e_ex035
+{
+	GENERATED_BODY()
+public:
+	class ANavLinkProxy* NavLinkProxy;
+	TEnumAsByte<ETresNavLinkSegment_e_ex035> NavLinkSegment;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIActorMaterialParamSettingScalar
+{
+	GENERATED_BODY()
+public:
+	FName ParameterName;
+	float Value;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIActorMaterialParamSettingCoefficient
+{
+	GENERATED_BODY()
+public:
+	FName ParameterName;
+	float Value;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUICustomizeCommand
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresCommandKind> CommandKind;
+	FString HelpTextNamespaceKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUICustomizeMagicCommand
+{
+	GENERATED_BODY()
+public:
+	struct FTresUICustomizeCommand Command[0x3];
+};
+
+USTRUCT(BlueprintType)
+struct FSlideShowCutData
+{
+	GENERATED_BODY()
+public:
+	FString m_CutId;
+	int m_SlideId;
+};
+
+USTRUCT(BlueprintType)
+struct FSlideShowData
+{
+	GENERATED_BODY()
+public:
+	class USwfMovie* m_SwfAssetSequence;
+	int m_NumPhotos;
+	int m_Duration;
+	int m_MaxFrame;
+	ETresUISlideShowDataType m_DataType;
+	class USoundBase* m_BGM;
+	FString m_BgmTextId;
+	TArray<struct FSlideShowCutData> m_Cuts;
+	TArray<int> m_InitPhotos;
+};
+
+USTRUCT(BlueprintType)
+struct FSlideShowIconData
+{
+	GENERATED_BODY()
+public:
+	TAssetPtr<class UTexture> Texture;
+	int m_Code;
+};
+
+USTRUCT(BlueprintType)
+struct FSlideShowFrameData
+{
+	GENERATED_BODY()
+public:
+	class UTexture* Texture;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIBlurParams
+{
+	GENERATED_BODY()
+public:
+	float fUIBlurIntensity;
+	float fUIBlurSize;
+	float fUIBlurHoleSize;
+	float fUIBlurCharaAdaptationRate;
+	float fUIBlurHoleEdgeSize;
+	float fUILensDistortionSize;
+	float fUILensDistortionPower;
+	float fUILensDistortionEdgeSize;
+	float fUILensDistortionContrast;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSubCommandData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand4;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand6;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand7;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand8;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresSubCommandData")
+	TEnumAsByte<ETresCommandKind> SubCommand9;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShortcutCommandPageData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandPageData")
+	TEnumAsByte<ETresCommandKind> Commands;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShortcutCommandData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
+	struct FTresShortcutCommandPageData Page1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
+	struct FTresShortcutCommandPageData Page2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresShortcutCommandData")
+	struct FTresShortcutCommandPageData Page3;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIMobileDictionaryCharacterCategory
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	FString TextId;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIMobileDictionaryEnemyCategory
+{
+	GENERATED_BODY()
+public:
+	ETresUIDictionaryEnemyCategory Category;
+	FString TextId;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUICampMenuCuisineFavoriteItem
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* Icon;
+	class UGFxObject* TextIcon;
+	class UGFxObject* Name;
+	class UGFxObject* TextName;
+	class UGFxObject* Num;
+	class UGFxObject* TextNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuScoreData
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRecord;
+	class UGFxObject* m_pObj;
+	class UGFxObject* m_pLabel1;
+	class UGFxObject* m_pLabelName1;
+	class UGFxObject* m_pLabelName2;
+	class UGFxObject* m_pLabelName3;
+	class UGFxObject* m_pLabelNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuIconData
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pIconAnm;
+	class UTresASProxyTresControlsIcon* m_pIcon;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_Hologram_CharaInfoIcon
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_IconRoot;
+	class UTresASProxyTresControlsIcon* m_IconImg;
+	class UGFxObject* m_NewMark;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudBaymaxPointInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudBaymaxLocationMarkerInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudBaymaxCharaMarkerInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudBaymaxDarkCubeInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudBmmTargetInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitCmd
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitCmd")
+	TEnumAsByte<ETresCommandKind> m_cmdKind;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitCmdInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitCmdInfo")
+	TArray<struct FTresCockpitCmd> m_cockpitCmdAry;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitShortcutCmdInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitShortcutCmdInfo")
+	struct FTresCockpitCmd m_cockpitCmdList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitFriendInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudGigasMarkerInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGuideObjects
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pGuide;
+	class UGFxObject* m_pCursor;
+	class UGFxObject* m_pDist;
+	class UGFxObject* m_pIcon;
+	class UGFxObject* m_pLevel;
+	class UGFxObject* m_pNormalLevel;
+	class UGFxObject* m_pBossLevel;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipMultiItemMovieClip
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRoot;
+	class UGFxObject* m_pItemName;
+	class UGFxObject* m_pItemNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipRaderObject
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRoot;
+	class UGFxObject* m_pMarker;
+	class UGFxObject* m_pWorld;
+	class UGFxObject* m_pArena;
+	class UGFxObject* m_pTravel;
+	class UGFxObject* m_pTreasure;
+	class UGFxObject* m_pCrystal;
+	class UGFxObject* m_pBox;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipItemGetObjects
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRoot;
+	class UGFxObject* m_pMaxIcon;
+	class UGFxObject* m_pItemName;
+	class UGFxObject* m_pItemNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipDestroyMovieClip
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRoot;
+	class UGFxObject* m_pNum;
+	class UGFxObject* m_pNumEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipSPWeaponGauge
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRoot;
+	class UGFxObject* m_pGaugeBody;
+	class UGFxObject* m_pGaugeEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipTargetMarkerObject
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* m_pRoot;
+	class UGFxObject* m_pLockAnm;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudPlaneTargetInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FHudRalph_RalphBtn
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* Root;
+	class UGFxObject* Icon;
+	class UGFxObject* IconS;
+	class UTresASProxyTresControlsBitmapNumber* StockBitmapNumber;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudSpecialShipTargetInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudSRideTargetInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitTargetInfo
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* TargetCursor;
+	class UGFxObject* Gauge;
+	class UGFxObject* GaugeParts[0x3];
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_HudTarget_ButtonCount
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* Root;
+	class UGFxObject* ColorSet;
+	class UTresASProxyTresControlsBitmapNumber* Seconds;
+	class UTresASProxyTresControlsBitmapNumber* DecimalSeconds;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_HudTarget_UltimaLock
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* Root;
+	class UGFxObject* UltimaLockSet;
+	class UGFxObject* UltimaLockGauge;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_HudTarget_PushButtonMark
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* Root;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_MultiItemGet_ItemText
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* Name;
+	class UGFxObject* Num;
+	class UGFxObject* Max;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUINaviMapMarkerData
+{
+	GENERATED_BODY()
+public:
+	class UGFxObject* ASObject;
+	TWeakObjectPtr<class AActor> OwnerActor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpecialShipPointInfo
+{
+	GENERATED_BODY()
+public:
+	class UTresASProxyTresControlsButton* m_pGFxMarker;
+	class UGFxObject* m_pGFxSave;
+	class UGFxObject* m_pGFxVisited;
+	class UGFxObject* m_pGFxNext;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIShopVoice
+{
+	GENERATED_BODY()
+public:
+	TAssetPtr<class USoundBase> VoiceSound;
+	FString SubtitleTextID;
+	float FixedSubtitleDisplayTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIShopInfo
+{
+	GENERATED_BODY()
+public:
+	FString NameTextID;
+	TAssetPtr<class UClass> Staff;
+	TArray<struct FTresUIShopVoice> TalkWelcome;
+	TArray<struct FTresUIShopVoice> TalkNewArrival;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIDoFParams
+{
+	GENERATED_BODY()
+public:
+	float DepthOfFieldFocalDistance;
+	float DepthOfFieldFocalRegion;
+	float DepthOfFieldNearTransitionRegion;
+	float DepthOfFieldFarTransitionRegion;
+	float DepthOfFieldScale;
+	float DepthOfFieldNearBlurSize;
+	float DepthOfFieldFarBlurSize;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIWorldIconName
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	FString WorldNameKey;
+	TAssetPtr<class UTexture> IconAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVoiceGroupUnit
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroupUnit")
+	int m_GroupNo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroupUnit")
+	class USoundBase* m_pVoice;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVoiceGroup
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	FName m_GroupName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	bool m_bPlayOnGroupNotFound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	class USoundBase* m_pDefaultVoice;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVoiceGroup")
+	TArray<struct FTresVoiceGroupUnit> m_Table;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFriendWarpPointData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	class AActor* m_WarpPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	bool m_bUsedRangeXY;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	float m_WarpPointRangeXY;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	bool m_bUsedRangeZ;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFriendWarpPointData")
+	float m_WarpPointRangeZ;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipmentSetNameTable
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEquipmentSetNameTable")
+	ETresWeaponForm m_FormType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEquipmentSetNameTable")
+	ETresWeaponGrowLvl m_GrowLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEquipmentSetNameTable")
+	FName m_EquipSetName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipmentSetTable
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEquipmentSetTable")
+	FName EquipName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEquipmentSetTable")
+	FName EquipSetName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEquipmentSetTable")
+	TArray<struct FTresEquipmentSetNameTable> m_EquipSetNames;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipmentSetAssetUnit
+{
+	GENERATED_BODY()
+public:
+	FName SetName;
+	TArray<struct FTresEquipmentAssetUnit> SetData;
+	TArray<struct FTresEquipmentAssetUnit> TransformSetData;
+	class USkeletalMesh* m_ReplaceSkinAsset;
+	ETresCharWearForm m_OwnerWearForm;
+	TArray<class UTresAnimSet*> ReplaceAnimSets;
+	class UTresPlayerMagicSet* m_ReplaceMagicSet;
+	class UTresProjectileSet* m_ReplaceProjectileSet;
+	FVector m_ReplaceIKOffset;
+	TArray<struct FTresEquipmentAccompanyPawnAssetUnit> m_AccompanyPawnAssets;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipValiableSet
+{
+	GENERATED_BODY()
+public:
+	ETresWeaponGrowLvl m_GrowLevel;
+	TArray<struct FTresEquipmentAssetUnit> m_Equips;
+	TArray<struct FTresEquipmentAssetUnit> m_TransformSetData;
+	ETresCharWearForm m_OwnerWearForm;
+	TArray<class UTresAnimSet*> m_ReplaceAnimSets;
+	class UTresPlayerMagicSet* m_ReplaceMagicSet;
+	class UTresProjectileSet* m_ReplaceProjectileSet;
+	FVector m_ReplaceIKOffset;
+	TArray<struct FTresEquipmentAccompanyPawnAssetUnit> m_AccompanyPawnAssets;
+	class UTresUIDataAsset* m_UIDataAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEquipValiableSetList
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresEquipValiableSet> m_List;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWearformTextureReplaceData
+{
+	GENERATED_BODY()
+public:
+	int m_ReplaceIndex;
+	FName m_ReplaceMaterialName;
+	class UTexture2D* m_ImageTexture;
+	class UTexture2D* m_NormalTexture;
+	class UTexture2D* m_MaskTexture;
+	class UTexture2D* m_PointTexture;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWearformSetUnit
+{
+	GENERATED_BODY()
+public:
+	FName m_FormName;
+	bool m_bTextureReplace;
+	TArray<struct FTresWearformTextureReplaceData> m_TextureReplaceData;
+	TArray<class UTresAnimSet*> m_ReplaceAnimSets;
+	bool m_bPlayFaceAnim;
+	FName m_PlayFaceAnimName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleAutoIncreaseSpeedParam
+{
+	GENERATED_BODY()
+public:
+	int ColumnsNum;
+	float DecreaseSpeed;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleChallengeModeAutoIncreaseSpeedCoeffParam
+{
+	GENERATED_BODY()
+public:
+	float RemainingTime;
+	float DecreaseSpeedCoeff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBucketUnitPlacingParam
+{
+	GENERATED_BODY()
+public:
+	FVector2D LocationOffsetXY;
+	FRotator Rotation;
+	FVector Scale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBonusGaugeIncreaseByComboParam
+{
+	GENERATED_BODY()
+public:
+	int ComboValue;
+	float IncreaseValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBonusGaugeIncreaseByInvolvedUnitsNumParam
+{
+	GENERATED_BODY()
+public:
+	int InvolvedUnitsNum;
+	float IncreaseValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBonusGaugeIncreaseRateParam
+{
+	GENERATED_BODY()
+public:
+	int BonusUnitsNum;
+	float Rate;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleComboBonusGaugeIncreaseParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresWinniePuzzleBonusGaugeIncreaseByComboParam> IncreaseByComboParam;
+	TArray<struct FTresWinniePuzzleBonusGaugeIncreaseByInvolvedUnitsNumParam> IncreaseByInvolvedUnitsNumParam;
+	TArray<struct FTresWinniePuzzleBonusGaugeIncreaseRateParam> IncreaseRateParam;
+	bool EnableIncreaseRateWhenGetCombo2OrMore;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBonusGaugeAlwaysDecreasingParam
+{
+	GENERATED_BODY()
+public:
+	bool IsEnable;
+	float DecreasingBaseSpeed;
+	class UCurveFloat* DecreasingSpeedChangeCurve;
+	float DecreasingBaseSpeedOnSecond;
+	class UCurveFloat* DecreasingSpeedChangeCurveOnSecond;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBombScoreOffsetParam
+{
+	GENERATED_BODY()
+public:
+	int Column;
+	FVector Offset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBombInterferedParam
+{
+	GENERATED_BODY()
+public:
+	bool IsInterfereUnits;
+	float DistanceWithInterferedUnitOnSimulate;
+	bool IsInterfereUnitsFloat;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleCharacterBonusBombParam
+{
+	GENERATED_BODY()
+public:
+	int FailTimes;
+	int FailTimesAdditionalInvocation;
+	TArray<int> TargetExcludeRows;
+	TArray<int> TargetExcludeColumns;
+	float MoveWaitTime;
+	float FloatMoveDistance;
+	float SuccessFloatMoveDistance;
+	float FloatMoveVerticalAngle;
+	float FloatMoveHorizontalAngle;
+	float FloatMoveSpeed;
+	float FloatMoveDelayTimeCorrectionValue;
+	float FloatTime;
+	class UCurveFloat* FloatMoveCurve;
+	float MoveHeightMin;
+	float MoveHeightMax;
+	float MoveSpeed;
+	float MoveDelayTimeCorrectionValue;
+	float GotoFillUnitsPhaseWaitTime;
+	TArray<struct FTresWinniePuzzleBombScoreOffsetParam> ScoreOffset;
+	TArray<struct FTresWinniePuzzleBombScoreOffsetParam> ScoreOffsetOnSuccess;
+	FVector ReservationLocation;
+	FVector FirstAppearLocation;
+	FVector FirstLocationWhenBonusOccurring;
+	class UParticleSystem* AppearParticle;
+	class UParticleSystem* MoveParticle;
+	class USQEX_ParticleAttachDataAsset* ComeOutParticleOnReadyAttachData;
+	class USQEX_ParticleAttachDataAsset* ComeOutParticleOnDiveAttachData;
+	struct FTresWinniePuzzleBombInterferedParam InterferedParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleDecreaseStyleParam
+{
+	GENERATED_BODY()
+public:
+	int ColumnNum;
+	int DecreaseColumnNum1st;
+	int DecreaseColumnNum2nd;
+	int ColumnDiffPerDecrease;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleCharacterBonusDecreaseParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresWinniePuzzleDecreaseStyleParam> StyleParam;
+	TArray<struct FTresWinniePuzzleDecreaseStyleParam> StyleParamAdditionalInvocation;
+	int MinColumn;
+	float MoveWaitTime1st;
+	float MoveWaitTime1stWhenReserved;
+	float MoveWaitTime2nd;
+	float MoveHeightMin;
+	float MoveHeightMax;
+	float MoveSpeed;
+	float MoveDelayTimeCorrectionValue;
+	float WaitTimeTo2ndMove;
+	float GotoFillUnitsPhaseWaitTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleHoneypotFillProbabilityParam
+{
+	GENERATED_BODY()
+public:
+	int diffNumBetweenMaxAndExist;
+	float spawnNewOneProbability;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleHoneypotFillRowsParam
+{
+	GENERATED_BODY()
+public:
+	TArray<int> RowIdxes;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleHoneypotGaugeIncreaseValueParam
+{
+	GENERATED_BODY()
+public:
+	int HoneypotComboNum;
+	int IncreaseValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleChallengeModeHoneypotGaugeParam
+{
+	GENERATED_BODY()
+public:
+	int Level;
+	float GaugeValueIncValueRate;
+	int GaugeValueDecSpeed;
+	int SpawnMaxNum;
+	bool SpawnInSameRow;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleHoneypotGaugeParam
+{
+	GENERATED_BODY()
+public:
+	int GaugeValueMax;
+	TArray<struct FTresWinniePuzzleHoneypotGaugeIncreaseValueParam> GaugeIncreaseValueParam;
+	float GaugeIncreaseSpeed;
+	float GaugeIncreaseEffectLifetime;
+	TArray<struct FTresWinniePuzzleChallengeModeHoneypotGaugeParam> ChallengeModeParam;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleGhostUnitStraightMoveJudgementRowRange
+{
+	GENERATED_BODY()
+public:
+	int StartRow;
+	int EndRow;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleTotalScoreEvalution
+{
+	GENERATED_BODY()
+public:
+	int totalScore;
+	EWinniePuzzleTotalScoreEvalution Evalution;
+	TArray<int> GotItemNumList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleFirstPlayReward
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefFoodstuff FoodStuff;
+	int EarnNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleChallengeModeLimitTimeIncreaseParam
+{
+	GENERATED_BODY()
+public:
+	int Level;
+	float IncreaseTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleComboEvalution
+{
+	GENERATED_BODY()
+public:
+	int ComboNum;
+	int BonusScore;
+	EWinniePuzzleComboEvalution Evalution;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleComboEvalutionParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresWinniePuzzleComboEvalution> ComboEvalution;
+	int BreakthroughLimitBonusScorePerCombo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleUnitScore
+{
+	GENERATED_BODY()
+public:
+	int UnitNum;
+	int Score;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleUnitScoreParam
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresWinniePuzzleUnitScore> UnitScores;
+	TArray<struct FTresWinniePuzzleUnitScore> UnitScoresForCharacterBonus;
+	EWinniePuzzleUnitScoreSizeJudgementMethod UnitScoreSizeJudgementMethod;
+	int UnitScoreSizeJudgementNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleAdditionalBonusParam
+{
+	GENERATED_BODY()
+public:
+	int SingleInvocationScore;
+	int AdditionalInvocationScore;
+	int SingleInvocationAdditionalScore;
+	int AdditionalInvocationAdditionalScore;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleScoreEvalutionInOneTurnParam
+{
+	GENERATED_BODY()
+public:
+	int ScoreInOneTurn;
+	EWinniePuzzleComboEvalution ScoreEvalution;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleSpecialMoveParam
+{
+	GENERATED_BODY()
+public:
+	bool UseSpecialMove;
+	int InvokeClusterMinUnitsNum;
+	float P1DistanceFromStartMin;
+	float P1DistanceFromStartMax;
+	float MoveAngleRangeStartValue;
+	float MoveAngleRangeEndValue;
+	float MoveSpeed;
+	class UParticleSystem* MoveLocusParticle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleSpecialUnitParam
+{
+	GENERATED_BODY()
+public:
+	bool Enable;
+	int MaxNum;
+	int SpawnColumnsOffsetMax;
+	class UParticleSystem* Particle;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleBoundStyleParam
+{
+	GENERATED_BODY()
+public:
+	EWinniePuzzleBoundStartMoveDirection StartMoveDirection;
+	int MoveStartColumn;
+	int MoveEndColumnNumDiff;
+	int EntryRow;
+	int EntryColumn;
+	int FirstTargetRow;
+	int BoundTimes;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleCharacterBonusBoundParam
+{
+	GENERATED_BODY()
+public:
+	float MoveWaitTime;
+	float MoveHeightMin;
+	float MoveHeightMax;
+	float MoveSpeed;
+	float MoveDelayTimeCorrectionValue;
+	float WaitBoundAnimationTime;
+	float GotoFillUnitsPhaseWaitTime;
+	TArray<struct FTresWinniePuzzleBoundStyleParam> StyleParam;
+	TArray<struct FTresWinniePuzzleBoundStyleParam> StyleParamAdditionalInvocation;
+	bool UseSpecialMove;
+	class UParticleSystem* BoundParticle;
+	float DistanceWithBoundPointWhenSpawnBoundParticle;
+	FVector ReservationLocation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAbilityDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_KeyName;
+	ETresAbilityCategory m_Category;
+	ETresAbilityEquipType m_EquipType;
+	int8 m_UseAP;
+	int8 m_UseMP;
+	int8 m_MaxEquip;
+	FString m_Comment;
+	int m_UIPriority;
+	FString m_NameTextID;
+	FString m_HelpTextID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAccessory_e_ex036_WaterBall
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_WaterBallEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAchievementParam : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int Param;
+};
+
+USTRUCT(BlueprintType)
+struct FArtilleryOptimizeParam
+{
+	GENERATED_BODY()
+public:
+	int m_OffsetIndex;
+	FName m_AttackName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresActionBindParams
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyEx361CounterAfterActionInfo
+{
+	GENERATED_BODY()
+public:
+	ETresEnemyEx361CounterAfterActionKind ActionKind;
+	ETresAIActionAbortTimingID AbortActionID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHopNavLinkExtendedInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresLowJumpNavLinkExtendedInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresJumpNavLinkExtendedInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimInstanceProxy : public FAnimInstanceProxy
+{
+	GENERATED_BODY()
+public:
+	struct FA2Pose MySavedPose;
+	class UAnimSequenceBase* m_pInitialPoseSeq;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_AnimSetEvaluator : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	FName m_AnimName;
+	float m_ExplicitTime;
+	float m_X;
+	float m_Y;
+	float m_Z;
+	class UAnimSequenceBase* m_Sequence;
+	class UBlendSpaceBase* m_BlendSpace;
+	class UTresAnimInstance* m_Instance;
+	struct FBlendFilter m_BlendFilter;
+	TArray<struct FBlendSampleData> m_BlendSampleDataCache;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_AnimSetPlayer : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	FName m_AnimName;
+	float m_X;
+	float m_Y;
+	float m_Z;
+	bool m_bLoopAnimation;
+	float m_PlayRate;
+	int m_GroupIndex;
+	TEnumAsByte<EAnimGroupRole::Type> m_GroupRole;
+	class UAnimSequenceBase* m_Sequence;
+	class UBlendSpaceBase* m_BlendSpace;
+	class UTresAnimInstance* m_Instance;
+	float m_InternalTimeAccumulator;
+	struct FBlendFilter m_BlendFilter;
+	TArray<struct FBlendSampleData> m_BlendSampleDataCache;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_ExDropWaist : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	struct FPoseLink SourcePose;
+	float Alpha;
+	struct FInputScaleBias AlphaScaleBias;
+	struct FBoneReference m_EffectBone;
+	float m_DropSpeed;
+	float m_DropDetectHeightMax;
+	float m_DropDetectHeightMin;
+	TArray<struct FBoneReference> m_IKBones;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLookAtRotBoneParam
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference m_Bone;
+	float m_YawCoefficientData;
+	float m_PitchCoefficientData;
+	float m_ParamACoefficientData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLookAtEyeBoneParam
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference m_Bone;
+	FRotator m_RotLimitMin;
+	FRotator m_RotLimitMax;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_ExLookAt : public FAnimNode_SkeletalControlBase
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference m_LookAtBaseBone;
+	FVector m_LookAtBaseOffset;
+	FVector LookAtLocation;
+	float LookAtParamA;
+	bool m_bIsDirectLook;
+	FRotator m_RotationLimitDegMin;
+	FRotator m_RotationLimitDegMax;
+	float m_RotationBackMarginDeg;
+	float m_RotationSpeedDeg;
+	TArray<struct FTresLookAtRotBoneParam> m_RotBones;
+	TArray<struct FTresLookAtEyeBoneParam> m_EyeBones;
+	int m_LodLimit;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLookAtSubBoneParam
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference m_Bone;
+	FRotator m_RotLimitMin;
+	FRotator m_RotLimitMax;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_LookAt : public FAnimNode_SkeletalControlBase
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference BoneToModify;
+	FVector LookAtLocation;
+	FRotator RotationLimitMin;
+	FRotator RotationLimitMax;
+	float RotationSpeed;
+	TArray<struct FTresLookAtSubBoneParam> m_SubBones;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_ModifyBoneCurveParam
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference m_BoneToModify;
+	TEnumAsByte<EBoneModificationMode> m_RotationMode;
+	class UCurveVector* m_InterpRotationCurve;
+	FRotator m_InterpRotationOffset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_ModifyBoneCurve : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	struct FPoseLink SourcePose;
+	float m_CurvePosition;
+	TArray<struct FTresAnimNode_ModifyBoneCurveParam> m_InterpParams;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_SaveCachedPose : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	struct FPoseLink SourcePose;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_SplineAnchor : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	struct FPoseLink SourcePose;
+	float Alpha;
+	struct FInputScaleBias AlphaScaleBias;
+	bool m_IsAnchorMode;
+	FVector m_TargetLocation;
+	struct FBoneReference m_EffectNode;
+	struct FBoneReference m_BaseNode;
+	ETresSplineAnchorInterpType m_InterpType;
+	struct FInterpCurveVector m_InterpLocationInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FMaskedJoint
+{
+	GENERATED_BODY()
+public:
+	struct FBoneReference Joint;
+	float Percentage;
+};
+
+USTRUCT(BlueprintType)
+struct FMaskedJointChain
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FMaskedJoint> MaskedJoints;
+};
+
+USTRUCT(BlueprintType)
+struct FPDControllerScalar
+{
+	GENERATED_BODY()
+public:
+	float Gain;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNode_UseCachedPose : public FAnimNode_Base
+{
+	GENERATED_BODY()
+public:
+	bool m_bSetRefferedFlag;
+	bool m_bAlwaysRefferPrevPose;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnimNotifyState_PlayVoice_PlayedInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FWeaponSwingSEAttachedInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresAnsemCodeData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefReport ItemID;
+	FString DetailTextID;
 };
 
 USTRUCT(BlueprintType)
@@ -13959,16 +23433,9 @@ struct FTresAreaNameDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
 	FString AreaNameKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
 	FString SubAreaNameKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
 	FName MapNameKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaNameDataTable")
 	FName NavMapNameKey;
 };
 
@@ -13977,206 +23444,173 @@ struct FTresMapNameDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapNameDataTable")
-	TAssetPtr<UTexture> IconAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresMapNameDataTable")
+	TAssetPtr<class UTexture> IconAsset;
 	FString NameKey;
 };
 
 USTRUCT(BlueprintType)
-struct FTresTreasureDataTable : public FTableRowBase
+struct FTresUIGameFlagData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
-	FName m_TreasureName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGameFlagData")
+	FName FlagName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
-	TEnumAsByte<ETresWorldAreaCode> m_WorldAreaCode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGameFlagData")
+	FName FlagLabelName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
-	bool m_bUnused;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGameFlagData")
+	bool bGameCleared;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
-	int m_UIPriority;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGameFlagData")
+	bool bReMindCleared;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTreasureDataTable")
+USTRUCT(BlueprintType)
+struct FTresAreaSelectData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	FName SavePointName;
+	FName MapName;
+	FString MapNameNamespaceKey;
+	FString AreaNameNamespaceKey;
+	TAssetPtr<class UTexture> IconAsset;
+	int UIPriority;
+	struct FTresUIGameFlagData EnableGameFlag;
+	struct FTresUIGameFlagData ForceOpenGameFlag;
+	struct FTresUIGameFlagData DisableGameFlag;
+	TArray<struct FTresUIGameFlagData> RestrictionStartGameFlag;
+	TArray<struct FTresUIGameFlagData> RestrictionEndGameFlag;
+	bool EnableLanding;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex027_ThundagaInfo
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_ThundagaEff;
+};
+
+USTRUCT(BlueprintType)
+struct FTresBattleLevelFromName : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int BattleLevel;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPlayerSpecialActionLogRecord
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttackMissLogRecord
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttackHitLogRecord
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresStartAttackLogRecord
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTornadoBlowPawnInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTCHE02WALL_PARAM
+{
+	GENERATED_BODY()
+public:
+	class UClass* CameraShake;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCharAnimInstanceProxy : public FTresAnimInstanceProxy
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresChrSEDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class USoundBase* m_Asset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAttackDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_Power;
+	TEnumAsByte<ETresDamageKind> m_DamageKind;
+	ETresDamageAttribute m_DamageAttribute;
+	float m_DamagePowerScale;
+	float m_DamageParabolaAngle;
+	float m_DamageMoveLength;
+	float m_DamageBrakeParam;
+	ETresAtkHitKnockbackType m_KnockbackType;
+	float m_DamageExecRate;
+	float m_DamageEffectTime;
+	ETresBadStatusType m_BadStatusKind;
+	float m_BadStatusGenRate;
+	float m_BadStatusEffectTime;
+	float m_BadStatusEffectParam;
+	ETresAtkTeamCheckType m_TeamCheckType;
+	int m_ReactionPowerValue;
+	bool m_bIsScrumAttack;
+	int m_ArmorAttackPower;
+	int m_FormPoint;
+	bool m_bIsMagicAttack;
+	bool m_bIsIvalidGuard;
+	bool m_bIsRapidFire;
+	bool m_bIsKillerAttack;
+	bool m_bIsAttractionDamage;
+	bool m_bIsCounterAttack;
+	bool m_bIsEnableWeakGuardAttack;
+	int m_ReflectLevel;
+	ETresAtkCollReflectReaction m_ReflectReaction;
+	float m_RevengePoint;
+	ETresPhysDamageForceLevel m_PhysForceLv;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemyBaseStatusDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_BaseHP;
+	int m_BaseExp;
+	int m_BaseAttackPower;
+	int m_BaseDefensePower;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShipLevelUpDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_Exp;
+	int m_HP;
+	int m_AttackPower;
 	FString m_Comment;
-};
-
-USTRUCT(BlueprintType)
-struct FTresAbilityDataTable : public FTableRowBase
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	FName m_KeyName;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	TEnumAsByte<ETresAbilityCategory> m_Category;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	TEnumAsByte<ETresAbilityEquipType> m_EquipType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	unsigned char m_UseAP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	unsigned char m_UseMP;*/
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	uint8 m_MaxEquip;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	FString m_Comment;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	int m_UIPriority;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	FString m_NameTextID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAbilityDataTable")
-	FString m_HelpTextID;
-};
-
-USTRUCT(BlueprintType)
-struct FTresItemWeaponEnhanceIconDataTable : public FTableRowBase
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceIconDataTable")
-	ETresItemDefWeapon m_WeaponID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceIconDataTable")
-	TAssetPtr<class UTexture> PickerIconAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceIconDataTable")
-	TAssetPtr<class UTexture> KeybladeIconAsset;
-};
-
-USTRUCT(BlueprintType)
-struct FTresItemSynthesisDataTableBase : public FTableRowBase
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	FName m_Material0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	int m_MatNum0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	FName m_Material1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	int m_MatNum1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	FName m_Material2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	int m_MatNum2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	FName m_Material3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	int m_MatNum3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	FName m_Material4;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	int m_MatNum4;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	FName m_Material5;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemSynthesisDataTableBase")
-	int m_MatNum5;
-};
-
-USTRUCT(BlueprintType)
-struct FTresItemWeaponEnhanceDataTable : public FTresItemSynthesisDataTableBase
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	int m_FlagIndex;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	ETresItemDefWeapon m_WeaponID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	bool m_bInitAchieved;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	int m_WeaponLevel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	int m_AttackPlus;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	int m_MagicPlus;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresItemWeaponEnhanceDataTable")
-	ETresAbilityKind m_AppendAbility;
-};
-
-USTRUCT(BlueprintType)
-struct FTresChrInitEquip
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresItemDefWeapon> m_Weapons;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	bool m_bWeaponFixed;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	uint8 m_InitProtectorSlot = 1;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresItemDefProtector> m_Protectors;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	uint8 m_InitAccessorySlot = 1;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresItemDefAccessory> m_Accessorys;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	uint8 m_InitItemSlot = 3;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresItemDefBattleItem> m_Items;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresAbilityKind> m_EquipAbility;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresAbilityKind> m_HaveAbility;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresAbilityKind> m_CriticalEquipAbility;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	TArray<ETresAbilityKind> m_CriticalHaveAbility;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	class UDataTable* m_BaseParamData;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	int m_CriticalUseAPUpNum;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	class UDataTable* m_LevelData;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
-	class UTresFormAbilitySet* m_FormAbilityAsset;
 };
 
 USTRUCT(BlueprintType)
@@ -14184,28 +23618,13 @@ struct FTresChrLevelUpDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	int m_Exp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	int m_AttackPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	int m_MagicPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	int m_DefensePower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	int m_AbilityPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	ETresAbilityKind m_AbilityKind1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	ETresAbilityKind m_AbilityKind2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrLevelUpDataTable")
 	ETresAbilityKind m_AbilityKind3;
 };
 
@@ -14214,320 +23633,3205 @@ struct FTresChrBaseParamDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MaxHitPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_MaxHPRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MaxMagicPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MaxFocusPoint;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttackPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MagicPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_DefensePower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AbilityPoint;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_ExpRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresBodyPushPowerLevel m_BodyPushPower;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresChrBiologicalType m_BioType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_AttractionRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MaxBodyStrongValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MaxArmorHP;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_DamageMin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_DamageMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_NeedReactionSameTeamZeroDmgAtk;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_MaxRevengeCount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoolDownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientPhysical;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientFire;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientBlizzard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientThunder;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientWater;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientAero;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientDark;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	float m_RevengeCoefficientNoType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistPhysical;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistFire;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistBlizzard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistThunder;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistWater;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistAero;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistDark;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_AttrResistNoType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_ResistRapidFire;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_ResistComboParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointPhysical;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointFire;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointBlizzard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointThunder;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointWater;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointAero;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointDark;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
-	bool m_AttrWeekPointNoType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
+	int m_AttrWeekPointPhysical;
+	int m_AttrWeekPointFire;
+	int m_AttrWeekPointBlizzard;
+	int m_AttrWeekPointThunder;
+	int m_AttrWeekPointWater;
+	int m_AttrWeekPointAero;
+	int m_AttrWeekPointDark;
+	int m_AttrWeekPointNoType;
 	bool m_bResistEffectFreeFlow;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectDeath;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectCatch;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectDrillBind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectYoBind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectRalphBind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectEnergyBurst;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectFreeze;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectStop;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectMagnet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectStun;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectSneeze;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectHoney;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectCloud;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectDischarge;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectBurn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	bool m_bResistEffectPoleSpinTurn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresDropItemID m_DropPrize1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_NumDropPrize1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresDropItemID m_DropPrize2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_NumDropPrize2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresDropItemID m_DropItemID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_DropItemRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresDropItemID m_DropItemID2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_DropItemRate2;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	ETresDropItemID m_DropItemID3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrBaseParamDataTable")
 	int m_DropItemRate3;
 };
 
 USTRUCT(BlueprintType)
-struct FTresAttackDataTable : public FTableRowBase
+struct FTresCommandKindData : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_Power;
+	FString Name;
+	int8 Type;
+	int8 Cate;
+	int8 Old;
+	int8 Attr;
+	int8 Local;
+	int8 Flag;
+	int8 Sp;
+	int8 Mp;
+	int8 Fp;
+	int Param0;
+	int Param1;
+	int Param2;
+	int Param3;
+	FString LocKey;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	TEnumAsByte<ETresDamageKind> m_DamageKind;
+USTRUCT(BlueprintType)
+struct FTresComNpcEntityCountInfo
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	ETresDamageAttribute m_DamageAttribute;
+USTRUCT(BlueprintType)
+struct FTresControlledRandomDistribution_Uniform
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_DamagePowerScale;
+USTRUCT(BlueprintType)
+struct FTresAccelAttackInfo_e_ex359
+{
+	GENERATED_BODY()
+public:
+	bool bValid;
+	float A;
+	float B;
+	float x_min;
+	float x_max;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_DamageParabolaAngle;
+USTRUCT(BlueprintType)
+struct FTresPointDamageEvent : public FPointDamageEvent
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_DamageMoveLength;
+USTRUCT(BlueprintType)
+struct FTresTornadoDebrisObject
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_DamageBrakeParam;
+USTRUCT(BlueprintType)
+struct FTresTornadoDebrisTransform
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	ETresAtkHitKnockbackType m_KnockbackType;
+USTRUCT(BlueprintType)
+struct FTresTornadoDebrisState
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_DamageExecRate;
+USTRUCT(BlueprintType)
+struct FTresUIGameFlagText
+{
+	GENERATED_BODY()
+public:
+	FString TextId;
+	struct FTresUIGameFlagData GameFlag;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_DamageEffectTime;
+USTRUCT(BlueprintType)
+struct FTresUIActorSetting
+{
+	GENERATED_BODY()
+public:
+	int LightSetIndex;
+	int PostProcessSetIndex;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	ETresBadStatusType m_BadStatusKind;
+USTRUCT(BlueprintType)
+struct FTresUIGameFlagActor
+{
+	GENERATED_BODY()
+public:
+	TAssetPtr<class UClass> ActorAsset;
+	struct FTresUIActorSetting ActorSetting;
+	struct FTresUIGameFlagData GameFlag;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_BadStatusGenRate;
+USTRUCT(BlueprintType)
+struct FTresDictionaryCharacterData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	int UIPriority;
+	TArray<struct FTresUIGameFlagText> Texts;
+	TArray<struct FTresUIGameFlagActor> Actors;
+	FString NameTextID;
+	FString SourceTextID;
+	ETresItemDefKeyItem KeyItemID;
+	TEnumAsByte<ESqexCPPKHSWorldType> KHSWorldType;
+	ETresUIDataVersion Version;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_BadStatusEffectTime;
+USTRUCT(BlueprintType)
+struct FTresDictionaryEnemyData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresUIDictionaryEnemyCategory Category;
+	int UIPriority;
+	FString TextId;
+	TArray<struct FTresUIGameFlagActor> Actors;
+	FString NameTextID;
+	bool bHideKillCount;
+	ETresEnemyUniqueID MainEnemyID;
+	TArray<ETresEnemyUniqueID> SubEnemyIDs;
+	TEnumAsByte<ESqexCPPKHSWorldType> KHSWorldType;
+	ETresUIDataVersion Version;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_BadStatusEffectParam;
+USTRUCT(BlueprintType)
+struct FTresDLCIdentifier : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString strValueEU;
+	FString strValueJP;
+	FString strValueNA;
+	FString strValueTW;
+	bool m_HasData;
+	FString m_MountName;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	ETresAtkTeamCheckType m_TeamCheckType;
+USTRUCT(BlueprintType)
+struct FSQEX_EffectAttachData
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	int m_ReactionPowerValue;
+USTRUCT(BlueprintType)
+struct FTresTroopsRewards : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresDropItemID m_Prize1;
+	FName m_Item1;
+	int m_NumPrize1;
+	int m_PrizeRate1;
+	ETresDropItemID m_Prize2;
+	FName m_Item2;
+	int m_NumPrize2;
+	int m_PrizeRate2;
+	ETresDropItemID m_Prize3;
+	FName m_Item3;
+	int m_NumPrize3;
+	int m_PrizeRate3;
+	ETresDropItemID m_Prize4;
+	FName m_Item4;
+	int m_NumPrize4;
+	int m_PrizeRate4;
+	ETresDropItemID m_Prize5;
+	FName m_Item5;
+	int m_NumPrize5;
+	int m_PrizeRate5;
+	ETresDropItemID m_OnBoardPrize1;
+	FName m_OnBoardItem1;
+	int m_NumOnBoardPrize1;
+	int m_OnBoardPrizeRate1;
+	ETresDropItemID m_OnBoardPrize2;
+	FName m_OnBoardItem2;
+	int m_NumOnBoardPrize2;
+	int m_OnBoardPrizeRate2;
+	ETresDropItemID m_OnBoardPrize3;
+	FName m_OnBoardItem3;
+	int m_NumOnBoardPrize3;
+	int m_OnBoardPrizeRate3;
+	ETresDropItemID m_OnBoardPrize4;
+	FName m_OnBoardItem4;
+	int m_NumOnBoardPrize4;
+	int m_OnBoardPrizeRate4;
+	FName m_OnBoardItem5;
+	ETresDropItemID m_OnBoardPrize5;
+	int m_NumOnBoardPrize5;
+	int m_OnBoardPrizeRate5;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsScrumAttack;
+USTRUCT(BlueprintType)
+struct FTres_e_bx903Shine_Task
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	int m_ArmorAttackPower;
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_dw401_AirBlowParam
+{
+	GENERATED_BODY()
+public:
+	class ATresCharPawnBase* m_pTgtPawn;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	int m_FormPoint;
+USTRUCT(BlueprintType)
+struct FDestinaionCandidate_e_ex035
+{
+	GENERATED_BODY()
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsMagicAttack;
+USTRUCT(BlueprintType)
+struct FEX354_ArtemaWarpShotModifySet
+{
+	GENERATED_BODY()
+public:
+	class AActor* m_Target;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsIvalidGuard;
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_Flotation
+{
+	GENERATED_BODY()
+public:
+	class AStaticMeshActor* m_pActor;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsRapidFire;
+USTRUCT(BlueprintType)
+struct FTresEnemyEx711_ScaffoldParam
+{
+	GENERATED_BODY()
+public:
+	class AStaticMeshActor* m_pActor;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsKillerAttack;
+USTRUCT(BlueprintType)
+struct FTresEnemyBigDealParam_e_ex356
+{
+	GENERATED_BODY()
+public:
+	FName FailedDamageAttackDataIDName;
+	float ShuffleTime;
+	float AttackBeforeDeceleration;
+	float EndRotationAcceleration;
+	float EndRotationAccelerationTime;
+	float EndRotationMaxSpeed;
+	int FirstSecondNotCardDesignNum;
+	TArray<struct FTresEnemyBigDealContractionSpeedParam_e_ex356> FirstSecondContractionSpeedParamList;
+	float FirstSecondEndRadius;
+	float FirstSecondCardRotationSpeed;
+	float FirstSecondCardShaffleIntervalTime;
+	int LastNotCardDesignNum;
+	float LastContractionStartDelayTime;
+	TArray<struct FTresEnemyBigDealContractionSpeedParam_e_ex356> LastContractionSpeedParamList;
+	float LastEndRadius;
+	float LastCardRotationSpeed;
+	float LastCardShaffleIntervalTime;
+	TArray<float> FirstSecondAttackStartRadiusList;
+	TArray<float> LastAttackStartRadiusList;
+	float AttackTargetFollowSpeed;
+	float AttackStartDelayTime;
+	float CenterLocationCheckPlayerRadius;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsAttractionDamage;
+USTRUCT(BlueprintType)
+struct FTresFieldGenerateAttackParam_e_ex357
+{
+	GENERATED_BODY()
+public:
+	bool bIsFieldPenetrateAttackStart;
+	float StartTime;
+	float IntervalTime;
+	float LifeTime;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsCounterAttack;
+USTRUCT(BlueprintType)
+struct FTresFieldVoiceExecuteData
+{
+	GENERATED_BODY()
+public:
+	class AActor* m_pExecuter;
+	float m_Time;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	bool m_bIsEnableWeakGuardAttack;
+USTRUCT(BlueprintType)
+struct FTresFirstMapJumpData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipWorldSymbolID m_nWmSymbleID;
+	FName m_PresistenLevelPath;
+	FName m_PlayerStartTagName;
+	bool m_isWorldStart;
+	ETresGumiShipWorldSymbolID m_nWmStart;
+	bool m_isTpStart;
+	ETresGumiShipTravelPointID m_nTpStart;
+	FName m_DebugInfo;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	int m_ReflectLevel;
+USTRUCT(BlueprintType)
+struct FTresFoodstuffDropDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int8 m_GenRate;
+	ETresFoodstuffDropperID m_BPType;
+	ETresItemDefFoodstuff m_Drop1ItemID;
+	int8 m_Drop1Num;
+	int8 m_Drop1Rate;
+	int8 m_Drop1Level;
+	ETresItemDefFoodstuff m_Drop2ItemID;
+	int8 m_Drop2Num;
+	int8 m_Drop2Rate;
+	int8 m_Drop2Level;
+	ETresItemDefFoodstuff m_Drop3ItemID;
+	int8 m_Drop3Num;
+	int8 m_Drop3Rate;
+	int8 m_Drop3Level;
+	ETresItemDefFoodstuff m_Drop4ItemID;
+	int8 m_Drop4Num;
+	int8 m_Drop4Rate;
+	int8 m_Drop4Level;
+	ETresItemDefFoodstuff m_Drop5ItemID;
+	int8 m_Drop5Num;
+	int8 m_Drop5Rate;
+	int8 m_Drop5Level;
+	ETresItemDefFoodstuff m_Drop6ItemID;
+	int8 m_Drop6Num;
+	int8 m_Drop6Rate;
+	int8 m_Drop6Level;
+	ETresItemDefFoodstuff m_Drop7ItemID;
+	int8 m_Drop7Num;
+	int8 m_Drop7Rate;
+	int8 m_Drop7Level;
+	ETresItemDefFoodstuff m_Drop8ItemID;
+	int8 m_Drop8Num;
+	int8 m_Drop8Rate;
+	int8 m_Drop8Level;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	ETresAtkCollReflectReaction m_ReflectReaction;
+USTRUCT(BlueprintType)
+struct FTresFriendEvaluationDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresCommandKind> m_CommandKind;
+	int m_BadStatEvaluation;
+	int m_HitPointEvaluation;
+	int m_MagicPointEvaluation;
+	int m_FocusPointEvaluation;
+	int m_AllCharaEvaluation;
+	bool m_SpecialCure;
+	int m_RecoveryPoint;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	float m_RevengePoint;
+USTRUCT(BlueprintType)
+struct FTresFriendHomePosDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_BaseLen;
+	float m_BaseRot;
+	float m_MiddleLen;
+	float m_MiddleRot;
+	float m_LargeLen;
+	float m_LargeRot;
+};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAttackDataTable")
-	ETresPhysDamageForceLevel m_PhysForceLv;
+USTRUCT(BlueprintType)
+struct FTresFriendRelationDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresChrUniqueID m_UniqueID;
+	int m_Index;
+	bool m_bodySize;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFriendIdDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_Name;
+	ETresChrUniqueID m_UniqueID;
+};
+
+USTRUCT(BlueprintType)
+struct FGameHelpItemPage
+{
+	GENERATED_BODY()
+public:
+	TAssetPtr<class UTexture> Image;
+	FString TextNamespaceKey;
+	TMap<FName, FString> TextNamespaceKeyPlatform;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGameHelpDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresGameHelp ID;
+	ETresGameHelpCategory Category;
+	TArray<struct FGameHelpItemPage> Pages;
+	int UIPriority;
+	FString TitleNamespaceKey;
+	ETresUIDataVersion Version;
+	bool WinImageUseKeyboardMouse;
+	bool WinKeyboardHighlights;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiGameOverHintData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString HintNameLocSpaceKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGameOverHintEnemyInfo
+{
+	GENERATED_BODY()
+public:
+	ETresEnemyUniqueID ID;
+	TArray<FName> AttackID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGameOverHintData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString HintNameLocSpaceKey;
+	EGameOverHintType HintType;
+	int Priority;
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	FName MapName;
+	struct FTresUIGameFlagData StartGameFlag;
+	struct FTresUIGameFlagData EndGameFlag;
+	TArray<struct FTresGameOverHintEnemyInfo> EnemyInfo;
+	ETresGameOverHintSpecialType SpecialType;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnPrizeData : public FTresSpawnActorData
+{
+	GENERATED_BODY()
+public:
+	float OverrideSphereRadius_;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCarDriverData
+{
+	GENERATED_BODY()
+public:
+	class UStaticMesh* DriverMesh;
+	class UMaterialInterface* DriverMaterial;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFestivalClapSpot
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystemComponent* m_pPSC;
+};
+
+USTRUCT(BlueprintType)
+struct FSpecialMoveMission
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresRapunzelDanceMarker
+{
+	GENERATED_BODY()
+public:
+	EDancePerformType m_PerformType;
+	float m_Length;
+	FVector m_Location;
+	class UParticleSystemComponent* m_pPSC;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGimmickTT_Post_PresentDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefBattleItem m_BattleItemID1;
+	ETresItemDefCampItem m_CampItemID1;
+	ETresItemDefAccessory m_AccessoryID1;
+	ETresItemDefMaterial m_MaterialID1;
+	int m_ItemNum1;
+	float m_ItemPrizeRate1;
+	bool m_ItemRare1;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipPlayerBaseCommonParameter
+{
+	GENERATED_BODY()
+public:
+	float m_fHitPoint;
+	float m_fAttackPoint;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipPlayerBaseMovementParameter
+{
+	GENERATED_BODY()
+public:
+	float m_fMinOfSpeed;
+	float m_fMaxOfSpeed;
+	float m_fSpeedOfPitchUp;
+	float m_fSpeedOfPitchDown;
+	float m_fSpeedOfYaw;
+	float m_fSpeedOfRoll;
+	float m_fCoolDownTimeOfBoost;
+	float m_fDurationOfBoost;
+	float m_fScaleOfBoost;
+	float m_fLimitOfPitch;
+	float m_fSpeedOfAutoHorizontalCorrection;
+	float m_fCameraDepthLagDestDist;
+	float m_fCameraDepthLagAccSpeed;
+	float m_fCameraDepthLagDecSpeed;
+	float m_fCameraDepthLagScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipPlayerBaseTrackingParameter
+{
+	GENERATED_BODY()
+public:
+	float m_fTrackingTime;
+	float m_fTracking2DSpeed;
+	float m_fRailSlide2DSpeed;
+	float m_fTrackingSpeed;
+	float m_fBetweenDist;
+	float m_fMostNearDistRatioForBoost;
+	float m_fTrackingRange;
+	float m_fCameraArmLength;
+	float m_fCameraPitch;
+	float m_fFOV;
+	float m_fNearClipPlane;
+	float m_fAdjustmentUD;
+	float m_fAdjustmentLR;
+	float m_fParseAdjustmentUD;
+	float m_fParseAdjustmentLR;
+	float m_fModelParseAdjustmentUD;
+	float m_fModelParseAdjustmentLR;
+	FVector2D m_vLimitOfMove;
+	FVector2D m_vRatioOfStartMoveCamera;
+	float m_fInterpSpeedOfCamera;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipPlayerBaseParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipPlayerBaseCommonParameter m_Common;
+	struct FTresGumiShipPlayerBaseMovementParameter m_Movement;
+	struct FTresGumiShipPlayerBaseTrackingParameter m_Tracking;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyTerritoryInfo
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipEnemyTerritoryID m_eTerritoryID;
+	FName m_sNameLabel;
+	ETresGummiSpaceDef m_nSpace;
+	int8 m_nDispNum;
+	int8 m_nLevel;
+	bool m_isBoss;
+	bool m_isDiscard;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyTerritoryParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresGumiShipEnemyTerritoryInfo> m_Territory;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipStrikeGumiParametarDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipCollisionShape m_eShape;
+	FVector m_vSize;
+	FVector m_vOffset;
+	float m_fRefreshSec;
+	float m_fWidth;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipAbilityParametarDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_fEffect1;
+	float m_fEffect2;
+	float m_fEffect3;
+	struct FTresGumiShipElementResistance m_ElementResistance;
+	int8 m_byCost;
+	int8 m_byMaxCountOfEquip;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipHudRaderParam
+{
+	GENERATED_BODY()
+public:
+	float m_fRaderRange;
+	float m_fMiddleAlertRange;
+	float m_fNearAlertRange;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipHudGuideAreaParam
+{
+	GENERATED_BODY()
+public:
+	float m_fWorldSymbolMarkerVolumeRadius;
+	float m_fTravelGateMarkerVolumeRadius;
+	float m_fTreasureSphereMarkerVolumeRadius;
+	float m_fEnemyTerritoryMarkerVolumeRadius;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipHudStanderdDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipHudRaderParam m_RaderParam;
+	struct FTresGumiShipHudGuideAreaParam m_GuideParam;
+	float m_fShowMessageWindowTime;
+	int m_dEnemyHPGaugeMax;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMissionItemParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipDropPrizeData m_Compensations[0x3];
+	struct FTresGumiShipDropPrizeData m_CompensationForFirstTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMisisonBonusWithConditionI
+{
+	GENERATED_BODY()
+public:
+	uint32 m_udBonusPoint;
+	int m_dConditionValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMissionIndividalParam
+{
+	GENERATED_BODY()
+public:
+	ETresGumiShipBattleMissionType m_eBattleType;
+	uint32 m_udScoreOfRanks[0x5];
+	int m_dTimeBonus[0x8];
+	struct FTresGumiShipBattleMisisonBonusWithConditionI m_DefeatedBonus[0x3];
+	uint32 m_udTimeLimitSeconds;
+	uint32 m_udNumbetOfDefeated;
+	FName m_ItemDataName;
+	FString m_InfoMesLabel;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMissionIndividalParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipBattleMissionIndividalParam m_Individal;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMissionCommonParam
+{
+	GENERATED_BODY()
+public:
+	uint32 m_udNoDamageBonus;
+	uint32 m_udBrokePartsBonus;
+	uint32 m_udDefeatedGroupBonus;
+	float m_fDamageScoreCoefficient;
+	float m_fScoreRates[0x8];
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMissionCommonParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipBattleMissionCommonParam m_Common;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipProjectileDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_AttackDataName;
+	float m_fMovementSpeed;
+	float m_fRange;
+	float m_fHomingAngle;
+	float m_fDoHomingInDegree;
+	FVector m_vScale;
+	class UParticleSystem* m_pMuzzleFlashEffect;
+	bool m_bDoWarpHitLocation;
+	bool m_bTargetLocationPredictable;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipWeaponDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_fShootPerSecond;
+	float m_fDelayTimeOfStartShoot;
+	float m_fDispersion;
+	float m_fRollDispersion;
+	float m_fForwardOffset;
+	class UClass* m_ProjectileType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipAttackDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_fAttackPoint;
+	ETresGumiShipAttackElementType m_eElementType;
+	ETresGumiShipAttackSubElemntType m_eSubElementType;
+	ETresGumiShipReactionType m_eReactionType;
+	ETresGumiShipBadStateType m_eBadStateType;
+	float m_fTimeOfBadStateEffective;
+	float m_fPercentOfBadState;
+	FName m_HitEffectDataName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipHitEffectDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pHitEffect;
+	bool m_bUseScaleFromCameraDistTo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGlobalEnemyDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_BossWorldUnlockRemoteEventName;
+	FName m_SymbolEncountBattleStartRemoteEventName;
+	float m_fEnemyRespawnIntervalTime;
+	float m_fEnemyRespawnThresholdDistance;
+	float m_fBattleStartConditionThresholdTime;
+	float m_fBattleStartTriggerActivateThresholdScale;
+	float m_fEnemyAttackRequestableScreenPercentageX;
+	float m_fEnemyAttackRequestableScreenPercentageY;
+	float m_fEnemyAppearFadeDelayTime;
+	float m_fTutorialHelpShowThresholdDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyAttackMethodDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_AttackName;
+	float m_fAttackMinRange;
+	float m_fAttackMaxRange;
+	float m_fAttackRangeAngle;
+	float m_fAttackingTime;
+	float m_fCoolDownTime;
+	ETresGumiShipEnemyStateID m_eAttackStateID;
+	FName m_UsableEnemyID;
+	bool m_bUsableDefaultValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyBaseParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_nMaxHitPoint;
+	int m_nScorePoint;
+	float m_fMaxRotateSpeed;
+	float m_fPitchLimitAngle;
+	struct FTresGumiShipDropPrizeData m_DropPrizeSettingData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipReactionResistance
+{
+	GENERATED_BODY()
+public:
+	bool m_bBrow;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBadStateResistance
+{
+	GENERATED_BODY()
+public:
+	bool m_bStun;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipReactionParameter
+{
+	GENERATED_BODY()
+public:
+	float m_fMass;
+	ETresGumiShipObjectSize m_eSizeType;
+	struct FTresGumiShipReactionResistance m_ReactionResistance;
+	struct FTresGumiShipBadStateResistance m_BadStateResistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipSkeletalMeshCtrl
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipClusterInfo : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UStaticMesh* StaticMesh;
+	class UParticleSystem* AttachEffectType;
+	float HP;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipDamageEvent : public FPointDamageEvent
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyGeneratorDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_SpawnEnemyClass;
+	float m_fOffsetX;
+	float m_fOffsetY;
+	float m_fOffsetZ;
+	int m_nAttackPriority;
+	float m_fSpawnDelayTime;
+	struct FGuid m_EnemyGUID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipSplinePathMoveExecutor
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipEnemyStateWork
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGenericProjectileParam
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pAttachEffectType;
+	FName m_ProjectileDataName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickConstellationTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresGumiShipConstellationCode> m_ConstellationCode;
+	FString m_NameStrId;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickDashRingTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	bool m_Type;
+	float m_Accelerat;
+	float m_AcceleratTime;
+	float m_RingRenge;
+	float m_fDashDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickPrizeBoxTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float RollingTime;
+	float TriggerLimitTime;
+	int MaxCount;
+	float RotSpeedScale;
+	float BounceAttenuation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickCrystalTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_fRecoveryPointRate;
+	float m_fRotSpeed;
+	class UParticleSystem* m_pBrokenVFX;
+	bool m_bRevival;
+	float m_fRevivalTime;
+	float m_fDistance;
+	float m_fScaleMax;
+	float m_fScaleMid;
+	float m_fScaleMin;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickTreasureTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pEmissionVFX;
+	class UParticleSystem* m_pAcquisitionVFX;
+	class UParticleSystem* m_pGearVFX;
+	float m_fTreasureDistance;
+	float m_fTreasureAngleSpeed;
+	float m_fMaxAngle;
+	float m_fGlowMashMin;
+	float m_fGlowMashMax;
+	class USoundBase* m_SECoreLoopStart;
+	class USoundBase* m_SECoreLoopError;
+	class USoundBase* m_SECoreLoopEnd;
+	class USoundBase* m_SECoreColorChange;
+	class USoundBase* m_SEGearSuccess;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickSwCannonTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pSwDeadVFX;
+	FVector m_vSwDeadOffset;
+	float m_fSwDistance;
+	struct FTresGumiShipDropPrizeData m_SwItem;
+	float m_fAnglespeed;
+	float m_fMaxYaw;
+	float m_fMaxPitch;
+	float m_fMinPitch;
+	float m_fSwPcDistance;
+	int m_CannonHP;
+	float m_fLaserSavingTime;
+	float m_fTriggerReleaseTime;
+	float m_fTriggerWaitTime;
+	float m_fSwRespawnTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickCannonTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pDeadVFX;
+	FVector m_vDeadOffset;
+	float m_fCannonDistance;
+	struct FTresGumiShipDropPrizeData m_Item;
+	float m_fPcDistance;
+	bool m_MultiCannon;
+	int m_CannonHP;
+	float m_fRespawnTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickMeteorTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_MeteoroHP;
+	class UParticleSystem* m_pHoleVFX;
+	class UParticleSystem* m_pGuideVFX;
+	class UParticleSystem* m_pMeteoroVFX;
+	class UParticleSystem* m_pMuzzleVFX;
+	class UParticleSystem* m_pDeadVFX;
+	float m_fStartDispTimer;
+	float m_fEndDispTimer;
+	float m_pMuzzleTimer;
+	float m_fStartTimer;
+	float m_fScaleTimer;
+	float m_fGlowTimer;
+	float m_fInitalScale;
+	float m_fEffectScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickMagmaTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UParticleSystem* m_pMagmaVFX;
+	float m_fPlayerDistance;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickMineTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float RespawnTime;
+	float RespawnDistance;
+	int MaxHP;
+	bool Fragile;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipGimmickTreasureDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString m_Labels;
+	float m_Dir;
+	float m_Dirtime;
+	FRotator m_InitalRot;
+	FRotator m_AnswerRot;
+	bool m_PrizeOutPos;
+	bool m_DummyMesh;
+	FVector m_PrizeOutOffset;
+	TArray<FString> m_ImpactMash;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipItemlotteryDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGumiShipDropPrizeData m_Itemlottery;
+	EGUMI_SHIP_DROPITEM_RARITY m_Rarity;
+	int m_ApperProb;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipBattleMisisonBonusWithConditionF
+{
+	GENERATED_BODY()
+public:
+	float m_fBonusPoint;
+	int m_dConditionValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipMovemnetParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipPrizeDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_ItemCount;
+	float m_RotatoSpeed;
+	float m_fInitSpeed;
+	float m_fMaxSpeed;
+	float m_fSuctionRange;
+	float m_LoopSpeed;
+	float m_LoopStartLengs;
+	float m_LoopSuction;
+	float m_fRevivalDistance;
+	float m_fRevivalWaitTimer;
+	float m_fStartDistance;
+	float m_min_size;
+	float m_fSizeSpeed;
+	class USoundBase* m_SoundAssets;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipPrizeItemDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UClass* m_SpawnClass;
+	struct FTresGumiShipPrizeDataTable m_Parameters;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipTextSet
+{
+	GENERATED_BODY()
+public:
+	FString m_strNamespace;
+	FString m_strKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTinyShipPlanData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGummiShipHeader m_header;
+	struct FTresGummiShipSticker m_Sticker[0x8];
+	TArray<struct FTresGummiShipPartsStruct> m_body;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiShipPlanData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresGummiShipHeader m_header;
+	struct FTresGummiShipAbility m_Ability;
+	struct FTresGummiShipSticker m_Sticker[0x8];
+	TArray<struct FTresGummiShipPartsStruct> m_body;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNameEntryTextData
+{
+	GENERATED_BODY()
+public:
+	FString Text[0x64];
+};
+
+USTRUCT(BlueprintType)
+struct FTresNameEntryTextDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresNameEntryTextData TextList[0x9];
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiStickerStruct
+{
+	GENERATED_BODY()
+public:
+	class UTexture2D* m_pStickerTexture;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiGraphicData
+{
+	GENERATED_BODY()
+public:
+	class USkeletalMesh* m_pSkeltalMesh;
+	class UTexture2D* m_BaseColorTexture;
+	float m_BaseColorTexUVIndex;
+	struct FLinearColor m_EmissiveColor;
+	struct FLinearColor m_EmissiveMaskChannel;
+	class UTexture2D* m_EmissiveMaskTexture;
+	float m_EmissiveMaskTexUVIndex;
+	float m_EMS_AdjustColor;
+	float m_EMS_SineMax;
+	float m_EMS_SineMin;
+	float m_EMS_SineSpeed;
+	float m_EMS_UseColorTable;
+	class UTexture2D* m_NormalTexture;
+	float m_NormalTexUVIndex;
+	class UTexture2D* m_AOTexture;
+	float m_AOTexUVIndex;
+	class UTexture2D* m_CT1_PaletteTexture;
+	float m_CT2_PaletteNum;
+	class UTexture2D* m_CT3_MaskTexture;
+	float m_CT4_MaskTexUVIndex;
+	float m_CT5_MaskTexUVTiling;
+	struct FLinearColor m_CT_CustomColor;
+	float m_CT_PaletteUse;
+	class UTexture2D* m_PTN1_MaskTexture;
+	struct FLinearColor m_PTN1_MaskTexture1_R_Color;
+	struct FLinearColor m_PTN1_MaskTexture2_G_Color;
+	struct FLinearColor m_PTN1_MaskTexture3_B_Color;
+	struct FLinearColor m_PTN1_MaskTexture4_A_Color;
+	class UTexture2D* m_PTN2_NormalTexture;
+	class UTexture2D* m_PTN3_SetTexture;
+	float m_PTN4_TexUVIndex;
+	float m_PTN5_TexUVTiling;
+	float m_PTN_MetalicToSpecular;
+	class UTexture2D* m_MaskTexture;
+	float m_MaskTexUVIndex;
+	struct FLinearColor m_R1_ColorMulti;
+	float m_R2_Metallic;
+	float m_R3_Specular;
+	float m_R4_Roughness;
+	struct FLinearColor m_R5_Emissive;
+	struct FLinearColor m_R_MaskChannel_2;
+	float m_R_NormalStrength;
+	float m_R_PatternID;
+	float m_R_UVTiling;
+	float m_R_UVIndex;
+	struct FLinearColor m_G1_ColorMulti;
+	float m_G2_Metallic;
+	float m_G3_Specular;
+	float m_G4_Roughness;
+	struct FLinearColor m_G5_Emissive;
+	struct FLinearColor m_G_MaskChannel_2;
+	float m_G_NormalStrength;
+	float m_G_PatternID;
+	float m_G_UVTiling;
+	float m_G_UVIndex;
+	struct FLinearColor m_B1_ColorMulti;
+	float m_B2_Metallic;
+	float m_B3_Specular;
+	float m_B4_Roughness;
+	struct FLinearColor m_B5_Emissive;
+	struct FLinearColor m_B_MaskChannel_2;
+	float m_B_NormalStrength;
+	float m_B_PatternID;
+	float m_B_UVTiling;
+	float m_B_UVIndex;
+	struct FLinearColor m_A1_ColorMulti;
+	float m_A2_Metallic;
+	float m_A3_Specular;
+	float m_A4_Roughness;
+	struct FLinearColor m_A5_Emissive;
+	struct FLinearColor m_A_MaskChannel_2;
+	float m_A_NormalStrength;
+	float m_A_PatternID;
+	float m_A_UVTiling;
+	float m_A_UVIndex;
+	struct FLinearColor m_LightAttenuationChannel;
+	class UTexture2D* m_LightAttenuationTexture;
+	float m_LightAttenuationTexUVIndex;
+	float m_RotateAxisX;
+	float m_RotateAxisY;
+	float m_RotateAxisZ;
+	float m_RotateSpeed;
+	float m_UVScrollSpeedU;
+	float m_UVScrollSpeedV;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPartsStruct
+{
+	GENERATED_BODY()
+public:
+	int8 m_nSizeX;
+	int8 m_nSizeY;
+	int8 m_nSizeZ;
+	int16 m_nCost;
+	int16 m_nHP;
+	int16 m_nSpeed;
+	int16 m_nPower;
+	int16 m_nRoll;
+	int16 m_nAttack;
+	int16 m_nTurn;
+	bool m_isMaterial;
+	bool m_isPattern;
+	bool m_isSticker;
+	bool m_isColorChange;
+	bool m_isFlip;
+	bool m_isAnim;
+	bool m_isUVAnim;
+	float m_fPreviewScale;
+	struct FTresGummiGraphicData m_GraphicData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPlanInfoData
+{
+	GENERATED_BODY()
+public:
+	FString m_PlanName;
+	int m_nNowCost;
+	int m_nMaxCost;
+	int m_nNowHP;
+	int m_nMaxHP;
+	int m_nNowAttack;
+	int m_nMaxAttack;
+	int m_nNowPower;
+	int m_nMaxPower;
+	int m_nNowTurn;
+	int m_nMaxTurn;
+	int m_nNowRoll;
+	int m_nMaxRoll;
+	int m_nNowSpeed;
+	int m_nMaxSpeed;
+	int m_nNowAbility;
+	int m_nMaxAbility;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiGraphicDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class USkeletalMesh* m_pSkeltalMesh;
+	class UTexture2D* m_BaseColorTexture;
+	float m_BaseColorTexUVIndex;
+	struct FLinearColor m_EmissiveColor;
+	struct FLinearColor m_EmissiveMaskChannel;
+	class UTexture2D* m_EmissiveMaskTexture;
+	float m_EmissiveMaskTexUVIndex;
+	float m_EMS_AdjustColor;
+	float m_EMS_SineMax;
+	float m_EMS_SineMin;
+	float m_EMS_SineSpeed;
+	float m_EMS_UseColorTable;
+	class UTexture2D* m_NormalTexture;
+	float m_NormalTexUVIndex;
+	class UTexture2D* m_AOTexture;
+	float m_AOTexUVIndex;
+	class UTexture2D* m_CT1_PaletteTexture;
+	float m_CT2_PaletteNum;
+	class UTexture2D* m_CT3_MaskTexture;
+	float m_CT4_MaskTexUVIndex;
+	float m_CT5_MaskTexUVTiling;
+	struct FLinearColor m_CT_CustomColor;
+	float m_CT_PaletteUse;
+	class UTexture2D* m_PTN1_MaskTexture;
+	struct FLinearColor m_PTN1_MaskTexture1_R_Color;
+	struct FLinearColor m_PTN1_MaskTexture2_G_Color;
+	struct FLinearColor m_PTN1_MaskTexture3_B_Color;
+	struct FLinearColor m_PTN1_MaskTexture4_A_Color;
+	class UTexture2D* m_PTN2_NormalTexture;
+	class UTexture2D* m_PTN3_SetTexture;
+	float m_PTN4_TexUVIndex;
+	float m_PTN5_TexUVTiling;
+	float m_PTN_MetalicToSpecular;
+	class UTexture2D* m_MaskTexture;
+	float m_MaskTexUVIndex;
+	struct FLinearColor m_R1_ColorMulti;
+	float m_R2_Metallic;
+	float m_R3_Specular;
+	float m_R4_Roughness;
+	struct FLinearColor m_R5_Emissive;
+	struct FLinearColor m_R_MaskChannel_2;
+	float m_R_NormalStrength;
+	float m_R_PatternID;
+	float m_R_UVTiling;
+	float m_R_UVIndex;
+	struct FLinearColor m_G1_ColorMulti;
+	float m_G2_Metallic;
+	float m_G3_Specular;
+	float m_G4_Roughness;
+	struct FLinearColor m_G5_Emissive;
+	struct FLinearColor m_G_MaskChannel_2;
+	float m_G_NormalStrength;
+	float m_G_PatternID;
+	float m_G_UVTiling;
+	float m_G_UVIndex;
+	struct FLinearColor m_B1_ColorMulti;
+	float m_B2_Metallic;
+	float m_B3_Specular;
+	float m_B4_Roughness;
+	struct FLinearColor m_B5_Emissive;
+	struct FLinearColor m_B_MaskChannel_2;
+	float m_B_NormalStrength;
+	float m_B_PatternID;
+	float m_B_UVTiling;
+	float m_B_UVIndex;
+	struct FLinearColor m_A1_ColorMulti;
+	float m_A2_Metallic;
+	float m_A3_Specular;
+	float m_A4_Roughness;
+	struct FLinearColor m_A5_Emissive;
+	struct FLinearColor m_A_MaskChannel_2;
+	float m_A_NormalStrength;
+	float m_A_PatternID;
+	float m_A_UVTiling;
+	float m_A_UVIndex;
+	struct FLinearColor m_LightAttenuationChannel;
+	class UTexture2D* m_LightAttenuationTexture;
+	float m_LightAttenuationTexUVIndex;
+	float m_RotateAxisX;
+	float m_RotateAxisY;
+	float m_RotateAxisZ;
+	float m_RotateSpeed;
+	float m_UVScrollSpeedU;
+	float m_UVScrollSpeedV;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiMaterialDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UMaterialInstance* m_MaterialInstance_Base;
+	class UMaterialInstance* m_MaterialInstance_Deco;
+	class UTexture2D* m_CT1_PaletteTexture;
+	float m_CT2_PaletteNum;
+	class UTexture2D* m_CT3_MaskTexture_Base;
+	class UTexture2D* m_CT3_MaskTexture_Deco;
+	float m_CT4_MaskTexUVIndex;
+	float m_CT5_MaskTexUVTiling;
+	struct FLinearColor m_CT_CustomColor;
+	float m_CT_PaletteUse;
+	bool m_isPattern;
+	bool m_isSticker;
+	bool m_isColorChange;
+};
+
+USTRUCT(BlueprintType)
+struct FTresWorldObjectPreviewTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FTransform m_nTransform_he;
+	FTransform m_nTransform_tt;
+	FTransform m_nTransform_ts;
+	FTransform m_nTransform_ra;
+	FTransform m_nTransform_fz;
+	FTransform m_nTransform_mi;
+	FTransform m_nTransform_bx;
+	FTransform m_nTransform_ca;
+	FTransform m_nTransform_kg;
+	FTransform m_nTransform_cs;
+	FTransform m_nTransform_travel;
+	FTransform m_nTransform_jump;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiMissionDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_nMemo;
+	bool m_isUse;
+	int m_nDispIndex;
+	ETresGummiMissionRarity m_nRarity;
+	FString m_nTitleTextID;
+	ETresGummiMissionReleaseCondition m_nReleaseCondition;
+	FString m_nAfterConditionTextID;
+	FString m_nBeforeConditionTextID;
+	FString m_nAfterGetItemTextID;
+	FString m_nBeforeGetItemTextID;
+	uint32_t m_nMissionClearNum;
+	bool m_isHideClearNum;
+	ETresItemDefGumiParts m_nReward1;
+	uint16 m_nReward1Num;
+	TArray<ETresItemDefGumiMaterial> m_nReward2;
+	TArray<ETresItemDefGumiPattern> m_nReward3;
+	TArray<ETresItemDefGumiSticker> m_nReward4;
+	TArray<ETresItemDefGumiShipBP> m_nReward5;
+	TArray<ETresItemDefGumiEtc> m_nReward6;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPartsDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_nSkeltalMeshName;
+	int8 m_nGetMax;
+	int8 m_nSizeX;
+	int8 m_nSizeY;
+	int8 m_nSizeZ;
+	int16 m_nCost;
+	int16 m_nHP;
+	int16 m_nSpeed;
+	int16 m_nPower;
+	int16 m_nRoll;
+	int16 m_nAttack;
+	int16 m_nTurn;
+	bool m_isFlip;
+	bool m_isMaterial;
+	bool m_isPattern;
+	bool m_isSticker;
+	bool m_isColorChange;
+	bool m_isAnim;
+	bool m_isUVAnim;
+	float m_fPreviewScale;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPatternDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UTexture2D* m_PTN1_MaskTexture;
+	FLinearColor m_PTN1_MaskTexture1_R_Color;
+	FLinearColor m_PTN1_MaskTexture2_G_Color;
+	FLinearColor m_PTN1_MaskTexture3_B_Color;
+	FLinearColor m_PTN1_MaskTexture4_A_Color;
+	class UTexture2D* m_PTN2_NormalTexture;
+	class UTexture2D* m_PTN3_SetTexture;
+	float m_PTN4_TexUVIndex;
+	float m_PTN5_TexUVTiling;
+	float m_PTN_MetalicToSpecular;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPieceDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TArray<ETresItemDefGumiShipBP> m_pSpace1GummiPieceData;
+	TArray<ETresItemDefGumiShipBP> m_pSpace2GummiPieceData;
+	TArray<ETresItemDefGumiShipBP> m_pSpace3GummiPieceData;
+	TArray<ETresItemDefGumiShipBP> m_pSpace4GummiPieceData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPlanSetData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefGumiShipBP m_GummiShipPlan;
+	ETresItemDefGumiShipBP m_TinyShipPlan[0x2];
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiPlanDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TArray<struct FTresGummiPlanSetData> m_nGummiPlanSet;
+	TArray<struct FTresGummiPlanSetData> m_nSpecialGummiPlanSet;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGumiShipRankDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_nRank;
+	int m_nPrize;
+	int m_nNextPrize;
+	int m_nGummiShipCostAdd;
+	int m_nTinyShipCostAdd;
+	int16_t m_nAbilityPointAdd;
+	int8_t m_nTinyUseAdd;
+	int8_t m_nFormationAdd;
+	ETresItemDefGumiEtc m_nAbilityKind[0x5];
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiStickerDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_nTextureName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiStickerTextureDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	class UTexture2D* m_nTexture;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiTreasureDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TArray<ETresItemDefGumiParts> m_nTreasureGummiParts;
+	TArray<ETresItemDefGumiEtc> m_nTreasureSpecialWeapon;
+	TArray<ETresItemDefGumiShipBP> m_nTreasurePlan;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLuckyMarkMilestoneRewardDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int RewardIndex;
+	int MarkCount;
+	bool CompleteRewardFlag;
+	FName RewardTreasureName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLuckyMarkDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName World;
+	int MarkIndex;
+};
+
+USTRUCT(BlueprintType)
+struct FTornadoVacuumSet
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudCommandData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName MagicSubCommandDataKey;
+	FName ItemSubCommandDataKey;
+	FName LinkSubCommandDataKey;
+	FName ShortcutCommandDataKey;
+	FName CheatRightShortcutCommandDataKey;
+	FName CheatLeftShortcutCommandDataKey;
+	FName WeaponShortcutDataKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresShortcutWeaponData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefWeapon Type1;
+	ETresItemDefWeapon Type2;
+	ETresItemDefWeapon Type3;
+	ETresItemDefWeapon Type4;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSlidePhotoWork
+{
+	GENERATED_BODY()
+public:
+	class UTexture* pTexture;
+};
+
+USTRUCT(BlueprintType)
+struct FTresIconTextDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int X;
+	int Y;
+	int Width;
+	int Height;
+	int VSpace;
+	FString BindKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFoodCompleteMealEffectDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresAbilityKind m_AbilityPlus;
+	int m_Level;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFoodItemEffectDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString m_Comment;
+	int m_MaxHPPlus;
+	int m_MaxMPPlus;
+	int m_AttackPlus;
+	int m_MagicPlus;
+	int m_DefensePlus;
+	int m_FoodItemLevel;
+	bool m_bPlusFoodItem;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_KeyName;
+	ETresItemCategory m_Category;
+	int m_UIPriority;
+	FString m_Comment;
+	ETresItemCategoryIcon m_CategoryIcon;
+	ETresItemRank m_ItemRank;
+	TAssetPtr<class UTexture> m_IconAsset;
+	FString m_NameTextID;
+	FString m_HelpTextID;
+	int m_BuyPrice;
+	int m_SellPrice;
+	int m_ShopLevel;
+	int m_GumiShopLevel;
+	bool m_bNeedMogCard;
+	int m_UnlockFlagIndex;
+	bool m_bCanSell;
+	bool m_bCanDrop;
+	bool m_bCanbeSoldOut;
+	int m_MaxNum;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemWeaponEnhanceIconDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefWeapon m_WeaponID;
+	TAssetPtr<class UTexture> PickerIconAsset;
+	TAssetPtr<class UTexture> KeybladeIconAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemSynthesisDataTableBase : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_Material0;
+	int m_MatNum0;
+	FName m_Material1;
+	int m_MatNum1;
+	FName m_Material2;
+	int m_MatNum2;
+	FName m_Material3;
+	int m_MatNum3;
+	FName m_Material4;
+	int m_MatNum4;
+	FName m_Material5;
+	int m_MatNum5;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemWeaponEnhanceDataTable : public FTresItemSynthesisDataTableBase
+{
+	GENERATED_BODY()
+public:
+	int m_FlagIndex;
+	ETresItemDefWeapon m_WeaponID;
+	bool m_bInitAchieved;
+	int m_WeaponLevel;
+	int m_AttackPlus;
+	int m_MagicPlus;
+	ETresAbilityKind m_AppendAbility;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemMotifDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_FlagIndex;
+	FString m_Comment;
+	bool m_bSevenPrincessFlag;
+	FName m_GameFlagName;
+	FName m_GameFlagLabel;
+	FName m_PrevMotifName;
+	FString m_NameTextID;
+	FString m_HelptTextID;
+	int m_UIPriority;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemCollectDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int m_FlagIndex;
+	ETresItemCollectCondition m_Condition;
+	int m_ConditionN;
+	ETresItemDefMaterial m_ConditionX;
+	ETresItemDefMaterial m_ConditionY;
+	ETresItemRank m_ConditionR;
+	ETresItemCollectRewardKind m_RewardKind;
+	FName m_RewardItem;
+	FString m_NameTextID;
+	FString m_HelptTextID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresItemSynthesisDataTable : public FTresItemSynthesisDataTableBase
+{
+	GENERATED_BODY()
+public:
+	int m_FlagIndex;
+	FName m_RewardItem;
+	ETresItemSynthesisCondition m_Condition;
+	FName m_ConditionName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresKeywordGlossaryData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	struct FTresUIGameFlagText KeywordText;
+	FString DetailTextID;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresLSIGameData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresItemDefLSIGameItem LSIGameItemID;
+	FString DetailTextID;
+	ETresGameHelp GameHelpID;
+	int ImageIconIndex;
+	ETresUILSIScoreType ScoreType;
+	FString IconGraALabelName;
+	FString IconGraBLabelName;
+	FString BgIconGraLabelName;
+	TAssetPtr<class UTexture2D> TitleLogoImage;
+	FString ButtonSetLabelName;
+	TArray<TEnumAsByte<ETresUIPadButtonType>> ButtonSetButtonTypes;
+};
+
+USTRUCT(BlueprintType)
+struct FTresMemoryArchiveData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName MapName;
+	FString EpisodeNameTextID;
+	TAssetPtr<class UTexture> IconAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresGummiShipAnimInstanceProxy : public FAnimSingleNodeInstanceProxy
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresNauticalChartData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresUINauticalChartPoint NO;
+	FString TextId;
+	FVector2D Point;
+	FVector2D Range;
+	bool bGoal;
+	bool bSavePoint;
+	bool bVisitedMarker;
+	FName MapName;
+	FName StartTag;
+	FName VisitedMarkerFlag;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNaviMapData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TAssetPtr<class UTexture> TextureAsset;
+	float Scale;
+	FVector2D Origin;
+	FName ItemKeyName;
+	float AngleCorrect;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNextTodoData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	struct FTresUIGameFlagData GameFlag;
+	FString TextId;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresNpcAILeadSubCharaSlot
+{
+	GENERATED_BODY()
+public:
+	ETresChrUniqueID Slot0;
+	ETresChrUniqueID Slot1;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhilharmonicData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName MapName;
+	FString ProgramMoviePath;
+	FString ProgramNameTextID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramEffectInstance
+{
+	GENERATED_BODY()
+public:
+	TArray<class UParticleSystemComponent*> m_pPSCList;
+	TWeakObjectPtr<class ATresPhotoHologramActor> m_pOwner;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHologramCharaWindParam
+{
+	GENERATED_BODY()
+public:
+	TArray<FString> m_Groups;
+	//TEnumAsByte<ESQEX_Bonamik_EmissiveDirection> m_DirectionSpace;
+	FVector m_DirectionVec;
+	float m_BaseStrength;
+	float m_WaveAmplitude;
+	float m_WavePeriod;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramPoseDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_AnimName;
+	float m_StartTime;
+	FVector m_LocationOffSet;
+	FRotator m_RotationOffset;
+	FVector m_FocusDefaultLocation;
+	FString m_Comment;
+	FName m_MapSetId;
+	FString PoseNameNamespaceKey;
+	int PoseIndex;
+	bool m_bWeaponVisible;
+	FName m_ValidWeaponTag;
+	FName m_ValidBodyCollTag;
+	TArray<FName> m_ExtraValidBodyCollTagList;
+	bool m_bEnableWeaponOnOff;
+	TArray<ETresHologramSubAnimReplaceType> m_WeaponOffHandReplacement;
+	TArray<FName> m_FacialTypeList;
+	TArray<struct FTresPhotoHologramEffectData> m_EffectData;
+	ETresCharWearForm m_WearForm;
+	TArray<struct FSQEX_BonamikChangingParameter> m_BonamikGroupParams;
+	TArray<struct FTresHologramCharaWindParam> m_BonamikCharaWind;
+	FName m_SetPosePreEvent;
+	FName m_SetPosePostEvent;
+	FName m_AfterPoseEvent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramPoseSet
+{
+	GENERATED_BODY()
+public:
+	FName AnimName;
+	float StartTime;
+	bool IsWeaponVisible;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramMapSetDef : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TArray<FName> ValidMapList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramMapData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString m_Comment;
+	int Index;
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	TAssetPtr<class UTexture> WorldIconAsset;
+	FName PlayerStartLabelName;
+	FName MapName;
+	FString MapNameNamespaceKey;
+	FString AreaNameNamespaceKey;
+	int AreaIndex;
+	TAssetPtr<class UTexture> IconAsset;
+	int UIPriority;
+	FName ExtraLoadingScreenDataName;
+	int m_NewMarkIndex;
+	FName m_UnlockGameFlagName;
+	FName m_UnlockGameFlagLabelName;
+	int m_SaveIndex;
+	int CharaNumMax;
+	int ObjectNumMax;
+	bool IsBonamikIgnoreGroundCollision;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramCameraEffectTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString m_Comment;
+	EHologramActorCategory m_Category;
+	FString m_EffectNameNamespaceKey;
+	TAssetPtr<class UTexture> m_IconAsset;
+	int m_UIPriority;
+	FName m_MapSetId;
+	int m_NewMarkIndex;
+	int m_EffectGroupID;
+	bool m_IsSepiaType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramWeaponTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString m_Comment;
+	int m_Index;
+	ETresItemDefWeapon m_WeaponItemID;
+	FString m_WeaponNameNamespaceKey;
+	TAssetPtr<class UTexture> m_IconAsset;
+	int m_UIPriority;
+	FName m_MapSetId;
+	int m_NewMarkIndex;
+	TAssetPtr<class UTresPhotoHologramWeaponAsset> m_WeaponAsset;
+	TArray<TAssetPtr<class UTresPhotoHologramWeaponAsset>> m_WeaponAssetList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPhotoHologramDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_AssetName;
+	int m_Index;
+	FString m_Comment;
+	EHologramActorCategory m_Category;
+	FName m_IdentifyName;
+	int m_MaxCount;
+	FString m_CharaNameNamespaceKey;
+	TAssetPtr<class UTexture> m_IconAsset;
+	int m_UIPriority;
+	int m_UICharaInfoPage;
+	int m_UICharaInfoSlotNo;
+	FName m_AreaCharaInfoMapSet;
+	int m_NewMarkIndex;
+	float m_RootCollisionSize;
+	FName m_MapSetId;
+	FName m_UnlockGameFlagName;
+	FName m_UnlockGameFlagLabelName;
+	int m_SaveIndex;
+	TAssetPtr<class UClass> m_HologramAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresPlayerAttackStateParameterDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_MotionName;
+	float m_fAnimStartTime;
+	bool m_bUseTractionMove;
+	bool m_bUseRootMoveScale;
+	bool m_bIsJumpAttack;
+	bool m_bIsDownAttack;
+	bool m_bNotFallingUntilStartAttack;
+	bool m_bStabSuppression;
+	float m_fTractionSpeedXY;
+	float m_fTractionSpeedZ;
+	float m_fTractionRateZ;
+	float m_fRootMoveLength;
+	float m_fCloseRangeXY;
+	bool m_bIsFinish;
+	bool m_bIsAerial;
+	bool m_bIsInvincible;
+	bool m_bIsImmpbile;
+	bool m_bIsFaceTrgUntil;
+	bool m_bIgnoreCoolDown;
+	float m_fInvincibleTimer;
+	bool m_bIsWarp;
+	float m_fWarpTimer;
+	FName m_WarpMotionName;
+	int m_dWarpAuraEffectGroup;
+	int m_dEffectGroup;
+	int m_dVoiceGroup;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClaymoreSet_e_ex306
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresProjectile_e_ex306_Claymore_Idle> pClaymore;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveHitWork_e_ex310
+{
+	GENERATED_BODY()
+public:
+	class ATresCharPawnBase* pOwner;
+};
+
+USTRUCT(BlueprintType)
+struct FTresClaymoreSet_e_ex355
+{
+	GENERATED_BODY()
+public:
+	TWeakObjectPtr<class ATresProjectile_e_ex355_Claymore_Idle> pClaymore;
+};
+
+USTRUCT(BlueprintType)
+struct FEX355_ThrowHomingSecondInfo
+{
+	GENERATED_BODY()
+public:
+	float m_fMinHomingDistance;
+	float m_fMaxHomingAngle;
+	float m_fInitHomingRotateVelocity;
+	float m_fMaxHomingRotateVelocity;
+	float m_fHomingRotateAccel;
+	float m_fMaxHomingAngleIgnoreTime;
+	bool m_bEnableGrabityOnDisablingHomingToLandTarget;
+	float m_fGravityScale;
+};
+
+USTRUCT(BlueprintType)
+struct FWaveHitWork_e_ex359
+{
+	GENERATED_BODY()
+public:
+	class ATresCharPawnBase* pOwner;
+};
+
+USTRUCT(BlueprintType)
+struct FTresProjectileGenerator_e_ex054_TargetParam
+{
+	GENERATED_BODY()
+public:
+	class ATresCharPawnBase* m_pTarget;
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex313_DarkMineEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex361_DarkMineEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_EncloseFlareEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_EncloseFlareHvnEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareShotHvnEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_ExFlareTornadoEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_FlareTornadoEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex771_HvnDebrisBlowParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_EncloseFlareEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_EncloseFlareHvnEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareShotHvnEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_ExFlareTornadoEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_FlareTornadoEntryParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresEnemy_e_ex773_HvnDebrisBlowParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FMagmaTornadoSpawnerInfo
+{
+	GENERATED_BODY()
+public:
+	FVector m_vSpawnOffset;
+	float m_fLifeTime;
+	float m_fMaxVelocity;
+	float m_fAccel;
+	float m_fHomingRotVelocity;
+	float m_fHomingMinDistance2D;
+	float m_fHomingMaxYaw;
+	float m_fProjectileSpawnWidth;
+	float m_fProjectileSpawnDepth;
+	float m_fProjectileSpawnInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FTresFloat32_Range
+{
+	GENERATED_BODY()
+public:
+	float m_fMinValue;
+	float m_fMaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresInt32_Range
+{
+	GENERATED_BODY()
+public:
+	int m_nMinValue;
+	int m_nMaxValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyRewardDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int16 CookingSuccessPoints;
+	int16 CookingGreatSuccessPoints;
+	ETresItemDefAccessory Milestone1Reward;
+	ETresItemDefBattleItem Milestone2Reward;
+	int16 CircumductionNum;
+	ETresItemDefFoodstuff CircumductionReward;
+	ETresItemDefFood CookingFailedReward;
+	ERemyRecipeType SpecialFoodStuffRecipeType;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyUnlockDishLevelDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int16 EarnUnlockDishLevelPointsWhenSuccess;
+	int16 EarnUnlockDishLevelPointsWhenGreatSuccess;
+	int16 EarnUnlockDishLevelPointsWhenFail;
+	TMap<ERemyDishLevel, int16> UnlockDishLevelPoints;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyRestaurantRankDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ERemyRestaurantRank Rank;
+	int NecessaryPoint;
+	ERemyMilestone Milestone;
+	ERemyKitchenGrade KitchenGrade;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyCameraDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ERemyCameraWorkTiming CameraWorkTiming;
+	FName CameraWorkEventName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyResultAnimationDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ERemyCookingGameType GameType;
+	ERemyResultAnimationType AnimationType;
+	FName AnimationName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyAnimationDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ERemyAnimationType AnimationType;
+	FName AnimationName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyCookingGameDataTableBase : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float GameDuration;
+	float MaterialMaxAmount;
+	float MaterialIncreasingCorrect;
+	float SuccessPercent;
+	float GreatSuccessPercent;
+	float TooManyPercent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemySprinklePepperV2DataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+public:
+	ERemySprinklePepperEquipmentType EquipmentType;
+	ERemySprinklePepperContentsType ContentsType;
+	float ValidInputValue;
+	float StickNeutralValue;
+	float GreatSuccessInputBonusCorrectionCoefficient;
+	float InputTimingSuccessPercent;
+	float InputTimingGreatSuccessPercent;
+	float InputTimingTooSlowPercent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyEggCrackingV2DataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+public:
+	float RightStickEggCrackingValue;
+	float TooInclinedPercent;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyFlambeV2DataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+public:
+	ERemyFlambeFoodType FoodType;
+	float PourStickPourStartValue;
+	float PourStickRotationJudgementAngle;
+	float PourStickRotationAnimationCoefficient;
+	float PourStickNoRotationJudgementTime;
+	float FlambeStickFlambeValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyCuttingDataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+public:
+	ERemyCuttingFoodType FoodType;
+	float StickCuttingValue;
+	float StickReloadValue;
+	float ReloadStickNoInputValue;
+	int ReloadCutTimesRangeStart;
+	int ReloadCutTimesRangeEnd;
+	TArray<ERemyCookingCommand> ReloadCommand1;
+	TArray<ERemyCookingCommand> ReloadCommand2;
+	float ReloadTime;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemySprinklePepperDataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyEggCrackingDataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+public:
+	float StickEggCrackingValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyFlambeDataTable : public FTresRemyCookingGameDataTableBase
+{
+	GENERATED_BODY()
+public:
+	float LeftStickFlambeValue;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyPawnDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FVector PawnLocation;
+	FRotator PawnRotation;
+	FVector HourglassLocation;
+	FVector GreatSuccessEffectLocationOffset;
+	FVector GreatSuccessBGEffectLocation;
+	FRotator GreatSuccessBGEffectRotation;
+	FVector GasStoveFireEffectLocation;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyRecipeDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ERemyDishCategory Category;
+	ERemyMenuType MenuType;
+	ERemyRecipeType RecipeType;
+	FString RecipeNameTextID;
+	FString RecipeHelpTextID;
+	ERemyCookingGameType GameType;
+	ERemyDishLevel DishLevel;
+	FName PawnDataID;
+	TAssetPtr<class UTexture> IconAsset;
+	ETresItemDefFood CommonItemId;
+	ETresItemDefFood GoodItemId;
+	TMap<ETresItemDefFoodstuff, int> FoodList;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRemyStoveFireParticleParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresScalabilityCsvData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	int MotionBlur;
+	int AAQuality;
+	int DepthOfFieldQuality;
+	int AmbientOcclusionLevels;
+	int EyeAdaptationQuality;
+	int SSRQuality;
+	int TranslucencyVolumeBlur;
+	int TranslucencyLightingVolumeDim;
+	int ShadowQuality;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSceneColorCsvData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float KHSSceneEmmisive;
+	float LightIntensity;
+	float InDirectIntensity;
+	float AmbientIntensity;
+	struct FLinearColor TintColor;
+};
+
+USTRUCT(BlueprintType)
+struct FTresScreenShotResult
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresSoKcKeyHoleGimmickCommonParameter : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	float m_fConnectBeamMaxSpeed;
+	float m_fConnectBeamInitialSpeed;
+	float m_fConnectBeamAcceleration;
+	float m_fLastLightConnectBeamMaxSpeed;
+	float m_fLastLightConnectBeamInitialSpeed;
+	float m_fLastLightConnectBeamAcceleration;
+	int m_nConnectedKeyHolePassableLimitNum;
+	struct FTresUInt8_Range m_NormalKeyHoleConnectableCountRange;
+	struct FTresUInt8_Range m_ChanceMarkerKeyHoleConnectableCountRange;
+	struct FTresUInt8_Range m_BigChanceMarkerKeyHoleConnectableCountRange;
+	int8 m_uChanceMarkerLimitNum;
+	int8 m_uBigChanceMarkerLimitNum;
+	float m_fChanceMarkerProbability;
+	float m_fBigChanceMarkerProbability;
+	TArray<int8> m_ChanceMarkerPatternDistributionTable;
+	TArray<float> m_ChanceMarkerLimitTimeTable;
+	float m_fBigChanceMarkerLimitTime;
+	int m_nBigChanceMarkerNormaConnectedCount;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnPointBuildSettings
+{
+	GENERATED_BODY()
+public:
+	FName m_Id;
+	ETresSpawnPointSize m_Size;
+	float m_Radius;
+	float m_Height;
+	ETresSpawnPointBuildMethod m_Method;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnPointManualCreated
+{
+	GENERATED_BODY()
+public:
+	FName m_Id;
+	float m_Radius;
+	float m_Height;
+	struct FTresSpawnPointElement m_Element;
+};
+
+USTRUCT(BlueprintType)
+struct FTresSpawnRuleFromSplineSection
+{
+	GENERATED_BODY()
+public:
+	//class ASQEX_SplineActor* StartActor;
+	//class ASQEX_SplineActor* EndActor;
+	TArray<class UClass*> GeneratedClassArray;
+	class UClass* GeneratedClass;
+	class UClass* FirstGeneratedClass;
+	class UClass* LastGeneratedClass;
+	//class UTresGeneratorPlacePaternFromSplineBase* PlacePatern;
+	float Interval;
+	FVector Offset;
+	class UTresRotatorRuleBase* RotatorRule;
+	//struct FTresSpawnRuleChildGenerator ChildRule;
+};
+
+USTRUCT(BlueprintType)
+struct FClusterInfo
+{
+	GENERATED_BODY()
+public:
+	float VoxelSize;
+	struct FBox Bounds;
+	struct FIntVector VoxelNum;
+	TMap<uint32, uint32> OverlapInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresStoryEpisodeData
+{
+	GENERATED_BODY()
+public:
+//	struct FTresUIGameFlagText EpisodeText;
+	TAssetPtr<class UTexture2D> IconAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresStoryData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString WorldNameTextID;
+	TArray<struct FTresStoryEpisodeData> EpisodeData;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanTimeDilationFactor : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanOmegaPeriod : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanOppositeWaveSuppression : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanSmallWaveSuppression : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWindAngle : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWindSpeed : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanSteepness : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanAmplitude : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWavelength : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWorldMaxY : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWorldMaxX : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWorldMinY : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_OceanWorldMinX : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_DistanceCulling : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTaggedActorPropertyValue_LOD : public FTresTaggedActorPropertyValueBase
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresTheaterMapInfo
+{
+	GENERATED_BODY()
+public:
+	FName MapName;
+	TAssetPtr<class UTresTexturePump> TexturePump;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTheaterSceneData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName Chapter;
+	TArray<struct FTresTheaterMapInfo> MapInfo;
+	FString SceneNameNamespaceKey;
+	struct FTresUIGameFlagData GameFlag;
+	bool bSecret;
+	int nDispPriorty;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTheaterChapterData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString ChapterNameNamespaceKey;
+	TAssetPtr<class UTexture> IconAsset;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTreasureDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName m_TreasureName;
+	TEnumAsByte<ETresWorldAreaCode> m_WorldAreaCode;
+	bool m_bUnused;
+	int m_UIPriority;
+	FString m_Comment;
+};
+
+USTRUCT(BlueprintType)
+struct FTresTutorialData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString TextId;
+	FString DetailTextID;
+	struct FTresUIGameFlagData GameFlag;
+	ETresGameHelp GameHelp;
+};
+
+USTRUCT(BlueprintType)
+struct FTresRailSlideMoveInfo
+{
+	GENERATED_BODY()
+public:
+	class ASQEX_SplineActor* m_StartActor;
+	class ASQEX_SplineActor* m_EndActor;
+	class USQEX_SplineComponent* m_Component;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVector2DInt
+{
+	GENERATED_BODY()
+public:
+	int X;
+	int Y;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUICharacterData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresChrUniqueID ChrUniqueID;
+	ETresPlayerUniqueID PlayerUniqueID;
+	ETresUIFaceUniqueID FaceUniqueID;
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	TAssetPtr<class UTresUIDataAssetStatus> StatusData;
+	TAssetPtr<class UTexture> MenuFaceIcon;
+	TArray<struct FTresUIGameFlagText> Names;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIStyleData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresCommandKind> m_CommandKind;
+	TAssetPtr<class USwfMovie> m_SwfAsset;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitStyleInfo
+{
+	GENERATED_BODY()
+public:
+	TArray<FString> m_strBtnLocKeyAry;
+	TArray<TEnumAsByte<ETresUIPadButtonType>> m_eBtnTypeAry;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIMainCommandData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	TEnumAsByte<ETresCommandKind> m_CommandKind;
+	ETresUIHudCommandExKind m_CommandExKind;
+	ETresUIMainCommandTitleKind m_TitleKind;
+	TAssetPtr<class USwfMovie> m_SwfAsset;
+	struct FTresCockpitStyleInfo m_styleInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuChallengeRankData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresDlcChallengeRank m_Code;
+	TAssetPtr<class UTexture> m_IconAsset;
+	FString m_RankName;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuChallengeScoreInfo
+{
+	GENERATED_BODY()
+public:
+	ETresDlcChallengeScoreID m_Code;
+	TArray<FString> m_NameIds;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuChallengeScoreData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FString m_NameId;
+	TArray<struct FTresCodeMenuChallengeScoreInfo> m_Scores;
+	struct FTresUIGameFlagData GameFlag;
+	bool m_SecretOpenEnable;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuCheatAchievementData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresDlcCheatAchievementID m_Code;
+	FString m_NameId;
+	FString m_DetailId;
+	TAssetPtr<class UTexture> m_IconAsset;
+	struct FTresUIGameFlagData GameFlag;
+	TEnumAsByte<ETresWorldCode> WorldCode;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuChallengeData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresDlcChallengeCode m_Code;
+	FString m_NameId;
+	FString m_DetailId;
+};
+
+USTRUCT(BlueprintType)
+struct FTresCodeMenuCheatData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	ETresDlcCheatCode m_Code;
+	FString m_NameId;
+	FString m_DetailId;
+	ETresUICheatCategory m_Category;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUILoadingScreenData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	FName DefinitionName;
+	TEnumAsByte<ETresWorldCode> WorldCode;
+	FName NeedFlagName;
+	ETresUIValueCompareType NeedCmpType;
+	FName NeedFlagLabelName;
+	FName DisableFlagName;
+	ETresUIValueCompareType DisableCmpType;
+	FName DisableFlagLabelName;
+	int LotValue;
+	bool ForceAtSuccess;
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUILoadingScreenDataDefinitions : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUILoadingScreenDataDefinitions")
+	ETresUICharaID FromChara;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUILoadingScreenDataDefinitions")
+	FString CharaTextID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUILoadingScreenDataDefinitions")
+	TAssetPtr<class UTexture> ImageAsset;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUILoadingScreenDataDefinitions")
+	FString CommentTextID;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIMissionCounterTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIMissionCounterTable")
+	TAssetPtr<class UTexture> IconAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIMissionCounterTable")
+	int MaxValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIMissionCounterTable")
+	FString CounterTextLocNameSpaceKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIMissionGageTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIMissionGageTable")
+	TAssetPtr<class USwfMovie> IconAsset;
+
+	uint32 InitialValue;
+	uint32 MaxValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIMissionGageTable")
+	ETresUIMissionGageColorType GageColorType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIMissionGageTable")
+	FString GageTextLocSpaceKey;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_Hologram_CharaPageInfo
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIP_Hologram_DataTableItem
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitActionCmdSelect
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitBadStatus
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitFriend
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresCockpitActionCmdInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCockpitActionCmdInfo")
+	class UTresUICommandInfoBase* m_pUICommandInfo;
+};
+
+USTRUCT(BlueprintType)
+struct FTresHudDanceCmdKind
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIGigasGameAward
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGigasGameAward")
+	FString LocalizeKey;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGigasGameAward")
+	int Score;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUIGameProgressSection
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGameProgressSection")
+	struct FTresUIGameFlagData Start;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUIGameProgressSection")
+	struct FTresUIGameFlagData End;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUISaveMenuRestrictionData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuRestrictionData")
+	FName SavePointName;
+	struct FTresUIGameProgressSection RestrictionAreaSelectSection;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuRestrictionData")
+	struct FTresUIGameProgressSection RestrictionWorldMapSection;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuRestrictionData")
+	struct FTresUIGameProgressSection RestrictionRestaurantSection;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuRestrictionData")
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUISaveMenuFaceIconLotteryData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuFaceIconLotteryData")
+	TEnumAsByte<ETresWorldCode> WorldCode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuFaceIconLotteryData")
+	struct FTresUIGameFlagData GameFlag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuFaceIconLotteryData")
+	TArray<ETresChrUniqueID> CharaIDs;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuFaceIconLotteryData")
+	TArray<ETresUIFaceUniqueID> FaceIDs;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUISaveMenuFaceIconLotteryData")
+	ETresUIDataVersion Version;
+};
+
+USTRUCT(BlueprintType)
+struct FTresUnlockFlagDataTable : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUnlockFlagDataTable")
+	FName GameFlagName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUnlockFlagDataTable")
+	FName GameFlagLabel;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAreaEffectCurveData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectCurveData")
+	class UCurveVector* AreaBaseColorCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectCurveData")
+	class UCurveVector* AreaBrightColorCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectCurveData")
+	class UCurveVector* AreaDarkColorCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectCurveData")
+	class UCurveFloat* AreaColorSynthesisCurve;
+};
+
+USTRUCT(BlueprintType)
+struct FTresAreaEffectData
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectData")
+	bool bNoUseDefaultAttachEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectData")
+	TEnumAsByte<ETresAreaCustonEffectsType> EffectsType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresAreaEffectData")
+	TArray<class UParticleSystem*> SpawnParticleSystems;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVFXAreaCustomTableData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	FString Description;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	struct FLinearColor AreaBaseColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	struct FLinearColor AreaBrightColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	struct FLinearColor AreaDarkColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	float AreaColorSynthesis;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	struct FTresAreaEffectCurveData CurveDatas;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXAreaCustomTableData")
+	TArray<struct FTresAreaEffectData> AreaEffectData;
+};
+
+USTRUCT(BlueprintType)
+struct FTresVFXSceneColorTableData : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXSceneColorTableData")
+	FString Description;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXSceneColorTableData")
+	struct FLinearColor SceneBaseColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXSceneColorTableData")
+	struct FLinearColor SceneBrightColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXSceneColorTableData")
+	struct FLinearColor SceneDarkColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVFXSceneColorTableData")
+	float SceneColorSynthesis;
 };
 
 USTRUCT(BlueprintType)
@@ -14539,7 +26843,7 @@ public:
 	FName m_FlagName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
-	FString m_comment;
+	FString m_Comment;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusDataTable")
 	ETresVBonusAbilityType m_InitAbilityEquipOnCriticalMode;
@@ -14630,479 +26934,163 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FSQEX_AttachEffectNotifyDataToDataAsset
+struct FTresVictoryBonusUnit
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
-	bool bUseCommonAttachData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusUnit")
+	ETresVictoryBonusKind m_Bonus;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
-	int GroupID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
-	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
-	FName SocketName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToDataAsset")
-	TArray<class USQEX_ParticleAttachDataAsset*> AttachDatas;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresVictoryBonusUnit")
+	ETresAbilityKind m_Ability;
 };
 
 USTRUCT(BlueprintType)
-struct FSQEX_AttachObjectData
+struct FTresWeightedShuffleBag
 {
 	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachObjectData")
-	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachObjectData")
-	FName ObjectSearchSocketName;
 };
 
 USTRUCT(BlueprintType)
-struct FSQEX_AttachEffectData
+struct FTresWinnieVoiceDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	int GroupID;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieVoiceDataTable")
+	EWinniePuzzleVoice VoiceType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	bool bCheckEndGroupID;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieVoiceDataTable")
+	EWinniePuzzleVoicePriority Priority;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	int EndGroupID = -2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieVoiceDataTable")
+	bool EnablePlayCounter;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	class UParticleSystem* AttachEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieVoiceDataTable")
+	int PlayCounterRandomValueMin;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	FName CustomAttachName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	bool UseAttachObjectData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	FSQEX_AttachObjectData AttachObjectData;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	bool bUseAreaEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	TEnumAsByte<ETresAreaCustonEffectsType> AreaEffectType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	bool bNoCleanupTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectData")
-	FGuid DataGuid;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieVoiceDataTable")
+	int PlayCounterRandomValueMax;
 };
 
 USTRUCT(BlueprintType)
-struct FSQEX_StructParticleAttachData
+struct FTresWinnieSoundEffectDataTable : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FString Description;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieSoundEffectDataTable")
+	EWinniePuzzleSoundEffect SoundEffectType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	TEnumAsByte<ESQEX_ATTACH_THEMES> AttachThemes;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bUseCommonEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	TArray<FSQEX_AttachEffectData> EffectDataList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	int PlayNumber;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	TEnumAsByte<ESQEX_CHANGE_ANIMATION_TYPE> WhenChangeAnimationType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	TEnumAsByte<ESQEX_ATTACH_EFFECT_END_TYPE> AttachEffectEndType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	float FadeIn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	float FadeOut;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	float StartDelayTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	float EndDelayTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool ToAttach = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool DetachAtEnd;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bAbsoluteLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bAbsoluteRotation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bAbsoluteScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bUseCameraPositon;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	float FieldOfView = 80;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bAllowMultipleInstances;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FName SocketName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FName EndSocketName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FVector LocationOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FRotator RotationOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FVector ScaleOffset = FVector(1, 1, 1);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FVector ParticleColor = FVector(1, 1, 1);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	float ParticleAlpha = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bOnCastShadow;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	bool bTakeoverAttachObjectVisible;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_StructParticleAttachData")
-	FGuid DataGuid;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieSoundEffectDataTable")
+	class USoundBase* SoundEffect;
 };
 
 USTRUCT(BlueprintType)
-struct FSQEX_AttachEffectNotifyDataToMetaAttachData
+struct FTresWinnieAnimationData : public FTableRowBase
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToMetaAttachData")
-	TEnumAsByte<ESQEX_ATTACH_OBJECT_NAME> AttachType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieAnimationData")
+	FName AnimationName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToMetaAttachData")
-	FName SocketName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_AttachEffectNotifyDataToMetaAttachData")
-	TArray<FSQEX_StructParticleAttachData> MetaAttachData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieAnimationData")
+	bool isLoop;
 };
 
 USTRUCT(BlueprintType)
-struct FTresRandomVoice
+struct FTresWinnieCharacterAnimationData : public FTresWinnieAnimationData
 {
 	GENERATED_BODY()
-
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoice")
-	class USoundBase* Voice;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoice")
-	int RandomWeights = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinnieCharacterAnimationData")
+	EWinnieCharacterAnimationType AnimationType;
 };
 
 USTRUCT(BlueprintType)
-struct FTresRandomVoiceForTable
+struct FTresWinniePlayerAnimationData : public FTresWinnieAnimationData
 {
 	GENERATED_BODY()
-
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoiceForTable")
-	class USoundBase* m_pVoice;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoiceForTable")
-	int m_dRandomWeights;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresRandomVoiceForTable")
-	FName m_MouthMotionName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWinniePlayerAnimationData")
+	EWinniePlayerAnimationType AnimationType;
 };
 
 USTRUCT(BlueprintType)
-struct FRandomTableParameter
+struct FTresWinniePuzzleGhostUnitParam
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRandomTableParameter")
-	FName m_GroupName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRandomTableParameter")
-	TArray<struct FTresRandomVoiceForTable> m_RandomVoiceAssets;
 };
 
 USTRUCT(BlueprintType)
-struct FTresUInt8_Range
+struct FTresWinniePuzzleVoiceParam
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUInt8_Range")
-	uint8 m_uMinValue;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresUInt8_Range")
-	uint8 m_uMaxValue;
 };
 
 USTRUCT(BlueprintType)
-struct FTresFloat32_RangeDegree
+struct FTresWinniePuzzleUnitCoord
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFloat32_RangeDegree")
-	float m_fMinAngle;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFloat32_RangeDegree")
-	float m_fMaxAngle;
 };
 
 USTRUCT(BlueprintType)
-struct FTresPoppingHolyProjectileOverrideParameters
+struct FTresWinniePuzzlePlayerRollParam
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
-	float m_fRisingThresholdHeight;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
-	float m_fGravityScaleWhenFalling;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
-	FVector m_vBrakingVelocityScaleWhenFallingStarted;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
-	float m_fAcceleration;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
-	float m_fInitialSpeed;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyProjectileOverrideParameters")
-	float m_fMaxSpeed;
 };
 
 USTRUCT(BlueprintType)
-struct FTresPoppingHolyBulletShootParameter
+struct FTresWinniePuzzleScalingParam
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	struct FTresUInt8_Range m_HolyBulletShootNum;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	struct FTresFloat32_RangeDegree m_HolyBulletSpreadRangeAngle;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	float m_fHolyBulletShootYawAngleRandomOffset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	bool m_bIsIgnoreKeyBladePitch;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	struct FTresFloat32_RangeDegree m_HolyBulletShootRandomPitchRange;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	bool m_bIsOverrideHolyProjectileParameter;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresPoppingHolyBulletShootParameter")
-	TArray<struct FTresPoppingHolyProjectileOverrideParameters> m_HolyProjectileOverrideParameterList;
 };
 
 USTRUCT(BlueprintType)
-struct FTresChangeMeshMaterialParamData
+struct FTresWinniePuzzleQueueableCountParam
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	FName m_MaterialParamName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	TArray<FName> m_MaterialInstanceList;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	ESqEX_BonePoseToMaterialSetParamType m_MaterialParamSetType;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	float m_StartScalarParam;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	float m_EndScalarParam;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	FVector m_StartVectorParam;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChangeMeshMaterialParamData")
-	FVector m_EndVectorParam;
 };
 
 USTRUCT(BlueprintType)
-struct FTresDamageInfo
+struct FTresWinniePuzzleCountInfo
 {
 	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	FName m_AttackDataIDName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	TEnumAsByte<ETresCommandKind> m_CommandKind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	TEnumAsByte<ETresShootFlowKind> m_ShootFlowKind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	TEnumAsByte<ETresDamageKind> m_DamageKind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	ETresDamageAttribute m_DamageAttribute;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_AttackSrcPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_DamagePowerScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_DamageParabolaAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_DamageMoveLength;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_DamageBrakeParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_DamageEffectTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	ETresAtkHitKnockbackType m_KnockbackType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	FVector m_KnockbackDir;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	ETresBadStatusType m_BadStatusKind;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_BadStatusEffectTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	float m_BadStatusEffectParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	int m_ReactionPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	int m_ArmorAttackPower;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	int m_FormPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsMagicAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsFinishAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsKillerAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsIgnoreGuard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsRapidFireAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsCriticalHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsArmorDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsAerialAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsAttractionDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsCounterAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsJustGuardAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsEnableWeakGuardAttack;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsEnableFullMpBurst;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsEnableMagicDraw;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	bool m_bIsEnableNoReactBodyCorrection;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
-	ETresPhysDamageForceLevel m_PhysForceLv;
 };
 
 USTRUCT(BlueprintType)
-struct FSQEX_EffectCurveData
+struct FTresWinniePuzzleLinearMultipleMoveParam
 {
 	GENERATED_BODY()
+};
 
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleVibrationParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleCurvedMoveParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleLinearLerpMoveParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresWinniePuzzleLinearMoveParam
+{
+	GENERATED_BODY()
+};
+
+USTRUCT(BlueprintType)
+struct FTresWorldMapObjData : public FTableRowBase
+{
+	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	TEnumAsByte<EFSQEX_EFFCT_CURVE_DATA_AXIS> ParamAxis;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	FName ParameterName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	class UCurveFloat* CurveData;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	bool bUseCurveAsset;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	FName XCurveName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	bool bUseParameterX;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	FName YCurveName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	bool bUseParameterY;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	FName ZCurveName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_EffectCurveData")
-	bool bUseParameterZ;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresWorldMapObjData")
+	class UClass* m_MapObj;
 };

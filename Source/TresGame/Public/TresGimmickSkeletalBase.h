@@ -21,8 +21,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSkeletalBase")
 	class UTresSkeletalMeshComponent* MyMesh;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSkeletalBase")
-	//class UTresEffectAttachComponent* MyEffectAtt;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSkeletalBase")
+	class UTresEffectAttachComponent* MyEffectAtt;
 
 	//struct FScriptMulticastDelegate OnAnimationStarted;
 	//struct FScriptMulticastDelegate OnAnimationEnded;
@@ -39,8 +39,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSkeletalBase")
 	TEnumAsByte<ETresGimmickLookAtType> m_GltLookAtType;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSkeletalBase")
-	//TArray<class UTresAnimSet*> m_AppendAnimSetMap;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSkeletalBase")
+	TArray<class UTresAnimSet*> m_AppendAnimSetMap;
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickSkeletalBase")
 	void ReceiveNotifyProjectileAttackHitBpEvent() {};
@@ -60,8 +60,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickSkeletalBase")
 	void ReceiveAnimationEnded(class UAnimationAsset* AnimAsset, bool bInterrupted) {};
 
-	//UFUNCTION(BlueprintPure, Category = "TresGimmickSkeletalBase")
-	//class USQEX_KBD_Component* GetKBDComponent() { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresGimmickSkeletalBase")
+	class USQEX_KBD_Component* GetKBDComponent() { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickSkeletalBase")
 	void BP_NotifyTiming(int InParam) {};

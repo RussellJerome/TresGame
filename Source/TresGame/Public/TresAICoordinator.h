@@ -4,8 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GenericTeamAgentInterface.h"
 #include "TresGame.h"
 #include "TresAICoordinator.generated.h"
+
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnNotificationStartAIAttackLogInfo);
+DECLARE_MULTICAST_DELEGATE(OnNotificationStartAttackLogInfo);
+DECLARE_MULTICAST_DELEGATE(OnNotificationTakeDamageLogInfo);
+DECLARE_MULTICAST_DELEGATE(OnNotificationAttackHitInvincibleCharLogInfo);
+DECLARE_MULTICAST_DELEGATE(OnNotificationRecoveryHpMpFpLogInfo);
+DECLARE_MULTICAST_DELEGATE(OnNotificationCtorStateLogInfo);
+DECLARE_MULTICAST_DELEGATE(OnNotificationDtorStateLogInfo);
 
 UCLASS()
 class TRESGAME_API ATresAICoordinator : public AActor
@@ -21,11 +31,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
 	class UCurveVector* PostTargetAttackedCooldown;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//TArray<struct FTresGameplayTagDebugColor> AttackGroupDebugColors;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
+	TArray<struct FTresGameplayTagDebugColor> AttackGroupDebugColors;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
-	//TArray<struct FTresTeamDebugColor> TargetDebugColors;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
+	TArray<struct FTresTeamDebugColor> TargetDebugColors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
 	bool EnableDebugDraw;
@@ -42,13 +52,26 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
 	class UClass* BattlePlayerEmotionManagerClass;
 
-	/*struct FScriptMulticastDelegate OnNotificationStartAIAttackLogInfo;
-	struct FScriptMulticastDelegate OnNotificationStartAttackLogInfo;
-	struct FScriptMulticastDelegate OnNotificationTakeDamageLogInfo;
-	struct FScriptMulticastDelegate OnNotificationAttackHitInvincibleCharLogInfo;
-	struct FScriptMulticastDelegate OnNotificationRecoveryHpMpFpLogInfo;
-	struct FScriptMulticastDelegate OnNotificationCtorStateLogInfo;
-	struct FScriptMulticastDelegate OnNotificationDtorStateLogInfo;*/
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationStartAIAttackLogInfo OnNotificationStartAIAttackLogInfo;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationStartAttackLogInfo OnNotificationStartAttackLogInfo;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationTakeDamageLogInfo OnNotificationTakeDamageLogInfo;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationAttackHitInvincibleCharLogInfo OnNotificationAttackHitInvincibleCharLogInfo;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationRecoveryHpMpFpLogInfo OnNotificationRecoveryHpMpFpLogInfo;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationCtorStateLogInfo OnNotificationCtorStateLogInfo;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresNotificationDtorStateLogInfo OnNotificationDtorStateLogInfo;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAICoordinator")
 	//TArray<class UTresAttackPermissionManager*> m_AttackPermissionManagers;
@@ -68,10 +91,11 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	bool IsSelected() { return false; };
 
-	UFUNCTION(BlueprintPure, Category = "TresAICoordinator", meta = (WorldContext = "WorldContext"))
-	static class ATresAICoordinator* GetTresAICoordinator(class UObject* WorldContext) { return nullptr; };
+	//UFUNCTION(BlueprintPure, Category = "TresAICoordinator", meta = (WorldContext = "WorldContext"))
+	//static class ATresAICoordinator* GetTresAICoordinator(class UObject* WorldContext) { return nullptr; };
 
-	//void GetTargetableActorsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<class AActor*>* outResult) {};
+	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
+	void GetTargetableActorsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude, TArray<class AActor*>& outResult) {};
 
 	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	int GetPositionalRankingNotDuplicate(class AActor* inSourceActor, class AActor* inTargetedActor) { return 0; };
@@ -85,7 +109,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	void GetNeutralFaction(TArray<class AActor*>& outResult) {};
 
-	//int GetMemberCountWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, bool IncludingReserve) { return 0; };
+	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
+	int GetMemberCountWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude, bool IncludingReserve) { return 0; };
 
 	//UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	//class UTresNpcMetaAI* GetFriendNpcMetaAI() { return nullptr; };
@@ -96,7 +121,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	void GetEnemyFaction(TArray<class AActor*>& outResult) {};
 
-	//void GetDestinationsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<struct FVector>* outResult) {};
+	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
+	void GetDestinationsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude, TArray<struct FVector>& outResult) {};
 
 	//UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	//class UTresCoopManager* GetCoopManager() {};
@@ -118,8 +144,12 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
 	void GetActorsWithTeamID(TEnumAsByte<ETresTeam> inTeamID, TArray<class AActor*>& outResult) {};
-	//void GetActorsWithAffiliationAll(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<class AActor*>* outResult) {};
-	//void GetActorsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude> inTeamAttitude, TArray<class AActor*>* outResult) {};
+	
+	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
+	void GetActorsWithAffiliationAll(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude, TArray<class AActor*>& outResult) {};
+	
+	UFUNCTION(BlueprintPure, Category = "TresAICoordinator")
+	void GetActorsWithAffiliation(class AActor* inSourceActor, TEnumAsByte<ETeamAttitude::Type> inTeamAttitude, TArray<class AActor*>& outResult) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresAICoordinator")
 	void BP_AssignAttackers(TArray<class AActor*> inSourceActors) {};

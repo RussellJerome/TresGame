@@ -7,6 +7,20 @@
 #include "TresGame.h"
 #include "TresBodyCollPrimitive.generated.h"
 
+UENUM(BlueprintType)
+enum ETresBodyCollision
+{
+	SPHERE = 0 UMETA(DisplayName = "Sphere"),
+	CAPSULE = 1 UMETA(DisplayName = "Capsule"),
+	BOX = 2 UMETA(DisplayName = "Box"),
+	CONVEX = 3 UMETA(DisplayName = "Convex"),
+	MAX = 4 UMETA(Hidden),
+	ETresBodyCollision_MAX = 5 UMETA(Hidden)
+};
+
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParam(FTresBodyEndOverlap, class UTresBodyCollPrimitive*, MyPrimitive, class AActor*, OtherActor, class UPrimitiveComponent*, OtherComp, int, OtherBodyIndex);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParam(FTresBodyBeginOverlap, class UTresBodyCollPrimitive*, MyPrimitive, class AActor*, OtherActor, class UPrimitiveComponent*, OtherComp, int, OtherBodyIndex, bool, bFromSweep, const FHitResult&, SweepResult)
+
 /**
  * 
  */
@@ -19,7 +33,7 @@ public:
 	FName MyBodyName;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool MyIgnoreNameNoneGroup; //Verify
+	uint8 MyIgnoreNameNoneGroup;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
 	TEnumAsByte<ETresBodyCollision> MyShapeType;
@@ -65,19 +79,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
 	ETresBodyCollReactionType m_DefaultBodyReactionType;
-
-	//struct FScriptMulticastDelegate OnTresBodyBeginOverlap;
-	//struct FScriptMulticastDelegate OnTresBodyEndOverlap;
-
-
-	//void TresBodyEndOverlapSignature__DelegateSignature(class UTresBodyCollPrimitive* MyPrimitive, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);
-	//void TresBodyBeginOverlapSignature__DelegateSignature(class UTresBodyCollPrimitive* MyPrimitive, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
 	
-	UFUNCTION(BlueprintNativeEvent, BlueprintCosmetic, Category = "TresBodyCollPrimitive")
+	//UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	//FTresBodyEndOverlap OnTresBodyBeginOverlap;
+
+	//UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	//FTresBodyBeginOverlap OnTresBodyEndOverlap;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresBodyCollPrimitive")
 	void OnBodyEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);
-	void OnBodyEndOverlap_Implementation(class UPrimitiveComponent* OverlappedComp, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex) {};
 	
-	UFUNCTION(BlueprintNativeEvent, BlueprintCosmetic, Category = "TresBodyCollPrimitive")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresBodyCollPrimitive")
 	void OnBodyBeginOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
-	void OnBodyBeginOverlap_Implementation(class UPrimitiveComponent* OverlappedComp, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult) {};
 };

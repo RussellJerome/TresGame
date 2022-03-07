@@ -7,12 +7,16 @@
 #include "TresGame.h"
 #include "TresAIEventBattlePoint.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnPhaseChange);
+
 UCLASS()
 class TRESGAME_API ATresAIEventBattlePoint : public AActor
 {
 	GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate OnPhaseChange;
+	//UPROPERTY(BlueprintAssignable, Category = "TresAIEventBattlePoint")
+	//FTresPhaseChange OnPhaseChange;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAIEventBattlePoint")
 	bool m_UseBattlePlayerEmotionManager;

@@ -4,6 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "TresPawnBase.h"
+#include "TresWeaponMovementComponent.h"
+#include "TresSkeletalMeshComponent.h"
+#include "TresAtkCollComponent.h"
+#include "TresEffectAttachComponent.h"
+#include "SQEX_ParticleAttachDataAsset.h"
 #include "TresWeaponBase.generated.h"
 
 /**
@@ -14,17 +19,17 @@ class TRESGAME_API ATresWeaponBase : public ATresPawnBase
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//class UTresWeaponMovementComponent* MyMovement;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
+	UTresWeaponMovementComponent* MyMovement;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UTresSkeletalMeshComponent* MyMesh;
+	UTresSkeletalMeshComponent* MyMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class UTresAtkCollComponent* MyAtkColl;
+	UTresAtkCollComponent* MyAtkColl;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//class UTresEffectAttachComponent* MyEffectAtt;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
+	UTresEffectAttachComponent* MyEffectAtt;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
 	class ATresPawnBase* MyPawn;
@@ -98,7 +103,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
 	float m_DestroyScaleAnimEndScale;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
 	class USQEX_ParticleAttachDataAsset* m_CmnMagicCastEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
@@ -108,7 +113,7 @@ public:
 	class USQEX_ParticleAttachDataAsset* m_CmnChargeEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	class USQEX_ParticleAttachDataAsset* m_CmnStyleChangeChargeEffect;*/
+	class USQEX_ParticleAttachDataAsset* m_CmnStyleChangeChargeEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
 	class UParticleSystem* m_pDrainEffect;
@@ -137,11 +142,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
 	class UTresChrDataTableSet* m_pOwnerDataTableSet;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//TEnumAsByte<ESQEX_OverwriteDiscrenment> m_MeshOrgOverwriteDiscrenment;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
+	TEnumAsByte<ESQEX_OverwriteDiscrenment> m_MeshOrgOverwriteDiscrenment;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
-	//TEnumAsByte<ESQEX_ShadowQuality> m_MeshOrgShadowQuality;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
+	TEnumAsByte<ESQEX_ShadowQuality> m_MeshOrgShadowQuality;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWeaponBase")
 	class UParticleSystemComponent* m_pDisappearEffect;
@@ -151,4 +156,38 @@ public:
 
 	//UFUNCTION(BlueprintPure, Category = "TresDetectMarkerComponentBase")
 	//class USQEX_KBD_Component* GetKBDComponent();
+
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+
+		if (!IsValid(MyMesh))
+		{
+			MyMesh = NewObject<UTresSkeletalMeshComponent>(this);
+			MyMesh->CreationMethod = EComponentCreationMethod::Native;
+			MyMesh->RegisterComponent();
+			RootComponent = MyMesh;
+		}
+		if (!IsValid(MyMovement))
+		{
+			MyMovement = NewObject<UTresWeaponMovementComponent>(this);
+			MyMovement->CreationMethod = EComponentCreationMethod::Native;
+			MyMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+			MyMovement->RegisterComponent();
+		}
+		if (!IsValid(MyAtkColl))
+		{
+			MyAtkColl = NewObject<UTresAtkCollComponent>(this);
+			MyAtkColl->CreationMethod = EComponentCreationMethod::Native;
+			MyAtkColl->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+			MyAtkColl->RegisterComponent();
+		}
+		if (!IsValid(MyEffectAtt))
+		{
+			MyEffectAtt = NewObject<UTresEffectAttachComponent>(this);
+			MyEffectAtt->CreationMethod = EComponentCreationMethod::Native;
+			MyEffectAtt->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+			MyEffectAtt->RegisterComponent();
+		}
+	};
 };

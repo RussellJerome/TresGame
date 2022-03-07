@@ -15,6 +15,6 @@ class TRESGAME_API ATresAutoNavLinkExclusiveVolume : public AVolume
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAutoNavLinkExclusiveVolume")
-	//TArray<struct FTresAutoNavLinkExclusiveVolumeInfo> ExclusiveInfo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAutoNavLinkExclusiveVolume")
+	TArray<struct FTresAutoNavLinkExclusiveVolumeInfo> ExclusiveInfo;
 };

@@ -6,6 +6,9 @@
 #include "TresFlowComponentBase.h"
 #include "TresPoleComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(OnTresStartPoleTurn);
+DECLARE_MULTICAST_DELEGATE(OnTresEndPoleTurn);
+
 /**
  * 
  */
@@ -40,9 +43,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPoleComponent")
 	int m_PrevOrderNumber;
-
-	//struct FScriptMulticastDelegate OnTresStartPoleTurn;
-	//struct FScriptMulticastDelegate OnTresEndPoleTurn;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
+	//FTresStartPoleTurn OnTresStartPoleTurn;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
+	//FTresEndPoleTurn OnTresEndPoleTurn;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPoleComponent")
 	class UParticleSystemComponent* m_pFreeRunEffect;

@@ -7,6 +7,9 @@
 #include "TresGame.h"
 #include "TresMapJumpDirectionalTriggerBox.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnMapJump);
+
 /**
  * 
  */
@@ -27,7 +30,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
 	bool m_BlueprintMapJump;
 
-	//struct FScriptMulticastDelegate OnMapJump;
+	//UPROPERTY(BlueprintAssignable, Category = "TresMapJumpDirectionalTriggerBox")
+	//FTresMapJump OnMapJump;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpDirectionalTriggerBox")
 	float m_OverrideMarkerSize = 1950.0f;

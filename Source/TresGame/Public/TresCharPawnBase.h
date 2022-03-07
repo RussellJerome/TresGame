@@ -18,6 +18,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresCtorState, TEnumAsByte<ETresSta
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresAnimNotifyStartBpEvent, const FName&, AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID>, EventID, int, Param);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresAnimNotifyEndBpEvent, const FName&, AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID>, EventID, int, Param);
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnTresTakeDamage);
+DECLARE_MULTICAST_DELEGATE(OnReactorDoCommand);
+
 /**
  *
  */
@@ -35,8 +39,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	class UTresAtkCollComponent* MyAtkColl;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresBodyCollComponent* MyBodyColl;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresBodyCollComponent* MyBodyColl;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	class UTresEquipmentComponent* MyEquipment;
@@ -44,8 +48,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	class UTresStateQueueComponent* MyStateComp;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresEffectAttachComponent* MyEffectAtt;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresEffectAttachComponent* MyEffectAtt;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	FVector BaseTranslationOffset;
@@ -59,11 +63,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	float JumpMaxHoldTime;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//struct FScriptMulticastDelegate OnCharacterMovementUpdated;
+	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
+    FCharacterMovementUpdatedSignature OnCharacterMovementUpdated;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	TEnumAsByte<ETresChrUniqueID> m_ChrUniqueID;
+	ETresChrUniqueID m_ChrUniqueID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	int DebugLevel;
@@ -158,8 +162,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	class UTresPoleComponent* m_LastHitPoleComponent;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class UTresHopComponent* m_LastHitHopComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresHopComponent* m_LastHitHopComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	float m_NoActionCounter;
@@ -191,20 +195,20 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	float m_ApplyOceanWetnessMaterialMaxHeight;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class ATresAdhereObjBase* m_pBadStatAdhereActor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class ATresAdhereObjBase* m_pBadStatAdhereActor;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//struct FScriptMulticastDelegate OnTresTakeDamage;
+	//UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
+	//FTresTakeDamage OnTresTakeDamage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	class UTresLockonTargetComponent* m_FlowTarget;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresAttractionFlowMarkerComponent* m_AttractionFlowMarker;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresAttractionFlowMarkerComponent* m_AttractionFlowMarker;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//	class UTresSwimRingComponent* m_pSwimRing;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class UTresSwimRingComponent* m_pSwimRing;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
 	TEnumAsByte<ETresTeam> MyTeam;
@@ -245,18 +249,17 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "TresCharPawnBase")
 	FTresAnimNotifyEndBpEvent OnAnimNotifyEndBpEvent;
 
-	/*
-	struct FScriptMulticastDelegate OnReactorDoCommand;
-	*/
+	//UPROPERTY(BlueprintAssignable, Category = "TresEncountVolume")
+	//FTresReactorDoCommand OnReactorDoCommand;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEXSEADSoundReferenceEnumSet* m_AutoSeAssets;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEXSEADSoundReferenceEnumSet* m_AutoSeAssets;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEXSEADAutoSeComponent* MyAutoSe;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEXSEADAutoSeComponent* MyAutoSe;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
-	//class USQEXSEADAutoSeComponentCallbackDefault* MyAutoSeCallback;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharPawnBase")
+	class USQEXSEADAutoSeComponentCallbackDefault* MyAutoSeCallback;
 
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	void SetStopAI(bool bStop) {};
@@ -360,14 +363,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	void ReceiveAnimNotifyEndBpEvent(const FName& AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int Param) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnLaunchedCharPawn(float Height) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresCharPawnBase")
+	void OnLaunchedCharPawn(float Height);
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnLaunched(const struct FVector& LaunchVelocity, bool bXYOverride, bool bZOverride) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresCharPawnBase")
+	void OnLaunched(const struct FVector& LaunchVelocity, bool bXYOverride, bool bZOverride);
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnJumped() {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresCharPawnBase")
+	void OnJumped();
 
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	bool LaunchCharPawn(float Height, bool bForce, TEnumAsByte<ETresPlayerJumpModes> InJumpMode) { return false; };
@@ -375,11 +378,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
 	void LaunchCharacter(const FVector& LaunchVelocity, bool bXYOverride, bool bZOverride) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void UpdateCustomMovement(float DeltaTime) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
+	void UpdateCustomMovement(float DeltaTime) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharPawnBase")
-	//void OnMovementModeChanged(TEnumAsByte<EMovementMode> PrevMovementMode, TEnumAsByte<EMovementMode> NewMovementMode, unsigned char PrevCustomMode, unsigned char NewCustomMode) {};
+	//UFUNCTION(BlueprintNativeEvent, Category = "TresCharPawnBase")
+	//void OnMovementModeChanged(const TEnumAsByte<EMovementMode>& PrevMovementMode,const TEnumAsByte<EMovementMode>& NewMovementMode, const uint8& PrevCustomMode, const uint8& NewCustomMode);
 
 	UFUNCTION(BlueprintPure, Category = "TresCharPawnBase")
 	bool IsStopAI() { return false; };

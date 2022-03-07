@@ -7,6 +7,10 @@
 #include "TresGame.h"
 #include "TresEncountVolume.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(m_OnStart);
+DECLARE_MULTICAST_DELEGATE(m_OnStop);
+
 /**
  * 
  */
@@ -16,16 +20,19 @@ class TRESGAME_API ATresEncountVolume : public ATresVolume
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
-	TEnumAsByte<ETresEncountVolumeVehicleMode> m_VehicleMode;
+	ETresEncountVolumeVehicleMode m_VehicleMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
-	TEnumAsByte<ETresEncountVolumeSnapTarget> m_SnapTarget;
+	ETresEncountVolumeSnapTarget m_SnapTarget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
 	TArray<class UClass*> m_SupportVehicleClass;
 
-	//struct FScriptMulticastDelegate m_OnStart;
-	//struct FScriptMulticastDelegate m_OnStop;
+	//UPROPERTY(BlueprintAssignable, Category = "TresEncountVolume")
+	//FTresStart m_OnStart;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresEncountVolume")
+	//FTresStop m_OnStop;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
 	float m_MinMovement;
@@ -48,8 +55,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
 	TEnumAsByte<ECollisionResponse> m_CollResponse;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
-	TArray<struct FTresEncountVolumeEntry> m_Entries;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
+	//TArray<struct FTresEncountVolumeEntry> m_Entries;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountVolume")
 	TArray<class ATresEncountDisableVolume*> m_DisableVolumes;

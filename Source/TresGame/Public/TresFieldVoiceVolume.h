@@ -6,6 +6,9 @@
 #include "TresVolume.h"
 #include "TresFieldVoiceVolume.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnPlayFieldVoice);
+
 /**
  * 
  */
@@ -23,5 +26,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresFieldVoiceVolume")
 	class UTresFieldVoiceCommonParam* m_pCommonParam;
 
-	//struct FScriptMulticastDelegate OnPlayFieldVoice;
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresPlayFieldVoice OnPlayFieldVoice;
 };

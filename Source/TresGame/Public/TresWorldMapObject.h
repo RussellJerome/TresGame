@@ -13,37 +13,37 @@ class TRESGAME_API ATresWorldMapObject : public AActor
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresWoldPlaceID> m_nWmPlaceD;
+	ETresWoldPlaceID m_nWmPlaceD;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresWoldMapObjID> m_nWmObjID;
+	ETresWoldMapObjID m_nWmObjID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresGumiShipWorldSymbolID> m_nWorldSymbleID;
+	ETresGumiShipWorldSymbolID m_nWorldSymbleID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
 	bool bWorldSymbol;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresGumiShipTravelPointID> m_nTravelPointID;
+	ETresGumiShipTravelPointID m_nTravelPointID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
 	bool bTravelPoint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresGumiShipTreasureSphereID> m_nTreasureSphereID;
+	ETresGumiShipTreasureSphereID m_nTreasureSphereID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
 	bool bTreasureSphere;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresGumiShipEnemyTerritoryID> m_nTerritoryID;
+	ETresGumiShipEnemyTerritoryID m_nTerritoryID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
 	bool bTerritory;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
-	TEnumAsByte<ETresGumiShipJumpPointID> m_nJumpPointID;
+	ETresGumiShipJumpPointID m_nJumpPointID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWorldMapObject")
 	bool bJumpPoint;

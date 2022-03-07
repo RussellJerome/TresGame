@@ -39,8 +39,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
 	void SetTargetBoneName(const FName& BoneName) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
-	//void SetOutsideWallCheckType(TEnumAsByte<ETresCameraTargetWallCheckType> WallCheckType, const struct FVector& TargetPos, const struct FName& TargetBoneName, class ATresAccompanyPawnBase* TargetAccompanyPawn) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCameraTarget")
+	void SetOutsideWallCheckType(TEnumAsByte<ETresCameraTargetWallCheckType> WallCheckType, const FVector& TargetPos, const FName& TargetBoneName, class ATresAccompanyPawnBase* TargetAccompanyPawn) {};
 
 	UFUNCTION(BlueprintPure, Category = "TresCameraTarget")
 	FVector GetTargetOffset() { return FVector::FVector(); };

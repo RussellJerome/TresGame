@@ -676,10 +676,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	bool m_bFriendDisableAutoCreate;
 
-	//ESQEX_AI_ThinkType m_FriendAIThinkType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
+	ESQEX_AI_ThinkType m_FriendAIThinkType;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//struct FTresAttractionFlowAssetInfo m_AttractionFlowAssetInfo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
+	struct FTresAttractionFlowAssetInfo m_AttractionFlowAssetInfo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	TArray<float> m_AttractionFlowDrawingHistoryRatio;
@@ -693,8 +694,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	bool m_bEnableWeaponChangeEquip;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	//class UTresAnimSet* m_RestrictWeaponModeAnimSet;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
+	class UTresAnimSet* m_RestrictWeaponModeAnimSet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	float MyFriendComboFinishRange;
@@ -717,16 +718,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	int MyFriendComboFinishAddRateRangeNear;
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "TresPlayerPawnBase")
 	FTresPlayerSpecificAction OnPlayerSpecificAction;
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "TresPlayerPawnBase")
 	FTresActorSpecificAction OnActorSpecificAction;
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "TresPlayerPawnBase")
 	FTresPlayerBeginCommandAction OnPlayerBeginCommandAction;
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "TresPlayerPawnBase")
 	FTresPlayerEndCommandAction OnPlayerEndCommandAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
@@ -796,7 +797,7 @@ public:
 	//class UTresSpawnPointAvoidActorFilter* m_pSpawnPointFilter;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
-	TEnumAsByte<ETresPlayerUniqueID> m_PlayerUniqueID;
+	ETresPlayerUniqueID m_PlayerUniqueID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerPawnBase")
 	class UParticleSystemComponent* m_pDeathSentenceCountEffect;
@@ -954,11 +955,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
 	void BP_SetDisableFreeRunPointDisp(bool inSw) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	//bool BP_NotifyForcedStartSnowCurling(class UTresUICommandInfoBase* pUICommandInfo) { return false; };
+	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
+	bool BP_NotifyForcedStartSnowCurling(class UTresUICommandInfoBase* pUICommandInfo) { return false; };
 
-	//UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
-	//bool BP_NotifyForcedStartSnowChase(class UTresUICommandInfoBase* pUICommandInfo) { return false; };
+	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
+	bool BP_NotifyForcedStartSnowChase(class UTresUICommandInfoBase* pUICommandInfo) { return false; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerPawnBase")
 	bool BP_NotifyForcedStartDiveFall() { return false; };

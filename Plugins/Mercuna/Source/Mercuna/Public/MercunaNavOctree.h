@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Mercuna_StructsAndEnums.h"
+#include "MerNavOctreeRenderingComponent.h"
 #include "MercunaNavOctree.generated.h"
 
 UCLASS()
@@ -24,13 +25,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
 	TEnumAsByte<EMerOctreeDebugDrawMode> DebugDrawMode;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
-	class UMerNavOctreeRenderingComponent* MerNavOctreeRenderingComponent;
+	UPROPERTY()
+	UMerNavOctreeRenderingComponent* MerNavOctreeRenderingComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
+	UPROPERTY()
 	bool bBuildAsSublevel;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
+	UPROPERTY()
 	bool bNeedsRebuild;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MercunaNavOctree")
@@ -56,4 +57,17 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "MercunaNavOctree")
 	void CheckReachable(const FVector& Start, const FVector& End, float NavigationRadius, float MaxPathLength, bool& Result) {};
+
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+
+		if (!IsValid(MerNavOctreeRenderingComponent))
+		{
+			MerNavOctreeRenderingComponent = NewObject<UMerNavOctreeRenderingComponent>(this, "MerNavOctreeRenderingComponent");
+			MerNavOctreeRenderingComponent->CreationMethod = EComponentCreationMethod::Native;
+			MerNavOctreeRenderingComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+			MerNavOctreeRenderingComponent->RegisterComponent();
+		}
+	};
 };

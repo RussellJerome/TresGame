@@ -19,7 +19,7 @@ public:
 	class UTresDebugArrowComponent* MyDirArrow;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCoverActionVolume")
-	TEnumAsByte<ETresCoverIdlingDirID> m_IdlingDir;
+	ETresCoverIdlingDirID m_IdlingDir;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCoverActionVolume")
 	bool m_bEnableCoverDir;

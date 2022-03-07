@@ -32,17 +32,36 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	TArray<FName> m_ReplaceMovePoints;
 
-	/*unsigned char m_bBodyImmovable : 1;
-	unsigned char m_bDisableStagger : 1;
-	unsigned char m_bEnableBgCave : 1;
-	unsigned char m_bDisableReactor : 1;
-	unsigned char m_bDisableBodyCollision : 1;
-	unsigned char m_bDisableNavModifier : 1;
-	unsigned char m_bDisableLookAt : 1;
-	unsigned char m_bUniqueComNpc : 1;
-	unsigned char m_bForceAddComAction : 1;
-	unsigned char m_bDisableTurn : 1;*/
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bBodyImmovable;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDisableStagger;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bEnableBgCave;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDisableReactor;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDisableBodyCollision;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDisableNavModifier;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDisableLookAt;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bUniqueComNpc;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bForceAddComAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDisableTurn;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	int m_ReactionType;
 
@@ -58,13 +77,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	float m_RunSpeed;
 
-	//struct FTresComNpcScaleData m_ScaleData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	struct FTresComNpcScaleData m_ScaleData;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	TArray<class UTresAnimSet*> m_ReplaceAnimSets;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
-	//TArray<struct FTresComNpcMaterialInfo> m_MaterialInfos;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	TArray<struct FTresComNpcMaterialInfo> m_MaterialInfos;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	float m_fNearCameraRange;
@@ -114,7 +134,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	TArray<FName> m_LinkActors;
 
-	//unsigned char m_bDispDebugInfo : 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
+	bool m_bDispDebugInfo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawn_c_npc")
 	class UTresReactorComponent* MyReactor;

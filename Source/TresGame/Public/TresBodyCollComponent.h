@@ -8,7 +8,7 @@
 #include "TresBodyCollComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(meta = (BlueprintSpawnableComponent))
 class TRESGAME_API UTresBodyCollComponent : public USceneComponent
 {
 	GENERATED_BODY()
@@ -41,11 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollComponent")
 	TArray<struct FTresOverlapInfo> m_OverlapList;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCosmetic, Category = "TresBodyCollComponent")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresBodyCollComponent")
 	void OnBodyEndOverlap(class UTresBodyCollPrimitive* MyPrim, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);
-	void OnBodyEndOverlap_Implementation(class UTresBodyCollPrimitive* MyPrim, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex) {};
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCosmetic, Category = "TresBodyCollComponent")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresBodyCollComponent")
 	void OnBodyBeginOverlap(class UTresBodyCollPrimitive* MyPrim, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
-	void OnBodyBeginOverlap_Implementation(class UTresBodyCollPrimitive* MyPrim, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult) {};
 };

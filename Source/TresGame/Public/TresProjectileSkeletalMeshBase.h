@@ -17,7 +17,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileSkeletalMeshBase")
 	class UTresSkeletalMeshComponent* MyMesh;
 
-	//class UTresEffectAttachComponent* m_EffectAttach;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileSkeletalMeshBase")
+	class UTresEffectAttachComponent* m_EffectAttach;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileSkeletalMeshBase")
 	int m_AttachEffectGroupID;

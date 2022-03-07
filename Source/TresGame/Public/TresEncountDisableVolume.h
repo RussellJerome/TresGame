@@ -16,5 +16,5 @@ class TRESGAME_API ATresEncountDisableVolume : public ATresVolume
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountDisableVolume")
-	TEnumAsByte<ETresEncountDisableVolumeType> m_ShapeType;
+	ETresEncountDisableVolumeType m_ShapeType;
 };

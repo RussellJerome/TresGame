@@ -7,6 +7,8 @@
 #include "TresGame.h"
 #include "TresGimmickHitComponent.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnTresHitGimmick);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TRESGAME_API UTresGimmickHitComponent : public UActorComponent
@@ -31,10 +33,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickHitComponent")
 	TArray<class UClass*> m_ApplyHitClass;
 
-	//struct FScriptMulticastDelegate OnTresHitGimmick;
+	//UPROPERTY(BlueprintAssignable, Category = "TresGimmickHitComponent")
+	//FTresHitGimmick OnTresHitGimmick;
 
-	//void OnActorHit(class AActor* SelfActor, class AActor* OtherActor, const struct FVector& NormalImpulse, const struct FHitResult& Hit) {};
-	//void BPEV_OnTresHitGimmick(const struct FHitResult& HitInfo, class AActor* DamageCauser) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickHitComponent")
+	void OnActorHit(class AActor* SelfActor, class AActor* OtherActor, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickHitComponent")
+	void BPEV_OnTresHitGimmick(const struct FHitResult& HitInfo, class AActor* DamageCauser);
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickHitComponent")
 	void BP_SetEnableHit(bool Enable) {};

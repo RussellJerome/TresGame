@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "TresAIPawnBase.h"
+#include "SQEXSEADSoundReferenceEnumSet.h"
+#include "EngineData.h"
+#include "TresGame.h"
 #include "TresEnemyPawnBase.generated.h"
 
 /**
@@ -21,9 +24,10 @@ public:
 	TArray<class ATresEnemyPawnBase*> EnemyChildren;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
-	TEnumAsByte<ETresEnemyUniqueID> m_EnemyUniqueID;
+	ETresEnemyUniqueID m_EnemyUniqueID;
 
-	//ESQEX_FreeFlowKind m_FreeFlowKind;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
+	ESQEX_FreeFlowKind m_FreeFlowKind;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	int m_AppearEffectGroupID;
@@ -37,8 +41,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	class UClass* m_EnemyCommonParam;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
-	//TArray<struct FRevengeAttacks> m_RevengeAttacks;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
+	TArray<struct FRevengeAttacks> m_RevengeAttacks;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	TArray<class UClass*> m_SpawnEnemyClasses;
@@ -49,12 +53,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	TEnumAsByte<ETresEnemyMajorUseID> m_eMajorUseID;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
-	//TArray<struct FTresEnemyRetryVoiceData> m_RetryVoiceDataList;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
+	TArray<struct FTresEnemyRetryVoiceData> m_RetryVoiceDataList;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	class USoundBase* m_PlayerKilledVoiceData;
-	//class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Damage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
+	class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Damage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	bool m_bStuckCheck;
@@ -68,8 +74,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	bool m_bWaterEnemy;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
-	//class UTresAIWeaponComponent* m_AIWeaponComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
+	class UTresAIWeaponComponent* m_AIWeaponComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyPawnBase")
 	class UParticleSystemComponent* m_SwirlUpEff;

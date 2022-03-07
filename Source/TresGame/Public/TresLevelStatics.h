@@ -18,11 +18,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics")
 	static void WaitTextureStreamingByGameStart(float Time) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject"))
-	static void TresWaitTextureStreaming(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresWaitTextureStreaming(class UObject* WorldContextObject, FLatentActionInfo LatentInfo) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject"))
-	static void TresUnloadStreamLevel(class UObject* WorldContextObject, const FName& LevelName, bool bBlockUnload, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresUnloadStreamLevel(class UObject* WorldContextObject, const FName& LevelName, bool bBlockUnload, FLatentActionInfo LatentInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics")
 	static void TresSetLoadPercentage(float Rate, float completeTime) {};
@@ -30,11 +30,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics")
 	static void TresRequestExtensionMapLoading() {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject"))
-	static void TresLoadStreamLevel(class UObject* WorldContextObject, const FName& LevelName, bool bMakeVisibleAfterLoad, bool bShouldBlockOnLoad, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresLoadStreamLevel(class UObject* WorldContextObject, const FName& LevelName, bool bMakeVisibleAfterLoad, bool bShouldBlockOnLoad, FLatentActionInfo LatentInfo) {};
 
-	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject"))
-	static void TresFinishMapLoading(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo) {};
+	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+	static void TresFinishMapLoading(class UObject* WorldContextObject, FLatentActionInfo LatentInfo) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject"))
 	static void ToggleTresPackageShouldBeVisible(class UObject* WorldContextObject, const FName& PackageName) {};
@@ -60,20 +60,20 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresLevelStatics", meta = (WorldContext = "WorldContextObject"))
 	static bool IsExecuteLevelStreaming(class UObject* WorldContextObject, bool isWaitMakeVisible) { return false; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
-	//static ETresLevelVisibility GetLevelVisibleTypeFromName(const FName& Name) { return ETresLevelVisibility::; };
+	UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
+	static ETresLevelVisibility GetLevelVisibleTypeFromName(const FName& Name) { return ETresLevelVisibility::Default; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
-	//static ETresLevelVisibility GetLevelVisibleType(int Index) { return ETresLevelVisibility::; };
+	UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
+	static ETresLevelVisibility GetLevelVisibleType(int Index) { return ETresLevelVisibility::Default; };
 
 	UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
 	static FString GetLevelStreamingSupplementaryInformation(const FName& Name) { return FString::FString(); };
 
-	//UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
-	//static ETresLevelLoadAndVisible GetLevelLoadAndVisibleFromName(const FName& Name) { return ETresLevelLoadAndVisible::; };
+	UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
+	static ETresLevelLoadAndVisible GetLevelLoadAndVisibleFromName(const FName& Name) { return ETresLevelLoadAndVisible::None; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
-	//static ETresLevelLoadAndVisible GetLevelLoadAndVisible(int Index) { return ETresLevelLoadAndVisible::; };
+	UFUNCTION(BlueprintPure, Category = "TresLevelStatics")
+	static ETresLevelLoadAndVisible GetLevelLoadAndVisible(int Index) { return ETresLevelLoadAndVisible::None; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresLevelStatics")
 	static void ClearSqexLevelActorVisible() {};

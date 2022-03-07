@@ -36,7 +36,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
 	class UClass* m_PhysDamageTypeClass;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")
 	TMap<TWeakObjectPtr<class AActor>, int> m_CheeringList;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollManager")

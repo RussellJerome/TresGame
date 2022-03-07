@@ -7,6 +7,10 @@
 #include "TresGame.h"
 #include "TresSavePointActor.generated.h"
 
+//These May Not Work
+DECLARE_MULTICAST_DELEGATE(OnReactorDoCommand);
+DECLARE_MULTICAST_DELEGATE(OnGimmickActivate);
+
 /**
  * 
  */
@@ -69,30 +73,26 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
 	class ATresCharPawnBase* m_pCheckPawn;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	//struct FScriptMulticastDelegate OnReactorDoCommand;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	//struct FScriptMulticastDelegate OnGimmickActivate;
+	//UPROPERTY(BlueprintAssignable, Category = "TresSavePointActor")
+	//FTresReactorDoCommand OnReactorDoCommand;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresSavePointActor")
+	//FTresGimmickActivate OnGimmickActivate;
 
 	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
 	void ReceiveGimmickActivate(bool bEnable) {};
 
-	UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
 	void OnChangeSavePointDispType(ETresSavePointDispType InDispType);
-	void OnChangeSavePointDispType_Implementation(ETresSavePointDispType InDispType) {};
 
-	UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
 	void OnChangePlayerArtsMode(bool bIsArtsMode);
-	void OnChangePlayerArtsMode_Implementation(bool bIsArtsMode) {};
 
-	UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
 	void OnChangeCinematicMode(bool bIsCinematicMode);
-	void OnChangeCinematicMode_Implementation(bool bIsCinematicMode) {};
 
-	UFUNCTION(BlueprintNativeEvent, Category = "TresSavePointActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
 	void OnChangeBattleMode(bool bIsBattleMode);
-	void OnChangeBattleMode_Implementation(bool bIsBattleMode) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
 	void BP_SetDisableMode(bool bIsDisable) {};

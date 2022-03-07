@@ -7,6 +7,10 @@
 #include "TresGame.h"
 #include "TresProjectileBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTresProjectileMove, float, InDeltaTime);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTresProjectilePutEffect, const FVector&, InLocation);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTresProjectileReflected);
+
 /**
  * 
  */
@@ -15,9 +19,14 @@ class TRESGAME_API ATresProjectileBase : public ATresPawnBase
 {
 	GENERATED_BODY()
 public:
-	//struct FScriptMulticastDelegate                    OnTickMove;
-	//struct FScriptMulticastDelegate                    OnPutEffect;
-	//struct FScriptMulticastDelegate                    OnProjectileReflected;
+	UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
+	FOnTresProjectileMove OnTickMove;
+	
+	UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
+	FOnTresProjectilePutEffect OnPutEffect;
+	
+	UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
+	FOnTresProjectileReflected OnProjectileReflected;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
 	class UTresProjectileMovementComponent* MyMovement;
@@ -137,7 +146,7 @@ public:
 	bool m_bReSpawnProjectileOnTimeOut;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	TEnumAsByte<ETresProjectileRespawnType> m_RespawnCheckType;
+	ETresProjectileRespawnType m_RespawnCheckType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
 	bool m_bReSpawnProjectileOnlyHitAny;
@@ -158,7 +167,7 @@ public:
 	class UClass* m_ReSpawnProjectileClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	TEnumAsByte<ETresProjectileRespawnRotType> m_ReSpawnRotInheritType;
+	ETresProjectileRespawnRotType m_ReSpawnRotInheritType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
 	bool m_bReSpawnTakeOverAtkTarget;
@@ -182,7 +191,7 @@ public:
 	TArray<struct FTresProjectileSpawnData> m_ResidueList;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	TEnumAsByte<ETresProjectileInnerWaterVolumeProc> m_InnerWaterVolumeProc;
+	ETresProjectileInnerWaterVolumeProc m_InnerWaterVolumeProc;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
 	class UParticleSystem* m_InnerWaterVolumeEffect;
@@ -208,17 +217,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
 	bool m_bTakeOverHitEffectAlphaParam;
 
-	//class USQEXSEADSoundReferenceEnumSet* m_SoundAssets;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
+	class USQEXSEADSoundReferenceEnumSet* m_SoundAssets;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
 	bool bExploded;
 
 	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
 	void TresBpNotifyAttackHit(class UTresAtkCollComponent* HitAttackCollComponent, class AActor* HitActor, const struct FHitResult& HitResult, ETresReactionResultType HitResponse) {};
-	//void OnTresProjectileReflectedDelegate__DelegateSignature();
-	//void OnTresProjectilePutEffectDelegate__DelegateSignature(const struct FVector& InLocation);
-	//void OnTresProjectileMoveDelegate__DelegateSignature(float InDeltaTime);
-	//void OnRep_Exploded();
+	
+	void OnRep_Exploded();
 	
 	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
 	void HandleTickMove(float InDetaTime) {};

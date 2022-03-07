@@ -7,6 +7,9 @@
 #include "TresGame.h"
 #include "TresMapJumpVolume.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnMapJump);
+
 /**
  * 
  */
@@ -27,7 +30,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpVolume")
 	bool m_BlueprintMapJump;
 
-	//struct FScriptMulticastDelegate OnMapJump;
+	//UPROPERTY(BlueprintAssignable, Category = "TresMapJumpVolume")
+	//FTresMapJump OnMapJump;
 
 	UFUNCTION(BlueprintCallable, Category = "TresMapJumpVolume")
 	void InvokeMapJump() {};

@@ -14,9 +14,11 @@ class TRESGAME_API AAITestHumanEnemyPawn : public ATresEnemyPawnBase
 {
 	GENERATED_BODY()
 public:
+	/*DEBUG: Switches Behaviour Tree*/
 	UFUNCTION(BlueprintCallable, Category = "AITestHumanEnemyPawn")
 	void DebugSwitchBT(const FName& InName) {};
 
+	/*DEBUG: Sets the Default Behaviour Tree*/
 	UFUNCTION(BlueprintCallable, Category = "AITestHumanEnemyPawn")
 	void DebugSetDefaultBT() {};
 };

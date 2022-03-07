@@ -7,6 +7,14 @@
 #include "TresGame.h"
 #include "TresGimmickSimpleMovement.generated.h"
 
+UENUM(BlueprintType)
+enum ETresGimmickSimpleMovementDirAxis
+{
+	/*Forward = 0,
+	Right = 1,
+	Up = 2,*/
+	ETresGimmickSimpleMovementDirAxis_MAX = 3 UMETA(Hidden)
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TRESGAME_API UTresGimmickSimpleMovement : public UActorComponent
@@ -19,10 +27,10 @@ public:
 	bool m_bEnableMove;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSimpleMovement")
-	TEnumAsByte<ETresGimmickSimpleMovementMoveType> m_MoveType;
+	ETresGimmickSimpleMovementMoveType m_MoveType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSimpleMovement")
-	TEnumAsByte<ETresGimmickSimpleMovementAcclType> m_AcclType;
+	ETresGimmickSimpleMovementAcclType m_AcclType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSimpleMovement")
 	class AActor* m_MoveTargetActor;
@@ -60,7 +68,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGimmickSimpleMovement")
 	class UCurveFloat* m_UnitInterpRotationCurve;
 
-	//struct FScriptMulticastDelegate                    OnFinishMove;
+	//struct FScriptMulticastDelegate OnFinishMove;
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickSimpleMovement")
 	void BP_StopMove() {};
@@ -72,7 +80,7 @@ public:
 	void BP_SetTargetLocation(const FVector& Location) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickSimpleMovement")
-	void BP_SetMoveType(TEnumAsByte<ETresGimmickSimpleMovementMoveType> Type) {};
+	void BP_SetMoveType(ETresGimmickSimpleMovementMoveType Type) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickSimpleMovement")
 	void BP_SetMoveTargetActor(class AActor* Actor) {};

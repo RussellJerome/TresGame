@@ -134,8 +134,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
 	void BP_SetDistanceLerpCoefficient(float Coefficient) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
-	//void BP_SetDepthOfField(TEnumAsByte<EDepthOfFieldMethod> Method, float FocalDistance, float Time0, float FocalRegion, float Time1, float NearTransitionRegion, float Time2, float FarTransitionRegion, float Time3, float Scale, float Time4, float MaxBokehSize, float Time5, float NearBlurSize, float Time6, float FarBlurSize, float Time7) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
+	void BP_SetDepthOfField(TEnumAsByte<EDepthOfFieldMethod> Method, float FocalDistance, float Time0, float FocalRegion, float Time1, float NearTransitionRegion, float Time2, float FarTransitionRegion, float Time3, float Scale, float Time4, float MaxBokehSize, float Time5, float NearBlurSize, float Time6, float FarBlurSize, float Time7) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresCameraBase")
 	void BP_SetCameraName(const FName& CameraName) {};

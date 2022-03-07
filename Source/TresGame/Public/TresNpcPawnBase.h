@@ -89,8 +89,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
 	float m_fSneezeIntervalTime;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
-	//class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Damage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
+	class USQEXSEADSoundReferenceEnumSet* m_SoundAssets_Damage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcPawnBase")
 	FName m_DefaultFaceEyeAnimName;

@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class MERCUNA_API UMerNavOctreeRenderingComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()

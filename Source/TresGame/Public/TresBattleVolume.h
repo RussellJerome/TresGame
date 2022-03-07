@@ -29,5 +29,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBattleVolume")
 	bool m_BattleStarted;
-
 };

@@ -6,6 +6,8 @@
 #include "TresGimmickComponentBase.h"
 #include "TresReactorComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(OnReactorDoCommand);
+
 /**
  * 
  */
@@ -36,7 +38,7 @@ public:
 	bool m_bNeedRayCheck;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
-	TEnumAsByte<ETresReactorCommandID> m_Command;
+	ETresReactorCommandID m_Command;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
 	class AActor* m_CmdTargetActor;
@@ -50,5 +52,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresReactorComponent")
 	class UBodySetup* m_pBodySetup;
 
-	//struct FScriptMulticastDelegate OnReactorDoCommand;
+	//UPROPERTY(BlueprintAssignable, Category = "TresReactorComponent")
+	//FTresReactorDoCommand OnReactorDoCommand;
 };

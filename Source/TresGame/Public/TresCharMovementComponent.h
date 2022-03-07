@@ -37,8 +37,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharMovementComponent")
 	TEnumAsByte<EMovementMode> MovementMode;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharMovementComponent")
-	//unsigned char CustomMovementMode;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharMovementComponent")
+	uint8 CustomMovementMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCharMovementComponent")
 	float GroundFriction;
@@ -429,8 +429,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresCharMovementComponent")
 	void SetWalkableFloorAngle(float InWalkableFloorAngle) {};
 
-	//UFUNCTION(BlueprintCallable, Category = "TresCharMovementComponent")
-	//void SetMovementMode(TEnumAsByte<EMovementMode> NewMovementMode, unsigned char NewCustomMode) {};
+	UFUNCTION(BlueprintCallable, Category = "TresCharMovementComponent")
+	void SetMovementMode(TEnumAsByte<EMovementMode> NewMovementMode, uint8 NewCustomMode) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresCharMovementComponent")
 	void SetJumpDuration(bool bFinish) {};

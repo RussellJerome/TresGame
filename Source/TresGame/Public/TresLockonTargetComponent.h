@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "TresGimmickComponentBase.h"
 #include "TresGame.h"
+#include "EngineData.h"
 #include "TresLockonTargetComponent.generated.h"
 
 /**
@@ -19,7 +20,7 @@ public:
 	bool m_bPermissionLockOn;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
-	TEnumAsByte<ETresLockonPriority> m_LockonPriority;
+	ETresLockonPriority m_LockonPriority;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
 	bool m_bPermissionShootFlow;
@@ -27,8 +28,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
 	bool m_bPermissionMoveFlow;
 	
-	//ENGINE DEF
-	//ESQEX_FreeFlowKind                                 m_MoveFlowType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
+	ESQEX_FreeFlowKind m_MoveFlowType;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
 	bool m_bMoveFlowDestination;
@@ -53,5 +54,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
 	bool m_bPermissionCoverShot;
-	//struct FScriptMulticastDelegate                    OnTargetLock;                                             // 0x08A8(0x0010) (ZeroConstructor, InstancedReference, BlueprintAssignable)
+	
+	//struct FScriptMulticastDelegate OnTargetLock;
 };

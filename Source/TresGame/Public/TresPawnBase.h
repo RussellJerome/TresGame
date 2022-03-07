@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "TresBodyCollComponent.h"
 #include "GameFramework/Character.h"
+#include "EngineData.h"
 #include "TresPawnBase.generated.h"
 
 UCLASS()
@@ -20,8 +21,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
 	TArray<UTresBodyCollComponent*> m_BodyComponentsList;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	struct FBasedMovementInfo BasedMovement;
+	FBasedMovementInfo BasedMovement;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
 	FName MyLockOnSetBoneName;
@@ -46,12 +46,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
 	class ATresLevelEntity* m_LevelEntity;
-	//TODO
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-//	TArray<class UTresInterpGroup*> m_InterpGroup;
-	//TODO
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-//	TArray<class UTresInterpGroupInst*> m_InterpGroupInst;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
+	TArray<class UTresInterpGroup*> m_InterpGroup;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
+	TArray<class UTresInterpGroupInst*> m_InterpGroupInst;
 	
 	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
 	bool WarpToTaggedPlayerStart(const FName& InTag, bool bResetCamera, bool bStateClear) { return false; };
@@ -142,9 +142,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
 	void ClientCheatFly() {};
 
-	//void BP_RootPauseUpdateOverlaps(bool bPause, bool bCallManualUpdateOnEndPause);
-	//void BP_ReqFriendWarpHomeAll(bool bAdjustCameraBack);
-	//void BP_NotifyRegisterEnemyGaugeTarget(class ATresCharPawnBase* InTarget);
+	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
+	void BP_RootPauseUpdateOverlaps(bool bPause, bool bCallManualUpdateOnEndPause) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
+	void BP_ReqFriendWarpHomeAll(bool bAdjustCameraBack) {};
+
+	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
+	void BP_NotifyRegisterEnemyGaugeTarget(class ATresCharPawnBase* InTarget) {};
 
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
 	FVector BP_GetSelfMovedVelocity() { return FVector::FVector(); };
@@ -176,8 +181,8 @@ public:
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
 	class ATresNpcPawnBase* BP_GetFriendPawnByIndex(int Index) { return nullptr; };
 	
-	//TODO ENGINE IMPLEMENTATION REQUIRED
-	//ESQEX_AI_ThinkType BP_GetFriendAIThinkType();
+	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
+	ESQEX_AI_ThinkType BP_GetFriendAIThinkType() { return ESQEX_AI_ThinkType::SQEX_AI_THINK_TYPE_NONE; };
 	
 	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
 	ETresEnemyUniqueID BP_GetEnemyUniqueID() { return ETresEnemyUniqueID::TRES_ENEMY_UID_BX059; };

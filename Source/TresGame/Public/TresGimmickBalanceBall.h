@@ -77,20 +77,32 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
 	void SetAttachmentComp(class USceneComponent* pAttachComp) {};
 
-	/*void OnReflectBalanceBall(const FHitResult& Impact) {};
-	void OnEndSensorOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex) {};
-	void OnBeginSensorOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickBalanceBall")
+	void OnReflectBalanceBall(const FHitResult& Impact);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickBalanceBall")
+	void OnEndSensorOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGimmickBalanceBall")
+	void OnBeginSensorOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
 	void NotifyChangeGimmickPause(bool bPause) {};
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
 	void NotifyChangeGimmickActionImpl(bool bShow) {};
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
 	void NotifyChangeBallSpeed(const FVector& Speed, float fRatio) {};
-	void NotifyChangeBallEntried(bool Entry) {};*/
+	
+	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
+	void NotifyChangeBallEntried(bool Entry) {};
 
 	UFUNCTION(BlueprintPure, Category = "TresGimmickBalanceBall")
 	class USphereComponent* GetEntrySensorComponent() { return nullptr; };
 
 	UFUNCTION(BlueprintPure, Category = "TresGimmickBalanceBall")
 	float GetBalanceBallSize() { return 0.0f; };
-
 
 	UFUNCTION(BlueprintCallable, Category = "TresGimmickBalanceBall")
 	void EndOverlap(class ATresCharPawnBase* pPawn) {};

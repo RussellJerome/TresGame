@@ -48,8 +48,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TresBluePrintObjectBase")
 	bool IsCinematic() { return false; };
 
-	//UFUNCTION(BlueprintPure, Category = "TresBluePrintObjectBase")
-	//static class UTresFieldVoice* GetRandomFieldVoice(TArray<class UTresFieldVoice*> targetArray) { return nullptr; };
+	UFUNCTION(BlueprintPure, Category = "TresBluePrintObjectBase")
+	static class UTresFieldVoice* GetRandomFieldVoice(TArray<class UTresFieldVoice*> targetArray) { return nullptr; };
 
 	UFUNCTION(BlueprintPure, Category = "TresBluePrintObjectBase")
 	class ATresAIPawnBase* GetPlayer() { return nullptr; };

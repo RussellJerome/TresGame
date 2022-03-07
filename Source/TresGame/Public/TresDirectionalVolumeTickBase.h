@@ -17,8 +17,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalVolumeTickBase")
 	float m_PermitAngle; 
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalVolumeTickBase")
-	//class UTresDebugArrowComponent* DebugArrowComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalVolumeTickBase")
+	class UTresDebugArrowComponent* DebugArrowComponent;
 
 	UFUNCTION(BlueprintCallable, Category = "TresDirectionalVolumeTickBase")
 	void SetEnableExecute(bool Enable) {};

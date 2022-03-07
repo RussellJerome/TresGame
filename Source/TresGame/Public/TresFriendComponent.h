@@ -38,7 +38,7 @@ public:
 	bool SetFriendByIDName(const FName& inNpcName) { return false; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetFriendAreaID(TEnumAsByte<ETresFriendAreaID> inAreaID) {};
+	void SetFriendAreaID(ETresFriendAreaID inAreaID) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
 	void SetFriendAll(const FName& inNpcName0, const FName& inNpcName1, const FName& inNpcName2, const FName& inNpcName3, const FName& inGuestName4, const FName& inGuestName5, bool bSetFriendClass) {};
@@ -58,7 +58,7 @@ public:
 
 	/* Sets the body paint to a specific friend (IE: Mike & Sully) */
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetBodyPaintFriend(TEnumAsByte<ETresChrUniqueID> uid, float InScalar) {};
+	void SetBodyPaintFriend(ETresChrUniqueID uid, float InScalar) {};
 
 	/* Allows you to prevent pushing all friends */
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
@@ -66,13 +66,13 @@ public:
 
 	/* Allows you to prevent pushing a specific friend */
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void SetBodyImmovableFriend(TEnumAsByte<ETresChrUniqueID> uid, bool InOnOff) {};
+	void SetBodyImmovableFriend(ETresChrUniqueID uid, bool InOnOff) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
 	void SetAllFriendLinkPointDisable(bool Disable) {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	void PlayVoiceFriendLink(TEnumAsByte<ETresCommandKind> Command, TEnumAsByte<ETresChrUniqueID> uid) {};
+	void PlayVoiceFriendLink(TEnumAsByte<ETresCommandKind> Command, ETresChrUniqueID uid) {};
 
 	/* Checks if Goofy exists */
 	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
@@ -88,7 +88,7 @@ public:
 
 	/* Checks if a specific character exists */
 	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	bool IsExistChar(TEnumAsByte<ETresChrUniqueID> uid) { return false; };
+	bool IsExistChar(ETresChrUniqueID uid) { return false; };
 
 	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
 	bool IsExeLink() { return false; };
@@ -112,7 +112,7 @@ public:
 
 	/* Allows you to delete a friend based on the unique ID */
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
-	bool DeleteFriendByUniqueID(TEnumAsByte<ETresChrUniqueID> uid) { return false; };
+	bool DeleteFriendByUniqueID(ETresChrUniqueID uid) { return false; };
 
 	/* Allows you to delete all friends */
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
@@ -133,7 +133,7 @@ public:
 
 	/* Gets the friend pawn by a unique ID */
 	UFUNCTION(BlueprintPure, Category = "TresFriendComponent")
-	class ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(TEnumAsByte<ETresChrUniqueID> uid) { return nullptr; };
+	class ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(ETresChrUniqueID uid) { return nullptr; };
 
 	UFUNCTION(BlueprintCallable, Category = "TresFriendComponent")
 	void AnimStopFriend(bool InEnableGuest) {};

@@ -14,6 +14,6 @@ class TRESGAME_API ATresCameraDebug : public ATresCameraBase
 {
 	GENERATED_BODY()
 public:
-	//UFUNCTION(BlueprintCallable, Category = "TresCameraDebug")
-	//class UDrawFrustumComponent* DrawFrustum;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresCameraDebug")
+	class UDrawFrustumComponent* DrawFrustum;
 };

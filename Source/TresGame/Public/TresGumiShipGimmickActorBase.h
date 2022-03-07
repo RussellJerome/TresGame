@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "TresGumiShipActorBase.h"
+#include "TresEffectAttachComponent.h"
 #include "TresGumiShipGimmickActorBase.generated.h"
 
 /**
@@ -14,11 +15,12 @@ class TRESGAME_API ATresGumiShipGimmickActorBase : public ATresGumiShipActorBase
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipGimmickActorBase")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipGimmickActorBase")
+	UTresEffectAttachComponent* m_pEffectAttach;
 	//class UTresEffectAttachComponent* m_pEffectAttach;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipGimmickActorBase")
-	TEnumAsByte<ETresGumiShipGimmickID> m_eGimmickID;
+	ETresGumiShipGimmickID m_eGimmickID;
 
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipGimmickActorBase")
 	void FadeOutEffect(float InFadeOutTime, int InGroupID) {};
@@ -28,4 +30,17 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipGimmickActorBase")
 	void DestroyEffects(int InGroupID) {};
+
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+
+		if (!IsValid(m_pEffectAttach))
+		{
+			m_pEffectAttach = NewObject<UTresEffectAttachComponent>(this);
+			m_pEffectAttach->CreationMethod = EComponentCreationMethod::Native;
+			m_pEffectAttach->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+			m_pEffectAttach->RegisterComponent();
+		}
+	};
 };

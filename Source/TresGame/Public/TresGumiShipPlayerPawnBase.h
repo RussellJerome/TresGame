@@ -6,6 +6,9 @@
 #include "TresGumiShipCharaPawnBase.h"
 #include "TresGumiShipPlayerPawnBase.generated.h"
 
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParam(FTresGumiShipChangeSpeed, float, fOldSeed, float, fNewSpeed, float, fRatio);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresGumiShipChangeAccelCompo, class UTresGumiShipPlayerAccelerationBase*, pCompo);
+
 /**
  * 
  */
@@ -14,32 +17,32 @@ class TRESGAME_API ATresGumiShipPlayerPawnBase : public ATresGumiShipCharaPawnBa
 {
 	GENERATED_BODY()
 public:
-	/*struct FScriptMulticastDelegate m_OnChangeAccelCompoDispather;
-	struct FScriptMulticastDelegate m_OnChangeSpeedDispather;*/
+	//UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	//FTresGumiShipChangeAccelCompo m_OnChangeAccelCompoDispather;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
+	//FTresGumiShipChangeSpeed m_OnChangeSpeedDispather;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipFSM* m_pFSM;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresGumiShipFSM* m_pFSM;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipSoundSetComponent* m_pSoundSet;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresGumiShipSoundSetComponent* m_pSoundSet;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipPlayerMovementCompoBase* m_pMovementCompo;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresGumiShipPlayerMovementCompoBase* m_pMovementCompo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipPlayerAccelerationBase* m_pAcceleration;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresGumiShipPlayerAccelerationBase* m_pAcceleration;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipPlayerSpringArmCompo* m_pCameraSpringArm;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresGumiShipPlayerSpringArmCompo* m_pCameraSpringArm;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresGumiShipEffectSetComponent* m_pEffectSet;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresGumiShipEffectSetComponent* m_pEffectSet;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
-	class UTresPlayerStateEventComponent* m_pStateEvent;*/
-
-	//void TresGumiShipChangeSpeed__DelegateSignature(float fOldSeed, float fNewSpeed, float fRatio);
-	//void TresGumiShipChangeAccelCompo__DelegateSignature(class UTresGumiShipPlayerAccelerationBase* pCompo);
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipPlayerPawnBase")
+	//class UTresPlayerStateEventComponent* m_pStateEvent;
 
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipPlayerPawnBase")
 	void SetOutsideMaxSpeed(float fSpeed) {};

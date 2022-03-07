@@ -6,6 +6,11 @@
 #include "TresCharPawnBase.h"
 #include "TresAccompanyPawnBase.generated.h"
 
+//These Delegates may not be correct!
+DECLARE_MULTICAST_DELEGATE(OnAccompanyPawnAppear);
+DECLARE_MULTICAST_DELEGATE(OnAccompanyPawnDisappear);
+DECLARE_MULTICAST_DELEGATE(OnAccompanyPawnDoFinish);
+
 /**
  * 
  */
@@ -32,12 +37,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
 	bool m_bDispDebugInfo;
 
-	//struct FScriptMulticastDelegate OnAccompanyPawnAppear;
-	//struct FScriptMulticastDelegate OnAccompanyPawnDisappear;
-	//struct FScriptMulticastDelegate OnAccompanyPawnDoFinish;
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresAccompanyPawnAppear OnAccompanyPawnAppear;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresAccompanyPawnDisappear OnAccompanyPawnDisappear;
+	
+	//UPROPERTY(BlueprintAssignable, Category = "TresAccompanyPawnBase")
+	//FTresAccompanyPawnDoFinish OnAccompanyPawnDoFinish;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
-	TMap<TEnumAsByte<ETresChrUniqueID>, class UTresAnimSet*> m_AppendAnimSetMap;
+	TMap<ETresChrUniqueID, class UTresAnimSet*> m_AppendAnimSetMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
 	class USoundBase* m_BGMAsset;
@@ -66,8 +76,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAccompanyPawnBase")
 	TArray<class ATresCharPawnBase*> m_SlavePawnList;
 
-	void ReceiveAccompanyPawnDoFinish() {};
-	void ReceiveAccompanyPawnDisappear() {};
-	void ReceiveAccompanyPawnAppear() {};
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresAccompanyPawnBase")
+	void ReceiveAccompanyPawnDoFinish();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresAccompanyPawnBase")
+	void ReceiveAccompanyPawnDisappear();
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresAccompanyPawnBase")
+	void ReceiveAccompanyPawnAppear();
+	
+	UFUNCTION(BlueprintPure, Category = "TresAccompanyPawnBase")
 	FVector BP_GetSafetyPos() { return FVector::FVector(); };
 };

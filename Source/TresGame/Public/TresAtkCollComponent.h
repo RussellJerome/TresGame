@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class TRESGAME_API UTresAtkCollComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()
@@ -24,17 +24,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
 	class UTresChrDataTableSet* m_pOwnerDataTableSet;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
-	TArray<FTresAtkCollShapeAssetUnit> CollisionShapesSrc;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
+	//TArray<FTresAtkCollShapeAssetUnit> CollisionShapesSrc;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
-	TArray<FTresAtkColHitEffect> m_HitEffects;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
+	//TArray<FTresAtkColHitEffect> m_HitEffects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
 	float m_fHitEffectRandomOffsetRadius;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
-	TArray<FTresAtkCollAutoActivate> m_CollAutoActivate;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
+	//TArray<FTresAtkCollAutoActivate> m_CollAutoActivate;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAtkCollComponent")
 	//TArray<class UTresAtkCollPrimitive*> m_AtkColls;

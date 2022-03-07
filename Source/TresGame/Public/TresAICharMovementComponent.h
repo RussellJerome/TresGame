@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class TRESGAME_API UTresAICharMovementComponent : public UTresCharMovementComponent
 {
 	GENERATED_BODY()

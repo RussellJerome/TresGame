@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EngineData.h"
 #include "TresVolume.h"
 #include "TresBonamikCollisionVolume.generated.h"
 
@@ -14,8 +15,8 @@ class TRESGAME_API ATresBonamikCollisionVolume : public ATresVolume
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
-	//TArray<ESQEX_ObjectType> m_MonitoringObjectTypes;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
+	TArray<ESQEX_ObjectType> m_MonitoringObjectTypes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBonamikCollisionVolume")
 	TArray<FString> m_Groups;

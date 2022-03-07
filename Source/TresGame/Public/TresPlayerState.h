@@ -17,7 +17,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerState")
 	int m_TeamNo;
 
-	//void OnRep_TeamNo() {};
+	void OnRep_TeamNo() {};
 
 	UFUNCTION(BlueprintCallable, Category = "TresPlayerState")
 	void InformAboutKill(class ATresPlayerState* KillerPlayerState, class UDamageType* KillerDamageType, class ATresPlayerState* KilledPlayerState) {};

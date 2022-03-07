@@ -15,7 +15,7 @@ class TRESGAME_API ATresGumiShipWorldSymbolActor : public ATresGumiShipGimmickAc
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
-	TEnumAsByte<ETresGumiShipWorldSymbolID> WorldMapID;
+	ETresGumiShipWorldSymbolID WorldMapID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
 	TEnumAsByte<ETresWorldCode> WorldCode;
@@ -47,21 +47,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresGumiShipWorldSymbolActor")
 	class UStaticMeshComponent* WorldMist;
 
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGumiShipWorldSymbolActor")
 	void OnLeaveGoalVolume(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex);
-	void OnLeaveGoalVolume_Implementation(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex) {};
 	
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGumiShipWorldSymbolActor")
 	void OnHitGoalVolume(class UPrimitiveComponent* pHitComponent, class AActor* pOtherActor, class UPrimitiveComponent* pOtherComp, const FVector& vNormalImpulse, const FHitResult& rHit);
-	void OnHitGoalVolume_Implementation(class UPrimitiveComponent* pHitComponent, class AActor* pOtherActor, class UPrimitiveComponent* pOtherComp, const FVector& vNormalImpulse, const FHitResult& rHit) {};
 	
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGumiShipWorldSymbolActor")
 	void OnEnterGoalVolume(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	void OnEnterGoalVolume_Implementation(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComponent, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
 	
-	UFUNCTION(BlueprintNativeEvent, Category = "TresGumiShipWorldSymbolActor")
+	UFUNCTION(BlueprintImplementableEvent, Category = "TresGumiShipWorldSymbolActor")
 	void OnCancel();
-	void OnCancel_Implementation() {};
 	
 	UFUNCTION(BlueprintCallable, Category = "TresGumiShipWorldSymbolActor")
 	void LockWorldByBoss(bool LockEnable) {};
