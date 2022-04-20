@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Factories/Factory.h"
-#include "SQEX_KineDriverData_Factory.generated.h"
+#include "SQEX_BonamikAsset_Factory.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class KINEDRIVERRT_API USQEX_KineDriverData_Factory : public UFactory
+class BONAMIKRT_API USQEX_BonamikAsset_Factory : public UFactory
 {
 	GENERATED_BODY()
-
+	
 public:
-	USQEX_KineDriverData_Factory();
+	USQEX_BonamikAsset_Factory();
 	virtual uint32 GetMenuCategories() const override;
-	FText GetDisplayName() const override { return FText::FromString(TEXT("KineDriver Data")); }
+	FText GetDisplayName() const override { return FText::FromString(TEXT("Bonamik Asset")); }
 	virtual UObject* FactoryCreateNew(UClass* InClass, UObject* InParent, FName InName, EObjectFlags Flags, UObject* Cntext, FFeedbackContext* Warn) override;
 };
