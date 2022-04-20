@@ -228,18 +228,6 @@ enum class ESQEX_PrimitiveSortAlgorithm : uint8
 };
 
 UENUM(BlueprintType)
-enum class ESQEXMaterialDiscernment : uint8
-{
-	SQEX_MD_Default = 0,
-	SQEX_MD_Charactor = 1,
-	SQEX_MD_Sky = 2,
-	SQEX_MD_Env0 = 3,
-	SQEX_MD_Env1 = 4,
-	SQEX_MD_LensFlare = 5,
-	SQEX_MD_MAX = 6 UMETA(Hidden)
-};
-
-UENUM(BlueprintType)
 enum class ESQEX_KINGDOMHEARTSSPACE_TYPE : uint8
 {
 	ESQEX_KINGDOMHEARTSSPACE_TYPE = 0,
