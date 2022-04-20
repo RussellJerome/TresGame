@@ -7,12 +7,18 @@
 		{
 			"Name": "KineDriverRt",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"UnrealEd"
+			]
 		},
 		{
 			"Name": "BonamikRt",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"UnrealEd"
+			]
 		},
 		{
 			"Name": "KBDRt",
