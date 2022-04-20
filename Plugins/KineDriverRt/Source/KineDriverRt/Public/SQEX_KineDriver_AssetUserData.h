@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class KINEDRIVERRT_API USQEX_KineDriver_AssetUserData : public UAssetUserData
 {
 	GENERATED_BODY()
