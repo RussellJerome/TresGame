@@ -14,6 +14,6 @@ class TRESGAME_API UTresBTComposite_BlackboardRandom : public UBTCompositeNode
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTComposite_BlackboardRandom")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<struct FBlackboardKeySelector> Weights;
 };

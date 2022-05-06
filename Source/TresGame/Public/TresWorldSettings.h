@@ -27,30 +27,30 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
 	TAssetPtr<class USoundBase> m_BGMBattle;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	TArray<struct FTresAttractionFlowDrawingEntry> m_DrawingTable;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	bool m_AttractionFlowDrawingEnable;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	TArray<class UDataAsset*> m_Assets;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	TArray<class UTresWorldResidentActorClassAsset*>   m_AssetMapsOnlyForLevel;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	TArray<FName> m_LoadCommonAssetTags;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	TArray<FName> m_DiscardCommonAssetTags;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	class UTresPhysMatEffectAsset* m_PhysMatEffects;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
 	TEnumAsByte<ETresEffectAreaCode> m_EffectAreaCode;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = TresWorldSettings)
+	UPROPERTY(EditAnywhere, Category = TresWorldSettings)
 	class UDataTable* m_EffectBaseColorTable;
 };

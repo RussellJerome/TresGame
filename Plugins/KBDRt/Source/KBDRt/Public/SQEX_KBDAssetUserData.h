@@ -15,6 +15,6 @@ class KBDRT_API USQEX_KBDAssetUserData : public UAssetUserData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX_KBDAssetUserData")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
 	TArray<struct FSQEX_KBDAssetElement> AssetElements;
 };

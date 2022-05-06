@@ -14,9 +14,9 @@ class TRESGAME_API UTresActionDefinitionUpDownBase : public UTresActionDefinitio
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresActionDefinitionUpDownBase")
+	UPROPERTY(EditDefaultsOnly, Category = "TresActionDefinitionUpDownBase")
 	float m_MaxVelocity;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresActionDefinitionUpDownBase")
+	UPROPERTY(EditDefaultsOnly, Category = "TresActionDefinitionUpDownBase")
 	float m_Accel;
 };

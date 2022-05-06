@@ -3021,14 +3021,17 @@ enum class ETresTurnMode : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresAIAction
+namespace ETresAIAction
 {
-	/*Move = 0,
-	Fall = 1,
-	Jump = 2,
-	Custom = 3,*/
-	ETresAIAction_MAX = 4 UMETA(Hidden)
-};
+	enum Type
+	{
+		Move,
+		Fall,
+		Jump,
+		Custom,
+		ETresAIAction_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum class ETresEnemyca901WarpKind : uint8
@@ -3112,129 +3115,132 @@ enum ETresFloorTestMode
 };
 
 UENUM(BlueprintType)
-enum ETresFaceAnimType
+namespace ETresFaceAnimType
 {
-	/*NORMAL_AUTO = 0,
-	NORMAL_AUTO_IDLE_BATTLE = 1,
-	NORMAL_AUTO_BATTLE_IDLE = 2,
-	Normal = 3,
-	NO = 4,
-	NO01 = 5,
-	NO02 = 6,
-	NO03 = 7,
-	Battle = 8,
-	BATTLE_SINGLE = 9,
-	BA = 10,
-	Damage = 11,
-	DMG_LOOP = 12,
-	DMG_END = 13,
-	MAGIC_AUTO_IDLE_BATTLE = 14,
-	MAGIC2_AUTO_IDLE_BATTLE = 15,
-	USEITEM_AUTO_IDLE_BATTLE = 16,
-	NORMAL_AUTO_01 = 17,
-	SA_FREEZE = 18,
-	SA_BARN = 19,
-	SA_OIL = 20,
-	SA_STEAM = 21,
-	SA_THUNDER = 22,
-	AF_RC = 23,
-	AF_VS = 24,
-	AF_TC = 25,
-	WEP_BS = 26,
-	WEP_GUN = 27,
-	WEP_SD = 28,
-	NORMAL_AUTO_EF01 = 29,
-	NORMAL_AUTO_EU01 = 30,
-	NORMAL_AUTO_ED01 = 31,
-	NORMAL_AUTO_ED02 = 32,
-	NORMAL_AUTO_ER01 = 33,
-	NORMAL_AUTO_EL01 = 34,
-	MOUTH_OPEN_01 = 35,
-	MOUTH_OPEN_02 = 36,
-	MOUTH_OPEN_03 = 37,
-	MOUTH_OPEN_04 = 38,
-	MOUTH_OPEN_05 = 39,
-	TIPBALANCE_AUTO_R01 = 40,
-	TIPBALANCE_AUTO_L01 = 41,
-	RAILSLIDE_AUTO01 = 42,
-	RAILSLIDE_AUTO02 = 43,
-	PLEASURE_EYE00 = 44,
-	PLEASURE_EYE01 = 45,
-	PLEASURE_EYE02 = 46,
-	PREASURE_LIP00 = 47,
-	PREASURE_LIP01 = 48,
-	PREASURE_LIP02 = 49,
-	SURPRISE_EYE00 = 50,
-	SURPRISE_EYE01 = 51,
-	SURPRISE_LIP00 = 52,
-	SURPRISE_LIP01 = 53,
-	EMOTION_NO300 = 54,
-	EMOTION_NO301 = 55,
-	EMOTION_NO302 = 56,
-	EMOTION_NO350 = 57,
-	EMOTION_NO351 = 58,
-	EMOTION_NO352 = 59,
-	EMOTION_NO354 = 60,
-	EMOTION_NO400 = 61,
-	EMOTION_NO401 = 62,
-	EMOTION_NO450 = 63,
-	EMOTION_NO451 = 64,
-	EMOTION_NO452 = 65,
-	EMOTION_NO500 = 66,
-	EMOTION_NO501 = 67,
-	EMOTION_NO502 = 68,
-	NORMAL_AUTO_EC01 = 69,
-	EMOTION_TA_DE_E_00 = 70,
-	EMOTION_TA_DE_E_01 = 71,
-	EMOTION_TA_DE_E_02 = 72,
-	EMOTION_TA_DE_E_03 = 73,
-	EMOTION_TA_DE_E_04 = 74,
-	EMOTION_TA_DE_E_05 = 75,
-	EMOTION_TA_DE_E_06 = 76,
-	EMOTION_TA_DE_E_07 = 77,
-	EMOTION_TA_DE_E_08 = 78,
-	EMOTION_TA_DE_E_09 = 79,
-	EMOTION_TA_DE_E = 80,
-	EMOTION_TA_DE_E01 = 81,
-	EMOTION_TA_DE_E02 = 82,
-	EMOTION_TA_DE_M_00 = 83,
-	EMOTION_TA_DE_M_01 = 84,
-	EMOTION_TA_DE_M_02 = 85,
-	EMOTION_TA_DE_M_03 = 86,
-	EMOTION_TA_SM_E_00 = 87,
-	EMOTION_TA_SM_E_01 = 88,
-	EMOTION_TA_SM_E_02 = 89,
-	EMOTION_TA_SM_E_03 = 90,
-	EMOTION_TA_SM_M_00 = 91,
-	EMOTION_TA_SM_M_01 = 92,
-	EMOTION_TA_SM_M_02 = 93,
-	EMOTION_TA_SM_M_03 = 94,
-	EMOTION_TA_AN_E_00 = 95,
-	EMOTION_TA_AN_E_01 = 96,
-	EMOTION_TA_AN_E_02 = 97,
-	EMOTION_TA_AN_E = 98,
-	EMOTION_TA_AN_M_00 = 99,
-	EMOTION_TA_AN_M_01 = 100,
-	EMOTION_TA_AN_M_02 = 101,
-	EMOTION_TA_AN_M_03 = 102,
-	EMOTION_TA_SA_E_00 = 103,
-	EMOTION_TA_SA_E_01 = 104,
-	EMOTION_TA_SA_E_02 = 105,
-	EMOTION_TA_SA_E_03 = 106,
-	EMOTION_TA_SA_E_04 = 107,
-	EMOTION_TA_SA_E = 108,
-	EMOTION_TA_SA_M_00 = 109,
-	EMOTION_TA_SA_M_01 = 110,
-	EMOTION_TA_SA_M_02 = 111,
-	EMOTION_TA_SU_E_00 = 112,
-	EMOTION_TA_SU_E_01 = 113,
-	EMOTION_TA_SU_E_02 = 114,
-	EMOTION_TA_SU_E = 115,
-	EMOTION_TA_SU_M_00 = 116,
-	EMOTION_TA_SU_M_02 = 117,*/
-	FACE_ANIM_TYPE_MAX = 118 UMETA(Hidden),
-	ETresFaceAnimType_MAX = 119 UMETA(Hidden)
-};
+	enum Type
+	{
+		NORMAL_AUTO,
+		NORMAL_AUTO_IDLE_BATTLE,
+		NORMAL_AUTO_BATTLE_IDLE,
+		Normal,
+		NO,
+		NO01,
+		NO02,
+		NO03,
+		Battle,
+		BATTLE_SINGLE,
+		BA,
+		Damage,
+		DMG_LOOP,
+		DMG_END,
+		MAGIC_AUTO_IDLE_BATTLE,
+		MAGIC2_AUTO_IDLE_BATTLE,
+		USEITEM_AUTO_IDLE_BATTLE,
+		NORMAL_AUTO_01,
+		SA_FREEZE,
+		SA_BARN,
+		SA_OIL,
+		SA_STEAM,
+		SA_THUNDER,
+		AF_RC,
+		AF_VS,
+		AF_TC,
+		WEP_BS,
+		WEP_GUN,
+		WEP_SD,
+		NORMAL_AUTO_EF01,
+		NORMAL_AUTO_EU01,
+		NORMAL_AUTO_ED01,
+		NORMAL_AUTO_ED02,
+		NORMAL_AUTO_ER01,
+		NORMAL_AUTO_EL01,
+		MOUTH_OPEN_01,
+		MOUTH_OPEN_02,
+		MOUTH_OPEN_03,
+		MOUTH_OPEN_04,
+		MOUTH_OPEN_05,
+		TIPBALANCE_AUTO_R01,
+		TIPBALANCE_AUTO_L01,
+		RAILSLIDE_AUTO01,
+		RAILSLIDE_AUTO02,
+		PLEASURE_EYE00,
+		PLEASURE_EYE01,
+		PLEASURE_EYE02,
+		PREASURE_LIP00,
+		PREASURE_LIP01,
+		PREASURE_LIP02,
+		SURPRISE_EYE00,
+		SURPRISE_EYE01,
+		SURPRISE_LIP00,
+		SURPRISE_LIP01,
+		EMOTION_NO300,
+		EMOTION_NO301,
+		EMOTION_NO302,
+		EMOTION_NO350,
+		EMOTION_NO351,
+		EMOTION_NO352,
+		EMOTION_NO354,
+		EMOTION_NO400,
+		EMOTION_NO401,
+		EMOTION_NO450,
+		EMOTION_NO451,
+		EMOTION_NO452,
+		EMOTION_NO500,
+		EMOTION_NO501,
+		EMOTION_NO502,
+		NORMAL_AUTO_EC01,
+		EMOTION_TA_DE_E_00,
+		EMOTION_TA_DE_E_01,
+		EMOTION_TA_DE_E_02,
+		EMOTION_TA_DE_E_03,
+		EMOTION_TA_DE_E_04,
+		EMOTION_TA_DE_E_05,
+		EMOTION_TA_DE_E_06,
+		EMOTION_TA_DE_E_07,
+		EMOTION_TA_DE_E_08,
+		EMOTION_TA_DE_E_09,
+		EMOTION_TA_DE_E,
+		EMOTION_TA_DE_E01,
+		EMOTION_TA_DE_E02,
+		EMOTION_TA_DE_M_00,
+		EMOTION_TA_DE_M_01,
+		EMOTION_TA_DE_M_02,
+		EMOTION_TA_DE_M_03,
+		EMOTION_TA_SM_E_00,
+		EMOTION_TA_SM_E_01,
+		EMOTION_TA_SM_E_02,
+		EMOTION_TA_SM_E_03,
+		EMOTION_TA_SM_M_00,
+		EMOTION_TA_SM_M_01,
+		EMOTION_TA_SM_M_02,
+		EMOTION_TA_SM_M_03,
+		EMOTION_TA_AN_E_00,
+		EMOTION_TA_AN_E_01,
+		EMOTION_TA_AN_E_02,
+		EMOTION_TA_AN_E,
+		EMOTION_TA_AN_M_00,
+		EMOTION_TA_AN_M_01,
+		EMOTION_TA_AN_M_02,
+		EMOTION_TA_AN_M_03,
+		EMOTION_TA_SA_E_00,
+		EMOTION_TA_SA_E_01,
+		EMOTION_TA_SA_E_02,
+		EMOTION_TA_SA_E_03,
+		EMOTION_TA_SA_E_04,
+		EMOTION_TA_SA_E,
+		EMOTION_TA_SA_M_00,
+		EMOTION_TA_SA_M_01,
+		EMOTION_TA_SA_M_02,
+		EMOTION_TA_SU_E_00,
+		EMOTION_TA_SU_E_01,
+		EMOTION_TA_SU_E_02,
+		EMOTION_TA_SU_E,
+		EMOTION_TA_SU_M_00,
+		EMOTION_TA_SU_M_02,
+		FACE_ANIM_TYPE_MAX UMETA(Hidden),
+		ETresFaceAnimType_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum ETresFaceAnimPlayPriority
@@ -3839,13 +3845,16 @@ enum class ETresAttack4AscensionTypes_e_ex301 : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyPressCardAttribute_e_ex356
+namespace ETresEnemyPressCardAttribute_e_ex356
 {
-	/*None = 0,
-	Fire = 1,
-	Thunder = 2,*/
-	ETresEnemyPressCardAttribute_e_MAX = 3 UMETA(Hidden)
-};
+	enum Type
+	{
+		None,
+		Fire,
+		Thunder,
+		ETresEnemyPressCardAttribute_e_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum class ETresEnemyContinuityCutAction_e_ex357 : uint8
@@ -4600,12 +4609,15 @@ enum class ETresComNpcMoveType : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresRandomDistributionType
+namespace ETresRandomDistributionType
 {
-	/*Uniform = 0,
-	Normal = 1,*/
-	ETresRandomDistributionType_MAX = 2 UMETA(Hidden)
-};
+	enum Type
+	{
+		Uniform,
+		Normal,
+		ETresRandomDistributionType_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum class ETresEnemy_e_ex761_CommonCoopFollowers : uint8
@@ -5611,14 +5623,17 @@ enum class ETresEnemyEyeType_e_ex816 : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyShip
+namespace ETresEnemyShip
 {
-	/*FRONT = 0,
-	RIGHT = 1,
-	LEFT = 2,
-	BACK = 3,*/
-	ETresEnemyShip_MAX = 4 UMETA(Hidden)
-};
+	enum Type
+	{
+		FRONT,
+		RIGHT,
+		LEFT,
+		BACK,
+		ETresEnemyShip_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum class ETresEnemyShipSubType : uint8
@@ -9403,14 +9418,17 @@ enum class ETresSevenPrincessType : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresDetectCollShape2D
+namespace ETresDetectCollShape2D
 {
-	/*CIRCLE = 0,
-	RECTANGLE = 1,
-	POINT = 2,
-	MAX = 3 UMETA(Hidden),*/
-	ETresDetectCollShape2D_MAX = 4 UMETA(Hidden)
-};
+	enum Type
+	{
+		CIRCLE,
+		RECTANGLE,
+		POINT,
+		MAX UMETA(Hidden),
+		ETresDetectCollShape2D_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum class ETresOneActionType : uint8
@@ -10128,56 +10146,65 @@ enum class ETresSoundAliasLabel_Projectile : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresSoundAliasLabel_WeaponSwing
+namespace ETresSoundAliasLabel_WeaponSwing
 {
-	/*NOTHING = 0,*/
-	SWING1 = 1,
-	SWING2 = 2,
-	SWING3 = 3,
-	SWING4 = 4,
-	SWING5 = 5,
-	SWING6 = 6,
-	SWING7 = 7,
-	SWING8 = 8,
-	SWING9 = 9,
-	SWING10 = 10,
-	SWING11 = 11,
-	SWING12 = 12,
-	SWING13 = 13,
-	/*_MAX = 14 UMETA(Hidden),
-	ETresSoundAliasLabel_MAX = 15 UMETA(Hidden)*/
-};
+	enum Type
+	{
+		NOTHING,
+		SWING1,
+		SWING2,
+		SWING3,
+		SWING4,
+		SWING5,
+		SWING6,
+		SWING7,
+		SWING8,
+		SWING9,
+		SWING10,
+		SWING11,
+		SWING12,
+		SWING13,
+		_MAX UMETA(Hidden),
+		ETresSoundAliasLabel_MAX
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresSoundAliasLabel_WeaponHit
+namespace ETresSoundAliasLabel_WeaponHit
 {
-	/*NOTHING = 0,*/
-	HIT1 = 1,
-	HIT2 = 2,
-	HIT3 = 3,
-	HIT4 = 4,
-	HIT5 = 5,
-	HIT6 = 6,
-	HIT7 = 7,
-	HIT8 = 8,
-	HIT9 = 9,
-	HIT10 = 10,
-	HIT11 = 11,
-	/*_MAX = 12 UMETA(Hidden),
-	ETresSoundAliasLabel_MAX = 13 UMETA(Hidden)*/
-};
+	enum Type
+	{
+		NOTHING,
+		HIT1,
+		HIT2,
+		HIT3,
+		HIT4,
+		HIT5,
+		HIT6,
+		HIT7,
+		HIT8,
+		HIT9,
+		HIT10,
+		HIT11,
+		_MAX UMETA(Hidden),
+		ETresSoundAliasLabel_MAX
+	};
+}
 
 UENUM(BlueprintType)
-enum ETresSoundAliasUnit
+namespace ETresSoundAliasUnit
 {
-	//NOTHING = 0,
-	RH_WEAPON = 1,
-	LH_WEAPON = 2,
-	RL_WEAPON = 3,
-	LL_WEAPON = 4,
-	//_MAX = 5 UMETA(Hidden),
-	ETresSoundAliasUnit_MAX = 6 UMETA(Hidden)
-};
+	enum Type
+	{
+		NOTHING,
+		RH_WEAPON,
+		LH_WEAPON,
+		RL_WEAPON,
+		LL_WEAPON,
+		_MAX UMETA(Hidden),
+		ETresSoundAliasUnit_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum ETresSoundAliasLabel
@@ -10942,20 +10969,23 @@ enum class ETresAtkCollLocationAttachType : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresCollision
+namespace ETresCollision
 {
-	/*SPHERE = 0,
-	CAPSULE1 = 1,
-	CAPSULE2 = 2,
-	CAPSULE_RING = 3,
-	BOX = 4,
-	BOX_RING = 5,
-	CONVEX = 6,
-	LASER1 = 7,
-	DCONVEX = 8,
-	MAX = 9 UMETA(Hidden),*/
-	ETresCollision_MAX = 10 UMETA(Hidden)
-};
+	enum Type
+	{
+		SPHERE,
+		CAPSULE1,
+		CAPSULE2,
+		CAPSULE_RING,
+		BOX,
+		BOX_RING,
+		CONVEX,
+		LASER1,
+		DCONVEX,
+		MAX UMETA(Hidden),
+		ETresCollision_MAX
+	};
+}
 
 UENUM(BlueprintType)
 enum class ETresLockonPriority : uint8
@@ -12720,13 +12750,13 @@ struct FTresFNpcAIAttackDefInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresFNpcAIAttackDefInfo")
 	FName m_AttackParamKey;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresFNpcAIAttackDefInfo")
 	ETresFNpcAIAttackDefType m_AttackDefType;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFNpcAIAttackDefInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresFNpcAIAttackDefInfo")
 	ETresAbilityKind m_AttackAbilityKind;
 };
 
@@ -12735,31 +12765,31 @@ struct FAITestTractionParam
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	bool m_bTractionXY;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	bool m_bTractionZUp;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	bool m_bTractionZDown;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	bool m_bTractionNear;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	bool m_bTractionFar;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	float m_TractionDisMin;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	float m_TractionDisMax;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	float m_TractionMaxSpeed;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FAITestTractionParam")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FAITestTractionParam")
 	float m_TractionAcc;
 };
 
@@ -12768,109 +12798,109 @@ struct FTresDamageInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	FName m_AttackDataIDName;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	TEnumAsByte<ETresCommandKind> m_CommandKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	TEnumAsByte<ETresShootFlowKind> m_ShootFlowKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	TEnumAsByte<ETresDamageKind> m_DamageKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	ETresDamageAttribute m_DamageAttribute;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_AttackSrcPower;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_DamagePowerScale;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_DamageParabolaAngle;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_DamageMoveLength;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_DamageBrakeParam;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_DamageEffectTime;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresDamageInfo")
 	ETresAtkHitKnockbackType m_KnockbackType;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresDamageInfo")
 	FVector m_KnockbackDir;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	ETresBadStatusType m_BadStatusKind;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_BadStatusEffectTime;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	float m_BadStatusEffectParam;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	int m_ReactionPower;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	int m_ArmorAttackPower;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	int m_FormPoint;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsMagicAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsFinishAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsKillerAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsIgnoreGuard;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsRapidFireAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsCriticalHit;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsArmorDamage;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsAerialAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsAttractionDamage;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsCounterAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsJustGuardAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsEnableWeakGuardAttack;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsEnableFullMpBurst;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsEnableMagicDraw;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	bool m_bIsEnableNoReactBodyCorrection;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresDamageInfo")
+	UPROPERTY(BlueprintReadOnly, Category = "FTresDamageInfo")
 	ETresPhysDamageForceLevel m_PhysForceLv;
 };
 
@@ -12891,10 +12921,10 @@ struct FRevengeAttacks
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRevengeAttacks")
+	UPROPERTY(EditDefaultsOnly, Category = "FRevengeAttacks")
 	class UClass* RevengeAttackDefinition;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRevengeAttacks")
+	UPROPERTY(EditDefaultsOnly, Category = "FRevengeAttacks")
 	bool bAir;
 };
 
@@ -12903,10 +12933,10 @@ struct FTresEnemyRetryVoiceData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyRetryVoiceData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresEnemyRetryVoiceData")
 	FName FaceAnimName;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresEnemyRetryVoiceData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresEnemyRetryVoiceData")
 	class USoundBase* VOICE;
 };
 
@@ -12915,40 +12945,40 @@ struct FTresProjectileSpawnData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	class UClass* m_GenerateClass;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	ETresProjectileRespawnType m_CheckType;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	ETresProjectileRespawnRotType m_RotInheritType;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	float m_CheckRange;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bOnGroundOnly;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bBlockByWaterSurface;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverAtkTarget;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverAtkCollHitList;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverAtkCollFinishFlag;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bIgnoreSendShutdownMsgToOwner;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverEffectColorParam;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresProjectileSpawnData")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresProjectileSpawnData")
 	bool m_bTakeOverEffectAlphaParam;
 };
 
@@ -13846,6 +13876,7 @@ struct FLastPlayedInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(Transient)
 	class UAnimationAsset* m_pAsset;
 };
 
@@ -13881,10 +13912,10 @@ struct FTresTeamDebugColor
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTeamDebugColor")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresTeamDebugColor")
 	TEnumAsByte<ETresTeam> TeamID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresTeamDebugColor")
+	UPROPERTY(EditDefaultsOnly, Category = "FTresTeamDebugColor")
 	FLinearColor Color;
 };
 
@@ -13893,6 +13924,7 @@ struct FTresPhotoLoadWork
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY()
 	class UTexture2D* m_pTexture;
 };
 
@@ -13901,7 +13933,10 @@ struct FTresRandomVoice
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "FTresRandomVoice")
 	class USoundBase* VOICE;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresRandomVoice")
 	int RandomWeights;
 };
 
@@ -13910,8 +13945,13 @@ struct FTresRandomVoiceForTable
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "FTresRandomVoiceForTable")
 	class USoundBase* m_pVoice;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresRandomVoiceForTable")
 	int m_dRandomWeights;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresRandomVoiceForTable")
 	FName m_MouthMotionName;
 };
 
@@ -13920,7 +13960,10 @@ struct FRandomTableParameter
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRandomTableParameter")
 	FName m_GroupName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FRandomTableParameter")
 	TArray<struct FTresRandomVoiceForTable> m_RandomVoiceAssets;
 };
 
@@ -13929,8 +13972,11 @@ struct FTresUInt8_Range
 {
 	GENERATED_BODY()
 public:
-	int8_t m_uMinValue;
-	int8_t m_uMaxValue;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FTresUInt8_Range")
+	uint8 m_uMinValue;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FTresUInt8_Range")
+	uint8 m_uMaxValue;
 };
 
 USTRUCT(BlueprintType)
@@ -13938,7 +13984,10 @@ struct FTresFloat32_RangeDegree
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FTresFloat32_RangeDegree")
 	float m_fMinAngle;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FTresFloat32_RangeDegree")
 	float m_fMaxAngle;
 };
 
@@ -13974,12 +14023,24 @@ struct FTresChangeMeshMaterialParamData
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	FName m_MaterialParamName;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	TArray<FName> m_MaterialInstanceList;
+
 //	ESqEX_BonePoseToMaterialSetParamType m_MaterialParamSetType;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	float m_StartScalarParam;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	float m_EndScalarParam;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	FVector m_StartVectorParam;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	FVector m_EndVectorParam;
 };
 
@@ -14024,7 +14085,10 @@ struct FTresAnimAssetUnit
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "FTresAnimAssetUnit")
 	FName AnimName;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresAnimAssetUnit")
 	class UAnimationAsset* AnimData;
 };
 
@@ -14033,48 +14097,133 @@ struct FTresAtkCollShapeAssetUnit
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FName m_GrpName;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FName m_DefaultAttackDataIDName;
-	TEnumAsByte<ETresCollision> m_ShapeType;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
+	TEnumAsByte<ETresCollision::Type> m_ShapeType;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	class UStaticMesh* m_Mesh;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	struct FCollisionProfileName m_CollisionProfileName;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	ETresAtkCollLocationAttachType m_AttachType1;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FName m_SocketName1;
-	bool m_bSocketName1UseParentSkeleton;
+
+	UPROPERTY()
+	bool m_bSocketName1UseParentSkeleton_DEPRECATED;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_RelativeLocation1;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bAbsoluteOffset1;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bDisableLocation1Attach;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	ETresAtkCollLocationAttachType m_AttachType2;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FName m_SocketName2;
-	bool m_bSocketName2UseParentSkeleton;
+
+	UPROPERTY()
+	bool m_bSocketName2UseParentSkeleton_DEPRECATED;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_RelativeLocation2;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bAbsoluteOffset2;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bDisableLocation2Attach;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_Size;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_IncSize;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_IncMaxSize;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	class UCurveVector* m_SizeVectorCurve;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bSizeVectorCurveLoop;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FRotator m_RelativeRocation;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	ETresAtkCollRotAttachType m_RotAttachType;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_Scale;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_IncScale;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FVector m_IncMaxScale;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	class UCurveVector* m_ScaleVectorCurve;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bScaleVectorCurveLoop;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bDisableSweep;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bEnablePawnRootCollision;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bIsPhysAttackCollision;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	ETresAtkCollMapHitType m_MapHitType;
-	bool m_bEnableMapHit;
-	bool m_bDisableGround;
+
+	UPROPERTY()
+	bool m_bEnableMapHit_DEPRECATED;
+
+	UPROPERTY()
+	bool m_bDisableGround_DEPRECATED;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bDisableTakeDamage;
-	bool m_bDisableTeamCheck;
-	bool m_bZeroDamageIfSameTeam;
+
+	UPROPERTY()
+	bool m_bDisableTeamCheck_DEPRECATED;
+
+	UPROPERTY()
+	bool m_bZeroDamageIfSameTeam_DEPRECATED;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bDisableCharHit;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	bool m_bIgnoreParentScale;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	FName m_EffectGrpName;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	class USoundBase* m_HitSEAsset;
+
+	UPROPERTY(EditAnywhere, Category = "FTresAnimAssetUnit")
 	TEnumAsByte<ETresSoundAliasLabel> m_HitSEID;
 };
 
@@ -15707,10 +15856,17 @@ struct FTresPairCardParam_e_ex356
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "FTresPairCardParam_e_ex356")
 	float IntervalTime;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresPairCardParam_e_ex356")
 	float PressStartTargetDistance;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresPairCardParam_e_ex356")
 	float AttackStartDelayTime;
-	TEnumAsByte<ETresEnemyPressCardAttribute_e_ex356> AttributeType;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresPairCardParam_e_ex356")
+	TEnumAsByte<ETresEnemyPressCardAttribute_e_ex356::Type> AttributeType;
 };
 
 USTRUCT(BlueprintType)
@@ -16919,7 +17075,7 @@ public:
 	FName m_GrpName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
-	TEnumAsByte<ETresCollision> ShapeType;
+	TEnumAsByte<ETresCollision::Type> ShapeType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresCollShapeAssetUnit")
 	FVector Size;
@@ -17358,8 +17514,13 @@ struct FTresControlledRandom
 {
 	GENERATED_BODY()
 public:
-	TEnumAsByte<ETresRandomDistributionType> Distribution;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FTresControlledRandom")
+	TEnumAsByte<ETresRandomDistributionType::Type> Distribution;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FTresControlledRandom")
 	float Period;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FTresControlledRandom")
 	TArray<float> Weights;
 };
 
@@ -18070,8 +18231,11 @@ struct FTresEnemyShipCoreSpawnData
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere, Category = "FTresEnemyShipCoreSpawnData")
 	FName m_SocketName;
-	TEnumAsByte<ETresEnemyShip> m_LocType;
+
+	UPROPERTY(EditAnywhere, Category = "FTresEnemyShipCoreSpawnData")
+	TEnumAsByte<ETresEnemyShip::Type> m_LocType;
 };
 
 USTRUCT(BlueprintType)
@@ -21225,9 +21389,16 @@ struct FTresDetectCollShapeAssetUnit2D
 {
 	GENERATED_BODY()
 public:
-	TEnumAsByte<ETresDetectCollShape2D> ShapeType;
+	UPROPERTY(EditAnywhere, Category = "FTresDetectCollShapeAssetUnit2D")
+	TEnumAsByte<ETresDetectCollShape2D::Type> ShapeType;
+
+	UPROPERTY(EditAnywhere, Category = "FTresDetectCollShapeAssetUnit2D")
 	FVector Size;
+
+	UPROPERTY(EditAnywhere, Category = "FTresDetectCollShapeAssetUnit2D")
 	FVector RelativeLocation;
+
+	UPROPERTY(EditAnywhere, Category = "FTresDetectCollShapeAssetUnit2D")
 	FRotator RelativeRocation;
 };
 
@@ -22089,10 +22260,10 @@ struct FTresOverwriteAllowedMips
 {
 	GENERATED_BODY()
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresOverwriteAllowedMips")
+	//UPROPERTY(VisibleInstanceOnly, Category = "FTresOverwriteAllowedMips")
 	//TEnumAsByte<ETextureGroup> m_TextureGroup;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresOverwriteAllowedMips")
+	UPROPERTY(VisibleInstanceOnly, Category = "FTresOverwriteAllowedMips")
 	int m_MaxAllowedMips;
 };
 

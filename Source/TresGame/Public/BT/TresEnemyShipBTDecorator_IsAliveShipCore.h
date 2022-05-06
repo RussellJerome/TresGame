@@ -16,5 +16,5 @@ class TRESGAME_API UTresEnemyShipBTDecorator_IsAliveShipCore : public UBTDecorat
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEnemyShipBTDecorator_IsAliveShipCore")
-	TEnumAsByte<ETresEnemyShip> m_LocType;
+	TEnumAsByte<ETresEnemyShip::Type> m_LocType;
 };

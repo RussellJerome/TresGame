@@ -178,13 +178,13 @@ struct FSQEX_BonamikPresetWindSettings
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikPresetWindSettings")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikPresetWindSettings")
 	FName m_PresetName;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikPresetWindSettings")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikPresetWindSettings")
 	class USQEX_BonamikWindDesc* m_WindDesc;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikPresetWindSettings")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikPresetWindSettings")
 	TArray<FString> m_TargetGroups;
 };
 
@@ -193,13 +193,13 @@ struct FSQEX_BonamikChangingParameter
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikChangingParameter")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FSQEX_BonamikChangingParameter")
 	TArray<FName> m_Groups;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikChangingParameter")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FSQEX_BonamikChangingParameter")
 	TEnumAsByte<ESQEX_Bonamik_Parameters> m_Parameter;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikChangingParameter")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FSQEX_BonamikChangingParameter")
 	float m_Value;
 };
 
@@ -208,43 +208,43 @@ struct FSQEX_BonamikFpsCorrectionDesc
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_FrameRate;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_WindDrag;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_WindLift;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_LocalForceDrag;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_LocalForceLift;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_Damping;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_Mass;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_Friction;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_Bounce;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_LateralLink;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_BendingLink;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_LongRangeAttachment;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikFpsCorrectionDesc")
+	UPROPERTY(EditAnywhere, Category = "FSQEX_BonamikFpsCorrectionDesc")
 	float m_Cone;
 };
 
@@ -253,14 +253,14 @@ struct FSQEX_BonamikSceneManagerDesc
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikSceneManagerDesc")
-	bool m_IsEnable;
+	UPROPERTY()
+	bool m_IsEnable = 1;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikSceneManagerDesc")
 	bool m_IsUseGPU;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikSceneManagerDesc")
-	int32 m_SubStep;
+	UPROPERTY()
+	uint32 m_SubStep = 1;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_BonamikSceneManagerDesc")
 	float m_Dt;

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
+#include "Engine/EngineBaseTypes.h"
 #include "KineDriver_StructsAndEnums.generated.h"
 
 //---------------------------------------------------------------------------
@@ -92,31 +93,31 @@ struct FSQEX_KineDriver_AssetUserDataElement
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	int KineDriverIndex;
+	int KineDriverIndex = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
 	TArray<class USQEX_KineDriverData*> KineDriverData;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	bool EnableScaleOpChildSSC;
+	bool EnableScaleOpChildSSC = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	TEnumAsByte<ETickingGroup> TickGroup;
+	TEnumAsByte<ETickingGroup> TickGroup = ETickingGroup::TG_PrePhysics;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	FName ComponentTag;
+	FName ComponentTag = FName("None");
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	bool EnableLOD;
+	bool EnableLOD = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	float MinScreenSize;
+	float MinScreenSize = 0.01f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
 	bool EnableFrustumCulling;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KineDriver_AssetUserDataElement")
-	bool EnableCheckDrawn;
+	bool EnableCheckDrawn = false;
 };
 
 USTRUCT(BlueprintType)

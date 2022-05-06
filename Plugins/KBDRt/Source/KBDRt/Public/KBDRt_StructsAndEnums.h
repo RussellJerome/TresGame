@@ -6,17 +6,18 @@
 #include "KBDRt_StructsAndEnums.generated.h"
 
 //---------------------------------------------------------------------------
-//Script Structs
+//Structs
 //---------------------------------------------------------------------------
-
 USTRUCT(BlueprintType)
 struct FSQEX_KBDAssetElement
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KBDAssetElement")
-	FName ElementName;
+	/** Name of element */
+	UPROPERTY(EditAnywhere, Category = "SQEX")
+	FName ElementName = FName("default");
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FSQEX_KBDAssetElement")
-	TArray<class UAssetUserData*> AssetUserDatas;
+	/** Kinedriver and/or Bonamik Asset User Datas*/
+	UPROPERTY(EditAnywhere, AdvancedDisplay, Instanced, Category = "SQEX")
+	TArray<UAssetUserData*> AssetUserDatas;
 };

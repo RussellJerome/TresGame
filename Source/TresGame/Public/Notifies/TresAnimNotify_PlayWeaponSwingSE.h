@@ -16,10 +16,10 @@ class TRESGAME_API UTresAnimNotify_PlayWeaponSwingSE : public UAnimNotify
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponSwingSE")
-	TEnumAsByte<ETresSoundAliasLabel_WeaponSwing> m_SoundAliasID;
+	TEnumAsByte<ETresSoundAliasLabel_WeaponSwing::Type> m_SoundAliasID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponSwingSE")
-	TEnumAsByte<ETresSoundAliasUnit> m_SoundAliasUnit;
+	TEnumAsByte<ETresSoundAliasUnit::Type> m_SoundAliasUnit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponSwingSE")
 	float m_VolumeMultiplier;

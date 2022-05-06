@@ -16,7 +16,7 @@ class TRESGAME_API ATresAINote : public ANote
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAINote")
-	TEnumAsByte<ETresAIAction> m_ActionType;
+	TEnumAsByte<ETresAIAction::Type> m_ActionType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAINote")
 	class UClass* m_Action;

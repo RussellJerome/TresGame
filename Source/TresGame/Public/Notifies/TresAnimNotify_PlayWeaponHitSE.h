@@ -16,10 +16,10 @@ class TRESGAME_API UTresAnimNotify_PlayWeaponHitSE : public UAnimNotify
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	TEnumAsByte<ETresSoundAliasLabel_WeaponHit> m_SoundAliasID;
+	TEnumAsByte<ETresSoundAliasLabel_WeaponHit::Type> m_SoundAliasID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
-	TEnumAsByte<ETresSoundAliasUnit> m_SoundAliasUnit;
+	TEnumAsByte<ETresSoundAliasUnit::Type> m_SoundAliasUnit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_PlayWeaponHitSE")
 	float m_VolumeMultiplier;

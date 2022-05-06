@@ -14,12 +14,12 @@ class TRESGAME_API UTresBTComposite_Random : public UBTCompositeNode
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTComposite_Random")
+	UPROPERTY(EditDefaultsOnly, Category = "SQEX")
 	bool bCustomPeriod;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTComposite_Random")
+	UPROPERTY(EditDefaultsOnly, Category = "SQEX")
 	float Period;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTComposite_Random")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<float> Weights;
 };

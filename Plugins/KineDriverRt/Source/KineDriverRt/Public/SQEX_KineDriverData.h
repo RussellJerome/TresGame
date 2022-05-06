@@ -15,7 +15,7 @@ class KINEDRIVERRT_API USQEX_KineDriverData : public UObject
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	class USkeleton* Skeleton;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")

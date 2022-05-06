@@ -15,6 +15,6 @@ class TRESGAME_API UTresAnimSet : public UDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimSet")
+	UPROPERTY(EditDefaultsOnly, Category = "SQEX")
 	TArray<struct FTresAnimAssetUnit> Anims;
 };

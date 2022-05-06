@@ -908,6 +908,161 @@ struct FMusicMode
 	FString Name;
 };
 
+struct FCriWareInfo
+{
+	int StartAddress;
+	int EndAddress;
+};
+
+
+
+
+struct FSEADAudioData
+{
+#define WAV_HEADER_SIZE 44
+#define BITS_PER_SAMPLE 16
+
+public:
+	bool bIsSab;
+	TArray<FSabMabHeaderSection> HeaderSections;
+	TArray<FMaterialEntry> Entries;
+	TArray<TArray<uint8>> AudioData;
+
+
+	TArray<FCriWareInfo> HCAArray;
+
+	bool ReadAudioData(const uint8*& Buffer, const uint8* BufferEnd, TArray<uint8> SabMabDataArray, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
+	{
+		if (SabMabDataArray.GetData() <= 0)
+			return false;
+		const uint8* SabMabData = SabMabDataArray.GetData();
+		int StartBufferOffset = 0; //Automatically Changes
+		FString FileID = Uint32ToString(BytesToUint32(SabMabData, StartBufferOffset, false));
+		uint8 VersionMain = BytesToUint8(SabMabData, StartBufferOffset);
+		uint8 VersionSub = BytesToUint8(SabMabData, StartBufferOffset);
+		uint16 HeaderUnknownAt6 = BytesToUint16(SabMabData, StartBufferOffset, false);
+		uint8 SectionsCount = BytesToUint8(SabMabData, StartBufferOffset);
+		uint8 DescriptorLength = BytesToUint8(SabMabData, StartBufferOffset);
+		uint16 HeaderUnknownAtA = BytesToUint16(SabMabData, StartBufferOffset, false);
+		uint32 FileSize = BytesToUint32(SabMabData, StartBufferOffset, false);
+
+		int bytesNeededToPad = 16 - DescriptorLength % 16;
+		int HeaderSize = 16 + DescriptorLength + bytesNeededToPad;
+
+		if (FileID != "mabf")
+		{
+			if (FileID == "sabf") { bIsSab = true; }
+			else
+			{
+				if (ErrorMessage) { *ErrorMessage = "FILE UNKNOWN: Invalid Sab/Mab file"; }
+				return false;
+			}
+		}
+		int InnerFileStartOffset = 0;
+		int Position = InnerFileStartOffset + HeaderSize;
+		for (int i = 0; i < SectionsCount; i++)
+		{
+			FSabMabHeaderSection HeaderSection;
+			HeaderSection.SectionName = Uint32ToString(BytesToUint32(SabMabData, Position, false));
+			HeaderSection.UnknownAt4 = BytesToUint16(SabMabData, Position, false);
+			HeaderSection.UnknownAt6 = BytesToUint16(SabMabData, Position, false);
+			HeaderSection.OffsetInInnerFile = BytesToUint32(SabMabData, Position, false);
+			HeaderSection.UnknownAtC = BytesToUint32(SabMabData, Position, false);
+			HeaderSections.Add(HeaderSection);
+		}
+
+		for (int i = 0; i < HeaderSections.Num(); i++)
+		{
+			if (HeaderSections[i].SectionName == "mtrl")
+			{
+				int InnerFilePositionOfFirstTracks = 0;
+				FSabMabHeaderSection SectionDeclaration = HeaderSections[i];
+				int MaterialSectionOffset = InnerFileStartOffset + SectionDeclaration.OffsetInInnerFile;
+				int MaterialSectionOffsetOffset = MaterialSectionOffset + 2;
+				uint16 EntryAddressesSize = BytesToUint16(SabMabData, MaterialSectionOffsetOffset, false);
+				uint16 EntryCount = BytesToUint16(SabMabData, MaterialSectionOffsetOffset, false);
+				for (int songEntryIndex = 0; songEntryIndex < EntryCount; songEntryIndex++)
+				{
+					int positionOfOffsetFromMaterialSectionOffset = MaterialSectionOffset + 16 + songEntryIndex * 4;
+					int positionOfOffsetFromMaterialSectionOffsetOffset = positionOfOffsetFromMaterialSectionOffset;
+					uint32 localEntryOffset = BytesToUint32(SabMabData, positionOfOffsetFromMaterialSectionOffsetOffset, false);
+					if (songEntryIndex == 0) { InnerFilePositionOfFirstTracks = SectionDeclaration.OffsetInInnerFile + localEntryOffset; }
+					int EntryOffset = MaterialSectionOffset + localEntryOffset + 5;
+					int8 Codec = BytesToUint8(SabMabData, EntryOffset);
+					if (Codec == 0) { continue; }
+					FMaterialEntry Entry;
+					Entry.EntryIndex = songEntryIndex;
+					Entry.PositionOfOffsetFromMtrlSectionOffset = positionOfOffsetFromMaterialSectionOffset;
+					Entry.LocalSectionOffset = BytesToUint32(SabMabData, Entry.PositionOfOffsetFromMtrlSectionOffset, false);
+					Entry.HeaderPosition = MaterialSectionOffset + Entry.LocalSectionOffset;
+					int HeaderPositionOffset = Entry.HeaderPosition + 4;
+					Entry.ChannelCount = BytesToUint8(SabMabData, HeaderPositionOffset);
+					Entry.Codec = BytesToUint8(SabMabData, HeaderPositionOffset);
+					Entry.MtrlNumber = BytesToUint16(SabMabData, HeaderPositionOffset, false);
+					Entry.SampleRate = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.LoopStart = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.LoopEnd = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.ExtraDataSize = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.StreamSize = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.ExtraDataId = BytesToUint16(SabMabData, HeaderPositionOffset, false);
+					Entry.ExtraDataOffset = Entry.HeaderPosition + 32;
+					Entry.StreamPosition = Entry.ExtraDataOffset + Entry.ExtraDataSize;
+					Entry.MaterialHeaderSize = Entry.StreamPosition - Entry.HeaderPosition;
+					int ExtraDataOffsetOffset = Entry.ExtraDataOffset + 16 + 6;
+
+					//why is this in big endian wtf?
+					int hcaHeaderSizeByteBig = BytesToUint8(SabMabData, ExtraDataOffsetOffset);
+					int hcaHeaderSizeByteSmall = BytesToUint8(SabMabData, ExtraDataOffsetOffset);
+					Entry.HcaHeaderSize = (uint16)((hcaHeaderSizeByteBig << 8) + hcaHeaderSizeByteSmall);
+
+					Entry.NoHcaHeaderExtraDataSize = Entry.ExtraDataSize - Entry.HcaHeaderSize;
+					Entry.HcaStreamStartPosition = Entry.ExtraDataOffset + 16;
+					Entry.HcaStreamSize = Entry.HcaHeaderSize + Entry.StreamSize;
+					Entry.NoHcaHeaderSize = Entry.HcaStreamStartPosition - Entry.HeaderPosition;
+					Entry.TrackEndPosition = Entry.HcaStreamStartPosition + Entry.HcaStreamSize;
+
+					int InitalHCAOffset = 0;
+					TArray<uint8> hcaFileBytes = SabMabDataArray;
+					FString Signature = ListOfBytesToString(&hcaFileBytes.GetData()[Entry.HcaStreamStartPosition], Entry.HcaStreamStartPosition + 4);
+					int StartPositionOffsetInit = Entry.HcaStreamStartPosition + 4;
+					uint16 Version = BytesToUint16(hcaFileBytes.GetData(), StartPositionOffsetInit, false);
+					uint16 HeaderSize = BytesToUint16(hcaFileBytes.GetData(), StartPositionOffsetInit, false);
+
+					if (Signature != "HCA\0")
+					{
+						if (ErrorMessage) { *ErrorMessage = "Not a valid HCA file"; }
+					}
+					int StartPosition = Entry.HcaStreamStartPosition + 8;
+					FCriWareInfo CriwareInfo;
+					CriwareInfo.StartAddress = StartPosition;
+					CriwareInfo.EndAddress = HeaderSize;
+					HCAArray.Add(CriwareInfo);
+					Entries.Add(Entry);
+				}
+			}
+			else { continue; }
+		}
+
+		return true;
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//OLD DATA
 struct FSabMabInfo
 {
 #define WAV_HEADER_SIZE 44
@@ -919,6 +1074,9 @@ public:
 	TArray<FMaterialEntry> Entries;
 	TArray<TArray<uint8>> AudioData;
 	TArray<uint8> ExportedWaveAudio;
+	
+	
+	TArray<FCriWareInfo> HCAArray;
 
 	void WriteWaveHeader(uint8* header, uint32 dataLength, uint32 sampleRate, uint32 channels)
 	{
@@ -951,6 +1109,135 @@ public:
 		FMemory::Memcpy(header + 36, "data", 4);
 		FMemory::Memcpy(header + 40, &dataLength, 4);
 	}
+
+
+	bool ReadAudioData(const uint8*& Buffer, const uint8* BufferEnd, TArray<uint8> SabMabDataArray, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
+	{
+		if (SabMabDataArray.GetData() <= 0)
+			return false;
+		const uint8* SabMabData = SabMabDataArray.GetData();
+		int StartBufferOffset = 0; //Automatically Changes
+		FString FileID = Uint32ToString(BytesToUint32(SabMabData, StartBufferOffset, false));
+		uint8 VersionMain = BytesToUint8(SabMabData, StartBufferOffset);
+		uint8 VersionSub = BytesToUint8(SabMabData, StartBufferOffset);
+		uint16 HeaderUnknownAt6 = BytesToUint16(SabMabData, StartBufferOffset, false);
+		uint8 SectionsCount = BytesToUint8(SabMabData, StartBufferOffset);
+		uint8 DescriptorLength = BytesToUint8(SabMabData, StartBufferOffset);
+		uint16 HeaderUnknownAtA = BytesToUint16(SabMabData, StartBufferOffset, false);
+		uint32 FileSize = BytesToUint32(SabMabData, StartBufferOffset, false);
+
+		int bytesNeededToPad = 16 - DescriptorLength % 16;
+		int HeaderSize = 16 + DescriptorLength + bytesNeededToPad;
+
+		if (FileID != "mabf")
+		{
+			if (FileID == "sabf") { bIsSab = true; }
+			else
+			{
+				if (ErrorMessage) { *ErrorMessage = "FILE UNKNOWN: Invalid Sab/Mab file"; }
+				return false;
+			}
+		}
+
+		int InnerFileStartOffset = 0;
+		int Position = InnerFileStartOffset + HeaderSize;
+		for (int i = 0; i < SectionsCount; i++)
+		{
+			FSabMabHeaderSection HeaderSection;
+			HeaderSection.SectionName = Uint32ToString(BytesToUint32(SabMabData, Position, false));
+			HeaderSection.UnknownAt4 = BytesToUint16(SabMabData, Position, false);
+			HeaderSection.UnknownAt6 = BytesToUint16(SabMabData, Position, false);
+			HeaderSection.OffsetInInnerFile = BytesToUint32(SabMabData, Position, false);
+			HeaderSection.UnknownAtC = BytesToUint32(SabMabData, Position, false);
+			HeaderSections.Add(HeaderSection);
+		}
+
+		for (int i = 0; i < HeaderSections.Num(); i++)
+		{
+			if (HeaderSections[i].SectionName == "mtrl")
+			{
+				int InnerFilePositionOfFirstTracks = 0;
+				FSabMabHeaderSection SectionDeclaration = HeaderSections[i];
+				int MaterialSectionOffset = InnerFileStartOffset + SectionDeclaration.OffsetInInnerFile;
+				int MaterialSectionOffsetOffset = MaterialSectionOffset + 2;
+				uint16 EntryAddressesSize = BytesToUint16(SabMabData, MaterialSectionOffsetOffset, false);
+				uint16 EntryCount = BytesToUint16(SabMabData, MaterialSectionOffsetOffset, false);
+				for (int songEntryIndex = 0; songEntryIndex < EntryCount; songEntryIndex++)
+				{
+					int positionOfOffsetFromMaterialSectionOffset = MaterialSectionOffset + 16 + songEntryIndex * 4;
+					int positionOfOffsetFromMaterialSectionOffsetOffset = positionOfOffsetFromMaterialSectionOffset;
+					uint32 localEntryOffset = BytesToUint32(SabMabData, positionOfOffsetFromMaterialSectionOffsetOffset, false);
+					if (songEntryIndex == 0) { InnerFilePositionOfFirstTracks = SectionDeclaration.OffsetInInnerFile + localEntryOffset; }
+					int EntryOffset = MaterialSectionOffset + localEntryOffset + 5;
+					int8 Codec = BytesToUint8(SabMabData, EntryOffset);
+					if (Codec == 0) { continue; }
+					FMaterialEntry Entry;
+					Entry.EntryIndex = songEntryIndex;
+					Entry.PositionOfOffsetFromMtrlSectionOffset = positionOfOffsetFromMaterialSectionOffset;
+					Entry.LocalSectionOffset = BytesToUint32(SabMabData, Entry.PositionOfOffsetFromMtrlSectionOffset, false);
+					Entry.HeaderPosition = MaterialSectionOffset + Entry.LocalSectionOffset;
+					int HeaderPositionOffset = Entry.HeaderPosition + 4;
+					Entry.ChannelCount = BytesToUint8(SabMabData, HeaderPositionOffset);
+					Entry.Codec = BytesToUint8(SabMabData, HeaderPositionOffset);
+					Entry.MtrlNumber = BytesToUint16(SabMabData, HeaderPositionOffset, false);
+					Entry.SampleRate = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.LoopStart = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.LoopEnd = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.ExtraDataSize = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.StreamSize = BytesToUint32(SabMabData, HeaderPositionOffset, false);
+					Entry.ExtraDataId = BytesToUint16(SabMabData, HeaderPositionOffset, false);
+					Entry.ExtraDataOffset = Entry.HeaderPosition + 32;
+					Entry.StreamPosition = Entry.ExtraDataOffset + Entry.ExtraDataSize;
+					Entry.MaterialHeaderSize = Entry.StreamPosition - Entry.HeaderPosition;
+					int ExtraDataOffsetOffset = Entry.ExtraDataOffset + 16 + 6;
+
+					//why is this in big endian wtf?
+					int hcaHeaderSizeByteBig = BytesToUint8(SabMabData, ExtraDataOffsetOffset);
+					int hcaHeaderSizeByteSmall = BytesToUint8(SabMabData, ExtraDataOffsetOffset);
+					Entry.HcaHeaderSize = (uint16)((hcaHeaderSizeByteBig << 8) + hcaHeaderSizeByteSmall);
+
+					Entry.NoHcaHeaderExtraDataSize = Entry.ExtraDataSize - Entry.HcaHeaderSize;
+					Entry.HcaStreamStartPosition = Entry.ExtraDataOffset + 16;
+					Entry.HcaStreamSize = Entry.HcaHeaderSize + Entry.StreamSize;
+					Entry.NoHcaHeaderSize = Entry.HcaStreamStartPosition - Entry.HeaderPosition;
+					Entry.TrackEndPosition = Entry.HcaStreamStartPosition + Entry.HcaStreamSize;
+
+					int InitalHCAOffset = 0;
+					TArray<uint8> hcaFileBytes = SabMabDataArray;
+					FString Signature = ListOfBytesToString(&hcaFileBytes.GetData()[Entry.HcaStreamStartPosition], Entry.HcaStreamStartPosition + 4);
+					int StartPositionOffsetInit = Entry.HcaStreamStartPosition + 4;
+					uint16 Version = BytesToUint16(hcaFileBytes.GetData(), StartPositionOffsetInit, false);
+					uint16 HeaderSize = BytesToUint16(hcaFileBytes.GetData(), StartPositionOffsetInit, false);
+
+					if (Signature != "HCA\0")
+					{
+						if (ErrorMessage) { *ErrorMessage = "Not a valid HCA file"; }
+					}
+					int StartPosition = Entry.HcaStreamStartPosition + 8;
+					FCriWareInfo CriwareInfo;
+					CriwareInfo.StartAddress = StartPosition;
+					CriwareInfo.EndAddress = HeaderSize;
+					HCAArray.Add(CriwareInfo);
+					Entries.Add(Entry);
+				}
+			}
+			else { continue; }
+		}
+
+		return true;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	bool ReadSabMabInfo(const uint8*& Buffer, const uint8* BufferEnd, TArray<uint8> SabMabDataArray, int32 SabMabDataSize, FString* ErrorMessage = NULL, bool InHeaderDataOnly = false, void** OutFormatHeader = NULL)
 	{

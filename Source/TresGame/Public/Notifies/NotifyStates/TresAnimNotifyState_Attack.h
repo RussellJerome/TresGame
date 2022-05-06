@@ -34,7 +34,7 @@ public:
 	class USoundBase* m_HitSEAsset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
-	TEnumAsByte<ETresSoundAliasLabel_WeaponHit> m_WeaponHitSEAliasID;
+	TEnumAsByte<ETresSoundAliasLabel_WeaponHit::Type> m_WeaponHitSEAliasID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotifyState_Attack")
 	bool m_bOverrideHitEffectColor;

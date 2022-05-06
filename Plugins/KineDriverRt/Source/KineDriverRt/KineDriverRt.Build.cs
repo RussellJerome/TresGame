@@ -28,6 +28,7 @@ public class KineDriverRt : ModuleRules
 			new string[]
 			{
 				"Core",
+                "AnimGraphRuntime",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -40,7 +41,6 @@ public class KineDriverRt : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "AnimGraphRuntime",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

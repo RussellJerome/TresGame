@@ -15,16 +15,16 @@ class BONAMIKRT_API USQEX_BonamikAsset : public UDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
-	class USkeletalMesh* m_SkeletalMesh;
+	UPROPERTY()
+	class USkeletalMesh* m_SkeletalMesh_DEPRECATED;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	int32 m_VersionNo;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	FSQEX_BonamikSceneManagerDesc m_SceneManager;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<FSQEX_BonamikSolverDesc> m_Solvers;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
@@ -66,33 +66,33 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
 	int32 m_TotalLateralLinkCones;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
-	bool m_bAlwaysUse60FPSsetting;
+	UPROPERTY()
+	bool m_bAlwaysUse60FPSsetting_DEPRECATED;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<FName> m_IgnoreEffectors;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	float m_TeleportDistance;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
-	FString m_BonamikReferenceGroup;
+	UPROPERTY()
+	FString m_BonamikReferenceGroup_DEPRECATED;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<FName> m_ReferenceGroups;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
-	TArray<FString> m_BonamikCheckGroundBodyPosGroups;
+	UPROPERTY()
+	TArray<FString> m_BonamikCheckGroundBodyPosGroups_DEPRECATED;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<FName> m_CheckGroundBodyPosGroups;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	TArray<FSQEX_BonamikGroupLOD> m_BonamikGroupLODs;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	bool m_BonamikAccurateBoundsUpdate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SQEX")
+	UPROPERTY(EditAnywhere, Category = "SQEX")
 	int m_PreRollStepOnResume;
 };
