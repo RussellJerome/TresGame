@@ -20,9 +20,11 @@
 #include "UObject/AssetPtr.h"
 #include "Engine/Texture2D.h"
 #include "EngineData.h"
+#include "TresFieldVoice.h"
 #include "TresAnimInstance.h"
 #include "TresAnimInstanceProxy.h"
 #include "TresUIActor.h"
+#include "TresUIDataAssetStatus.h"
 #include "TresGame.generated.h"
 
 class UTresLockonTargetComponent;
@@ -517,7 +519,7 @@ enum class ETresChrUniqueID : uint8
 	TRES_CHR_UID_FRD_AQUA UMETA(DisplayName = "FRD Aqua"),
 	TRES_CHR_UID_ENEMY UMETA(DisplayName = "Enemy"),
 	TRES_CHR_UID_FRD_SORA UMETA(DisplayName = "FRD Sora"),
-	TRES_CHR_UID_MAX
+	TRES_CHR_UID_MAXn
 };
 
 UENUM(BlueprintType)
@@ -19527,17 +19529,17 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTresFieldVoiceTextData
+struct TRESGAME_API FTresFieldVoiceTextData
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceTextData")
+	UPROPERTY(EditAnywhere, Category = "FTresFieldVoiceTextData")
 	FString m_NameSpaceAndKey;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceTextData")
+	UPROPERTY(EditAnywhere, Category = "FTresFieldVoiceTextData")
 	float m_Delay;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresFieldVoiceTextData")
+	UPROPERTY(EditAnywhere, Category = "FTresFieldVoiceTextData")
 	float m_Duration;
 };
 

@@ -68,8 +68,8 @@ protected:
     UPROPERTY(EditDefaultsOnly)
     uint8 m_bAutoPlayFaceAnim: 1;
     
-    UPROPERTY(EditDefaultsOnly)
-    TEnumAsByte<ETresFaceAnimType> m_AutoPlayFaceAnimType;
+    /*UPROPERTY(EditDefaultsOnly)*/
+    ETresFaceAnimType m_AutoPlayFaceAnimType;
     
     UPROPERTY(EditDefaultsOnly)
     float m_AutoPlayFaceAnimInterpTime;
