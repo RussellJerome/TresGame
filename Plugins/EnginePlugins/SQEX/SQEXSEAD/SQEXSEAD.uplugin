@@ -14,12 +14,16 @@
 	"CanContainContent": false,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
-	"Installed": false,
 	"Modules": [
 		{
 			"Name": "SQEXSEAD",
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit"
-		}
+		},
+		{
+			"Name" : "SQEXSEADEd",
+			"Type" : "Editor",
+			"LoadingPhase" : "PostConfigInit"
+		},
 	]
 }
