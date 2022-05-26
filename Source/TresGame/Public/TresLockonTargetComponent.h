@@ -6,16 +6,18 @@
 #include "TresGimmickComponentBase.h"
 #include "TresGame.h"
 #include "EngineData.h"
+#include "TresLockonTargetDoLockSignatureDelegate.h"
 #include "TresLockonTargetComponent.generated.h"
 
 /**
  * 
  */
-UCLASS()
+UCLASS(EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class TRESGAME_API UTresLockonTargetComponent : public UTresGimmickComponentBase
 {
 	GENERATED_BODY()
 public:
+protected:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
 	bool m_bPermissionLockOn;
 	
@@ -54,6 +56,10 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresLockonTargetComponent")
 	bool m_bPermissionCoverShot;
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FTresLockonTargetDoLockSignature OnTargetLock;
 	
 	//struct FScriptMulticastDelegate OnTargetLock;
 };

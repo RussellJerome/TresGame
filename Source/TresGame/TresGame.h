@@ -20,8 +20,12 @@
 #include "UObject/AssetPtr.h"
 #include "Engine/Texture2D.h"
 #include "EngineData.h"
+#include "TresAnimInstance.h"
+#include "TresAnimInstanceProxy.h"
+#include "TresUIActor.h"
 #include "TresGame.generated.h"
 
+class UTresLockonTargetComponent;
 //---------------------------------------------------------------------------
 //Enums
 //---------------------------------------------------------------------------
@@ -3115,132 +3119,127 @@ enum ETresFloorTestMode
 };
 
 UENUM(BlueprintType)
-namespace ETresFaceAnimType
-{
-	enum Type
-	{
-		NORMAL_AUTO,
-		NORMAL_AUTO_IDLE_BATTLE,
-		NORMAL_AUTO_BATTLE_IDLE,
-		Normal,
-		NO,
-		NO01,
-		NO02,
-		NO03,
-		Battle,
-		BATTLE_SINGLE,
-		BA,
-		Damage,
-		DMG_LOOP,
-		DMG_END,
-		MAGIC_AUTO_IDLE_BATTLE,
-		MAGIC2_AUTO_IDLE_BATTLE,
-		USEITEM_AUTO_IDLE_BATTLE,
-		NORMAL_AUTO_01,
-		SA_FREEZE,
-		SA_BARN,
-		SA_OIL,
-		SA_STEAM,
-		SA_THUNDER,
-		AF_RC,
-		AF_VS,
-		AF_TC,
-		WEP_BS,
-		WEP_GUN,
-		WEP_SD,
-		NORMAL_AUTO_EF01,
-		NORMAL_AUTO_EU01,
-		NORMAL_AUTO_ED01,
-		NORMAL_AUTO_ED02,
-		NORMAL_AUTO_ER01,
-		NORMAL_AUTO_EL01,
-		MOUTH_OPEN_01,
-		MOUTH_OPEN_02,
-		MOUTH_OPEN_03,
-		MOUTH_OPEN_04,
-		MOUTH_OPEN_05,
-		TIPBALANCE_AUTO_R01,
-		TIPBALANCE_AUTO_L01,
-		RAILSLIDE_AUTO01,
-		RAILSLIDE_AUTO02,
-		PLEASURE_EYE00,
-		PLEASURE_EYE01,
-		PLEASURE_EYE02,
-		PREASURE_LIP00,
-		PREASURE_LIP01,
-		PREASURE_LIP02,
-		SURPRISE_EYE00,
-		SURPRISE_EYE01,
-		SURPRISE_LIP00,
-		SURPRISE_LIP01,
-		EMOTION_NO300,
-		EMOTION_NO301,
-		EMOTION_NO302,
-		EMOTION_NO350,
-		EMOTION_NO351,
-		EMOTION_NO352,
-		EMOTION_NO354,
-		EMOTION_NO400,
-		EMOTION_NO401,
-		EMOTION_NO450,
-		EMOTION_NO451,
-		EMOTION_NO452,
-		EMOTION_NO500,
-		EMOTION_NO501,
-		EMOTION_NO502,
-		NORMAL_AUTO_EC01,
-		EMOTION_TA_DE_E_00,
-		EMOTION_TA_DE_E_01,
-		EMOTION_TA_DE_E_02,
-		EMOTION_TA_DE_E_03,
-		EMOTION_TA_DE_E_04,
-		EMOTION_TA_DE_E_05,
-		EMOTION_TA_DE_E_06,
-		EMOTION_TA_DE_E_07,
-		EMOTION_TA_DE_E_08,
-		EMOTION_TA_DE_E_09,
-		EMOTION_TA_DE_E,
-		EMOTION_TA_DE_E01,
-		EMOTION_TA_DE_E02,
-		EMOTION_TA_DE_M_00,
-		EMOTION_TA_DE_M_01,
-		EMOTION_TA_DE_M_02,
-		EMOTION_TA_DE_M_03,
-		EMOTION_TA_SM_E_00,
-		EMOTION_TA_SM_E_01,
-		EMOTION_TA_SM_E_02,
-		EMOTION_TA_SM_E_03,
-		EMOTION_TA_SM_M_00,
-		EMOTION_TA_SM_M_01,
-		EMOTION_TA_SM_M_02,
-		EMOTION_TA_SM_M_03,
-		EMOTION_TA_AN_E_00,
-		EMOTION_TA_AN_E_01,
-		EMOTION_TA_AN_E_02,
-		EMOTION_TA_AN_E,
-		EMOTION_TA_AN_M_00,
-		EMOTION_TA_AN_M_01,
-		EMOTION_TA_AN_M_02,
-		EMOTION_TA_AN_M_03,
-		EMOTION_TA_SA_E_00,
-		EMOTION_TA_SA_E_01,
-		EMOTION_TA_SA_E_02,
-		EMOTION_TA_SA_E_03,
-		EMOTION_TA_SA_E_04,
-		EMOTION_TA_SA_E,
-		EMOTION_TA_SA_M_00,
-		EMOTION_TA_SA_M_01,
-		EMOTION_TA_SA_M_02,
-		EMOTION_TA_SU_E_00,
-		EMOTION_TA_SU_E_01,
-		EMOTION_TA_SU_E_02,
-		EMOTION_TA_SU_E,
-		EMOTION_TA_SU_M_00,
-		EMOTION_TA_SU_M_02,
-		FACE_ANIM_TYPE_MAX UMETA(Hidden),
-		ETresFaceAnimType_MAX
-	};
-}
+enum ETresFaceAnimType {
+    NORMAL_AUTO,
+    NORMAL_AUTO_IDLE_BATTLE,
+    NORMAL_AUTO_BATTLE_IDLE,
+    Normal,
+    NO_1,
+    NO_2,
+    NO_3,
+    NO_4,
+    Battle,
+    BATTLE_SINGLE,
+    BA_1,
+    Damage,
+    DMG_LOOP,
+    DMG_END,
+    MAGIC_AUTO_IDLE_BATTLE,
+    MAGIC2_AUTO_IDLE_BATTLE,
+    USEITEM_AUTO_IDLE_BATTLE,
+    NORMAL_AUTO_01,
+    SA_FREEZE_0,
+    SA_BARN_0,
+    SA_OIL_0,
+    SA_STEAM_0,
+    SA_THUNDER_0,
+    AF_RC_0,
+    AF_VS_0,
+    AF_TC_0,
+    WEP_BS_0,
+    WEP_GUN_0,
+    WEP_SD_0,
+    NORMAL_AUTO_EF01,
+    NORMAL_AUTO_EU01,
+    NORMAL_AUTO_ED01,
+    NORMAL_AUTO_ED02,
+    NORMAL_AUTO_ER01,
+    NORMAL_AUTO_EL01,
+    MOUTH_OPEN_01,
+    MOUTH_OPEN_02,
+    MOUTH_OPEN_03,
+    MOUTH_OPEN_04,
+    MOUTH_OPEN_05,
+    TIPBALANCE_AUTO_R01,
+    TIPBALANCE_AUTO_L01,
+    RAILSLIDE_AUTO01,
+    RAILSLIDE_AUTO02,
+    PLEASURE_EYE00,
+    PLEASURE_EYE01,
+    PLEASURE_EYE02,
+    PREASURE_LIP00,
+    PREASURE_LIP01,
+    PREASURE_LIP02,
+    SURPRISE_EYE00,
+    SURPRISE_EYE01,
+    SURPRISE_LIP00,
+    SURPRISE_LIP01,
+    EMOTION_NO300,
+    EMOTION_NO301,
+    EMOTION_NO302,
+    EMOTION_NO350,
+    EMOTION_NO351,
+    EMOTION_NO352,
+    EMOTION_NO354,
+    EMOTION_NO400,
+    EMOTION_NO401,
+    EMOTION_NO450,
+    EMOTION_NO451,
+    EMOTION_NO452,
+    EMOTION_NO500,
+    EMOTION_NO501,
+    EMOTION_NO502,
+    NORMAL_AUTO_EC01,
+    EMOTION_TA_DE_E_00,
+    EMOTION_TA_DE_E_01,
+    EMOTION_TA_DE_E_02,
+    EMOTION_TA_DE_E_03,
+    EMOTION_TA_DE_E_04,
+    EMOTION_TA_DE_E_05,
+    EMOTION_TA_DE_E_06,
+    EMOTION_TA_DE_E_07,
+    EMOTION_TA_DE_E_08,
+    EMOTION_TA_DE_E_09,
+    EMOTION_TA_DE_E_10,
+    EMOTION_TA_DE_E_11,
+    EMOTION_TA_DE_E_12,
+    EMOTION_TA_DE_M_00,
+    EMOTION_TA_DE_M_01,
+    EMOTION_TA_DE_M_02,
+    EMOTION_TA_DE_M_03,
+    EMOTION_TA_SM_E_00,
+    EMOTION_TA_SM_E_01,
+    EMOTION_TA_SM_E_02,
+    EMOTION_TA_SM_E_03,
+    EMOTION_TA_SM_M_00,
+    EMOTION_TA_SM_M_01,
+    EMOTION_TA_SM_M_02,
+    EMOTION_TA_SM_M_03,
+    EMOTION_TA_AN_E_00,
+    EMOTION_TA_AN_E_01,
+    EMOTION_TA_AN_E_02,
+    EMOTION_TA_AN_E_20,
+    EMOTION_TA_AN_M_00,
+    EMOTION_TA_AN_M_01,
+    EMOTION_TA_AN_M_02,
+    EMOTION_TA_AN_M_03,
+    EMOTION_TA_SA_E_00,
+    EMOTION_TA_SA_E_01,
+    EMOTION_TA_SA_E_02,
+    EMOTION_TA_SA_E_03,
+    EMOTION_TA_SA_E_04,
+    EMOTION_TA_SA_E_20,
+    EMOTION_TA_SA_M_00,
+    EMOTION_TA_SA_M_01,
+    EMOTION_TA_SA_M_02,
+    EMOTION_TA_SU_E_00,
+    EMOTION_TA_SU_E_01,
+    EMOTION_TA_SU_E_02,
+    EMOTION_TA_SU_E_20,
+    EMOTION_TA_SU_M_00,
+    EMOTION_TA_SU_M_02,
+    FACE_ANIM_TYPE_MAX UMETA(Hidden),
+};
 
 UENUM(BlueprintType)
 enum ETresFaceAnimPlayPriority
@@ -3515,13 +3514,11 @@ enum ETresEnemyWarpCutMotionType_e_ex357
 	ETresEnemyWarpCutMotionType_e_ex357_MAX = 3 UMETA(Hidden)
 };
 
-UENUM(BlueprintType)
-enum class EEX359_ComboStartType : uint8
-{
-	EEX359_ComboStartType = 0,
-	EEX359_ComboStartType01 = 1,
-	EEX359_ComboStartType02 = 2,
-	EEX359_ComboStartType_MAX = 3 UMETA(Hidden)
+UENUM()
+enum EEX359_ComboStartType {
+	EEX359_ComboStartType_1,
+	EEX359_ComboStartType_2,
+	EEX359_ComboStartType_3,
 };
 
 UENUM(BlueprintType)
@@ -5646,13 +5643,15 @@ enum class ETresEnemyShipSubType : uint8
 };
 
 UENUM(BlueprintType)
-enum ETresEnemyBigDealAction_e_ex356
-{
-	/*None = 0,
-	Move = 1,
-	SideCardAttack = 2,*/
-	ETresEnemyBigDealAction_e_MAX = 3 UMETA(Hidden)
-};
+namespace ETresEnemyBigDealAction_e_ex356 {
+	enum Type {
+		None,
+		Move,
+		SideCardAttack,
+		ETresEnemyBigDealAction_e_MAX UMETA(Hidden),
+	};
+}
+
 
 UENUM(BlueprintType)
 enum class ETresEnemy_e_ex356_CardDesign : uint8
@@ -13594,8 +13593,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresBitAttackParam_e_ex357")
 	float AllAttackMoveTime;
 
+	UPROPERTY(EditDefaultsOnly, Category = "FTresBitAttackParam_e_ex357")
 	struct FFloatInterval AllAttackTargetRadiusRange;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FTresBitAttackParam_e_ex357")
 	struct FFloatInterval AllAttackTargetHeightRange;
+
+	TRESGAME_API FTresBitAttackParam_e_ex357();
 };
 
 USTRUCT(BlueprintType)
@@ -13603,23 +13607,58 @@ struct FBX901_RailSlideProjectileInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	bool m_bRailSlide;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fWaitTime;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fVelocity;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	bool m_bRelativeVelocityToOwner;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	FVector m_vInitOffset;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	bool m_bOwnerAsInitOffsetAxis;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	bool m_bHoming;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	FVector m_vHomingOffset;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	bool m_bTargetAsHomingAxis;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fMinHomingDistance;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fHomingAccel;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fMaxHomingVelocity;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fMinHomingDistance_Reflect;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fHomingAccel_Reflect;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	float m_fMaxHomingVelocity_Reflect;
+    
+	UPROPERTY(EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
 	TArray<FName> m_ReflectAttackIDArray;
-	uint32 m_bBoolArray[0xA];
+    
+	UPROPERTY(AdvancedDisplay, EditDefaultsOnly, Category = "FBX901_RailSlideProjectileInfo")
+	uint32 m_bBoolArray[10];
+    
+	TRESGAME_API FBX901_RailSlideProjectileInfo();
 };
 
 USTRUCT(BlueprintType)
@@ -13627,9 +13666,16 @@ struct FBX901_DarkCubeMineInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	FVector m_vLocationOffset;
+    
+	UPROPERTY(EditDefaultsOnly)
 	FRotator m_rRotationOffset;
+    
+	UPROPERTY(EditDefaultsOnly)
 	bool m_bMoveOnFinish;
+    
+	TRESGAME_API FBX901_DarkCubeMineInfo();
 };
 
 USTRUCT(BlueprintType)
@@ -13637,10 +13683,19 @@ struct FBX901_DarkCubeMineProjInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY()
 	bool m_bNormal;
-	struct FBX901_RailSlideProjectileInfo m_RailSlideProjInfo;
-	struct FBX901_DarkCubeMineInfo m_ProjInfo;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FBX901_RailSlideProjectileInfo m_RailSlideProjInfo;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FBX901_DarkCubeMineInfo m_ProjInfo;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float m_fSpawnDelayTime;
+    
+	TRESGAME_API FBX901_DarkCubeMineProjInfo();
 };
 
 USTRUCT(BlueprintType)
@@ -13813,14 +13868,31 @@ struct FTresEnemyBigDealOneStepParam_e_ex356
 {
 	GENERATED_BODY()
 public:
-	int NotCardDesignNum;
-	TArray<struct FTresEnemyBigDealContractionSpeedParam_e_ex356> ContractionSpeedParamList;
+	UPROPERTY(EditDefaultsOnly)
+	int32 NotCardDesignNum;
+    
+	UPROPERTY(EditDefaultsOnly)
+	TArray<FTresEnemyBigDealContractionSpeedParam_e_ex356> ContractionSpeedParamList;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float CardRevolveSpeed;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float PlainCardDamageAfterCardRevolveStopTime;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float CardRotationEndIntervalTime;
-	TArray<struct FTresEnemyBigDealCardRotationEndParam_e_ex356> CardRotationEndParamList;
+    
+	UPROPERTY(EditDefaultsOnly)
+	TArray<FTresEnemyBigDealCardRotationEndParam_e_ex356> CardRotationEndParamList;
+    
+	UPROPERTY(EditDefaultsOnly)
 	TArray<float> AttackStartTimeList;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float CardShuffleTime;
+    
+	TRESGAME_API FTresEnemyBigDealOneStepParam_e_ex356();
 };
 
 USTRUCT(BlueprintType)
@@ -13828,9 +13900,16 @@ struct FTresEnemyBigDealActionParam_e_ex356
 {
 	GENERATED_BODY()
 public:
-	TEnumAsByte<ETresEnemyBigDealAction_e_ex356> ActionType;
+	UPROPERTY(EditDefaultsOnly)
+	TEnumAsByte<ETresEnemyBigDealAction_e_ex356::Type> ActionType;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float ActionTime;
-	class USoundBase* VoiceData;
+    
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* VoiceData;
+    
+	TRESGAME_API FTresEnemyBigDealActionParam_e_ex356();
 };
 
 USTRUCT(BlueprintType)
@@ -13838,17 +13917,40 @@ struct FTresEnemyBigDealParamEx_e_ex356
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	FName FailedDamageAttackDataIDName;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float EndRadius;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float CenterLocationCheckPlayerRadius;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float FirstScondEndExplodeIntervalTime;
-	struct FTresEnemyBigDealMoveParam_e_ex356 MoveParam;
-	struct FTresEnemyBigDealAttackParam_e_ex356 AttackParam;
-	struct FTresEnemyBigDealOneStepParam_e_ex356 FirstOneStepParam;
-	struct FTresEnemyBigDealOneStepParam_e_ex356 SecondOneStepParam;
-	struct FTresEnemyBigDealOneStepParam_e_ex356 LastOneStepParam;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FTresEnemyBigDealMoveParam_e_ex356 MoveParam;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FTresEnemyBigDealAttackParam_e_ex356 AttackParam;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FTresEnemyBigDealOneStepParam_e_ex356 FirstOneStepParam;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FTresEnemyBigDealOneStepParam_e_ex356 SecondOneStepParam;
+    
+	UPROPERTY(EditDefaultsOnly)
+	FTresEnemyBigDealOneStepParam_e_ex356 LastOneStepParam;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float LastContractionStartDelayTime;
-	TArray<struct FTresEnemyBigDealActionParam_e_ex356> LastActionParamList;
+    
+	UPROPERTY(EditDefaultsOnly)
+	TArray<FTresEnemyBigDealActionParam_e_ex356> LastActionParamList;
+    
+	TRESGAME_API FTresEnemyBigDealParamEx_e_ex356();
 };
 
 USTRUCT(BlueprintType)
@@ -13856,19 +13958,46 @@ struct FTresDeathSentenceParam_e_ex357
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	float StartCount;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float CountSpeed;
-	bool bEnableDispelArmorHP;
-	bool bEnableDispelDamage;
-	int DispelDamageNum;
+    
+	UPROPERTY(EditDefaultsOnly)
+	uint8 bEnableDispelArmorHP: 1;
+    
+	UPROPERTY(EditDefaultsOnly)
+	uint8 bEnableDispelDamage: 1;
+    
+	UPROPERTY(EditDefaultsOnly)
+	int32 DispelDamageNum;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float DispelTotalAttackSrcPower;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float DamageCountDisableTime;
-	int DispelBitDieNum;
+    
+	UPROPERTY(EditDefaultsOnly)
+	int32 DispelBitDieNum;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float BloomShieldTime;
-	bool bIsEndNotDieMode;
-	bool bEnableRevengeChain;
-	bool bEnableInformation;
-	bool bEnableSpecialGameoverHint;
+    
+	UPROPERTY(EditDefaultsOnly)
+	uint8 bIsEndNotDieMode: 1;
+    
+	UPROPERTY(EditDefaultsOnly)
+	uint8 bEnableRevengeChain: 1;
+    
+	UPROPERTY(EditDefaultsOnly)
+	uint8 bEnableInformation: 1;
+    
+	UPROPERTY(EditDefaultsOnly)
+	uint8 bEnableSpecialGameoverHint: 1;
+    
+	TRESGAME_API FTresDeathSentenceParam_e_ex357();
 };
 
 USTRUCT(BlueprintType)
@@ -13889,13 +14018,30 @@ struct FTresRailSlideWork
 {
 	GENERATED_BODY()
 public:
-	class AActor* m_LeadActor;
-/*	class ASQEX_SplineActor* m_RailSlideActor;
-	class USQEX_SplineComponent* m_RailSlideComponent;
-	class ASQEX_SplineActor* m_LastRailSlideActor;
-	class USQEX_SplineComponent* m_LastRailSlideComponent;
-	class ASQEX_SplineActor* m_PauseCheckActor;
-	class USQEX_SplineComponent* m_PauseCheckComponent;*/
+	UPROPERTY()
+	AActor* m_LeadActor;
+
+
+	/*To fix in custom engine*/
+	/*UPROPERTY()
+	ASQEX_SplineActor* m_RailSlideActor;
+    
+	UPROPERTY(Export)
+	USQEX_SplineComponent* m_RailSlideComponent;
+    
+	UPROPERTY(Transient)
+	ASQEX_SplineActor* m_LastRailSlideActor;
+    
+	UPROPERTY(Export, Transient)
+	USQEX_SplineComponent* m_LastRailSlideComponent;
+    
+	UPROPERTY()
+	ASQEX_SplineActor* m_PauseCheckActor;
+    
+	UPROPERTY(Export)
+	USQEX_SplineComponent* m_PauseCheckComponent;*/
+    
+	TRESGAME_API FTresRailSlideWork();
 };
 
 USTRUCT(BlueprintType)
@@ -13996,12 +14142,25 @@ struct FTresPoppingHolyProjectileOverrideParameters
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	float m_fRisingThresholdHeight;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	float m_fGravityScaleWhenFalling;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	FVector m_vBrakingVelocityScaleWhenFallingStarted;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	float m_fAcceleration;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	float m_fInitialSpeed;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	float m_fMaxSpeed;
+    
+	TRESGAME_API FTresPoppingHolyProjectileOverrideParameters();
 };
 
 USTRUCT(BlueprintType)
@@ -14009,13 +14168,28 @@ struct FTresPoppingHolyBulletShootParameter
 {
 	GENERATED_BODY()
 public:
-	struct FTresUInt8_Range m_HolyBulletShootNum;
-	struct FTresFloat32_RangeDegree m_HolyBulletSpreadRangeAngle;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FTresUInt8_Range m_HolyBulletShootNum;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FTresFloat32_RangeDegree m_HolyBulletSpreadRangeAngle;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	float m_fHolyBulletShootYawAngleRandomOffset;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	bool m_bIsIgnoreKeyBladePitch;
-	struct FTresFloat32_RangeDegree m_HolyBulletShootRandomPitchRange;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	FTresFloat32_RangeDegree m_HolyBulletShootRandomPitchRange;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	bool m_bIsOverrideHolyProjectileParameter;
-	TArray<struct FTresPoppingHolyProjectileOverrideParameters> m_HolyProjectileOverrideParameterList;
+    
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TArray<FTresPoppingHolyProjectileOverrideParameters> m_HolyProjectileOverrideParameterList;
+    
+	TRESGAME_API FTresPoppingHolyBulletShootParameter();
 };
 
 USTRUCT(BlueprintType)
@@ -14029,6 +14203,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
 	TArray<FName> m_MaterialInstanceList;
 
+	/*To fix in custom engine*/
 //	ESqEX_BonePoseToMaterialSetParamType m_MaterialParamSetType;
 
 	UPROPERTY(EditDefaultsOnly, Category = "FTresChangeMeshMaterialParamData")
@@ -14232,17 +14407,40 @@ struct FTresAtkCollHitEffUnit
 {
 	GENERATED_BODY()
 public:
-	class UParticleSystem* m_PawnHitEffect;
-	class USoundBase* m_PawnHitSEAsset;
-	class UParticleSystem* m_PawnHitEffectPerAttr[0x8];
-	class USoundBase* m_PawnHitSEAssetPerAttr[0x8];
-	class UParticleSystem* m_DirectHitEffect;
-	bool m_bChangeMapHit;
-	class UParticleSystem* m_MapHitEffect;
-	bool m_bChangeSEMapHit;
-	class USoundBase* m_MapHitSEAsset;
-	bool m_bEnableDecal;
-	struct FTresDecalData m_DecalData;
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_PawnHitEffect;
+    
+	UPROPERTY(EditAnywhere)
+	USoundBase* m_PawnHitSEAsset;
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_PawnHitEffectPerAttr[8];
+    
+	UPROPERTY(EditAnywhere)
+	USoundBase* m_PawnHitSEAssetPerAttr[8];
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_DirectHitEffect;
+    
+	UPROPERTY(EditAnywhere)
+	uint8 m_bChangeMapHit: 1;
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_MapHitEffect;
+    
+	UPROPERTY(EditAnywhere)
+	uint8 m_bChangeSEMapHit: 1;
+    
+	UPROPERTY(EditAnywhere)
+	USoundBase* m_MapHitSEAsset;
+    
+	UPROPERTY(EditAnywhere)
+	uint8 m_bEnableDecal: 1;
+    
+	UPROPERTY(EditAnywhere, Export, NoClear)
+	FTresDecalData m_DecalData;
+    
+	TRESGAME_API FTresAtkCollHitEffUnit();
 };
 
 USTRUCT(BlueprintType)
@@ -14250,19 +14448,46 @@ struct FTresAtkColHitEffect
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere)
 	FName m_GrpName;
-	class UParticleSystem* m_PawnHitEffect;
-	class USoundBase* m_PawnHitSEAsset;
-	class UParticleSystem* m_PawnHitEffectPerAttr[0x8];
-	class USoundBase* m_PawnHitSEAssetPerAttr[0x8];
-	class UParticleSystem* m_DirectHitEffect;
-	bool m_bChangeMapHit;
-	class UParticleSystem* m_MapHitEffect;
-	bool m_bChangeSEMapHit;
-	class USoundBase* m_MapHitSEAsset;
-	bool m_bEnableDecal;
-	struct FTresDecalData m_DecalData;
-	TArray<struct FTresAtkCollHitEffUnit> m_HitEffSet;
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_PawnHitEffect;
+    
+	UPROPERTY(EditAnywhere)
+	USoundBase* m_PawnHitSEAsset;
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_PawnHitEffectPerAttr[8];
+    
+	UPROPERTY(EditAnywhere)
+	USoundBase* m_PawnHitSEAssetPerAttr[8];
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_DirectHitEffect;
+    
+	UPROPERTY(EditAnywhere)
+	uint8 m_bChangeMapHit: 1;
+    
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* m_MapHitEffect;
+    
+	UPROPERTY(EditAnywhere)
+	uint8 m_bChangeSEMapHit: 1;
+    
+	UPROPERTY(EditAnywhere)
+	USoundBase* m_MapHitSEAsset;
+    
+	UPROPERTY(EditAnywhere)
+	uint8 m_bEnableDecal: 1;
+    
+	UPROPERTY(EditAnywhere, Export, NoClear)
+	FTresDecalData m_DecalData;
+    
+	UPROPERTY(EditAnywhere)
+	TArray<FTresAtkCollHitEffUnit> m_HitEffSet;
+    
+	TRESGAME_API FTresAtkColHitEffect();
 };
 
 USTRUCT(BlueprintType)
@@ -14270,9 +14495,16 @@ struct FTresAtkCollAutoActivate
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere)
 	FName m_GrpName;
+    
+	UPROPERTY(EditAnywhere)
 	FName m_AttackDataIDName;
+    
+	UPROPERTY(EditAnywhere)
 	float m_AttackInterval;
+    
+	TRESGAME_API FTresAtkCollAutoActivate();
 };
 
 USTRUCT(BlueprintType)
@@ -14478,8 +14710,13 @@ struct FKunai_Setup
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	FName m_BoneName;
+    
+	UPROPERTY(EditDefaultsOnly)
 	FName m_IgnoreAtkCollGroupName;
+    
+	TRESGAME_API FKunai_Setup();
 };
 
 USTRUCT(BlueprintType)
@@ -14487,10 +14724,19 @@ struct FKunai_Details
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	TEnumAsByte<EKunaiType> m_KunaiType;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float m_Timing;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float m_Angle;
+    
+	UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
 	float m_Velocity;
+    
+	TRESGAME_API FKunai_Details();
 };
 
 USTRUCT(BlueprintType)
@@ -15685,12 +15931,25 @@ struct FTresPhantomBlitzHomingParam
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	float HomingSpeedYaw;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float HomingSpeedPitch;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float HomingLimitAnglePitch;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float HomingEndDistance;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float AimLocationOffsetDistance;
+    
+	UPROPERTY(EditDefaultsOnly)
 	float AimLocationAfterTime;
+    
+	TRESGAME_API FTresPhantomBlitzHomingParam();
 };
 
 USTRUCT(BlueprintType)
@@ -15698,7 +15957,10 @@ struct FTresPhantomBlitzQuickTurnaroundExecuteParam
 {
 	GENERATED_BODY()
 public:
-	TArray<int> QuickTurnaroundExecuteNumList;
+	UPROPERTY(EditDefaultsOnly)
+	TArray<int32> QuickTurnaroundExecuteNumList;
+    
+	TRESGAME_API FTresPhantomBlitzQuickTurnaroundExecuteParam();
 };
 
 USTRUCT(BlueprintType)
@@ -16921,10 +17183,19 @@ struct FTresCameraTargetInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere)
 	FVector m_TargetOffset;
+    
+	UPROPERTY(EditAnywhere)
 	FVector m_TargetLocalOffset;
-	class AActor* m_TargetActor;
-	class UTresLockonTargetComponent* m_TargetComp;
+    
+	UPROPERTY(Transient)
+	AActor* m_TargetActor;
+    
+	UPROPERTY(Export, Transient)
+	UTresLockonTargetComponent* m_TargetComp;
+    
+	TRESGAME_API FTresCameraTargetInfo();
 };
 
 USTRUCT(BlueprintType)
@@ -16932,22 +17203,55 @@ struct FHoldCameraParam
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector m_CameraLocalOffset;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FRotator m_CameraLocalRotation;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_LimitPitchMax;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_LimitPitchMin;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_FovDefault;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_ZoomFovMax;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_ZoomFovMin;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_ZoomTotalTime;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_CameraFStopMax;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_CameraFStopMin;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_CameraFStopDefault;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_HeightOffsetMax;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_HeightOffsetMin;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_RollMax;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_RollMin;
-	bool m_bCalcDOF;
+    
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	uint8 m_bCalcDOF: 1;
+    
+	TRESGAME_API FHoldCameraParam();
 };
 
 USTRUCT(BlueprintType)
@@ -16955,10 +17259,19 @@ struct FDetectMarkerCheckArea
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Left;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Right;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Top;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Buttom;
+    
+	TRESGAME_API FDetectMarkerCheckArea();
 };
 
 USTRUCT(BlueprintType)
@@ -16966,8 +17279,13 @@ struct FHoldCameraVoice
 {
 	GENERATED_BODY()
 public:
-	class UTresFieldVoice* FieldVoiceAsset;
-	int Rate;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UTresFieldVoice* FieldVoiceAsset;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int32 Rate;
+    
+	TRESGAME_API FHoldCameraVoice();
 };
 
 USTRUCT(BlueprintType)
@@ -16983,8 +17301,13 @@ struct FTresUICampCharacterParam
 {
 	GENERATED_BODY()
 public:
-	class ATresUIActor* UIActor;
-	class UTresUIDataAssetStatus* UIStatusData;
+	UPROPERTY(Transient)
+	ATresUIActor* UIActor;
+    
+	UPROPERTY(Transient)
+	UTresUIDataAssetStatus* UIStatusData;
+    
+	TRESGAME_API FTresUICampCharacterParam();
 };
 
 USTRUCT(BlueprintType)
@@ -16992,15 +17315,34 @@ struct FTresShipDamageParam
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FName m_AttackName;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool m_bForce;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool m_bActionCancel;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_SpeedRate;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_PitchRollPower;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_YawPower;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_MovePower;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_WaitTimer;
+    
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float m_SpeedRateTime;
+    
+	TRESGAME_API FTresShipDamageParam();
 };
 
 USTRUCT(BlueprintType)
@@ -17023,20 +17365,20 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
 	bool m_bWeaponFixed;
 
-	//NOT BLUEPRINTABLE
-	int8 m_InitProtectorSlot;
+	UPROPERTY(EditDefaultsOnly)
+	uint8 m_InitProtectorSlot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
 	TArray<ETresItemDefProtector> m_Protectors;
 
-	//NOT BLUEPRINTABLE
-	int8 m_InitAccessorySlot;
+	UPROPERTY(EditDefaultsOnly)
+	uint8 m_InitAccessorySlot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
 	TArray<ETresItemDefAccessory> m_Accessorys;
 
-	//NOT BLUEPRINTABLE
-	int8 m_InitItemSlot;
+	UPROPERTY(EditDefaultsOnly)
+	uint8 m_InitItemSlot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FTresChrInitEquip")
 	TArray<ETresItemDefBattleItem> m_Items;
@@ -17138,13 +17480,28 @@ struct FTresClipData
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere)
 	bool bExclusionMode;
+    
+	UPROPERTY(EditAnywhere)
 	float ClipLength;
-	TArray<class UClass*> ClassArray;
+    
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<AActor>> ClassArray;
+    
+	UPROPERTY(EditAnywhere)
 	FName ClippingGroupName;
+    
+	UPROPERTY(EditAnywhere)
 	bool bUseClippingEvent;
+    
+	UPROPERTY(EditAnywhere)
 	bool bDisableTick;
+    
+	UPROPERTY(EditAnywhere)
 	bool bDisableDitherFade;
+    
+	TRESGAME_API FTresClipData();
 };
 
 USTRUCT(BlueprintType)
@@ -17152,11 +17509,22 @@ struct FTresUIPreloadInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(Transient)
 	uint32 Handle;
+    
+	UPROPERTY(Transient)
 	FString PackageName;
+    
+	UPROPERTY(Transient)
 	FString Name;
+    
+	UPROPERTY(Transient)
 	TArray<FString> PreloadQueue;
-	TArray<class UObject*> LoadedObjectsHolder;
+    
+	UPROPERTY(Transient)
+	TArray<UObject*> LoadedObjectsHolder;
+    
+	TRESGAME_API FTresUIPreloadInfo();
 };
 
 USTRUCT(BlueprintType)
@@ -17164,9 +17532,16 @@ struct FTresCollisionDistanceData
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere)
 	bool bExclusionMode;
+    
+	UPROPERTY(EditAnywhere)
 	float Length;
-	TArray<class UClass*> ClassArray;
+    
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<AActor>> ClassArray;
+    
+	TRESGAME_API FTresCollisionDistanceData();
 };
 
 struct FTresCollMgrSubTickFunction : public FTickFunction
@@ -17204,13 +17579,28 @@ struct FTresComNpcReaction
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere)
 	float m_fMinRange;
+    
+	UPROPERTY(EditAnywhere)
 	float m_fMaxRange;
+    
+	UPROPERTY(EditAnywhere)
 	float m_fLimitDir;
+    
+	UPROPERTY(EditAnywhere)
 	float m_fInRange;
+    
+	UPROPERTY(EditAnywhere)
 	float m_fInDir;
+    
+	UPROPERTY(EditAnywhere)
 	float m_fCoolDownTime;
+    
+	UPROPERTY(EditAnywhere)
 	TArray<FVector> m_IgnorePoints;
+    
+	TRESGAME_API FTresComNpcReaction();
 };
 
 USTRUCT(BlueprintType)
@@ -17218,10 +17608,19 @@ struct FTresComNpcActorInfo
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
 	FName m_ActorType;
-	int m_BodyType;
-	class UClass* m_ActorClass;
-	int m_MaxActorNum;
+    
+	UPROPERTY(EditDefaultsOnly)
+	int32 m_BodyType;
+    
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AActor> m_ActorClass;
+    
+	UPROPERTY(EditDefaultsOnly)
+	int32 m_MaxActorNum;
+    
+	TRESGAME_API FTresComNpcActorInfo();
 };
 
 USTRUCT(BlueprintType)
@@ -22277,24 +22676,6 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FTresUIActorMaterialParamSettingScalar
-{
-	GENERATED_BODY()
-public:
-	FName ParameterName;
-	float Value;
-};
-
-USTRUCT(BlueprintType)
-struct FTresUIActorMaterialParamSettingCoefficient
-{
-	GENERATED_BODY()
-public:
-	FName ParameterName;
-	float Value;
-};
-
-USTRUCT(BlueprintType)
 struct FTresUICustomizeCommand
 {
 	GENERATED_BODY()
@@ -23372,15 +23753,6 @@ USTRUCT(BlueprintType)
 struct FTresJumpNavLinkExtendedInfo
 {
 	GENERATED_BODY()
-};
-
-USTRUCT(BlueprintType)
-struct FTresAnimInstanceProxy : public FAnimInstanceProxy
-{
-	GENERATED_BODY()
-public:
-	struct FA2Pose MySavedPose;
-	class UAnimSequenceBase* m_pInitialPoseSeq;
 };
 
 USTRUCT(BlueprintType)

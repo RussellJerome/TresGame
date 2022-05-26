@@ -16,7 +16,7 @@ class TRESGAME_API UTresAnimNotify_FaceAnimEye : public UAnimNotify
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_FaceAnim")
-	TEnumAsByte<ETresFaceAnimType::Type> m_AnimType;
+	ETresFaceAnimType m_AnimType;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAnimNotify_FaceAnim")
 	FName m_AnimName;
