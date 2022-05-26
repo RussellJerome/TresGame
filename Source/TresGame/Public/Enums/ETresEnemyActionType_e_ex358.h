@@ -1,0 +1,14 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETresEnemyActionType_e_ex358.generated.h"
+
+UENUM(BlueprintType)
+enum ETresEnemyActionType_e_ex358 {
+    TRES_ENEMY_ACTION_TYPE_E_EX358_MOVE,
+    TRES_ENEMY_ACTION_TYPE_E_EX358_WARP,
+    TRES_ENEMY_ACTION_TYPE_E_EX358_ACTION,
+    TRES_ENEMY_ACTION_TYPE_E_EX358_ATTACK,
+    TRES_ENEMY_ACTION_TYPE_E_EX358_NONE,
+    TRES_ENEMY_ACTION_TYPE_E_EX358_MAX UMETA(Hidden),
+};
+

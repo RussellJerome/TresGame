@@ -1,0 +1,14 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "GUMI_SHIP_TREASURE_SE.generated.h"
+
+UENUM(BlueprintType)
+enum class GUMI_SHIP_TREASURE_SE : uint8 {
+    TREASURE_SE_CORE_LOOP_START,
+    TREASURE_SE_CORE_LOOP_ERROR,
+    TREASURE_SE_CORE_LOOP_END,
+    TREASURE_SE_LOOP_GEAR,
+    TREASURE_SE_GEAR_SUCCESS,
+    TREASURE_SE_MAX UMETA(Hidden),
+};
+

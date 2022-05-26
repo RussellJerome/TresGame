@@ -1,0 +1,28 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETresGumiShipSpWeaponType.generated.h"
+
+UENUM(BlueprintType)
+enum ETresGumiShipSpWeaponType {
+    SPWT_REPAIR_KIT,
+    SPWT_FORCE_FIELD,
+    SPWT_HEAVY_ROCKET,
+    SPWT_TWIN_SHOT,
+    SPWT_FIRE_STORM,
+    SPWT_LASER_SQUALL,
+    SPWT_SUNLIGHT_LASER,
+    SPWT_TEMPEST_KNUCKLE,
+    SPWT_HAMMER_HURRICANE,
+    SPWT_BARRIER_WALL,
+    SPWT_HOMING_LASER,
+    SPWT_AUTO_ATTACKER,
+    SPWT_ELECTRO_SHOT,
+    SPWT_SONIC_SCREAM,
+    SPWT_PILE_BUNKER,
+    SPWT_KNIGHT_KIT,
+    SPWT_TRINITY_FIRE,
+    SPWT_DECOY_TRIO,
+    SPWT_NONE,
+    SPWT_MAX UMETA(Hidden),
+};
+

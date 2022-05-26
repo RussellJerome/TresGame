@@ -1,0 +1,5 @@
+#include "TresBTDecorator_GigasBase_OverrideMoveAcceleration.h"
+
+UTresBTDecorator_GigasBase_OverrideMoveAcceleration::UTresBTDecorator_GigasBase_OverrideMoveAcceleration() {
+}
+

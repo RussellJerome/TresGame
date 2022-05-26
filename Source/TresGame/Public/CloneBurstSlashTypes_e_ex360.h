@@ -1,0 +1,13 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "CloneBurstSlashTypes_e_ex360.generated.h"
+
+UENUM(BlueprintType)
+enum CloneBurstSlashTypes_e_ex360 {
+    TRES_ENEMY_EX360_CLONEBURSTSLASH_MOVE_CUTDOWN,
+    TRES_ENEMY_EX360_CLONEBURSTSLASH_CUTUP,
+    TRES_ENEMY_EX360_CLONEBURSTSLASH_CUTDOWN,
+    TRES_ENEMY_EX360_CLONEBURSTSLASH_SHOOT,
+    TRES_ENEMY_EX360_CLONEBURSTSLASH_MAX UMETA(Hidden),
+};
+

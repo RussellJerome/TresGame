@@ -1,0 +1,5 @@
+#include "TresInterpTrackInstIndirectLightingCacheQualityControl.h"
+
+UTresInterpTrackInstIndirectLightingCacheQualityControl::UTresInterpTrackInstIndirectLightingCacheQualityControl() {
+}
+

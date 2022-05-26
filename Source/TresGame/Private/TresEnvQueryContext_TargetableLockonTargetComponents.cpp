@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_TargetableLockonTargetComponents.h"
+
+UTresEnvQueryContext_TargetableLockonTargetComponents::UTresEnvQueryContext_TargetableLockonTargetComponents() {
+}
+

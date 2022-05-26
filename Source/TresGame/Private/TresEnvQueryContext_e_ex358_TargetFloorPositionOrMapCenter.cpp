@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_e_ex358_TargetFloorPositionOrMapCenter.h"
+
+UTresEnvQueryContext_e_ex358_TargetFloorPositionOrMapCenter::UTresEnvQueryContext_e_ex358_TargetFloorPositionOrMapCenter() {
+}
+

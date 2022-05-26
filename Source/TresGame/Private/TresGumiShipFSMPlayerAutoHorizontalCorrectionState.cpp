@@ -1,0 +1,5 @@
+#include "TresGumiShipFSMPlayerAutoHorizontalCorrectionState.h"
+
+UTresGumiShipFSMPlayerAutoHorizontalCorrectionState::UTresGumiShipFSMPlayerAutoHorizontalCorrectionState() {
+}
+

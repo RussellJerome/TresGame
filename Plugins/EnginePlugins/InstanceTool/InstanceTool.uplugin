@@ -1,0 +1,18 @@
+{
+	"FileVersion": 3,
+	"Version": 9,
+	"VersionName": "1.1.5",
+	"FriendlyName": "Instance Tool",
+	"Description": "Edit instanced static mesh directly in editor viewports",
+	"Category": "Editor",
+	"CreatedBy": "marynate",
+	"CreatedByURL": "https://github.com/marynate",
+	"DocsURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/0283702886e8467383899c7b791c4b40",
+	"SupportURL": "",
+	"EnabledByDefault": true,
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": true
+}

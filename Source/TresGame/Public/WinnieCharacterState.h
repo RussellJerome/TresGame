@@ -1,0 +1,45 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "WinnieCharacterState.generated.h"
+
+UENUM(BlueprintType)
+enum WinnieCharacterState {
+    Rabbit_State_Idle,
+    Rabbit_State_See_Player,
+    Rabbit_State_See_Unit,
+    Rabbit_State_Happy,
+    Rabbit_State_Happy_Landing,
+    Rabbit_State_Move_In,
+    Rabbit_State_Well,
+    Rabbit_State_Harvest,
+    Rabbit_State_Harvest_End,
+    Rabbit_State_Landing,
+    Rabbit_State_Failure,
+    Tigger_State_Idle,
+    Tigger_State_Ready,
+    Tigger_State_Jump_Start,
+    Tigger_State_Entry,
+    Tigger_State_Bound_Ready,
+    Tigger_State_Bound_Moving,
+    Tigger_State_Standby,
+    Lumpy_State_Idle,
+    Lumpy_State_Ready,
+    Lumpy_State_Decrease,
+    Lumpy_State_Standby,
+    Gopher_State_Idle,
+    Gopher_State_Ready,
+    Gopher_State_Entry,
+    Gopher_State_Dive,
+    Gopher_State_Jump,
+    Gopher_State_Standby,
+    Pooh_State_Entry,
+    Pooh_State_Idle,
+    Pooh_State_Hungry,
+    Pooh_State_Happy,
+    Pooh_State_Happy_End,
+    Pooh_State_Level_Up,
+    Pooh_State_Eat_Honey,
+    Pooh_State_Down,
+    State_None = 0xFF,
+};
+

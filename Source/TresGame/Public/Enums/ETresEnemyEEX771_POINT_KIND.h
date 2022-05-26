@@ -1,0 +1,15 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETresEnemyEEX771_POINT_KIND.generated.h"
+
+UENUM(BlueprintType)
+enum ETresEnemyEEX771_POINT_KIND {
+    POINT_KIND_NONE,
+    POINT_KIND_FACE_CLAW,
+    POINT_KIND_HEAVENLY_PILLAR_START,
+    POINT_KIND_HEAVENLY_PILLAR_END,
+    POINT_KIND_FLARE_TORNADO,
+    POINT_KIND_ALL_PILLAR_HEIGHT,
+    POINT_KIND_MAX UMETA(Hidden),
+};
+

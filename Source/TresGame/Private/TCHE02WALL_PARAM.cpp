@@ -1,0 +1,6 @@
+#include "TCHE02WALL_PARAM.h"
+
+FTCHE02WALL_PARAM::FTCHE02WALL_PARAM() {
+    this->CameraShake = NULL;
+}
+

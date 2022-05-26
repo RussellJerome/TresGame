@@ -1,0 +1,5 @@
+#include "TresBTService_XIIILB_DisableBodyCollReactionNotify.h"
+
+UTresBTService_XIIILB_DisableBodyCollReactionNotify::UTresBTService_XIIILB_DisableBodyCollReactionNotify() {
+}
+

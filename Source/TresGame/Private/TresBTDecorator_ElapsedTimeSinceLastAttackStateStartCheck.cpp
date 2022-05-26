@@ -1,0 +1,5 @@
+#include "TresBTDecorator_ElapsedTimeSinceLastAttackStateStartCheck.h"
+
+UTresBTDecorator_ElapsedTimeSinceLastAttackStateStartCheck::UTresBTDecorator_ElapsedTimeSinceLastAttackStateStartCheck() {
+}
+

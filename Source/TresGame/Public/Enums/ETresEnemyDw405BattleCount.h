@@ -1,0 +1,13 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETresEnemyDw405BattleCount.generated.h"
+
+UENUM(BlueprintType)
+enum ETresEnemyDw405BattleCount {
+    TRES_ENEMY_DW405_BATTLECOUNT_ONE,
+    TRES_ENEMY_DW405_BATTLECOUNT_SECOND,
+    TRES_ENEMY_DW405_BATTLECOUNT_THIRD,
+    TRES_ENEMY_DW405_BATTLECOUNT_FOURTH,
+    TRES_ENEMY_DW405_BATTLECOUNT_MAX UMETA(Hidden),
+};
+

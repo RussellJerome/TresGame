@@ -1,0 +1,14 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "TetraBitActionTypes_e_ex781.generated.h"
+
+UENUM(BlueprintType)
+enum TetraBitActionTypes_e_ex781 {
+    TRES_ENEMY_EX781_BITACTION_WAIT,
+    TRES_ENEMY_EX781_BITACTION_MOVE,
+    TRES_ENEMY_EX781_BITACTION_ATTACK,
+    TRES_ENEMY_EX781_BITACTION_FORMATION,
+    TRES_ENEMY_EX781_BITACTION_FINISH,
+    TRES_ENEMY_EX781_BITACTION_MAX UMETA(Hidden),
+};
+

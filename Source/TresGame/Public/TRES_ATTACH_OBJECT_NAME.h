@@ -1,0 +1,12 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "TRES_ATTACH_OBJECT_NAME.generated.h"
+
+UENUM(BlueprintType)
+enum TRES_ATTACH_OBJECT_NAME {
+    TRES_ATTACH_OBJECT_OWNER,
+    TRES_ATTACH_OBJECT_ATTACH_TO_OBJECT,
+    TRES_ATTACH_OBJECT_ATTACH_TO_WEAPON,
+    TRES_ATTACH_OBJECT_MAX UMETA(Hidden),
+};
+

@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_TargetFutureFloorPositionFromNavMesh.h"
+
+UTresEnvQueryContext_TargetFutureFloorPositionFromNavMesh::UTresEnvQueryContext_TargetFutureFloorPositionFromNavMesh() {
+}
+

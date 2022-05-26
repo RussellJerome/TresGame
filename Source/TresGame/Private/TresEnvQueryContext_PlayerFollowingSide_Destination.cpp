@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_PlayerFollowingSide_Destination.h"
+
+UTresEnvQueryContext_PlayerFollowingSide_Destination::UTresEnvQueryContext_PlayerFollowingSide_Destination() {
+}
+

@@ -1,0 +1,16 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETrese_ex047WorldTypes.generated.h"
+
+UENUM(BlueprintType)
+enum ETrese_ex047WorldTypes {
+    TRES_ENEMY_EX047_WORLDTYPE_HE = 0x1,
+    TRES_ENEMY_EX047_WORLDTYPE_RA,
+    TRES_ENEMY_EX047_WORLDTYPE_MI,
+    TRES_ENEMY_EX047_WORLDTYPE_TS,
+    TRES_ENEMY_EX047_WORLDTYPE_CA,
+    TRES_ENEMY_EX047_WORLDTYPE_FZ,
+    TRES_ENEMY_EX047_WORLDTYPE_BX,
+    TRES_ENEMY_EX047_WORLDTYPE_MAX UMETA(Hidden),
+};
+
