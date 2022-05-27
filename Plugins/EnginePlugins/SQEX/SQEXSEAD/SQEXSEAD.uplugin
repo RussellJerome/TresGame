@@ -24,6 +24,6 @@
 			"Name" : "SQEXSEADEd",
 			"Type" : "Editor",
 			"LoadingPhase" : "PostConfigInit"
-		},
+		}
 	]
 }

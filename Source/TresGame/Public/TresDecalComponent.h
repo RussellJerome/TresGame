@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_DecalComponent -FallbackName=SQEX_DecalComponent
+#include "Components/SQEX_DecalComponent.h"
 #include "TresDecalComponent.generated.h"
 
 class UMaterialInstanceDynamic;
@@ -16,4 +16,3 @@ protected:
 public:
     UTresDecalComponent();
 };
-

@@ -1,18 +1,21 @@
 {
-	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0",
-	"FriendlyName": "SQEX Spline Editor",
-	"Description": "SQEX Spline Editor",
-	"Category": "SQEX",
-	"CreatedBy": "Squares Enix, Inc.",
-	"CreatedByURL": "https://sqex.sharepoint.com/sites/tres/default.aspx",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"SupportURL": "",
-	"EnabledByDefault": false,
-	"CanContainContent": false,
-	"IsBetaVersion": false,
-	"IsExperimentalVersion": false,
-	"Installed": false
+	"FileVersion" : 3,
+	"Version" : 1,
+	"VersionName" : "1.0",
+	"FriendlyName" : "SQEX Spline Editor",
+	"Description" : "SQEX Spline Editor",
+	"Category" : "SQEX",
+	"CreatedBy" : "Squares Enix, Inc.",
+	"CreatedByURL" : "https://sqex.sharepoint.com/sites/tres/default.aspx",
+	"DocsURL" : "",
+	"EnabledByDefault" : false,
+
+	"Modules" :
+	[
+		{
+			"Name" : "SQEX_SplineEditor",
+			"Type" : "Editor",
+			"LoadingPhase" : "Default"
+		}
+	]
 }
