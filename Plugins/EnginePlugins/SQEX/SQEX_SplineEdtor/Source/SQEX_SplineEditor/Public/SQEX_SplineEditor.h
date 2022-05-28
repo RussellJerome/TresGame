@@ -4,7 +4,7 @@
 
 
 UCLASS()
-class SQEX_SplineEditor : public UObject {
+class USQEX_SplineEditor : public UObject {
     GENERATED_BODY()
 public:
 };

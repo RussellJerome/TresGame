@@ -8,13 +8,14 @@
 #include "Engine/EngineTypes.h"
 #include "Engine/EngineTypes.h"
 #include "HoudiniToolDescription.h"
+#include "PhysicsEngine/BodySetupEnums.h"
 #include "HoudiniRuntimeSettings.generated.h"
 
 class UAssetUserData;
 class UPhysicalMaterial;
 class UFoliageType_InstancedStaticMesh;
 
-UCLASS(BlueprintType, DefaultConfig)
+UCLASS(BlueprintType, DefaultConfig, Config=Engine)
 class HOUDINIENGINERUNTIME_API UHoudiniRuntimeSettings : public UObject {
     GENERATED_BODY()
 public:
