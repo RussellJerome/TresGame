@@ -2,10 +2,11 @@
 #include "CoreMinimal.h"
 #include "ESQEX_Bonamik_GlobalOutOfCamera.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=DeveloperSettings -FallbackName=DeveloperSettings
+#include "Engine/DeveloperSettings.h"
 #include "UObject/NoExportTypes.h"
 #include "SQEX_BonamikGlobalConfig.generated.h"
 
-UCLASS(DefaultConfig)
+UCLASS(DefaultConfig, Config=Engine)
 class BONAMIKRT_API USQEX_BonamikGlobalConfig : public UDeveloperSettings {
     GENERATED_BODY()
 public:

@@ -7,7 +7,7 @@
 class USQEXSEADBGMSlot;
 class USQEXSEADBGMSlotController;
 
-UCLASS(DefaultConfig)
+UCLASS(DefaultConfig, Config=Engine)
 class SQEXSEAD_API USQEXSEADBGMManager : public UObject {
     GENERATED_BODY()
 public:
