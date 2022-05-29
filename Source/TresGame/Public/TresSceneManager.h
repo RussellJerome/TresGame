@@ -2,17 +2,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "ETresObjTypeProcChannel.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=TresVFXBlurParams -FallbackName=TresVFXBlurParams
 #include "UObject/NoExportTypes.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresScreenEffectPriority -FallbackName=ETresScreenEffectPriority
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=TresScreenBlurParams -FallbackName=TresScreenBlurParams
-#include "UObject/NoExportTypes.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=TresRadialBlurParams -FallbackName=TresRadialBlurParams
+#include "ESQEX_Enums.h"
 #include "ESqexCPPKHSWorldType.h"
 #include "ETresGrass.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=TresBloomRadialBlurParams -FallbackName=TresBloomRadialBlurParams
 #include "TresCameraAnim.h"
-#include "UObject/NoExportTypes.h"
 #include "TresSceneManager.generated.h"
 
 class UMaterialParameterCollection;

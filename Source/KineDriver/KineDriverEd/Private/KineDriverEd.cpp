@@ -1,6 +1,6 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
-#include "KineDriverEd.h"
+#include "KineDriver/KineDriverEd/Public/KineDriverEd.h"
 
 #define LOCTEXT_NAMESPACE "FKineDriverEdModule"
 

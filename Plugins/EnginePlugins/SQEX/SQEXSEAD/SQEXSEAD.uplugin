@@ -19,11 +19,6 @@
 			"Name": "SQEXSEAD",
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit"
-		},
-		{
-			"Name" : "SQEXSEADEd",
-			"Type" : "Editor",
-			"LoadingPhase" : "PostConfigInit"
 		}
 	]
 }

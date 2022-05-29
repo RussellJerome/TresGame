@@ -30,7 +30,7 @@ class UParticleSystemComponent;
 class UTresPlayerStateEvent;
 class UTresUICommandInfoBase;
 
-UCLASS(Abstract)
+UCLASS(Abstract, Config=Game)
 class ATresPlayerPawnBase : public ATresAIPawnBase {
     GENERATED_BODY()
 public:

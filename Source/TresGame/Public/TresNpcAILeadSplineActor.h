@@ -8,6 +8,7 @@
 #include "ETresChrUniqueID.h"
 #include "ETresFNPC_AI_LeadGoalAction.h"
 #include "ETresFNPC_AI_LeadGoalWaitRelease.h"
+#include "SQEX_SplineActor.h"
 #include "UObject/NoExportTypes.h"
 #include "TresNpcAILeadFinishBySplineActorDelegate.h"
 #include "TresNpcAILeadSplineActor.generated.h"

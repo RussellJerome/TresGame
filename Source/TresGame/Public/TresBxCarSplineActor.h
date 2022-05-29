@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_SplineActor -FallbackName=SQEX_SplineActor
 #include "EGimmickBX_CarSplineBlinker.h"
+#include "SQEX_SplineActor.h"
 #include "TresBxCarSplineActor.generated.h"
 
 UCLASS()

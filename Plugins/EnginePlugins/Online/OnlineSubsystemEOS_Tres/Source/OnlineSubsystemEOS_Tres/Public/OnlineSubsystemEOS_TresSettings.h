@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=DeveloperSettings -FallbackName=DeveloperSettings
 #include "OnlineSubsystemEOS_TresArtifact.h"
+#include "Engine/DeveloperSettings.h"
 #include "OnlineSubsystemEOS_TresSettings.generated.h"
 
 UCLASS(DefaultConfig, Config=EOS_Tres)

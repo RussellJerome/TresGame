@@ -1,9 +1,8 @@
 #pragma once
 #include "CoreMinimal.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ATTACH_OBJECT_NAME -FallbackName=ESQEX_ATTACH_OBJECT_NAME
 #include "UObject/NoExportTypes.h"
-#include "UObject/NoExportTypes.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ATTACH_EFFECT_END_TYPE -FallbackName=ESQEX_ATTACH_EFFECT_END_TYPE
+#include "AnimNode_SQEX_KineDriver.h"
+#include "ESQEX_Enums.h"
 #include "TresHologramWorldInitParam.h"
 #include "TresPhotoHologramEffectData.generated.h"
 

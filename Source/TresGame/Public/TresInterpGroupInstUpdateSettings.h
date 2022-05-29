@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Components/SkinnedMeshComponent.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=EMeshComponentUpdateFlag -FallbackName=EMeshComponentUpdateFlag
 #include "TresInterpGroupInstUpdateSettings.generated.h"
 

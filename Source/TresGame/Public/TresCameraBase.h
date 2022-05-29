@@ -3,9 +3,7 @@
 #include "Templates/SubclassOf.h"
 #include "Camera/PlayerCameraManager.h"
 #include "GameFramework/Actor.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ViewTargetTransitionParamsEx -FallbackName=ViewTargetTransitionParamsEx
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=EViewTargetBlendInterpYaw -FallbackName=EViewTargetBlendInterpYaw
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=EViewTargetBlendInterp -FallbackName=EViewTargetBlendInterp
+#include "SQEX_Structs.h"
 #include "Engine/Scene.h"
 #include "TresCameraBase.generated.h"
 

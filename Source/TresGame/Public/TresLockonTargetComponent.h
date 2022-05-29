@@ -3,6 +3,7 @@
 #include "TresGimmickComponentBase.h"
 #include "ETresLockonPriority.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_FreeFlowKind -FallbackName=ESQEX_FreeFlowKind
+#include "ESQEX_Enums.h"
 #include "TresLockonTargetDoLockSignatureDelegate.h"
 #include "TresLockonTargetComponent.generated.h"
 

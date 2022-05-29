@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Camera/CameraShake.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=CameraShake -FallbackName=CameraShake
 #include "TresCameraShake.generated.h"
 

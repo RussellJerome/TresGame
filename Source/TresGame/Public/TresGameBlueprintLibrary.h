@@ -77,6 +77,7 @@
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ViewTargetTransitionParamsEx -FallbackName=ViewTargetTransitionParamsEx
 #include "PRIZE_KIND.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ECameraAnimPlaySpace -FallbackName=ECameraAnimPlaySpace
+#include "ESQEX_Enums.h"
 #include "ETresDlcChallengeRecordID.h"
 #include "ETresGameOverKind.h"
 #include "ETresDlcCheatAchievementID.h"
@@ -104,6 +105,7 @@
 #include "ETresItemDefAccessory.h"
 #include "ETresdirectionType.h"
 #include "ETresGameLevelID.h"
+#include "TresCameraDebugOrthoTopView.h"
 #include "TresGameBlueprintLibrary.generated.h"
 
 class UObject;
