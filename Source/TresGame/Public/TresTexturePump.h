@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEXMatineeActorAsset -FallbackName=SQEXMatineeActorAsset
+#include "SQEXMatineeActorAsset.h"
 #include "TresTextureStream.h"
 #include "TresOverwriteAllowedMips.h"
 #include "TresTexturePump.generated.h"

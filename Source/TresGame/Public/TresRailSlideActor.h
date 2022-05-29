@@ -4,6 +4,8 @@
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_RAIL_SLIDE_DIR -FallbackName=ESQEX_RAIL_SLIDE_DIR
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_RAIL_SLIDE_TYPE -FallbackName=ESQEX_RAIL_SLIDE_TYPE
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_SplineJumpLimitType -FallbackName=ESQEX_SplineJumpLimitType
+#include "ESQEX_Enums.h"
+#include "SQEX_SplineActor.h"
 #include "UObject/NoExportTypes.h"
 #include "TresRailSlideActor.generated.h"
 

@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_FreeFlowKind -FallbackName=ESQEX_FreeFlowKind
+#include "ESQEX_Enums.h"
 #include "TresAIPawnBase.h"
 #include "TresEnemyRetryVoiceData.h"
 #include "ETresEnemyUniqueID.h"
