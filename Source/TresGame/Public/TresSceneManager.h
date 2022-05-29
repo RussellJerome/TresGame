@@ -11,6 +11,7 @@
 #include "ESqexCPPKHSWorldType.h"
 #include "ETresGrass.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=TresBloomRadialBlurParams -FallbackName=TresBloomRadialBlurParams
+#include "TresCameraAnim.h"
 #include "UObject/NoExportTypes.h"
 #include "TresSceneManager.generated.h"
 

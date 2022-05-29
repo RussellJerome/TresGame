@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "SQEX_VFXManager.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_VFXManager -FallbackName=SQEX_VFXManager
 #include "TresVFXManager.generated.h"
 
