@@ -4,6 +4,7 @@
 #include "DirectInputDeviceConfiguration.h"
 #include "DirectInputIgnoreDeviceSettings.h"
 #include "DirectInputCalibration.h"
+#include "Engine/DeveloperSettings.h"
 #include "DirectInputSettings.generated.h"
 
 UCLASS(DefaultConfig, Config=Input)

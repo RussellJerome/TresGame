@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_OceanEnvSwitchActor -FallbackName=SQEX_OceanEnvSwitchActor
+#include "SQEX_OceanEnvSwitchActor.h"
 #include "TresOceanEnvSwitchSignatureDelegate.h"
 #include "TresOceanEnvSwitchActor.generated.h"
 

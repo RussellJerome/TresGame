@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_SplineActor -FallbackName=SQEX_SplineActor
 #include "ETresGimmickEwDirectionType.h"
+#include "SQEX_SplineActor.h"
 #include "UObject/NoExportTypes.h"
 #include "TresEwGimmickSplineActor.generated.h"
 

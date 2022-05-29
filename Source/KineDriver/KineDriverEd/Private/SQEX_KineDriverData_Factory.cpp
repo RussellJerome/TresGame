@@ -1,7 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SQEX_KineDriverData_Factory.h"
+#include "KineDriver/KineDriverEd/Public/SQEX_KineDriverData_Factory.h"
+
 #include "AssetTypeCategories.h"
+#include "Package.h"
+#include "PackageName.h"
+#include "Paths.h"
 #include "SQEX_KineDriverData.h"
 
 USQEX_KineDriverData_Factory::USQEX_KineDriverData_Factory()

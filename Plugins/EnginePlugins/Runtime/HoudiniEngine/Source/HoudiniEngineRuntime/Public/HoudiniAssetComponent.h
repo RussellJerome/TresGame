@@ -3,6 +3,7 @@
 #include "Components/PrimitiveComponent.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ECollisionTraceFlag -FallbackName=ECollisionTraceFlag
 #include "Engine/EngineTypes.h"
+#include "PhysicsEngine/BodySetupEnums.h"
 #include "HoudiniAssetComponent.generated.h"
 
 class UPhysicalMaterial;

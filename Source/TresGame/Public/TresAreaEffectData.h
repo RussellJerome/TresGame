@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "TresEffectCustomAreaTriggerBox.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresAreaCustonEffectsType -FallbackName=ETresAreaCustonEffectsType
 #include "TresAreaEffectData.generated.h"
 

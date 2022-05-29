@@ -13,7 +13,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define SQEXSEAD_SQEXSEADAutoSeControlTrackKey_generated_h
 
-#define TresGame_Plugins_EnginePlugins_SQEX_SQEXSEAD_Source_SQEXSEAD_Public_SQEXSEADAutoSeControlTrackKey_h_8_GENERATED_BODY \
+#define TresGame_Plugins_EnginePlugins_SQEX_SQEXSEAD_Source_SQEXSEAD_Public_SQEXSEADAutoSeControlTrackKey_h_9_GENERATED_BODY \
 	friend SQEXSEAD_API class UScriptStruct* Z_Construct_UScriptStruct_FSQEXSEADAutoSeControlTrackKey(); \
 	SQEXSEAD_API static class UScriptStruct* StaticStruct();
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESqEX_BonePoseToMaterialSetParamType -FallbackName=ESqEX_BonePoseToMaterialSetParamType
+#include "TresAnimNode_ModifyBoneCurveParam.h"
 #include "UObject/NoExportTypes.h"
 #include "TresChangeMeshMaterialParamData.generated.h"
 

@@ -1,8 +1,8 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TresParamDispatcherPostInterpChangeDelegateDelegate.h"
-#include "TresParamDispatcherUpdateDelegateDelegate.h"
+#include "TresParamDispatcherPostInterpChangeDelegate.h"
+#include "TresParamDispatcherUpdateDelegate.h"
 #include "TresParamDispatcher.generated.h"
 
 UCLASS(Abstract)

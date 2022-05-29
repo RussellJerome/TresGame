@@ -16,4 +16,3 @@ protected:
 public:
     UTresPlayerState_AFMerryGoRound();
 };
-

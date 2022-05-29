@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "TresParamDispatcherUpdateDelegateDelegate.generated.h"
+#include "TresParamDispatcherUpdateDelegate.generated.h"
 
 UDELEGATE() DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTresParamDispatcherUpdateDelegate);
 
