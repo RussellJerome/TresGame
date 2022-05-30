@@ -1,6 +1,5 @@
 #pragma once
 #include "CoreMinimal.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=DeveloperSettings -FallbackName=DeveloperSettings
 #include "DirectInputDeviceConfiguration.h"
 #include "DirectInputIgnoreDeviceSettings.h"
 #include "DirectInputCalibration.h"
