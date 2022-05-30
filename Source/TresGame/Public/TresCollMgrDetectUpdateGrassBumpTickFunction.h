@@ -10,3 +10,12 @@ public:
     TRESGAME_API FTresCollMgrDetectUpdateGrassBumpTickFunction();
 };
 
+template<>
+struct TStructOpsTypeTraits<FTresCollMgrDetectUpdateGrassBumpTickFunction> : public TStructOpsTypeTraitsBase2<FTresCollMgrDetectUpdateGrassBumpTickFunction>
+{
+    enum
+    {
+        WithCopy = false
+    };
+};
+

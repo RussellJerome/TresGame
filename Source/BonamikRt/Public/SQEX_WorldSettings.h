@@ -4,8 +4,8 @@
 #include "SQEX_BonamikPresetWindSettings.h"
 #include "SQEX_WorldSettings.generated.h"
 
-UCLASS(MinimalAPI)
-class ASQEX_WorldSettings : public AWorldSettings {
+UCLASS()
+class BONAMIKRT_API ASQEX_WorldSettings : public AWorldSettings {
     GENERATED_BODY()
 public:
     UPROPERTY(EditAnywhere)

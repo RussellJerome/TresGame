@@ -10,3 +10,11 @@ public:
     TRESGAME_API FTresCollMgrDetectBodyCollTickFunction();
 };
 
+template<>
+struct TStructOpsTypeTraits<FTresCollMgrDetectBodyCollTickFunction> : public TStructOpsTypeTraitsBase2<FTresCollMgrDetectBodyCollTickFunction>
+{
+    enum
+    {
+        WithCopy = false
+    };
+};
