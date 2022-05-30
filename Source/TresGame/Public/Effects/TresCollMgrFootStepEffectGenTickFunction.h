@@ -10,3 +10,12 @@ public:
     TRESGAME_API FTresCollMgrFootStepEffectGenTickFunction();
 };
 
+template<>
+struct TStructOpsTypeTraits<FTresCollMgrFootStepEffectGenTickFunction> : public TStructOpsTypeTraitsBase2<FTresCollMgrFootStepEffectGenTickFunction>
+{
+    enum
+    {
+        WithCopy = false
+    };
+};
+
