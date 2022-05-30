@@ -35,7 +35,7 @@ void ATresFriendLinkPawnSnowCurling::SetupCamera_Implementation() {
 }
 
 
-void ATresFriendLinkPawnSnowCurling::OnHit_Implementation(TEnumAsByte<EPhysicalSurface> surfType) {
+void ATresFriendLinkPawnSnowCurling::OnHit_Implementation(EPhysicalSurface surfType) {
 }
 
 float ATresFriendLinkPawnSnowCurling::GetShortJumpFloorPitch() const {

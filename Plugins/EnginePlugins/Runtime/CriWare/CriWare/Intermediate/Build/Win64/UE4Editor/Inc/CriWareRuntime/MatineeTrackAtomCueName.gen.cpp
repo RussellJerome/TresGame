@@ -71,7 +71,7 @@ void EmptyLinkFunctionForGeneratedCodeMatineeTrackAtomCueName() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UMatineeTrackAtomCueName, 3474619189);
+	IMPLEMENT_CLASS(UMatineeTrackAtomCueName, 4130187903);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UMatineeTrackAtomCueName(Z_Construct_UClass_UMatineeTrackAtomCueName, &UMatineeTrackAtomCueName::StaticClass, TEXT("/Script/CriWareRuntime"), TEXT("UMatineeTrackAtomCueName"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UMatineeTrackAtomCueName);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -25,7 +25,7 @@ void EmptyLinkFunctionForGeneratedCodeCriWareRuntime_init() {}
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), nullptr, FName(TEXT("/Script/CriWareRuntime")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
 			FGuid Guid;
-			Guid.A = 0x04508341;
+			Guid.A = 0x4A50339F;
 			Guid.B = 0x8CC29EBB;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;

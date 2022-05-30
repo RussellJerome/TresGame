@@ -1,4 +1,4 @@
-#include "TresAttack_e_dw405_Base.h"
+#include "Base/TresAttack_e_dw405_Base.h"
 
 UTresAttack_e_dw405_Base::UTresAttack_e_dw405_Base() {
     this->m_bEnablePreWait = true;

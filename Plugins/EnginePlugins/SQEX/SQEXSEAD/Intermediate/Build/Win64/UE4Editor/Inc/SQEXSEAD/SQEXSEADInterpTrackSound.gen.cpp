@@ -58,7 +58,7 @@ void EmptyLinkFunctionForGeneratedCodeSQEXSEADInterpTrackSound() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(USQEXSEADInterpTrackSound, 4218876138);
+	IMPLEMENT_CLASS(USQEXSEADInterpTrackSound, 3969442632);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_USQEXSEADInterpTrackSound(Z_Construct_UClass_USQEXSEADInterpTrackSound, &USQEXSEADInterpTrackSound::StaticClass, TEXT("/Script/SQEXSEAD"), TEXT("USQEXSEADInterpTrackSound"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(USQEXSEADInterpTrackSound);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -18,6 +18,6 @@ protected:
     UTresStaticEQSItemManager* m_StaticEQSItemManager;
     
 public:
-    UTresAISystem();
+    UTresAISystem(const FObjectInitializer& ObjectInitializer);
 };
 

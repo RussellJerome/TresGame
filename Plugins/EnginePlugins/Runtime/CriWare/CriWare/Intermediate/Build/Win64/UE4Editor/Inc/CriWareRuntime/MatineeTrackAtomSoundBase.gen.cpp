@@ -58,7 +58,7 @@ void EmptyLinkFunctionForGeneratedCodeMatineeTrackAtomSoundBase() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UMatineeTrackAtomSoundBase, 1343305455);
+	IMPLEMENT_CLASS(UMatineeTrackAtomSoundBase, 3358454685);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UMatineeTrackAtomSoundBase(Z_Construct_UClass_UMatineeTrackAtomSoundBase, &UMatineeTrackAtomSoundBase::StaticClass, TEXT("/Script/CriWareRuntime"), TEXT("UMatineeTrackAtomSoundBase"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UMatineeTrackAtomSoundBase);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

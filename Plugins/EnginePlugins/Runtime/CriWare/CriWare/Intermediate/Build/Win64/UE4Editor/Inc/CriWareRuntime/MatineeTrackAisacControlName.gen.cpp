@@ -54,7 +54,7 @@ void EmptyLinkFunctionForGeneratedCodeMatineeTrackAisacControlName() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UMatineeTrackAisacControlName, 39217648);
+	IMPLEMENT_CLASS(UMatineeTrackAisacControlName, 3348135731);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UMatineeTrackAisacControlName(Z_Construct_UClass_UMatineeTrackAisacControlName, &UMatineeTrackAisacControlName::StaticClass, TEXT("/Script/CriWareRuntime"), TEXT("UMatineeTrackAisacControlName"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UMatineeTrackAisacControlName);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

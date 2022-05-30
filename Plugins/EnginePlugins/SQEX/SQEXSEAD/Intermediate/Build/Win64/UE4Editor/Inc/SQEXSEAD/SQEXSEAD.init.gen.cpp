@@ -20,7 +20,7 @@ void EmptyLinkFunctionForGeneratedCodeSQEXSEAD_init() {}
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), nullptr, FName(TEXT("/Script/SQEXSEAD")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
 			FGuid Guid;
-			Guid.A = 0xD5587F6F;
+			Guid.A = 0x0B5F75FF;
 			Guid.B = 0x11F90B2A;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;

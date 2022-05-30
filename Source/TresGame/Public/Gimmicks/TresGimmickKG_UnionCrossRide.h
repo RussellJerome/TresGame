@@ -61,7 +61,7 @@ public:
     void OnSplineMoveArrival();
     
     UFUNCTION(BlueprintNativeEvent)
-    void OnCommand(TEnumAsByte<ETresCommandKind> inCommand);
+    void OnCommand(ETresCommandKind inCommand);
     
     UFUNCTION(BlueprintNativeEvent)
     void NotifyTimingFromPawn(int32 InParam);
@@ -103,7 +103,7 @@ public:
     void CloseHudUx();
     
     UFUNCTION(BlueprintNativeEvent)
-    bool BP_CanbeCommand(TEnumAsByte<ETresCommandKind> inCommand) const;
+    bool BP_CanbeCommand(ETresCommandKind inCommand) const;
     
     UFUNCTION(BlueprintCallable)
     void AddFixedDamage(int32 Damage);

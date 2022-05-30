@@ -55,7 +55,7 @@ void EmptyLinkFunctionForGeneratedCodeSQEXSEADInterpTrackInstCategoryVolumeFade(
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(USQEXSEADInterpTrackInstCategoryVolumeFade, 25468705);
+	IMPLEMENT_CLASS(USQEXSEADInterpTrackInstCategoryVolumeFade, 2375088831);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_USQEXSEADInterpTrackInstCategoryVolumeFade(Z_Construct_UClass_USQEXSEADInterpTrackInstCategoryVolumeFade, &USQEXSEADInterpTrackInstCategoryVolumeFade::StaticClass, TEXT("/Script/SQEXSEAD"), TEXT("USQEXSEADInterpTrackInstCategoryVolumeFade"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(USQEXSEADInterpTrackInstCategoryVolumeFade);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

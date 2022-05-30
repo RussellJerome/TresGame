@@ -30,28 +30,28 @@ public:
     void ReceiveTick(float DeltaSeconds);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceivePlayerSpecificAction(TEnumAsByte<ETresPlayerSpecificActionID> ActionID, int32 SubID);
+    void ReceivePlayerSpecificAction(ETresPlayerSpecificActionID ActionID, int32 SubID);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceivePlayerEndCommandAction(TEnumAsByte<ETresCommandKind> CommandKind);
+    void ReceivePlayerEndCommandAction(ETresCommandKind CommandKind);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceivePlayerDtorState(TEnumAsByte<ETresStateID> StateID);
+    void ReceivePlayerDtorState(ETresStateID StateID);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceivePlayerCtorState(TEnumAsByte<ETresStateID> StateID);
+    void ReceivePlayerCtorState(ETresStateID StateID);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceivePlayerBeginCommandAction(TEnumAsByte<ETresCommandKind> CommandKind);
+    void ReceivePlayerBeginCommandAction(ETresCommandKind CommandKind);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveAnimNotifyStartBpEvent(ATresCharPawnBase* SendActor, FName AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int32 Param);
+    void ReceiveAnimNotifyStartBpEvent(ATresCharPawnBase* SendActor, FName AnimSeqName, ETresAnimNotifyBpEventID EventID, int32 Param);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveAnimNotifyEndBpEvent(ATresCharPawnBase* SendActor, FName AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int32 Param);
+    void ReceiveAnimNotifyEndBpEvent(ATresCharPawnBase* SendActor, FName AnimSeqName, ETresAnimNotifyBpEventID EventID, int32 Param);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveActorSpecificAction(TEnumAsByte<ETresActorSpecificActionID> ActionID, AActor* SendActor, int32 SubID);
+    void ReceiveActorSpecificAction(ETresActorSpecificActionID ActionID, AActor* SendActor, int32 SubID);
     
     UFUNCTION(BlueprintImplementableEvent)
     void Event_EnemyPopCamera(ATresNote* Note, const FString& Parameter, float Distance, const FVector& TargetOffset, const FRotator& Rotation, float FOV, TSubclassOf<UCameraShake> Shake, float EndDelay, float EndBlendTime);

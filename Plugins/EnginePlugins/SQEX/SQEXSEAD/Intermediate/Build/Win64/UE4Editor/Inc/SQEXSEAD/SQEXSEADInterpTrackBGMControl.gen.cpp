@@ -63,7 +63,7 @@ void EmptyLinkFunctionForGeneratedCodeSQEXSEADInterpTrackBGMControl() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(USQEXSEADInterpTrackBGMControl, 846259959);
+	IMPLEMENT_CLASS(USQEXSEADInterpTrackBGMControl, 536881999);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_USQEXSEADInterpTrackBGMControl(Z_Construct_UClass_USQEXSEADInterpTrackBGMControl, &USQEXSEADInterpTrackBGMControl::StaticClass, TEXT("/Script/SQEXSEAD"), TEXT("USQEXSEADInterpTrackBGMControl"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(USQEXSEADInterpTrackBGMControl);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

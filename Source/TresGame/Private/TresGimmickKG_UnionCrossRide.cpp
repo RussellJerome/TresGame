@@ -33,7 +33,7 @@ void ATresGimmickKG_UnionCrossRide::OpenHudUx() {
 void ATresGimmickKG_UnionCrossRide::OnSplineMoveArrival_Implementation() {
 }
 
-void ATresGimmickKG_UnionCrossRide::OnCommand_Implementation(TEnumAsByte<ETresCommandKind> inCommand) {
+void ATresGimmickKG_UnionCrossRide::OnCommand_Implementation(ETresCommandKind inCommand) {
 }
 
 void ATresGimmickKG_UnionCrossRide::NotifyTimingFromPawn_Implementation(int32 InParam) {
@@ -82,7 +82,7 @@ void ATresGimmickKG_UnionCrossRide::EndUnionCross(ATresCharPawnBase* pPawn) {
 void ATresGimmickKG_UnionCrossRide::CloseHudUx() {
 }
 
-bool ATresGimmickKG_UnionCrossRide::BP_CanbeCommand_Implementation(TEnumAsByte<ETresCommandKind> inCommand) const {
+bool ATresGimmickKG_UnionCrossRide::BP_CanbeCommand_Implementation(ETresCommandKind inCommand) const {
     return false;
 }
 

@@ -62,7 +62,7 @@ void EmptyLinkFunctionForGeneratedCodeMatineeTrackInstAtom() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UMatineeTrackInstAtom, 3849332195);
+	IMPLEMENT_CLASS(UMatineeTrackInstAtom, 3230416595);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UMatineeTrackInstAtom(Z_Construct_UClass_UMatineeTrackInstAtom, &UMatineeTrackInstAtom::StaticClass, TEXT("/Script/CriWareRuntime"), TEXT("UMatineeTrackInstAtom"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UMatineeTrackInstAtom);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
