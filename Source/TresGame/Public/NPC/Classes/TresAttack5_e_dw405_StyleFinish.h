@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "TresAttack_e_dw405_Base.h"
+#include "Base/TresAttack_e_dw405_Base.h"
 #include "TresAttack5_e_dw405_StyleFinish.generated.h"
 
 class UAnimSequenceBase;

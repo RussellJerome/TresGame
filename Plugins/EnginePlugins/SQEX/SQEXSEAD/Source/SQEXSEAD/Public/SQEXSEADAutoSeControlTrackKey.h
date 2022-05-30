@@ -1,7 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "TresEnvQueryGenerator_OnRingSurface.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=EPhysicalSurface -FallbackName=EPhysicalSurface
+#include "Engine/EngineTypes.h"
 #include "SQEXSEADAutoSeControlTrackKey.generated.h"
 
 USTRUCT(BlueprintType)

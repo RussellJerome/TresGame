@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "TresAttack_e_dw405_Base.h"
+#include "Base/TresAttack_e_dw405_Base.h"
 #include "TresAttack3_e_dw405_Avatar.generated.h"
 
 class UAnimSequenceBase;

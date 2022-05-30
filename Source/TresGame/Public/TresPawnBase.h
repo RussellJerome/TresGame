@@ -13,7 +13,6 @@
 #include "UObject/NoExportTypes.h"
 #include "Engine/EngineTypes.h"
 #include "ETresEnemyUniqueID.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_AI_ThinkType -FallbackName=ESQEX_AI_ThinkType
 #include "TresPawnBase.generated.h"
 
 class UTresBodyCollComponent;

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "CoreMinimal.h"
 #include "TresActionDefinitionBase.h"
 #include "TresAction_e_dw405_Interface.h"

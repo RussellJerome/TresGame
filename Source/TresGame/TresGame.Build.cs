@@ -17,6 +17,7 @@ public class TresGame : ModuleRules {
             "GameplayTasks",
             "InputCore",
             "KBDRt",
+			"KineDriverRt",
             "Mercuna",
             "Mercuna3DMovement",
             "MovieScene",

@@ -1,7 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "TresAttack_XIIILB_Base.h"
 #include "TresAction_e_ex357_ActionInterface.h"
+#include "TresAttack_XIIILB_Base.h"
 #include "TresAttack_e_ex357_Base.generated.h"
 
 UCLASS(Abstract, HideDropdown)
