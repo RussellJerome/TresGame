@@ -306,7 +306,7 @@ public:
     void BPEV_ChangePowerSavingMode(bool isSaving, UObject* who);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void BPE_ChangeCollisionResponseToChannel(ECollisionChannel Channel, TEnumAsByte<ECollisionResponse> Response);
+    void BPE_ChangeCollisionResponseToChannel(ECollisionChannel Channel, ECollisionResponse Response);
     
     UFUNCTION(BlueprintCallable)
     void BP_SetTeamNo(int32 InTeamNo);

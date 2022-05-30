@@ -24,7 +24,7 @@ protected:
     FMercunaMoveTaskCompletedSignature OnMoveFinished;
     
 public:
-    UMercunaTask_MoveTo();
+    UMercunaTask_MoveTo(const FObjectInitializer& ObjectInitializer);
 protected:
     UFUNCTION()
     void OnMoveComplete(FAIRequestID RequestID, TEnumAsByte<EMercunaMoveResult::Type> Result);

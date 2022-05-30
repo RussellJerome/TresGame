@@ -127,6 +127,7 @@ void EmptyLinkFunctionForGeneratedCodeMercunaTask_MoveTo() {}
 				UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
 				MetaData->SetValue(OuterClass, TEXT("IncludePath"), TEXT("MercunaTask_MoveTo.h"));
 				MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("Public/MercunaTask_MoveTo.h"));
+				MetaData->SetValue(OuterClass, TEXT("ObjectInitializerConstructorDeclared"), TEXT(""));
 				MetaData->SetValue(NewProp_OnMoveFinished, TEXT("ModuleRelativePath"), TEXT("Public/MercunaTask_MoveTo.h"));
 				MetaData->SetValue(NewProp_OnRequestFailed, TEXT("ModuleRelativePath"), TEXT("Public/MercunaTask_MoveTo.h"));
 #endif
@@ -135,7 +136,7 @@ void EmptyLinkFunctionForGeneratedCodeMercunaTask_MoveTo() {}
 		check(OuterClass->GetClass());
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UMercunaTask_MoveTo, 2573143950);
+	IMPLEMENT_CLASS(UMercunaTask_MoveTo, 3404910698);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UMercunaTask_MoveTo(Z_Construct_UClass_UMercunaTask_MoveTo, &UMercunaTask_MoveTo::StaticClass, TEXT("/Script/Mercuna"), TEXT("UMercunaTask_MoveTo"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UMercunaTask_MoveTo);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

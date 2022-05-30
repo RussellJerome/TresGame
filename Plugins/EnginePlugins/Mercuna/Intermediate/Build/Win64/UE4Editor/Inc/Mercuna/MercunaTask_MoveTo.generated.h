@@ -94,7 +94,7 @@ public: \
 
 #define TresGame_Plugins_EnginePlugins_Mercuna_Source_Mercuna_Public_MercunaTask_MoveTo_h_17_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
-	NO_API UMercunaTask_MoveTo(const FObjectInitializer& ObjectInitializer); \
+	NO_API UMercunaTask_MoveTo(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMercunaTask_MoveTo) \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMercunaTask_MoveTo); \
 DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMercunaTask_MoveTo); \
@@ -113,7 +113,7 @@ private: \
 public: \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UMercunaTask_MoveTo); \
 DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UMercunaTask_MoveTo); \
-	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UMercunaTask_MoveTo)
+	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMercunaTask_MoveTo)
 
 
 #define TresGame_Plugins_EnginePlugins_Mercuna_Source_Mercuna_Public_MercunaTask_MoveTo_h_17_PRIVATE_PROPERTY_OFFSET \

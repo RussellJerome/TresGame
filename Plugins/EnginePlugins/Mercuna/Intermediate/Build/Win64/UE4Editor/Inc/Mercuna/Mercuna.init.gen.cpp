@@ -26,7 +26,7 @@ void EmptyLinkFunctionForGeneratedCodeMercuna_init() {}
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), nullptr, FName(TEXT("/Script/Mercuna")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
 			FGuid Guid;
-			Guid.A = 0x8C531102;
+			Guid.A = 0x782D14D3;
 			Guid.B = 0xC2E58B3B;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;

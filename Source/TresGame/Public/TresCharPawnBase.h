@@ -394,10 +394,10 @@ public:
     void ReceiveTresTakeDamage(float DamagePoint, AController* InstigatedBy, const FHitResult& HitInfo, const FTresDamageInfo& DamageInfo, FVector ShotFromDirection, AActor* DamageCauser);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveDtorState(TEnumAsByte<ETresStateID> StateID);
+    void ReceiveDtorState(ETresStateID StateID);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveCtorState(TEnumAsByte<ETresStateID> StateID);
+    void ReceiveCtorState(ETresStateID StateID);
     
     UFUNCTION(BlueprintImplementableEvent)
     void ReceiveAnimNotifyStartBpEvent(FName AnimSeqName, ETresAnimNotifyBpEventID EventID, int32 Param);
@@ -424,7 +424,7 @@ public:
     void K2_UpdateCustomMovement(float DeltaTime);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void K2_OnMovementModeChanged(TEnumAsByte<EMovementMode> PrevMovementMode, TEnumAsByte<EMovementMode> NewMovementMode, uint8 PrevCustomMode, uint8 NewCustomMode);
+    void K2_OnMovementModeChanged(EMovementMode PrevMovementMode, EMovementMode NewMovementMode, uint8 PrevCustomMode, uint8 NewCustomMode);
     
     UFUNCTION(BlueprintPure)
     bool IsStopAI() const;
