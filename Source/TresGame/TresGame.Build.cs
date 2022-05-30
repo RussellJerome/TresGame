@@ -22,6 +22,7 @@ public class TresGame : ModuleRules {
             "Mercuna3DMovement",
             "MovieScene",
             "MovieSceneTracks",
+            "RenderCore",
             "Renderer",
             "SQEXSEAD",
             "ScaleformUI",
