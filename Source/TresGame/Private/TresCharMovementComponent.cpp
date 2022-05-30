@@ -213,6 +213,64 @@ void UTresCharMovementComponent::AddImpulse(FVector Impulse, bool bVelocityChang
 void UTresCharMovementComponent::AddForce(FVector Force) {
 }
 
+void UTresCharMovementComponent::SetRVOAvoidanceUID(int32 UID)
+{
+}
+
+int32 UTresCharMovementComponent::GetRVOAvoidanceUID()
+{
+    return 0;
+}
+
+void UTresCharMovementComponent::SetRVOAvoidanceWeight(float Weight)
+{
+}
+
+float UTresCharMovementComponent::GetRVOAvoidanceWeight()
+{
+    return 0.f;
+}
+	
+FVector UTresCharMovementComponent::GetRVOAvoidanceOrigin()
+{
+    return FVector(0);
+}
+	
+float UTresCharMovementComponent::GetRVOAvoidanceRadius()
+{
+    return 0.f;
+}
+	
+float UTresCharMovementComponent::GetRVOAvoidanceHeight()
+{
+    return 0.f;
+}
+	
+float UTresCharMovementComponent::GetRVOAvoidanceConsiderationRadius()
+{
+    return 0.f;
+}
+	
+FVector UTresCharMovementComponent::GetVelocityForRVOConsideration()
+{
+    return FVector(0);
+}
+	
+int32 UTresCharMovementComponent::GetAvoidanceGroupMask()
+{
+    return 0;
+}
+	
+int32 UTresCharMovementComponent::GetGroupsToAvoidMask()
+{
+    return 0;
+}
+	
+int32 UTresCharMovementComponent::GetGroupsToIgnoreMask()
+{
+    return 0;
+}
+
 UTresCharMovementComponent::UTresCharMovementComponent() {
     this->GravityScale = 1.00f;
     this->MaxStepHeight = 45.00f;

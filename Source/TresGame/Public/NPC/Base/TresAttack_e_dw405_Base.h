@@ -1,8 +1,8 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "TresAttackDefinitionBase.h"
-#include "TresAction_e_dw405_Interface.h"
 #include "ETresEnemyDw405AttackPossibleKind.h"
+#include "TresAction_e_dw405_Interface.h"
 #include "TresAttack_e_dw405_Base.generated.h"
 
 UCLASS(Abstract)

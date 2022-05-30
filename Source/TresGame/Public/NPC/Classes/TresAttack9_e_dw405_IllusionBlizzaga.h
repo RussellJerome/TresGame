@@ -3,6 +3,7 @@
 #include "Templates/SubclassOf.h"
 #include "TresE_dw405IllusionBlizzagaProjectileParam.h"
 #include "TresAttack_e_dw405_Base.h"
+#include "Base/TresAttack_e_dw405_Base.h"
 #include "TresAttack9_e_dw405_IllusionBlizzaga.generated.h"
 
 class UAnimSequenceBase;

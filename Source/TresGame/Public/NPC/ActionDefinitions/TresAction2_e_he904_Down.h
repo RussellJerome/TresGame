@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "TresAction_e_he90y_Down.h"
+#include "SQEX_CharBase.h"
 #include "TresAction2_e_he904_Down.generated.h"
 
 UCLASS(HideDropdown)
