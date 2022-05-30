@@ -10,6 +10,7 @@ public class KineDriverRt : ModuleRules {
             "Core",
             "CoreUObject",
             "Engine",
+			"RenderCore",
         });
     }
 }

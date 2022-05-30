@@ -243,7 +243,7 @@ public:
     void ReceiveGimmickEndActorRide(AActor* RideActor, UPrimitiveComponent* Component, const FName BoneName);
     
     UFUNCTION(BlueprintAuthorityOnly, BlueprintImplementableEvent)
-    void ReceiveGimmickDoCommand(ATresCharPawnBase* InCommandCauser, TEnumAsByte<ETresCommandKind> InCommandID);
+    void ReceiveGimmickDoCommand(ATresCharPawnBase* InCommandCauser, ETresCommandKind InCommandID);
     
     UFUNCTION(BlueprintImplementableEvent)
     void ReceiveGimmickChangeActorRideBone(AActor* RideActor, UPrimitiveComponent* Component, const FName BoneName);
@@ -306,7 +306,7 @@ public:
     void BPEV_ChangePowerSavingMode(bool isSaving, UObject* who);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void BPE_ChangeCollisionResponseToChannel(TEnumAsByte<ECollisionChannel> Channel, TEnumAsByte<ECollisionResponse> Response);
+    void BPE_ChangeCollisionResponseToChannel(ECollisionChannel Channel, TEnumAsByte<ECollisionResponse> Response);
     
     UFUNCTION(BlueprintCallable)
     void BP_SetTeamNo(int32 InTeamNo);

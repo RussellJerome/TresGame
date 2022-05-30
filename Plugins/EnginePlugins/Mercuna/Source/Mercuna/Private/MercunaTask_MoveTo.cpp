@@ -11,6 +11,6 @@ UMercunaTask_MoveTo* UMercunaTask_MoveTo::MercunaMoveTo(AAIController* Controlle
     return NULL;
 }
 
-UMercunaTask_MoveTo::UMercunaTask_MoveTo() {
+UMercunaTask_MoveTo::UMercunaTask_MoveTo(const FObjectInitializer& ObjectInitializer) : UAITask(ObjectInitializer){
 }
 

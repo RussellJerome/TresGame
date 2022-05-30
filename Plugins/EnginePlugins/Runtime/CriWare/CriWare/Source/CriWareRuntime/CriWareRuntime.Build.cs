@@ -9,6 +9,7 @@ public class CriWareRuntime : ModuleRules {
             "CoreUObject",
             "Engine",
             "MovieScene",
+            "RenderCore",
         });
     }
 }

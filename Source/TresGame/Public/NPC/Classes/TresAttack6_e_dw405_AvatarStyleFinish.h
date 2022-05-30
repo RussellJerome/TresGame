@@ -3,6 +3,7 @@
 #include "Templates/SubclassOf.h"
 #include "TresAttack_e_dw405_Base.h"
 #include "TresE_dw405_AvatarStyleFinishVelocityParam.h"
+#include "Base/TresAttack_e_dw405_Base.h"
 #include "TresAttack6_e_dw405_AvatarStyleFinish.generated.h"
 
 class UAnimSequenceBase;

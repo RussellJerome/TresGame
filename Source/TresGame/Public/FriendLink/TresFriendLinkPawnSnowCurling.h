@@ -3,7 +3,7 @@
 #include "TresFriendLinkPawnBase.h"
 #include "UObject/NoExportTypes.h"
 #include "EIceRaileCameraType.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=EPhysicalSurface -FallbackName=EPhysicalSurface
+#include "Engine/EngineTypes.h"
 #include "TresFriendLinkPawnSnowCurling.generated.h"
 
 class UParticleSystem;
@@ -600,10 +600,10 @@ public:
     void SetupCamera();
     
     UFUNCTION(BlueprintImplementableEvent)
-    void OnSnowCurlingDamage(TEnumAsByte<EPhysicalSurface> surfType);
+    void OnSnowCurlingDamage(EPhysicalSurface surfType);
     
     UFUNCTION(BlueprintNativeEvent)
-    void OnHit(TEnumAsByte<EPhysicalSurface> surfType);
+    void OnHit(EPhysicalSurface surfType);
     
     UFUNCTION(BlueprintPure)
     float GetShortJumpFloorPitch() const;

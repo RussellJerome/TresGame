@@ -92,7 +92,7 @@ public:
     void ReceiveTresFriendTakeDamage(ATresNpcPawnBase* Pawn, int32 DamagePoint);
     
     UFUNCTION(BlueprintAuthorityOnly, BlueprintImplementableEvent)
-    void ReceiveTresEnemyKilled(ATresEnemyPawnBase* Pawn, ATresPawnBase* KillerPawn, TEnumAsByte<ETresCommandKind> CmdKind, FTresDamageInfo InDamageInfo);
+    void ReceiveTresEnemyKilled(ATresEnemyPawnBase* Pawn, ATresPawnBase* KillerPawn, ETresCommandKind CmdKind, FTresDamageInfo InDamageInfo);
     
     UFUNCTION(BlueprintCallable)
     void RaiseWipeOutEventForGumi(AActor* pTarget, const ETresGumiShipEnemyID eEnemyID);

@@ -400,10 +400,10 @@ public:
     void ReceiveCtorState(TEnumAsByte<ETresStateID> StateID);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveAnimNotifyStartBpEvent(FName AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int32 Param);
+    void ReceiveAnimNotifyStartBpEvent(FName AnimSeqName, ETresAnimNotifyBpEventID EventID, int32 Param);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void ReceiveAnimNotifyEndBpEvent(FName AnimSeqName, TEnumAsByte<ETresAnimNotifyBpEventID> EventID, int32 Param);
+    void ReceiveAnimNotifyEndBpEvent(FName AnimSeqName, ETresAnimNotifyBpEventID EventID, int32 Param);
     
     UFUNCTION(BlueprintImplementableEvent)
     void OnLaunchedCharPawn(float Height);

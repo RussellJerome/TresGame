@@ -37,7 +37,7 @@ public:
     void BP_PostEnableCampRenderMode(bool isCampMode);
     
     UFUNCTION(BlueprintImplementableEvent)
-    void BP_ChangeWorldType(TEnumAsByte<ESqexCPPKHSWorldType> inValue);
+    void BP_ChangeWorldType(ESqexCPPKHSWorldType inValue);
     
     UFUNCTION(BlueprintImplementableEvent)
     void BP_BlendWLVPowerB(float inValue, float Weight);
