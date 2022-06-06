@@ -1,29 +1,28 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UI/TresUIParts.h"
-#include "GFxObject.h"
+#include "TresUIParts.h"
 #include "TresUIP_BrightnessOption.generated.h"
 
-/**
- * 
- */
+class UGFxObject;
+
 UCLASS()
-class TRESGAME_API UTresUIP_BrightnessOption : public UTresUIParts
-{
-	GENERATED_BODY()
+class UTresUIP_BrightnessOption : public UTresUIParts {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIP_BrightnessOption")
-	class UGFxObject* m_pBrightSlider;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIP_BrightnessOption")
-	class UGFxObject* m_pBrightDecideText;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIP_BrightnessOption")
-	class UGFxObject* m_pBrightCancelText;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIP_BrightnessOption")
-	class UGFxObject* m_pBrightDescriptionText;
+private:
+    UPROPERTY(Transient)
+    UGFxObject* m_pBrightSlider;
+    
+    UPROPERTY(Transient)
+    UGFxObject* m_pBrightDecideText;
+    
+    UPROPERTY(Transient)
+    UGFxObject* m_pBrightCancelText;
+    
+    UPROPERTY(Transient)
+    UGFxObject* m_pBrightDescriptionText;
+    
+public:
+    UTresUIP_BrightnessOption();
 };
+

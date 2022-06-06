@@ -1,34 +1,39 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TresNavLinkSet_Common.h"
+#include "Engine/EngineTypes.h"
 #include "TresTreeJumpActor_Common.generated.h"
 
+class UBoxComponent;
+class USceneComponent;
+class UPrimitiveComponent;
+
 UCLASS()
-class TRESGAME_API ATresTreeJumpActor_Common : public AActor
-{
-	GENERATED_BODY()
+class ATresTreeJumpActor_Common : public AActor {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreeJumpActor_Common")
-	class USceneComponent* SceneComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreeJumpActor_Common")
-	class UBoxComponent* BoxComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreeJumpActor_Common")
-	class UBoxComponent* OverlapBox;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreeJumpActor_Common")
-	//TArray<struct FTresNavLinkSet_Common> NavLinkSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreeJumpActor_Common")
-	bool bRefreshNavLink;
-
-	UFUNCTION(BlueprintCallable, Category = "TresTreeJumpActor_Common")
-	void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresTreeJumpActor_Common")
-	void OnBeginOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
+    UPROPERTY(Export)
+    USceneComponent* SceneComponent;
+    
+    UPROPERTY(Export, VisibleAnywhere)
+    UBoxComponent* BoxComponent;
+    
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere)
+    UBoxComponent* OverlapBox;
+    
+    UPROPERTY(EditInstanceOnly)
+    TArray<FTresNavLinkSet_Common> NavLinkSet;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 bRefreshNavLink: 1;
+    
+    ATresTreeJumpActor_Common();
+    UFUNCTION()
+    void OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+    
+    UFUNCTION()
+    void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    
 };
+

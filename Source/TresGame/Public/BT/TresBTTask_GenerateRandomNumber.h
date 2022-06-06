@@ -1,28 +1,25 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "TresBTTask_GenerateRandomNumber.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTTask_GenerateRandomNumber : public UBTTaskNode
-{
-	GENERATED_BODY()
+class UTresBTTask_GenerateRandomNumber : public UBTTaskNode {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_GenerateRandomNumber")
-	FBlackboardKeySelector m_BlackboardKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_GenerateRandomNumber")
-	bool m_bUseRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_GenerateRandomNumber")
-	float m_MinValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_GenerateRandomNumber")
-	float m_MaxValue;
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_BlackboardKey;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 m_bUseRange: 1;
+    
+    UPROPERTY(EditAnywhere)
+    float m_MinValue;
+    
+    UPROPERTY(EditAnywhere)
+    float m_MaxValue;
+    
+    UTresBTTask_GenerateRandomNumber();
 };
+

@@ -1,20 +1,22 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UI/TresUIParts.h"
-#include "GFxObject.h"
+#include "TresUIParts.h"
 #include "TresUIP_MapName.generated.h"
 
-/**
- * 
- */
+class UGFxObject;
+
 UCLASS()
-class TRESGAME_API UTresUIP_MapName : public UTresUIParts
-{
-	GENERATED_BODY()
+class UTresUIP_MapName : public UTresUIParts {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIP_MapName")
-	class UGFxObject* m_MapNameRoot;
+private:
+    UPROPERTY(Transient)
+    UGFxObject* m_MapNameRoot;
+    
+public:
+    UTresUIP_MapName();
+    UFUNCTION()
+    int32 OnCallback(int32 ID, int32 Param);
+    
 };
+

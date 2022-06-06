@@ -1,0 +1,5 @@
+#include "TresAttack15_e_ex354_SpawnArtemaWarpShotSequence.h"
+
+UTresAttack15_e_ex354_SpawnArtemaWarpShotSequence::UTresAttack15_e_ex354_SpawnArtemaWarpShotSequence() {
+}
+

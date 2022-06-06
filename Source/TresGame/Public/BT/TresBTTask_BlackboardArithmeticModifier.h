@@ -1,38 +1,35 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresBTTask_BlackboardValueModifierBase.h"
-#include "TresGame.h"
+#include "TresBTTask_BlackboardValueModifierBase.h"
+#include "ETresArithmeticModifierSource.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "TresBTTask_BlackboardArithmeticModifier.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTTask_BlackboardArithmeticModifier : public UTresBTTask_BlackboardValueModifierBase
-{
-	GENERATED_BODY()
+class UTresBTTask_BlackboardArithmeticModifier : public UTresBTTask_BlackboardValueModifierBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	TEnumAsByte<ETresArithmeticModifierSource::Type> ValueTypeB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	bool bUseBlackboardB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	bool bUsePropertyOrFunctionB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	bool bUseLiteralB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	FBlackboardKeySelector BlackboardKeyB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	FName PropertyNameB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_BlackboardArithmeticModifier")
-	float LiteralValueB;
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<ETresArithmeticModifierSource::Type> ValueTypeB;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 bUseBlackboardB: 1;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 bUsePropertyOrFunctionB: 1;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 bUseLiteralB: 1;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector BlackboardKeyB;
+    
+    UPROPERTY(EditAnywhere)
+    FName PropertyNameB;
+    
+    UPROPERTY(EditAnywhere)
+    float LiteralValueB;
+    
+    UTresBTTask_BlackboardArithmeticModifier();
 };
+

@@ -1,0 +1,48 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "WinniePlayerAnimationType.generated.h"
+
+UENUM(BlueprintType)
+enum class WinniePlayerAnimationType : uint8 {
+    IdleN,
+    IdleB,
+    IdleBreakN,
+    IdleBreakW,
+    WalkLoopN,
+    WalkLoopW,
+    WalkLoopB,
+    WalkEndL,
+    WalkEndLW,
+    WalkEndLB,
+    WalkEndR,
+    WalkEndRW,
+    WalkEndRB,
+    RunStartN,
+    RunStartW,
+    RunStartB,
+    RunLoopN,
+    RunLoopW,
+    RunLoopB,
+    RunEndL,
+    RunEndLW,
+    RunEndLB,
+    RunEndR,
+    RunEndRW,
+    RunEndRB,
+    Turn,
+    ShotPrepare,
+    Shot,
+    Strike,
+    RollLoop,
+    RollEnd,
+    Greeting,
+    HarvestStart,
+    HarvestLoop,
+    HarvestEnd,
+    Entry,
+    SuccessStart,
+    SuccessLoop,
+    FailureStart,
+    FailureLoop,
+};
+

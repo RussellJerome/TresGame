@@ -1,16 +1,19 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UI/TresUIParts.h"
+#include "TresUIParts.h"
 #include "TresUIP_BattleReport.generated.h"
 
-/**
- * 
- */
+class UGFxObject;
+
 UCLASS()
-class TRESGAME_API UTresUIP_BattleReport : public UTresUIParts
-{
-	GENERATED_BODY()
+class UTresUIP_BattleReport : public UTresUIParts {
+    GENERATED_BODY()
+public:
+private:
+    UPROPERTY(Transient)
+    UGFxObject* m_pButtonInfoText;
+    
+public:
+    UTresUIP_BattleReport();
 };
+

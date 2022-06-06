@@ -1,0 +1,45 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETresShopID.generated.h"
+
+UENUM(BlueprintType)
+enum class ETresShopID : uint8 {
+    NOTHING,
+    COMMON,
+    BT_MOOGLE1,
+    DB_MOOGLE1,
+    DW_MOOGLE1,
+    HE_MOOGLE1,
+    TS_MOOGLE1,
+    CS_MOOGLE1,
+    RA_MOOGLE1,
+    FZ_MOOGLE1,
+    CA_MOOGLE1,
+    PO_MOOGLE1,
+    MI_MOOGLE1,
+    TT_MOOGLE1,
+    YT_MOOGLE1,
+    KB_MOOGLE1,
+    FW_MOOGLE1,
+    DC_MOOGLE1,
+    WI_MOOGLE1,
+    IN_MOOGLE1,
+    BX_MOOGLE1,
+    SR_MOOGLE1,
+    CO_MOOGLE1,
+    EW_MOOGLE1,
+    DI_MOOGLE1,
+    RG_MOOGLE1,
+    DP_MOOGLE1,
+    SF_MOOGLE1,
+    GM_MOOGLE1,
+    WM_MOOGLE1,
+    GUMI_SHOP_L1,
+    GUMI_SHOP_L2,
+    GUMI_SHOP_L3,
+    GUMI_SHOP_L4,
+    GUMI_SHOP_L5,
+    GUMI_SHOP_L6,
+    _MAX UMETA(Hidden),
+};
+

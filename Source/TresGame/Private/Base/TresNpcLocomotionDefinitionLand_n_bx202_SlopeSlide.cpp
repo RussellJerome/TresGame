@@ -1,0 +1,5 @@
+#include "TresNpcLocomotionDefinitionLand_n_bx202_SlopeSlide.h"
+
+UTresNpcLocomotionDefinitionLand_n_bx202_SlopeSlide::UTresNpcLocomotionDefinitionLand_n_bx202_SlopeSlide() {
+}
+

@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_AllyLocationsAndDestinations.h"
+
+UTresEnvQueryContext_AllyLocationsAndDestinations::UTresEnvQueryContext_AllyLocationsAndDestinations() {
+}
+

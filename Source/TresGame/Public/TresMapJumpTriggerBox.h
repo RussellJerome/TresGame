@@ -1,31 +1,32 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "ETresMapJumpFadeKind.h"
 #include "TresTriggerBox.h"
-#include "TresGame.h"
+#include "TresMapJumpTriggerBoxSignatureDelegate.h"
 #include "TresMapJumpTriggerBox.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API ATresMapJumpTriggerBox : public ATresTriggerBox
-{
-	GENERATED_BODY()
+class ATresMapJumpTriggerBox : public ATresTriggerBox {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpTriggerBox")
-	FName m_MapName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpTriggerBox")
-	FName m_TargetTag;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpTriggerBox")
-	TEnumAsByte<ETresMapJumpFadeKind> m_FadeType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresMapJumpTriggerBox")
-	bool m_BlueprintMapJump;
-
-	//struct FScriptMulticastDelegate OnMapJump;
+    UPROPERTY(EditAnywhere)
+    FName m_MapName;
+    
+    UPROPERTY(EditAnywhere)
+    FName m_TargetTag;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<ETresMapJumpFadeKind> m_FadeType;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_BlueprintMapJump;
+    
+    UPROPERTY(BlueprintAssignable)
+    FTresMapJumpTriggerBoxSignature OnMapJump;
+    
+    ATresMapJumpTriggerBox();
+    UFUNCTION(BlueprintCallable)
+    void InvokeMapJump();
+    
 };
+

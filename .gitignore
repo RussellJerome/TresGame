@@ -76,3 +76,8 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+.idea/.idea.TresGame/.idea/vcs.xml
+.idea/.idea.TresGame/.idea/indexLayout.xml
+.idea/.idea.TresGame/.idea/encodings.xml
+.idea/.idea.TresGame/.idea/misc.xml
+TresGame.sln.DotSettings.user

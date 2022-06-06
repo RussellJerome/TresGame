@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_QuerierFloorPositionFromNavmeshAndCollisionCheck.h"
+
+UTresEnvQueryContext_QuerierFloorPositionFromNavmeshAndCollisionCheck::UTresEnvQueryContext_QuerierFloorPositionFromNavmeshAndCollisionCheck() {
+}
+

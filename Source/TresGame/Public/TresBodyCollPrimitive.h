@@ -1,94 +1,95 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "ETresBodyCollision.h"
 #include "Components/PrimitiveComponent.h"
-#include "TresGame.h"
+#include "TresBodyCollInterface.h"
+#include "UObject/NoExportTypes.h"
+#include "Engine/EngineTypes.h"
+#include "ETresBodyCollReactionType.h"
+#include "ETresBodyCollOverlapCameraFunction.h"
+#include "TresBodyTakeDamageEffect.h"
 #include "TresBodyCollPrimitive.generated.h"
 
-UENUM(BlueprintType)
-enum ETresBodyCollision
-{
-	SPHERE = 0 UMETA(DisplayName = "Sphere"),
-	CAPSULE = 1 UMETA(DisplayName = "Capsule"),
-	BOX = 2 UMETA(DisplayName = "Box"),
-	CONVEX = 3 UMETA(DisplayName = "Convex"),
-	MAX = 4 UMETA(Hidden),
-	ETresBodyCollision_MAX = 5 UMETA(Hidden)
-};
+class UTresBodyCollPrimitive;
+class AActor;
+class UStaticMesh;
+class UBodySetup;
 
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParam(FTresBodyEndOverlap, class UTresBodyCollPrimitive*, MyPrimitive, class AActor*, OtherActor, class UPrimitiveComponent*, OtherComp, int, OtherBodyIndex);
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParam(FTresBodyBeginOverlap, class UTresBodyCollPrimitive*, MyPrimitive, class AActor*, OtherActor, class UPrimitiveComponent*, OtherComp, int, OtherBodyIndex, bool, bFromSweep, const FHitResult&, SweepResult)
-
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresBodyCollPrimitive : public UPrimitiveComponent
-{
-	GENERATED_BODY()
+UCLASS(EditInlineNew, ClassGroup=Custom, Config=Game, meta=(BlueprintSpawnableComponent))
+class UTresBodyCollPrimitive : public UPrimitiveComponent, public ITresBodyCollInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	FName MyBodyName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	uint8 MyIgnoreNameNoneGroup;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	TEnumAsByte<ETresBodyCollision> MyShapeType;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	class UStaticMesh* MyShapeMesh;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	FVector MyShapeSize;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	ETresBodyCollReactionType m_BodyReactionType;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool m_bFixedBodyReactionType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool m_bEnableDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool m_bEnablePush;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool m_bEnableCamera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool m_bEnableBlockCamera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	TEnumAsByte<ETresBodyCollOverlapCameraFunction> m_OverlapCameraFunction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	bool m_bIsBodyCollBaseLocationDist3D;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	TArray<FTresBodyTakeDamageEffect> m_DamageEffects;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	class UBodySetup* m_pBodySetup;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	class UBodySetup* m_pSrcBodySetup;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBodyCollPrimitive")
-	ETresBodyCollReactionType m_DefaultBodyReactionType;
-	
-	//UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
-	//FTresBodyEndOverlap OnTresBodyBeginOverlap;
-
-	//UPROPERTY(BlueprintAssignable, Category = "TresBodyCollPrimitive")
-	//FTresBodyBeginOverlap OnTresBodyEndOverlap;
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "TresBodyCollPrimitive")
-	void OnBodyEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex);
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = "TresBodyCollPrimitive")
-	void OnBodyBeginOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* Other, class UPrimitiveComponent* OtherComp, int OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FTresBodyEndOverlapSignature, UTresBodyCollPrimitive*, MyPrimitive, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FTresBodyBeginOverlapSignature, UTresBodyCollPrimitive*, MyPrimitive, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult&, SweepResult);
+    
+protected:
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    FName MyBodyName;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 MyIgnoreNameNoneGroup: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    TEnumAsByte<ETresBodyCollision::Type> MyShapeType;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    UStaticMesh* MyShapeMesh;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    FVector MyShapeSize;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    ETresBodyCollReactionType m_BodyReactionType;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 m_bFixedBodyReactionType: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 m_bEnableDamage: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 m_bEnablePush: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 m_bEnableCamera: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 m_bEnableBlockCamera: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    TEnumAsByte<ETresBodyCollOverlapCameraFunction> m_OverlapCameraFunction;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    uint8 m_bIsBodyCollBaseLocationDist3D: 1;
+    
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    TArray<FTresBodyTakeDamageEffect> m_DamageEffects;
+    
+    UPROPERTY(DuplicateTransient, Transient)
+    UBodySetup* m_pBodySetup;
+    
+    UPROPERTY()
+    UBodySetup* m_pSrcBodySetup;
+    
+    UPROPERTY(DuplicateTransient, Transient)
+    ETresBodyCollReactionType m_DefaultBodyReactionType;
+    
+public:
+    UPROPERTY(BlueprintReadOnly)
+    FTresBodyBeginOverlapSignature OnTresBodyBeginOverlap;
+    
+    UPROPERTY(BlueprintReadOnly)
+    FTresBodyEndOverlapSignature OnTresBodyEndOverlap;
+    
+    UTresBodyCollPrimitive();
+protected:
+    UFUNCTION()
+    void OnBodyEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+    
+    UFUNCTION()
+    void OnBodyBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

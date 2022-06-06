@@ -1,0 +1,5 @@
+#include "TresBTDecorator_e_ex354_DestroyChargeShotOnDamage.h"
+
+UTresBTDecorator_e_ex354_DestroyChargeShotOnDamage::UTresBTDecorator_e_ex354_DestroyChargeShotOnDamage() {
+}
+

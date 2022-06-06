@@ -1,0 +1,5 @@
+#include "TresBTDecorator_e_ex005_OverrideMoveAcceleration.h"
+
+UTresBTDecorator_e_ex005_OverrideMoveAcceleration::UTresBTDecorator_e_ex005_OverrideMoveAcceleration() {
+}
+

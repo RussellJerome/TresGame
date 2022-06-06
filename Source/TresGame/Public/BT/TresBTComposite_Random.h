@@ -1,25 +1,32 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTCompositeNode.h"
+#include "ETresRandomDistributionType.h"
+#include "ETresControlledRandomPeriod.h"
 #include "TresBTComposite_Random.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTComposite_Random : public UBTCompositeNode
-{
-	GENERATED_BODY()
+class UTresBTComposite_Random : public UBTCompositeNode {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "SQEX")
-	bool bCustomPeriod;
-
-	UPROPERTY(EditDefaultsOnly, Category = "SQEX")
-	float Period;
-
-	UPROPERTY(EditAnywhere, Category = "SQEX")
-	TArray<float> Weights;
+    UPROPERTY(EditAnywhere)
+    uint8 bFailOnAll: 1;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    TEnumAsByte<ETresRandomDistributionType::Type> Distribution;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    TEnumAsByte<ETresControlledRandomPeriod::Type> Randomness;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 bCustomPeriod: 1;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    float Period;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<float> Weights;
+    
+    UTresBTComposite_Random();
 };
+

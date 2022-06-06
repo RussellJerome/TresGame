@@ -1,0 +1,5 @@
+#include "TresGumiShipBattleMissionCommonParameterDataTable.h"
+
+FTresGumiShipBattleMissionCommonParameterDataTable::FTresGumiShipBattleMissionCommonParameterDataTable() {
+}
+

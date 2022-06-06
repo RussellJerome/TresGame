@@ -1,251 +1,274 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "TresPawnBase.h"
-#include "TresGame.h"
+#include "UObject/NoExportTypes.h"
+#include "ETresProjectileRespawnType.h"
+#include "ETresProjectileRespawnRotType.h"
+#include "TresProjectileSpawnData.h"
+#include "ETresProjectileInnerWaterVolumeProc.h"
+#include "TresEffectUnit.h"
+#include "UObject/NoExportTypes.h"
+#include "Engine/EngineTypes.h"
+#include "ETresReactionResultType.h"
 #include "TresProjectileBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTresProjectileMove, float, InDeltaTime);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTresProjectilePutEffect, const FVector&, InLocation);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTresProjectileReflected);
+class UTresProjectileMovementComponent;
+class UParticleSystemComponent;
+class UTresAtkCollComponent;
+class AActor;
+class ATresProjectileBase;
+class UParticleSystem;
+class ATresSimpleEffect;
+class USQEXSEADSoundReferenceEnumSet;
+class ATresCharPawnBase;
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresProjectileBase : public ATresPawnBase
-{
-	GENERATED_BODY()
+UCLASS(Abstract)
+class ATresProjectileBase : public ATresPawnBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
-	FOnTresProjectileMove OnTickMove;
-	
-	UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
-	FOnTresProjectilePutEffect OnPutEffect;
-	
-	UPROPERTY(BlueprintAssignable, Category = "TresProjectileBase")
-	FOnTresProjectileReflected OnProjectileReflected;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class UTresProjectileMovementComponent* MyMovement;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class UParticleSystemComponent* MyParticle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class UTresAtkCollComponent* MyAtkColl;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_MainLife;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_MaxLifeDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bDoDelayFire;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_FireDelayTimeMin;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_FireDelayTimeMax;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bDoDelayAttackCollisionEnable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_DelayAttackCollisionEnableTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_ExplodeLife;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bExplodeOnTimeOut;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bNoDestroyOnHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bPullbackOnAttackHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bBounceOnTakeDamage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_bBounceOnTakeDamageVelocityScale;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bAutoFire;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bAutoTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bGravityOffOnExplode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_AutoStuckShutdownTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	FName m_OverrideFinishAttackDataID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	FName m_OverrideSituationAttackDataID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bDisableTeamCheck;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bEnableOwnerHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bImmediateOwnerHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bAttachToHitActor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bOnlyAttachToHitMapObj;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	struct FVector m_AttachToHitActorOffset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bCallPutEffectEventCall;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_fPutEffectDuration;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_fFirstPutEffectDuration;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bCallPutEffectDistCheckXY;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bDisableNotifyParentOnAttackHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bDisableOwnerObjTypeCalcTimeDilation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bIsRetargetNearReactionMagic;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_RetargetFrontDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_RetargetNearRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_RetargetCheckAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnProjectileOnTimeOut;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	ETresProjectileRespawnType m_RespawnCheckType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnProjectileOnlyHitAny;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnProjectileOnlyChrHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnProjectileOnlyMapHit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	float m_ReSpawnProjectileRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnProjectileOnGround;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class UClass* m_ReSpawnProjectileClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	ETresProjectileRespawnRotType m_ReSpawnRotInheritType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnTakeOverAtkTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnTakeOverAtkCollHitList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnTakeOverAtkCollFinishFlag;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnProjectileNotSendShutdownMsg;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnTakeOverEffectColorParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bReSpawnTakeOverEffectAlphaParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	TArray<struct FTresProjectileSpawnData> m_ResidueList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	ETresProjectileInnerWaterVolumeProc m_InnerWaterVolumeProc;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class UParticleSystem* m_InnerWaterVolumeEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class UClass* MyFireEffectTemplate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	TArray<struct FTresEffectUnit> MyFireEffects;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bParticleSetColorParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bParticleSetAlphaParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	struct FLinearColor m_ParticleColorParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bTakeOverHitEffectColorParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool m_bTakeOverHitEffectAlphaParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	class USQEXSEADSoundReferenceEnumSet* m_SoundAssets;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresProjectileBase")
-	bool bExploded;
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void TresBpNotifyAttackHit(class UTresAtkCollComponent* HitAttackCollComponent, class AActor* HitActor, const struct FHitResult& HitResult, ETresReactionResultType HitResponse) {};
-	
-	void OnRep_Exploded();
-	
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void HandleTickMove(float InDetaTime) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void HandleOnImpact(const struct FHitResult& HitResult) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void BP_SetHomingTarget(class ATresCharPawnBase* InTarget) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void BP_ReqLifeOver() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void BP_DoSpin(float inDeltaSeconds) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void BP_DoRotate(float inDeltaSeconds) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresProjectileBase")
-	void BP_DoHoming(float inDeltaSeconds) {};
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTresProjectileReflectedDelegate);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTresProjectilePutEffectDelegate, FVector, InLocation);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTresProjectileMoveDelegate, float, InDeltaTime);
+    
+    UPROPERTY(BlueprintAssignable)
+    FOnTresProjectileMoveDelegate OnTickMove;
+    
+    UPROPERTY(BlueprintAssignable)
+    FOnTresProjectilePutEffectDelegate OnPutEffect;
+    
+    UPROPERTY(BlueprintAssignable)
+    FOnTresProjectileReflectedDelegate OnProjectileReflected;
+    
+private:
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresProjectileMovementComponent* MyMovement;
+    
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UParticleSystemComponent* MyParticle;
+    
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresAtkCollComponent* MyAtkColl;
+    
+protected:
+    UPROPERTY(EditDefaultsOnly)
+    float m_MainLife;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_MaxLifeDistance;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bDoDelayFire: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_FireDelayTimeMin;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_FireDelayTimeMax;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bDoDelayAttackCollisionEnable: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_DelayAttackCollisionEnableTime;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_ExplodeLife;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bExplodeOnTimeOut: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bNoDestroyOnHit: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bPullbackOnAttackHit: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bBounceOnTakeDamage: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_bBounceOnTakeDamageVelocityScale;
+    
+    UPROPERTY(EditInstanceOnly)
+    uint8 m_bAutoFire: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bAutoTarget: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bGravityOffOnExplode: 1;
+    
+    UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
+    float m_AutoStuckShutdownTime;
+    
+    UPROPERTY(EditAnywhere)
+    FName m_OverrideFinishAttackDataID;
+    
+    UPROPERTY(EditAnywhere)
+    FName m_OverrideSituationAttackDataID;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bDisableTeamCheck: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bEnableOwnerHit: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bImmediateOwnerHit: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bAttachToHitActor: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bOnlyAttachToHitMapObj: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    FVector m_AttachToHitActorOffset;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bCallPutEffectEventCall: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_fPutEffectDuration;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_fFirstPutEffectDuration;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bCallPutEffectDistCheckXY: 1;
+    
+    UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
+    uint8 m_bDisableNotifyParentOnAttackHit: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bDisableOwnerObjTypeCalcTimeDilation: 1;
+    
+    UPROPERTY()
+    uint8 m_bIsRetargetNearReactionMagic: 1;
+    
+    UPROPERTY()
+    float m_RetargetFrontDistance;
+    
+    UPROPERTY()
+    float m_RetargetNearRange;
+    
+    UPROPERTY()
+    float m_RetargetCheckAngle;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnProjectileOnTimeOut: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    ETresProjectileRespawnType m_RespawnCheckType;
+    
+    UPROPERTY()
+    uint8 m_bReSpawnProjectileOnlyHitAny: 1;
+    
+    UPROPERTY()
+    uint8 m_bReSpawnProjectileOnlyChrHit: 1;
+    
+    UPROPERTY()
+    uint8 m_bReSpawnProjectileOnlyMapHit: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    float m_ReSpawnProjectileRange;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnProjectileOnGround: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<ATresProjectileBase> m_ReSpawnProjectileClass;
+    
+    UPROPERTY(EditDefaultsOnly)
+    ETresProjectileRespawnRotType m_ReSpawnRotInheritType;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnTakeOverAtkTarget: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnTakeOverAtkCollHitList: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnTakeOverAtkCollFinishFlag: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnProjectileNotSendShutdownMsg: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnTakeOverEffectColorParam: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bReSpawnTakeOverEffectAlphaParam: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    TArray<FTresProjectileSpawnData> m_ResidueList;
+    
+    UPROPERTY(EditDefaultsOnly)
+    ETresProjectileInnerWaterVolumeProc m_InnerWaterVolumeProc;
+    
+    UPROPERTY(EditDefaultsOnly)
+    UParticleSystem* m_InnerWaterVolumeEffect;
+    
+    UPROPERTY()
+    TSubclassOf<ATresSimpleEffect> MyFireEffectTemplate;
+    
+    UPROPERTY(EditDefaultsOnly)
+    TArray<FTresEffectUnit> MyFireEffects;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bParticleSetColorParam: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bParticleSetAlphaParam: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    FLinearColor m_ParticleColorParam;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bTakeOverHitEffectColorParam: 1;
+    
+    UPROPERTY(EditDefaultsOnly)
+    uint8 m_bTakeOverHitEffectAlphaParam: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    USQEXSEADSoundReferenceEnumSet* m_SoundAssets;
+    
+    UPROPERTY(Transient, ReplicatedUsing=OnRep_Exploded)
+    bool bExploded;
+    
+public:
+    ATresProjectileBase();
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    
+    UFUNCTION(BlueprintImplementableEvent)
+    void TresBpNotifyAttackHit(UTresAtkCollComponent* HitAttackCollComponent, AActor* HitActor, const FHitResult& HitResult, ETresReactionResultType HitResponse);
+    
+protected:
+    UFUNCTION()
+    void OnRep_Exploded();
+    
+    UFUNCTION()
+    void HandleTickMove(float InDetaTime);
+    
+    UFUNCTION()
+    void HandleOnImpact(const FHitResult& HitResult);
+    
+public:
+    UFUNCTION(BlueprintCallable)
+    void BP_SetHomingTarget(ATresCharPawnBase* InTarget);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ReqLifeOver();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_DoSpin(float inDeltaSeconds);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_DoRotate(float inDeltaSeconds);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_DoHoming(float inDeltaSeconds);
+    
 };
+

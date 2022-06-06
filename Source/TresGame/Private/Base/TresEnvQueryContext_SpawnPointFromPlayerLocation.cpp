@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_SpawnPointFromPlayerLocation.h"
+
+UTresEnvQueryContext_SpawnPointFromPlayerLocation::UTresEnvQueryContext_SpawnPointFromPlayerLocation() {
+}
+

@@ -1,19 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresNpcBTDecoratorBase.h"
+#include "TresNpcBTDecoratorBase.h"
 #include "TresNpcBTDecorator_ActionTaskLimitCountCheck.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresNpcBTDecorator_ActionTaskLimitCountCheck : public UTresNpcBTDecoratorBase
-{
-	GENERATED_BODY()
+class UTresNpcBTDecorator_ActionTaskLimitCountCheck : public UTresNpcBTDecoratorBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_ActionTaskLimitCountCheck")
-	int m_Count;
+    UPROPERTY(EditAnywhere)
+    int32 m_Count;
+    
+    UTresNpcBTDecorator_ActionTaskLimitCountCheck();
 };
+

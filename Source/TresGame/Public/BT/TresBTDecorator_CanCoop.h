@@ -1,35 +1,35 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "BehaviorTree/BTDecorator.h"
-#include "TresGame.h"
+#include "ETresCanCoopJoinRole.h"
 #include "TresBTDecorator_CanCoop.generated.h"
 
-/**
- * 
- */
+class UTresCoopDefinitionBase;
+
 UCLASS()
-class TRESGAME_API UTresBTDecorator_CanCoop : public UBTDecorator
-{
-	GENERATED_BODY()
+class UTresBTDecorator_CanCoop : public UBTDecorator {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_CanCoop")
-	class UClass* CoopDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_CanCoop")
-	ETresCanCoopJoinRole Role;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_CanCoop")
-	bool bRecruitment;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_CanCoop")
-	bool bUseBlackboard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_CanCoop")
-	FBlackboardKeySelector BlackboardKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_CanCoop")
-	bool bEditRecruitment;
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UTresCoopDefinitionBase> CoopDefinition;
+    
+    UPROPERTY(EditAnywhere)
+    ETresCanCoopJoinRole Role;
+    
+    UPROPERTY(EditAnywhere)
+    bool bRecruitment;
+    
+    UPROPERTY(EditAnywhere)
+    bool bUseBlackboard;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector BlackboardKey;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    bool bEditRecruitment;
+    
+    UTresBTDecorator_CanCoop();
 };
+

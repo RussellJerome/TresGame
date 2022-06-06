@@ -1,37 +1,38 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerStart.h"
+#include "TresPlayerStartInterface.h"
 #include "TresPlayerStart.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API ATresPlayerStart : public APlayerStart
-{
-	GENERATED_BODY()
+class TRESGAME_API ATresPlayerStart : public APlayerStart, public ITresPlayerStartInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	FName m_DispMapName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_AutoDispMapName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_Enabled = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_IsAutoSave;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	FName m_NavMapDataTableKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	bool m_IsEnableNavMap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPlayerStart")
-	float m_SwitchNavMapTime = 1.5f;
+protected:
+    UPROPERTY(EditAnywhere)
+    FName m_DispMapName;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_AutoDispMapName;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_Enabled;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_IsAutoSave;
+    
+    UPROPERTY(EditAnywhere)
+    FName m_NavMapDataTableKey;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_IsEnableNavMap;
+    
+    UPROPERTY(EditAnywhere)
+    float m_SwitchNavMapTime;
+    
+public:
+    ATresPlayerStart();
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

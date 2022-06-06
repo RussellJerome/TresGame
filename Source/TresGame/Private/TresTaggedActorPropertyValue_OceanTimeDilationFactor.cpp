@@ -1,0 +1,5 @@
+#include "TresTaggedActorPropertyValue_OceanTimeDilationFactor.h"
+
+FTresTaggedActorPropertyValue_OceanTimeDilationFactor::FTresTaggedActorPropertyValue_OceanTimeDilationFactor() {
+}
+

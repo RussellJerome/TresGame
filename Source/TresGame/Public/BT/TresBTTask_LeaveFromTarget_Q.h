@@ -1,38 +1,37 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresBTTask_SequentialExecProcess.h"
-#include "TresGame.h"
+#include "Templates/SubclassOf.h"
+#include "LEAVE_FROM_TARGET_MODE_Enum.h"
+#include "TresBTTask_SequentialExecProcess.h"
 #include "TresBTTask_LeaveFromTarget_Q.generated.h"
 
-/**
- * 
- */
+class UTresLocomotionDefinitionBase;
+
 UCLASS()
-class TRESGAME_API UTresBTTask_LeaveFromTarget_Q : public UTresBTTask_SequentialExecProcess
-{
-	GENERATED_BODY()
+class UTresBTTask_LeaveFromTarget_Q : public UTresBTTask_SequentialExecProcess {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	ELEAVE_FROM_TARGET_MODE_Enum m_TaskModeEnum;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	class UClass* m_CommonLocomotionDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	float m_FirstUpdateTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	float m_FirstTimeLimit;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	float m_CommonUpdateTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	float m_CommonOnRingAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_LeaveFromTarget_Q")
-	float m_ItemSpace;
+    UPROPERTY(EditAnywhere)
+    LEAVE_FROM_TARGET_MODE_Enum m_TaskModeEnum;
+    
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UTresLocomotionDefinitionBase> m_CommonLocomotionDefinition;
+    
+    UPROPERTY(EditAnywhere)
+    float m_FirstUpdateTime;
+    
+    UPROPERTY(EditAnywhere)
+    float m_FirstTimeLimit;
+    
+    UPROPERTY(EditAnywhere)
+    float m_CommonUpdateTime;
+    
+    UPROPERTY(EditAnywhere)
+    float m_CommonOnRingAngle;
+    
+    UPROPERTY(AdvancedDisplay, EditAnywhere)
+    float m_ItemSpace;
+    
+    UTresBTTask_LeaveFromTarget_Q();
 };
+

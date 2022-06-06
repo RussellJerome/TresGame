@@ -1,19 +1,17 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
 #include "TresWetVolume.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API ATresWetVolume : public ATresVolume
-{
-	GENERATED_BODY()
+class ATresWetVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresWetVolume")
-	float m_WetnessTimeParam;
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    float m_WetnessTimeParam;
+    
+public:
+    ATresWetVolume();
 };
+

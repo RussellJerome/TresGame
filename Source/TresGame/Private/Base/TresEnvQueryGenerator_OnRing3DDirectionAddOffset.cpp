@@ -1,0 +1,5 @@
+#include "TresEnvQueryGenerator_OnRing3DDirectionAddOffset.h"
+
+UTresEnvQueryGenerator_OnRing3DDirectionAddOffset::UTresEnvQueryGenerator_OnRing3DDirectionAddOffset() {
+}
+

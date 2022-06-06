@@ -1,29 +1,29 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "TresGame.h"
+#include "UObject/Object.h"
+#include "TresPhotoLoadWork.h"
 #include "TresAlbumPhotoManager.generated.h"
 
-/**
- * 
- */
+class UTexture2D;
+
 UCLASS()
-class TRESGAME_API UTresAlbumPhotoManager : public UObject
-{
-	GENERATED_BODY()
+class UTresAlbumPhotoManager : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	TArray<int> m_PhotoIdList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	TArray<struct FTresPhotoLoadWork> m_PhotoLoadWorkPool;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	class UTexture2D* m_pTargetTexture;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresAlbumPhotoManager")
-	TArray<class UTexture2D*> m_ReleaseTextureBuffer;
+private:
+    UPROPERTY()
+    TArray<int32> m_PhotoIdList;
+    
+    UPROPERTY()
+    TArray<FTresPhotoLoadWork> m_PhotoLoadWorkPool;
+    
+    UPROPERTY()
+    UTexture2D* m_pTargetTexture;
+    
+    UPROPERTY()
+    TArray<UTexture2D*> m_ReleaseTextureBuffer;
+    
+public:
+    UTresAlbumPhotoManager();
 };
+

@@ -1,195 +1,228 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "TresNotifyInterface.h"
 #include "GameFramework/Pawn.h"
-#include "TresBodyCollComponent.h"
+#include "TresAnimInterface.h"
+#include "TresStateQueueInterface.h"
+#include "TresActorInterface.h"
+#include "ETresPlayerUniqueID.h"
+#include "TresReactorComponentInterface.h"
 #include "GameFramework/Character.h"
-#include "EngineData.h"
+#include "ETresChrUniqueID.h"
+#include "UObject/NoExportTypes.h"
+#include "Engine/EngineTypes.h"
+#include "ETresEnemyUniqueID.h"
 #include "TresPawnBase.generated.h"
 
-UCLASS()
-class TRESGAME_API ATresPawnBase : public APawn
-{
-	GENERATED_BODY()
+class UTresBodyCollComponent;
+class AActor;
+class UTresRootComponent;
+class UTresInterpGroupInst;
+class UTresChrDataTableSet;
+class UTresSoundAliasSet;
+class UTresChrBaseParam;
+class UObject;
+class ATresLevelEntity;
+class UTresInterpGroup;
+class ATresCharPawnBase;
+class ATresNpcPawnBase;
 
+UCLASS(Abstract)
+class TRESGAME_API ATresPawnBase : public APawn, public ITresAnimInterface, public ITresNotifyInterface, public ITresStateQueueInterface, public ITresReactorComponentInterface, public ITresActorInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	class UTresRootComponent* MyRoot;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	TArray<UTresBodyCollComponent*> m_BodyComponentsList;
-
-	FBasedMovementInfo BasedMovement;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	FName MyLockOnSetBoneName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	FName MyLookAtTargetBoneName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	class UTresChrDataTableSet* m_pDataTableSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	class UTresSoundAliasSet* m_SoundAliasAsset;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	class UTresChrBaseParam* m_pBaseParam;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	int m_TeamNo;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	TWeakObjectPtr<UObject> m_LevelEntitySpawner;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	class ATresLevelEntity* m_LevelEntity;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	TArray<class UTresInterpGroup*> m_InterpGroup;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresPawnBase")
-	TArray<class UTresInterpGroupInst*> m_InterpGroupInst;
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	bool WarpToTaggedPlayerStart(const FName& InTag, bool bResetCamera, bool bStateClear) { return false; };
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	bool WarpToActorLocation(class AActor* inActor, bool bResetCamera) { return false; };
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	bool UpdateRotateForDegree(const struct FRotator& InNewRot, float inDegree) { return false; };
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void UpdateRotate(const struct FRotator& InNewRot, float InRotRate) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	bool TurnToLocation(const struct FVector& InLocation, float InRotRate, bool inDegree) { return false; };
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	bool TurnToActor(class AActor* inActor, float InRotRate, bool inDegree) { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void SetRootAbsolute(bool bNewAbsoluteLocation, bool bNewAbsoluteRotation, bool bNewAbsoluteScale) {};
-
-	//void OnWalkingOffLedge(const struct FVector& PreviousFloorImpactNormal, const struct FVector& PreviousFloorContactNormal, const struct FVector& PreviousLocation, float TimeDelta);
-	//void OnLanded(const struct FHitResult& Hit);
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void MeshUpdateRotate(const struct FRotator& InNewRot, float InRotRate) {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void MeshResetRotate(float InRotRate) {};
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	bool IsPlayingRootMotion() { return false; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	bool IsEnableLockOn() { return false; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	float GetTimeSinceSpawn() { return 0.0f; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	int GetTeamNo() { return 0; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector GetSpawnLocation() { return FVector::FVector(); };
-
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	float GetRotYaw() { return 0.0f; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector GetRootUpVector() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector GetRootRightVector() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector GetRootFrontVector() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	float GetLocationZ() { return 0.0f; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	UObject* GetLevelEntitySpawner() { return nullptr; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	class ATresLevelEntity* GetLevelEntity() { return nullptr; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FRotator GetDirectionToLocation(const FVector& InLocation) { return FRotator::FRotator(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FRotator GetDirectionTo(class AActor* inOtherActor) { return FRotator::FRotator(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	UObject* GetBattleOwner() { return nullptr; };
-	
-	//TODO
-	//void CollisionChangePawnHitResponse(bool bIsEnable, const FName& InGrpName);
-	//void CollisionChangeMapHitResponse(bool bIsEnable);
-	//void CollisionChangeAttackHitResponse(bool bIsEnable, const FName& InGrpName);
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void ClientCheatWalk() {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void ClientCheatGhost() {};
-	
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void ClientCheatFly() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void BP_RootPauseUpdateOverlaps(bool bPause, bool bCallManualUpdateOnEndPause) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void BP_ReqFriendWarpHomeAll(bool bAdjustCameraBack) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void BP_NotifyRegisterEnemyGaugeTarget(class ATresCharPawnBase* InTarget) {};
-
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector BP_GetSelfMovedVelocity() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector BP_GetSelfMovedDelta() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector BP_GetRootMotionVelocity() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	ETresPlayerUniqueID BP_GetPlayerUniqueID() { return ETresPlayerUniqueID::ETresPlayerUniqueID_MAX; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	float BP_GetNoActionCounter() { return 0.0f; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	float BP_GetMovedVelocityZ() { return 0.0f; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	float BP_GetMovedVelocityXYSize() { return 0.0f; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	FVector BP_GetMovedVelocity() { return FVector::FVector(); };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	class ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(ETresChrUniqueID uid) { return nullptr; };
-
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	class ATresNpcPawnBase* BP_GetFriendPawnByIndex(int Index) { return nullptr; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	ESQEX_AI_ThinkType BP_GetFriendAIThinkType() { return ESQEX_AI_ThinkType::SQEX_AI_THINK_TYPE_NONE; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	ETresEnemyUniqueID BP_GetEnemyUniqueID() { return ETresEnemyUniqueID::TRES_ENEMY_UID_BX059; };
-	
-	UFUNCTION(Blueprintpure, Category = "TresPawnBase")
-	ETresChrUniqueID BP_GetChrUniqueID() { return ETresChrUniqueID::TRES_CHR_UID_AQUA; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresPawnBase")
-	void AdjustRotate(float InRotRate) {};
+private:
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresRootComponent* MyRoot;
+    
+protected:
+    UPROPERTY(DuplicateTransient, Export, Transient)
+    TArray<UTresBodyCollComponent*> m_BodyComponentsList;
+    
+    UPROPERTY()
+    FBasedMovementInfo BasedMovement;
+    
+    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    FName MyLockOnSetBoneName;
+    
+    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    FName MyLookAtTargetBoneName;
+    
+    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    UTresChrDataTableSet* m_pDataTableSet;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UTresSoundAliasSet* m_SoundAliasAsset;
+    
+    UPROPERTY(DuplicateTransient, Export, Transient)
+    UTresChrBaseParam* m_pBaseParam;
+    
+    UPROPERTY()
+    int32 m_TeamNo;
+    
+public:
+    UPROPERTY(BlueprintReadOnly, Transient, VisibleAnywhere)
+    TWeakObjectPtr<UObject> m_LevelEntitySpawner;
+    
+    UPROPERTY(BlueprintReadOnly, Transient, VisibleAnywhere)
+    ATresLevelEntity* m_LevelEntity;
+    
+    UPROPERTY(Transient)
+    TArray<UTresInterpGroup*> m_InterpGroup;
+    
+    UPROPERTY(Transient)
+    TArray<UTresInterpGroupInst*> m_InterpGroupInst;
+    
+    ATresPawnBase();
+    UFUNCTION(BlueprintCallable)
+    bool WarpToTaggedPlayerStart(FName InTag, bool bResetCamera, bool bStateClear);
+    
+    UFUNCTION(BlueprintCallable)
+    bool WarpToActorLocation(const AActor* inActor, bool bResetCamera);
+    
+    UFUNCTION(BlueprintCallable)
+    bool UpdateRotateForDegree(FRotator InNewRot, float inDegree);
+    
+    UFUNCTION(BlueprintCallable)
+    void UpdateRotate(FRotator InNewRot, float InRotRate);
+    
+    UFUNCTION(BlueprintCallable)
+    bool TurnToLocation(FVector InLocation, float InRotRate, bool inDegree);
+    
+    UFUNCTION(BlueprintCallable)
+    bool TurnToActor(const AActor* inActor, float InRotRate, bool inDegree);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetRootAbsolute(bool bNewAbsoluteLocation, bool bNewAbsoluteRotation, bool bNewAbsoluteScale);
+    
+    UFUNCTION(BlueprintNativeEvent)
+    void OnWalkingOffLedge(const FVector& PreviousFloorImpactNormal, const FVector& PreviousFloorContactNormal, const FVector& PreviousLocation, float TimeDelta);
+    
+    UFUNCTION(BlueprintImplementableEvent)
+    void OnLanded(const FHitResult& Hit);
+    
+    UFUNCTION(BlueprintCallable)
+    void MeshUpdateRotate(FRotator InNewRot, float InRotRate);
+    
+    UFUNCTION(BlueprintCallable)
+    void MeshResetRotate(float InRotRate);
+    
+    UFUNCTION(BlueprintPure)
+    bool IsPlayingRootMotion() const;
+    
+    UFUNCTION(BlueprintPure)
+    bool IsEnableLockOn() const;
+    
+    UFUNCTION(BlueprintPure)
+    float GetTimeSinceSpawn() const;
+    
+    UFUNCTION(BlueprintPure)
+    int32 GetTeamNo() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector GetSpawnLocation() const;
+    
+    UFUNCTION(BlueprintPure)
+    float GetRotYaw() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector GetRootUpVector() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector GetRootRightVector() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector GetRootFrontVector() const;
+    
+    UFUNCTION(BlueprintPure)
+    float GetLocationZ() const;
+    
+    UFUNCTION(BlueprintPure)
+    UObject* GetLevelEntitySpawner() const;
+    
+    UFUNCTION(BlueprintPure)
+    ATresLevelEntity* GetLevelEntity() const;
+    
+    UFUNCTION(BlueprintPure)
+    FRotator GetDirectionToLocation(FVector InLocation) const;
+    
+    UFUNCTION(BlueprintPure)
+    FRotator GetDirectionTo(const AActor* inOtherActor) const;
+    
+    UFUNCTION(BlueprintPure)
+    UObject* GetBattleOwner() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void CollisionChangePawnHitResponse(bool bIsEnable, FName InGrpName);
+    
+    UFUNCTION(BlueprintCallable)
+    void CollisionChangeMapHitResponse(bool bIsEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void CollisionChangeAttackHitResponse(bool bIsEnable, FName InGrpName);
+    
+    UFUNCTION(Client, Reliable)
+    void ClientCheatWalk();
+    
+    UFUNCTION(Client, Reliable)
+    void ClientCheatGhost();
+    
+    UFUNCTION(Client, Reliable)
+    void ClientCheatFly();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_RootPauseUpdateOverlaps(bool bPause, bool bCallManualUpdateOnEndPause);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ReqFriendWarpHomeAll(bool bAdjustCameraBack);
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_NotifyRegisterEnemyGaugeTarget(ATresCharPawnBase* InTarget);
+    
+    UFUNCTION(BlueprintPure)
+    FVector BP_GetSelfMovedVelocity() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector BP_GetSelfMovedDelta() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector BP_GetRootMotionVelocity() const;
+    
+    UFUNCTION(BlueprintPure)
+    ETresPlayerUniqueID BP_GetPlayerUniqueID() const;
+    
+    UFUNCTION(BlueprintPure)
+    float BP_GetNoActionCounter() const;
+    
+    UFUNCTION(BlueprintPure)
+    float BP_GetMovedVelocityZ() const;
+    
+    UFUNCTION(BlueprintPure)
+    float BP_GetMovedVelocityXYSize() const;
+    
+    UFUNCTION(BlueprintPure)
+    FVector BP_GetMovedVelocity() const;
+    
+    UFUNCTION(BlueprintCallable)
+    ATresNpcPawnBase* BP_GetFriendPawnByUniqueID(ETresChrUniqueID uid);
+    
+    UFUNCTION(BlueprintCallable)
+    ATresNpcPawnBase* BP_GetFriendPawnByIndex(int32 Index);
+    
+    UFUNCTION(BlueprintPure)
+    ESQEX_AI_ThinkType BP_GetFriendAIThinkType() const;
+    
+    UFUNCTION(BlueprintPure)
+    ETresEnemyUniqueID BP_GetEnemyUniqueID() const;
+    
+    UFUNCTION(BlueprintPure)
+    ETresChrUniqueID BP_GetChrUniqueID() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void AdjustRotate(float InRotRate);
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

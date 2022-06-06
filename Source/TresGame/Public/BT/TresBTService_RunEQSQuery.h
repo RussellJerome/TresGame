@@ -1,38 +1,40 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
+#include "EnvironmentQuery/EnvQueryTypes.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "TresBTService_RunEQSQuery.generated.h"
 
-/**
- * 
- */
+class UEnvQuery;
+
 UCLASS()
-class TRESGAME_API UTresBTService_RunEQSQuery : public UBTService
-{
-	GENERATED_BODY()
+class UTresBTService_RunEQSQuery : public UBTService {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	class UEnvQuery* EQSQueryOverride;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	TArray<FEnvNamedValue> QueryParams;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	TEnumAsByte<EEnvQueryRunMode::Type> RunMode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	bool bInvalidateBlackboardKeyOnFailure;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	bool bUseBlackboardQuery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	FBlackboardKeySelector EQSQuery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_RunEQSQuery")
-	FBlackboardKeySelector Result;
+    UPROPERTY(EditAnywhere)
+    UEnvQuery* EQSQueryOverride;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<FEnvNamedValue> QueryParams;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<EEnvQueryRunMode::Type> RunMode;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 bInvalidateBlackboardKeyOnFailure: 1;
+    
+protected:
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 bUseBlackboardQuery: 1;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector EQSQuery;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector Result;
+    
+public:
+    UTresBTService_RunEQSQuery();
 };
+

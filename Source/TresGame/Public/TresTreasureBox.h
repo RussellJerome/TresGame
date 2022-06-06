@@ -1,93 +1,65 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
 #include "TresGimmickSkeletalBase.h"
-#include "TresReactorComponent.h"
+#include "UObject/NoExportTypes.h"
 #include "TresTreasureBox.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresTreasureBox : public ATresGimmickSkeletalBase
-{
-	GENERATED_BODY()
+class ATresTreasureBox;
+class UTresReactorComponent;
+class UParticleSystem;
+class ATresCharPawnBase;
+
+UCLASS(Config=Game)
+class ATresTreasureBox : public ATresGimmickSkeletalBase {
+    GENERATED_BODY()
 public:
-
-	/*ATresTreasureBox(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-	{
-		MyReactor = ObjectInitializer.CreateDefaultSubobject<UTresReactorComponent>(this, TEXT("ReactorComponent"));
-	}*/
-
-	ATresTreasureBox()
-	{
-		PrimaryActorTick.bCanEverTick = true;
-
-		//RootComponent = Cast<USceneComponent>(GetComponentByClass(USceneComponent::StaticClass()));
-#if WITH_EDITORONLY_DATA
-		RootComponent = CreateEditorOnlyDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-		MyReactor = CreateEditorOnlyDefaultSubobject<UTresReactorComponent>(TEXT("MyReactor"));
-#endif
-	};
-
-
-	/*virtual void PostInitProperties() override
-	{
-		Super::PostInitProperties();
-
-		//RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-
-		/*if (IsValid(GetOwner()))
-		{
-			PrimaryActorTick.bCanEverTick = true;
-			RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-		}*/
-	//};
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	//class UTresReactorComponent* MyReactor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	class UTresReactorComponent* MyReactor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	FName m_TreasureID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	bool m_bIsLargeBox;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	FVector m_OpenerRelativeLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	bool m_bUseKeyitemInfoWnd;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	class UParticleSystem* m_PreOpenEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	FVector m_PreOpenEffLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	FRotator m_PreOpenEffRotation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	bool m_bIsFakeBox;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	bool m_bIsOptionalOpenedBox;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	class UParticleSystem* m_DisappearEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	class ATresCharPawnBase* m_pOpenner;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTreasureBox")
-	class ATresTreasureBox* m_pTrueTreasureBox;
-
-	UFUNCTION(BlueprintCallable, Category = "TresTreasureBox")
-	bool OpenOptionalOpenedBox() { return false; };
+private:
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresReactorComponent* MyReactor;
+    
+public:
+    UPROPERTY(EditAnywhere)
+    FName m_TreasureID;
+    
+protected:
+    UPROPERTY(EditAnywhere)
+    uint8 m_bIsLargeBox: 1;
+    
+    UPROPERTY(EditAnywhere)
+    FVector m_OpenerRelativeLocation;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bUseKeyitemInfoWnd: 1;
+    
+    UPROPERTY(EditAnywhere)
+    UParticleSystem* m_PreOpenEffect;
+    
+    UPROPERTY(EditAnywhere)
+    FVector m_PreOpenEffLocation;
+    
+    UPROPERTY(EditAnywhere)
+    FRotator m_PreOpenEffRotation;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bIsFakeBox: 1;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bIsOptionalOpenedBox: 1;
+    
+    UPROPERTY(EditAnywhere)
+    UParticleSystem* m_DisappearEffect;
+    
+    UPROPERTY(Transient)
+    ATresCharPawnBase* m_pOpenner;
+    
+    UPROPERTY(Transient)
+    ATresTreasureBox* m_pTrueTreasureBox;
+    
+public:
+    ATresTreasureBox();
+    UFUNCTION(BlueprintCallable)
+    bool OpenOptionalOpenedBox();
+    
 };
+

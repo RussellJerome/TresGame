@@ -1,0 +1,13 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "ETresEnemyDw405AttackPossibleKind.generated.h"
+
+UENUM(BlueprintType)
+enum ETresEnemyDw405AttackPossibleKind {
+    TRES_ENEMY_DW405_ATTACKPOSSIBLE_LAND,
+    TRES_ENEMY_DW405_ATTACKPOSSIBLE_AIR,
+    TRES_ENEMY_DW405_ATTACKPOSSIBLE_ALWAYS,
+    TRES_ENEMY_DW405_ATTACKPOSSIBLE_NONE,
+    TRES_ENEMY_DW405_ATTACKPOSSIBLE_MAX UMETA(Hidden),
+};
+

@@ -1,0 +1,18 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Online Suite Analytics Provider",
+	"Description": "Online Suite Analytics Provider",
+	"Category": "Analytics",
+	"CreatedBy": "Square-Enix Ltd.",
+	"CreatedByURL": "http://square-enix.com",
+	"DocsURL": "http://square-enix.com",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": false,
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false
+}

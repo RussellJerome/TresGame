@@ -1,28 +1,29 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresTriggerBox.h"
 #include "TresDirectionalTriggerBoxTickBase.generated.h"
 
-/**
- * 
- */
+class UTresDebugArrowComponent;
+
 UCLASS()
-class TRESGAME_API ATresDirectionalTriggerBoxTickBase : public ATresTriggerBox
-{
-	GENERATED_BODY()
+class ATresDirectionalTriggerBoxTickBase : public ATresTriggerBox {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalTriggerBoxTickBase")
-	float m_PermitAngle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDirectionalTriggerBoxTickBase")
-	class UTresDebugArrowComponent* DebugArrowComponent;
-	
-	UFUNCTION(BlueprintCallable, Category = "TresDirectionalTriggerBoxTickBase")
-	void SetEnableExecute(bool Enable) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresDirectionalTriggerBoxTickBase")
-	bool IsEnableExecute() { return false; };
+private:
+    UPROPERTY(EditAnywhere)
+    float m_PermitAngle;
+    
+protected:
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere)
+    UTresDebugArrowComponent* DebugArrowComponent;
+    
+public:
+    ATresDirectionalTriggerBoxTickBase();
+    UFUNCTION(BlueprintCallable)
+    void SetEnableExecute(bool Enable);
+    
+    UFUNCTION(BlueprintPure)
+    bool IsEnableExecute();
+    
 };
+

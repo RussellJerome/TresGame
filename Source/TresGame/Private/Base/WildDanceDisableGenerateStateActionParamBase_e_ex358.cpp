@@ -1,0 +1,5 @@
+#include "WildDanceDisableGenerateStateActionParamBase_e_ex358.h"
+
+UWildDanceDisableGenerateStateActionParamBase_e_ex358::UWildDanceDisableGenerateStateActionParamBase_e_ex358() {
+}
+

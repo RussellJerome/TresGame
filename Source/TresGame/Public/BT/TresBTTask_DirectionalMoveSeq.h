@@ -1,35 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresBTTask_SequentialExecProcess.h"
-#include "TresGame.h"
+#include "Templates/SubclassOf.h"
+#include "TresBTTask_SequentialExecProcess.h"
+#include "DIRECTIONAL_MOVE_MODE_Enum.h"
 #include "TresBTTask_DirectionalMoveSeq.generated.h"
 
-/**
- * 
- */
+class UTresLocomotionDefinitionBase;
+
 UCLASS()
-class TRESGAME_API UTresBTTask_DirectionalMoveSeq : public UTresBTTask_SequentialExecProcess
-{
-	GENERATED_BODY()
+class UTresBTTask_DirectionalMoveSeq : public UTresBTTask_SequentialExecProcess {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_DirectionalMoveSeq")
-	EDIRECTIONAL_MOVE_MODE_Enum m_TaskModeEnum;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_DirectionalMoveSeq")
-	class UClass* m_CommonLocomotionDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_DirectionalMoveSeq")
-	float m_CommonMinDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_DirectionalMoveSeq")
-	float m_CommonMaxDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_DirectionalMoveSeq")
-	float m_CommonPawnDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTTask_DirectionalMoveSeq")
-	float m_CommonUpdateTime;
+    UPROPERTY(EditAnywhere)
+    DIRECTIONAL_MOVE_MODE_Enum m_TaskModeEnum;
+    
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UTresLocomotionDefinitionBase> m_CommonLocomotionDefinition;
+    
+    UPROPERTY(EditAnywhere)
+    float m_CommonMinDistance;
+    
+    UPROPERTY(EditAnywhere)
+    float m_CommonMaxDistance;
+    
+    UPROPERTY(EditAnywhere)
+    float m_CommonPawnDistance;
+    
+    UPROPERTY(EditAnywhere)
+    float m_CommonUpdateTime;
+    
+    UTresBTTask_DirectionalMoveSeq();
 };
+

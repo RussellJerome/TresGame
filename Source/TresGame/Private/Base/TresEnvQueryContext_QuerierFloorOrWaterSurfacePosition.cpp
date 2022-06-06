@@ -1,0 +1,5 @@
+#include "TresEnvQueryContext_QuerierFloorOrWaterSurfacePosition.h"
+
+UTresEnvQueryContext_QuerierFloorOrWaterSurfacePosition::UTresEnvQueryContext_QuerierFloorOrWaterSurfacePosition() {
+}
+

@@ -1,20 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "ETresEncountDisableVolumeType.h"
 #include "TresVolume.h"
-#include "TresGame.h"
 #include "TresEncountDisableVolume.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API ATresEncountDisableVolume : public ATresVolume
-{
-	GENERATED_BODY()
+class ATresEncountDisableVolume : public ATresVolume {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresEncountDisableVolume")
-	ETresEncountDisableVolumeType m_ShapeType;
+    UPROPERTY(EditAnywhere)
+    ETresEncountDisableVolumeType m_ShapeType;
+    
+    ATresEncountDisableVolume();
 };
+

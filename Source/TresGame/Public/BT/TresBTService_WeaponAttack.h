@@ -1,40 +1,40 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "BehaviorTree/BTService.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "TresBTService_WeaponAttack.generated.h"
 
-/**
- * 
- */
+class UTresAttackDefinitionWeaponBase;
+
 UCLASS()
-class TRESGAME_API UTresBTService_WeaponAttack : public UBTService
-{
-	GENERATED_BODY()
+class UTresBTService_WeaponAttack : public UBTService {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	FBlackboardKeySelector m_Target;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	FBlackboardKeySelector m_Destination;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	bool m_bUseBBAttackDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	FBlackboardKeySelector m_BBAttackDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	class UClass* m_AttackDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	bool m_bValidateLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	bool m_bValidateOrientation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_WeaponAttack")
-	bool m_bValidateExecution;
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_Target;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_Destination;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 m_bUseBBAttackDefinition: 1;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_BBAttackDefinition;
+    
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UTresAttackDefinitionWeaponBase> m_AttackDefinition;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bValidateLocation: 1;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bValidateOrientation: 1;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bValidateExecution: 1;
+    
+    UTresBTService_WeaponAttack();
 };
+

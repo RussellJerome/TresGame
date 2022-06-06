@@ -1,42 +1,39 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "BehaviorTree/BTDecorator.h"
+#include "ETresFloorTestMode.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyType.h"
-#include "TresGame.h"
 #include "TresBTDecorator_FloorHeightCheck.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTDecorator_FloorHeightCheck : public UBTDecorator
-{
-	GENERATED_BODY()
+class UTresBTDecorator_FloorHeightCheck : public UBTDecorator {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	FBlackboardKeySelector Source;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	TEnumAsByte<EArithmeticKeyOperation::Type> Operation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	float MinRange;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	float TestHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	TEnumAsByte<ETresFloorTestMode> TestMode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	bool m_bUseOverrideKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	FBlackboardKeySelector m_OverrideKey;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_FloorHeightCheck")
-	FBlackboardKeySelector m_OverrideKeyLocation;
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector Source;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<EArithmeticKeyOperation::Type> Operation;
+    
+    UPROPERTY(EditAnywhere)
+    float MinRange;
+    
+    UPROPERTY(EditAnywhere)
+    float TestHeight;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<ETresFloorTestMode::Type> TestMode;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_bUseOverrideKey;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_OverrideKey;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_OverrideKeyLocation;
+    
+    UTresBTDecorator_FloorHeightCheck();
 };
+

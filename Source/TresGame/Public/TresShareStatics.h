@@ -1,40 +1,36 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/Object.h"
 #include "TresShareStatics.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API UTresShareStatics : public UObject
-{
-	GENERATED_BODY()
+UCLASS(Abstract, BlueprintType, NotPlaceable)
+class UTresShareStatics : public UObject {
+    GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresEnableSharePlayForDLCEdition(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresEnableSharePlay(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresEnableLiveStreamForDLCEdition(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresEnableLiveStream(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresDisableSharePlayForDLCEdition(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresDisableSharePlay(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresDisableLiveStreamForDLCEdition(bool isHighPriority) {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresShareStatics")
-	static void TresDisableLiveStream(bool isHighPriority) {};
+    UTresShareStatics();
+    UFUNCTION(BlueprintCallable)
+    static void TresEnableSharePlayForDLCEdition(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresEnableSharePlay(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresEnableLiveStreamForDLCEdition(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresEnableLiveStream(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresDisableSharePlayForDLCEdition(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresDisableSharePlay(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresDisableLiveStreamForDLCEdition(const bool isHighPriority);
+    
+    UFUNCTION(BlueprintCallable)
+    static void TresDisableLiveStream(const bool isHighPriority);
+    
 };
+

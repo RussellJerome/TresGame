@@ -1,0 +1,5 @@
+#include "TresInterpTrackInstVectorMaterialParameterCollectionParam.h"
+
+UTresInterpTrackInstVectorMaterialParameterCollectionParam::UTresInterpTrackInstVectorMaterialParameterCollectionParam() {
+}
+

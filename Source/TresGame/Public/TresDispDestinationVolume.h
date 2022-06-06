@@ -1,22 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresDirectionalVolumeTickBase.h"
 #include "TresDispDestinationVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresDispDestinationVolume : public ATresDirectionalVolumeTickBase
-{
-	GENERATED_BODY()
+UCLASS(Abstract)
+class ATresDispDestinationVolume : public ATresDirectionalVolumeTickBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDispDestinationVolume")
-	FString m_Namespace;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresDispDestinationVolume")
-	FString m_Key;
+    UPROPERTY(EditAnywhere)
+    FString m_Namespace;
+    
+    UPROPERTY(EditAnywhere)
+    FString m_Key;
+    
+    ATresDispDestinationVolume();
 };
+

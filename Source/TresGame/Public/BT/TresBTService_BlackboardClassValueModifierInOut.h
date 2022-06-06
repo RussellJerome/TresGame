@@ -1,23 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresBTService_BlackboardValueModifierInOutBase.h"
-#include "TresGame.h"
+#include "TresBTService_BlackboardValueModifierInOutBase.h"
+#include "TresBlackboardClassValueModifierInOutParam.h"
 #include "TresBTService_BlackboardClassValueModifierInOut.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTService_BlackboardClassValueModifierInOut : public UTresBTService_BlackboardValueModifierInOutBase
-{
-	GENERATED_BODY()
+class UTresBTService_BlackboardClassValueModifierInOut : public UTresBTService_BlackboardValueModifierInOutBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardClassValueModifierInOut")
-	TArray<FTresBlackboardClassValueModifierInOutParam> m_InParamList;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardClassValueModifierInOut")
-	TArray<FTresBlackboardClassValueModifierInOutParam> m_OutParamList;
+private:
+    UPROPERTY(EditAnywhere)
+    TArray<FTresBlackboardClassValueModifierInOutParam> m_InParamList;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<FTresBlackboardClassValueModifierInOutParam> m_OutParamList;
+    
+public:
+    UTresBTService_BlackboardClassValueModifierInOut();
 };
+

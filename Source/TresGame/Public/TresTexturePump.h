@@ -1,32 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "Engine/DataAsset.h"
-#include "Engine/SQEXMatineeActorAsset.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEXMatineeActorAsset -FallbackName=SQEXMatineeActorAsset
+#include "SQEXMatineeActorAsset.h"
+#include "TresTextureStream.h"
+#include "TresOverwriteAllowedMips.h"
 #include "TresTexturePump.generated.h"
 
-/**
- * 
- */
+class APlayerController;
+
 UCLASS()
-class TRESGAME_API UTresTexturePump : public USQEXMatineeActorAsset
-{
-	GENERATED_BODY()
+class TRESGAME_API UTresTexturePump : public USQEXMatineeActorAsset {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTexturePump")
-	int m_InitialLoadNum;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTexturePump")
-	int m_InAdvance;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTexturePump")
-	TArray<struct FTresTextureStream> m_TextureStream;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTexturePump")
-	TArray<struct FTresOverwriteAllowedMips> m_OverwriteMaxAllowedMips;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresTexturePump")
-	class APlayerController* m_PlayerController;
+    UPROPERTY(EditAnywhere)
+    int32 m_InitialLoadNum;
+    
+    UPROPERTY(EditAnywhere)
+    int32 m_InAdvance;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<FTresTextureStream> m_TextureStream;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<FTresOverwriteAllowedMips> m_OverwriteMaxAllowedMips;
+    
+private:
+    UPROPERTY(Transient)
+    APlayerController* m_PlayerController;
+    
+public:
+    UTresTexturePump();
 };
+

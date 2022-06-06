@@ -1,0 +1,5 @@
+#include "WildDanceSingleGestureRaijishiStartActionParam_e_ex358.h"
+
+UWildDanceSingleGestureRaijishiStartActionParam_e_ex358::UWildDanceSingleGestureRaijishiStartActionParam_e_ex358() {
+}
+

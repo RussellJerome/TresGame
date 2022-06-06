@@ -1,80 +1,75 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "TresGame.h"
-#include "SwfMovie.h"
-#include "TresMoviePlayer.h"
+#include "UObject/Object.h"
+#include "TresUIPreloadInfo.h"
 #include "TresUIParts.generated.h"
 
-/**
- * 
- */
+class UTresMoviePlayer;
+class UTresASProxy;
+class UTresASProxyTresCoreUIComponent;
+class USwfMovie;
+class UTresUIManager;
+class UTresASProxyTresControlsFloatTexture;
+class UGFxObject;
+
 UCLASS()
-class TRESGAME_API UTresUIParts : public UObject
-{
-	GENERATED_BODY()
+class UTresUIParts : public UObject {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	FString m_strAssetName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	class UTresMoviePlayer* m_pMoviePlayer;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	//class UTresASProxyTresCoreUIComponent* m_ASProxyUIComponent;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	//class UTresUIManager* m_pUIManager;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	//struct FTresUIPreloadInfo m_PreloadInfo;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	//TArray<class UTresASProxyTresControlsFloatTexture*> m_FloatTextures;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	//TArray<class UTresASProxy*> m_ManagedASProxy;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresUIParts")
-	class USwfMovie* m_SwfMovie;
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	int OnLoadIcon(const FString& Path);
-	int OnLoadIcon_Implementation(const FString& Path) { return 0; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	bool OnListRefreshData(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int ListIndex, int PrevListIndex);
-	bool OnListRefreshData_Implementation(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int ListIndex, int PrevListIndex) { return false; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	bool OnListIndexChange(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int ListIndex, int PrevListIndex);
-	bool OnListIndexChange_Implementation(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int ListIndex, int PrevListIndex) { return false; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	bool OnFocusOut(class UGFxObject* UIComponent, bool MoveNext);
-	bool OnFocusOut_Implementation(class UGFxObject* UIComponent, bool MoveNext) { return false; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	bool OnFocusIn(class UGFxObject* UIComponent);
-	bool OnFocusIn_Implementation(class UGFxObject* UIComponent) { return false; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	void OnFloatTextureCallback(int ID, class UGFxObject* FloatTextureMovieClip);
-	void OnFloatTextureCallback_Implementation(int ID, class UGFxObject* FloatTextureMovieClip) {};
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	int OnCallback(int ID, int Param);
-	int OnCallback_Implementation(int ID, int Param) { return 0; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	bool OnAnchorOut(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int Index, int Dir);
-	bool OnAnchorOut_Implementation(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int Index, int Dir) { return false; };
-
-	UFUNCTION(BlueprintNativeEvent, Category = "TresUIParts")
-	bool OnAnchorIn(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int Index, int Dir);
-	bool OnAnchorIn_Implementation(class UGFxObject* UIComponent, class UGFxObject* AnchorComponent, int Index, int Dir) { return false; };
-	
+protected:
+    UPROPERTY(Transient)
+    FString m_strAssetName;
+    
+    UPROPERTY(Transient)
+    UTresMoviePlayer* m_pMoviePlayer;
+    
+    UPROPERTY(Transient)
+    UTresASProxyTresCoreUIComponent* m_ASProxyUIComponent;
+    
+    UPROPERTY(Transient)
+    UTresUIManager* m_pUIManager;
+    
+private:
+    UPROPERTY(Transient)
+    FTresUIPreloadInfo m_PreloadInfo;
+    
+    UPROPERTY(Transient)
+    TArray<UTresASProxyTresControlsFloatTexture*> m_FloatTextures;
+    
+    UPROPERTY(Transient)
+    TArray<UTresASProxy*> m_ManagedASProxy;
+    
+    UPROPERTY(Transient)
+    USwfMovie* m_SwfMovie;
+    
+public:
+    UTresUIParts();
+    UFUNCTION()
+    int32 OnLoadIcon(const FString& Path);
+    
+    UFUNCTION()
+    bool OnListRefreshData(UGFxObject* UIComponent, UGFxObject* AnchorComponent, int32 ListIndex, int32 PrevListIndex);
+    
+    UFUNCTION()
+    bool OnListIndexChange(UGFxObject* UIComponent, UGFxObject* AnchorComponent, int32 ListIndex, int32 PrevListIndex);
+    
+    UFUNCTION()
+    bool OnFocusOut(UGFxObject* UIComponent, bool MoveNext);
+    
+    UFUNCTION()
+    bool OnFocusIn(UGFxObject* UIComponent);
+    
+    UFUNCTION()
+    void OnFloatTextureCallback(int32 ID, UGFxObject* FloatTextureMovieClip);
+    
+    UFUNCTION()
+    int32 OnCallback(int32 ID, int32 Param);
+    
+    UFUNCTION()
+    bool OnAnchorOut(UGFxObject* UIComponent, UGFxObject* AnchorComponent, int32 Index, int32 Dir);
+    
+    UFUNCTION()
+    bool OnAnchorIn(UGFxObject* UIComponent, UGFxObject* AnchorComponent, int32 Index, int32 Dir);
+    
 };
+

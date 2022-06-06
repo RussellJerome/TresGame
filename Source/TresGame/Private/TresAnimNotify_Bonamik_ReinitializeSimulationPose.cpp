@@ -1,0 +1,5 @@
+#include "TresAnimNotify_Bonamik_ReinitializeSimulationPose.h"
+
+UTresAnimNotify_Bonamik_ReinitializeSimulationPose::UTresAnimNotify_Bonamik_ReinitializeSimulationPose() {
+}
+

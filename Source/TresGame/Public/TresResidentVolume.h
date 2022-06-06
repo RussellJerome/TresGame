@@ -1,22 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresVolume.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=CoreUObject -ObjectName=StringAssetReference -FallbackName=StringAssetReference
 #include "TresResidentVolume.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresResidentVolume : public ATresVolume
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresResidentVolume")
-	TArray<FStringAssetReference> m_AssetArray;
+class UObject;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresResidentVolume")
-	TArray<class UObject*> m_AssetObjects;
+UCLASS()
+class ATresResidentVolume : public ATresVolume {
+    GENERATED_BODY()
+public:
+protected:
+    UPROPERTY(EditInstanceOnly)
+    TArray<FStringAssetReference> m_AssetArray;
+    
+    UPROPERTY(Transient)
+    TArray<UObject*> m_AssetObjects;
+    
+public:
+    ATresResidentVolume();
 };
+

@@ -1,35 +1,33 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "TresGame.h"
+#include "ETresValueModifierMethod.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "TresBTService_BlackboardVectorValueModifier.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTService_BlackboardVectorValueModifier : public UBTService
-{
-	GENERATED_BODY()
+class UTresBTService_BlackboardVectorValueModifier : public UBTService {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardVectorValueModifier")
-	FBlackboardKeySelector m_BlackboardKeyValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardVectorValueModifier")
-	TEnumAsByte<ETresValueModifierMethod::Type> m_ValueModifierType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardVectorValueModifier")
-	FVector m_Value;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardVectorValueModifier")
-	bool m_bUseBlackboard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardVectorValueModifier")
-	FBlackboardKeySelector m_BlackboardKeyValueB;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_BlackboardVectorValueModifier")
-	float m_Interval;
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_BlackboardKeyValue;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<ETresValueModifierMethod::Type> m_ValueModifierType;
+    
+    UPROPERTY(EditAnywhere)
+    FVector m_Value;
+    
+    UPROPERTY(EditAnywhere)
+    uint8 m_bUseBlackboard: 1;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_BlackboardKeyValueB;
+    
+    UPROPERTY(EditAnywhere)
+    float m_Interval;
+    
+    UTresBTService_BlackboardVectorValueModifier();
 };
+

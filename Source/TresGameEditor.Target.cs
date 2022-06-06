@@ -1,14 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿using UnrealBuildTool;
 
-using UnrealBuildTool;
-using System.Collections.Generic;
-
-public class TresGameEditorTarget : TargetRules
-{
-	public TresGameEditorTarget(TargetInfo Target) : base(Target)
-	{
+public class TresGameEditorTarget : TargetRules {
+	public TresGameEditorTarget(TargetInfo Target) : base(Target) {
 		Type = TargetType.Editor;
-
-		ExtraModuleNames.AddRange( new string[] { "TresGame" } );
+		ExtraModuleNames.AddRange(new string[] {
+			"ActorSequence",
+			"BonamikRt",
+			"ClothingSystemRuntime",
+			"GeometryCache",
+			"KBDRt",
+			"KineDriverRt",
+			"Niagara",
+			"ScaleformUI",
+			"TresGame",
+		});
 	}
 }

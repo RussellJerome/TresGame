@@ -1,0 +1,5 @@
+#include "TresTaggedActorPropertyValue_OceanSmallWaveSuppression.h"
+
+FTresTaggedActorPropertyValue_OceanSmallWaveSuppression::FTresTaggedActorPropertyValue_OceanSmallWaveSuppression() {
+}
+

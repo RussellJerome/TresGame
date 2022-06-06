@@ -1,24 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTDecorator.h"
-#include "AIModuleData.h"
-#include "TresGame.h"
+#include "EInterruptableEvent.h"
+#include "SQEX_AI_Enums.h"
+//CROSS-MODULE INCLUDE V2: -ModuleName=AIModule -ObjectName=EInterruptAbortBehavior -FallbackName=EInterruptAbortBehavior
 #include "TresBTDecorator_Interrupt.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresBTDecorator_Interrupt : public UBTDecorator
-{
-	GENERATED_BODY()
+class UTresBTDecorator_Interrupt : public UBTDecorator {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_Interrupt")
-	TEnumAsByte<EInterruptableEvent::Type> EventType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTDecorator_Interrupt")
-	TEnumAsByte<EInterruptAbortBehavior> CustomAbortBehavior;
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<EInterruptableEvent::Type> EventType;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<EInterruptAbortBehavior::Type> CustomAbortBehavior;
+    
+    UTresBTDecorator_Interrupt();
 };
+

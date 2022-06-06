@@ -1,32 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "TresLevelEntityControlVolume.h"
-#include "TresGame.h"
+#include "UObject/NoExportTypes.h"
+#include "TresAttractionFlowDrawingInterface.h"
+#include "TresAttractionFlowDrawingEntry.h"
 #include "TresBattleVolume.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API ATresBattleVolume : public ATresLevelEntityControlVolume
-{
-	GENERATED_BODY()
+class TRESGAME_API ATresBattleVolume : public ATresLevelEntityControlVolume, public ITresAttractionFlowDrawingInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBattleVolume")
-	FGuid m_GUID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBattleVolume")
-	bool m_NotifyMovedOutOfBattleArea;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBattleVolume")
-	TArray<struct FTresAttractionFlowDrawingEntry> m_DrawingTable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBattleVolume")
-	bool m_EnableDrawing;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBattleVolume")
-	bool m_BattleStarted;
+private:
+    UPROPERTY(EditAnywhere)
+    FGuid m_GUID;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_NotifyMovedOutOfBattleArea;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<FTresAttractionFlowDrawingEntry> m_DrawingTable;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_EnableDrawing;
+    
+    UPROPERTY(Transient)
+    bool m_BattleStarted;
+    
+public:
+    ATresBattleVolume();
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

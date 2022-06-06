@@ -1,32 +1,32 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "Templates/SubclassOf.h"
 #include "BehaviorTree/BTService.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "TresBTService_FindAttackLocation.generated.h"
 
-/**
- * 
- */
+class UTresAttackDefinitionBase;
+
 UCLASS()
-class TRESGAME_API UTresBTService_FindAttackLocation : public UBTService
-{
-	GENERATED_BODY()
+class UTresBTService_FindAttackLocation : public UBTService {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_FindAttackLocation")
-	class UClass* AttackDefinitionOverride;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_FindAttackLocation")
-	bool bUseBlackboardQuery;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_FindAttackLocation")
-	FBlackboardKeySelector AttackDefinition;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_FindAttackLocation")
-	TEnumAsByte<EEnvQueryRunMode::Type> RunMode;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresBTService_FindAttackLocation")
-	FBlackboardKeySelector Result;
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UTresAttackDefinitionBase> AttackDefinitionOverride;
+    
+    UPROPERTY(VisibleDefaultsOnly)
+    uint8 bUseBlackboardQuery: 1;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector AttackDefinition;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<EEnvQueryRunMode::Type> RunMode;
+    
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector Result;
+    
+    UTresBTService_FindAttackLocation();
 };
+

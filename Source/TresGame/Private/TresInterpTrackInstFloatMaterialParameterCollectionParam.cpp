@@ -1,0 +1,5 @@
+#include "TresInterpTrackInstFloatMaterialParameterCollectionParam.h"
+
+UTresInterpTrackInstFloatMaterialParameterCollectionParam::UTresInterpTrackInstFloatMaterialParameterCollectionParam() {
+}
+

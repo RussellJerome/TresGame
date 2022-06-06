@@ -1,36 +1,33 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresNpcBTDecoratorBase.h"
+#include "TresNpcBTDecoratorBase.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyType.h"
-#include "TresGame.h"
+#include "ETresEnemyUniqueID.h"
 #include "TresNpcBTDecorator_EnemyCountCheck.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresNpcBTDecorator_EnemyCountCheck : public UTresNpcBTDecoratorBase
-{
-	GENERATED_BODY()
+class UTresNpcBTDecorator_EnemyCountCheck : public UTresNpcBTDecoratorBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_EnemyCountCheck")
-	FBlackboardKeySelector m_Source;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_EnemyCountCheck")
-	float m_Radius;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_EnemyCountCheck")
-	int m_EnemyNum;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_EnemyCountCheck")
-	TEnumAsByte<EArithmeticKeyOperation::Type> m_ArithmeticOperation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_EnemyCountCheck")
-	TArray<ETresEnemyUniqueID> m_IgnoreEnemiesUID;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_EnemyCountCheck")
-	bool m_bEnableLockon;
+    UPROPERTY(EditAnywhere)
+    FBlackboardKeySelector m_Source;
+    
+    UPROPERTY(EditAnywhere)
+    float m_Radius;
+    
+    UPROPERTY(EditAnywhere)
+    int32 m_EnemyNum;
+    
+    UPROPERTY(EditAnywhere)
+    TEnumAsByte<EArithmeticKeyOperation::Type> m_ArithmeticOperation;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<ETresEnemyUniqueID> m_IgnoreEnemiesUID;
+    
+    UPROPERTY(EditAnywhere)
+    bool m_bEnableLockon;
+    
+    UTresNpcBTDecorator_EnemyCountCheck();
 };
+

@@ -1,114 +1,123 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
+#include "TresSavePointActivateSignatureDelegate.h"
 #include "TresPlayerStart.h"
-#include "TresGame.h"
+#include "TresReactorComponentInterface.h"
+#include "TresReactorDoCommandSignatureDelegate.h"
+#include "ETresSavePointDispType.h"
 #include "TresSavePointActor.generated.h"
 
-//These May Not Work
-DECLARE_MULTICAST_DELEGATE(OnReactorDoCommand);
-DECLARE_MULTICAST_DELEGATE(OnGimmickActivate);
+class UParticleSystemComponent;
+class UTresMapMarkerComponent;
+class UTresSavePointRecoverComponent;
+class UTresReactorComponent;
+class UParticleSystem;
+class ATresCharPawnBase;
 
-/**
- * 
- */
-UCLASS()
-class TRESGAME_API ATresSavePointActor : public ATresPlayerStart
-{
-	GENERATED_BODY()
+UCLASS(Abstract, Config=Game)
+class ATresSavePointActor : public ATresPlayerStart, public ITresReactorComponentInterface {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UTresReactorComponent* MyReactor;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	//class UTresSavePointRecoverComponent* MyRecover;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UTresMapMarkerComponent* MyMapMarker;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	bool m_bAutoActivate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	bool m_bGimmickComponentAutoLinkActivate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	bool m_bIsActive;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	bool m_bIsAccessed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	bool m_bLimitedSavePoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystem* m_BaseEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystem* m_LimitBaseEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystem* m_BodyEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystem* m_LimitBodyEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystem* m_HealEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	float m_ClipOutDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystemComponent* m_pBaseEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystemComponent* m_pBodyEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class UParticleSystemComponent* m_pHealEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresSavePointActor")
-	class ATresCharPawnBase* m_pCheckPawn;
-
-	//UPROPERTY(BlueprintAssignable, Category = "TresSavePointActor")
-	//FTresReactorDoCommand OnReactorDoCommand;
-	
-	//UPROPERTY(BlueprintAssignable, Category = "TresSavePointActor")
-	//FTresGimmickActivate OnGimmickActivate;
-
-	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
-	void ReceiveGimmickActivate(bool bEnable) {};
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
-	void OnChangeSavePointDispType(ETresSavePointDispType InDispType);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
-	void OnChangePlayerArtsMode(bool bIsArtsMode);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
-	void OnChangeCinematicMode(bool bIsCinematicMode);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "TresSavePointActor")
-	void OnChangeBattleMode(bool bIsBattleMode);
-
-	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
-	void BP_SetDisableMode(bool bIsDisable) {};
-
-	UFUNCTION(BlueprintPure, Category = "TresSavePointActor")
-	bool BP_IsGimmickActive() { return false; };
-
-	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
-	void BP_DeactivateGimmickComponentAll() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
-	void BP_DeactivateGimmick() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
-	void BP_ActivateGimmickComponentAll() {};
-
-	UFUNCTION(BlueprintCallable, Category = "TresSavePointActor")
-	void BP_ActivateGimmick() {};
+private:
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresReactorComponent* MyReactor;
+    
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresSavePointRecoverComponent* MyRecover;
+    
+    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UTresMapMarkerComponent* MyMapMarker;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    uint8 m_bAutoActivate: 1;
+    
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere)
+    uint8 m_bGimmickComponentAutoLinkActivate: 1;
+    
+    UPROPERTY()
+    uint8 m_bIsActive: 1;
+    
+    UPROPERTY(DuplicateTransient, Transient)
+    uint8 m_bIsAccessed: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    uint8 m_bLimitedSavePoint: 1;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UParticleSystem* m_BaseEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UParticleSystem* m_LimitBaseEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UParticleSystem* m_BodyEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UParticleSystem* m_LimitBodyEffect;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UParticleSystem* m_HealEffect;
+    
+    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    float m_ClipOutDistance;
+    
+    UPROPERTY(Export)
+    UParticleSystemComponent* m_pBaseEffect;
+    
+    UPROPERTY(Export)
+    UParticleSystemComponent* m_pBodyEffect;
+    
+    UPROPERTY(Export)
+    UParticleSystemComponent* m_pHealEffect;
+    
+    UPROPERTY(DuplicateTransient, Transient)
+    ATresCharPawnBase* m_pCheckPawn;
+    
+public:
+    UPROPERTY(BlueprintAssignable)
+    FTresReactorDoCommandSignature OnReactorDoCommand;
+    
+    UPROPERTY(BlueprintAssignable)
+    FTresSavePointActivateSignature OnGimmickActivate;
+    
+    ATresSavePointActor();
+    UFUNCTION(BlueprintImplementableEvent)
+    void ReceiveGimmickActivate(bool bEnable);
+    
+protected:
+    UFUNCTION()
+    void OnChangeSavePointDispType(ETresSavePointDispType InDispType);
+    
+    UFUNCTION()
+    void OnChangePlayerArtsMode(bool bIsArtsMode);
+    
+    UFUNCTION()
+    void OnChangeCinematicMode(bool bIsCinematicMode);
+    
+    UFUNCTION()
+    void OnChangeBattleMode(bool bIsBattleMode);
+    
+public:
+    UFUNCTION(BlueprintCallable)
+    void BP_SetDisableMode(bool bIsDisable);
+    
+    UFUNCTION(BlueprintPure)
+    bool BP_IsGimmickActive() const;
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_DeactivateGimmickComponentAll();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_DeactivateGimmick();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ActivateGimmickComponentAll();
+    
+    UFUNCTION(BlueprintCallable)
+    void BP_ActivateGimmick();
+    
+    
+    // Fix for true pure virtual functions not being implemented
 };
+

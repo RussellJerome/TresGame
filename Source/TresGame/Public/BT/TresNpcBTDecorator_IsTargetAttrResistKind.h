@@ -1,23 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
-
 #include "CoreMinimal.h"
-#include "BT/TresNpcBTDecoratorBase.h"
-#include "TresGame.h"
+#include "TresNpcBTDecoratorBase.h"
+#include "ETresDamageAttribute.h"
+#include "ETresAIAttrResistKind.h"
 #include "TresNpcBTDecorator_IsTargetAttrResistKind.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class TRESGAME_API UTresNpcBTDecorator_IsTargetAttrResistKind : public UTresNpcBTDecoratorBase
-{
-	GENERATED_BODY()
+class UTresNpcBTDecorator_IsTargetAttrResistKind : public UTresNpcBTDecoratorBase {
+    GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_IsTargetAttrResistKind")
-	ETresDamageAttribute m_Attribute;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TresNpcBTDecorator_IsTargetAttrResistKind")
-	TArray<ETresAIAttrResistKind> m_AttrResistKinds;
+    UPROPERTY(EditAnywhere)
+    ETresDamageAttribute m_Attribute;
+    
+    UPROPERTY(EditAnywhere)
+    TArray<ETresAIAttrResistKind> m_AttrResistKinds;
+    
+    UTresNpcBTDecorator_IsTargetAttrResistKind();
 };
+
