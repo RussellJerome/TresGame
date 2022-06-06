@@ -15,33 +15,33 @@ class BONAMIKRT_API USQEX_Bonamik_Component : public USceneComponent {
     GENERATED_BODY()
 public:
 private:
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool bHasSkeletalMeshSkippedTransforms;
     
 public:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     USQEX_BonamikAsset* m_BonamikAsset;
     
 private:
-    UPROPERTY(Export, Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Export, Transient, meta=(AllowPrivateAccess=true))
     USkeletalMeshComponent* SkeletalMeshComponent;
     
-    UPROPERTY(Export, Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Export, Transient, meta=(AllowPrivateAccess=true))
     UCharacterMovementComponent* CharacterMovementComponent;
     
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool m_BonamikEnable;
     
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool m_BonamikAutoDisable;
     
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool bAccurateBoundsUpdate;
     
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     int32 PreRollStepOnResume;
     
-    UPROPERTY(Transient)
+    UPROPERTY(EditAnywhere, Transient)
     float PrevScreenSize;
     
 public:
@@ -157,7 +157,7 @@ public:
     UFUNCTION(BlueprintPure)
     float SQEX_Bonamik_GetSpeedRate() const;
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     FVector SQEX_Bonamik_GetGravity() const;
     
     UFUNCTION(BlueprintCallable)
