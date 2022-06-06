@@ -16,12 +16,16 @@ USQEX_KineDriverData_Factory::USQEX_KineDriverData_Factory()
 	bEditorImport = true;
 	SupportedClass = USQEX_KineDriverData::StaticClass();
 }
+
 static bool bSoundFactorySuppressImportOverwriteDialog = false;
+
 uint32 USQEX_KineDriverData_Factory::GetMenuCategories() const { return EAssetTypeCategories::Physics; }
+
 UObject * USQEX_KineDriverData_Factory::FactoryCreateNew(UClass * InClass, UObject * InParent, FName InName, EObjectFlags flags, UObject * Cntext, FFeedbackContext * Warn)
 {
 	return NewObject<USQEX_KineDriverData>(InParent, InClass, InName, flags);
 }
+
 UObject* USQEX_KineDriverData_Factory::FactoryCreateBinary(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const uint8*& Buffer, const uint8* BufferEnd, FFeedbackContext* Warn, bool& bOutOperationCanceled)
 {
 	FString PackagePath = FPackageName::GetLongPackagePath(InParent->GetOutermost()->GetName());
@@ -31,6 +35,7 @@ UObject* USQEX_KineDriverData_Factory::FactoryCreateBinary(UClass* Class, UObjec
 	FPaths::MakePathRelativeTo(FilePath, *FPaths::GameDir());
 	return ImportedAsset;
 }
+
 bool USQEX_KineDriverData_Factory::CanReimport(UObject* Obj, TArray<FString>& OutFilenames)
 {
 	USQEX_KineDriverData* ImportedAsset = Cast<USQEX_KineDriverData>(Obj);
@@ -41,6 +46,7 @@ bool USQEX_KineDriverData_Factory::CanReimport(UObject* Obj, TArray<FString>& Ou
 	}
 	return false;
 }
+
 void USQEX_KineDriverData_Factory::SetReimportPaths(UObject* Obj, const TArray<FString>& NewReimportPaths)
 {
 	USQEX_KineDriverData* ImportedAsset = Cast<USQEX_KineDriverData>(Obj);
@@ -51,6 +57,7 @@ void USQEX_KineDriverData_Factory::SetReimportPaths(UObject* Obj, const TArray<F
 		//ImportedAsset->SourceFile = FilePath + "/" + FPaths::GetCleanFilename(NewReimportPaths[0]);
 	}
 }
+
 EReimportResult::Type USQEX_KineDriverData_Factory::Reimport(UObject* Obj)
 {
 	USQEX_KineDriverData* ImportedAsset = Cast<USQEX_KineDriverData>(Obj);

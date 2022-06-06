@@ -7,58 +7,58 @@ USTRUCT(BlueprintType)
 struct FSQEX_KineDriverConnectEZParamLink {
     GENERATED_BODY()
 public:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 InOperator;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TEnumAsByte<ESQEX_KD_ParameterType> InParameterType;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 OutOperator;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TEnumAsByte<ESQEX_KD_ParameterType> OutParameterType;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 OtherTargetParamIndex;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PX0;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float VX1_0;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float VX2_1;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float Grad0;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float Grad1;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY0;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY0A;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY0B;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY1;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY1A;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY1B;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float PY2;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool ByCoef;
     
     KINEDRIVERRT_API FSQEX_KineDriverConnectEZParamLink();

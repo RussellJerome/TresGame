@@ -7,7 +7,7 @@
 #include "ETresItemDefMaterial.h"
 #include "TresGimmickTT_Post_PresentDataTable.generated.h"
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category="SQEX")
 struct FTresGimmickTT_Post_PresentDataTable : public FTableRowBase {
     GENERATED_BODY()
 public:

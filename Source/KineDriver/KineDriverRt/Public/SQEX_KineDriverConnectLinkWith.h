@@ -9,25 +9,25 @@ USTRUCT(BlueprintType)
 struct FSQEX_KineDriverConnectLinkWith {
     GENERATED_BODY()
 public:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 InOperator;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TEnumAsByte<ESQEX_KD_ParameterType> InParameterType;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 OutOperator;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TEnumAsByte<ESQEX_KD_ParameterType> OutParameterType;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 OtherTargetParamIndex;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TEnumAsByte<ESQEX_KD_ExtrapolateType> ExtrapType;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_KineDriverCurveKey> Keys;
     
     KINEDRIVERRT_API FSQEX_KineDriverConnectLinkWith();

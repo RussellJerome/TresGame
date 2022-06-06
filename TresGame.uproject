@@ -5,6 +5,16 @@
 	"Description": "",
 	"Modules": [
 		{
+			"Name": "TresGameEditor",
+			"Type": "Developer",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "KineDriverEd",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		},
+		{
 			"Name": "KineDriverRt",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
