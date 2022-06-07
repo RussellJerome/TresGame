@@ -155,97 +155,97 @@ class UTresGameBlueprintLibrary : public UBlueprintFunctionLibrary {
     GENERATED_BODY()
 public:
     UTresGameBlueprintLibrary();
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContext", LatentInfo = "LatentInfo"))
     static void WaitForFriendRunningBehaviorTree(UObject* WorldContext, FLatentActionInfo LatentInfo, ETresChrUniqueID NpcChrID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartWipeOut(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartWipeIn(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartWhiteOut(UObject* WorldContextObject, FLatentActionInfo LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartWhiteIn(UObject* WorldContextObject, FLatentActionInfo LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartGameOverWhiteOut(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartFadeOut(UObject* WorldContextObject, FLatentActionInfo LatentInfo, FLinearColor InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresStartFadeIn(UObject* WorldContextObject, FLatentActionInfo LatentInfo, FLinearColor InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresStartCinematicModeEx(UObject* WorldContextObject, FLatentActionInfo InLatentInfo, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bDisableCameraMove, ETresCinematicPlayerStateType PlayerState, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion, bool bShowPlayerAuraEffect, bool bDisableIKinema, bool bPauseAI, bool bRecordLevelEntity);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresStartCinematicMode(UObject* WorldContextObject, FLatentActionInfo InLatentInfo, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, ETresCinematicPlayerStateType InPlayerState, bool bStyleChangeClear, bool bContinueMotion, bool bDisableCameraMove, bool bPauseAI, bool bDisableIKinema, bool bRecordLevelEntity, bool bShowPlayerAuraEffect);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresSetupChatMode(UObject* WorldContextObject, FLatentActionInfo LatentInfo, ATresCharPawnBase* InPawn1, ATresCharPawnBase* InPawn2);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresIsReadyCinematicMode(UObject* WorldContextObject, FLatentActionInfo InLatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresGetVictoryBonus(UObject* WorldContextObject, FLatentActionInfo InLatentInfo, FName InFlagName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresGetMultiItem2(UObject* WorldContextObject, FLatentActionInfo InLatentInfo, const TArray<FName>& InItemKeyNames, const TArray<int32>& InItemNums);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresGetMultiItem(UObject* WorldContextObject, FLatentActionInfo InLatentInfo, FName InItemKeyName1, int32 InItemNum1, FName InItemKeyName2, int32 InItemNum2, FName InItemKeyName3, int32 InItemNum3, FName InItemKeyName4, int32 InItemNum4, FName InItemKeyName5, int32 InItemNum5);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "InLatentInfo"))
     static void WaitBPTresGetKeyitem(UObject* WorldContextObject, FLatentActionInfo InLatentInfo, FName InItemKeyName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresComNpcEndMotion(UObject* WorldContextObject, FLatentActionInfo LatentInfo, ATresCharPawnBase* InPawnComNpc, ATresCharPawnBase* InPawnTarget);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresCinematicPlayerIdling(UObject* WorldContextObject, FLatentActionInfo LatentInfo, bool InNormalIdle, float InTimeOut);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresCinematicChrTurnTo(UObject* WorldContextObject, FLatentActionInfo LatentInfo, ATresCharPawnBase* InPawn, const FVector& InLocation, bool InDisableWeapon);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresCinematicChrLand(UObject* WorldContextObject, FLatentActionInfo LatentInfo, ATresCharPawnBase* InPawn, float InTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresCancelFade(UObject* WorldContextObject, FLatentActionInfo LatentInfo, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed, bool InGamePause);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresCameraNormalChange(UObject* WorldContextObject, FLatentActionInfo LatentInfo, float InTimeOut);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresCameraInterpChange(UObject* WorldContextObject, AActor* Camera, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitBPTresBattleModeEnd(UObject* WorldContextObject, FLatentActionInfo LatentInfo, float InTimeOut);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresWaitLevelStreaming(UObject* WorldContextObject, FLatentActionInfo LatentInfo, bool WaitMakeVisible, int32 WaitCount);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresWaitCycle(UObject* WorldContextObject, FLatentActionInfo LatentInfo, int32 WaitNum);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresWaitCompleteDynamicNavMesh(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_WaitForVideoPrepare(UObject* WorldContextObject, FLatentActionInfo LatentInfo, int32 SlotNo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_WaitForVideoFinish(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_WaitForVideoComponentPrepare(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_WaitForBattleReport(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
@@ -464,7 +464,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_OpenUINormalLoadScreen(const FColor BgColor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenThankYouForPlaying(UObject* WorldContextObject, FLatentActionInfo LatentInfo, float IgnoreInputTime, float DisplayTime);
     
     UFUNCTION(BlueprintCallable)
@@ -479,13 +479,13 @@ public:
     UFUNCTION(BlueprintCallable)
     static bool TresUI_OpenRetryMenu();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo_"))
     static bool TresUI_OpenResultSnowCurling(UObject* WorldContextObject, FLatentActionInfo latentInfo_, float Time, int32 Score, int32 timeBonus, int32 damageBonus, int32 Total, int32 treasureCnt, bool bTimeUpdated, bool bScoreUpdated, bool bTreasureComplete, ETresUISnowSlideRank Rank);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static int32 TresUI_OpenPlayerSelectLR(UObject* WorldContextObject, FLatentActionInfo LatentInfo, const FTresLocText& TextNameL, const FTresLocText& TextNameR, int32& OutSelected, float fIgnoreInputTime, bool AutoClose);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenOptionWindow(UObject* WorldContextObject, FLatentActionInfo LatentInfo, float Left, float Top, float Right, float Bottom, const FString& Message, const FString& Option1, const FString& Option2, const FString& Option3, const FString& Option4, const FString& Option5, const FString& Option6, const FString& Option7, const FString& Option8, const FString& Option9, const FString& Option10, int32& Selected);
     
     UFUNCTION(BlueprintCallable)
@@ -497,7 +497,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_OpenMissionCounter(int32 InitializeCount, FName DataTableKeyName, bool IsOverMaxCount);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static int32 TresUI_OpenMessage(UObject* WorldContextObject, FLatentActionInfo LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const FTresLocText& MessageText, const FTresUIWindowSetting& WindowSetting);
     
     UFUNCTION(BlueprintCallable)
@@ -539,7 +539,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_OpenHudBaymax(ETresUIHudBaymaxKind HudKind, float RecordTime, int32 RecordScore, UTresTimerTask* Task);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenHologramStartMenu(UObject* WorldContextObject, FLatentActionInfo LatentInfo, FName ReturnMapName, FName ReturnPlayerStartTag);
     
     UFUNCTION(BlueprintCallable)
@@ -548,13 +548,13 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_OpenGigasGame(UTresTimerTask* Task);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenGameHelpWithMessage(UObject* WorldContextObject, FLatentActionInfo LatentInfo, ETresGameHelp HelpId, bool WithPause, bool bTutorial, const FString& MessageTextID, bool& OutExecMessage);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenGameHelp(UObject* WorldContextObject, FLatentActionInfo LatentInfo, ETresGameHelp HelpId, bool WithPause);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static int32 TresUI_OpenGameDataInstallMessage(ETresUIGameDataInstallMessageType InstallMessageType, UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
@@ -563,22 +563,22 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_OpenCountDownTimer(UTresTimerTask* Task, float StartTime, float WarningTime, float AlertTime, bool IsLeft);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static int32 TresUI_OpenConfirm(UObject* WorldContextObject, FLatentActionInfo LatentInfo, TEnumAsByte<ETresUIMessageBGColor> BgColor, TEnumAsByte<ETresUIMessageTitleType> TitleType, const FTresLocText& MessageText, const TArray<FTresLocText> ButtonTexts, const FTresUIWindowSetting& WindowSetting, int32 DefaultSelectedIndex, int32& OutSelected);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenCodeMenu(UObject* WorldContextObject, FLatentActionInfo LatentInfo, bool bNoResetApFree);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static int32 TresUI_OpenChoice(UObject* WorldContextObject, FLatentActionInfo LatentInfo, const FTresLocText& Text, const TArray<FTresLocText>& Choices, const FTresUIWindowSetting& WindowSetting, int32 DefaultSelectedIndex, int32& OutSelected, bool AutoClose, bool DecideSilent, ETresUIDialogColor DialogColor);
     
     UFUNCTION(BlueprintCallable)
     static void TresUI_OpenCenterInformation(const FTresLocText& InformationText);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenCampMenuNeedCloseConfirm(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_OpenCampMenu(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
@@ -587,7 +587,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_NotifyHudSpecialShipGoalMeterAlert(bool bAlert);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresUI_MapInNoticeMessage(UObject* WorldContextObject, FLatentActionInfo LatentInfo, bool EnableBGMask);
     
     UFUNCTION(BlueprintCallable)
@@ -668,7 +668,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresUI_CountDownOlafGage();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresUI_CloseWindow(int32 WindowHandle, UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
@@ -797,10 +797,10 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresStopPumpingTextureStream();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStopPlayerHoldCamera(UObject* WorldContextObject, bool bStop);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStartTextureResidentForTaggedActors(UObject* WorldContextObject, FName TagName);
     
     UFUNCTION(BlueprintCallable)
@@ -809,34 +809,34 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresStartTextureResidentForActor(AActor* Actor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStartTextureResident(UObject* WorldContextObject, FName ResidentTag, bool LoadTexture, bool Reset);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStartTalkEvent(UObject* WorldContextObject, UTresFieldVoice* Asset, FName AnimName);
     
     UFUNCTION(BlueprintCallable)
     static void TresStartPumpingTextureStream(UTresTexturePump* InTexturePump);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStartCinematicModeEx(UObject* WorldContextObject, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bDisableCameraMove, ETresCinematicPlayerStateType PlayerState, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion, bool bShowPlayerAuraEffect, bool bDisableIKinema, bool bPauseAI, bool bRecordLevelEntity);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStartCinematicMode(UObject* WorldContextObject, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bPlayerStateClear, bool bForceStateClear, bool bStyleChangeClear, bool bContinueMotion, bool bDisableCameraMove, bool bPauseAI, bool bDisableIKinema, bool bRecordLevelEntity, bool bShowPlayerAuraEffect, bool bChangeTPViewMode);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresStartBossDefeatEffect(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresSpawnActorFromClassPath(const UObject* WorldContextObject, FLatentActionInfo LatentInfo, AActor*& SpawnedActor, const FString& ActorClassPath, const FVector& Location, const FRotator& Rotation, ESpawnActorCollisionHandlingMethod CollisionHandlingOverride, AActor* Owner, bool AsyncLoad);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresShowMapName(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetVisibleGimmickAction(UObject* WorldContextObject, bool bVisible);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetVisibleComNpc(UObject* WorldContextObject, bool bEnable, FName InName);
     
     UFUNCTION(BlueprintCallable)
@@ -845,85 +845,85 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresSetTransientActor(AActor* Actor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWorldMinY(UObject* WorldContextObject, FName TagName, float WorldMinY);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWorldMinX(UObject* WorldContextObject, FName TagName, float WorldMinX);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWorldMaxY(UObject* WorldContextObject, FName TagName, float WorldMaxY);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWorldMaxX(UObject* WorldContextObject, FName TagName, float WorldMaxX);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWindSpeed(UObject* WorldContextObject, FName TagName, float WindSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWindAngle(UObject* WorldContextObject, FName TagName, float WindAngle);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanWavelength(UObject* WorldContextObject, FName TagName, float Wavelength);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanTimeDilationFactor(UObject* WorldContextObject, FName TagName, float TimeDilationFactor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanSteepness(UObject* WorldContextObject, FName TagName, float Steepness);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanSmallWaveSuppression(UObject* WorldContextObject, FName TagName, float SmallWaveSuppression);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanOppositeWaveSuppression(UObject* WorldContextObject, FName TagName, float OppositeWaveSuppression);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanOmegaPeriod(UObject* WorldContextObject, FName TagName, float OmegaPeriod);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_OceanAmplitude(UObject* WorldContextObject, FName TagName, float Amplitude);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_LOD(UObject* WorldContextObject, FName TagName, bool bForcedLodModelOverride, int32 ForcedLodModel, bool bSQEXForceLODDisableOverride, bool bSQEXForceLODDisable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetTaggedActorProperty_DistanceCulling(UObject* WorldContextObject, FName TagName, bool bDesiredMaxDrawDistanceOverride, float DesiredMaxDrawDistance, bool bAllowCullDistanceVolumeOverride, bool bAllowCullDistanceVolume);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetSpecialBattleMode(UObject* WorldContextObject, bool bIsSpecialMode);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationWorldMinY(const UObject* WorldContextObject, float WorldMinY);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationWorldMinX(const UObject* WorldContextObject, float WorldMinX);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationWorldMaxY(const UObject* WorldContextObject, float WorldMaxY);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationWorldMaxX(const UObject* WorldContextObject, float WorldMaxX);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationWindSpeed(const UObject* WorldContextObject, float WindSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationWindAngle(const UObject* WorldContextObject, float WindAngle);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationUpdate(UObject* WorldContextObject, bool bEnable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationTime(UObject* WorldContextObject, float Time);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationCPUReadBack(UObject* WorldContextObject, bool bEnable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanSimulationAmplitude(const UObject* WorldContextObject, float Amplitude);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetOceanDiveModeEnvSwitch(UObject* WorldContextObject, bool bDiveMode, bool bImmediate);
     
     UFUNCTION(BlueprintCallable)
@@ -932,16 +932,16 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresSetIKinemaEnable(const TArray<ATresCharPawnBase*>& TresCharPawns, bool Enable, bool Force);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetForceMipLevelsToBeResidentForTaggedActor(UObject* WorldContextObject, FName TagName, bool OverrideForceMiplevelsToBeResident, bool bForceMiplevelsToBeResidentValue, float Duration, int32 CinematicTextureGroups);
     
     UFUNCTION(BlueprintCallable)
     static void TresSetForceMipLevelsToBeResident(const TArray<UMaterialInterface*>& Materials, bool OverrideForceMiplevelsToBeResident, bool bForceMiplevelsToBeResidentValue, float Duration, int32 CinematicTextureGroups);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetEventCutsceneMaxFPSMode(UObject* WorldContextObject, bool bEnable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSetDisableGamePause(UObject* WorldContextObject, bool bDisable);
     
     UFUNCTION(BlueprintCallable)
@@ -953,16 +953,16 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresSetCacheSampleTransitionSpeed(float Value);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresSaveVisibleLevelList(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresResetTaggedActorProperty(UObject* WorldContextObject, FName TagName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresResetAllTaggedActorProperty(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresRecordComNpc(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -971,19 +971,19 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresPrepareMap(const TArray<FName>& SubLevelNames, const bool IsDisableEditor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresPlayFriendFaceAnimation(UObject* WorldContextObject, ETresChrUniqueID Character, FName AnimName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresPlayFriendAnimation(UObject* WorldContextObject, ETresChrUniqueID Character, FName AnimName, float BlendInTime, bool isLoop);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresNotifyStopCutscene(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresNotifyPlayCutscene(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresNotifyOceanIslandTriggerBoxOverlap(UObject* WorldContextObject, bool Begin);
     
     UFUNCTION(BlueprintCallable)
@@ -992,13 +992,13 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresMapJump(FName MapName, FName TargetTag, TEnumAsByte<ETresMapJumpFadeKind> InFadeKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresLoadVisibleLevelList(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresLevelListVisibility(UObject* WorldContextObject, FLatentActionInfo LatentInfo, const TArray<FName>& Names, bool Visible);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresLevelFlashGimmickActors(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
@@ -1013,13 +1013,13 @@ public:
     UFUNCTION(BlueprintCallable)
     static int32 TresIsFindName(FName findName, const TArray<FName>& Names);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool TresIsExistComNpc(UObject* WorldContextObject, FName InName);
     
     UFUNCTION(BlueprintCallable)
     static bool TresIsCommonAssetAsyncLoad();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool TresIsCinematicMode(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
@@ -1031,43 +1031,43 @@ public:
     UFUNCTION(BlueprintCallable)
     static bool TresIsAutoActorEnd();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGumiShipStartCinematicMode(UObject* WorldContextObject, bool bPauseAI, bool bHideGumiShip, bool bHideCockpit, bool bDisableUserGumiShipControll, bool bDisableUserCameraControll, bool bResetTinyShipFormation, bool bResetGumiShipThrusterEffect, bool bResetGumiShipAuraEffect, bool bDestroyProjectile);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGumiShipNotifyCinematicModeEvent(UObject* WorldContextObject, const FTresGumiShipCinematicModeEventData& CinematicModeEvent);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGumiShipEndCinematicMode(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
     static FString TresGetVoiceLanguage();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetVictoryBonus(UObject* WorldContextObject, ATresCharPawnBase* InPawn, ETresVictoryBonusKind InBonus, ETresAbilityKind InAbility);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationWorldMinY(const UObject* WorldContextObject, float& WorldMinY);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationWorldMinX(const UObject* WorldContextObject, float& WorldMinX);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationWorldMaxY(const UObject* WorldContextObject, float& WorldMaxY);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationWorldMaxX(const UObject* WorldContextObject, float& WorldMaxX);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationWindSpeed(const UObject* WorldContextObject, float& WindSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationWindAngle(const UObject* WorldContextObject, float& WindAngle);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetOceanSimulationAmplitude(const UObject* WorldContextObject, float& Amplitude);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static ATresLgRxManager* TresGetLgRxManager(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
@@ -1082,25 +1082,25 @@ public:
     UFUNCTION(BlueprintPure)
     static FString TresGetCurrentLanguage();
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresNpcPawn_c_npc* TresGetComNpc(UObject* WorldContextObject, FName InName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetActorsInLevel(const UObject* WorldContextObject, TSubclassOf<AActor> ActorClass, TArray<AActor*>& OutActors);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresGetActorsAll(const UObject* WorldContextObject, TSubclassOf<AActor> ActorClass, TArray<AActor*>& OutActors);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresFlushLOD(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresFlushILC(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
     static void TresExecuteGarbageCollection();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEndTextureResidentForTaggedActors(UObject* WorldContextObject, FName TagName);
     
     UFUNCTION(BlueprintCallable)
@@ -1109,16 +1109,16 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresEndTextureResidentForActor(AActor* Actor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEndTextureResident(UObject* WorldContextObject, FName ResidentTag);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEndFriendFaceAnimation(UObject* WorldContextObject, ETresChrUniqueID Character);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEndCinematicMode(UObject* WorldContextObject, bool bBattleIdlingEnd, bool bInvokeRecordedLevelEntity);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEndBaymaxRideHud(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1127,28 +1127,28 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresEnableTemporalAA(bool bEnable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEnableFriendChatMode(UObject* WorldContextObject, bool bEnable, ETresChrUniqueID InChrID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresEnableComNpcChatMode(UObject* WorldContextObject, bool bEnable, FName InName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDisablePlayerDecoParts(UObject* WorldContextObject, bool bDisable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDirectRideVehicle(UObject* WorldContextObject, AActor* inActor, int32 InParam, float InCameraYaw, int32 InBonamikPreRoll);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDirectReMindLgRx(UObject* WorldContextObject, AActor* inActor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDirectFRMountCurling(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDirectBaymaxRide(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDirectAFTeaCup(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1157,13 +1157,13 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresDestroyEnemySpawnedVehiclePawnGigas();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresDelay(UObject* WorldContextObject, float Duration, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
     static void TresDefaultCacheSampleTransitionSpeed();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresDebugUnlockSmartphone(UObject* WorldContextObject, bool bUnlock);
     
     UFUNCTION(BlueprintCallable)
@@ -1184,43 +1184,43 @@ public:
     UFUNCTION(BlueprintPure)
     static bool TresCompareComponentMobility(USceneComponent* Component, TEnumAsByte<EComponentMobility::Type> Type);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicStartPawnChatMode(UObject* WorldContextObject, ATresCharPawnBase* InPawn, bool InDisableWeapon);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicSetPawnIndividualCinematicMode(UObject* WorldContextObject, ATresCharPawnBase* InPawn, bool InAIStop, bool InChangeCinematicState);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicPlayerStateClearEx(UObject* WorldContextObject, bool bForceStateClear, ETresCinematicPlayerStyleType PlayerStyle, bool bContinueMotion);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicPlayerStateClear(UObject* WorldContextObject, bool bForceStateClear, bool bStyleChangeClear, bool bContinueMotion);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicPlayerAuraEffect(UObject* WorldContextObject, bool bShowPlayerAuraEffect);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicPauseAI(UObject* WorldContextObject, bool bEnemyAI, bool bFriendAI, bool bOtherAI, bool bEnemyCinematic, bool bFriendCinematic, bool bOtherCinematic);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicDisableShopActorEffect(UObject* WorldContextObject, ETresSavePointDispType InDispType);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicDisableSavePointEffect(UObject* WorldContextObject, ETresSavePointDispType InDispType);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicDisableRailSlideExStartActorEffect(UObject* WorldContextObject, ETresSavePointDispType InDispType);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicDisableChrFootEffect(UObject* WorldContextObject, bool bDisableFootEffect);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresCinematicChangeTPViewMode(UObject* WorldContextObject, bool bChangeTPViewMode);
     
     UFUNCTION(BlueprintCallable)
     static void TresChangeBGMEnable(bool Enable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool TresChangeActionComNpc(UObject* WorldContextObject, FName InName, FName InAction);
     
     UFUNCTION(BlueprintCallable)
@@ -1229,7 +1229,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresBonamikSetWeight(AActor* Actor, float Weight, float WeightChangeTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresBonamikResetAndPreRoll(UObject* WorldContextObject, int32 PreRoll);
     
     UFUNCTION(BlueprintCallable)
@@ -1250,7 +1250,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresAsyncLoadInitialAssets();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresApplyMapSet(UObject* WorldContextObject, FLatentActionInfo LatentInfo, UTresMapSet* MapSet, FName cmdName, bool isOneFrameExecute);
     
     UFUNCTION(BlueprintCallable)
@@ -1268,25 +1268,25 @@ public:
     UFUNCTION(BlueprintCallable)
     static void StopActorVoice(AActor* Speaker, UTresActorVoice* ActorVoice);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StartWhiteOut(UObject* WorldContextObject, float InFadeTime, bool InFadeAudio);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StartWhiteIn(UObject* WorldContextObject, float InFadeTime, bool InFadeAudio);
     
     UFUNCTION(BlueprintCallable)
     static AEmitterCameraLensEffectBase* StartLensEffect(UObject* WorldContextObject, TSubclassOf<AEmitterCameraLensEffectBase> EmitterLensEffectClass, bool in_OverrideAllowMultipleInstances);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StartFadeOut(UObject* WorldContextObject, float InFadeTime, bool InFadeAudio);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StartFadeIn(UObject* WorldContextObject, float InFadeTime, bool InFadeAudio);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StartFade(UObject* WorldContextObject, FVector InFadeColor, FVector2D InFadeAlpha, float InFadeTime, bool InFadeAudio);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static UParticleSystemComponent* SpawnCameraPositionEffect(UObject* WorldContextObject, UParticleSystem* Effect, FVector Offset, FRotator Rotation, FVector Scale, bool bCamRot, bool bCamRotYaw);
     
     UFUNCTION(BlueprintCallable)
@@ -1295,7 +1295,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void SetWorldResidentsEnable(bool EnableWorldResidents);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetTresCameraNormalDefault(UObject* WorldContextObject, ATresCameraNormal* TresCameraNormal);
     
     UFUNCTION(BlueprintCallable)
@@ -1319,7 +1319,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void SetPlayerIKinemaEnable(bool EnableIKinema);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static float SetOneActionState(UObject* WorldContextObject, FName MotionName, bool disableOverlappedForce);
     
     UFUNCTION(BlueprintCallable)
@@ -1328,7 +1328,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void SetMaterialParameterValueScalar(UMaterialInstanceDynamic* MaterialInstanceDynamic, TEnumAsByte<ETresKHSMaterialParameterIDScalarType> ParamType, float Val);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetGlobalGameSpeed(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, float InNewTimeDilation, float InInterpTime);
     
     UFUNCTION(BlueprintCallable)
@@ -1370,34 +1370,34 @@ public:
     UFUNCTION(BlueprintCallable)
     static void SetAllChildActorComponentClass(AActor* Actor, TSubclassOf<AActor> Class);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorVisibleOn(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bPlayer, bool bFriend, bool bEnemy, bool bMap, bool bBackground, bool bGimmick, bool bProjectile, bool bNpc, bool bPrize);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorVisibleOff(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bPlayer, bool bFriend, bool bEnemy, bool bMap, bool bBackground, bool bGimmick, bool bProjectile, bool bNpc, bool bPrize);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorVisibleByObjTypeImmediate(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, ESQEX_ObjectType InObjType, bool bVisible);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorVisibleByObjType(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, ESQEX_ObjectType InObjType, bool bVisible);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorStopOn(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bPlayer, bool bFriend, bool bEnemy, bool bMap, bool bBackground, bool bGimmick, bool bProjectile, bool bNpc, bool bPrize);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorStopOff(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bPlayer, bool bFriend, bool bEnemy, bool bMap, bool bBackground, bool bGimmick, bool bProjectile, bool bNpc, bool bPrize);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorStopByObjType(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, ESQEX_ObjectType InObjType, bool bStop);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorCollisionDisableOn(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bPlayer, bool bFriend, bool bEnemy, bool bMap, bool bBackground, bool bGimmick, bool bProjectile, bool bNpc, bool bPrize, bool bImmediate);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorCollisionDisableOff(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bPlayer, bool bFriend, bool bEnemy, bool bMap, bool bBackground, bool bGimmick, bool bProjectile, bool bNpc, bool bPrize, bool bImmediate);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void SetActorCollisionDisableByObjType(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, ESQEX_ObjectType InObjType, bool bDisable, bool bImmediate);
     
     UFUNCTION(BlueprintCallable)
@@ -1412,28 +1412,28 @@ public:
     UFUNCTION(BlueprintCallable)
     static void RestoreEnemyXIIIRetryParam(ETresEnemyXIIIPhaseType InNewPhaseType);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetTresCameraPrevious(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetTresCameraNormal(UObject* WorldContextObject, bool bForce);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetTresCameraExceptActive(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetGlobalGameSpeed(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, float InInterpTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetActorVisibleImmediate(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetActorVisible(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetActorStop(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ResetActorCollisionDisable(UObject* WorldContextObject, ETresObjTypeProcChannel InChannel, bool bImmediate);
     
     UFUNCTION(BlueprintCallable)
@@ -1442,19 +1442,19 @@ public:
     UFUNCTION(BlueprintPure)
     static bool RemyIsFirstPlay();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void RemyGetFinalMilestoneRewardAndShowMsg(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintPure)
     static bool RemyCanCooking();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool RemoteEventPassActor(UObject* WorldContextObject, FName EventName, AActor* inActor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool RemoteEvent(UObject* WorldContextObject, FName EventName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void RegisterEnemyGaugeTarget(UObject* WorldContextObject, ATresCharPawnBase* InEnemy, bool bMulti);
     
     UFUNCTION(BlueprintCallable)
@@ -1463,22 +1463,22 @@ public:
     UFUNCTION(BlueprintCallable)
     static void RegistActorTickFunction(AActor* Actor, bool regist, bool isComponent);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void RecoveryPlayerStatusAllForCinematic(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
     static int32 RandomSelect(bool inSuccess1, bool inSuccess2, bool inSuccess3, bool inSuccess4, bool inSuccess5, float inProbability1, float inProbability2, float inProbability3, float inProbability4, float inProbability5);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void PlayXIIIRetryVoice(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void PlayEnemyRetryVoice(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
     static void PlayActorVoice(AActor* Speaker, UTresActorVoice* ActorVoice);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void NotifyDirectInfomationForGumi(UObject* WorldContextObject, const ETresGumiShipDirectNotifyType eType);
     
     UFUNCTION(BlueprintPure)
@@ -1499,7 +1499,7 @@ public:
     UFUNCTION(BlueprintPure)
     static bool IsUnlockdClearItem(FName ItemName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool IsTresBluePrintDebugMode(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1508,10 +1508,10 @@ public:
     UFUNCTION(BlueprintCallable)
     static bool IsSnowCurlingSavedTreasure(int32 ID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool IsOverlapTresCameraLocation(UObject* WorldContextObject, FVector Location, float Radius, bool bAddRadiusZ);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool IsOverlapTresCameraActor(UObject* WorldContextObject, AActor* Actor, FVector LocalOffset, float Radius);
     
     UFUNCTION(BlueprintPure)
@@ -1535,7 +1535,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static bool IsGameCleared();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool IsFadeChange(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1544,7 +1544,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static bool IsExistGameFlag(FName FlagName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool IsBPTresCameraInterpChange(UObject* WorldContextObject, AActor* Camera);
     
     UFUNCTION(BlueprintPure)
@@ -1553,22 +1553,22 @@ public:
     UFUNCTION(BlueprintPure)
     static bool Greater_FlagLabel(FName Flag, FName label);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static TEnumAsByte<ETresWorldCode> GetWorldCode(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static TEnumAsByte<ETresWorldAreaCode> GetWorldAreaCode(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
     static UTresTexturePump* GetTresTexturePump(const FString& DataName);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresPlayerPawnBase* GetTresPlayerPawnBase(UObject* WorldContextObject, int32 PlayerIndex);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresPlayerControllerBase* GetTresPlayerControllerBase(UObject* WorldContextObject, int32 PlayerIndex);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresLevelScriptActor* GetTresLevelScriptActor(UObject* WorldContextObject, FName PackageName);
     
     UFUNCTION(BlueprintPure)
@@ -1610,7 +1610,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static int32 GetGameFlag(FName FlagName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static float GetFadeAmount(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1637,13 +1637,13 @@ public:
     UFUNCTION(BlueprintPure)
     static float GetAngleTwoVector(const FVector& v1, const FVector& v2);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void GetAllActorsOfTag(UObject* WorldContextObject, TSubclassOf<AActor> ActorClass, FName TagName, TArray<AActor*>& OutActors);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void GetAllActorsOfName(UObject* WorldContextObject, TSubclassOf<AActor> ActorClass, FName ActorName, AActor*& OutActor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void GetAllActorsOfBlueprintName(UObject* WorldContextObject, TSubclassOf<AActor> ActorClass, FName BlueprintName, TArray<AActor*>& OutActors);
     
     UFUNCTION(BlueprintPure)
@@ -1652,10 +1652,10 @@ public:
     UFUNCTION(BlueprintPure)
     static FString GetActorBlueprintName(const AActor* Actor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void FadeOutProjectile(UObject* WorldContextObject, ESQEX_ObjectType InObjType);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void FadeoutAllCameraShake(UObject* WorldContextObject, float FadeTime);
     
     UFUNCTION(BlueprintPure)
@@ -1667,7 +1667,7 @@ public:
     UFUNCTION(BlueprintPure)
     static bool EqualEqual_FlagLabel(FName Flag, FName label);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndXIIIRetryVoice(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1676,34 +1676,34 @@ public:
     UFUNCTION(BlueprintCallable)
     static void EndValidBPTresCamera(ATresCameraBase* EndCamera, bool bTakeover, FViewTargetTransitionParamsEx TransitionParams);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndLensEffectInstance(UObject* WorldContextObject, AEmitterCameraLensEffectBase* Emitter, bool bLoopEnd, float FadeTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndLensEffectClass(UObject* WorldContextObject, TSubclassOf<AEmitterCameraLensEffectBase> EmitterLensEffectClass, bool bLoopEnd, float FadeTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndEnemyRetryVoice(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndCameraPositionEffectInstance(UObject* WorldContextObject, UParticleSystemComponent* EffectInst, bool bLoopEnd, float FadeTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndCameraPositionEffect(UObject* WorldContextObject, UParticleSystem* Effect, bool bLoopEnd, float FadeTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndAllSameBPTresLatent(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndAllSameBPTresCameraOfName(UObject* WorldContextObject, bool bTakeover, FViewTargetTransitionParamsEx TransitionParams, FName CameraName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndAllSameBPTresCamera(UObject* WorldContextObject, bool bTakeover, FViewTargetTransitionParamsEx TransitionParams);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndAllBPTresCameraOfName(UObject* WorldContextObject, bool bTakeover, FViewTargetTransitionParamsEx TransitionParams, FName CameraName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void EndAllBPTresCamera(UObject* WorldContextObject, bool bTakeover, FViewTargetTransitionParamsEx TransitionParams);
     
     UFUNCTION(BlueprintCallable)
@@ -1715,16 +1715,16 @@ public:
     UFUNCTION(BlueprintCallable)
     static void EmptyFunction();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void DrawDebugActor(UObject* WorldContextObject, const AActor* inActor, FColor inDrawColor, float inLifeTime);
     
     UFUNCTION(BlueprintCallable)
     static TArray<AActor*> DisableChildrenCollision(AActor* Actor);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void DestroyAllProjectileForGumi(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void DestroyAllProjectile(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1736,25 +1736,25 @@ public:
     UFUNCTION(BlueprintCallable)
     static void DebugTresDeleteFriend(bool isAll, int32 inIdx);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static ATresEnemyPawnBase* DebugSimpleEnemySet(UObject* WorldContextObject, FName EnemyID, float OffsetX, float OffsetY, float OffsetZ);
     
     UFUNCTION(BlueprintCallable)
     static void DebugConsoleCommand(const FString& Command);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static UTresTimerTask* CreateTresTaskTimerGameMode(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void CreateTresTaskGameMode(UObject* WorldContextObject, UTresTaskBase*& Out, TSubclassOf<UTresTaskBase> Class, bool isSingleton);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void CreatePrize(UObject* WorldContextObject, const FVector InLocation, TEnumAsByte<PRIZE_KIND> InKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ClientStopCameraShake(UObject* WorldContextObject, TSubclassOf<UCameraShake> ShakeClass);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void ClientPlayCameraShake(UObject* WorldContextObject, TSubclassOf<UCameraShake> ShakeClass, AActor* OwnerActor, float Scale, TEnumAsByte<ECameraAnimPlaySpace::Type> PlaySpace, FRotator UserPlaySpaceRot);
     
     UFUNCTION(BlueprintCallable)
@@ -1763,7 +1763,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void ClearFlagBitLabel(FName Flag, FName label);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void CleanupForCinematic(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
@@ -1772,196 +1772,196 @@ public:
     UFUNCTION(BlueprintPure)
     static bool CanPlayEpilogueMovie();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void CancelFade(UObject* WorldContextObject, float InFadeTime, bool InFadeAudio);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresStartWipeOut(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresStartWipeIn(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresStartWhiteOut(UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresStartWhiteIn(UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresStartFadeOut(UObject* WorldContextObject, FLinearColor InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresStartFadeIn(UObject* WorldContextObject, FLinearColor InFadeColor, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresSetupChatMode(UObject* WorldContextObject, ATresCharPawnBase* InPawn1, ATresCharPawnBase* InPawn2);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresSetFadeColorAndAmount(UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, FLinearColor InFadeColor, float InAmount);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresPlayerResetStyle(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresPlayerDisableWallRunPhysXCollision(UObject* WorldContextObject, bool bDisable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BPTresIsFadeChange(UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static float BPTresGetFadeAmount(UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresDoAttractionFlowMarkerDraw(UObject* WorldContextObject, ATresCharPawnBase* InPawn);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresCinematicPlayerTrinityDie(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresCinematicChrTurnTo(UObject* WorldContextObject, ATresCharPawnBase* InPawn, const FVector& InLocation, bool InDisableWeapon);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BPTresCheckSpecialShipLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BPTresCancelFade(UObject* WorldContextObject, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer, float InFadeTime, bool InApplyGameSpeed);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void BPTresActorMoveToLocation(UObject* WorldContextObject, AActor* MoveActor, FVector Destination, float Time, bool bSnapFloor, bool bRotationYaw, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void BPTresActorMoveToActor(UObject* WorldContextObject, AActor* MoveActor, AActor* DestinationActor, float Time, bool bSnapFloor, bool bRotationYaw, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresUpdateDlcChallengeAchievementRecord(UObject* WorldContextObject, ETresDlcChallengeRecordID InRecordID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresUnlockBattlePortalRewardAction(UObject* WorldContextObject, FString& OutRewardStr);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresToSecondHalfForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresStopForceFeedbackAll(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresStopForceFeedback(UObject* WorldContextObject, int32 InPlayerIndex);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresStartGameOverLoopSE(UObject* WorldContextObject, ETresGameOverKind InKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresStartGameOverEvent(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresStartGameOver(UObject* WorldContextObject, ETresGameOverKind InGameOverKind, bool bPlayDeadSE);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresStartDlcCheatAchievement(UObject* WorldContextObject, ETresDlcCheatAchievementID InCheatAchievementID, int32 InOption, int32 InOption2);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresStartCinematicModeForLevel(UObject* WorldContextObject, bool bHidePlayer, bool bHideCockpit, bool bDisableMove, bool bPlayerStateClear, bool bForceStateClear, bool bStyleChangeClear, bool bContinueMotion, bool bDisableCameraMove, bool bPauseAI, bool bDisableIKinema, bool bRecordLevelEntity, bool bShowPlayerAuraEffect, bool bChangeTPViewMode);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetStateTableIndex(UObject* WorldContextObject, int32 dIndex, float fOverrideCoolDownTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetShopLevel(UObject* WorldContextObject, int32 InShopLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetPlayerGrowthType(UObject* WorldContextObject, ETresPlayerGrowthType InGrowthType, ETresPlayerAbilityGrowthType InAbilityType);
     
     UFUNCTION(BlueprintCallable)
     static void BP_TresSetKinematicEnable(bool bEnable, float InTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetGumiShopLevel(UObject* WorldContextObject, int32 InShopLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetGameOverMenuType(UObject* WorldContextObject, ETresGameOverMenuType InKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetEnableReplicaAttackForLevel(UObject* WorldContextObject, bool bEnable);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetBattleLevelFromName(UObject* WorldContextObject, FName BattleLevelName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetBattleLevelAuto(UObject* WorldContextObject, FName FlagName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresSetBattleLevel(UObject* WorldContextObject, int32 InBattleLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRiseShopLevel(UObject* WorldContextObject, int32 InShopLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRiseGumiShopLevel(UObject* WorldContextObject, int32 InShopLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRiseBattleLevel(UObject* WorldContextObject, int32 InBattleLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresReturnCharEquipItems(UObject* WorldContextObject, ETresChrUniqueID InChrID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresResetClipLength(UObject* WorldContextObject, const FName InGroupName, float InTransitionTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRequestToMickeyDownStateForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresRequestPreLastHolyForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRequestFullFireLaser(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRequestChangeStateToTiredForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresRequestActionStartForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresPlayVoiceAndLipForGameStartForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresPlayForceFeedback(UObject* WorldContextObject, ETresForceFeedbackKind InKind, bool InLooping, int32 InPlayerIndex);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresOverwriteClipLength(UObject* WorldContextObject, float InOverwriteClipLength, const FName InGroupName, float InTransitionTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresOnStartPreLastHolyForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresLineTraceByChannel(UObject* WorldContextObject, const FVector Start, const FVector End, TEnumAsByte<ETraceTypeQuery> TraceChannel, bool bTraceComplex, const TArray<AActor*>& ActorsToIgnore, TEnumAsByte<EDrawDebugTrace::Type> DrawDebugType, FHitResult& OutHit, bool bIgnoreSelf, FLinearColor TraceColor, FLinearColor TraceHitColor, float DrawTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsSimultaneoutWarpAttackStateForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsPlayerHoldCameraState(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsLuckyMarkRecorded(UObject* WorldContextObject, FName InMarkId);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsIdleStateForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsGameEnablePerformanceCamera(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsGameEnableForceFeedback(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsFoodstuffActorNeedSpawn(UObject* WorldContextObject, FName InKeyName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsDlcEnableCheatMode(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsDlcEnableChallengeMode(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1970,142 +1970,142 @@ public:
     UFUNCTION(BlueprintCallable)
     static bool BP_TresIsDlcCheatAchievementClear(ETresDlcCheatAchievementID InCheatAchievementID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsConfigEnablePerformanceCamera(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsConfigEnableForceFeedback(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresIsConfigEnableControlTypeB(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresHaveItem(UObject* WorldContextObject, FName InItemKeyName);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresHaveAllSignKeyItem(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresGetVictoryBonus(UObject* WorldContextObject, FName InFlagName, bool bShowInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static int32 BP_TresGetShopLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresGetPrize(UObject* WorldContextObject, const TArray<TEnumAsByte<PRIZE_KIND>>& InPrizeItems);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresGetItem(UObject* WorldContextObject, FName InItemKeyName, int32 InNum, bool bShowInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static TEnumAsByte<ETresMiRxHolySealType> BP_TresGetHolySealTypeForLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static int32 BP_TresGetGumiShopLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresGetCrabItem(UObject* WorldContextObject, int32 InItemNum);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static int32 BP_TresGetBattleLevel(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static int32 BP_TresGetBackyardItemNum(UObject* WorldContextObject, FName InItemKeyName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresGameSetMinigame(UObject* WorldContextObject, ETresGameMiniGameType InKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresGameChangePlayer(UObject* WorldContextObject, ETresPlayerUniqueID InKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresDropBackyardItemOne(UObject* WorldContextObject, FName InItemKeyName);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresDlcEnableCheatMode(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresDlcEnableChallengeMode(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertKeyItemIDtoKeyName(UObject* WorldContextObject, ETresItemDefKeyItem InBattleItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameWeapon(UObject* WorldContextObject, ETresItemDefWeapon InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameReport(UObject* WorldContextObject, ETresItemDefReport InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameProtector(UObject* WorldContextObject, ETresItemDefProtector InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameNavimap(UObject* WorldContextObject, ETresItemDefNavimap InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameMognet(UObject* WorldContextObject, ETresItemDefMognetItem InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameMaterial(UObject* WorldContextObject, ETresItemDefMaterial InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameLSIGame(UObject* WorldContextObject, ETresItemDefLSIGameItem InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameKeyitem(UObject* WorldContextObject, ETresItemDefKeyItem InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameGumiSticker(UObject* WorldContextObject, ETresItemDefGumiSticker InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameGumiShipBP(UObject* WorldContextObject, ETresItemDefGumiShipBP InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameGumiPattern(UObject* WorldContextObject, ETresItemDefGumiPattern InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameGumiParts(UObject* WorldContextObject, ETresItemDefGumiParts InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameGumiMaterial(UObject* WorldContextObject, ETresItemDefGumiMaterial InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameGumiEtc(UObject* WorldContextObject, ETresItemDefGumiEtc InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameFoodstuff(UObject* WorldContextObject, ETresItemDefFoodstuff InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameFood(UObject* WorldContextObject, ETresItemDefFood InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameCamp(UObject* WorldContextObject, ETresItemDefCampItem InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameBattle(UObject* WorldContextObject, ETresItemDefBattleItem InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertItemIDtoKeyNameAccessory(UObject* WorldContextObject, ETresItemDefAccessory InItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertFoodstuffItemIDtoKeyName(UObject* WorldContextObject, ETresItemDefFoodstuff InFoodstuffItemID);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static FName BP_TresConvertBattleItemIDtoKeyName(UObject* WorldContextObject, ETresItemDefBattleItem InBattleItemID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void BP_TresCheckPhotoHologramUnlock(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool BP_TresCheckDlcCheatAchievement(UObject* WorldContextObject, ETresDlcCheatAchievementID InCheatAchievementID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresChangeCharEquipWeapon(UObject* WorldContextObject, ETresChrUniqueID InChrID, ETresItemDefWeapon InWeaponID);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresAddShopLevel(UObject* WorldContextObject, int32 InAddLevel);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_TresAddGumiShopLevel(UObject* WorldContextObject, int32 InAddLevel);
     
     UFUNCTION(BlueprintCallable)
@@ -2114,22 +2114,22 @@ public:
     UFUNCTION(BlueprintCallable)
     static FRotator BP_SetRotatorElement(const FRotator& Rot, bool bSetX, float RollX, bool bSetY, float PitchY, bool bSetZ, float YawZ);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_SetFadeColorAndAmount(UObject* WorldContextObject, FLinearColor InFadeColor, float InAmount, TEnumAsByte<ESQEX_ScreenFadeLayer> InLayer);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_ReqTresGameQuitMinigameNoMapJump(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_ReqTresGameQuitMinigame(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
     static bool BP_IsActorExistDirection(AActor* Actor1, TEnumAsByte<ETresdirectionType> DirType, AActor* Actor2);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_GotoTitle(UObject* WorldContextObject, TEnumAsByte<ETresMapJumpFadeKind> InFadeKind);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void BP_GotoMemoryArchive(UObject* WorldContextObject, TEnumAsByte<ETresMapJumpFadeKind> InFadeKind, FName ReturnMapName, FName ReturnPlayerStartTag);
     
     UFUNCTION(BlueprintCallable)
@@ -2138,7 +2138,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static FVector BP_GetActorSpecifiedDirectionDistanceLocation(AActor* Actor, TEnumAsByte<ETresdirectionType> DirType, float Distance);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool BP_FoodstuffGetTeamPrize(UObject* WorldContextObject, FName InKeyName);
     
     UFUNCTION(BlueprintCallable)
@@ -2153,13 +2153,13 @@ public:
     UFUNCTION(BlueprintCallable)
     static void BP_AddMunny(int32 munny);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void AllPrizeCollection(UObject* WorldContextObject, ATresCharPawnBase* InPawn);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void AllEndLensEffect(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void AllEndCameraPositionEffect(UObject* WorldContextObject);
     
 };
