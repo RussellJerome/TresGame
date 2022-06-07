@@ -8,10 +8,10 @@ UCLASS(DefaultConfig, Config=Engine)
 class KINEDRIVERRT_API USQEX_KineDriver_GlobalConfig : public UDeveloperSettings {
     GENERATED_BODY()
 public:
-    UPROPERTY(Config, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bMultiThreadUpdate;
     
-    UPROPERTY(Config, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bEnableUpdateOverlaps;
     
     USQEX_KineDriver_GlobalConfig();

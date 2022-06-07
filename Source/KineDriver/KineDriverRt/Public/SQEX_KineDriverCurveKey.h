@@ -7,25 +7,25 @@ USTRUCT(BlueprintType)
 struct FSQEX_KineDriverCurveKey {
     GENERATED_BODY()
 public:
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float X;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float Y;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float LeftTanX;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float LeftTanY;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float RightTanX;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     float RightTanY;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TEnumAsByte<ESQEX_KD_InterpolateType> InterpType;
     
     KINEDRIVERRT_API FSQEX_KineDriverCurveKey();

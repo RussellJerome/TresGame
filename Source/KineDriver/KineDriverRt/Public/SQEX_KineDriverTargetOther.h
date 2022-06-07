@@ -6,16 +6,16 @@ USTRUCT(BlueprintType)
 struct FSQEX_KineDriverTargetOther {
     GENERATED_BODY()
 public:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FString Name;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FString SubType;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FName> ParamNames;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TArray<float> Params;
     
     KINEDRIVERRT_API FSQEX_KineDriverTargetOther();

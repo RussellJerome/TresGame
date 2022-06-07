@@ -16,85 +16,85 @@ UCLASS()
 class BONAMIKRT_API USQEX_BonamikAsset : public UDataAsset {
     GENERATED_BODY()
 public:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     USkeletalMesh* m_SkeletalMesh;
     
     UPROPERTY(VisibleAnywhere)
     uint32 m_VersionNo;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FSQEX_BonamikSceneManagerDesc m_SceneManager;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_BonamikSolverDesc> m_Solvers;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_BonamikBodyDesc> m_Bodies;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_BonamikLinkDesc> m_Links;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_BonamikPlaneDesc> m_Planes;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_BonamikShapeMatchingDesc> m_ShapeMatchings;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalKinematics;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalConstraints;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalCones;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalLinks;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalCollisions;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalSelfCollisions;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalChainRootParticles;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalPCLinkCones;
     
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     uint32 m_TotalLateralLinkCones;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool m_bAlwaysUse60FPSsetting;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FName> m_IgnoreEffectors;
     
     UPROPERTY(EditAnywhere)
     float m_TeleportDistance;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FString m_BonamikReferenceGroup;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FName> m_ReferenceGroups;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FString> m_BonamikCheckGroundBodyPosGroups;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FName> m_CheckGroundBodyPosGroups;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FSQEX_BonamikGroupLOD> m_BonamikGroupLODs;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool m_BonamikAccurateBoundsUpdate;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 m_PreRollStepOnResume;
     
     USQEX_BonamikAsset();

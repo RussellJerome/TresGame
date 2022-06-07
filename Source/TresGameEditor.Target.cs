@@ -10,9 +10,11 @@ public class TresGameEditorTarget : TargetRules {
 			"GeometryCache",
 			"KBDRt",
 			"KineDriverRt",
+			"KineDriverEd",
 			"Niagara",
 			"ScaleformUI",
 			"TresGame",
+			"TresGameEditor",
 		});
 	}
 }
