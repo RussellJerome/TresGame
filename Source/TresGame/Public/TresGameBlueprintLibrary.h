@@ -1070,7 +1070,7 @@ public:
     UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static ATresLgRxManager* TresGetLgRxManager(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static UTresFriendComponent* TresGetFriendManager(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
@@ -1262,7 +1262,7 @@ public:
     UFUNCTION(BlueprintCallable)
     static void StoreEnemyXIIIRetryParam();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StopAllCameraShake(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
@@ -1274,7 +1274,7 @@ public:
     UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void StartWhiteIn(UObject* WorldContextObject, float InFadeTime, bool InFadeAudio);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static AEmitterCameraLensEffectBase* StartLensEffect(UObject* WorldContextObject, TSubclassOf<AEmitterCameraLensEffectBase> EmitterLensEffectClass, bool in_OverrideAllowMultipleInstances);
     
     UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
@@ -1490,7 +1490,7 @@ public:
     UFUNCTION(BlueprintPure)
     static bool Less_FlagLabel(FName Flag, FName label);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool IsWaitCycleNeedMatineeImmediatePlay(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintPure)
@@ -1571,31 +1571,31 @@ public:
     UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresLevelScriptActor* GetTresLevelScriptActor(UObject* WorldContextObject, FName PackageName);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresGumiShipWorldSymbolActor* GetTresGumiShipBossBattleLockTargetWorldSymbolActor(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresGameState* GetTresGameState(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
     static int32 GetStaticMeshComponents(AActor* Target, TArray<UStaticMeshComponent*>& OutComponents);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresPlayerPawnBase* GetLocalTresPlayerPawnBase(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresPlayerControllerLowerBase* GetLocalTresPlayerControllerLowerBase(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresPlayerControllerBase* GetLocalTresPlayerControllerBase(const UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresGumiShipPlayerPawnBase* GetLocalTresGumiShipPlayerPawnBase(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresCameraManager* GetLocalTresCameraManager(UObject* WorldContextObject);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static APlayerController* GetLocalPlayerController(UObject* WorldContextObject);
     
     UFUNCTION(BlueprintCallable)
