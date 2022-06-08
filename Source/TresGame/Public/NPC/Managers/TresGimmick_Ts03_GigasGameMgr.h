@@ -33,10 +33,10 @@ protected:
     UFUNCTION(BlueprintCallable)
     void RegistGimmickHudMarker(USceneComponent* pComp);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     void OpenTitle(const UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     void OpenResult(const UObject* WorldContextObject, float ClearMilliSec, int32 totalScore, ETresUIGigasGameResultRank ClearRank, bool bNewRecord, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintNativeEvent)

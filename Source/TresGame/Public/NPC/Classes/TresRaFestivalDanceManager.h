@@ -547,7 +547,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void SetDanceResume();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     void SetDanceResultMode(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
@@ -622,7 +622,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void OpenRevisitTimerCountDown(UTresTimerTask* pTask, float fStartTime, float fWarningTime, float fAlertTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     void OpenHudDanceResult(UObject* WorldContextObject, int32 nScore, int32 nChain, ETresUIHudDanceResult rankKind, FLatentActionInfo LatentInfo);
     
     UFUNCTION()

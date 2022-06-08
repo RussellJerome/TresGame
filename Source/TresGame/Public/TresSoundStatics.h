@@ -19,10 +19,10 @@ class UTresSoundStatics : public UObject {
     GENERATED_BODY()
 public:
     UTresSoundStatics();
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void TresWaitForEndOfFieldVoice(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static UAudioComponent* TresSpawnSound2D_BP(const UObject* WorldContextObject, USoundBase* Sound, float VolumeMultiplier, float PitchMultiplier, float StartTime, USoundConcurrency* ConcurrencySettings, bool bPersistAcrossLevelTransition, bool bAutoDestroy);
     
     UFUNCTION(BlueprintCallable)
@@ -43,19 +43,19 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresSound_SetBGVolume(TEnumAsByte<ETresCategoryVolumeLayers::Type> Layer, float Volume, float FadeTime);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static int32 TresSound_GetAudiobleNumSoundsAtLocation(UObject* WorldContextObject, FVector Location);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresPlaySound2D_BP(const UObject* WorldContextObject, USoundBase* Sound, float VolumeMultiplier, float PitchMultiplier, float StartTime, USoundConcurrency* ConcurrencySettings);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static void TresPlayFieldVoice(UObject* WorldContextObject, UTresFieldVoice* Asset, bool CanSkip);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static FStringAssetReference TresGetWorldStaticBGMAssetReference(UObject* WorldContextObject, TEnumAsByte<ETresWorldStaticBGMTypes::Type> Type);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static USoundBase* TresGetWorldStaticBGMAsset(UObject* WorldContextObject, TEnumAsByte<ETresWorldStaticBGMTypes::Type> Type);
     
 };

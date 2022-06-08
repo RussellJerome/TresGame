@@ -33,13 +33,13 @@ protected:
     
 public:
     ATresCameraAnim();
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (LatentInfo = "LatentInfo"))
     void WaitPlayEnd(bool bDummy, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
     void StartTresCameraAnim(UCameraAnim* Anim, bool bLoop, bool bTakeover, FViewTargetTransitionParamsEx TransitionParams, bool bAutoEnd, bool bEndTakeover, FViewTargetTransitionParamsEx EndTransitionParams);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static ATresCameraAnim* BP_SpawnTresCameraAnim(UObject* WorldContextObject, TSubclassOf<ATresCameraAnim> CameraClass, const FName CameraName);
     
     UFUNCTION(BlueprintCallable)
