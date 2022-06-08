@@ -17,19 +17,19 @@ class UTresAIUtil : public UObject {
     GENERATED_BODY()
 public:
     UTresAIUtil();
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitForRunningBehaviorTree(UObject* WorldContext, FLatentActionInfo LatentInfo, ATresAIPawnBase* AIPawn);
     
     UFUNCTION(BlueprintPure)
     static bool IsTurnSafe(const FVector& BaseLocation, const FVector& CurrentVector, const FVector& DesiredVector, float MoveSpeed, float RotationYawSpeed, AController* Querier, float DivAngle);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool IsDirectPath(const FVector& Start, const FVector& End, UObject* WorldContext, AActor* PathfindingContext, bool bFailedRaycast);
     
     UFUNCTION(BlueprintPure)
     static void GetRailSlideLocations(TArray<FVector>& Result, ATresCharPawnBase* Pawn);
     
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static bool GetFloorLocation(FVector& Result, const UObject* WorldContext, FVector Location, const AActor* LocationContext, float ProjectionDistance, float AddedRadius, TEnumAsByte<ETresFloorTestMode::Type> TestMode);
     
     UFUNCTION(BlueprintPure)
@@ -47,7 +47,7 @@ public:
     UFUNCTION(BlueprintPure)
     static FVector BP_ClosestPointOnPath(UNavigationPath* Path, FVector Location);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void AITurnTo(UObject* WorldContext, FLatentActionInfo LatentInfo, ATresAIPawnBase* AIPawn, FVector TargetLocation, AActor* TargetActor);
     
 };

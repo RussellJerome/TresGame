@@ -23,17 +23,17 @@ private:
     
 public:
     ATresSoKcKeyHoleManager();
-    UFUNCTION(BlueprintPure)
+    UFUNCTION(BlueprintPure, meta= (WorldContext = "WorldContextObject"))
     static ATresSoKcKeyHoleManager* Get(const UObject* WorldContext);
     
 private:
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     static void _WaitAllKeyHoleGimmickRegister(const UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool _SetConnectNormaKeyHoleCount(const UObject* WorldContextObject, int32 NormaKeyHoleCount);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
     static bool _SetAllKeyHoleGimmicksVisibility(const UObject* WorldContextObject, bool bVisibility);
     
 };
