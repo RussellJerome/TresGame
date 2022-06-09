@@ -80,7 +80,7 @@ public:
     float m_Param_LandSpawnHeight;
     
 protected:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<ATresCharPawnBase*> m_SlavePawnList;
     
 public:

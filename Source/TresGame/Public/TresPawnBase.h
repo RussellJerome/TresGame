@@ -162,13 +162,13 @@ public:
     UFUNCTION(BlueprintCallable)
     void CollisionChangeAttackHitResponse(bool bIsEnable, FName InGrpName);
     
-    UFUNCTION(Client, Reliable)
+    UFUNCTION(Client, Reliable, BlueprintCallable)
     void ClientCheatWalk();
     
-    UFUNCTION(Client, Reliable)
+    UFUNCTION(Client, Reliable, BlueprintCallable)
     void ClientCheatGhost();
     
-    UFUNCTION(Client, Reliable)
+    UFUNCTION(Client, Reliable, BlueprintCallable)
     void ClientCheatFly();
     
     UFUNCTION(BlueprintCallable)
