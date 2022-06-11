@@ -6,7 +6,7 @@
 
 class UDataTable;
 
-UCLASS()
+UCLASS(Blueprintable)
 class TRESGAME_API UTresChrInitData : public UDataAsset {
     GENERATED_BODY()
 public:
