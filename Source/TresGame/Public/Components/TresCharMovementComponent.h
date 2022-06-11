@@ -1,19 +1,17 @@
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "Engine/EngineTypes.h"
 #include "TresMovementComponentBase.h"
 #include "UObject/NoExportTypes.h"
-#include "UObject/ObjectMacros.h"
 #include "TresRailSlideWork.h"
 #include "AI/RVOAvoidanceInterface.h"
-#include "AI/Navigation/NavigationTypes.h"
 #include "AI/Navigation/NavigationAvoidanceTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Animation/AnimationAsset.h"
+#include "Engine/EngineTypes.h"
 #include "TresCharMovementComponent.generated.h"
-
 
 class UPrimitiveComponent;
 class USceneComponent;
@@ -25,15 +23,7 @@ class UNavigationQueryFilter;
 UCLASS(ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UTresCharMovementComponent : public UTresMovementComponentBase, public IRVOAvoidanceInterface {
     GENERATED_BODY()
-
-
 public:
-
-    /**
-    Ctor
-    */
-    UTresCharMovementComponent(const FObjectInitializer& ObjectInitializer);
-    
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float GravityScale;
     
@@ -78,7 +68,7 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MaxCustomMovementSpeed;
     
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(ClampMin="0", UIMin="0"))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MaxAcceleration;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -446,7 +436,8 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_AverageDirectionInterpolationTime;
-
+    
+    UTresCharMovementComponent();
 protected:
     UFUNCTION()
     void UpdatedComponentEndOverlap(AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
@@ -650,19 +641,5 @@ public:
     int32 GetGroupsToIgnoreMask();
     
     // Fix for true pure virtual functions not being implemented
-
-    virtual void PostPhysicsTickComponent(float DeltaTime, FTresMovementComponentPostPhysicsTickFunction& ThisTickFunction) override;
-
-
-    //Begin UActorComponent Interface
-    virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
-    virtual void OnRegister() override;
-    virtual void BeginDestroy() override;
-    virtual void PostLoad() override;
-    virtual void Deactivate() override;
-    virtual void RegisterComponentTickFunctions(bool bRegister) override;
-    virtual void ApplyWorldOffset(const FVector& InOffset, bool bWorldShift) override;
-    //End UActorComponent Interface
-    
 };
 
