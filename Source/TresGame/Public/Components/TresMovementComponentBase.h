@@ -17,7 +17,10 @@ protected:
 public:
     UPROPERTY()
     FTresMovementComponentPostPhysicsTickFunction m_PostPhysicsTickFunction;
+
+    /** Tick function called after physics (sync scene) has finished simulation, before cloth */
+    virtual void PostPhysicsTickComponent(float DeltaTime, FTresMovementComponentPostPhysicsTickFunction& ThisTickFunction);
     
-    UTresMovementComponentBase();
+    UTresMovementComponentBase(const FObjectInitializer& ObjectInitializer);
 };
 

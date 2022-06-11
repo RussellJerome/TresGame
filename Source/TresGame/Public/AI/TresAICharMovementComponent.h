@@ -9,37 +9,30 @@ UCLASS(ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UTresAICharMovementComponent : public UTresCharMovementComponent, public IMercuna3DMovementInterface {
     GENERATED_BODY()
 public:
+    UTresAICharMovementComponent(const FObjectInitializer& ObjectInitializer);
 protected:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
     FMercuna3DMovementProperties MovementProperties;
     
 public:
-    UTresAICharMovementComponent();
+    
 
-    void SetRVOAvoidanceUID(int32 UID);
+    /** BEGIN IRVOAvoidanceInterface */
+    virtual void SetRVOAvoidanceUID(int32 UID) override;
+    virtual int32 GetRVOAvoidanceUID() override;
+    virtual void SetRVOAvoidanceWeight(float Weight) override;
+    virtual float GetRVOAvoidanceWeight() override;
+    virtual FVector GetRVOAvoidanceOrigin() override;
+    virtual float GetRVOAvoidanceRadius() override;
+    virtual float GetRVOAvoidanceHeight() override;
+    virtual float GetRVOAvoidanceConsiderationRadius() override;
+    virtual FVector GetVelocityForRVOConsideration() override;
+    virtual int32 GetAvoidanceGroupMask() override;
+    virtual int32 GetGroupsToAvoidMask() override;
+    virtual int32 GetGroupsToIgnoreMask() override;
+    /** END IRVOAvoidanceInterface */
 
-    int32 GetRVOAvoidanceUID();
-
-    void SetRVOAvoidanceWeight(float Weight);
-
-    float GetRVOAvoidanceWeight();
-
-    FVector GetRVOAvoidanceOrigin();
-
-    float GetRVOAvoidanceRadius();
-
-    float GetRVOAvoidanceHeight();
-
-    float GetRVOAvoidanceConsiderationRadius();
-
-    FVector GetVelocityForRVOConsideration();
-
-    int32 GetAvoidanceGroupMask();
-
-    int32 GetGroupsToAvoidMask();
-
-    int32 GetGroupsToIgnoreMask();
-
+    
     
     // Fix for true pure virtual functions not being implemented
 };

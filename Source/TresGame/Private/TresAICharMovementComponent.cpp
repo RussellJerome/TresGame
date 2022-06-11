@@ -1,64 +1,70 @@
 #include "TresAICharMovementComponent.h"
 
+#include "TresPawnBase.h"
+
 void UTresAICharMovementComponent::SetRVOAvoidanceUID(int32 UID)
 {
+	AvoidanceUID = UID;
 }
 
 int32 UTresAICharMovementComponent::GetRVOAvoidanceUID()
 {
-	return 0;
+	return AvoidanceUID;
 }
 
 void UTresAICharMovementComponent::SetRVOAvoidanceWeight(float Weight)
 {
+	AvoidanceWeight = Weight;
 }
 
 float UTresAICharMovementComponent::GetRVOAvoidanceWeight()
 {
-	return 0.f;
+	return AvoidanceWeight;
 }
-	
+
 FVector UTresAICharMovementComponent::GetRVOAvoidanceOrigin()
 {
-	return FVector(0);
+	return GetActorFeetLocation();
 }
-	
+
 float UTresAICharMovementComponent::GetRVOAvoidanceRadius()
 {
-	return 0.f;
+	return 0.0f;
 }
-	
-float UTresAICharMovementComponent::GetRVOAvoidanceHeight()
-{
-	return 0.f;
-}
-	
+
 float UTresAICharMovementComponent::GetRVOAvoidanceConsiderationRadius()
 {
-	return 0.f;
+	return AvoidanceConsiderationRadius;
 }
-	
+
+float UTresAICharMovementComponent::GetRVOAvoidanceHeight()
+{
+	return 0.0f;
+}
+
 FVector UTresAICharMovementComponent::GetVelocityForRVOConsideration()
 {
-	return FVector(0);
+	return Velocity;
 }
-	
+
 int32 UTresAICharMovementComponent::GetAvoidanceGroupMask()
 {
-	return 0;
+	return AvoidanceGroup.Packed;
 }
-	
+
 int32 UTresAICharMovementComponent::GetGroupsToAvoidMask()
 {
-	return 0;
+	return GroupsToAvoid.Packed;
 }
-	
+
 int32 UTresAICharMovementComponent::GetGroupsToIgnoreMask()
 {
-	return 0;
+	return GroupsToIgnore.Packed;
 }
 
 
-UTresAICharMovementComponent::UTresAICharMovementComponent() {
+UTresAICharMovementComponent::UTresAICharMovementComponent(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
 }
 
