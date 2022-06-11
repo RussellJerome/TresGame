@@ -14,10 +14,10 @@ public:
     UFUNCTION(BlueprintCallable)
     static void WaitTextureStreamingByGameStart(float Time);
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"), Latent)
     static void TresWaitTextureStreaming(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"), Latent)
     static void TresUnloadStreamLevel(const UObject* WorldContextObject, FName LevelName, bool bBlockUnload, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
@@ -26,22 +26,22 @@ public:
     UFUNCTION(BlueprintCallable)
     static void TresRequestExtensionMapLoading();
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"), Latent)
     static void TresLoadStreamLevel(const UObject* WorldContextObject, FName LevelName, bool bMakeVisibleAfterLoad, bool bShouldBlockOnLoad, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"), Latent)
     static void TresFinishMapLoading(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
     static void ToggleTresPackageShouldBeVisible(UObject* WorldContextObject, FName PackageName);
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
     static void ToggleTresPackageShouldBeLoaded(UObject* WorldContextObject, FName PackageName);
     
     UFUNCTION(BlueprintCallable)
     static void ToggleTresDebugLevelLoad();
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
     static void SetTresLevelAllActorEnableCollision(UObject* WorldContextObject, FName PackageName, bool Enable);
     
     UFUNCTION(BlueprintCallable)
@@ -53,7 +53,7 @@ public:
     UFUNCTION(BlueprintPure)
     static bool IsTresDebugLevelLoad();
     
-    UFUNCTION(BlueprintCallable, meta= (WorldContext = "WorldContextObject"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
     static bool IsExecuteLevelStreaming(UObject* WorldContextObject, bool isWaitMakeVisible);
     
     UFUNCTION(BlueprintPure)

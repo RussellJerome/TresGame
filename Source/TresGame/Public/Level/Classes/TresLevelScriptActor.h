@@ -46,13 +46,13 @@ public:
     UFUNCTION(BlueprintCallable)
     void TresSetPauseMenuType(TEnumAsByte<ETresPauseMenuType> Type);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo_"), Latent)
     void StartTutorial(UObject* WorldContextObject, FLatentActionInfo LatentInfo, UTresMapSet* MapSet, FName TutorialName);
     
     UFUNCTION(BlueprintCallable)
     void SpawnLevelEntities(FName TargetGroup, int32 AppearInfoNo, bool IncrementAppearInfoNo, int32 UserDataNo, bool IncrementUserDataNo, UObject* Spawner, bool DelaySpawning, bool SkipDrawAttractionFlowMarker);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
     static void SetTresPackageShouldBeVisible(UObject* WorldContextObject, FName PackageName, bool Visible, bool bOneFrameExecute);
     
     UFUNCTION(BlueprintCallable)

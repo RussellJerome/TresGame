@@ -18,12 +18,12 @@ class UCameraComponent;
 class UPrimitiveComponent;
 class AActor;
 
-UCLASS()
+UCLASS(BlueprintType)
 class TRESGAME_API ATresGumiShipGimmickTreasure : public ATresGumiShipGimmickObjectBase {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
     UDataTable* m_GimmickTreasureDataTable;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
@@ -55,10 +55,10 @@ public:
     bool _SetPlayerPos();
     
 protected:
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject_", LatentInfo = "LatentInfo_"), Latent)
     void _SetCorePartsLoops(const UObject* worldContextObject_, FLatentActionInfo latentInfo_, float pos);
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo_"), Latent)
     void _PlayRailSlid(const UObject* worldContextObject_, FLatentActionInfo latentInfo_);
     
 public:
