@@ -1,0 +1,25 @@
+{
+  "FileVersion": 1,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "Tres Asset Memory Statistic Plugin",
+  "Description": "Tres Asset Memory Statistic.",
+  "Category": "Tres",
+  "CreatedBy": "SQUARE ENIX CO.,LTD.",
+  "CreatedByURL": "",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "SupportURL": "",
+  "EnabledByDefault": false,
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "Installed": false,
+    
+  "Modules": [
+    {
+      "Name": "TresAssetMemoryStatisticPlugin",
+      "Type": "Developer",
+      "LoadingPhase": "Default"
+    }
+  ]
+}
