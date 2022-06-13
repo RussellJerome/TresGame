@@ -13,8 +13,17 @@ UCLASS()
 class TRESGAMEEDITOR_API UTresUnrealEdEngine : public UUnrealEdEngine
 {
 	GENERATED_BODY()
-	
-	
-	
+
+	UTresUnrealEdEngine(const FObjectInitializer & ObjectInitializer);
+
+private:
+	UPROPERTY(Config)
+	bool m_SpawnByLevelEntity;
+
+	UPROPERTY(Config)
+	bool m_SpawnByEnemySetInstance;
+
+	UPROPERTY(Config)
+	bool m_SpawnMatineePreviewActor;
 	
 };
