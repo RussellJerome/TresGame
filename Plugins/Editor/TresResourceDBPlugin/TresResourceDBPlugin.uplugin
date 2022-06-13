@@ -1,0 +1,22 @@
+{
+	"FileVersion" : 3,
+	
+	"FriendlyName" : "Tres Resource Database Plugin",
+	"Version" : 1,
+	"VersionName" : "1.0",
+	"CreatedBy" : "SQUARE ENIX CO.,LTD.",
+	"CreatedByURL" : "",
+	"Description" : "Tres Resource Database",
+	"Category" : "Tres",
+	"EnabledByDefault" : false,
+	"CanContainContent" : true,
+	
+	"Modules" :
+	[
+		{
+			"Name" : "TresResourceDBPlugin",
+			"Type" : "Editor",
+			"LoadingPhase" : "PostEngineInit"
+		}
+	]
+}
