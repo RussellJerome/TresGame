@@ -6,6 +6,7 @@
 #include "TresAnimInterface.h"
 #include "Engine/EngineTypes.h"
 #include "ETresBodyCollReactionType.h"
+#include "TresAnimNotifyState_AttachEffect.h"
 #include "UObject/NoExportTypes.h"
 #include "TresAnimNotify_ChangeEyeLookAtBlendParam.h"
 #include "UObject/NoExportTypes.h"

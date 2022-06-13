@@ -78,6 +78,7 @@
 #include "PRIZE_KIND.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ECameraAnimPlaySpace -FallbackName=ECameraAnimPlaySpace
 #include "ESQEX_Enums.h"
+#include "ESQEX_ScreenFadeLayer.h"
 #include "ETresDlcChallengeRecordID.h"
 #include "ETresGameOverKind.h"
 #include "ETresDlcCheatAchievementID.h"

@@ -6,7 +6,11 @@
 #include "ESQEX_Enums.h"
 #include "ESqexCPPKHSWorldType.h"
 #include "ETresGrass.h"
+#include "TresBloomRadialBlurParams.h"
 #include "TresCameraAnim.h"
+#include "TresRadialBlurParams.h"
+#include "TresScreenBlurParams.h"
+#include "TresVFXBlurParams.h"
 #include "TresSceneManager.generated.h"
 
 class UMaterialParameterCollection;
