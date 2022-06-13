@@ -10,6 +10,7 @@
 #include "TresReactorComponentInterface.h"
 #include "GameFramework/Character.h"
 #include "ETresChrUniqueID.h"
+#include "ESQEX_AI_ThinkType.h"
 #include "UObject/NoExportTypes.h"
 #include "Engine/EngineTypes.h"
 #include "ETresEnemyUniqueID.h"

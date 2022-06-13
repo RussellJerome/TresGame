@@ -4,6 +4,7 @@
 #include "TresGumiShipRailSwitchInfos.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_RAIL_SLIDE_DIR -FallbackName=ESQEX_RAIL_SLIDE_DIR
 #include "ESQEX_Enums.h"
+#include "ESQEX_RAIL_SLIDE_DIR.h"
 #include "FTresGumiShipRailSlideRailType.h"
 #include "TresGumiShipRailSlideArrangement.generated.h"
 

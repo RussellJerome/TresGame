@@ -2,8 +2,8 @@
 #include "CoreMinimal.h"
 #include "TresInterpTrackEffectAttach.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_AttachEffectNotifyDataToMetaAttachData -FallbackName=SQEX_AttachEffectNotifyDataToMetaAttachData
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_AttachEffectNotifyDataToDataAsset -FallbackName=SQEX_AttachEffectNotifyDataToDataAsset
+#include "SQEX_AttachEffectNotifyDataToMetaAttachData.h"
+#include "SQEX_AttachEffectNotifyDataToDataAsset.h"
 #include "TresAnimNotify_AttachEffect.generated.h"
 
 UCLASS(CollapseCategories, MinimalAPI)
