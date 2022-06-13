@@ -74,7 +74,7 @@
 #include "ETresItemDefCampItem.h"
 #include "ETresBoneSpacesType.h"
 #include "ETresItemDefMaterial.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ViewTargetTransitionParamsEx -FallbackName=ViewTargetTransitionParamsEx
+#include "ViewTargetTransitionParamsEx.h"
 #include "PRIZE_KIND.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ECameraAnimPlaySpace -FallbackName=ECameraAnimPlaySpace
 #include "ESQEX_Enums.h"
@@ -88,7 +88,6 @@
 #include "ETresForceFeedbackKind.h"
 #include "Engine/EngineTypes.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Engine/EngineTypes.h"
 #include "ETresMiRxHolySealType.h"
 #include "ETresGameMiniGameType.h"
 #include "ETresItemDefKeyItem.h"

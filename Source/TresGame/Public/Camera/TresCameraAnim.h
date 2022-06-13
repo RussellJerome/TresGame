@@ -2,10 +2,8 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "TresCameraTarget.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ViewTargetTransitionParamsEx -FallbackName=ViewTargetTransitionParamsEx
-#include "SQEX_Structs.h"
+#include "ViewTargetTransitionParamsEx.h"
 #include "Engine/LatentActionManager.h"
-#include "UObject/NoExportTypes.h"
 #include "UObject/NoExportTypes.h"
 #include "TresCameraAnim.generated.h"
 
