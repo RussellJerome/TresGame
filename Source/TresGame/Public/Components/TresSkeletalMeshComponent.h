@@ -6,9 +6,9 @@
 #include "TresAnimInterface.h"
 #include "Engine/EngineTypes.h"
 #include "ETresBodyCollReactionType.h"
+#include "TresAnimNotifyState_AttachEffect.h"
 #include "UObject/NoExportTypes.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresKHSMaterialParameterIDScalarType -FallbackName=ETresKHSMaterialParameterIDScalarType
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresKHSMaterialParameterIDVectorType -FallbackName=ETresKHSMaterialParameterIDVectorType
+#include "TresAnimNotify_ChangeEyeLookAtBlendParam.h"
 #include "UObject/NoExportTypes.h"
 #include "TresSkeletalMeshComponent.generated.h"
 

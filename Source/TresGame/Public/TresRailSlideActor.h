@@ -1,10 +1,8 @@
 #pragma once
 #include "CoreMinimal.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=SQEX_SplineActor -FallbackName=SQEX_SplineActor
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_RAIL_SLIDE_DIR -FallbackName=ESQEX_RAIL_SLIDE_DIR
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_RAIL_SLIDE_TYPE -FallbackName=ESQEX_RAIL_SLIDE_TYPE
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_SplineJumpLimitType -FallbackName=ESQEX_SplineJumpLimitType
-#include "ESQEX_Enums.h"
+#include "ESQEX_RAIL_SLIDE_DIR.h"
+#include "ESQEX_RAIL_SLIDE_TYPE.h"
+#include "ESQEX_SplineJumpLimitType.h"
 #include "SQEX_SplineActor.h"
 #include "UObject/NoExportTypes.h"
 #include "TresRailSlideActor.generated.h"

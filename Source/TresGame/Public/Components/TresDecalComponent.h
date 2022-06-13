@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "Components/SQEX_DecalComponent.h"
+#include "SQEX_DecalComponent.h"
 #include "TresDecalComponent.generated.h"
 
 class UMaterialInstanceDynamic;

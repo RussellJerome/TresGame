@@ -1,7 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "ESQEX_Enums.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_Invoker -FallbackName=ESQEX_Invoker
+#include "ESQEX_Invoker.h"
 #include "TresGamePlayWorldSwitcher.generated.h"
 
 class AActor;

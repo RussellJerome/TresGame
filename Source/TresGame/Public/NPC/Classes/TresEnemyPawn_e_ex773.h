@@ -4,6 +4,7 @@
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresScreenEffectPriority -FallbackName=ETresScreenEffectPriority
 #include "TresEnemyXIIIPawnBase.h"
 #include "ETresEnemyXIIIPhaseType.h"
+#include "TresAnimNotifyState_AttachEffect.h"
 #include "TresEnemyPawn_e_ex773.generated.h"
 
 class ATresProjectileGenerator_e_ex773_LivelyFlarePillar;

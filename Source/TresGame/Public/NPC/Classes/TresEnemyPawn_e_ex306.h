@@ -4,6 +4,7 @@
 #include "TresFRThinkOfYouInterface.h"
 #include "VoiceSet_e_ex306.h"
 #include "ETresObjTypeProcChannel.h"
+#include "TresAnimNotifyState_AttachEffect.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresScreenEffectPriority -FallbackName=ETresScreenEffectPriority
 #include "TresEnemyPawn_e_ex306.generated.h"
 

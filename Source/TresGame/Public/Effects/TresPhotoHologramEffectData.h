@@ -2,7 +2,8 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "AnimNode_SQEX_KineDriver.h"
-#include "ESQEX_Enums.h"
+#include "ESQEX_ATTACH_EFFECT_END_TYPE.h"
+#include "ESQEX_ATTACH_OBJECT_NAME.h"
 #include "TresHologramWorldInitParam.h"
 #include "TresPhotoHologramEffectData.generated.h"
 

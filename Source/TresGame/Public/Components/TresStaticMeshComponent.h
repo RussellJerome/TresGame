@@ -1,9 +1,9 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "TresAnimNotifyState_AttachEffect.h"
 #include "Components/StaticMeshComponent.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresKHSMaterialParameterIDScalarType -FallbackName=ETresKHSMaterialParameterIDScalarType
+#include "TresRailSlideActor.h"
 #include "UObject/NoExportTypes.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ETresKHSMaterialParameterIDVectorType -FallbackName=ETresKHSMaterialParameterIDVectorType
 #include "TresStaticMeshComponent.generated.h"
 
 class UMaterialInstanceDynamic;
