@@ -6,6 +6,6 @@
 UTresUnrealEdEngine::UTresUnrealEdEngine(const FObjectInitializer & ObjectInitializer)
 {
 	GConfig->GetBool(TEXT("/Script/TresGameEditor.TresUnrealEdEngine"), TEXT("m_SpawnByLevelEntity"), m_SpawnByLevelEntity, GEngineIni);
-	GConfig->GetBool(TEXT("/Script/TresGameEditor.TresUnrealEdEngine"), TEXT("m_SpawnByLevelEntity"), m_SpawnByEnemySetInstance, GEngineIni);
-	GConfig->GetBool(TEXT("/Script/TresGameEditor.TresUnrealEdEngine"), TEXT("m_SpawnByLevelEntity"), m_SpawnMatineePreviewActor, GEngineIni);
+	GConfig->GetBool(TEXT("/Script/TresGameEditor.TresUnrealEdEngine"), TEXT("m_SpawnByEnemySetInstance"), m_SpawnByEnemySetInstance, GEngineIni);
+	GConfig->GetBool(TEXT("/Script/TresGameEditor.TresUnrealEdEngine"), TEXT("m_SpawnMatineePreviewActor"), m_SpawnMatineePreviewActor, GEngineIni);
 }
