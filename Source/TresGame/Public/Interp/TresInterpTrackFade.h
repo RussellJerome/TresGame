@@ -1,10 +1,9 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "ESQEX_Enums.h"
+#include "ESQEX_ScreenFadeLayer.h"
 #include "ETresFadeTrack_TheaterMode.h"
 #include "Matinee/InterpTrackFade.h"
 #include "TresInterpTrackFadeKey.h"
-//CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ScreenFadeLayer -FallbackName=ESQEX_ScreenFadeLayer
 #include "TresInterpTrackFade.generated.h"
 
 UCLASS(CollapseCategories)

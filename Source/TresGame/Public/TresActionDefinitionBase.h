@@ -27,7 +27,7 @@ protected:
     
 private:
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bActionAbortPermission: 1;
+    uint32 m_bActionAbortPermission: 1;
     
 protected:
     UPROPERTY(BlueprintReadWrite, EditInstanceOnly)

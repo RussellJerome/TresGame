@@ -9,7 +9,7 @@ class UTresBTService_XIIIL_RevengeChainEnd : public UBTService {
 public:
 protected:
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableRevengeChainResetImmediate: 1;
+    uint32 m_bEnableRevengeChainResetImmediate: 1;
     
 public:
     UTresBTService_XIIIL_RevengeChainEnd();

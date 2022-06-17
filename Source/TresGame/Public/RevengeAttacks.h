@@ -13,7 +13,7 @@ public:
     TSubclassOf<UTresActionDefinitionBase> RevengeAttackDefinition;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 bAir: 1;
+    uint32 bAir: 1;
     
     TRESGAME_API FRevengeAttacks();
 };

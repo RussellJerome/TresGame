@@ -3,7 +3,7 @@
 #include "Templates/SubclassOf.h"
 #include "Camera/PlayerCameraManager.h"
 #include "GameFramework/Actor.h"
-#include "SQEX_Structs.h"
+#include "ViewTargetTransitionParamsEx.h"
 #include "Engine/Scene.h"
 #include "TresCameraBase.generated.h"
 

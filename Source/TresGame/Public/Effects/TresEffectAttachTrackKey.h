@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "ESQEX_ATTACH_OBJECT_NAME.h"
 #include "ESQEX_Enums.h"
 #include "ETresEffectAttachTrack_AttachType.h"
 //CROSS-MODULE INCLUDE V2: -ModuleName=Engine -ObjectName=ESQEX_ATTACH_OBJECT_NAME -FallbackName=ESQEX_ATTACH_OBJECT_NAME
