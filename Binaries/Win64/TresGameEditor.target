@@ -2,7 +2,7 @@
 	"TargetName" : "TresGameEditor",
 	"Platform" : "Win64",
 	"Configuration" : "Development",
-	"BuildId" : "0d9ef233-df35-47de-95b9-832375783188",
+	"BuildId" : "944fae02-6f96-4a56-b381-ce35e71707af",
 	"Version" : 
 	{
 		"MajorVersion" : 4,
@@ -93,6 +93,18 @@
 			"Type" : "ImportLibrary"
 		},
 		{
+			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/SQEX_OnlineSuiteTelemetry/Binaries/Win64/UE4Editor-OSTelemetry.dll",
+			"Type" : "DynamicLibrary"
+		},
+		{
+			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/SQEX_OnlineSuiteTelemetry/Binaries/Win64/UE4Editor-OSTelemetry.pdb",
+			"Type" : "SymbolFile"
+		},
+		{
+			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/SQEX_OnlineSuiteTelemetry/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-OSTelemetry.lib",
+			"Type" : "ImportLibrary"
+		},
+		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/AnalyticsBlueprintLibrary/Binaries/Win64/UE4Editor-AnalyticsBlueprintLibrary.dll",
 			"Type" : "DynamicLibrary"
 		},
@@ -105,15 +117,15 @@
 			"Type" : "ImportLibrary"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Online/OnlineSubsystemEOS_Tres/Binaries/Win64/UE4Editor-OnlineSubsystemEOS_Tres.dll",
+			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemEOS_Tres/Binaries/Win64/UE4Editor-OnlineSubsystemEOS_Tres.dll",
 			"Type" : "DynamicLibrary"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Online/OnlineSubsystemEOS_Tres/Binaries/Win64/UE4Editor-OnlineSubsystemEOS_Tres.pdb",
+			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemEOS_Tres/Binaries/Win64/UE4Editor-OnlineSubsystemEOS_Tres.pdb",
 			"Type" : "SymbolFile"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Online/OnlineSubsystemEOS_Tres/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-OnlineSubsystemEOS_Tres.lib",
+			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemEOS_Tres/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-OnlineSubsystemEOS_Tres.lib",
 			"Type" : "ImportLibrary"
 		},
 		{
@@ -153,15 +165,15 @@
 			"Type" : "ImportLibrary"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Runtime/DirectInput/Binaries/Win64/UE4Editor-DirectInput.dll",
+			"Path" : "$(EngineDir)/Plugins/Runtime/DirectInput/Binaries/Win64/UE4Editor-DirectInput.dll",
 			"Type" : "DynamicLibrary"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Runtime/DirectInput/Binaries/Win64/UE4Editor-DirectInput.pdb",
+			"Path" : "$(EngineDir)/Plugins/Runtime/DirectInput/Binaries/Win64/UE4Editor-DirectInput.pdb",
 			"Type" : "SymbolFile"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Runtime/DirectInput/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-DirectInput.lib",
+			"Path" : "$(EngineDir)/Plugins/Runtime/DirectInput/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-DirectInput.lib",
 			"Type" : "ImportLibrary"
 		},
 		{
@@ -4437,6 +4449,18 @@
 			"Type" : "ImportLibrary"
 		},
 		{
+			"Path" : "$(EngineDir)/Binaries/Win64/UE4Editor-InputDevice.dll",
+			"Type" : "DynamicLibrary"
+		},
+		{
+			"Path" : "$(EngineDir)/Binaries/Win64/UE4Editor-InputDevice.pdb",
+			"Type" : "SymbolFile"
+		},
+		{
+			"Path" : "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-InputDevice.lib",
+			"Type" : "ImportLibrary"
+		},
+		{
 			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/SQEX/SQEX_SplineEdtor/Binaries/Win64/UE4Editor.modules",
 			"Type" : "RequiredResource"
 		},
@@ -4453,11 +4477,15 @@
 			"Type" : "RequiredResource"
 		},
 		{
+			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/SQEX_OnlineSuiteTelemetry/Binaries/Win64/UE4Editor.modules",
+			"Type" : "RequiredResource"
+		},
+		{
 			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/AnalyticsBlueprintLibrary/Binaries/Win64/UE4Editor.modules",
 			"Type" : "RequiredResource"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Online/OnlineSubsystemEOS_Tres/Binaries/Win64/UE4Editor.modules",
+			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemEOS_Tres/Binaries/Win64/UE4Editor.modules",
 			"Type" : "RequiredResource"
 		},
 		{
@@ -4469,7 +4497,7 @@
 			"Type" : "RequiredResource"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Runtime/DirectInput/Binaries/Win64/UE4Editor.modules",
+			"Path" : "$(EngineDir)/Plugins/Runtime/DirectInput/Binaries/Win64/UE4Editor.modules",
 			"Type" : "RequiredResource"
 		},
 		{
@@ -4636,7 +4664,7 @@
 			"Type" : "UFS"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Runtime/Analytics/SQEX_OnlineSuiteTelemetry/OnlineSuiteTelemetry.uplugin",
+			"Path" : "$(EngineDir)/Plugins/Runtime/Analytics/SQEX_OnlineSuiteTelemetry/OnlineSuiteTelemetry.uplugin",
 			"Type" : "UFS"
 		},
 		{
@@ -4644,7 +4672,7 @@
 			"Type" : "UFS"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Online/OnlineSubsystemEOS_Tres/OnlineSubsystemEOS_Tres.uplugin",
+			"Path" : "$(EngineDir)/Plugins/Online/OnlineSubsystemEOS_Tres/OnlineSubsystemEOS_Tres.uplugin",
 			"Type" : "UFS"
 		},
 		{
@@ -4656,7 +4684,7 @@
 			"Type" : "UFS"
 		},
 		{
-			"Path" : "$(ProjectDir)/Plugins/EnginePlugins/Runtime/DirectInput/DirectInput.uplugin",
+			"Path" : "$(EngineDir)/Plugins/Runtime/DirectInput/DirectInput.uplugin",
 			"Type" : "UFS"
 		},
 		{
