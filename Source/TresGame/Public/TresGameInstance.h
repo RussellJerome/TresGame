@@ -87,10 +87,10 @@ protected:
     UAudioComponent* m_GameOverSE;
     
     UPROPERTY(Transient)
-    UTresMapSet* m_pMapSetForTemp;
+    TAssetPtr<UTresMapSet> m_pMapSetForTemp;
     
     UPROPERTY(Transient)
-    UTresMapSet* m_pMapSetForLevelList;
+    TAssetPtr<UTresMapSet> m_pMapSetForLevelList;
     
     UPROPERTY(Transient)
     TEnumAsByte<ETresWorldCode> m_PreviousWorldCode;
@@ -123,19 +123,19 @@ protected:
     UTresAchievement* m_pAchievement;
     
     UPROPERTY(Transient)
-    UDataTable* m_pMapNameDataTable;
+    TAssetPtr<UDataTable> m_pMapNameDataTable;
     
     UPROPERTY(Transient)
-    UDataTable* m_pAreaNameDataTable;
+    TAssetPtr<UDataTable> m_pAreaNameDataTable;
     
     UPROPERTY(Transient)
     UDataTable* m_pNavMapDataTable;
     
     UPROPERTY(Transient)
-    UTresBattleLevelAutoAsset* m_pBattleLevelAutoTable;
+    TAssetPtr<UTresBattleLevelAutoAsset> m_pBattleLevelAutoTable;
     
     UPROPERTY(Transient)
-    UDataTable* m_pBattleLevelFromNameTable;
+    TAssetPtr<UDataTable> m_pBattleLevelFromNameTable;
     
     UPROPERTY(Transient)
     UTresItemMan* m_ItemMan;
@@ -184,11 +184,11 @@ public:
     
 protected:
     UPROPERTY(Transient)
-    UTresLevelEntityManager* m_TresLevelEntityManager;
+    TAssetPtr<UTresLevelEntityManager> m_TresLevelEntityManager;
     
 private:
     UPROPERTY(Transient)
-    UTresTaggedActorPropertyManager* m_TresTaggedActorPropertyManager;
+    TAssetPtr<UTresTaggedActorPropertyManager> m_TresTaggedActorPropertyManager;
     
 public:
     UPROPERTY(Transient)
@@ -196,13 +196,13 @@ public:
     
 protected:
     UPROPERTY(Transient)
-    UTresScreenshotSaveController* m_TresScreenshotSaveController;
+    TAssetPtr<UTresScreenshotSaveController> m_TresScreenshotSaveController;
     
     UPROPERTY(Transient)
-    UTresAlbumPhotoManager* m_TresAlbumPhotoManager;
+    TAssetPtr<UTresAlbumPhotoManager> m_TresAlbumPhotoManager;
     
     UPROPERTY(Transient)
-    UTresPhotoHologramManager* m_TresPhotoHologramManager;
+    TAssetPtr<UTresPhotoHologramManager> m_TresPhotoHologramManager;
     
 private:
     UPROPERTY()
