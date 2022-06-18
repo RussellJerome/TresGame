@@ -2,7 +2,7 @@
 	"TargetName" : "TresGameEditor",
 	"Platform" : "Win64",
 	"Configuration" : "Development",
-	"BuildId" : "944fae02-6f96-4a56-b381-ce35e71707af",
+	"BuildId" : "d4599370-bbfa-4f93-8069-e9a5dde24ed7",
 	"Version" : 
 	{
 		"MajorVersion" : 4,
@@ -522,42 +522,6 @@
 		},
 		{
 			"Path" : "$(EngineDir)/Plugins/Media/MediaPlayerEditor/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-MediaPlayerEditor.lib",
-			"Type" : "ImportLibrary"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor-WmfMedia.dll",
-			"Type" : "DynamicLibrary"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor-WmfMedia.pdb",
-			"Type" : "SymbolFile"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-WmfMedia.lib",
-			"Type" : "ImportLibrary"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor-WmfMediaEditor.dll",
-			"Type" : "DynamicLibrary"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor-WmfMediaEditor.pdb",
-			"Type" : "SymbolFile"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-WmfMediaEditor.lib",
-			"Type" : "ImportLibrary"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor-WmfMediaFactory.dll",
-			"Type" : "DynamicLibrary"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor-WmfMediaFactory.pdb",
-			"Type" : "SymbolFile"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-WmfMediaFactory.lib",
 			"Type" : "ImportLibrary"
 		},
 		{
@@ -4577,10 +4541,6 @@
 			"Type" : "RequiredResource"
 		},
 		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/Binaries/Win64/UE4Editor.modules",
-			"Type" : "RequiredResource"
-		},
-		{
 			"Path" : "$(EngineDir)/Plugins/Messaging/TcpMessaging/Binaries/Win64/UE4Editor.modules",
 			"Type" : "RequiredResource"
 		},
@@ -4761,10 +4721,6 @@
 		},
 		{
 			"Path" : "$(EngineDir)/Plugins/Media/MediaPlayerEditor/MediaPlayerEditor.uplugin",
-			"Type" : "UFS"
-		},
-		{
-			"Path" : "$(EngineDir)/Plugins/Media/WmfMedia/WmfMedia.uplugin",
 			"Type" : "UFS"
 		},
 		{
