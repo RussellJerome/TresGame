@@ -204,6 +204,10 @@
 		{
 			"Name": "DirectInput",
 			"Enabled": true
+		},
+		{
+			"Name": "WmfMedia",
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [
