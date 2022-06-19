@@ -24,13 +24,13 @@ public:
     
 protected:
     UPROPERTY(EditAnywhere)
-    uint8 m_bIsLargeBox: 1;
+    uint32 m_bIsLargeBox: 1;
     
     UPROPERTY(EditAnywhere)
     FVector m_OpenerRelativeLocation;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bUseKeyitemInfoWnd: 1;
+    uint32 m_bUseKeyitemInfoWnd: 1;
     
     UPROPERTY(EditAnywhere)
     UParticleSystem* m_PreOpenEffect;
@@ -42,10 +42,10 @@ protected:
     FRotator m_PreOpenEffRotation;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bIsFakeBox: 1;
+    uint32 m_bIsFakeBox: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bIsOptionalOpenedBox: 1;
+    uint32 m_bIsOptionalOpenedBox: 1;
     
     UPROPERTY(EditAnywhere)
     UParticleSystem* m_DisappearEffect;

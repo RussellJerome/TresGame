@@ -14,13 +14,13 @@ public:
     TEnumAsByte<ETresCommandKind> m_Command;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsCastType: 1;
+    uint32 m_bIsCastType: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsTurnType: 1;
+    uint32 m_bIsTurnType: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsDirectPos: 1;
+    uint32 m_bIsDirectPos: 1;
     
     UPROPERTY(EditDefaultsOnly)
     int32 m_EffectGroup;

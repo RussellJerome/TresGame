@@ -12,10 +12,10 @@ public:
     ETresChrUniqueID m_ChrUniqueID;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_isTargetActor: 1;
+    uint32 m_isTargetActor: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_isDestination: 1;
+    uint32 m_isDestination: 1;
     
     UTresNpcBTTask_SetFriendTarget();
 };

@@ -33,31 +33,31 @@ protected:
     float m_DetectRangePlus;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableReverse: 1;
+    uint32 m_bDisableReverse: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableActAttack: 1;
+    uint32 m_bDisableActAttack: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableActJump: 1;
+    uint32 m_bDisableActJump: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableActAirSlide: 1;
+    uint32 m_bDisableActAirSlide: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableActAthleticFlowMove: 1;
+    uint32 m_bDisableActAthleticFlowMove: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableActTransferOnRelativeJump: 1;
+    uint32 m_bDisableActTransferOnRelativeJump: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisableSpawnRailSlideConnectTo: 1;
+    uint32 m_bDisableSpawnRailSlideConnectTo: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDestroyAfterThePassage: 1;
+    uint32 m_bDestroyAfterThePassage: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bIsNarrow: 1;
+    uint32 m_bIsNarrow: 1;
     
     UPROPERTY()
     uint8 m_bIsDisableAction: 1;

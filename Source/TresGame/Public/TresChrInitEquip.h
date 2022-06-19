@@ -18,7 +18,7 @@ public:
     TArray<ETresItemDefWeapon> m_Weapons;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bWeaponFixed: 1;
+    uint32 m_bWeaponFixed: 1;
     
     UPROPERTY(EditDefaultsOnly)
     uint8 m_InitProtectorSlot;

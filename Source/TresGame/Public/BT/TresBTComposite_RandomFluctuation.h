@@ -9,7 +9,7 @@ class UTresBTComposite_RandomFluctuation : public UBTCompositeNode {
     GENERATED_BODY()
 public:
     UPROPERTY(EditAnywhere)
-    uint8 bFailOnAll: 1;
+    uint32 bFailOnAll: 1;
     
     UPROPERTY(EditAnywhere)
     TArray<float> Weights;

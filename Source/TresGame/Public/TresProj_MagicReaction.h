@@ -13,7 +13,7 @@ public:
     TSubclassOf<ATresProjectileBase> m_ReactionSpawnProjectileClass;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_ReactionOnlySameTeam: 1;
+    uint32 m_ReactionOnlySameTeam: 1;
     
     TRESGAME_API FTresProj_MagicReaction();
 };

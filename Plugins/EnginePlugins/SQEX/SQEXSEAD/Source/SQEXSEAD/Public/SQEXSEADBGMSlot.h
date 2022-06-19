@@ -19,10 +19,10 @@ private:
     FSQEXSEAD_BGMOptions DefaultOptions_;
     
     UPROPERTY()
-    USQEXSEAD_BGM* BGM_;
+    TAssetPtr<USQEXSEAD_BGM> BGM_;
     
     UPROPERTY()
-    USQEXSEAD_BGM* PrevBGM_;
+    TAssetPtr<USQEXSEAD_BGM> PrevBGM_;
     
 public:
     USQEXSEADBGMSlot();

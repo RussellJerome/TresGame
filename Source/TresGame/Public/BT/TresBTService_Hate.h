@@ -20,7 +20,7 @@ public:
     float m_Value;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 m_bUseBlackboard: 1;
+    uint32 m_bUseBlackboard: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector m_TargetActor;

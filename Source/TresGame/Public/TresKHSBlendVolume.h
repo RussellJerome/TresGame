@@ -16,109 +16,109 @@ public:
     float m_MatineeWeightValue;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_KHSChrEmissivMultiCounter: 1;
+    uint32 bOverride_KHSChrEmissivMultiCounter: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_CameraLightingSwitch: 1;
+    uint32 bOverride_CameraLightingSwitch: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_ShadowColorMultiply: 1;
+    uint32 bOverride_ShadowColorMultiply: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_SSAOShadowPower: 1;
+    uint32 bOverride_SSAOShadowPower: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_DarkAreaBoostMode: 1;
+    uint32 bOverride_DarkAreaBoostMode: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_RefLightMode: 1;
+    uint32 bOverride_RefLightMode: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardColorA: 1;
+    uint32 bOverride_BoardColorA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardRotateA: 1;
+    uint32 bOverride_BoardRotateA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardGradientA: 1;
+    uint32 bOverride_BoardGradientA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardPowerA: 1;
+    uint32 bOverride_BoardPowerA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardColorB: 1;
+    uint32 bOverride_BoardColorB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardGradientB: 1;
+    uint32 bOverride_BoardGradientB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_BoardPowerB: 1;
+    uint32 bOverride_BoardPowerB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_UseWLVModeA: 1;
+    uint32 bOverride_UseWLVModeA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVA: 1;
+    uint32 bOverride_WLVA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVColorA: 1;
+    uint32 bOverride_WLVColorA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVGradientA: 1;
+    uint32 bOverride_WLVGradientA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVPowerA: 1;
+    uint32 bOverride_WLVPowerA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_UseWLVModeB: 1;
+    uint32 bOverride_UseWLVModeB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVB: 1;
+    uint32 bOverride_WLVB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVColorB: 1;
+    uint32 bOverride_WLVColorB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVGradientB: 1;
+    uint32 bOverride_WLVGradientB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVPowerB: 1;
+    uint32 bOverride_WLVPowerB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_UseWLVAreaDepthA: 1;
+    uint32 bOverride_UseWLVAreaDepthA: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVAreaLengthA0: 1;
+    uint32 bOverride_WLVAreaLengthA0: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVAreaLengthA1: 1;
+    uint32 bOverride_WLVAreaLengthA1: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_UseWLVAreaDepthB: 1;
+    uint32 bOverride_UseWLVAreaDepthB: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVAreaLengthB0: 1;
+    uint32 bOverride_WLVAreaLengthB0: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVAreaLengthB1: 1;
+    uint32 bOverride_WLVAreaLengthB1: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_UseWLVAreaDepthFov: 1;
+    uint32 bOverride_UseWLVAreaDepthFov: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVAreaDepthInvert: 1;
+    uint32 bOverride_WLVAreaDepthInvert: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_WLVAreaDepthDarknessVolume: 1;
+    uint32 bOverride_WLVAreaDepthDarknessVolume: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_RAMasterInstensity: 1;
+    uint32 bOverride_RAMasterInstensity: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_RAAOBoost: 1;
+    uint32 bOverride_RAAOBoost: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bOverride_RABrightnessBoost: 1;
+    uint32 bOverride_RABrightnessBoost: 1;
     
     UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere, Interp)
     float KHSChrEmissivMultiCounter;

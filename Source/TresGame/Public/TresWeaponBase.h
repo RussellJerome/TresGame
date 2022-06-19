@@ -51,10 +51,10 @@ protected:
     float m_AppearVisibleDelayTime;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsEnableAppearScaleAnim: 1;
+    uint32 m_bIsEnableAppearScaleAnim: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsDelayAppearScaleAnim: 1;
+    uint32 m_bIsDelayAppearScaleAnim: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_AppearScaleAnimTime;
@@ -63,10 +63,10 @@ protected:
     float m_AppearScaleAnimStartScale;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsEnableAppearDitherAnim: 1;
+    uint32 m_bIsEnableAppearDitherAnim: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bIsDelayAppearDitherAnim: 1;
+    uint32 m_bIsDelayAppearDitherAnim: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_AppearDitherAnimTime;

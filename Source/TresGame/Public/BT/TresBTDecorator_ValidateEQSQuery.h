@@ -20,7 +20,7 @@ public:
     float m_UpdateMinTime;
     
     UPROPERTY(BlueprintReadWrite)
-    uint8 m_bMaxTime: 1;
+    uint32 m_bMaxTime: 1;
     
     UPROPERTY(EditAnywhere)
     float m_UpdateMaxTime;

@@ -19,7 +19,7 @@ protected:
     ETresCoverIdlingDirID m_IdlingDir;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bEnableCoverDir: 1;
+    uint32 m_bEnableCoverDir: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     int32 m_CoverCameraID;

@@ -16,7 +16,7 @@ public:
     TSubclassOf<UTresAttackDefinitionBase> AttackDefinitionOverride;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 bUseBlackboardQuery: 1;
+    uint32 bUseBlackboardQuery: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector AttackDefinition;

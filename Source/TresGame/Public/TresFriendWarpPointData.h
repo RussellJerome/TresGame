@@ -12,13 +12,13 @@ public:
     AActor* m_WarpPoint;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bUsedRangeXY: 1;
+    uint32 m_bUsedRangeXY: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_WarpPointRangeXY;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bUsedRangeZ: 1;
+    uint32 m_bUsedRangeZ: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_WarpPointRangeZ;

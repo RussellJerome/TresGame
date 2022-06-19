@@ -22,11 +22,11 @@ public:
     TEnumAsByte<EEnvQueryRunMode::Type> RunMode;
     
     UPROPERTY(EditAnywhere)
-    uint8 bInvalidateBlackboardKeyOnFailure: 1;
+    uint32 bInvalidateBlackboardKeyOnFailure: 1;
     
 protected:
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 bUseBlackboardQuery: 1;
+    uint32 bUseBlackboardQuery: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector EQSQuery;

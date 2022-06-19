@@ -18,7 +18,7 @@ public:
     FBlackboardKeySelector m_Destination;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 m_bUseBBAttackDefinition: 1;
+    uint32 m_bUseBBAttackDefinition: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector m_BBAttackDefinition;
@@ -27,13 +27,13 @@ public:
     TSubclassOf<UTresAttackDefinitionWeaponBase> m_AttackDefinition;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bValidateLocation: 1;
+    uint32 m_bValidateLocation: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bValidateOrientation: 1;
+    uint32 m_bValidateOrientation: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bValidateExecution: 1;
+    uint32 m_bValidateExecution: 1;
     
     UTresBTService_WeaponAttack();
 };
