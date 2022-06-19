@@ -17,7 +17,7 @@ class UTresAIAnimInstance : public UTresCharAnimInstance {
     GENERATED_BODY()
 public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bUseCodeDrivenAnimation: 1;
+    uint32 bUseCodeDrivenAnimation: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     int32 LocomotionStateMachineIndex;
@@ -32,10 +32,10 @@ public:
     FVector DesiredVelocity;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bUseOmnidirectionalMovement: 1;
+    uint32 bUseOmnidirectionalMovement: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bUseQuickStop: 1;
+    uint32 bUseQuickStop: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TEnumAsByte<EMovementMode> DesiredLocomotionMode;
@@ -59,16 +59,16 @@ public:
     float MaxSpeed;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bIsJumpingOrFalling: 1;
+    uint32 bIsJumpingOrFalling: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bIsPreciseArrival: 1;
+    uint32 bIsPreciseArrival: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bIsAbortMove: 1;
+    uint32 bIsAbortMove: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 bIsFastAbort: 1;
+    uint32 bIsFastAbort: 1;
     
 protected:
     UPROPERTY(BlueprintReadWrite)
@@ -99,7 +99,7 @@ protected:
     float DesiredVelocityZ;
     
     UPROPERTY(BlueprintReadWrite)
-    uint8 bIsIdle: 1;
+    uint32 bIsIdle: 1;
     
 public:
     UTresAIAnimInstance();

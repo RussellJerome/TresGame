@@ -18,7 +18,7 @@ protected:
     float m_SpawnDistance;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableSplineRotation: 1;
+    uint32 m_bEnableSplineRotation: 1;
     
     UPROPERTY(Export)
     USplineComponent* m_SplineComponent;

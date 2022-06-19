@@ -21,7 +21,7 @@ public:
     
 protected:
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bChangeOceanMaterialIndex: 1;
+    uint32 m_bChangeOceanMaterialIndex: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     ATresOceanShaderController* m_pOceanController;
@@ -33,7 +33,7 @@ protected:
     int32 m_OceanMaterialUnderSea;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bChangeOceanPostProcessVolume: 1;
+    uint32 m_bChangeOceanPostProcessVolume: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     APostProcessVolume* m_pPostProcessOverSea;
@@ -45,7 +45,7 @@ protected:
     float m_PostProcessBlendTime;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bChangeLightProperty: 1;
+    uint32 m_bChangeLightProperty: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     AActor* m_pLightPropertyChangeActor;

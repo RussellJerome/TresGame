@@ -13,7 +13,7 @@ public:
     FName m_FormName;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bTextureReplace: 1;
+    uint32 m_bTextureReplace: 1;
     
     UPROPERTY(EditDefaultsOnly)
     TArray<FTresWearformTextureReplaceData> m_TextureReplaceData;
@@ -22,7 +22,7 @@ public:
     TArray<UTresAnimSet*> m_ReplaceAnimSets;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bPlayFaceAnim: 1;
+    uint32 m_bPlayFaceAnim: 1;
     
     UPROPERTY(EditDefaultsOnly)
     FName m_PlayFaceAnimName;

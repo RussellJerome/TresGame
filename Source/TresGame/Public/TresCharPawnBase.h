@@ -87,7 +87,7 @@ protected:
     FVector BaseTranslationOffset;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 bPressedJump: 1;
+    uint32 bPressedJump: 1;
     
     UPROPERTY(BlueprintReadOnly, Transient, VisibleInstanceOnly)
     float JumpKeyHoldTime;
@@ -119,7 +119,7 @@ protected:
     int32 m_MagicPoint;
     
     UPROPERTY(SaveGame)
-    uint8 m_bAppearMsgSended: 1;
+    uint32 m_bAppearMsgSended: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MyMpChargeTime;
@@ -135,10 +135,10 @@ protected:
     
 public:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bEnableAttractionFlowHitPoint: 1;
+    uint32 m_bEnableAttractionFlowHitPoint: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bEnableAttractionFlowMarkerProc: 1;
+    uint32 m_bEnableAttractionFlowMarkerProc: 1;
     
 protected:
     UPROPERTY(SaveGame)
@@ -151,31 +151,31 @@ protected:
     float m_AttractionMarkerRestTime;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bRootTransCalcRootSpace: 1;
+    uint32 m_bRootTransCalcRootSpace: 1;
     
     UPROPERTY(BlueprintReadOnly, Transient, VisibleInstanceOnly)
-    uint8 bIsBattleMode: 1;
+    uint32 bIsBattleMode: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bIsInvincible: 1;
+    uint32 m_bIsInvincible: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bIsNoDamageResponse: 1;
+    uint32 m_bIsNoDamageResponse: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bNoHpDamage: 1;
+    uint32 m_bNoHpDamage: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bIsHpLimitOne: 1;
+    uint32 m_bIsHpLimitOne: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bIsHpLimitOneExceptPlayerAttack: 1;
+    uint32 m_bIsHpLimitOneExceptPlayerAttack: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bIsNeedAttachAttackHitEffect: 1;
+    uint32 m_bIsNeedAttachAttackHitEffect: 1;
     
     UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bDisableInvincibleInCinematicMode: 1;
+    uint32 m_bDisableInvincibleInCinematicMode: 1;
     
     UPROPERTY(Transient)
     float m_ControlAnalogInputModifier;
@@ -193,7 +193,7 @@ protected:
     FVector m_DangleOffsetPos;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEquipmentAutoSpawn: 1;
+    uint32 m_bEquipmentAutoSpawn: 1;
     
     UPROPERTY(Export, Transient)
     UTresPoleComponent* m_LastHitPoleComponent;
@@ -208,22 +208,22 @@ protected:
     UParticleSystem* m_LastWaterOuterEffect;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bCameraLookPosToMesh: 1;
+    uint32 m_bCameraLookPosToMesh: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
     UTresUIDataAssetStatus* m_pUIDataStatus;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 MySkelCtrl_IkDisableFlag: 1;
+    uint32 MySkelCtrl_IkDisableFlag: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     float MySkelCtrl_IkInitValue;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bApplyWetnessMaterial: 1;
+    uint32 m_bApplyWetnessMaterial: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bApplyOceanWetnessMaterial: 1;
+    uint32 m_bApplyOceanWetnessMaterial: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     float m_ApplyOceanWetnessMaterialMinHeight;
@@ -264,10 +264,10 @@ protected:
     USQEX_ParticleAttachDataAsset* m_CmnAppearEffect;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableRegistFootStepEffectGen: 1;
+    uint32 m_bEnableRegistFootStepEffectGen: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableWaterRippleEffect: 1;
+    uint32 m_bEnableWaterRippleEffect: 1;
     
     UPROPERTY(EditDefaultsOnly)
     FName m_RippleBaseBoneName;

@@ -20,7 +20,7 @@ public:
     FVector m_Value;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bUseBlackboard: 1;
+    uint32 m_bUseBlackboard: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector m_BlackboardKeyValueB;

@@ -11,10 +11,10 @@ struct FSQEX_SplineMoverExecutor {
 public:
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_IsReverse: 1;
+    uint32 m_IsReverse: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_IsLoop: 1;
+    uint32 m_IsLoop: 1;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
     bool m_IsStraightSpline;

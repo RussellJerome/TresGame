@@ -39,7 +39,7 @@ protected:
     
 public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDispDebugInfo: 1;
+    uint32 m_bDispDebugInfo: 1;
     
     UPROPERTY(BlueprintAssignable)
     FTresAccompanyPawnAppearSignature OnAccompanyPawnAppear;
@@ -71,10 +71,10 @@ public:
     float m_Param_FallCheckHeight;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_Param_bZMoveLand: 1;
+    uint32 m_Param_bZMoveLand: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_Param_bLargeSpawn: 1;
+    uint32 m_Param_bLargeSpawn: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_Param_LandSpawnHeight;

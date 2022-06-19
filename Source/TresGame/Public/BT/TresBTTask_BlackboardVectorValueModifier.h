@@ -10,7 +10,7 @@ class UTresBTTask_BlackboardVectorValueModifier : public UTresBTTask_BlackboardV
     GENERATED_BODY()
 public:
     UPROPERTY(EditAnywhere)
-    uint8 m_bUseBlackboard: 1;
+    uint32 m_bUseBlackboard: 1;
     
     UPROPERTY(EditAnywhere)
     FVector m_Value;

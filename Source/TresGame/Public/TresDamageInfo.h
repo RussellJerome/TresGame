@@ -72,49 +72,49 @@ public:
     int32 m_FormPoint;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsMagicAttack: 1;
+    uint32 m_bIsMagicAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsFinishAttack: 1;
+    uint32 m_bIsFinishAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsKillerAttack: 1;
+    uint32 m_bIsKillerAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsIgnoreGuard: 1;
+    uint32 m_bIsIgnoreGuard: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsRapidFireAttack: 1;
+    uint32 m_bIsRapidFireAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsCriticalHit: 1;
+    uint32 m_bIsCriticalHit: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsArmorDamage: 1;
+    uint32 m_bIsArmorDamage: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsAerialAttack: 1;
+    uint32 m_bIsAerialAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsAttractionDamage: 1;
+    uint32 m_bIsAttractionDamage: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsCounterAttack: 1;
+    uint32 m_bIsCounterAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsJustGuardAttack: 1;
+    uint32 m_bIsJustGuardAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsEnableWeakGuardAttack: 1;
+    uint32 m_bIsEnableWeakGuardAttack: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsEnableFullMpBurst: 1;
+    uint32 m_bIsEnableFullMpBurst: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsEnableMagicDraw: 1;
+    uint32 m_bIsEnableMagicDraw: 1;
     
     UPROPERTY(BlueprintReadOnly)
-    uint8 m_bIsEnableNoReactBodyCorrection: 1;
+    uint32 m_bIsEnableNoReactBodyCorrection: 1;
     
     UPROPERTY(BlueprintReadOnly)
     ETresPhysDamageForceLevel m_PhysForceLv;

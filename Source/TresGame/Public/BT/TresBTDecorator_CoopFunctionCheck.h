@@ -11,7 +11,7 @@ public:
     FName FunctionName;
     
     UPROPERTY(EditAnywhere)
-    uint8 bAutomaticallyEnterNodeName: 1;
+    uint32 bAutomaticallyEnterNodeName: 1;
     
     UTresBTDecorator_CoopFunctionCheck();
 };

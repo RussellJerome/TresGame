@@ -13,7 +13,7 @@ public:
     FName m_GroupName;
     
     UPROPERTY()
-    uint8 m_bPlayOnGroupNotFound: 1;
+    uint32 m_bPlayOnGroupNotFound: 1;
     
     UPROPERTY(EditDefaultsOnly)
     USoundBase* m_pDefaultVoice;

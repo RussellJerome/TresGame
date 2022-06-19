@@ -21,13 +21,13 @@ public:
     float m_AcceptableRadius;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bPreciseArrival: 1;
+    uint32 m_bPreciseArrival: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bFastAbort: 1;
+    uint32 m_bFastAbort: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bFailOnDamageReaction: 1;
+    uint32 m_bFailOnDamageReaction: 1;
     
     UPROPERTY(EditAnywhere)
     float m_CommonUpdateTime;

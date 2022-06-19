@@ -30,19 +30,19 @@ private:
     
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bAutoActivate: 1;
+    uint32 m_bAutoActivate: 1;
     
     UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere)
-    uint8 m_bGimmickComponentAutoLinkActivate: 1;
+    uint32 m_bGimmickComponentAutoLinkActivate: 1;
     
     UPROPERTY()
-    uint8 m_bIsActive: 1;
+    uint32 m_bIsActive: 1;
     
     UPROPERTY(DuplicateTransient, Transient)
-    uint8 m_bIsAccessed: 1;
+    uint32 m_bIsAccessed: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bLimitedSavePoint: 1;
+    uint32 m_bLimitedSavePoint: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     UParticleSystem* m_BaseEffect;

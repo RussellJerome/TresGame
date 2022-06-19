@@ -27,7 +27,7 @@ protected:
     FName MyBodyName;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 MyIgnoreNameNoneGroup: 1;
+    uint32 MyIgnoreNameNoneGroup: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
     TEnumAsByte<ETresBodyCollision::Type> MyShapeType;
@@ -42,25 +42,25 @@ protected:
     ETresBodyCollReactionType m_BodyReactionType;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bFixedBodyReactionType: 1;
+    uint32 m_bFixedBodyReactionType: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bEnableDamage: 1;
+    uint32 m_bEnableDamage: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bEnablePush: 1;
+    uint32 m_bEnablePush: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bEnableCamera: 1;
+    uint32 m_bEnableCamera: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bEnableBlockCamera: 1;
+    uint32 m_bEnableBlockCamera: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
     TEnumAsByte<ETresBodyCollOverlapCameraFunction> m_OverlapCameraFunction;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bIsBodyCollBaseLocationDist3D: 1;
+    uint32 m_bIsBodyCollBaseLocationDist3D: 1;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
     TArray<FTresBodyTakeDamageEffect> m_DamageEffects;

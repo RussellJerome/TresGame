@@ -26,7 +26,7 @@ public:
     TArray<FTresNavLinkSet_Common> NavLinkSet;
     
     UPROPERTY(EditAnywhere)
-    uint8 bRefreshNavLink: 1;
+    uint32 bRefreshNavLink: 1;
     
     ATresTreeJumpActor_Common();
     UFUNCTION()

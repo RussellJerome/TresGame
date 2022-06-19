@@ -22,7 +22,7 @@ public:
     int32 Value;
     
     UPROPERTY(EditAnywhere)
-    uint8 IsPercentage: 1;
+    uint32 IsPercentage: 1;
     
     UTresBTDecorator_HPDiffCheck();
 };

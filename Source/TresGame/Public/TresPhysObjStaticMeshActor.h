@@ -17,22 +17,22 @@ class ATresPhysObjStaticMeshActor : public AStaticMeshActor {
 public:
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearAfterWake: 1;
+    uint32 m_bDisappearAfterWake: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearLeaveInitLoc: 1;
+    uint32 m_bDisappearLeaveInitLoc: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearLeaveInitPhysVolume: 1;
+    uint32 m_bDisappearLeaveInitPhysVolume: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearInnerWaterPhysVolume: 1;
+    uint32 m_bDisappearInnerWaterPhysVolume: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearInnerOceanPhysVolume: 1;
+    uint32 m_bDisappearInnerOceanPhysVolume: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearOnTakeDamage: 1;
+    uint32 m_bDisappearOnTakeDamage: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_DisappearAfterWakeTimeSetting;
@@ -44,7 +44,7 @@ protected:
     int32 m_DisappearOnTakeDamageSetting;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bAutoDisappearEffectProc: 1;
+    uint32 m_bAutoDisappearEffectProc: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_DisappearFadeSetting;
@@ -53,7 +53,7 @@ protected:
     FName m_DisappearFadeParamName;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bWakeOnlyDamage: 1;
+    uint32 m_bWakeOnlyDamage: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TArray<ETresChrUniqueID> m_ApplyDamageChrUniqueID;
