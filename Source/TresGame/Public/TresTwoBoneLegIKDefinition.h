@@ -88,7 +88,7 @@ public:
     float CheckMax;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 ShouldMimicOtherLimbWhenNoCollision: 1;
+    uint32 ShouldMimicOtherLimbWhenNoCollision: 1;
     
     UPROPERTY(EditAnywhere)
     TArray<FBoneReference> LimbsToMimicWhenNoCollision;
@@ -97,7 +97,7 @@ public:
     float LimitTwoBoneIkInternalAngle;
     
     UPROPERTY(EditAnywhere)
-    uint8 ReturnEffectLocatonIfCollisionNoHit: 1;
+    uint32 ReturnEffectLocatonIfCollisionNoHit: 1;
     
     FTresTwoBoneLegIKDefinition();
 };

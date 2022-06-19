@@ -22,7 +22,7 @@ protected:
     TSubclassOf<ATresDecalMeshSplineActor> m_SplineMeshActorClass;
     
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bAutoFadeInOutOnShutdown: 1;
+    uint32 m_bAutoFadeInOutOnShutdown: 1;
     
     UPROPERTY(Transient)
     ATresDecalMeshSplineActor* m_SplineMeshActor;

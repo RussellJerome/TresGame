@@ -11,7 +11,7 @@ class UTresBTService_BlackboardIntLerpKey : public UBTService {
     GENERATED_BODY()
 public:
     UPROPERTY(EditAnywhere)
-    uint8 m_bUseCurveData: 1;
+    uint32 m_bUseCurveData: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector m_BlackboardKeyValueInA;
@@ -26,7 +26,7 @@ public:
     FBlackboardKeySelector m_BlackboardKeyValueInParameter;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bUseInverseParameter: 1;
+    uint32 m_bUseInverseParameter: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector m_BlackboardKeyValueOut;

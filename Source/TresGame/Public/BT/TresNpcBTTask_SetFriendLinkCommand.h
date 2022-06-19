@@ -9,7 +9,7 @@ class UTresNpcBTTask_SetFriendLinkCommand : public UBTTaskNode {
     GENERATED_BODY()
 public:
     UPROPERTY(EditAnywhere)
-    uint8 m_CommandSet: 1;
+    uint32 m_CommandSet: 1;
     
     UPROPERTY(EditAnywhere)
     TEnumAsByte<ETresCommandKind> m_CommandKind;
@@ -18,7 +18,7 @@ public:
     float m_ReceptionTime;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_CommandAuto: 1;
+    uint32 m_CommandAuto: 1;
     
     UTresNpcBTTask_SetFriendLinkCommand();
 };

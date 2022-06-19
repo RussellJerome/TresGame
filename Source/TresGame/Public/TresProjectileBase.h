@@ -58,7 +58,7 @@ protected:
     float m_MaxLifeDistance;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bDoDelayFire: 1;
+    uint32 m_bDoDelayFire: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_FireDelayTimeMin;
@@ -67,7 +67,7 @@ protected:
     float m_FireDelayTimeMax;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bDoDelayAttackCollisionEnable: 1;
+    uint32 m_bDoDelayAttackCollisionEnable: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_DelayAttackCollisionEnableTime;
@@ -76,13 +76,13 @@ protected:
     float m_ExplodeLife;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bExplodeOnTimeOut: 1;
+    uint32 m_bExplodeOnTimeOut: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bNoDestroyOnHit: 1;
+    uint32 m_bNoDestroyOnHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bPullbackOnAttackHit: 1;
+    uint32 m_bPullbackOnAttackHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
     uint8 m_bBounceOnTakeDamage: 1;

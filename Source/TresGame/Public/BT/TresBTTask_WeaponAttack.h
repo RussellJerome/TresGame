@@ -18,7 +18,7 @@ public:
     FBlackboardKeySelector m_Destination;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 m_bUseBBAttackDefinitionWeapon: 1;
+    uint32 m_bUseBBAttackDefinitionWeapon: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector m_BBAttackDefinitionWeapon;

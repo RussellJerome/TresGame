@@ -9,10 +9,10 @@ class ATresProj_MagicWater : public ATresProj_MagicBase {
 public:
 protected:
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bSetFallingIfNoHoming: 1;
+    uint32 m_bSetFallingIfNoHoming: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bVikingShipSplash: 1;
+    uint32 m_bVikingShipSplash: 1;
     
 public:
     ATresProj_MagicWater();

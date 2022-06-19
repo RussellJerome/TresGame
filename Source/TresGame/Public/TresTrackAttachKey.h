@@ -13,7 +13,7 @@ public:
     float m_Time;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bAttach: 1;
+    uint32 m_bAttach: 1;
     
     UPROPERTY(EditAnywhere)
     AActor* m_ParentActor;
@@ -25,19 +25,19 @@ public:
     TEnumAsByte<EAttachLocation::Type> m_AttachLocationType;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bWeldSimulatedBodies: 1;
+    uint32 m_bWeldSimulatedBodies: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bAbsoluteLocation: 1;
+    uint32 m_bAbsoluteLocation: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bAbsoluteRotation: 1;
+    uint32 m_bAbsoluteRotation: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bAbsoluteScale: 1;
+    uint32 m_bAbsoluteScale: 1;
     
     UPROPERTY(EditAnywhere)
-    uint8 m_bUseGroupName: 1;
+    uint32 m_bUseGroupName: 1;
     
     UPROPERTY(EditAnywhere)
     FName m_AttachGroupName;

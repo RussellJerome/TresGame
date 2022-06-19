@@ -13,7 +13,7 @@ protected:
     FTresWearformSetUnit m_Forms[11];
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableColorChange: 1;
+    uint32 m_bEnableColorChange: 1;
     
     UPROPERTY(EditDefaultsOnly)
     TArray<FName> m_ColorChangeMaterials;

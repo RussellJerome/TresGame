@@ -8,7 +8,7 @@ class ATresPhysObjDestroyVolume : public ATresVolume {
     GENERATED_BODY()
 public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDisappearFilterTag: 1;
+    uint32 m_bDisappearFilterTag: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TArray<FName> m_DisappearActorTags;

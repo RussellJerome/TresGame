@@ -10,7 +10,7 @@ class TRESGAME_API ATresEventPawnBase : public ATresCharPawnBase {
 public:
 protected:
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bAutoChangeSkeletonUpdate: 1;
+    uint32 m_bAutoChangeSkeletonUpdate: 1;
     
 public:
     ATresEventPawnBase();

@@ -10,7 +10,7 @@ class UTresBTComposite_Random : public UBTCompositeNode {
     GENERATED_BODY()
 public:
     UPROPERTY(EditAnywhere)
-    uint8 bFailOnAll: 1;
+    uint32 bFailOnAll: 1;
     
     UPROPERTY(VisibleDefaultsOnly)
     TEnumAsByte<ETresRandomDistributionType::Type> Distribution;
@@ -19,7 +19,7 @@ public:
     TEnumAsByte<ETresControlledRandomPeriod::Type> Randomness;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 bCustomPeriod: 1;
+    uint32 bCustomPeriod: 1;
     
     UPROPERTY(VisibleDefaultsOnly)
     float Period;

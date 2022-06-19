@@ -13,13 +13,13 @@ public:
     TEnumAsByte<ETresArithmeticModifierSource::Type> ValueTypeB;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 bUseBlackboardB: 1;
+    uint32 bUseBlackboardB: 1;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 bUsePropertyOrFunctionB: 1;
+    uint32 bUsePropertyOrFunctionB: 1;
     
     UPROPERTY(VisibleDefaultsOnly)
-    uint8 bUseLiteralB: 1;
+    uint32 bUseLiteralB: 1;
     
     UPROPERTY(EditAnywhere)
     FBlackboardKeySelector BlackboardKeyB;
