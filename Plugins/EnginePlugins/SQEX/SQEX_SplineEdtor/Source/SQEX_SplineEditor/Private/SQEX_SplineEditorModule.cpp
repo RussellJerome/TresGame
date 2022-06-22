@@ -1,3 +1,3 @@
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_MODULE(FDefaultGameModuleImpl, SQEX_SplineEditor);
+IMPLEMENT_MODULE(FDefaultModuleImpl, SQEX_SplineEditor);

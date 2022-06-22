@@ -3,13 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ModuleManager.h"
 
-class FSQEXSEADEdModule : public IModuleInterface
+
+class USQEXSEADEd : public UObject
 {
 public:
 
-	/** IModuleInterface implementation */
-	virtual void StartupModule() override;
-	virtual void ShutdownModule() override;
 };
