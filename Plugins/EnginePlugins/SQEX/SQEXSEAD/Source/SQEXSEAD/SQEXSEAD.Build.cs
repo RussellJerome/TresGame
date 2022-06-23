@@ -8,6 +8,11 @@ public class SQEXSEAD : ModuleRules {
             "Core",
             "CoreUObject",
             "Engine",
+		
         });
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.Add("SQEXSEADEd");
+        }
     }
 }
