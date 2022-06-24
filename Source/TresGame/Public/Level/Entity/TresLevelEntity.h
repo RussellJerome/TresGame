@@ -18,7 +18,7 @@ class ATresAIPawnBase;
 class UTresLevelEntityGroup;
 class UTresLevelEntityManager;
 
-UCLASS()
+UCLASS(Config=Engine, DefaultConfig)
 class TRESGAME_API ATresLevelEntity : public AActor {
     GENERATED_BODY()
 public:
