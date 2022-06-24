@@ -94,7 +94,7 @@ private:
     
 public:
     ATresGumiShipPlayer();
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "pWorldContextObject", LatentInfo = "LatentInfo", Latent))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "pWorldContextObject", LatentInfo = "LatentInfo"))
     static void WaitSetupPlayer(UObject* pWorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)

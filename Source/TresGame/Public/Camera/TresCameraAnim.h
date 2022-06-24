@@ -31,7 +31,7 @@ protected:
     
 public:
     ATresCameraAnim();
-    UFUNCTION(BlueprintCallable, meta = (LatentInfo = "LatentInfo", Latent))
+    UFUNCTION(BlueprintCallable, meta = (LatentInfo = "LatentInfo"))
     void WaitPlayEnd(bool bDummy, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)
