@@ -46,7 +46,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void TresSetPauseMenuType(TEnumAsByte<ETresPauseMenuType> Type);
     
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", Latent))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
     void StartTutorial(UObject* WorldContextObject, FLatentActionInfo LatentInfo, UTresMapSet* MapSet, FName TutorialName);
     
     UFUNCTION(BlueprintCallable)
