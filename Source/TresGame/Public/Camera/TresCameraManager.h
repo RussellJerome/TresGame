@@ -69,7 +69,7 @@ protected:
     UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     AActor* m_DebugOrgCameraTarget;
     
-    UPROPERTY(Transien, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     ATresCameraNormal* m_DebugPatrolCamera;
     
 public:
