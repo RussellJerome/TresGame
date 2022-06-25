@@ -21,65 +21,65 @@ class ATresCameraManager : public APlayerCameraManager {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<AActor*> m_CameraArray;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<AActor*> m_AddArray;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<AActor*> m_DelArray;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FViewTargetTransitionParamsEx m_AddTransitionParams;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FViewTargetTransitionParamsEx m_DelTransitionParams;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<AActor*> m_SpawnArray;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     APlayerController* m_PlayerController;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     ATresCameraBase* m_LockonCamera;
     
-    UPROPERTY(Export, Transient)
+    UPROPERTY(Export, Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     UTresLockonTargetComponent* m_LockonTarget;
     
-    UPROPERTY(DuplicateTransient, Export, Transient)
+    UPROPERTY(DuplicateTransient, Export, Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     UTresLockonTargetComponent* m_DummyLockonTargetComp;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     UTresCameraConfig* m_CameraConfig;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     ATresCameraNormal* m_CameraNormal1st;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     ATresCameraNormal* m_CameraNormal2nd;
     
-    UPROPERTY(Export, Transient)
+    UPROPERTY(Export, Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<UParticleSystemComponent*> m_CameraPositionEffects;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     AActor* m_DebugCameraTarget;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     AActor* m_DebugOrgCameraTarget;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transien, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     ATresCameraNormal* m_DebugPatrolCamera;
     
 public:
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FTCPATH_SPLINEGROUP> m_SplinePathRoute;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FTCPATH_SPLINEGROUP> m_SplinePathLocation;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FTCPATH_SPLINEGROUP> m_SplinePathRSLocation;
     
     ATresCameraManager();
@@ -101,58 +101,58 @@ public:
     UFUNCTION(BlueprintCallable)
     void EnableAllCameraPathRoute(bool bEnable, int32 Priority);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DestroyAllBluprintCamera();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowOverlapTresCameraLocation(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowCameraPathLine();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowCameraOutsideWallCheck(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowCameraManager();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowCameraLookPos();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowCameraGeneral(bool bEneble);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowCameraDistanceAdjust2T();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCameraSlideScale(float Scale);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCameraSize(float Size);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCameraShutOutFadeTime(float FadeTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCameraShutOutFadeAlpha(float FadeAlpha);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCameraLockonFixInFront(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSelectCameraDebugOrthoTopView(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPatrolCameraTarget(bool bOn);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugNoCameraShutOut(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugNoCameraShake();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugCameraSelectDamageBeatType(bool bOn);
     
     UFUNCTION(BlueprintCallable)
