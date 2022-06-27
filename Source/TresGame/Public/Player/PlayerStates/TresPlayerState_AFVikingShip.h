@@ -5,11 +5,11 @@
 
 class ATresAttractionPawnVikingShip;
 
-UCLASS()
+UCLASS(Blueprintable)
 class UTresPlayerState_AFVikingShip : public UTresCharState_AFVikingShip {
     GENERATED_BODY()
 public:
-    UPROPERTY()
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess=true))
     ATresAttractionPawnVikingShip* m_pShip;
     
     UTresPlayerState_AFVikingShip();

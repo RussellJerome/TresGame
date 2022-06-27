@@ -10,12 +10,12 @@ class UMaterial;
 class UTresDecalComponent;
 class ATresProjectileBase;
 
-UCLASS()
+UCLASS(Blueprintable)
 class ATresAttractionPawnVikingShip : public ATresAttractionPawnBase {
     GENERATED_BODY()
 public:
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableDecal: 1;
+    uint32 m_bEnableDecal: 1;
     
     UPROPERTY(EditDefaultsOnly)
     UMaterial* m_DecalMaterial;
