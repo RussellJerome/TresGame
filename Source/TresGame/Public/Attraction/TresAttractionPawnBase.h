@@ -7,7 +7,7 @@
 
 class ATresCameraFirstPerson;
 
-UCLASS(Abstract)
+UCLASS(Abstract, BlueprintType)
 class ATresAttractionPawnBase : public ATresAccompanyPawnBase {
     GENERATED_BODY()
 public:
