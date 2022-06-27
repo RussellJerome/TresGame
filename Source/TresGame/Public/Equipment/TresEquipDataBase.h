@@ -10,7 +10,7 @@ class TRESGAME_API UTresEquipDataBase : public UDataAsset {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, AdvancedDisplay, EditDefaultsOnly)
     USQEX_ParticleAttachDataAsset* m_CmnFormChangeChargeEffect;
     
 public:

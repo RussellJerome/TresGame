@@ -24,28 +24,28 @@ class UTresEquipmentComponent : public UActorComponent, public ITresAnimInterfac
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, Transient)
     ATresPawnBase* m_AttachPawn;
     
-    UPROPERTY(Export, Transient)
+    UPROPERTY(BlueprintReadWrite, Export, Transient)
     USkeletalMeshComponent* m_AttachSkin;
     
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, Transient)
     TArray<ATresWeaponBase*> m_WeaponEquips;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresWeaponSet* MyWeaponSet;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bIsFixedEquip: 1;
+    uint32 m_bIsFixedEquip: 1;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TArray<FTresEquipmentAssetUnit> m_FixedEquips;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresWearformSet* m_WearformSet;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresFormAbilitySet* m_FormAbilityAsset;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
