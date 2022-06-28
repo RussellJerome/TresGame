@@ -30,9 +30,5 @@ public class TresGame : ModuleRules {
             "SlateCore",
             "UMG",
         });
-        if (Target.Type == TargetType.Editor)
-        {
-            PrivateDependencyModuleNames.Add("SQEXSEADEd");
-        }
     }
 }

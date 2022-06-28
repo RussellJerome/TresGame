@@ -12,7 +12,6 @@ public class TresGameTarget : TargetRules {
 			"KineDriverRt",
 			"Niagara",
 			"ScaleformUI",
-			"SQEXSEAD",
 			"TresGame",
 		});
 	}

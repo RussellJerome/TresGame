@@ -8,7 +8,6 @@ public class SQEX_SplineEditor : ModuleRules {
             "Core",
             "CoreUObject",
             "Engine",
-            "UnrealEd"
         });
     }
 }
