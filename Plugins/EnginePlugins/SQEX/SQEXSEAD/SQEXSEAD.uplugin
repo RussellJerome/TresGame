@@ -22,7 +22,7 @@
 		},
 		{
 			"Name" : "SQEXSEADEd",
-			"Type" : "Editor",
+			"Type" : "Developer",
 			"LoadingPhase" : "PostConfigInit"
 		}
 	]

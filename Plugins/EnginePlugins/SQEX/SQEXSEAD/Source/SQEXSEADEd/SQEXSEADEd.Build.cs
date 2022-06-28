@@ -11,6 +11,7 @@ public class SQEXSEADEd : ModuleRules
 		PublicIncludePaths.AddRange(
 			new string[] {
 				"SQEXSEADEd/Public",
+				"SQEXSEAD/Public",
 				// ... add public include paths required here ...
 			}
 			);
@@ -19,6 +20,7 @@ public class SQEXSEADEd : ModuleRules
 		PrivateIncludePaths.AddRange(
 			new string[] {
 				"SQEXSEADEd/Private",
+				"SQEXSEAD/Private",
 				// ... add other private include paths required here ...
 			}
 			);
