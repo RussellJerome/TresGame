@@ -37,16 +37,16 @@ public:
     UDataTable* LSIGameData;
     
     UPROPERTY(EditDefaultsOnly)
-    USwfMovie* SwfMovieAssetLSIButtonSet;
+    TAssetPtr<USwfMovie> SwfMovieAssetLSIButtonSet;
     
     UPROPERTY(EditDefaultsOnly)
     FName LSIGamePlayRewardItemName;
     
     UPROPERTY(EditDefaultsOnly)
-    USoundBase* LSIMenuBGM;
+    TAssetPtr<USoundBase> LSIMenuBGM;
     
     UPROPERTY(EditDefaultsOnly)
-    USwfMovie* SwfMovieAssets[12];
+    TAssetPtr<USwfMovie> SwfMovieAssets[12];
     
     UTresUIMobilePortalDataAsset();
 };

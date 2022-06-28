@@ -16,7 +16,7 @@ private:
     TArray<TSubclassOf<ATresUIActorLightSet>> LightSets;
     
     UPROPERTY(EditDefaultsOnly)
-    TArray<UTresUIActorPostProcessSetDataAsset*> PostProcessSets;
+    TArray<TAssetPtr<UTresUIActorPostProcessSetDataAsset>> PostProcessSets;
     
 public:
     UTresUIActorSettingDataAsset();

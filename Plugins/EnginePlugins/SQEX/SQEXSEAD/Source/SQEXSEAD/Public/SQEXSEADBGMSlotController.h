@@ -65,7 +65,7 @@ public:
     void SetPlayFadeInTime(float FadeTime);
     
     UFUNCTION(BlueprintCallable)
-    void SetPath(USoundBase* SoundReference);
+    void SetPath(TAssetPtr<USoundBase> SoundReference);
     
     UFUNCTION(BlueprintCallable)
     void SetOptions(FSQEXSEAD_BGMOptions NewOptions);

@@ -20,10 +20,10 @@ public:
     UDataTable* m_MapSetDataTable;
     
     UPROPERTY(EditDefaultsOnly)
-    TArray<UTexture*> m_UIImageBgList;
+    TArray<TAssetPtr<UTexture>> m_UIImageBgList;
     
     UPROPERTY(EditDefaultsOnly)
-    TArray<UTexture*> m_UIImageStartList;
+    TArray<TAssetPtr<UTexture>> m_UIImageStartList;
     
     UTresPhotoHologramDataAsset();
 };

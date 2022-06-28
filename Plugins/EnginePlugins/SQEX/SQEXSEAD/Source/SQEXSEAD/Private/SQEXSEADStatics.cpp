@@ -59,7 +59,7 @@ void USQEXSEADStatics::ResetAllCategoryTemporarySettings(float resetFadeTime) {
 void USQEXSEADStatics::ResetAllBGM(float FadeTime) {
 }
 
-void USQEXSEADStatics::ReadySetPathBGM(FName Name, USoundBase* SoundReference) {
+void USQEXSEADStatics::ReadySetPathBGM(FName Name, TAssetPtr<USoundBase> SoundReference) {
 }
 
 bool USQEXSEADStatics::IsPlayingBGM(USoundBase* Sound) {

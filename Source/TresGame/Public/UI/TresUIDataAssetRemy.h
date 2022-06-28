@@ -19,7 +19,7 @@ public:
     USwfMovie* SwfAssetMenuRemy;
     
     UPROPERTY(EditDefaultsOnly)
-    UTexture* NotClearedIcon;
+    TAssetPtr<UTexture> NotClearedIcon;
     
     UPROPERTY(VisibleDefaultsOnly)
     TArray<UObject*> RemySwfRefAssets;
