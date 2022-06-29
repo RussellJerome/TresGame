@@ -11,94 +11,94 @@ class TRESGAME_API UTresChrInitData : public UDataAsset {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerSora;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerSoraTuto;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerSoraTSGame;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerRiku29;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerAqua;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerKairi;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_PlayerRoxas;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendSora;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendDonald;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendGoofy;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendRiku;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendMickey;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendAqua;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendJackSparrow;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendWoody;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendBuzz;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendHercules;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendRapunzel;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendFlynn;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendSulley;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendMike;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendMarshmallow;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendBaymax;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendKairi;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendTerra;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendVentus;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendRoxas;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendLea;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTresChrInitEquip m_FriendXion;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UDataTable* m_SpecialShipLevelData;
     
 public:
