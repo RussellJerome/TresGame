@@ -16,7 +16,7 @@ class ATresCameraBase;
 class UParticleSystemComponent;
 class UCameraShake;
 
-UCLASS(NonTransient)
+UCLASS(NonTransient, BlueprintType)
 class ATresCameraManager : public APlayerCameraManager {
     GENERATED_BODY()
 public:

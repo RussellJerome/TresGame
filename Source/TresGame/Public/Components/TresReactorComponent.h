@@ -16,39 +16,39 @@ class UTresReactorComponent : public UTresGimmickComponentBase, public ITresReac
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditAnywhere)
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere)
     FColor m_ShapeColor;
     
-    UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditAnywhere)
-    uint8 m_bDrawBBox: 1;
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere)
+    uint32 m_bDrawBBox: 1;
     
-    UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditAnywhere)
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditAnywhere)
     FColor m_BBoxColor;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess=true))
     TArray<FTresCollShapeAssetUnit> m_CollisionShapesSrc;
     
 public:
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bLimitRotRange: 1;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+    uint32 m_bLimitRotRange: 1;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess=true))
     float m_RotRangeProp;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bNeedRayCheck: 1;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess=true))
+    uint32 m_bNeedRayCheck: 1;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess=true))
     ETresReactorCommandID m_Command;
     
-    UPROPERTY(BlueprintReadOnly, EditInstanceOnly)
+    UPROPERTY(BlueprintReadWrite, EditInstanceOnly)
     AActor* m_CmdTargetActor;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bDisableTargetMarker: 1;
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+    uint32 m_bDisableTargetMarker: 1;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-    uint8 m_bDisableCommandDisp: 1;
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+    uint32 m_bDisableCommandDisp: 1;
     
 protected:
     UPROPERTY(DuplicateTransient, Transient)

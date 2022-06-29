@@ -41,7 +41,6 @@ ATresProjectileBase::ATresProjectileBase() {
     this->MyMovement = CreateDefaultSubobject<UTresProjectileMovementComponent>(TEXT("ProjectileComp"));
     this->MyParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
     this->MyAtkColl = CreateDefaultSubobject<UTresAtkCollComponent>(TEXT("TresAtkColl0"));
-    MyMovement->UpdatedComponent = MyRoot;
     this->m_MainLife = 10.00f;
     this->m_MaxLifeDistance = 0.00f;
     this->m_bDoDelayFire = false;

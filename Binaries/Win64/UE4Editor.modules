@@ -1,0 +1,14 @@
+{
+	"Changelist" : 0,
+	"BuildId" : "1445d58b-83e3-480f-a35c-0b1161ee3210",
+	"Modules" : 
+	{
+		"BonamikRt" : "UE4Editor-BonamikRt.dll",
+		"KBDRt" : "UE4Editor-KBDRt.dll",
+		"KineDriverEd" : "UE4Editor-KineDriverEd.dll",
+		"KineDriverRt" : "UE4Editor-KineDriverRt.dll",
+		"ScaleformUI" : "UE4Editor-ScaleformUI.dll",
+		"TresGame" : "UE4Editor-TresGame.dll",
+		"TresGameEditor" : "UE4Editor-TresGameEditor.dll"
+	}
+}
