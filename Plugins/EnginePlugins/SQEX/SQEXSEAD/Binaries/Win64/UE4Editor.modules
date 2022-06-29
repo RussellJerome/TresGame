@@ -1,9 +1,0 @@
-{
-	"Changelist" : 0,
-	"BuildId" : "1445d58b-83e3-480f-a35c-0b1161ee3210",
-	"Modules" : 
-	{
-		"SQEXSEAD" : "UE4Editor-SQEXSEAD.dll",
-		"SQEXSEADEd" : "UE4Editor-SQEXSEADEd.dll"
-	}
-}

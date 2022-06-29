@@ -136,9 +136,13 @@ Intermediate/
 obj/
 
 # Ignore any saved local files
-Saved/
-!Saved/Logs/
-Saved/Logs/*
+/Saved/*
+!/Saved/Logs
+!/Saved/Logs/keep.txt
+
+
+
+
 /Engine/Programs/UnrealBuildTool/**
 /LocalBuilds/
 
