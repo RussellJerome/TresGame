@@ -137,7 +137,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void OnLoadHologramProjectEnd();
     
-    UFUNCTION(BlueprintCallable, meta = (LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (LatentInfo = "LatentInfo", Latent))
     void ApplyLoadProject(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable)

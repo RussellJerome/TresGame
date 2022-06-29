@@ -55,10 +55,10 @@ public:
     bool _SetPlayerPos();
     
 protected:
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject_", LatentInfo = "LatentInfo_"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject_", LatentInfo = "LatentInfo_", Latent))
     void _SetCorePartsLoops(const UObject* worldContextObject_, FLatentActionInfo latentInfo_, float pos);
     
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo_"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo_", Latent))
     void _PlayRailSlid(const UObject* worldContextObject_, FLatentActionInfo latentInfo_);
     
 public:

@@ -27,7 +27,7 @@ public:
     static ATresSoKcKeyHoleManager* Get(const UObject* WorldContext);
     
 private:
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", Latent))
     static void _WaitAllKeyHoleGimmickRegister(const UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))

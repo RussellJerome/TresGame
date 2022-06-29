@@ -19,7 +19,7 @@ class UTresSoundStatics : public UObject {
     GENERATED_BODY()
 public:
     UTresSoundStatics();
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", Latent))
     static void TresWaitForEndOfFieldVoice(UObject* WorldContextObject, FLatentActionInfo LatentInfo);
     
     UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))

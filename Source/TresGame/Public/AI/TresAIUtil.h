@@ -17,7 +17,7 @@ class UTresAIUtil : public UObject {
     GENERATED_BODY()
 public:
     UTresAIUtil();
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", Latent))
     static void WaitForRunningBehaviorTree(UObject* WorldContext, FLatentActionInfo LatentInfo, ATresAIPawnBase* AIPawn);
     
     UFUNCTION(BlueprintPure)
@@ -47,7 +47,7 @@ public:
     UFUNCTION(BlueprintPure)
     static FVector BP_ClosestPointOnPath(UNavigationPath* Path, FVector Location);
     
-    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo"))
+    UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", Latent))
     static void AITurnTo(UObject* WorldContext, FLatentActionInfo LatentInfo, ATresAIPawnBase* AIPawn, FVector TargetLocation, AActor* TargetActor);
     
 };
