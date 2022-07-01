@@ -40,10 +40,10 @@ public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FTresActorSpecificAction, TEnumAsByte<ETresActorSpecificActionID>, ActionID, AActor*, SendActor, int32, SubID);
     
 private:
-    UPROPERTY(BlueprintReadOnly, Export, VisibleAnywhere, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, Export, EditAnywhere, meta=(AllowPrivateAccess=true))
     UTresFriendComponent* MyFrdMgr;
     
-    UPROPERTY(Export)
+    UPROPERTY(Export, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     UTresPlayerStateEventComponent* MyStateEvent;
     
 public:

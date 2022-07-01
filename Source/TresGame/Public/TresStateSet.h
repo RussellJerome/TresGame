@@ -4,11 +4,11 @@
 #include "TresStateAsset.h"
 #include "TresStateSet.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType)
 class TRESGAME_API UTresStateSet : public UDataAsset {
     GENERATED_BODY()
 public:
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     TArray<FTresStateAsset> MyStates;
     
     UTresStateSet();
