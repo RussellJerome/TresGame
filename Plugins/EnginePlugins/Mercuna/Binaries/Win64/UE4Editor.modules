@@ -1,0 +1,9 @@
+{
+	"Changelist" : 0,
+	"BuildId" : "f412aa0c-3451-45da-aea5-a0f0797217d9",
+	"Modules" : 
+	{
+		"Mercuna" : "UE4Editor-Mercuna.dll",
+		"Mercuna3DMovement" : "UE4Editor-Mercuna3DMovement.dll"
+	}
+}
