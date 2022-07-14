@@ -32,7 +32,7 @@ class UTresUICommandInfoBase;
 
 UCLASS(Abstract, Config=Game)
 class ATresPlayerPawnBase : public ATresAIPawnBase {
-    GENERATED_BODY()
+    GENERATED_BODY(BlueprintReadWrite)
 public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTresPlayerSpecificAction, TEnumAsByte<ETresPlayerSpecificActionID>, ActionID, int32, SubID);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTresPlayerEndCommandAction, TEnumAsByte<ETresCommandKind>, CommandKind);
@@ -69,7 +69,7 @@ public:
     float MyPoleEffectRange;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bEnableClimbing: 1;
+    uint32 m_bEnableClimbing: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float m_fClimbingRadius;
@@ -90,7 +90,7 @@ public:
     float m_fClimbingFinalSpace;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bEnableWallRun: 1;
+    uint32 m_bEnableWallRun: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MyWallRunSpeedScaleUp;
@@ -150,7 +150,7 @@ public:
     float MyAttackFirstAirMoveRate;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bEnableDiveFall: 1;
+    uint32 m_bEnableDiveFall: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MyDiveFallStartHeight;
@@ -467,10 +467,10 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MySwimDashTime;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     float MySwimDiveOxygenTime;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     float MySwimDiveDashOxygenConsumeRate;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -485,98 +485,98 @@ public:
     UPROPERTY(DuplicateTransient, Transient)
     ATresCameraDiving* m_pSwimDivingCamera;
     
-    UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
     TEnumAsByte<ETresPlayerFlyModes> MyFlyMotion;
     
-    UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
     TEnumAsByte<ETresPlayerJumpModes> MyJumpMotion;
     
-    UPROPERTY(Config)
-    uint8 bDispDebugInfo: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 bDispDebugInfo: 1;
     
-    UPROPERTY(Config)
-    uint8 bDispNetDebugInfo: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 bDispNetDebugInfo: 1;
     
-    UPROPERTY(Config)
-    uint8 bDebugDisableGameOver: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 bDebugDisableGameOver: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bAlwaysEnableWallRun: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 m_bAlwaysEnableWallRun: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugWallRunStartOff: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 m_bDebugWallRunStartOff: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugDisableFriend: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 m_bDebugDisableFriend: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShooterModeInputType: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 m_bDebugShooterModeInputType: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bWallTurnWithoutAnim: 1;
+    UPROPERTY(Config, BlueprintReadWrite)
+    uint32 m_bWallTurnWithoutAnim: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     int32 m_bDebugHighJump;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebug2ndJump: 1;
+    uint32 m_bDebug2ndJump: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugDodge: 1;
+    uint32 m_bDebugDodge: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAirDodge: 1;
+    uint32 m_bDebugAirDodge: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugRiskDodge: 1;
+    uint32 m_bDebugRiskDodge: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugSuperJump: 1;
+    uint32 m_bDebugSuperJump: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     int32 m_bDebugSuperSlideLv;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugPoleSpin: 1;
+    uint32 m_bDebugPoleSpin: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugPoleSwing: 1;
+    uint32 m_bDebugPoleSwing: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugWallKick: 1;
+    uint32 m_bDebugWallKick: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugEnemyTurn: 1;
+    uint32 m_bDebugEnemyTurn: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAirRecovery: 1;
+    uint32 m_bDebugAirRecovery: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugBlowCounter: 1;
+    uint32 m_bDebugBlowCounter: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAirRecoveryInputChange: 1;
+    uint32 m_bDebugAirRecoveryInputChange: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugGuard: 1;
+    uint32 m_bDebugGuard: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugGuardCounter: 1;
+    uint32 m_bDebugGuardCounter: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugRevengeImpact: 1;
+    uint32 m_bDebugRevengeImpact: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugRevengeDive: 1;
+    uint32 m_bDebugRevengeDive: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugRevengeEx: 1;
+    uint32 m_bDebugRevengeEx: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugDodgeCounter: 1;
+    uint32 m_bDebugDodgeCounter: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugComboMaster: 1;
+    uint32 m_bDebugComboMaster: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     int32 m_bDebugComboPlus;
@@ -585,140 +585,140 @@ public:
     int32 m_bDebugAirComboPlus;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinTriple: 1;
+    uint32 m_bDebugFinTriple: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinThrust: 1;
+    uint32 m_bDebugFinThrust: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinFlash: 1;
+    uint32 m_bDebugFinFlash: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinDown: 1;
+    uint32 m_bDebugFinDown: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugLaunchSpin: 1;
+    uint32 m_bDebugLaunchSpin: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAirRollBeat: 1;
+    uint32 m_bDebugAirRollBeat: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinDonald1: 1;
+    uint32 m_bDebugFinDonald1: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinDonald2: 1;
+    uint32 m_bDebugFinDonald2: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinDonald3: 1;
+    uint32 m_bDebugFinDonald3: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinGoofy1: 1;
+    uint32 m_bDebugFinGoofy1: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFinGoofy2: 1;
+    uint32 m_bDebugFinGoofy2: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugSonicSlash: 1;
+    uint32 m_bDebugSonicSlash: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugSonicJump: 1;
+    uint32 m_bDebugSonicJump: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugSonicTurn: 1;
+    uint32 m_bDebugSonicTurn: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugSonicWheel: 1;
+    uint32 m_bDebugSonicWheel: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionVS: 1;
+    uint32 m_bDebugAttractionVS: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionBM: 1;
+    uint32 m_bDebugAttractionBM: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionSM: 1;
+    uint32 m_bDebugAttractionSM: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionSC: 1;
+    uint32 m_bDebugAttractionSC: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionMG: 1;
+    uint32 m_bDebugAttractionMG: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionTC: 1;
+    uint32 m_bDebugAttractionTC: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionAS: 1;
+    uint32 m_bDebugAttractionAS: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionWS: 1;
+    uint32 m_bDebugAttractionWS: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugAttractionFF: 1;
+    uint32 m_bDebugAttractionFF: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugShieldAutoGrowUp: 1;
+    uint32 m_bDebugShieldAutoGrowUp: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugMpCharge: 1;
+    uint32 m_bDebugMpCharge: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugFpCharge: 1;
+    uint32 m_bDebugFpCharge: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugChargeBerserkTest: 1;
+    uint32 m_bDebugChargeBerserkTest: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugCuragan: 1;
+    uint32 m_bDebugCuragan: 1;
     
-    UPROPERTY(Config)
+    UPROPERTY(Config, BlueprintReadWrite)
     float m_fDebugAttackMoveLimit;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugForceUseSpawnPointVolume: 1;
+    uint32 m_bDebugForceUseSpawnPointVolume: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugDispNearSpawnPoint: 1;
+    uint32 m_bDebugDispNearSpawnPoint: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     int32 m_nDebugTestMode;
     
-    UPROPERTY(Config)
+    UPROPERTY(Config, BlueprintReadWrite)
     FVector m_vDebugTmpVec0;
     
-    UPROPERTY(Config)
+    UPROPERTY(Config, BlueprintReadWrite)
     FVector m_vDebugTmpVec1;
     
-    UPROPERTY(Config)
+    UPROPERTY(Config, BlueprintReadWrite)
     FVector m_vDebugTmpVec2;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     TSubclassOf<ATresSimpleEffect> m_AthleticRoot;
     
 protected:
     UPROPERTY(BlueprintReadWrite, EditInstanceOnly)
-    uint8 m_bFriendDisableAutoCreate: 1;
+    uint32 m_bFriendDisableAutoCreate: 1;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     ESQEX_AI_ThinkType m_FriendAIThinkType;
     
     UPROPERTY(EditDefaultsOnly)
     FTresAttractionFlowAssetInfo m_AttractionFlowAssetInfo[16];
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     TArray<float> m_AttractionFlowDrawingHistoryRatio;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UTresPlayerPawnLoadAsset* m_LoadAsset;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     int32 m_GameStartChrLevel;
     
 public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bEnableWeaponChangeEquip: 1;
+    uint32 m_bEnableWeaponChangeEquip: 1;
     
-    UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditDefaultsOnly)
+    UPROPERTY(AdvancedDisplay, BlueprintReadWrite, EditDefaultsOnly)
     UTresAnimSet* m_RestrictWeaponModeAnimSet;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -754,49 +754,49 @@ public:
     UPROPERTY(BlueprintAssignable)
     FTresPlayerEndCommandAction OnPlayerEndCommandAction;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pFireEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pHopEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pPoleEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pPoleEffectH;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pWallRunEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pSprintEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pAthleticHitEffect;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TSubclassOf<AEmitterCameraLensEffectBase> m_LensEffectClass;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pFocusAspirEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pSwanDiveEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pGuardReflectEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pJustGuardEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pCriticalCounterHitEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UParticleSystem* m_pCoverShotDestroyEffect;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     USQEX_ParticleAttachDataAsset* m_AntiFormEffect;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -804,7 +804,7 @@ public:
     
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bDebugHitStop: 1;
+    uint32 m_bDebugHitStop: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MyHitStopTimeSmall;
@@ -812,16 +812,16 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     float MyHitStopTimeBig;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     TArray<AActor*> m_OverlappedAttractionFlowDrawingActors;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     UTresSpawnPointDistanceScorer* m_pSpawnPointDistanceScorer;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     UTresSpawnPointAvoidActorFilter* m_pSpawnPointFilter;
     
-    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     ETresPlayerUniqueID m_PlayerUniqueID;
     
     UPROPERTY(Export)
@@ -862,97 +862,97 @@ public:
     UFUNCTION(BlueprintCallable)
     UTresFriendComponent* GetFriendManager();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugWarpCheck(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetVikingShipParam(float fIdlePitch, float fIdlePow, float fIdleAcc, float fIdleBrk, float fAtkPitch, float fAtkPow, float fAtkAcc, float fAtkBrk);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetTmpVector(int32 InSlot, float InX, float InY, float InZ);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetRailSlideShotMax(int32 InMax);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetRailSlideShotInterval(float InTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetRailSlideCheckRange(float InRange, float InAirRange);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetInputCancel(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetHitStopTime(int32 InMode, float Timer);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetGuardMoveSpeed(float InSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetGuardHoldTime(float InTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetGuardEnableDisp(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetGlideParam(int32 bEnable, float InGravityScale, float InSpeed, float InTurnRate);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFriendComboFinishParam(float InRange, float InRangeHalf, float InRangeNear, int32 InAddRate, int32 InAddRateRange, int32 InAddRateRangeHalf, int32 InAddRateRangeNear);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFocusAspirRate(float fAspirLv1, float fAspirLv2, float fAspirLv3);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFloatingMode(bool bEnable, bool IsSpecial, float InGravityScale, float InSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetDiveFallLockon(float InRangeXY, float InLimitZ);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCoverSlowParam(float InRate, float InTeme);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCoverMoveSpeed(float InSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetCoverFindLimit(float InLimit);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetComboTimeDisp(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetClimbingParam(int32 InVersion, float InRadius, float InFront, float InFrontF, float InFrontN, float InFinalSpace, float InBottom);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetClimbingBodyOff();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugResetTmpVector();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPlayerFallIntoBottomlessPit(float Z);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableSkillCamera(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableDamageAlwaysHeavy(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableDamageAddVelocity(float InPow);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugCuragan(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugChangeWeaponType(int32 InType);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugChangePlayerWeaponEquip(int32 InSlotIndex, int32 InWeaponItemID);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugBurnTest(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
