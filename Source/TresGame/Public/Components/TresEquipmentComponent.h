@@ -36,7 +36,7 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresWeaponSet* MyWeaponSet;
     
-    UPROPERTY(BlueprintReadOnly, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
     uint32 m_bIsFixedEquip: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -57,19 +57,19 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     USQEX_ParticleAttachDataAsset* m_CmnFormChangeChargeEffect;
     
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     UTresPlayerMagicSet* m_ReplaceMagicSet;
     
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     UTresProjectileSet* m_ReplaceProjectileSet;
     
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     TArray<FTresEquipmentAccompanyPawnAssetUnit> m_ReplaceAccompanyPawnAsset;
     
     UPROPERTY(Transient)
     FTresEquipWeaponSlotWork m_EquipSlots[3];
     
-    UPROPERTY(DuplicateTransient, Export, Transient)
+    UPROPERTY(DuplicateTransient, Export, Transient, BlueprintReadWrite)
     UTresChrBaseParam* m_pBaseParam;
     
 public:
