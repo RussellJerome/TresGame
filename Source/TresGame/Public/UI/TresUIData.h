@@ -115,7 +115,7 @@ public:
     UTresUIDataAssetCodeMenu* m_pUIDataCodeMenu;
     
     UPROPERTY(EditDefaultsOnly)
-    USoundBase* m_TutorialBGM;
+    TAssetPtr<USoundBase> m_TutorialBGM;
     
     UTresUIData();
 };

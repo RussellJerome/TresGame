@@ -25,10 +25,10 @@ public:
     TEnumAsByte<ETresWorldAreaCode> m_WorldAreaCode;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    USoundBase* m_BGMField;
+    TAssetPtr<USoundBase> m_BGMField;
     
     UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    USoundBase* m_BGMBattle;
+    TAssetPtr<USoundBase> m_BGMBattle;
     
     UPROPERTY(EditAnywhere)
     TArray<FTresAttractionFlowDrawingEntry> m_DrawingTable;

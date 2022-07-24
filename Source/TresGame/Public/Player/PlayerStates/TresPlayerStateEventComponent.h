@@ -10,7 +10,7 @@ class UTresPlayerStateEventComponent : public UActorComponent {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<UTresPlayerStateEvent*> m_StateEvents;
     
 public:

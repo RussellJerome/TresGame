@@ -10,13 +10,13 @@ USTRUCT(BlueprintType)
 struct FTresStateAsset {
     GENERATED_BODY()
 public:
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     TSubclassOf<UTresStateBase> MyStateClass;
     
-    UPROPERTY(VisibleDefaultsOnly)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite)
     FName MyStateName;
     
-    UPROPERTY(VisibleDefaultsOnly)
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite)
     TEnumAsByte<ETresStateID> MyStateID;
     
     TRESGAME_API FTresStateAsset();

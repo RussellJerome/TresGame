@@ -10,12 +10,12 @@ class UTresGameInstance;
 class UObject;
 class UTresFieldVoiceManager;
 
-UCLASS(NonTransient)
+UCLASS(NonTransient, Blueprintable)
 class ATresGameModeBase : public ASQEX_GameMode {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     UTresGameInstance* m_pTresGameInstance;
     
     UPROPERTY(Transient)

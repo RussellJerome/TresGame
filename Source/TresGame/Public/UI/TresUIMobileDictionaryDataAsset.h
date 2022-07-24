@@ -16,7 +16,7 @@ class UTresUIMobileDictionaryDataAsset : public UDataAsset {
     GENERATED_BODY()
 public:
     UPROPERTY(EditDefaultsOnly)
-    UTextureRenderTarget2D* RenderTargetTexture;
+    TAssetPtr<UTextureRenderTarget2D> RenderTargetTexture;
     
     UPROPERTY(EditDefaultsOnly)
     TSubclassOf<ATresUIActorBG> UIActorBG;

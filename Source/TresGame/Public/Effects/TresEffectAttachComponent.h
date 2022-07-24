@@ -16,13 +16,13 @@ UCLASS(BlueprintType, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnable
 class UTresEffectAttachComponent : public USceneComponent {
     GENERATED_BODY()
 public:
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<FSQEX_CommonEffectData> CommonEffectList;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<FSQEX_DesignatedAttachData> DesignatedAttachDataList;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     TArray<USQEX_ParticleAttachDataAsset*> CommonAttachDataList;
     
     UTresEffectAttachComponent();

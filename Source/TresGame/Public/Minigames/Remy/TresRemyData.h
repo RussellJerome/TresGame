@@ -42,7 +42,7 @@ protected:
     UDataTable* PawnDataRef;
     
     UPROPERTY(EditDefaultsOnly)
-    UTextureRenderTarget2D* RemyModelRenderTargetTexture;
+    TAssetPtr<UTextureRenderTarget2D> RemyModelRenderTargetTexture;
     
 public:
     UTresRemyData();

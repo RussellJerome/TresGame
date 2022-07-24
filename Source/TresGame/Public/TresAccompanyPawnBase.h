@@ -16,7 +16,7 @@ class UTresVoiceGroupSet;
 class UTresAnimSet;
 class USoundBase;
 
-UCLASS(Abstract)
+UCLASS(Abstract, BlueprintType)
 class ATresAccompanyPawnBase : public ATresCharPawnBase {
     GENERATED_BODY()
 public:
@@ -58,7 +58,7 @@ protected:
     USoundBase* m_BGMAsset;
     
 public:
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     float m_Param_MaxTime;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)

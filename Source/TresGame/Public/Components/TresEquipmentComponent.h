@@ -24,28 +24,28 @@ class UTresEquipmentComponent : public UActorComponent, public ITresAnimInterfac
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, Transient)
     ATresPawnBase* m_AttachPawn;
     
-    UPROPERTY(Export, Transient)
+    UPROPERTY(BlueprintReadWrite, Export, Transient)
     USkeletalMeshComponent* m_AttachSkin;
     
-    UPROPERTY(Transient)
+    UPROPERTY(BlueprintReadWrite, Transient)
     TArray<ATresWeaponBase*> m_WeaponEquips;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresWeaponSet* MyWeaponSet;
     
-    UPROPERTY(BlueprintReadOnly, EditAnywhere)
-    uint8 m_bIsFixedEquip: 1;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    uint32 m_bIsFixedEquip: 1;
     
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TArray<FTresEquipmentAssetUnit> m_FixedEquips;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresWearformSet* m_WearformSet;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     UTresFormAbilitySet* m_FormAbilityAsset;
     
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
@@ -57,19 +57,19 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     USQEX_ParticleAttachDataAsset* m_CmnFormChangeChargeEffect;
     
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     UTresPlayerMagicSet* m_ReplaceMagicSet;
     
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     UTresProjectileSet* m_ReplaceProjectileSet;
     
-    UPROPERTY(DuplicateTransient, Transient)
+    UPROPERTY(DuplicateTransient, Transient, BlueprintReadWrite)
     TArray<FTresEquipmentAccompanyPawnAssetUnit> m_ReplaceAccompanyPawnAsset;
     
     UPROPERTY(Transient)
     FTresEquipWeaponSlotWork m_EquipSlots[3];
     
-    UPROPERTY(DuplicateTransient, Export, Transient)
+    UPROPERTY(DuplicateTransient, Export, Transient, BlueprintReadWrite)
     UTresChrBaseParam* m_pBaseParam;
     
 public:

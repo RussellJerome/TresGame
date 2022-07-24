@@ -13,28 +13,28 @@ class UTresStateQueueComponent : public UActorComponent {
     GENERATED_BODY()
 public:
 protected:
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     UTresStateSet* MyStateAsset;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     bool MyDisableAutoMainProc;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     bool MyIsSetDefaultState;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     TEnumAsByte<ETresStateID> MySetDefaultState;
     
-    UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
+    UPROPERTY(AdvancedDisplay, EditDefaultsOnly, BlueprintReadWrite)
     TSubclassOf<UTresStateBase> m_CinematicStateClass;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite)
     UTresStateBase* m_pCurrentState;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite)
     TArray<UTresStateBase*> m_StateQueue;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite)
     TArray<UTresStateBase*> m_RecycleState;
     
 public:

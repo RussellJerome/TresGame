@@ -51,7 +51,7 @@ class AActor;
 class USQEX_KBD_Component;
 class UAnimSequenceBase;
 
-UCLASS(Abstract)
+UCLASS(Abstract, BlueprintType)
 class TRESGAME_API ATresCharPawnBase : public ATresPawnBase, public IGenericTeamAgentInterface, public IAISightTargetInterface {
     GENERATED_BODY()
 public:
@@ -390,7 +390,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void RequestDirectMove(FVector refVelocity, bool bForceMaxSpeed);
     
-    UFUNCTION(BlueprintAuthorityOnly, BlueprintImplementableEvent)
+    UFUNCTION(BlueprintAuthorityOnly, BlueprintImplementableEvent, BlueprintCallable)
     void ReceiveTresTakeDamage(float DamagePoint, AController* InstigatedBy, const FHitResult& HitInfo, const FTresDamageInfo& DamageInfo, FVector ShotFromDirection, AActor* DamageCauser);
     
     UFUNCTION(BlueprintImplementableEvent)

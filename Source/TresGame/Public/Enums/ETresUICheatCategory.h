@@ -7,6 +7,6 @@ enum class ETresUICheatCategory : uint8 {
     None,
     Battle,
     Support,
-    Max,
+    Max UMETA(Hidden),
 };
 

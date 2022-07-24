@@ -85,19 +85,19 @@ protected:
     uint32 m_bPullbackOnAttackHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bBounceOnTakeDamage: 1;
+    uint32 m_bBounceOnTakeDamage: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_bBounceOnTakeDamageVelocityScale;
     
     UPROPERTY(EditInstanceOnly)
-    uint8 m_bAutoFire: 1;
+    uint32 m_bAutoFire: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bAutoTarget: 1;
+    uint32 m_bAutoTarget: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bGravityOffOnExplode: 1;
+    uint32 m_bGravityOffOnExplode: 1;
     
     UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
     float m_AutoStuckShutdownTime;
@@ -109,25 +109,25 @@ protected:
     FName m_OverrideSituationAttackDataID;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bDisableTeamCheck: 1;
+    uint32 m_bDisableTeamCheck: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bEnableOwnerHit: 1;
+    uint32 m_bEnableOwnerHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bImmediateOwnerHit: 1;
+    uint32 m_bImmediateOwnerHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bAttachToHitActor: 1;
+    uint32 m_bAttachToHitActor: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bOnlyAttachToHitMapObj: 1;
+    uint32 m_bOnlyAttachToHitMapObj: 1;
     
     UPROPERTY(EditDefaultsOnly)
     FVector m_AttachToHitActorOffset;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bCallPutEffectEventCall: 1;
+    uint32 m_bCallPutEffectEventCall: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_fPutEffectDuration;
@@ -136,16 +136,16 @@ protected:
     float m_fFirstPutEffectDuration;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bCallPutEffectDistCheckXY: 1;
+    uint32 m_bCallPutEffectDistCheckXY: 1;
     
     UPROPERTY(AdvancedDisplay, EditDefaultsOnly)
-    uint8 m_bDisableNotifyParentOnAttackHit: 1;
+    uint32 m_bDisableNotifyParentOnAttackHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bDisableOwnerObjTypeCalcTimeDilation: 1;
+    uint32 m_bDisableOwnerObjTypeCalcTimeDilation: 1;
     
     UPROPERTY()
-    uint8 m_bIsRetargetNearReactionMagic: 1;
+    uint32 m_bIsRetargetNearReactionMagic: 1;
     
     UPROPERTY()
     float m_RetargetFrontDistance;
@@ -157,25 +157,25 @@ protected:
     float m_RetargetCheckAngle;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnProjectileOnTimeOut: 1;
+    uint32 m_bReSpawnProjectileOnTimeOut: 1;
     
     UPROPERTY(EditDefaultsOnly)
     ETresProjectileRespawnType m_RespawnCheckType;
     
     UPROPERTY()
-    uint8 m_bReSpawnProjectileOnlyHitAny: 1;
+    uint32 m_bReSpawnProjectileOnlyHitAny: 1;
     
     UPROPERTY()
-    uint8 m_bReSpawnProjectileOnlyChrHit: 1;
+    uint32 m_bReSpawnProjectileOnlyChrHit: 1;
     
     UPROPERTY()
-    uint8 m_bReSpawnProjectileOnlyMapHit: 1;
+    uint32 m_bReSpawnProjectileOnlyMapHit: 1;
     
     UPROPERTY(EditDefaultsOnly)
     float m_ReSpawnProjectileRange;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnProjectileOnGround: 1;
+    uint32 m_bReSpawnProjectileOnGround: 1;
     
     UPROPERTY(EditDefaultsOnly)
     TSubclassOf<ATresProjectileBase> m_ReSpawnProjectileClass;
@@ -184,22 +184,22 @@ protected:
     ETresProjectileRespawnRotType m_ReSpawnRotInheritType;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnTakeOverAtkTarget: 1;
+    uint32 m_bReSpawnTakeOverAtkTarget: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnTakeOverAtkCollHitList: 1;
+    uint32 m_bReSpawnTakeOverAtkCollHitList: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnTakeOverAtkCollFinishFlag: 1;
+    uint32 m_bReSpawnTakeOverAtkCollFinishFlag: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnProjectileNotSendShutdownMsg: 1;
+    uint32 m_bReSpawnProjectileNotSendShutdownMsg: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnTakeOverEffectColorParam: 1;
+    uint32 m_bReSpawnTakeOverEffectColorParam: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bReSpawnTakeOverEffectAlphaParam: 1;
+    uint32 m_bReSpawnTakeOverEffectAlphaParam: 1;
     
     UPROPERTY(EditDefaultsOnly)
     TArray<FTresProjectileSpawnData> m_ResidueList;
@@ -217,19 +217,19 @@ protected:
     TArray<FTresEffectUnit> MyFireEffects;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bParticleSetColorParam: 1;
+    uint32 m_bParticleSetColorParam: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bParticleSetAlphaParam: 1;
+    uint32 m_bParticleSetAlphaParam: 1;
     
     UPROPERTY(EditDefaultsOnly)
     FLinearColor m_ParticleColorParam;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bTakeOverHitEffectColorParam: 1;
+    uint32 m_bTakeOverHitEffectColorParam: 1;
     
     UPROPERTY(EditDefaultsOnly)
-    uint8 m_bTakeOverHitEffectAlphaParam: 1;
+    uint32 m_bTakeOverHitEffectAlphaParam: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     USQEXSEADSoundReferenceEnumSet* m_SoundAssets;

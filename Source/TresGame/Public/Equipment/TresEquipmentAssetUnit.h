@@ -10,19 +10,19 @@ USTRUCT(BlueprintType)
 struct FTresEquipmentAssetUnit {
     GENERATED_BODY()
 public:
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     FName UnitName;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     ETresCharEquipPart m_AttachPart;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     FName AttachBoneName;
     
-    UPROPERTY(EditDefaultsOnly)
-    uint8 m_bApplyParentScale: 1;
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+    uint32 m_bApplyParentScale: 1;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
     TSubclassOf<ATresWeaponBase> RsrcData;
     
     TRESGAME_API FTresEquipmentAssetUnit();

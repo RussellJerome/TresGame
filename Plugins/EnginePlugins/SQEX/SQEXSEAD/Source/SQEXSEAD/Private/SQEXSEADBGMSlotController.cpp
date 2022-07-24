@@ -47,7 +47,7 @@ void USQEXSEADBGMSlotController::SetPriority(int32 Priority) {
 void USQEXSEADBGMSlotController::SetPlayFadeInTime(float FadeTime) {
 }
 
-void USQEXSEADBGMSlotController::SetPath(USoundBase* SoundReference) {
+void USQEXSEADBGMSlotController::SetPath(TAssetPtr<USoundBase> SoundReference) {
 }
 
 void USQEXSEADBGMSlotController::SetOptions(FSQEXSEAD_BGMOptions NewOptions) {

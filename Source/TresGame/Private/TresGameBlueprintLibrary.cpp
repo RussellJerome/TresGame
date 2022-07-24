@@ -496,7 +496,7 @@ void UTresGameBlueprintLibrary::TresUI_NotifyHudSpecialShipGoalMeterAlert(bool b
 void UTresGameBlueprintLibrary::TresUI_MapInNoticeMessage(UObject* WorldContextObject, FLatentActionInfo LatentInfo, bool EnableBGMask) {
 }
 
-void UTresGameBlueprintLibrary::TresUI_LoadMissionGageIcon(USwfMovie* IconAsset) {
+void UTresGameBlueprintLibrary::TresUI_LoadMissionGageIcon(TAssetPtr<USwfMovie> IconAsset) {
 }
 
 bool UTresGameBlueprintLibrary::TresUI_IsPlayingVideo() {

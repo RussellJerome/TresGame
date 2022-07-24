@@ -18,14 +18,14 @@ class UTresRootComponent : public UPrimitiveComponent {
     GENERATED_BODY()
 public:
     UPROPERTY()
-    uint8 m_bEnableDetectPhysMaterial: 1;
+    uint32 m_bEnableDetectPhysMaterial: 1;
     
 protected:
     UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditAnywhere)
     FColor m_ShapeColor;
     
     UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditAnywhere)
-    uint8 m_bDrawBBox: 1;
+    uint32 m_bDrawBBox: 1;
     
     UPROPERTY(AdvancedDisplay, BlueprintReadOnly, EditAnywhere)
     FColor m_BBoxColor;
@@ -58,7 +58,7 @@ protected:
     TEnumAsByte<ETresGrass::Type> m_GrassBumpForceType;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
-    uint8 m_bNeedOceanSurfacePosture: 1;
+    uint32 m_bNeedOceanSurfacePosture: 1;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
     TArray<FVector> m_OceanSurfaceSamplingLocations;

@@ -14,52 +14,52 @@ USTRUCT(BlueprintType)
 struct FTresChrInitEquip {
     GENERATED_BODY()
 public:
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresItemDefWeapon> m_Weapons;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     uint32 m_bWeaponFixed: 1;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     uint8 m_InitProtectorSlot;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresItemDefProtector> m_Protectors;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     uint8 m_InitAccessorySlot;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresItemDefAccessory> m_Accessorys;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     uint8 m_InitItemSlot;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresItemDefBattleItem> m_Items;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresAbilityKind> m_EquipAbility;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresAbilityKind> m_HaveAbility;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresAbilityKind> m_CriticalEquipAbility;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<ETresAbilityKind> m_CriticalHaveAbility;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UDataTable* m_BaseParamData;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int32 m_CriticalUseAPUpNum;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UDataTable* m_LevelData;
     
-    UPROPERTY(EditDefaultsOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UTresFormAbilitySet* m_FormAbilityAsset;
     
     TRESGAME_API FTresChrInitEquip();

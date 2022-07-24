@@ -591,7 +591,7 @@ public:
     static void TresUI_MapInNoticeMessage(UObject* WorldContextObject, FLatentActionInfo LatentInfo, bool EnableBGMask);
     
     UFUNCTION(BlueprintCallable)
-    static void TresUI_LoadMissionGageIcon(USwfMovie* IconAsset);
+    static void TresUI_LoadMissionGageIcon(TAssetPtr<USwfMovie> IconAsset);
     
     UFUNCTION(BlueprintCallable)
     static bool TresUI_IsPlayingVideo();

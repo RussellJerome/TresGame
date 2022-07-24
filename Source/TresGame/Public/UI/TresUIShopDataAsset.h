@@ -19,10 +19,10 @@ public:
     FTresUIShopInfo ShopInfos[4];
     
     UPROPERTY(EditDefaultsOnly)
-    USwfMovie* ShopSwfMovieAsset;
+    TAssetPtr<USwfMovie> ShopSwfMovieAsset;
     
     UPROPERTY(EditDefaultsOnly)
-    UTresUIGumiPartsDataAsset* GumiPartsData;
+    TAssetPtr<UTresUIGumiPartsDataAsset> GumiPartsData;
     
     UTresUIShopDataAsset();
 };

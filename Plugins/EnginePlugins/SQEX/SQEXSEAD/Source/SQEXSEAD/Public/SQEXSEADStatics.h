@@ -69,7 +69,7 @@ public:
     static void ResetAllBGM(float FadeTime);
     
     UFUNCTION(BlueprintCallable)
-    static void ReadySetPathBGM(FName Name, USoundBase* SoundReference);
+    static void ReadySetPathBGM(FName Name, TAssetPtr<USoundBase> SoundReference);
     
     UFUNCTION(BlueprintCallable)
     static bool IsPlayingBGM(USoundBase* Sound);

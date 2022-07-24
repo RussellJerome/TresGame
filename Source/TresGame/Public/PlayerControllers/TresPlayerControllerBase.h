@@ -18,61 +18,61 @@ class ATresProjectileBase;
 class UPrimitiveComponent;
 class ATresCharPawnBase;
 
-UCLASS()
+UCLASS(Blueprintable)
 class ATresPlayerControllerBase : public ATresPlayerControllerLowerBase {
     GENERATED_BODY()
 public:
 private:
-    UPROPERTY(Config)
-    uint8 m_bDebugProjectileInfo: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugProjectileInfo: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerCollisionCheck: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerCollisionCheck: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugPlayerNoCheckAutoRun: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugPlayerNoCheckAutoRun: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugPlayerNoCheckUnWalkable: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugPlayerNoCheckUnWalkable: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerClimbingCheck: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerClimbingCheck: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerWallRunCheck: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerWallRunCheck: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerSlopeSlideCheck: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerSlopeSlideCheck: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerHoppingCheck: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerHoppingCheck: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerLockon: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerLockon: 1;
     
-    UPROPERTY(Config)
-    uint8 m_bDebugShowPlayerExternalExposure: 1;
+    UPROPERTY(Config, BlueprintReadWrite, meta=(AllowPrivateAccess="true"))
+    uint32 m_bDebugShowPlayerExternalExposure: 1;
     
 protected:
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite)
     ATresCameraShootFlow* m_CameraShootFlow;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite)
     ATresCameraPreview* m_CameraPreview;
     
-    UPROPERTY(Transient)
+    UPROPERTY(Transient, BlueprintReadWrite)
     UTresUICommandInfoBase* m_pUICommandInfo;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     ATresCameraMultiLock* m_CameraMultiLock;
     
-    UPROPERTY(Export, Transient)
+    UPROPERTY(Export, Transient, BlueprintReadWrite)
     UTresLockonTargetComponent* m_pAthleticFlowStartPointDispComponent;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     AActor* m_pAttackCameraTarget;
     
-    UPROPERTY()
+    UPROPERTY(BlueprintReadWrite)
     TArray<ATresProjectileBase*> m_AvaterProjList;
     
 public:
@@ -80,34 +80,34 @@ public:
     UFUNCTION(BlueprintCallable)
     void SimulateKeypress(FKey Key, TEnumAsByte<EInputEvent> EventType, float AmountDepressed, bool bGamepad);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void NotifyStartActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void NotifySetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand);
     
     UFUNCTION(BlueprintCallable, Exec)
     void NotifySetDlcChallengeCodeEnable(ETresDlcChallengeCode InCode);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     bool NotifySetDiveAttackCommand(UTresLockonTargetComponent* InTarget);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void NotifySetActionCommand(TEnumAsByte<ETresCommandKind> inCommand, float inTimer, UTresUICommandInfoBase* pUICommandInfo);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void NotifyResetSpecialCommand(TEnumAsByte<ETresCommandKind> inCommand);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void NotifyEndActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void NotifyDeleteActionCommand(TEnumAsByte<ETresCommandKind> inCommand);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugWallKick(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugUseMP0();
     
     UFUNCTION(Exec)
@@ -116,16 +116,16 @@ public:
     UFUNCTION(Exec)
     void DebugSuperSlideLv(uint32 InLv);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSuperJump(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugStartPlayerWarpMode();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSituationTimerInfinity(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowStyleInfo(bool bDispEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
@@ -161,130 +161,130 @@ public:
     UFUNCTION(BlueprintCallable, Exec)
     void DebugShowNetPlayerHUD(bool bDispEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugShowFriend(bool disp);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetWarpDelayCamera(float InRate, float InLimit);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetWandanyanParam(float InSpeed, float InCamAimZ, float InCamDist, float InCamPitch, float InCamAngle);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetWandanyanJumpRate(float InLv1, float InLv2, float InLv3, float InLv4, float InLv5);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetWallTurnWithoutAnim(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugSetWallRunParam(float fSideAngle, float fDownAngle, float fSideMoveSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetStyleTimeLimit(float InTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetStylePointAddWithoutHit(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetStylePoint(int32 inSP, int32 inAttrP, int32 inAttrF, int32 inAttrB, int32 inAttrT, int32 inAttrW, int32 inAttrA, int32 inAttrD, int32 inAttrN);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetStyleFix(int32 inStyle);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetStyleCommandEntryTime(float InTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetStyleChangeChargeEffect(int32 InLevel);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetSprintMode(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetSonicAttackMode(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetSmallJumpGravityScale(float fGravityScale);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetShootLockSlowRate(float InRate);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetShootFlow(int32 inShootFlowId);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetShooterModeInputType(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugSetShieldAutoGrowup(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetRiseAttackParam(float fThreshold, float fRate);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugSetPlayerSlopeSlideParam(float MaxSpeed, float AccTime, float MinSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetPlayerPos(float InX, float InY, float InZ);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugSetPlayerExternalExposureColor(uint8 InR, uint8 InG, uint8 InB, uint8 InA);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetIgnoreShootLockModeTimer(bool InIgnore);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetHPPer(int32 HP);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetHP(int32 HP);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetHopRotateMode(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugSetGlobalGameSpeed(float InSpeed, float InInterpTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFriendHP(int32 Index, int32 HP);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFriend(int32 inIdx, FName inNpcName);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFocusPoint(int32 InFP);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetFinishAutoPopup(bool bEnable);
     
     UFUNCTION(Exec)
     void DebugSetFinish(uint32 InId, bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetEnableDiveFall(bool bEnable, float inPitch, float inDist, float inAngle, float InOffset);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetDiveFallStartHeight(float fHeight);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetDiveFallMovement(float inRotateScale, float InGravityScale, float inMoveSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetDarkScreenRate(float InRate);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetDamageEndChancelTime(float InTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetComboPlus(int32 InGround, int32 InAir);
     
     UFUNCTION(Exec)
     void DebugSetAttraction(uint32 InId, bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAttackMoveLimit(float fDist);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAttackFirstAirMoveRate(float fRate);
     
     UFUNCTION(BlueprintCallable, Exec)
@@ -293,61 +293,61 @@ public:
     UFUNCTION(Exec)
     void DebugSetAthleticVersion(uint32 InVersion, float inRootSpeed);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAthleticSlideParam(float InTime, float InSpeed, float inKickAnim);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAthleticLockonRange(float InRange);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAthleticLockonLimit(float InLimit);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAthleticDelayCamera(float InRate, float InLimit, int32 InMode);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAthleticAttackParam(float inSlowRate, float inSlowTime);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetAllFriendFinish(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSetActionCommand(TEnumAsByte<ETresCommandKind> inCommand, float inTimer);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugSet2ndJumpParam(float fEnableMinVZ);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugRiskDodge(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugRevengeImpact(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugRevengeEx(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugRevengeDive(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugResetPlayerLocation();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugProjectileLimitOff();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPoleSwing(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPoleSpin(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPlayerWarpToTaggedPlayerStart(FName InTag);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugPlayerWallRunStartOff(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPlayerPad(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
@@ -356,52 +356,52 @@ public:
     UFUNCTION(BlueprintCallable, Exec)
     void DebugPlayerNoCheckAutoRun();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPlayerForceL1Cancel(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugPlayerControllerStop();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugMpCharge(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugModePlayerClimbing();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugInfinityJump(bool bEnable);
     
     UFUNCTION(Exec)
     void DebugHighJump(uint32 InLv);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugGuardCounter(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugGuard(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugGlide(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugFriendsWarp();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugFpCharge(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugFPAutoRecovery();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugForceUseSpawnPointVolume(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnemyTurn(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableWaterMagic(bool InEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableShootLockonMax();
     
     UFUNCTION(BlueprintCallable, Exec)
@@ -428,85 +428,85 @@ public:
     UFUNCTION(BlueprintCallable, Exec)
     void DebugEnablePlayerClimbing(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableHighQualityScreenShot(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugEnableFestivalDanceCmd(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugEnableCommandMenu(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDodgeCounter(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDodge(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDispPrizeRange(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDispNearSpawnPoint(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugDisableGameOver(bool bDisable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDisableDarkScreen(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDeleteFriendAll();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugDamageBlowTest();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugCreateRollerCoaster();
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugCreateFriend();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugComboMaster(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugChargeBerserkTest(bool bEnable);
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugChangeWearform(int32 InForm);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugChangeNextWeaponForm();
     
     UFUNCTION(BlueprintCallable, Exec)
     void DebugChangeNextProjectile();
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugChangeFriendPadControl(int32 Index, bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugChangeDecoParts(int32 InPartIdx, int32 InItemID);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugBlowCounter(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugAirRecoveryInputChange(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugAirRecovery(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugAirDodge(bool bEnable);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugAddStylePoint(float inAddPoint, int32 inAttr);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void DebugAddFriendPoint(float inAddPoint);
     
-    UFUNCTION(Exec)
+    UFUNCTION(Exec, BlueprintCallable)
     void Debug2ndJump(bool bEnable);
     
     UFUNCTION(BlueprintCallable)
